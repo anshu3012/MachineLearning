@@ -37,12 +37,12 @@ The order of this Note follows the data through the model: tokens (section 4), v
 ## 2. Prerequisites
 
 - [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block): the decoder block, the output layer (linear and softmax), training on every position in one pass.
-- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the causal mask; why one pass equals many steps.
+- [**Masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172): the causal mask; why one pass equals many steps.
 - [Transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word): generation one token at a time.
 - [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#71-why-residual-connections): residual connections and the feed-forward network.
-- [Layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#72-where-it-sits): LayerNorm, and the prenorm and postnorm placements.
-- [Positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions): why the model needs positions.
-- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head): heads, $W_Q$, $W_K$, $W_V$, $W_O$, and the $4d^2 + 4d$ count.
+- [**Layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#72-where-it-sits) (G-1054): LayerNorm, and the prenorm and postnorm placements.
+- [**Positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#3-why-the-transformer-needs-positions) (G-1528): why the model needs positions.
+- [**Multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head) (G-1268): heads, $W_Q$, $W_K$, $W_V$, $W_O$, and the $4d^2 + 4d$ count.
 - [History of LLMs](../DL-067-history-of-llms/DL-067-history-of-llms.md#8-stage-5-large-language-models-2018-onward): where GPT, GPT-2 and GPT-3 come from.
 
 ## 3. From the transformer decoder to GPT
@@ -220,7 +220,7 @@ This is the same training as in [training every position in one pass](../DL-084-
 | Tokens | 61, so 60 predictions, all from one pass |
 | Mean cross-entropy | 3.69 (natural log) |
 | Uniform guess over 50,257 tokens | $\ln 50{,}257 = 10.83$ |
-| **Perplexity** (G-1492), $e^{3.69}$ | 40.1 |
+| [**Perplexity**](../DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing) (G-1492), $e^{3.69}$ | 40.1 |
 | Top guess correct | 36.7 percent |
 
 Two rows need a plain meaning:
@@ -239,7 +239,7 @@ The easiest prediction was " as" after "tasks, such" (loss 0.006, probability 0.
 
 This is the loop of [generation where the input grows by one word](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word), without the encoder. Picking the most likely token each time (**greedy decoding**, G-870) on our prompt gives "Steve Jobs was the founder of Apple, and he …": " Apple" (0.69), then "," (0.31), then " and" (0.18), then " he" (0.16).
 
-As a check of our NumPy model, we ran greedy decoding on the prompt of the Hugging Face guide to text generation, which uses the same GPT-2 small weights (von Platen 2020). Our 30 tokens are word for word the guide's: "I enjoy walking with my cute dog, but I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". The repetition is a known weakness of always taking the top token; [sampling](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token) replaces it.
+As a check of our NumPy model, we ran greedy decoding on the prompt of the Hugging Face guide to text generation, which uses the same GPT-2 small weights (von Platen 2020). Our 30 tokens are word for word the guide's: "I enjoy walking with my cute dog, but I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". The repetition is a known weakness of always taking the top token; [**sampling**](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token) (G-1739) replaces it.
 
 Sanderson (2024, Ch 5) frames a chatbot as this same loop run on a text that begins with a **system prompt** (G-1935), a few lines setting the scene of a user talking with a helpful assistant, followed by the user's question. The model then continues the text as the assistant would. Turning a pre-trained model into a good assistant needs further training (see [from GPT-3 to ChatGPT](../DL-067-history-of-llms/DL-067-history-of-llms.md#9-from-gpt-3-to-chatgpt)).
 
@@ -394,6 +394,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Tied weights (G-1973) | Using one matrix for two jobs: the token embedding matrix turns tokens into vectors at the input, and the same matrix turns the final vector back into one score per token at the output. |
 | System prompt (G-1935) | Text placed before the user's message that sets the scene for a chatbot. |
 | Context size (G-459) | The largest number of tokens the model can read at once: 1,024 for GPT-2, 2,048 for GPT-3. |
+| [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
+| [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
 | [Perplexity](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing) (G-1492) | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
 | [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |
+| [Sampling (text generation)](../../../DL/06-transformers/DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#6-sampling-choosing-the-next-token) (G-1739) | Choosing the next token at random according to the softmax probabilities, instead of always taking the most probable token, so the generated text does not keep repeating itself. |
 | [Pre-LN transformer (prenorm)](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#73-the-optimizer-and-the-warm-up-learning-rate) (G-1545) | A transformer variant with layer normalisation at the input of each sub-layer, inside the residual branch, instead of after the addition; it trains without warm-up. |

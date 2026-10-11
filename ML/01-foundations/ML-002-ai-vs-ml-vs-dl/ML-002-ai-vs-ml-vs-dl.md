@@ -97,7 +97,7 @@ Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, a
 
 > **Key point:** In Machine Learning, we do not write the rules. We give the machine examples with answers, and it works out the rules itself.
 
-**Machine Learning (ML)** (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML borrows its tools from statistics, but it is not "just statistics": the maths needed is limited, and most of the work is practical engineering. ML became practical only once we had enough data and fast hardware (see [why ML took off after 2010](../ML-001-what-is-ml/ML-001-what-is-ml.md#52-why-ml-took-off-after-2010)).
+[**Machine Learning (ML)**](../ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning) (G-1140) is a branch of computer science that uses statistical techniques to find patterns in data. ML borrows its tools from statistics, but it is not "just statistics": the maths needed is limited, and most of the work is practical engineering. ML became practical only once we had enough data and fast hardware (see [why ML took off after 2010](../ML-001-what-is-ml/ML-001-what-is-ml.md#52-why-ml-took-off-after-2010)).
 
 ### 4.1 Learning rules from data
 
@@ -142,7 +142,7 @@ Compared with symbolic AI:
 
 **Deep Learning (DL)** (G-568) is a subset of ML that took off after about 2010.
 
-The process is the same as in ML. We give data to an algorithm and **train** (G-1255) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
+The process is the same as in ML. We give data to an algorithm and [**train**](../ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
 
 ### 5.1 Neural networks
 
@@ -150,7 +150,7 @@ The process is the same as in ML. We give data to an algorithm and **train** (G-
 
 DL uses **neural networks** (G-1316), which are loosely inspired by the neurons in the brain. How the brain works is still not fully understood, so a neural network is not a copy of it. A neural network is a mathematical model that borrows one idea: many simple units connected together.
 
-The smallest unit of a neural network is the **perceptron** (G-1486), an artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. Its parts are shown in [the parts of a perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron).
+The smallest unit of a neural network is the [**perceptron**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486), an artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. Its parts are shown in [the parts of a perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron).
 
 ### 5.2 Features: chosen by us or learned
 
@@ -164,7 +164,7 @@ A **feature** (G-772) is an input variable: one piece of information that a mode
 | B | 6.1 | 105 | 0 | No |
 | C | 7.5 | 112 | 2 | Yes |
 
-Here CGPA, IQ and Certifications are the features. "Placed?" is the **target** (G-1949): the output we want to predict. Each student is one **observation** (G-1374): one record, one row of the table.
+Here CGPA, IQ and Certifications are the features. "Placed?" is the [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949): the output we want to predict. Each student is one [**observation**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374): one record, one row of the table.
 
 ![Feature selection in ML vs DL (student placement example)](images/features_ml_vs_dl.png)
 
@@ -202,7 +202,7 @@ Figure 10 draws both curves: the horizontal axis is the amount of data and the v
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
 
-Why the two curves differ: a model's **capacity** (G-344), how wide a range of patterns it can fit. A simple ML model can fit only simple patterns, so once it has learned all it can hold, more data adds nothing and its curve levels off. A neural network has very many weights, so it can fit far more complex patterns. With few examples, it fits their noise too and does badly on new data: it **overfits** (G-1429; see [overfitting](../ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). With more examples, it has enough to learn the real pattern, and it keeps improving. The more data we have, the larger the capacity that works best (Goodfellow et al. 2016, §5.2, Fig. 5.4).
+Why the two curves differ: a model's [**capacity**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344), how wide a range of patterns it can fit. A simple ML model can fit only simple patterns, so once it has learned all it can hold, more data adds nothing and its curve levels off. A neural network has very many weights, so it can fit far more complex patterns. With few examples, it fits their noise too and does badly on new data: it **overfits** (G-1429; see [overfitting](../ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). With more examples, it has enough to learn the real pattern, and it keeps improving. The more data we have, the larger the capacity that works best (Goodfellow et al. 2016, §5.2, Fig. 5.4).
 
 The steady gain with more data is why DL now outperforms ML on tasks with very large datasets:
 

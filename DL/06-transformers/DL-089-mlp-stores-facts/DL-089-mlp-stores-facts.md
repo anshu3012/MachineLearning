@@ -38,11 +38,11 @@ The toy follows Sanderson (2024, Ch 7). The real-model part (sections 6 and 7) t
 ## 2. Prerequisites
 
 - [The feed-forward network](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network): applied to each token separately, and its residual connection.
-- [Inside a GPT-2 block](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block): GPT-2 small, the residual stream, [GELU](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) and [the parameter count](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#9-counting-the-parameters).
+- [Inside a GPT-2 block](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block): GPT-2 small, the residual stream, [**GELU**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) (G-834) and [the parameter count](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#9-counting-the-parameters).
 - [The unembedding](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#3-the-unembedding-one-dot-product-per-token): logits (the score for each token) as dot products with token vectors; [the logit lens](../DL-088-unembedding-and-sampling/DL-088-unembedding-and-sampling.md#7-the-logit-lens-watching-the-guess-form).
 - [Arithmetic with directions](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#5-arithmetic-with-directions) and [a dot product as a probe](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#6-a-dot-product-reads-how-much-of-a-direction-a-word-has): directions in embedding space carry meaning; a dot product measures how much of a direction a vector has.
 - [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#4-computing-a-product-column-by-column): a matrix times a vector as dot products with the rows, or as a sum of scaled columns.
-- [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu): the activation that keeps positive values and sets negatives to 0.
+- [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668): the activation that keeps positive values and sets negatives to 0.
 
 ## 3. The MLP block in one formula
 
@@ -67,7 +67,7 @@ We call the token's vector $e$, the widening matrix $W_{\text{up}}$ with its bia
 
 Figure 2 shows the widths: the block widens each vector four times, then narrows it back so that it can be added to the stream.
 
-The 3,072 middle values are the **neurons** (G-1317) of the block: "when you hear people refer to the neurons of a transformer, they're talking about these values" (Sanderson 2024, Ch 7). A neuron is **active** when its value is positive.
+The 3,072 middle values are the [**neurons**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1317) of the block: "when you hear people refer to the neurons of a transformer, they're talking about these values" (Sanderson 2024, Ch 7). A neuron is **active** when its value is positive.
 
 The block works on each token's vector alone, in parallel; tokens do not talk to each other here, only in attention (see [the feed-forward network](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network)).
 
@@ -79,7 +79,7 @@ The block works on each token's vector alone, in parallel; tokens do not talk to
 
 > **Key point:** Multiplying by a matrix computes one dot product per row.
 
-A matrix times a vector can be read in two ways (see [computing a product column by column](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#4-computing-a-product-column-by-column)). The first: entry $i$ of the result is the **dot product** (G-634) of row $i$ with the vector. Here each row of $W_{\text{up}}$ is a direction in the same 768-number space as $e$, so neuron $i$ measures how well $e$ points along row $i$. Sanderson (2024, Ch 7) calls each row a question asked about the vector.
+A matrix times a vector can be read in two ways (see [computing a product column by column](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#4-computing-a-product-column-by-column)). The first: entry $i$ of the result is the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of row $i$ with the vector. Here each row of $W_{\text{up}}$ is a direction in the same 768-number space as $e$, so neuron $i$ measures how well $e$ points along row $i$. Sanderson (2024, Ch 7) calls each row a question asked about the vector.
 
 ### 4.2 A toy fact: Michael Jordan plays basketball
 
@@ -139,7 +139,7 @@ where $c_i$ is column $i$, a 768-number direction. An inactive neuron ($n_i = 0$
 
 In Figure 4, follow the two blue arrows on the right: each active neuron adds its column, stretched by its value, and the orange sum is what the block writes into the stream.
 
-Put together, the block is a store of question–answer pairs: 3,072 rows asking, 3,072 columns answering. Geva et al. (2021, §2, eq. 1) give the same reading and call the pairs **keys** (G-1011) and **values** (G-2068); in an MLP these are the **key and value** of G-1012. These keys and values are not the keys and values of attention; the names are reused. Geva et al. write the feed-forward layer, with $x$ the token's vector, $K$ the first matrix and $V$ the second, as:
+Put together, the block is a store of question–answer pairs: 3,072 rows asking, 3,072 columns answering. Geva et al. (2021, §2, eq. 1) give the same reading and call the pairs [**keys**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) and [**values**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068); in an MLP these are the **key and value** of G-1012. These keys and values are not the keys and values of attention; the names are reused. Geva et al. write the feed-forward layer, with $x$ the token's vector, $K$ the first matrix and $V$ the second, as:
 
 $$\text{FF}(x) = f(x \cdot K^T) \cdot V$$
 
@@ -265,7 +265,7 @@ Neuron 1704 of block 9 writes "competitive sport". Neuron 992 of block 10 writes
 
 - **No single AND neuron.** Nanda et al. (2023) tested this directly: "We falsify the naive hypothesis that there's just a single step of detokenization, where the GELUs in specific neurons implement a Boolean AND on the raw tokens and directly output all known facts about the athlete." Our neuron table points the same way: the strongest neurons write broad ideas, and many neurons share the work.
 - **Not solved.** Sanderson (2024, Ch 7) introduces the DeepMind work with the caveat that "a full mechanistic understanding of how facts are stored remains unsolved". Nanda et al. (2023) "consider ourselves to have fallen short of the main goal of a mechanistic understanding of computation in superposition".
-- **Directions need not be neurons.** The toy gave each idea its own perpendicular direction and each fact its own neuron. A real model has far more ideas than neurons or dimensions. Far more nearly perpendicular directions than dimensions fit into a space (see [random directions are nearly perpendicular](../DL-090-superposition/DL-090-superposition.md#4-random-directions-are-nearly-perpendicular)), and the [superposition hypothesis](../DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model) is that models use this.
+- **Directions need not be neurons.** The toy gave each idea its own perpendicular direction and each fact its own neuron. A real model has far more ideas than neurons or dimensions. Far more nearly perpendicular directions than dimensions fit into a space (see [random directions are nearly perpendicular](../DL-090-superposition/DL-090-superposition.md#4-random-directions-are-nearly-perpendicular)), and the [**superposition hypothesis**](../DL-090-superposition/DL-090-superposition.md#8-the-superposition-hypothesis-and-a-toy-model) (G-1916) is that models use this.
 
 What does survive from the toy: the MLP block works on each token alone and adds its output to the stream; the early MLPs at the name tokens are where the sport becomes available (section 7.1); and the reading of rows as pattern detectors and outputs as written directions is the one Geva et al. (2021) support with evidence.
 
@@ -313,8 +313,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Zero-ablation (G-2147) | Setting a part's output to 0 and running the rest of the model unchanged, to see what that part does. |
 | Name tokens (G-1299) | The tokens that spell the athlete's name in a prompt such as "Michael Jordan plays the sport of"; zeroing the MLP outputs at these positions tests whether the MLPs there recall the sport. |
 | [Feed-forward network (FFN)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#53-the-feed-forward-network) (G-774) | A small two-layer network inside each transformer block that works on each word's vector on its own: dense layers 512 → 2048 with ReLU → 512. Attention mixes the words; this network transforms each word and adds the block's only per-word non-linearity. |
+| [GELU](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) (G-834) | A smooth activation function that multiplies each input $x$ by $\Phi(x)$, the chance that a standard normal value is below $x$: $x\thinspace\Phi(x)$ (Gaussian Error Linear Unit). GPT's MLPs use it. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Neuron (in a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1317) | One unit of a neural network (in an ANN, a perceptron): it takes inputs from the layer before, combines them with its learned weights and passes its output on. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
 | [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
 | [Residual stream](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block) (G-1683) | The token vector that passes from block to block, to which every sub-layer adds its output. |
+| [Superposition hypothesis](../../../DL/06-transformers/DL-090-superposition/DL-090-superposition.md#1-overview) (G-1916) | The proposal that real neural networks store features in superposition (Elhage et al. 2022). |

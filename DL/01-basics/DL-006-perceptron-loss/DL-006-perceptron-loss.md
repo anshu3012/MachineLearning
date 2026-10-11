@@ -22,15 +22,15 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-los
 
 How to read Figure 1: the animation shows training one update at a time. The line over the points is the current decision boundary, and the average loss is shown alongside it. Look at the line turning until it separates the two classes, and at the loss falling to 0.
 
-The [perceptron trick](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#3-the-trick-in-one-picture) trained a perceptron by pulling a line towards misclassified points (points on the wrong side of the line). That line is the perceptron's **decision boundary** (G-555): points on one side are predicted as one class, points on the other side as the other class. In this Note, "the line" always means this decision boundary. This Note replaces the trick with a proper method: write down a loss, then minimise it. Figure 1 shows the result: the line moves and the loss falls to 0.
+The [perceptron trick](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#3-the-trick-in-one-picture) trained a perceptron by pulling a line towards misclassified points (points on the wrong side of the line). That line is the perceptron's [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): points on one side are predicted as one class, points on the other side as the other class. In this Note, "the line" always means this decision boundary. This Note replaces the trick with a proper method: write down a loss, then minimise it. Figure 1 shows the result: the line moves and the loss falls to 0.
 
 The last section shows why the perceptron is so useful as a building block. The perceptron's design lets us change two parts, the activation and the loss, and get a whole family of models.
 
 ## 2. Prerequisites
 
-- The [perceptron](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) and the [perceptron trick](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#3-the-trick-in-one-picture).
+- The [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) and the [perceptron trick](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#3-the-trick-in-one-picture).
 - Loss functions and log loss: the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
-- Gradient descent and partial derivatives: the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) and the [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works).
+- Gradient descent and partial derivatives: the [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) and the [**stochastic gradient descent**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892).
 
 ## 3. What is wrong with the perceptron trick
 
@@ -69,7 +69,7 @@ Figure 2 shows the surface: a ramp that is high on the left, where $w_1$ is nega
 
 Figure 3 draws the same surface as a map: every spot is a line, and its shade is that line's loss. Watch the red path: it starts at $L = 1.69$ on the dark side and walks into the small white patch where $L = 0$.
 
-Familiar examples: linear regression uses the mean squared error (see the [regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)), logistic regression the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), and the SVM the [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss). We can also design our own, as the next section does.
+Familiar examples: linear regression uses the mean squared error (see the [**regression metrics**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1652)), logistic regression the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), and the SVM the [**hinge loss**](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss) (G-898). We can also design our own, as the next section does.
 
 > **Extra:** A loss read as a function of the parameters is also called a cost function (see the [convex and non-convex cost functions](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters)).
 
@@ -101,7 +101,7 @@ Big mistakes now count more than small ones, much as a speeding fine grows with 
 
 > **Key point:** Put each misclassified point into Ax + By + C and add up the absolute values. The sum is proportional to the distance and needs only the line's own equation.
 
-Computing distances takes some work. A simpler number does the same job: put the point into the left-hand side of the line's equation, as in the side test of the [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides).
+Computing distances takes some work. A simpler number does the same job: put the point into the left-hand side of the line's equation, as in the side test of the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1485).
 
 1. **In words:** for every misclassified point, compute $Ax + By + C$, take its absolute value, and add them up.
 2. **Formula:**
@@ -121,7 +121,7 @@ $$\text{distance: } \frac{8.32}{1.66} = 5$$
 
 $$\text{value: } \frac{30}{6} = 5$$
 
-> **Extra:** The value is the distance times a fixed number. The distance from a point to the line $Ax + By + C = 0$ is $|Ax + By + C| / \sqrt{A^2 + B^2}$ (see the [equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument)). Here the divisor is
+> **Extra:** The value is the distance times a fixed number. The distance from a point to the line $Ax + By + C = 0$ is $|Ax + By + C| / \sqrt{A^2 + B^2}$ (see the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument) (G-703)). Here the divisor is
 
 $$\sqrt{2^2 + 3^2} = 3.61$$
 
@@ -158,8 +158,8 @@ Both curves are 0 for the same lines, the ones that separate the two classes. Th
 
 scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the perceptron (scikit-learn User Guide, SGD). For this loss, the two classes are labelled $y = +1$ and $y = -1$, not 1 and 0.
 
-1. **In words:** for each **observation** (G-1374) (one record, one row of the data table), multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all observations.
-2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (observation $i$, **features** (G-772) 1 and 2, where a feature is an input variable, one column of the data table) and $n$ observations,
+1. **In words:** for each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the data table), multiply its label by its value $f(x)$ in the line's equation and flip the sign; keep it if it is positive, otherwise use 0; then average over all observations.
+2. **Formula:** with $f(x_i) = w_1 x_{i1} + w_2 x_{i2} + b$ (observation $i$, [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) 1 and 2, where a feature is an input variable, one column of the data table) and $n$ observations,
    $$L(w_1, w_2, b) = \frac{1}{n} \sum_{i=1}^{n} \max\big(0,\ -y_i\thinspace f(x_i)\big)$$
 3. **Example:** for the line $2x + 3y + 4 = 0$ and the two misclassified points of Section 5.3, $(4, 6)$ with $y = -1$ and $(-2, -2)$ with $y = +1$:
    $$\text{point 1: } \max(0, -(-1)(30)) = 30$$
@@ -169,7 +169,7 @@ scikit-learn's documentation for `SGDClassifier` gives the loss it uses for the 
 
 $f(x_i)$ is the perceptron's $z$ for observation $i$. The quantity $\max(0, s)$ means: $s$ if $s$ is positive, otherwise 0.
 
-> **Extra:** The full formula in scikit-learn also adds a regularisation term $\alpha R(w)$, as in [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients). We leave it out here (no regularisation).
+> **Extra:** The full formula in scikit-learn also adds a regularisation term $\alpha R(w)$, as in [**Ridge regression**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-1691). We leave it out here (no regularisation).
 
 ### 6.2 What it does in each case
 
@@ -215,7 +215,7 @@ $$w_1, w_2, b = \underset{w_1, w_2, b}{\arg\min}\ L(w_1, w_2, b)$$
 
 with $L$ the average perceptron loss of Section 6.1.
 
-**argmin** (G-211) means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of **epochs** (G-696) (an epoch is one pass over all the observations; see [epoch](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop))
+[**argmin**](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean) (G-211) means "the values of the variables that make the expression smallest". We find them with gradient descent: start with any values, then repeat for a number of [**epochs**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) (an epoch is one pass over all the observations; see [epoch](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop))
 
 $$w_1 \leftarrow w_1 - \eta\thinspace\frac{\partial L}{\partial w_1}$$
 
@@ -223,9 +223,9 @@ $$w_2 \leftarrow w_2 - \eta\thinspace\frac{\partial L}{\partial w_2}$$
 
 $$b \leftarrow b - \eta\thinspace\frac{\partial L}{\partial b}$$
 
-with a **learning rate** (G-1068) $\eta$ such as 0.1, the size of each step (see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
+with a [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta$ such as 0.1, the size of each step (see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
 
-The symbol $\frac{\partial L}{\partial w_1}$ is the **partial derivative** (G-1457) of $L$ with respect to $w_1$: how much $L$ changes when $w_1$ alone is nudged up a little and the other parameters stay fixed. A small check with one point, $(-2, -2)$ with $y = +1$, on the line $w_1 = 2$, $w_2 = 3$, $b = 4$, whose loss is $\max(0, -f)$:
+The symbol $\frac{\partial L}{\partial w_1}$ is the [**partial derivative**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) of $L$ with respect to $w_1$: how much $L$ changes when $w_1$ alone is nudged up a little and the other parameters stay fixed. A small check with one point, $(-2, -2)$ with $y = +1$, on the line $w_1 = 2$, $w_2 = 3$, $b = 4$, whose loss is $\max(0, -f)$:
 
 $$f = 2(-2) + 3(-2) + 4 = -6$$
 
@@ -249,7 +249,7 @@ So nudging $w_1$ up makes this point's loss rise by 2 per unit, and gradient des
 
 > **Key point:** The chain rule splits the derivative into $\partial L/\partial f$, which is 0 or $-y$, times $\partial f/\partial w_1$, which is $x_1$.
 
-Take the loss of one observation, $L_i = \max(0, -y_i f(x_i))$. By the [chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#32-split-into-two-fractions),
+Take the loss of one observation, $L_i = \max(0, -y_i f(x_i))$. By the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#32-split-into-two-fractions) (G-371),
 
 $$\frac{\partial L_i}{\partial w_1} = \frac{\partial L_i}{\partial f} \cdot \frac{\partial f}{\partial w_1}$$
 
@@ -342,7 +342,7 @@ The perceptron's design has two free slots (Figure 9): the activation function, 
   $$L = \frac{1}{n}\sum_{i=1}^{n} \ell_i$$
   For $y_i = 1$ only the first term is left, for $y_i = 0$ only the second, which gives the two lines above.
 - **[Softmax](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function) + categorical cross-entropy:** one output per class, probabilities that add to 1. Softmax with categorical cross-entropy is softmax regression, for more than two classes.
-- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$ (see [simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)). For targets 3 and 1 and outputs 2.5 and 2:
+- **Linear (no activation) + mean squared error:** the output is $z$ itself, any number. No activation with mean squared error is linear regression, with loss $\frac{1}{n}\sum (y_i - \hat y_i)^2$ (see [**simple linear regression**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-1808)). For targets 3 and 1 and outputs 2.5 and 2:
   $$\text{target 3: } (3 - 2.5)^2 = 0.25$$
   $$\text{target 1: } (1 - 2)^2 = 1$$
   $$L = \frac{0.25 + 1}{2} = 0.625$$
@@ -403,9 +403,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Perceptron loss (G-1484) | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |
 | SGDClassifier (G-1782) | scikit-learn's linear classifier that learns its weights by stochastic gradient descent (SGD), small steps from one row at a time, with a choice of loss (perceptron, log loss, hinge, ...). |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Regression metric](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview) (G-1652) | A number that summarises how close a regression model's predictions are to the true values. |
+| [Hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
+| [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
+| [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
 | [Arg min (argmin)](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#5-step-1-the-best-constant-is-the-mean) (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |

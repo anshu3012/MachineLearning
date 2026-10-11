@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/models-1, step/model, concept/perceptron-tric
 
 ![The perceptron trick as a training loop, with its two stopping rules](images/training_loop.png){height=48%}
 
-Earlier we saw how a trained [perceptron predicts](../DL-004-perceptron/DL-004-perceptron.md#4-training-and-prediction). This Note covers how it gets its numbers: the **perceptron trick** (G-1485), the simplest training method. Figure 1 shows the whole loop.
+Earlier we saw how a trained [perceptron predicts](../DL-004-perceptron/DL-004-perceptron.md#4-training-and-prediction). This Note covers how it gets its numbers: the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485), the simplest training method. Figure 1 shows the whole loop.
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
@@ -46,7 +46,7 @@ This Note has these parts:
 
 The trick works like a conversation between the line and the points. We start with any line and ask one randomly picked point: "are you on the correct side?" A point on the correct side answers "leave the line where it is". A point on the wrong side answers "come towards me", and the line moves towards that point. Repeating the question many times brings the line to a place where no point complains.
 
-The data must be **linearly separable** (G-1103): a straight line can split the two classes. Otherwise some point always complains.
+The data must be [**linearly separable**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103): a straight line can split the two classes. Otherwise some point always complains.
 
 To move the line we change the three numbers of its equation $Ax + By + C = 0$. Figure 2 shows what each number does, and then one full move.
 
@@ -66,13 +66,13 @@ In Figure 2, watch three things in order:
    $$-2(4) - 2(5) + 4 = -14 < 0$$
    The point is now on the negative side, as it should be.
 
-The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small **learning rate** (G-1068), such as 0.01, so the line moves in small steps. The [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point) works through both cases, and the [learning rate](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#63-small-steps-the-learning-rate) is taught there too.
+The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068), such as 0.01, so the line moves in small steps. The [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point) works through both cases, and the [learning rate](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#63-small-steps-the-learning-rate) is taught there too.
 
 ## 4. The trick in perceptron terms
 
 > **Key point:** The line Ax + By + C = 0 of the trick is the perceptron's z = 0. A and B are the weights, C is the bias, and the column of 1s is the bias input.
 
-The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's **decision boundary** (G-555), the line that separates the points it calls positive from those it calls negative, is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
+The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line that separates the points it calls positive from those it calls negative, is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
 
 | Perceptron trick | Perceptron | Role |
 |---|---|---|
@@ -159,7 +159,7 @@ In each stretch, about a third of the points are not seen, while others are seen
 
 ![Each cell is one of 100 training points, and its number counts how often it has been picked. Left: 100 random picks, as in the perceptron trick; 38 points are never picked while others are picked 2 or 3 times. Right: one shuffled epoch; every point is picked exactly once](images/random_picks.gif){width=100%}
 
-In Figure 5, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (gradient descent that updates after one point or a small batch) goes through the data.
+In Figure 5, watch the red cells: on the right they all turn green by pick 100; on the left 38 stay red. Over 2,000 runs the average is 36.6 unseen points, matching $(1 - 1/100)^{100} \approx 0.37$ (the figure's script, `images/random_picks.py`, runs the check). Visiting the points in a shuffled order, each once per epoch, avoids this; that is how [**stochastic gradient descent**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) (gradient descent that updates after one point or a small batch) goes through the data.
 
 ## 8. Why it is only a trick
 
@@ -167,7 +167,7 @@ In Figure 5, watch the red cells: on the right they all turn green by pick 100; 
 
 The perceptron trick is simple and usually works. But on the same data, different random orders give different final lines, some hugging one class (see [the weakness of the trick](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early)). Nothing in the trick measures which line is better. The trick is like a student who stops revising the moment every practice question is right: they pass, but they never learn their score, so they cannot tell a narrow pass from a safe one.
 
-The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function): a number that scores every possible line, so training can look for the best one. The [perceptron loss](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss) builds it.
+The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function): a number that scores every possible line, so training can look for the best one. The [**perceptron loss**](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss) (G-1484) builds it.
 
 ## 9. Summary
 
@@ -211,3 +211,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
+| [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#61-the-formula) (G-1484) | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |

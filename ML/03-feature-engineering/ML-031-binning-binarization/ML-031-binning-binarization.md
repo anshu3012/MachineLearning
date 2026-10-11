@@ -20,11 +20,11 @@ tags: [subject/machine-learning, area/features, step/features, concept/binning]
 
 > **Key point:** Discretization (binning) turns a numerical feature into a few ranges; binarization turns it into just 0 or 1.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. The [overview of feature engineering](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories) introduced the idea briefly as binning; here we cover the techniques in full.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Earlier Notes encoded categories as numbers. This Note goes the other way: it turns numerical features into categories. The [overview of feature engineering](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories) introduced the idea briefly as binning; here we cover the techniques in full.
 
 Figure 1 shows the whole topic: one column of numbers, cut either into several bins or into just two values. There are two techniques:
 
-- **Discretization** (G-619), also called **binning** (G-307): cut the range of a feature into several intervals and replace each value with the interval it falls in.
+- **Discretization** (G-619), also called [**binning**](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#63-binning-numbers-into-categories) (G-307): cut the range of a feature into several intervals and replace each value with the interval it falls in.
 - **Binarization** (G-300): compare each value with one threshold and replace it with 0 or 1.
 
 ![A numerical column can be cut into many bins (discretization) or into two values, 0 and 1 (binarization)](images/overview.png)
@@ -71,7 +71,7 @@ Figure 2 runs these steps on the 571 Titanic training ages with 10-year bins. Wa
 
 Binning has two benefits:
 
-- **Handles outliers** (G-1420). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
+- [**Handles outliers**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420). A very large value lands in the last bin, together with the other large values. The large value is then treated exactly like them, so its extreme size no longer matters.
 - **Improves the value spread.** Some kinds of binning put about the same number of observations in every bin. A feature whose values are bunched in one place then becomes spread evenly over its range. This helps because a model can only tell observations apart if they land in different bins: when most observations share one bin, their differences are lost (Galli 2023). [Section 8](#8-the-three-strategies-on-one-feature) shows it on Fare, where equal width bins put 530 of the 571 passengers in the first bin.
 
 ## 4. Kinds of discretization
@@ -127,7 +127,7 @@ In **equal frequency binning**, we again choose the number of bins. This time ea
 
 ![Quantiles as cutting lines on 20 sorted ages: the median, then the quartiles, then the four edges of 5 equal frequency bins; idea after StatQuest, "Quantiles and Percentiles, Clearly Explained!!!"](images/quantile_lines.gif)
 
-**The standard term.** A line that cuts sorted data into equal-sized groups is a **quantile** (G-1599). A quantile is named by the fraction of the values below it: the median is the 0.5 quantile, written $Q(0.5)$. A percentile (Section 7.2 of the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the same thing written as a percentage: the 0.5 quantile is the 50th percentile.
+**The standard term.** A line that cuts sorted data into equal-sized groups is a [**quantile**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599). A quantile is named by the fraction of the values below it: the median is the 0.5 quantile, written $Q(0.5)$. A percentile (Section 7.2 of the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the same thing written as a percentage: the 0.5 quantile is the 50th percentile.
 
 So the edges of equal frequency bins are the feature's quantiles. With 10 bins, the first edge is the 10th percentile, the second edge the 20th percentile, and so on up to the 90th.
 
@@ -171,7 +171,7 @@ k-means binning works best when the feature's values already form clusters: a gr
 
 > **Key point:** Place k centres, assign each value to its nearest centre, move each centre to the mean of its values, and repeat until nothing changes.
 
-Figure 6 runs k-means on 12 values with $k = 3$. The centres are also called **centroids** (G-367).
+Figure 6 runs k-means on 12 values with $k = 3$. The centres are also called [**centroids**](../../09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367).
 
 1. **Place $k$ centres.** k-means places them at random. In Figure 6 they start at 14, 22 and 40.
 2. **Assign each value to its nearest centre.** We compute the distance from every value to every centre, and each value joins the closest one.
@@ -218,7 +218,7 @@ Figure 3 compared the strategies on Age, which is close to symmetric. Figure 7 d
 2. **`strategy`:** `"uniform"`, `"quantile"` (the default) or `"kmeans"`.
 3. **`encode`:** how the bin of each value is written in the output.
    - `"ordinal"`: one column holding the bin number, 0, 1, 2, and so on.
-   - `"onehot"` (the default): one 0/1 column per bin (as in [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), returned as a **sparse matrix** (a table that stores only its non-zero entries).
+   - `"onehot"` (the default): one 0/1 column per bin (as in [**one-hot encoding**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379)), returned as a **sparse matrix** (a table that stores only its non-zero entries).
    - `"onehot-dense"`: the same one-hot columns as an ordinary array.
 
 The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot encoding is used much less here.
@@ -247,7 +247,7 @@ The bins are in a natural order, so `"ordinal"` is the usual choice; one-hot enc
 
 > **Key point:** Binning Age and Fare into 15 equal-frequency bins raised a decision tree's cross-validated accuracy from 63.0% to 67.5%.
 
-In plain words, why binning can help. A **decision tree** (a model that predicts by asking a series of yes/no questions about the features, such as "is age above 30?"; see [decision trees](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview)) that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
+In plain words, why binning can help. A **decision tree** (a model that predicts by asking a series of yes/no questions about the features, such as "is age above 30?"; see [**decision trees**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (G-561)) that sees exact ages can cut between two neighbouring ages that happen to differ in survival by chance, and learns that accident. With 15 bins, the cuts can only fall on bin edges, so the tree cannot make such fine cuts (the Extra at the end of Section 10 gives the source).
 
 ### 10.1 The data and the baseline
 
@@ -566,4 +566,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Quantiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
 | [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Bin](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-298) | One of the equal ranges a histogram splits the data into. |

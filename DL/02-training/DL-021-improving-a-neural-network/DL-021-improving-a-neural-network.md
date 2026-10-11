@@ -44,7 +44,7 @@ Figure 1 shows the plan:
 
 > **Key point:** Seven settings that we choose before training decide much of a network's performance.
 
-A **hyperparameter** (G-910) is a setting of an algorithm chosen before training (see the [pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)); the network does not learn it. In a Keras network, we choose seven of them every time we write the code. Setting them well already improves performance, without any further technique.
+A [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) is a setting of an algorithm chosen before training (see the [**pipelines**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-1499)); the network does not learn it. In a Keras network, we choose seven of them every time we write the code. Setting them well already improves performance, without any further technique.
 
 ### 3.1 Number of hidden layers
 
@@ -52,9 +52,9 @@ A **hyperparameter** (G-910) is a setting of an algorithm chosen before training
 
 A network has three kinds of layer:
 
-- the **input layer** (G-952), where the data enters;
-- the **output layer** (G-1424), where the prediction comes out;
-- the **hidden layers** (G-890) in between.
+- the [**input layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952), where the data enters;
+- the [**output layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424), where the prediction comes out;
+- the [**hidden layers**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) in between.
 
 How many hidden layers to use is the first question.
 
@@ -89,7 +89,7 @@ How many layers, then: 3, 30 or 300? We keep adding hidden layers while the resu
 Two layers are already decided:
 
 - **Input layer:** one neuron per **feature** (G-772; an input variable, one column of the data table). A placement problem with the features CGPA and IQ has 2 input neurons.
-- **Output layer:** one neuron for **regression** (G-1655) and for binary classification; one neuron per class for **multi-class classification** (G-1266).
+- **Output layer:** one neuron for [**regression**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) and for binary classification; one neuron per class for [**multi-class classification**](../../05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266).
 
 For the hidden layers there is no hard and fast rule; people go by experience. An older rule of thumb was the **pyramid structure** (G-1594): fewer neurons in each later hidden layer, for example 64, then 32, then 16. The logic was that there are many primitive features and fewer combined ones.
 
@@ -108,15 +108,15 @@ Figure 4 tests both points on the MNIST handwritten digits (see the [MNIST](../.
 
 > **Key point:** The learning rate sets the step size of gradient descent; the optimizer is the rule that turns gradients into weight updates. Both mainly decide how fast training goes.
 
-The **learning rate** (G-1068) decides how big each **gradient descent** (G-862) step is. Too low, and training is slow; too high, and the steps overshoot and the results are poor (see the [backpropagation why](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#8-why-we-need-a-learning-rate)).
+The [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) decides how big each [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) step is. Too low, and training is slow; too high, and the steps overshoot and the results are poor (see the [backpropagation why](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#8-why-we-need-a-learning-rate)).
 
-An **optimizer** (G-1401) is the rule that turns the gradients into weight updates, step by step, to find the weights and biases with the smallest loss ([optimizers in deep learning](../../03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does), taught in full later). Plain gradient descent is one; in practice we use improved versions, such as **Adam** (G-169), that reach a good solution faster. Since both settings mainly change the training speed, they come up again under slow training (section 4.3).
+An **optimizer** (G-1401) is the rule that turns the gradients into weight updates, step by step, to find the weights and biases with the smallest loss ([optimizers in deep learning](../../03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#3-what-an-optimizer-does), taught in full later). Plain gradient descent is one; in practice we use improved versions, such as [**Adam**](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169), that reach a good solution faster. Since both settings mainly change the training speed, they come up again under slow training (section 4.3).
 
 ### 3.4 Batch size
 
 > **Key point:** Small batches (8 to 32) train slowly but generalise well; large batches (up to about 8,192) train fast but are less stable. A learning rate warm-up can give large batches the good results too.
 
-**Mini-batch gradient descent** (G-1222) updates the weights after every `batch_size` observations (see the [gradient descent in neural networks](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size)). The **batch size** (G-267) is a hyperparameter, and there are two schools of thought:
+[**Mini-batch gradient descent**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) updates the weights after every `batch_size` observations (see the [gradient descent in neural networks](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#6-choosing-the-variant-in-keras-batch_size)). The [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) is a hyperparameter, and there are two schools of thought:
 
 | | Small batches (8 to 32) | Large batches (up to about 8,192) |
 |---|---|---|
@@ -124,7 +124,7 @@ An **optimizer** (G-1401) is the rule that turns the gradients into weight updat
 | Training | stable | less stable |
 | Results on new data | better, a proven approach | often worse (Keskar et al. 2017) |
 
-The upper limit of a large batch depends on the memory of the **GPU** (G-856).
+The upper limit of a large batch depends on the memory of the [**GPU**](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856).
 
 Why small batches do better on new data: large batches tend to settle in a **sharp minimum**, a narrow dip of the loss where a small change in the data raises the loss a lot. The noise in small-batch gradients carries training to **flat minima**, wide dips that hold up on new data (Keskar et al. 2017, abstract).
 
@@ -149,13 +149,13 @@ A practical order follows. First try large batches with a warm-up; if it works, 
 
 > **Key point:** The choice of activation function decides, among other things, whether gradients vanish.
 
-**Sigmoid** (G-1798) was the **activation function** (G-165) of the early Notes. Switching the hidden layers to another function, **ReLU** (G-1668) above all, is one of the fixes for the **vanishing gradient** (G-2070; section 4.1). The options are compared in the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+[**Sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) was the [**activation function**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) of the early Notes. Switching the hidden layers to another function, [**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) above all, is one of the fixes for the **vanishing gradient** (G-2070; section 4.1). The options are compared in the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 
 ### 3.6 Epochs
 
 > **Key point:** Set a large number of epochs and let early stopping end training when the validation results stop improving.
 
-How long should we train? Some people try 100 epochs, then 500, then 1,000. The better answer is to set a large number of **epochs** (G-696) and use **early stopping** (G-656; see the [batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping)): during training, Keras watches the results on the validation data and stops once they no longer improve. In Keras it is a **callback** (G-341), taught in [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras).
+How long should we train? Some people try 100 epochs, then 500, then 1,000. The better answer is to set a large number of [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) and use **early stopping** (G-656; see the [**batch gradient descent**](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-264)): during training, Keras watches the results on the validation data and stops once they no longer improve. In Keras it is a [**callback**](../DL-022-early-stopping/DL-022-early-stopping.md#41-callbacks) (G-341), taught in [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras).
 
 ## 4. Fixing the four problems
 
@@ -171,10 +171,10 @@ Figure 6 is the right half of Figure 1 as a reading list: each fix points to the
 
 With sigmoid in a deep network, the gradients shrink layer by layer on the way back, and the early layers stop learning; with factors above 1 they explode instead (**exploding gradient**, G-731; see the [vanishing and exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem)). Four fixes:
 
-- **Weight initialisation:** start the **weights** (G-2106) from well-chosen random values instead of all 1 or 0.1 (see the [weight initialisation](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)).
+- **Weight initialisation:** start the [**weights**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) from well-chosen random values instead of all 1 or 0.1 (see the [weight initialisation](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)).
 - **Activation function:** replace sigmoid with ReLU or one of its variants (see the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu)).
-- **Batch normalisation** (G-266): a more recent technique, widely used today (see the [batch normalisation](../DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)).
-- **Gradient clipping** (G-861): caps the size of the gradients; it is used for exploding gradients only (see the [vanishing and exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping)).
+- [**Batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266): a more recent technique, widely used today (see the [batch normalisation](../DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)).
+- [**Gradient clipping**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping) (G-861): caps the size of the gradients; it is used for exploding gradients only (see the [vanishing and exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#73-gradient-clipping)).
 
 > **Extra:** Keras does not start from equal weights. A `Dense` layer draws its starting weights at random from the Glorot uniform scheme (**Glorot initialisation**, G-850) and sets its biases to 0 (Keras docs, `Dense`).
 
@@ -185,7 +185,7 @@ With sigmoid in a deep network, the gradients shrink layer by layer on the way b
 The biggest difference between ML and DL is that deep learning needs a lot of data: it is **data hungry** (G-534; see the [what is deep learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#41-data)). Two techniques help when we have too little:
 
 - **Transfer learning** (section 3.1): reuse a network that someone trained on a large, similar dataset, at least its early layers.
-- **Unsupervised pre-training** (G-2059): first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled **observations** (G-1374; records, one row of the data table each).
+- [**Unsupervised pre-training**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#35-deep-belief-networks-and-the-name-deep-learning) (G-2059): first train the early layers on plenty of unlabelled data, then train the whole network on the few labelled **observations** (G-1374; records, one row of the data table each).
 
 ### 4.3 Slow training
 
@@ -200,10 +200,10 @@ Two techniques speed up training:
 
 > **Key point:** A network with millions of weights easily overfits. Fixes: L1 and L2 regularisation, dropout, and early stopping.
 
-**Overfitting** (G-1429) means learning the training data too closely, noise included, so that the model fails on new data (see the [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). A deep network has many parameters, some have millions of weights, so it tends to overfit. Three fixes have their own Notes:
+[**Overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) means learning the training data too closely, noise included, so that the model fails on new data (see the [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). A deep network has many parameters, some have millions of weights, so it tends to overfit. Three fixes have their own Notes:
 
-- **L1 and L2 regularisation** (G-1026, G-1029), as for linear models (see the [ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), adapted to networks in [regularisation in deep learning](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
-- **Dropout** (G-639): switch off random neurons during training (see the [dropout](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
+- **L1 and L2 regularisation** (G-1026, G-1029), as for linear models (see the [**ridge regression**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-1691)), adapted to networks in [regularisation in deep learning](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
+- [**Dropout**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off random neurons during training (see the [dropout](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
 - **Early stopping** (section 3.6, and the [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras)).
 
 ## 5. Summary
@@ -252,6 +252,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Learning rate warm-up (G-1071) | Starting training with a very small learning rate and raising it over the first epochs or steps (4,000 steps in the transformer paper). |
 | Learning rate scheduler (learning schedule) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
 | [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
 | [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
@@ -273,6 +274,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
+| [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) | Gradient descent that uses all training rows for every update. |
 | [Callback](../../../DL/02-training/DL-022-early-stopping/DL-022-early-stopping.md#41-callbacks) (G-341) | An object whose code Keras runs at set points during training, for example after every epoch. |
 | [Exploding gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
@@ -285,4 +287,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [L1 regularisation](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1026) | Another name for the absolute-value penalty used by Lasso. |
 | [L2 regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) | Another name for the squared-coefficient penalty used by Ridge. |
+| [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |

@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 > **Key point:** A voting regressor trains several regressors on the same data and predicts the mean of their outputs, or a weighted mean if we give weights.
 
-The **voting regressor** (G-2097) is the regression version of the voting classifier (see [the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#2-the-core-idea-on-decision-surfaces)). Only the aggregation step changes: instead of a vote, we take the **mean** (G-1203) of the **base models'** (G-260) outputs. This Note covers:
+The **voting regressor** (G-2097) is the regression version of the voting classifier (see [the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#2-the-core-idea-on-decision-surfaces)). Only the aggregation step changes: instead of a vote, we take the [**mean**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) of the [**base models'**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) outputs. This Note covers:
 
 - the core idea (section 2) and a demo with curves (section 3);
 - scikit-learn's `VotingRegressor` on the Boston housing data, with `weights` (sections 4.1 to 4.3);

@@ -15,7 +15,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 ## 1. Overview
 
-> **Key point:** **Statistics** (G-1884) for ML splits into four modules: **descriptive statistics** (G-596), **probability distributions** (G-1571), **inferential statistics** (G-944), and a few miscellaneous tools.
+> **Key point:** [**Statistics**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is) (G-1884) for ML splits into four modules: [**descriptive statistics**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596), [**probability distributions**](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571), [**inferential statistics**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944), and a few miscellaneous tools.
 
 ![The four modules of statistics for ML](images/roadmap.png){height=60%}
 
@@ -51,19 +51,19 @@ This module describes data that is already in our hands. Its topics, and where e
 |---|---|
 | Population and sample, types of data | [population and sample](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample), [types of data](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#6-types-of-data) |
 | Central tendency (mean, median, mode, ...) | [what central tendency means](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means) |
-| Dispersion (range, variance, standard deviation, ...) | [range](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#3-range), [variance](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) |
+| Dispersion (range, variance, standard deviation, ...) | [**range**](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#3-range) (G-1626), [variance](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) |
 | Quantiles, percentiles, box plots | [percentiles](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles), [building a box plot](../MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#5-building-a-box-plot-by-hand) |
 | Skewness | [skewness as distance from the normal shape](../../03-distributions/MA-026-skewness/MA-026-skewness.md#2-skewness-as-distance-from-the-normal-shape) |
 | Kurtosis | [kurtosis as tailedness](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#3-kurtosis-a-measure-of-tailedness) |
 | Univariate analysis | [one feature at a time](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) |
 | Bivariate and multivariate analysis | [two features: scatter plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#3-scatter-plot-two-numerical-columns), [graphs for two features](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#4-graphs-for-two-features) |
-| Covariance and correlation | [covariance](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance), [correlation](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) |
+| Covariance and correlation | [**covariance**](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496), [**correlation**](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) |
 
 ### 3.2 Probability distributions
 
 > **Key point:** A probability distribution describes how likely each value of a feature is; the hypothesis tests of the next module depend on it.
 
-This module studies the shapes data can take. Here a **feature** (G-772) is an input variable, one column of the data table, and an **observation** (G-1374) is one record, one row of that table:
+This module studies the shapes data can take. Here a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table, and an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of that table:
 
 - **Random variables** (G-1620; a number decided by chance, such as the roll of a die), and the functions that describe them: the PMF (probability mass function, the probability of each count), the PDF (probability density function, the curve for measurements) and the CDF (cumulative distribution function, the running total of probability).
 - **Kernel density estimation**, the smooth curve over a histogram (a bar chart of how many values fall in each range), met in [the density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
@@ -76,11 +76,11 @@ The basic rules of probability are in [the five basic terms](../../02-probabilit
 
 > **Key point:** Use a sample to say something about the whole population, and say how sure we are.
 
-This module draws conclusions about a **population** (G-1525) from a **sample** (G-1731):
+This module draws conclusions about a [**population**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) from a [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731):
 
-- **Central limit theorem** (G-364): why averages of samples behave predictably.
+- [**Central limit theorem**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364): why averages of samples behave predictably.
 - **Confidence intervals:** a range built by a method that captures the true population value in a stated share of repeated samples.
-- **Hypothesis testing** (G-913): checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA (Bruce et al. 2020, ch. 3), and the module ends with when to use which.
+- [**Hypothesis testing**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913): checking a claim about a population with a sample. The common tests are the z-test, t-test, chi-square test and ANOVA (Bruce et al. 2020, ch. 3), and the module ends with when to use which.
 
 ### 3.4 Miscellaneous topics
 
@@ -92,8 +92,8 @@ This module draws conclusions about a **population** (G-1525) from a **sample** 
 | Q-Q plot | [how a Q-Q plot is built](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot), [checking whether a column is normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#4-checking-whether-a-column-is-normal) |
 | Sampling techniques | a later maths Note; sampling bias in [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) |
 | Resampling (bootstrap) | [bootstrapping](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping) |
-| Statistical moments | [statistical moments](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) |
-| Bayesian statistics | [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) |
+| Statistical moments | [**statistical moments**](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882) |
+| Bayesian statistics | [**Bayes' theorem**](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-269) |
 
 ## 4. How to study the roadmap
 
@@ -144,6 +144,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
 | [Probability distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
+| [Range](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#3-range) (G-1626) | The simplest measure of spread: the largest value minus the smallest. |
+| [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
@@ -151,3 +154,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
 | [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
+| [Statistical moments](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882) | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |

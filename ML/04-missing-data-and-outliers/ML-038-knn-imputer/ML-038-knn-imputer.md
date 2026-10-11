@@ -19,9 +19,9 @@ tags: [subject/machine-learning, area/data, step/clean, concept/knn-imputer]
 
 > **Key point:** The KNN imputer fills a gap with the average value of the k observations most similar to the observation with the gap.
 
-Two words first. A **feature** (G-772) is an input variable: one column of the data table. An **observation** (G-1374) is one record: one row of the table. The **target** (G-1949) is the output we predict.
+Two words first. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable: one column of the data table. An [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record: one row of the table. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
-Earlier techniques ([mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), [most frequent value imputation](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#2-most-frequent-value-imputation) and [random sample imputation](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation)) filled each gap using only its own feature. This Note covers the first multivariate technique: the other features decide which observations are similar, and those observations supply the fill value. Think of guessing a new neighbour's income: the town average is one guess, but the incomes of the people living in the most similar houses on the same street are a better one.
+Earlier techniques ([mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), [**most frequent value imputation**](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#2-most-frequent-value-imputation) (G-1264) and [**random sample imputation**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) (G-1616)) filled each gap using only its own feature. This Note covers the first multivariate technique: the other features decide which observations are similar, and those observations supply the fill value. Think of guessing a new neighbour's income: the town average is one guess, but the incomes of the people living in the most similar houses on the same street are a better one.
 
 Figure 1 shows the difference on a small table. Row 2 has no value in feature f1:
 
@@ -36,7 +36,7 @@ The hard part is measuring similarity when other observations have gaps too. Sec
 
 > **Key point:** Multivariate imputation fills a gap using the other features of the observation too; scikit-learn offers two such techniques.
 
-Univariate imputation fills a feature from that feature alone, while multivariate imputation also uses the other features of the same observation (see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps)). The two multivariate techniques in scikit-learn are the **KNN imputer** (G-1017; `KNNImputer`, this Note) and the **iterative imputer** (G-978) (`IterativeImputer`, the MICE algorithm, see [when to use MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice)).
+Univariate imputation fills a feature from that feature alone, while multivariate imputation also uses the other features of the same observation (see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps)). The two multivariate techniques in scikit-learn are the **KNN imputer** (G-1017; `KNNImputer`, this Note) and the [**iterative imputer**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) (`IterativeImputer`, the MICE algorithm, see [when to use MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice)).
 
 ## 3. The nearest-neighbour idea
 
@@ -48,7 +48,7 @@ Univariate imputation fills a feature from that feature alone, while multivariat
 
 An observation with two numbers is a point on a flat plane; one with three numbers is a point in 3D space. One with four numbers is a point in 4D space: we cannot draw it, but distances work the same way.
 
-Close points are similar observations. **Similarity** (G-1805) between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
+Close points are similar observations. [**Similarity**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
 
 [Instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) draws this picture in 2D: a new point, the 3 points nearest to it, and their vote on its label. Imputation uses the same picture with one change: the neighbours' values are averaged instead of voted on.
 
@@ -74,7 +74,7 @@ Figure 2 lays out the other rows of the Note's example by their distance from ro
 
 ![The rows of the five-row example placed by their distance from row 2. For k = 1 to 4 the k nearest rows (orange) are averaged: 25, 32.5, 31.67 and 36.25. Values checked with scikit-learn's KNNImputer.](images/k_sweep.gif){height=30%}
 
-> **Extra:** The same idea gives the **k-nearest neighbours (KNN)** (G-998) algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an **instance-based learner** (G-955; see [instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
+> **Extra:** The same idea gives the [**k-nearest neighbours (KNN)**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an **instance-based learner** (G-955; see [instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
 
 ## 4. Distance between observations with missing values
 
@@ -225,7 +225,7 @@ We split 80/20 with `random_state=2`: 712 training observations (148 `Age` gaps)
 >
 > `fit` only stores the training observations; there is nothing else to learn. `transform` then finds each gap's neighbours among those stored observations, for the training set and the test set alike.
 
-Replacing `KNNImputer` with `SimpleImputer()` ([mean imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)) and keeping everything else the same gives an accuracy of 0.693.
+Replacing `KNNImputer` with `SimpleImputer()` ([**mean imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197)) and keeping everything else the same gives an accuracy of 0.693.
 
 ### 7.3 Is the KNN fill closer to the truth?
 
@@ -299,7 +299,7 @@ On the split of Section 7.2 the test accuracy stays at 0.704 with the indicator.
 
 > **Key point:** Scale before the KNN imputer, or the feature with the largest numbers chooses the neighbours alone.
 
-The distance adds up squared differences, so a feature with large numbers dominates it. `Fare` runs from 0 to 512 while `Pclass` runs from 1 to 3: unscaled, the neighbours are chosen almost by `Fare` alone, like judging how alike two people are by their bank balance and ignoring everything else. Scaling the features first ([standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) or [min-max scaling](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)) gives each one a fair say. `StandardScaler` can go before `KNNImputer`, because it skips `NaN` when it fits (scikit-learn docs, StandardScaler).
+The distance adds up squared differences, so a feature with large numbers dominates it. `Fare` runs from 0 to 512 while `Pclass` runs from 1 to 3: unscaled, the neighbours are chosen almost by `Fare` alone, like judging how alike two people are by their bank balance and ignoring everything else. Scaling the features first ([**standardization**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874) or [**min-max scaling**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1217)) gives each one a fair say. `StandardScaler` can go before `KNNImputer`, because it skips `NaN` when it fits (scikit-learn docs, StandardScaler).
 
 In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9.76 years.
 
@@ -359,9 +359,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Most frequent value imputation (mode imputation)](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#21-the-idea) (G-1264) | Filling every gap in a column with its mode. |
+| [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
 | [Iterative imputer](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
 | [Similarity](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [Mean imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197) | Filling every gap with the mean of the column's known values. |
 | [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |

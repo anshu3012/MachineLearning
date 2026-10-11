@@ -66,7 +66,7 @@ A **statistical hypothesis test** (G-1881) is a method of statistical inference 
 
 In the channel example the population parameter is $\mu$, the mean view duration of all lessons the channel could record in the new style. The new lessons are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
 
-Hypothesis testing is **inferential statistics** (G-944): reasoning from a sample to a population (see [descriptive and inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics)). Inferential statistics is used constantly in business, finance and economics.
+Hypothesis testing is [**inferential statistics**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944): reasoning from a sample to a population (see [descriptive and inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics)). Inferential statistics is used constantly in business, finance and economics.
 
 ## 3. The null hypothesis
 
@@ -97,7 +97,7 @@ The second statement is the **alternative hypothesis** (G-193), written $H_1$ or
 
 > a statement that contradicts the null hypothesis and claims there is a significant effect or relationship between the variables being studied.
 
-The two statements are **mutually exclusive** (G-1286): they cannot both be true, and the test ends by siding with one of them. They need not cover every case: for the channel, a mean below 6 fits neither statement (the grey part of the line in Figure 4). For our examples:
+The two statements are [**mutually exclusive**](../../02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286): they cannot both be true, and the test ends by siding with one of them. They need not cover every case: for the channel, a mean below 6 fits neither statement (the grey part of the line in Figure 4). For our examples:
 
 | Example | $H_0$ (no effect) | $H_1$ (an effect) |
 |---|---|---|
@@ -121,7 +121,7 @@ The same mean of 9 is weak evidence in one case and strong evidence in the other
 
 ![Five lessons and their distances (orange) to a line that moves from 6, the mean under $H_0$, to 9, the lessons' own mean. Left: our lessons, total distance 17 to 12. Right: five steadier lessons with the same mean, 15 to 4. Adapted from StatQuest, "Alternative Hypotheses: Main Ideas!!!", which compares distances to one mean and to two group means.](images/mean_fit.gif){height=50%}
 
-The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a **one-tailed test** (G-1385) and a two-tailed test (see the [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
+The channel's $H_1$ has a direction: the new style should **increase** the duration. The chips' $H_1$ has none: the weight is wrong, whether too high or too low. This difference decides between a [**one-tailed test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-1385) and a two-tailed test (see the [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
 
 Two other names are common in books and exam questions:
 
@@ -179,16 +179,16 @@ For the same reason, rejecting $H_0$ for the channel would not show that the whi
 
 ![The eight steps of a hypothesis test (rejection region approach)](images/test_steps.png){height=45%}
 
-There are two ways to carry out a test. The **rejection region approach** (G-1663) compares the test statistic with a fixed boundary (see [the rejection region and the critical value](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value)). The **p-value approach** (G-1431) computes one extra number that also measures how strong the evidence is (see [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition)); it is the approach used in practice. Both follow the steps in Figure 7.
+There are two ways to carry out a test. The [**rejection region approach**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1663) compares the test statistic with a fixed boundary (see [the rejection region and the critical value](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value)). The **p-value approach** (G-1431) computes one extra number that also measures how strong the evidence is (see [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition)); it is the approach used in practice. Both follow the steps in Figure 7.
 
 1. **State $H_0$ and $H_1$.** For the channel: $H_0: \mu = 6$, $H_1: \mu > 6$.
 2. **Choose a significance level $\alpha$** (G-1801). Usually 0.05 (5%), sometimes 0.01 (1%). The significance level is the probability of rejecting $H_0$ when $H_0$ is actually true: at 5%, about 5 tests in 100 with a true $H_0$ would wrongly reject it. [How rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) explains it fully.
 3. **Check the assumptions about the data.** Is the data normally distributed? Do we know the population standard deviation $\sigma$? Is the data numerical or categorical? Do we have one **feature** (G-772; one measured variable, one column of the data table) or several, one group or several?
 4. **Choose the test.** The assumptions decide it. For example:
-   - normal data (or a large sample) and $\sigma$ known: the one-sample **z-test** (G-2143);
+   - normal data (or a large sample) and $\sigma$ known: the one-sample [**z-test**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143);
    - $\sigma$ unknown: the **t-test** (G-1940; see [from the z-test to the t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test));
-   - categorical data: the **chi-square test** (G-381);
-   - several group means: **ANOVA** (G-203).
+   - categorical data: the [**chi-square test**](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381);
+   - several group means: [**ANOVA**](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203).
 5. **Name the test statistic.** The **test statistic** (G-1963) is the number the test computes from the sample. A z-test computes a z-score, called the z statistic; a t-test computes the t statistic (as in [the t-procedure formula](../MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula)).
 6. **Conduct the test.** Compute the test statistic from the sample.
 7. **Decide.** Based on the statistic, reject $H_0$ or fail to reject it.

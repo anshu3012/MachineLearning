@@ -178,7 +178,7 @@ Before answering those questions, we look at what the tree picture already tells
 
 > **Key point:** Overfitting, and bias towards the common class in imbalanced data.
 
-- **Overfitting.** A tree can keep splitting until every leaf holds a handful of observations, memorising noise ([overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). [The main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) (settings we choose before training) show how to stop this.
+- **Overfitting.** A tree can keep splitting until every leaf holds a handful of observations, memorising noise ([**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). [The main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) (settings we choose before training) show how to stop this.
 - **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, see [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the tree is biased towards the common class, so it helps to balance the data before training (sklearn UG §1.10).
 
 ### 5.3 Classification and regression: CART
@@ -230,7 +230,7 @@ Entropy is the surprise we get **on average** per draw. We meet "yes" in 0.2 of 
 
 $$H = 0.2 \times 2.32 + 0.8 \times 0.32 = 0.722$$
 
-This weighted average is an **expected value** (G-725). Figure 6 repeats the two steps for three sets. Watch the right panel: the two bars are the surprises, and the dashed line is their weighted average, the entropy. The line sits close to the common class's low bar when the set is nearly pure, and rises to 1 when the classes are equal and every draw is equally surprising.
+This weighted average is an [**expected value**](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725). Figure 6 repeats the two steps for three sets. Watch the right panel: the two bars are the surprises, and the dashed line is their weighted average, the entropy. The line sits close to the common class's low bar when the set is nearly pure, and rises to 1 when the classes are equal and every draw is equally surprising.
 
 ![Entropy as average surprise, for 1 yes and 4 no, 2 yes and 3 no, and 5 yes and 5 no. Left: the share of each class. Right: the surprise of each class and, dashed, their weighted average, the entropy: 0.722, 0.971 and 1. Idea after StatQuest, "Entropy (for data science) Clearly Explained!!!".](images/surprise.gif)
 
@@ -580,4 +580,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |

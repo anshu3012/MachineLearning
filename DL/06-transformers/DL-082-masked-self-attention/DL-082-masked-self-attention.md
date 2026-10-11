@@ -30,7 +30,7 @@ Two pieces of notation before we start. The softmax turns a row of scores into w
 
 - [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing), sections 5.2 and 6: teacher forcing, and the decoder feeding back its own words during prediction.
 - [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#82-the-refined-computation): query, key and value vectors, and the weighted sum.
-- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+- [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
 - [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel): several attention heads side by side.
 - [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the full architecture and the encoder block.
 
@@ -265,7 +265,7 @@ The masked pass barely changes from 8 to 128 positions, because the GPU computes
 
 > **Key point:** In the decoder, the mask is applied inside every head of multi-head attention. The layer is otherwise the same as in the encoder.
 
-The **decoder** (G-564) uses **multi-head attention** (G-1268), not a single head (the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel)). The mask goes inside each head's scaled dot-product attention, exactly as in section 6 (Figure 9) (Vaswani et al. 2017, §3.2.3: the mask is implemented "inside of scaled dot-product attention"). Every head therefore produces a lower-triangular weight matrix. The heads are concatenated and multiplied by $W_O$ as usual.
+The [**decoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) uses [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268), not a single head (the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel)). The mask goes inside each head's scaled dot-product attention, exactly as in section 6 (Figure 9) (Vaswani et al. 2017, §3.2.3: the mask is implemented "inside of scaled dot-product attention"). Every head therefore produces a lower-triangular weight matrix. The heads are concatenated and multiplied by $W_O$ as usual.
 
 ![Masked multi-head attention. Every head applies the causal mask, so every head's weight matrix is lower-triangular (grey: the blocked future); the heads are then concatenated and multiplied by $W_O$](images/masked_heads.png){width=80%}
 
@@ -320,6 +320,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Causal (look-ahead) mask (G-357) | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it; used in training and at inference. |
 | `use_causal_mask` (G-154) | The argument of Keras' `MultiHeadAttention` that hides future tokens, so each token can attend only to itself and earlier tokens (the causal mask). |
 | Autoregressive (causal) generation (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |
+| [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
 | [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |

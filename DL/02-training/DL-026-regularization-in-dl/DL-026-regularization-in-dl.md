@@ -22,7 +22,7 @@ Regularisation was taught for linear models: Ridge adds the squared coefficients
 
 ![The same 128-128 network on 100 points of make_moons, trained for 2,000 epochs: without regularisation, with L2 and with L1.](images/regularised.png)
 
-In every decision-boundary figure of this Note, the background colour is the class the network predicts at that spot: orange for class 0, blue for class 1. The black line is the **decision boundary** (G-555), where the prediction switches class. These are predicted classes, not a loss surface.
+In every decision-boundary figure of this Note, the background colour is the class the network predicts at that spot: orange for class 0, blue for class 1. The black line is the [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), where the prediction switches class. These are predicted classes, not a loss surface.
 
 Figure 1 shows the effect. This Note covers:
 
@@ -43,7 +43,7 @@ The Notebook (`DL-026-regularization-in-dl.ipynb`) runs every step.
 
 > **Key point:** Each neuron can contribute one more line to the decision boundary. With hundreds of neurons, the boundary can bend around every training point.
 
-Overfitting means a model does very well on the training data and poorly on new data: it memorises the training data, minor patterns included, instead of learning the concept (see [variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). Like a student who learns every formula by heart without understanding: new questions in the exam go badly.
+Overfitting means a model does very well on the training data and poorly on new data: it memorises the training data, minor patterns included, instead of learning the concept (see [**variance**](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073)). Like a student who learns every formula by heart without understanding: new questions in the exam go badly.
 
 Complex models such as neural networks or very deep decision trees are prone to it, because their training aims to make no mistake on the training data. The main cause is the complexity of the network: many nodes, all connected to each other.
 
@@ -64,12 +64,12 @@ Why does the decision boundary bend more as we add neurons? Figure 3 shows it st
 
 ![The same four networks. Dashed grey: each hidden neuron's hyperplane. Black: the decision boundary, which is straight between dashed lines and bends only where it meets one. With 1,000 neurons (lines not drawn) the boundary wraps small pockets around single training points (circled).](images/neuron_lines.gif)
 
-- **The line that separates the two classes.** The black line in every panel splits the plane into an orange side and a blue side. The model predicts class 0 on one side and class 1 on the other. This separating line is the **decision boundary** (G-555).
-- **What one hidden neuron does.** A neuron with the **ReLU** activation (G-1668) outputs 0 on one side of a straight line and a growing positive value on the other side. That straight line is the neuron's **hyperplane** (G-911): the dashed grey lines in Figure 3 (a worked example follows this list).
+- **The line that separates the two classes.** The black line in every panel splits the plane into an orange side and a blue side. The model predicts class 0 on one side and class 1 on the other. This separating line is the [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555).
+- **What one hidden neuron does.** A neuron with the **ReLU** activation (G-1668) outputs 0 on one side of a straight line and a growing positive value on the other side. That straight line is the neuron's [**hyperplane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911): the dashed grey lines in Figure 3 (a worked example follows this list).
 - **1 neuron.** The output can only turn one neuron's value up or down, so the decision boundary is a single straight line, parallel to that neuron's hyperplane (top left). A perceptron gives the same kind of boundary.
 - **Many neurons.** Between the dashed lines no neuron switches on or off, so the decision boundary runs straight there. It can change direction only where it meets a dashed line. A boundary made of straight segments joined at bends is **piecewise linear** (G-1496; Goodfellow et al. 2016, §6.3.1 and §6.4.1).
 - **Counting the segments.** In our runs the decision boundary has 1, 8, 30 and 383 straight segments for 1, 10, 50 and 1,000 neurons (Notebook). With 10 or 50 neurons, a few dozen segments are enough to follow the two moons.
-- **Too many segments.** With 1,000 neurons there are so many places to bend that the decision boundary wraps small pockets around single training points. The four circled points are fitted only by the 1,000-neuron network. The model has learned the noise in these 100 points, not the moon shape: this is **overfitting** (G-1429).
+- **Too many segments.** With 1,000 neurons there are so many places to bend that the decision boundary wraps small pockets around single training points. The four circled points are fitted only by the 1,000-neuron network. The model has learned the noise in these 100 points, not the moon shape: this is [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429).
 
 **A hyperplane on numbers.** Take a neuron with weights 1 and −1 on the two features $x_1$ and $x_2$, and bias 0. Its input is
 
@@ -111,7 +111,7 @@ An overfitted network has more capacity than its data needs (section 3). So ther
 
 More data helps because the network sees the bigger picture and stops focusing on small details. Data is costly, though, so we often create extra observations (records, rows of the data table) from existing ones: **data augmentation** (G-531; see [augmentation by random changes](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#23-where-the-continuous-uniform-appears)) makes changed copies of examples, such as cropped, flipped or rotated images of a dog. Data augmentation is used mostly with images and convolutional networks.
 
-On the simpler-model route, **dropout** (G-639) switches off random nodes during training, and **early stopping** (G-656) ends training before the network starts to memorise. **Regularisation** (G-1659) keeps every node but penalises large weights; it is the subject of this Note.
+On the simpler-model route, [**dropout**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) switches off random nodes during training, and [**early stopping**](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) ends training before the network starts to memorise. [**Regularisation**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) keeps every node but penalises large weights; it is the subject of this Note.
 
 There are three kinds of regularisation: L1, L2, and both together. In deep learning, L2 is used almost always: unless we want L1's zero weights to pick out features, L2 can be expected to give better results than L1, because it prefers many small weights, so the network uses all of its inputs a little rather than a few of them a lot (CS231n, Neural Networks Part 2, Regularization). This Note focuses on L2 and shows L1 for comparison.
 
@@ -127,7 +127,7 @@ Why do small weights help? A weight multiplies its input. With a large weight, a
 
 > **Key point:** Square every weight of the network, add the squares up, scale the total by a small strength factor, and add it to the cost.
 
-Training finds the weights and biases that minimise a **cost function** (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see [loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function)). **L2 regularisation** (G-1029) adds the squared weights to it as the penalty term.
+Training finds the weights and biases that minimise a [**cost function**](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see [loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function)). [**L2 regularisation**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) adds the squared weights to it as the penalty term.
 
 1. **In words:** square every weight, add the squares up, multiply by a small factor that sets the strength, and add the result to the cost.
 2. **Example:** a network with 10 weights, of which four are $0.5, -1, 2$ and $0.1$ and the other six are 0. The strength is $\lambda = 0.03$ and there are $n = 100$ observations. One square per line:
@@ -148,7 +148,7 @@ Training finds the weights and biases that minimise a **cost function** (G-492):
 
 Some points about this formula:
 
-- **$\lambda$** (lambda, G-2150) sets the strength of the penalty. It is a **hyperparameter** (G-910): we choose it, training does not learn it. Larger $\lambda$ means stronger regularisation; too large, and the network moves from overfitting to **underfitting** (G-2035), where it is too simple even for the training data (section 7.7 shows both ends). With $\lambda = 0$ the penalty vanishes and we are back to the plain cost.
+- **$\lambda$** (lambda, G-2150) sets the strength of the penalty. It is a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): we choose it, training does not learn it. Larger $\lambda$ means stronger regularisation; too large, and the network moves from overfitting to [**underfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035), where it is too simple even for the training data (section 7.7 shows both ends). With $\lambda = 0$ the penalty vanishes and we are back to the plain cost.
 - **$n$** is the number of observations. The 2 is only for convenience: it cancels when we differentiate. Some books leave it out.
 - **Biases are never penalised**, only weights. A weight sets how an input and a node interact, so fitting it needs many varied observations; a bias only shifts one node's output and needs little data. Leaving the biases free therefore adds little overfitting, while penalising them can make the network underfit (Goodfellow et al. 2016, §7.1).
 
@@ -174,7 +174,7 @@ The per-layer form is the same sum, every weight squared once; it just matches h
 
 > **Key point:** L1 uses absolute values instead of squares and gives a sparse model; L1 + L2 combines both.
 
-**L1 regularisation** (G-1026) replaces the squares with absolute values: the size of each weight, ignoring its sign. On the four weights of section 5.1, with the same factor 0.00015:
+[**L1 regularisation**](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1026) replaces the squares with absolute values: the size of each weight, ignoring its sign. On the four weights of section 5.1, with the same factor 0.00015:
 
 $$|0.5| + |-1| + |2| + |0.1|$$
 
@@ -192,7 +192,7 @@ As with Lasso, L1 can push weights to exactly 0, giving a **sparse model** (G-18
 
 > **Key point:** With the L2 penalty, every update first shrinks each weight by a fixed fraction, then takes the usual step. The weights decay towards 0.
 
-The penalty is added to the loss, but how does that make the weights small? The answer is in the gradient descent update (see [gradient descent in a network](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#3-where-gradient-descent-sits-in-backpropagation)): each update moves a weight against its gradient, by a step set by the **learning rate** (G-1068) $\eta$. The penalty adds its own gradient to that step, and this extra gradient always points towards 0.
+The penalty is added to the loss, but how does that make the weights small? The answer is in the gradient descent update (see [gradient descent in a network](../DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#3-where-gradient-descent-sits-in-backpropagation)): each update moves a weight against its gradient, by a step set by the [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta$. The penalty adds its own gradient to that step, and this extra gradient always points towards 0.
 
 **One update on numbers.** Take the setting of Figure 4 below: one weight $w$, a data loss that pulls $w$ towards 2,
 
@@ -266,7 +266,7 @@ before the usual step is subtracted.
 
 The last form is the update without regularisation, except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.
 
-Because the weight shrinks by a fixed factor at each step, L2 regularisation is often called **weight decay** (G-2108) in neural networks, and $1 - \eta\lambda$ the **weight decay factor** (G-2107).
+Because the weight shrinks by a fixed factor at each step, L2 regularisation is often called [**weight decay**](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#23-the-update-rule-and-one-update-on-numbers) (G-2108) in neural networks, and $1 - \eta\lambda$ the **weight decay factor** (G-2107).
 
 Figure 4 shows the two forces on one weight. To make the decay visible in 60 steps it uses a large $\lambda = 0.5$ with $\eta = 0.1$, so the factor is 0.95, as computed above.
 
@@ -517,6 +517,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Sensitivity (of a model) (G-2275) | How much a model's prediction changes when its input changes a little; smaller weights make it lower, so the decision boundary is smoother. |
 | AdamW (G-170) | Adam with weight decay (shrinking the weights a little) applied directly to the weights, not through the loss. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |

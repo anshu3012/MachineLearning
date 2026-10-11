@@ -31,7 +31,7 @@ Figure 1 shows the whole map. For each module this Note says:
 
 The first pillar, statistics, has its own [roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules). If statistics is the eyes of an ML engineer, linear algebra is the hands and feet: it stores the data and does every calculation on it.
 
-Figure 2 shows the starting point on real data. Three iris flowers form a table of numbers, a **matrix** (G-1180); each row of that table is a **vector** (G-2081), an arrow from the origin in the space of the features. Every ML algorithm works on such matrices and vectors.
+Figure 2 shows the starting point on real data. Three iris flowers form a table of numbers, a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180); each row of that table is a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081), an arrow from the origin in the space of the features. Every ML algorithm works on such matrices and vectors.
 
 ![Three iris flowers, one per species: their petal length and width as a 3 × 2 matrix (left) and each row drawn as a vector (right).](images/rows_as_vectors.png){height=32%}
 
@@ -41,9 +41,9 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in [w
 
 > **Key point:** One layer of a neural network is three steps of linear algebra: multiply a vector by a matrix, add a vector, and set the negative numbers to 0.
 
-The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a **neural network** (G-1316), with numbers picked by hand so that every step can be checked:
+The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a [**neural network**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316), with numbers picked by hand so that every step can be checked:
 
-1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width, both rescaled to lie between 0 and 1 (a raw iris sepal width is 2 to 4.4 cm, never 0.4). The layer's **weights** (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
+1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width, both rescaled to lie between 0 and 1 (a raw iris sepal width is 2 to 4.4 cm, never 0.4). The layer's [**weights**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
 
    $$0.5 \times (-2) = -1$$
 
@@ -56,16 +56,16 @@ The models do their work with the same objects. Figure 3 follows one iris flower
    $$0.4 \times 0.5 = 0.2$$
 
    $$-0.5 + 0.2 = -0.3$$
-2. **Add.** The layer's **biases** (G-284) form a second vector, added number by number. With the biases $[1.2, 0.1]$:
+2. **Add.** The layer's [**biases**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) form a second vector, added number by number. With the biases $[1.2, 0.1]$:
 
    $$-0.6 + 1.2 = 0.6$$
 
    $$-0.3 + 0.1 = -0.2$$
 
    The result is $[0.6, -0.2]$.
-3. **Cut.** The **ReLU** (G-1668) function turns every negative number into 0, which leaves $[0.6, 0]$.
+3. **Cut.** The [**ReLU**](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) function turns every negative number into 0, which leaves $[0.6, 0]$.
 
-The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) works through in full.
+The next layer repeats the same three steps on $[0.6, 0]$ with its own weights and biases. A whole network is this chain of matrix products and vector additions, which the [**forward propagation**](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797) works through in full.
 
 ![One layer of a neural network on one iris flower: the input vector times the weight matrix, plus the bias vector, then ReLU. Worked example after StatQuest, "Essential Matrix Algebra for Neural Networks", with our own numbers.](images/network_as_matrices.png){width=95%}
 
@@ -108,7 +108,7 @@ Figure 5 shows what each module looks like once we study it; the subsection numb
 
 > **Key point:** A scalar is a plain number.
 
-**Scalars** (G-1743) are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices) place them as 0D tensors. They need no separate study.
+[**Scalars**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) are ordinary numbers such as 2, 5 or -6, and the arithmetic on them. [Tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices) place them as 0D tensors. They need no separate study.
 
 ### 4.2 Vectors
 
@@ -134,21 +134,21 @@ Each **observation** (G-1374; one record, one row of the data table) is a vector
 
 The first part is the mechanics taught in school mathematics (classes 11 and 12): what matrices are, types of matrices, operations with a scalar and with a vector, the inverse and the determinant.
 
-The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. **Linear transformations** (G-1097) are marked very important.
+The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. [**Linear transformations**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) are marked very important.
 
-So far, the inverse appears in the [normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) of linear regression, and the idea of a matrix as a transformation in [PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation). Linear transformations are taught in [what makes a transformation linear](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear), matrix multiplication in [composition](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another), and the determinant in [eigenvectors and eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero).
+So far, the inverse appears in the [**normal equation**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344) of linear regression, and the idea of a matrix as a transformation in [PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation). Linear transformations are taught in [what makes a transformation linear](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear), matrix multiplication in [**composition**](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another) (G-431), and the determinant in [eigenvectors and eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero).
 
 ### 4.4 Tensors
 
 > **Key point:** Tensors are super important for deep learning, and for representing any kind of data.
 
-What a **tensor** (G-1957) is, and how tables, text, images and videos become tensors, is taught in [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is).
+What a [**tensor**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) is, and how tables, text, images and videos become tensors, is taught in [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is).
 
 ### 4.5 Eigenvalues and eigenvectors
 
 > **Key point:** Eigenvectors are the directions a matrix only stretches; PCA is built on them.
 
-Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** (G-666). They are taught in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues), and in depth in [eigenvectors stay on their own span](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
+Anyone who has studied PCA has met [**eigenvalues**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) and [**eigenvectors**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666). They are taught in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues), and in depth in [eigenvectors stay on their own span](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 
 ### 4.6 Matrix factorisation
 
@@ -162,8 +162,8 @@ Anyone who has studied PCA has met **eigenvalues** (G-665) and **eigenvectors** 
 
 > **Key point:** Quadratic forms and the pseudo-inverse are needed only by particular algorithms, so they can wait.
 
-- **Quadratic forms** (G-1597) are used heavily when solving SVMs (see [the optimisation problem of an SVM](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#6-the-optimisation-problem)).
-- The **Moore-Penrose pseudo-inverse** (G-1262) gives an inverse for matrices that are not square, or that have no ordinary inverse. The [cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) in linear regression shows why libraries need it.
+- [**Quadratic forms**](../../07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#31-the-problem) (G-1597) are used heavily when solving SVMs (see [the optimisation problem of an SVM](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#6-the-optimisation-problem)).
+- The [**Moore-Penrose pseudo-inverse**](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#51-inverting-the-svd) (G-1262) gives an inverse for matrices that are not square, or that have no ordinary inverse. The [cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) in linear regression shows why libraries need it.
 
 Both come in a later maths Note.
 
@@ -261,9 +261,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
 | [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
+| [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
 | [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |

@@ -30,13 +30,13 @@ We met this curve in [the density plot](../../../ML/02-getting-data/ML-019-univa
 - why the height is a density, and what a PDF is (sections 4 and 5);
 - the CDF of a continuous variable, and its link to the PDF (sections 7 and 8).
 
-How the curve is estimated from data is the topic of [density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is).
+How the curve is estimated from data is the topic of [**density estimation**](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586).
 
 ## 2. The probability of one exact value is 0
 
 > **Key point:** A continuous variable has infinitely many possible values, so the probability of any one exact value is 0; probabilities only exist for ranges.
 
-The curve in Figure 1 describes the CGPAs of students, a **continuous random variable** (G-466): it can take any value from 0 to 10, with every decimal in between (see [discrete and continuous random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables)). The curve peaks at a CGPA of 7.5, where its height is 0.280. Is 0.280 the probability that a student's CGPA is exactly 7.5? It is tempting to read it that way, as we read a bar chart of a PMF (probability mass function: the bar chart of a discrete variable, whose bar heights are probabilities; see [the probability mass function](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function)). The answer is no.
+The curve in Figure 1 describes the CGPAs of students, a [**continuous random variable**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-466): it can take any value from 0 to 10, with every decimal in between (see [discrete and continuous random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables)). The curve peaks at a CGPA of 7.5, where its height is 0.280. Is 0.280 the probability that a student's CGPA is exactly 7.5? It is tempting to read it that way, as we read a bar chart of a PMF (probability mass function: the bar chart of a discrete variable, whose bar heights are probabilities; see [the probability mass function](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function)). The answer is no.
 
 Pick one student and ask the probability that their CGPA is exactly 7.912. Not 7.9121, not 7.91199: exactly 7.912, to the last of infinitely many decimals. Between 0 and 10 there are infinitely many possible values. Spreading a total probability of 1 over infinitely many values leaves 0 for each one:
 
@@ -119,7 +119,7 @@ The x axis works as for a PMF: it holds the values of the variable. The differen
 | y axis | probability | probability density |
 | Probability of a range | sum of the bar heights | area under the curve |
 
-The second row is the one to remember. On a PMF we read probabilities straight off the graph. On a PDF the height is a density. Figure 5 puts the two side by side: bars we can read as probabilities, and a curve whose height we cannot. The [density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) already met this: its curve's height is a density, and probability is the area under it.
+The second row is the one to remember. On a PMF we read probabilities straight off the graph. On a PDF the height is a density. Figure 5 puts the two side by side: bars we can read as probabilities, and a curve whose height we cannot. The [**density plot**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-587) already met this: its curve's height is a density, and probability is the area under it.
 
 ![A PMF (sum of two dice, left) and a PDF (CGPA, right): the bar heights are probabilities, the curve's height is a density](images/pmf_vs_pdf.png)
 
@@ -150,15 +150,15 @@ The density histogram of Figure 1 rests on the same idea. A density bar has heig
 
 The famous continuous distributions of [the list of famous distributions](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions) (Figure 6) each have a PDF formula:
 
-- **Normal distribution** (G-1343): parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in [Gaussian Naive Bayes](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#4-the-numbers), is
+- [**Normal distribution**](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343): parameters $\mu$ (mean, location) and $\sigma$ (standard deviation, scale). Much natural data follows it. Its PDF, worked through in [**Gaussian Naive Bayes**](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#4-the-numbers) (G-830), is
   $$f(x) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{1}{2}\left(\frac{x-\mu}{\sigma}\right)^2}$$
   where $\pi \approx 3.14$ and $e \approx 2.718$. For $\mu = 0$ and $\sigma = 1$ at $x = 0$, the exponent is 0 and $e^0 = 1$:
   $$f(0) = \frac{1}{\sqrt{2\pi}}$$
   $$= 0.399$$
   This is the peak of the normal curve in Figure 6, left.
-- **Log-normal distribution** (G-1115): takes only positive values, with a hump near the left and a long right tail (Figure 6, middle). A variable $X$ is log-normal when its logarithm is normal: take a normal $Z$ and set $X = e^Z$. For example, $Z = 0$ gives $X = 1$ and $Z = -1$ gives $X = 0.37$; any $Z$ gives a positive $X$. Its parameters are also $\mu$ and $\sigma$, those of the normal $Z = \log X$ (SciPy `lognorm` docs).
+- [**Log-normal distribution**](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution) (G-1115): takes only positive values, with a hump near the left and a long right tail (Figure 6, middle). A variable $X$ is log-normal when its logarithm is normal: take a normal $Z$ and set $X = e^Z$. For example, $Z = 0$ gives $X = 1$ and $Z = -1$ gives $X = 0.37$; any $Z$ gives a positive $X$. Its parameters are also $\mu$ and $\sigma$, those of the normal $Z = \log X$ (SciPy `lognorm` docs).
 
-The **Poisson distribution** (G-1509), with parameter $\lambda$, is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later. Figure 6 shows one member of each family, with parameters picked only for illustration: two smooth curves, and one set of bars.
+The [**Poisson distribution**](../MA-032-poisson-distribution/MA-032-poisson-distribution.md#21-counts-in-an-interval) (G-1509), with parameter $\lambda$, is often listed beside them, but it counts events (0, 1, 2, ...), so it is discrete and has a PMF, not a PDF. SciPy, for example, gives `poisson` a `pmf` and no `pdf`. Each of these distributions gets its own Note later. Figure 6 shows one member of each family, with parameters picked only for illustration: two smooth curves, and one set of bars.
 
 ![Normal (mean 0, standard deviation 1) and log-normal (μ = 0, σ = 0.5) PDFs, and the Poisson PMF with λ = 3](images/famous_pdfs.png)
 
@@ -219,7 +219,7 @@ The two curves of Figure 7 carry the same information:
 2. **Formula:**
    $$f(x) = \frac{dF(x)}{dx}$$
    $$\frac{dF(x)}{dx} \approx \frac{F(x + 0.5) - F(x - 0.5)}{1}$$
-   The term $dF(x)/dx$ is the **derivative** (G-595), the exact slope of the CDF at $x$. The last fraction measures the rise of the CDF over a step of 1 around $x$.
+   The term $dF(x)/dx$ is the [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595), the exact slope of the CDF at $x$. The last fraction measures the rise of the CDF over a step of 1 around $x$.
 3. **Example:** for the heights at 165,
    $$\frac{F(165.5) - F(164.5)}{1} = 0.0399 = f(165)$$
    At 150 the same rise is 0.0130, and $f(150) = 0.0130$: the CDF is flatter there, and the PDF lower.
@@ -228,7 +228,7 @@ Figure 8 slides a tangent line along the heights CDF. Watch its slope, printed i
 
 ![A tangent slides along the CDF of heights; its slope traces out the PDF below](images/slope_is_pdf.gif){height=45%}
 
-Calculus is not needed to use these ideas: libraries compute both functions. The link returns later: the [z-table](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) is a table of areas under the normal PDF, that is, of its CDF.
+Calculus is not needed to use these ideas: libraries compute both functions. The link returns later: the [**z-table**](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (G-2142) is a table of areas under the normal PDF, that is, of its CDF.
 
 ## 9. Summary
 
@@ -269,10 +269,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Probability density function (PDF) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | Differentiation (G-608) | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. |
 | $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. |
+| [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586) | Working out, from observed data, how likely each value of a random variable is: estimating its probability density function (PDF). |
 | [Continuous random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-466) | A random variable that can take any value in a range, such as a CGPA. |
+| [Density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-587) | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Gaussian Naive Bayes](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#1-overview) (G-830) | Naive Bayes that models each numerical input as normally distributed within each class. |
 | [Log-normal distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#3-the-log-normal-distribution) (G-1115) | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
 | [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#21-counts-in-an-interval) (G-1509) | A distribution that gives the probability of each possible count of events (0, 1, 2, ...) in a fixed interval of time or space, from the average count $\lambda$; used for counts such as questions per day. |
 | [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
 | [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (G-2142) | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |

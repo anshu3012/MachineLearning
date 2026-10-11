@@ -44,13 +44,13 @@ Picture the flats of [feature extraction](../ML-046-pca-geometric-intuition/ML-0
 
 > **Key point:** The shadow of a point $x$ on a line with direction $u$ is a single number, found by a dot product.
 
-Take data with two **features** (G-772) (input variables, the columns of the data table); each data point is one **observation** (G-1374) (one row). Each point has an $x$ and a $y$ value, so we can treat it as a **vector** (G-2081), an arrow from the origin to the point.
+Take data with two [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, the columns of the data table); each data point is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one row). Each point has an $x$ and a $y$ value, so we can treat it as a [**vector**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081), an arrow from the origin to the point.
 
 We want to project the point onto some line through the origin. Only the line's direction matters, not its length, so we describe it by a **unit vector** (G-2048) $u$: a vector of length 1 pointing along the line. Figure 1 shows a point $x$, a unit vector $u$, and the shadow of $x$ on the line.
 
 ![Projecting a point onto a unit vector](images/projection.png)
 
-In words: the length of the shadow is the **dot product** (G-634) of $u$ and $x$ (multiply matching components, then add the products), divided by the length of $u$. Since $u$ has length 1, the division disappears. The compact way to write the dot product is $u^{\mathsf T}x$: the **transpose** (G-2012) $u^{\mathsf T}$ is $u$ written as a row, and a row times a column is the dot product.
+In words: the length of the shadow is the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of $u$ and $x$ (multiply matching components, then add the products), divided by the length of $u$. Since $u$ has length 1, the division disappears. The compact way to write the dot product is $u^{\mathsf T}x$: the [**transpose**](../../06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) $u^{\mathsf T}$ is $u$ written as a row, and a row times a column is the dot product.
 
 $$\text{shadow length} = \frac{u \cdot x}{\lVert u \rVert} = u^{\mathsf T}x$$
 
@@ -187,7 +187,7 @@ Both features have variance 1.33, and their large positive covariance, 1.28, say
 
 > **Key point:** Multiplying by a matrix moves every point of the plane: it can rotate, stretch, squash or shear the whole grid.
 
-Think of a matrix as an action on the whole plane. Every point, seen as a vector, is multiplied by the matrix and lands somewhere new. Straight grid lines stay straight and evenly spaced, but the grid can be turned, stretched or slanted. Such a change is called a **linear transformation** (G-1097).
+Think of a matrix as an action on the whole plane. Every point, seen as a vector, is multiplied by the matrix and lands somewhere new. Straight grid lines stay straight and evenly spaced, but the grid can be turned, stretched or slanted. Such a change is called a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097).
 
 The **identity matrix** (G-915) $\begin{pmatrix} 1 & 0 \cr0 & 1 \end{pmatrix}$ leaves every vector where it was. Any other matrix moves vectors.
 
@@ -270,7 +270,7 @@ Figure 7 summarises the whole method, with the shapes for data of 40 observation
 
 ![PCA step by step](images/pca_steps.png)
 
-1. **Mean centring** (G-1195). Subtract each feature's mean, so the data is centred on the origin.
+1. [**Mean centring**](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195). Subtract each feature's mean, so the data is centred on the origin.
 2. **Covariance matrix.** Compute it from the centred data: $3 \times 3$ for 3 features.
 3. **Eigen-decomposition** (G-663). Find the eigenvalues and eigenvectors of the covariance matrix: 3 of each for 3 features.
 4. **Keep the top $k$.** Sort the eigenvectors by eigenvalue, largest first. Keep the first $k$ as the rows of a matrix $W$ ($k \times 3$). Choosing $k = 2$ goes from 3D to 2D; $k = 1$ goes to 1D.
@@ -301,7 +301,7 @@ $$\text{PC2} = -0.69 - 0.02 + 0 = -0.71$$
 
 So the three numbers $(1, 2, 0)$ become the two numbers $(1.86, -0.71)$: one row of $Z$. The matrix product repeats this for all 40 rows.
 
-For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The **target** (G-1949) (the output we predict), if there is one, is copied across unchanged: PCA only transforms the inputs.
+For 1D instead, $W$ has one row, $W^{\mathsf T}$ is $3 \times 1$ and $Z$ is $40 \times 1$. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict), if there is one, is copied across unchanged: PCA only transforms the inputs.
 
 > **Extra:** Mean centring matters for the projection, not for the components. `np.cov` centres the data internally, so the covariance matrix and the principal components are the same either way. The projection $XW^{\mathsf T}$, though, only gives centred coordinates if $X$ itself was centred. scikit-learn's `PCA` always centres for us.
 
@@ -384,7 +384,7 @@ PC1 holds 44% of the total variance and PC2 31%, so the 2D picture keeps 75% of 
 
 > **Key point:** An eigenvector is a recipe: how much of each original feature goes into the new one. An eigenvalue divided by the sum of all eigenvalues is the share of the variance that component keeps.
 
-**The recipe.** Each new feature is a weighted sum of the old ones, a **linear combination** (G-1091), and the weights are the entries of the eigenvector. These weights are called **loadings** (G-2204) (or loading scores).
+**The recipe.** Each new feature is a weighted sum of the old ones, a [**linear combination**](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091), and the weights are the entries of the eigenvector. These weights are called **loadings** (G-2204) (or loading scores).
 
 1. **Flats.** PC1 is $(0.707, 0.707)$, so the position of a flat along PC1 is $0.707 \times \text{rooms} + 0.707 \times \text{washrooms}$ (after centring). The recipe uses equal parts of both features: PC1 is a "size of the flat" feature.
 2. **The 3-feature example.** PC1 is $(0.54, 0.66, 0.53)$ (NumPy prints it with every sign flipped, which is the same line), so all three features go in with about the same weight. PC2 is $(-0.69, -0.01, 0.72)$: feature 3 minus feature 1, with almost nothing of feature 2.

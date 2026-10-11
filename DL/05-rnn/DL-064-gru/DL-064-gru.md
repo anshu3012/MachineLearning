@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/gru]
 
 > **Key point:** A gated recurrent unit (GRU) is a simpler cousin of the LSTM. A GRU keeps a single memory, the hidden state, and controls it with two gates instead of three: a reset gate and an update gate. A GRU has fewer parameters than an LSTM and performs comparably.
 
-A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple **recurrent neural network** (G-1647) (RNN) and the **LSTM** (G-1123). The simple RNN cannot keep long-term context, because of the **vanishing gradient** (G-2070) and exploding gradients: the training signal for early words shrinks towards zero or blows up as it is passed back through many time steps (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes) and [the vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time)). The [LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
+A **gated recurrent unit** (G-826) (**GRU**; Cho et al. 2014) is an RNN architecture for sequential data, like the simple [**recurrent neural network**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) (RNN) and the [**LSTM**](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123). The simple RNN cannot keep long-term context, because of the [**vanishing gradient**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) and exploding gradients: the training signal for early words shrinks towards zero or blows up as it is passed back through many time steps (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes) and [the vanishing gradient through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time)). The [LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (1997) solved that problem with two memories and three gates. The GRU (2014) asks how much of that machinery is really needed.
 
 ![The GRU cell. The red line is the hidden state, the only memory. The reset gate (purple) decides how much of the old memory is used to build a candidate; the update gate (orange) decides, entry by entry, how much of the old memory to keep and how much of the candidate (blue) to take in. Boxes are neural network layers; circles are pointwise operations](images/gru_cell.png){width=100%}
 
@@ -41,7 +41,7 @@ Figure 1 is the whole cell. This Note covers:
 
 > **Key point:** The LSTM works, but its cell is complex and has many parameters, so it trains slowly on large datasets. The GRU has a simpler cell, fewer parameters and comparable performance.
 
-The LSTM keeps long-term and short-term context on two separate paths and uses three gates (forget, input and output) to control them. The LSTM has many **parameters** (G-1450), the weights and biases that training has to learn, and they are its weakness: more parameters mean more computation, so training takes longer, especially on large datasets.
+The LSTM keeps long-term and short-term context on two separate paths and uses three gates (forget, input and output) to control them. The LSTM has many [**parameters**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450), the weights and biases that training has to learn, and they are its weakness: more parameters mean more computation, so training takes longer, especially on large datasets.
 
 The GRU offers a simpler cell:
 
@@ -62,9 +62,9 @@ In Figure 2, compare the top two curves at any width: the GRU line stays at abou
 
 > **Key point:** The GRU drops the separate cell state. A single hidden state carries both long-term and short-term context, and two gates manipulate it: the reset gate and the update gate.
 
-The big idea of the LSTM was to keep the **short-term context** (G-1793) (what is happening right now) and the **long-term context** (G-1124) (what matters for the whole sequence) apart, on the hidden state and the **cell state** (G-361). The GRU says that two states are not needed. Its single **hidden state** (G-891) $h_t$ carries both the long-term and the short-term context from one time step to the next.
+The big idea of the LSTM was to keep the [**short-term context**](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context) (G-1793) (what is happening right now) and the [**long-term context**](../DL-061-lstm/DL-061-lstm.md#4-how-we-read-a-story-two-kinds-of-context) (G-1124) (what matters for the whole sequence) apart, on the hidden state and the [**cell state**](../DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm) (G-361). The GRU says that two states are not needed. Its single [**hidden state**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) $h_t$ carries both the long-term and the short-term context from one time step to the next.
 
-A **gate** (G-825) is a vector of numbers between 0 and 1 that multiplies another vector entry by entry: 0 blocks an entry, 1 lets it through. Two gates control how the hidden state changes:
+A [**gate**](../DL-061-lstm/DL-061-lstm.md#8-the-three-gates-in-one-line-each) (G-825) is a vector of numbers between 0 and 1 that multiplies another vector entry by entry: 0 blocks an entry, 1 lets it through. Two gates control how the hidden state changes:
 
 - the **reset gate** (G-1679) $r_t$;
 - the **update gate** (G-2060) $z_t$.
@@ -94,19 +94,19 @@ The parts are the same kinds of things as in [the LSTM cell](../DL-062-lstm-arch
 | $z_t$ | update gate |
 | $\tilde h_t$ | **candidate hidden state** (G-343) |
 
-All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by **one-hot encoding** (G-1379) as in [words become vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#31-words-become-vectors).
+All six are vectors. If $h_{t-1}$ has 4 numbers, so do $h_t$, $r_t$, $z_t$ and $\tilde h_t$. The input $x_t$ can have any length: it is the current word (or sentence) turned into a vector, for example by [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) as in [words become vectors](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#31-words-become-vectors).
 
 ### 5.2 The layers
 
 > **Key point:** The three boxes are fully connected layers, two with sigmoid and one with tanh. All three have the same number of units, a hyperparameter, and that number is the length of every vector above.
 
-Each box in Figure 1 is a **fully connected (dense) layer** (G-583). The two gate layers use the **sigmoid function** (G-1798), whose output lies between 0 and 1, so it can act as a gate. The candidate layer uses **tanh** (G-1947), whose output lies between $-1$ and 1. The number of nodes, the **units** (G-2049), is a **hyperparameter** (G-910) we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
+Each box in Figure 1 is a [**fully connected (dense) layer**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583). The two gate layers use the [**sigmoid function**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798), whose output lies between 0 and 1, so it can act as a gate. The candidate layer uses [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947), whose output lies between $-1$ and 1. The number of nodes, the [**units**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#41-cell-state-and-hidden-state-are-vectors-of-the-same-length) (G-2049), is a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) we choose, and all three layers have the same number. With 5 units, every vector of section 5.1 except $x_t$ has 5 numbers.
 
 ### 5.3 The pointwise operations
 
 > **Key point:** $\times$, $+$ and $1-$ act element by element.
 
-A **pointwise operation** (G-1508) works on two vectors of the same length, one pair of entries at a time. Take $a = [0.5, 0.2, 1]$ and $b = [0.4, 3, 2]$. The pointwise product $a \odot b$ multiplies matching entries:
+A [**pointwise operation**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#44-pointwise-operations) (G-1508) works on two vectors of the same length, one pair of entries at a time. Take $a = [0.5, 0.2, 1]$ and $b = [0.4, 3, 2]$. The pointwise product $a \odot b$ multiplies matching entries:
 
 $$a \odot b = [0.5 \times 0.4,\ 0.2 \times 3,\ 1 \times 2]$$
 $$a \odot b = [0.2,\ 0.6,\ 2]$$
@@ -173,7 +173,7 @@ The four computation steps, in order:
 
 > **Key point:** One time step is four small computations in a fixed order: a gate that resets the old memory, a candidate memory, a gate that sets the balance, and the blend of old memory and candidate. Each step is one layer or one pointwise operation.
 
-We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t): row vectors, and the **concatenation** (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
+We use the notation of [the forget gate of the LSTM](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t): row vectors, and the [**concatenation**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436) $[h_{t-1}, x_t]$ for the two vectors joined end to end.
 
 ![The four steps on the cell of Figure 1, for sentence 4 of the story. Each frame lights up the part of the cell that one step uses and writes the step's result on its wire](images/cell_steps.gif){width=100%}
 
@@ -327,14 +327,14 @@ Keras counts 96 for `GRU(4, reset_after=False)` and 128 for `LSTM(4)`. Its defau
 
 > **Key point:** On IMDB movie reviews, a GRU of 32 units reaches the same test accuracy as an LSTM of 32 units, 0.851 against 0.852, with 6,336 parameters instead of 8,320: about three quarters.
 
-We train both on the same sentiment task. Each **observation** (G-1374) (one record) is a real movie review from the IMDB dataset, and the **target** (G-1949) (the output we predict) is its sentiment, positive or negative. The setup:
+We train both on the same sentiment task. Each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record) is a real movie review from the IMDB dataset, and the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is its sentiment, positive or negative. The setup:
 
 - all 25,000 training reviews, 5,000 test reviews, the 10,000 most frequent words;
 - the last 200 words of each review (shorter reviews are padded in front), so every sequence has 200 time steps;
-- an embedding of 32 numbers per word (see [word embeddings](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)), a recurrent layer of 32 units, a sigmoid output;
+- an embedding of 32 numbers per word (see [**word embeddings**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127)), a recurrent layer of 32 units, a sigmoid output;
 - Adam (a version of gradient descent), 4 epochs (4 passes over the training reviews), batch size 64 (64 reviews per weight update), 5 seeds per model (5 runs from different random starting weights).
 
-Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`. We compare the two by test **accuracy** (G-162), the share of test reviews classified correctly.
+Only the recurrent layer changes: `LSTM(32)` or `GRU(32)`. We compare the two by test [**accuracy**](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162), the share of test reviews classified correctly.
 
 ![Test accuracy on IMDB reviews after each epoch, LSTM (blue) and GRU (orange). Thin lines: 5 runs each; thick lines: their mean. The single runs of the two models overlap; the means differ most at epoch 2 (GRU 0.838, LSTM 0.859) and meet at epoch 4](images/gru_vs_lstm.png){width=100%}
 
@@ -423,4 +423,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |

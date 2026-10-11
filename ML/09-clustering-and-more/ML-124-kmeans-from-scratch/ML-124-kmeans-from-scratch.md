@@ -27,7 +27,7 @@ The class is in `kmeans.py` in this Note's folder; running `python kmeans.py` ch
 ## 2. Prerequisites
 
 - [The five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) and [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102; the total squared distance from each point to its cluster's centroid).
-- `KMeans` in scikit-learn ([training k-means](../ML-123-kmeans-code/ML-123-kmeans-code.md#5-training-k-means-with-k--4)), the student data and [boolean indexing](../ML-123-kmeans-code/ML-123-kmeans-code.md#6-plotting-the-clusters-with-boolean-indexing).
+- `KMeans` in scikit-learn ([training k-means](../ML-123-kmeans-code/ML-123-kmeans-code.md#5-training-k-means-with-k--4)), the student data and [**boolean indexing**](../ML-123-kmeans-code/ML-123-kmeans-code.md#6-plotting-the-clusters-with-boolean-indexing) (G-317).
 
 ## 3. The shape of the class
 
@@ -307,6 +307,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | np.argmin (G-1354) | NumPy function returning the position of the smallest value. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
 | [WCSS (inertia)](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
+| [Boolean indexing](../../../ML/09-clustering-and-more/ML-123-kmeans-code/ML-123-kmeans-code.md#6-plotting-the-clusters-with-boolean-indexing) (G-317) | Selecting rows with an array of True/False values, e.g. `X[y_means == 0]`. |
 | [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |

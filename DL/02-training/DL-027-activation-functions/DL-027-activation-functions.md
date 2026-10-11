@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/activation-f
 
 > **Key point:** An activation function is the non-linear step inside every node. Without it a deep network is only a linear model. Sigmoid and tanh squash their input and slow deep networks down; ReLU does not squash positive values and is the default for hidden layers today.
 
-Every node of a neural network computes a **weighted sum** (G-2119) $z$ of its inputs plus a **bias** (G-287), then passes $z$ through a function. This function, the **activation function** (G-165), decides how strongly the node "fires". This Note answers three questions:
+Every node of a neural network computes a [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) $z$ of its inputs plus a [**bias**](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287), then passes $z$ through a function. This function, the [**activation function**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165), decides how strongly the node "fires". This Note answers three questions:
 
 - **Why** a network needs a non-linear activation at all.
 - **What** makes an activation function good: five properties.
@@ -59,7 +59,7 @@ A worked case: weights $w_1 = 2$ and $w_2 = -1$, bias $b_1 = 0.5$, inputs $x_1 =
 $$z = 2 \times 3 + (-1) \times 1 + 0.5 = 5.5$$
 $$a = g(5.5) = \frac{1}{1 + e^{-5.5}} = 0.996$$
 
-We can picture $g$ as a gate between what flows into a node and what flows out. The gate decides whether the node is activated and, if so, how strongly. The **sigmoid** (G-1798) and the [softmax](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function) (G-1830) are two activation functions already met; this Note adds **tanh** (G-1947) and **ReLU** (G-1668).
+We can picture $g$ as a gate between what flows into a node and what flows out. The gate decides whether the node is activated and, if so, how strongly. The [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) and the [softmax](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function) (G-1830) are two activation functions already met; this Note adds **tanh** (G-1947) and **ReLU** (G-1668).
 
 ## 4. Why a network needs a non-linear activation
 
@@ -85,7 +85,7 @@ The output node is a sigmoid in both, because this is binary classification.
 
 In Figure 2, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the decision boundary, where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
 
-Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% training accuracy, which is exactly guessing: its **decision boundary** (G-555), the line between the regions given to each class, can only be straight, and the best straight one is useless here. The ReLU network ends at 100%, with a decision boundary that bends around the inner ring.
+Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% training accuracy, which is exactly guessing: its [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line between the regions given to each class, can only be straight, and the best straight one is useless here. The ReLU network ends at 100%, with a decision boundary that bends around the inner ring.
 
 > **Python:** The only difference between the two models is one argument.
 >
@@ -125,7 +125,7 @@ The relationship between $z$ and $g(z)$ must not be a straight line, as section 
 
 > **Key point:** Gradient descent needs the derivative of the activation at every step, so it must exist.
 
-**Backpropagation** (G-247) multiplies the activation's **derivative** (G-595) into every **gradient** (G-863) (see [backpropagation in code](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops)). Without a derivative there is no gradient, no update and no training.
+[**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) multiplies the activation's [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) into every [**gradient**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) (see [backpropagation in code](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops)). Without a derivative there is no gradient, no update and no training.
 
 The property is important but not strict. ReLU has no derivative at exactly $z = 0$ and is still the most used activation (section 8.2 explains how this is handled).
 
@@ -147,7 +147,7 @@ Functions built from a simple comparison are faster than those built from expone
 
 > **Key point:** Outputs with mean about 0, some positive and some negative, act like normalised inputs to the next layer and make training converge faster.
 
-A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
+A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
 
 Figures 3 and 4 show the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same **learning rate** (the size of each step), 2.5.
 
@@ -223,7 +223,7 @@ Saturation is the main reason the sigmoid has disappeared from hidden layers (Go
 
 $$z_{31} = w_{21}\thinspace a_{21} + w_{22}\thinspace a_{22} + b_{31}$$
 
-1. **In words:** by the **chain rule** (G-371), the gradient of each weight is a factor shared by both, times that weight's input.
+1. **In words:** by the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), the gradient of each weight is a factor shared by both, times that weight's input.
 2. **Formula:** with the shared factor (called $\delta$) equal to the product of two slopes,
    $$\delta = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_{31}}$$
    $$\frac{\partial L}{\partial w_{21}} = \delta \cdot a_{21}$$
@@ -316,7 +316,7 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 ![Two ReLUs (dotted) and their difference (green): flat, rising, flat. No straight line has two corners](images/relu_bend.png){width=80%}
 
-Figure 7 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is **piecewise linear** (G-1496).
+Figure 7 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is [**piecewise linear**](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-1496).
 
 **How the bends fit data.** A network makes the same move with its own weights. Take a drug that works at a medium dosage and fails at a low and a high one: three observations, dosage 0, 0.5 and 1, with targets 0, 1 and 0. A network with two ReLU hidden nodes and a final ReLU on the output node fits them in six steps, one per frame of Figure 8:
 
@@ -353,7 +353,7 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 
 **2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../DL-031-batch-normalization/DL-031-batch-normalization.md#3-why-normalise-inside-the-network) (G-266) addresses this: it normalises the values passed between layers.
 
-**3. The dying ReLU problem** (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see [using ReLU against vanishing gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#62-use-relu)). The causes and the fixes are in the [ReLU variants](../DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem). [GELU and SiLU](../DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu) are smooth versions of ReLU used in transformers.
+[**3. The dying ReLU problem**](../DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see [using ReLU against vanishing gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#62-use-relu)). The causes and the fixes are in the [ReLU variants](../DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem). [GELU and SiLU](../DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu) are smooth versions of ReLU used in transformers.
 
 > **Python:** Choosing activations in Keras.
 >
@@ -429,6 +429,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Piecewise linear](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-1496) | Made of straight segments joined at bends; the shape of a ReLU network's decision boundary. |

@@ -61,7 +61,7 @@ This effect is known as the **unreasonable effectiveness of data** (G-2055). The
 
 > **Key point:** Inputs are easy to collect; the correct answers usually need a human.
 
-For **supervised learning** (G-1919), every **observation** (G-1374; one record, one row of the data table) needs its correct output, the **target** (G-1949), also called its **label** (G-1032). Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
+For [**supervised learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919), every **observation** (G-1374; one record, one row of the data table) needs its correct output, the [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), also called its [**label**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032). Collecting inputs is often easy: we can download thousands of images in minutes. But someone still has to look at each image and write down whether it shows a cat or a dog.
 
 So even with plenty of data, we may not have enough **labelled** data.
 
@@ -139,7 +139,7 @@ Data often contains **features** (G-772; input variables, one column each in the
 
 ![Dropping an irrelevant feature and combining two others](images/feature_selection.png)
 
-Figure 8 shows the result. Choosing, removing and creating features like this is called **feature engineering** (G-761). Deciding which features to keep is hard, and gets easier with experience.
+Figure 8 shows the result. Choosing, removing and creating features like this is called [**feature engineering**](../ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761). Deciding which features to keep is hard, and gets easier with experience.
 
 ## 7. Overfitting and underfitting
 
@@ -153,7 +153,7 @@ Figure 8 shows the result. Choosing, removing and creating features like this is
 
 People overfit too. Someone moves to Gurgaon, pays 500 rupees for one movie ticket, and concludes that *everything* in Gurgaon is expensive. One example was turned into a general rule.
 
-Two words need a plain meaning before the figures: **degree** (G-577), the model's complexity, and **error**.
+Two words need a plain meaning before the figures: [**degree**](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#4-choosing-the-degree) (G-577), the model's complexity, and **error**.
 
 *Degree.* The model here is a curve whose shape we can bend. A curve of degree 1 is a straight line. Degree 2 adds a bend (a parabola), degree 3 allows two bends, and each step up allows one more bend, so the curve can follow the points more closely. A curve of degree 11 has 12 adjustable numbers, as many as the 12 training points, so it can pass exactly through every one of them. The degree is the highest power of the input the curve uses; more degree means more freedom to bend. [Adding powers as new features](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) builds these curves.
 
@@ -183,7 +183,7 @@ Why does a perfect score on the training data go with a bad score on new data? F
 
 ![Training error and new-data error as the model gets more complex. Left: blue dots are the 12 training points, orange diamonds are 12 of the 300 new points, and each orange segment is one new point's error. Right: both errors for every degree so far. Idea after StatQuest, "Machine Learning Fundamentals: Bias and Variance".](images/train_test_error.gif)
 
-1. **The two kinds of data.** The curve is fitted to the blue points only: the **training set** (G-2002). The orange points are new: the model never saw them. They play the role of a **test set** (G-1962). In a real project we make this split ourselves: we hide part of the data from the model during training and use it afterwards to check the model's answers, a **train-test split** ([training and test sets](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)).
+1. **The two kinds of data.** The curve is fitted to the blue points only: the [**training set**](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002). The orange points are new: the model never saw them. They play the role of a [**test set**](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962). In a real project we make this split ourselves: we hide part of the data from the model during training and use it afterwards to check the model's answers, a **train-test split** ([training and test sets](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)).
 2. **Training error only falls.** Each extra degree lets the curve bend closer to the blue points: 0.47 at degree 1, 0.21 at degree 3, 0.00 at degree 11.
 3. **New-data error falls, then rises.** The error on the orange points starts at 0.55 at degree 1, rises slightly to 0.57 at degree 2, falls to 0.32 at degree 3, stays near 0.30 up to degree 6, then climbs, unevenly, to 0.67 at degree 11. The two wobbles are not part of the lesson. Degree 2 has one bend and the wave needs two, so the parabola fits the training points hardly better than the line (training error 0.47 against 0.45), and the new-data error moves by only 0.02. Above degree 7, each curve swings differently in the gaps between only 12 points, so the new-data error jumps up and down (0.54 at degree 9, 0.38 at degree 10) while its trend is up.
 4. **What went wrong.** To pass through every blue point, the degree-11 curve must swing far between them. The orange segments show the cost: new points that fall between the blue ones are far from the curve.
@@ -225,12 +225,12 @@ Getting one model to work reliably on all of these is hard. Still, a model only 
 
 > **Key point:** Keeping a model updated in production is hard, whether we retrain it in batches or let it learn online.
 
-As covered in [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#4-keeping-a-batch-model-up-to-date) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is):
+As covered in [**batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#4-keeping-a-batch-model-up-to-date) (G-265) and [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is) (G-1391):
 
 - **Batch learning:** to update the model, we take it offline, retrain it on all the data, and upload it again, over and over.
 - **Online learning:** the model updates itself on the server, which is harder to build and riskier to run.
 
-**Deployment** (G-592), putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
+[**Deployment**](../ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592), putting a model on a server for users, is itself difficult. Cloud providers such as AWS (Amazon), Google Cloud and Microsoft Azure offer services for it, but they are not yet as smooth as the tools for ordinary software. Monitoring a live model and fixing it in real time still takes a lot of effort.
 
 ## 10. Cost
 
@@ -321,6 +321,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
 | [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
 | [Integration](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
+| [Batch learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265) | Training on the whole dataset at once, offline, then deploying. |
+| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |
 | [Deployment (deploy, model deployment)](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592) | Moving a model from development to production: putting it on a server so users can reach it. |
 | [Server](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
 | [Data pipeline](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) (G-538) | A channel that carries data from one place to another, such as an API that passes a company's data to our program. |

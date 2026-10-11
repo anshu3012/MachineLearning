@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 
 > **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
-The [deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) already placed **deep learning (DL)** (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
+The [deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) already placed [**deep learning (DL)**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
 1. What a neural network looks like, and the technical definition of DL built on **representation learning** (G-1670).
 2. Five practical differences between DL and ML.
@@ -37,7 +37,7 @@ Figure 1 shows the idea that runs through this Note: in DL the features come fro
 
 > **Key point:** ML finds the input-output relationship with statistical techniques; DL finds it with a neural network.
 
-Both ML and DL do the same job: in **supervised learning** (G-1919; learning from examples that come with the right answer), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a **neural network** (G-1316), a structure of simple connected units loosely inspired by the brain (see [neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
+Both ML and DL do the same job: in **supervised learning** (G-1919; learning from examples that come with the right answer), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a [**neural network**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316), a structure of simple connected units loosely inspired by the brain (see [neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
 
 The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [perceptron](../DL-004-perceptron/DL-004-perceptron.md#5-perceptron-and-biological-neuron) shows.
 
@@ -49,18 +49,18 @@ The reasoning behind the brain as a model is simple: to build intelligent machin
 
 Figure 2 shows the simplest kind of network, the **artificial neural network (ANN)** (G-216):
 
-- Each circle is a **neuron** (G-1317), also called a **perceptron** (G-1486): the network's basic unit.
-- Each line connecting two neurons carries a **weight** (G-2106), a number the network learns.
-- Neurons in one column form a **layer** (G-1056). The **input layer** (G-952) takes the data, one node per **feature** (G-772; an input variable, one column of the data table). The **output layer** (G-1424) gives the prediction.
+- Each circle is a **neuron** (G-1317), also called a [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486): the network's basic unit.
+- Each line connecting two neurons carries a [**weight**](../DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106), a number the network learns.
+- Neurons in one column form a [**layer**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056). The **input layer** (G-952) takes the data, one node per **feature** (G-772; an input variable, one column of the data table). The **output layer** (G-1424) gives the prediction.
 - Every layer in between is a **hidden layer** (G-890). We can add as many as we like.
 
 A network with many hidden layers is called **deep**, and this is where the name "deep learning" comes from.
 
 The ANN is only one type of network. Three others:
 
-- **convolutional neural networks (CNNs)** (G-484) work best on images;
-- **recurrent neural networks (RNNs)** (G-1647) work on speech and text;
-- **generative adversarial networks (GANs)** (G-840) create new images and text.
+- [**convolutional neural networks (CNNs)**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) work best on images;
+- [**recurrent neural networks (RNNs)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) work on speech and text;
+- [**generative adversarial networks (GANs)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-840) create new images and text.
 
 The [types of neural networks](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks) describes each one.
 
@@ -112,7 +112,7 @@ We can watch representation learning happen. Figure 4 trains a small network on 
 1. **The network.** It takes the 784 pixels of a digit, passes them through hidden layers of 64 and 32 neurons, and outputs one of 10 digits.
 2. **Raw pixels.** Squeezed to two dimensions, the 3s, 5s and 8s overlap: for only 56 percent of them, the **nearest neighbour** (the closest other dot in the picture) is the same digit.
 3. **Before training (epoch 0).** The hidden layer holds random features, and the digits are just as mixed (48 percent).
-4. **Training.** After each **epoch** (G-696), one pass over the 60,000 training images, the hidden layer's 32 numbers group the digits better: 64, 69 and 78 percent after 1, 2 and 5 epochs.
+4. **Training.** After each [**epoch**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), one pass over the 60,000 training images, the hidden layer's 32 numbers group the digits better: 64, 69 and 78 percent after 1, 2 and 5 epochs.
 5. **After 10 epochs.** The three digits form three clear groups (87 percent), and the network labels 96.9 percent of the test images correctly.
 
 Nobody told the network which features to compute. It changed its hidden layer, step by step, into numbers that keep similar digits together: the representation it learned.
@@ -129,8 +129,8 @@ DL is used in many fields:
 
 - computer vision;
 - speech recognition;
-- **natural language processing (NLP)** (G-1305);
-- **machine translation** (G-1141);
+- [**natural language processing (NLP)**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305);
+- [**machine translation**](../../05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141);
 - bioinformatics;
 - drug design;
 - medical image analysis;
@@ -186,7 +186,7 @@ The bigger the matrices, the more of the work the GPU can do at the same time, a
 > **Key point:** DL trains slowly (days to months on big data) but predicts fast; ML trains in minutes to hours, and its prediction speed depends on the algorithm.
 
 - **Training time:** a DL model on a large dataset can train for weeks, and some research models for months. Most ML models train in minutes, at most hours.
-- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) shows it). In ML it varies: [KNN](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts), for example, predicts slowly because it compares the new point with every stored **observation** (G-1374; one record, one row of the data table).
+- **Prediction time:** a trained network predicts quickly, because a prediction is only a fixed series of matrix products (the [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797) shows it). In ML it varies: [KNN](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts), for example, predicts slowly because it compares the new point with every stored **observation** (G-1374; one record, one row of the data table).
 
 ### 4.4 Feature selection
 
@@ -203,14 +203,14 @@ Letting the network extract the features is representation learning (section 2.3
 
 > **Key point:** A trained network is a black box: it cannot say why it gave an answer. Linear models and decision trees can.
 
-**Interpretability** (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a **black box** (G-311): it gives an answer without the reasons.
+[**Interpretability**](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#22-interpretability) (G-965) is how well people can understand why a model makes its decisions. The features a network learns are internal numbers that no one chose, so we cannot say what each one means. A trained network is a [**black box**](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#75-inference-which-feature-mattered) (G-311): it gives an answer without the reasons.
 
 Interpretability matters wherever we must justify a decision. Suppose a social network bans users based on their comments, using a DL model. A banned user asks why, and we have no answer.
 
 ML models are often much easier to explain:
 
-- **Logistic regression** (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
-- **A decision tree** (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)).
+- [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
+- [**A decision tree**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
 
@@ -282,8 +282,8 @@ Which hardware to use depends on the job:
 
 Writing a network's training code from scratch takes longer than the problem it solves. Deep learning needed libraries that handle this code, just as scikit-learn does for ML. Two families dominate:
 
-- **TensorFlow (Google)** (G-1959): Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so **Keras** (G-1003), a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
-- **PyTorch (Facebook, now Meta)** (G-1595): released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
+- [**TensorFlow (Google)**](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1959): Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so [**Keras**](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1003), a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
+- [**PyTorch (Facebook, now Meta)**](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1595): released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
 
 Today TensorFlow with Keras is used more in industry, and PyTorch more in research. Converting a model from one to the other is awkward, so drag-and-drop tools appeared that build a network in a browser and export code for either: Google's AutoML, Microsoft's Custom Vision and Apple's Create ML.
 
@@ -382,6 +382,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
 | [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Interpretability](../../../ML/08-trees-and-ensembles/ML-108-feature-importance/ML-108-feature-importance.md#22-interpretability) (G-965) | How well people can understand why a model makes its decisions. |
 | [Black box model (black box)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#75-inference-which-feature-mattered) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |

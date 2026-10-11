@@ -15,9 +15,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, c
 
 ## 1. Overview
 
-> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding** (G-2040), and the scores are the **logits** (G-1122). A softmax with a **temperature** (G-1956) $T$ turns the logits into probabilities: low $T$ sharpens them towards the top token, high $T$ flattens them towards uniform. Generation then **samples** (G-1739) a token from these probabilities. Reading the same scores after every block, the **logit lens** (G-1121), shows the model's guess forming layer by layer.
+> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding** (G-2040), and the scores are the [**logits**](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122). A softmax with a **temperature** (G-1956) $T$ turns the logits into probabilities: low $T$ sharpens them towards the top token, high $T$ flattens them towards uniform. Generation then **samples** (G-1739) a token from these probabilities. Reading the same scores after every block, the **logit lens** (G-1121), shows the model's guess forming layer by layer.
 
-The [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#7-a-guess-at-every-position) followed one pass of GPT-2 small up to its last step: "multiply by $W_E^T$, then softmax". This Note opens that last step. It asks three questions:
+The [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#7-a-guess-at-every-position) (G-855) followed one pass of GPT-2 small up to its last step: "multiply by $W_E^T$, then softmax". This Note opens that last step. It asks three questions:
 
 1. What do the logits measure? (section 3)
 2. How does one number, the temperature, change the choice of the next token? (sections 5 and 6)
@@ -31,7 +31,7 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
 
 - [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding): the decoder-only model, the residual stream, the final LayerNorm and the tied unembedding.
 - [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8: the output layer (linear and softmax) and the word "logits".
-- [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula): the softmax function.
+- [**Softmax regression**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1833): the softmax function.
 - [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning): a dot product is large when two vectors point the same way.
 - [Transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word): generation one token at a time, greedy decoding.
 - [Loss functions](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy): cross-entropy.
@@ -73,11 +73,11 @@ $$\frac{e^{z_k + c}}{\sum_j e^{z_j + c}} = \frac{e^c\thinspace e^{z_k}}{e^c \sum
 
 $$= \frac{e^{z_k}}{\sum_j e^{z_j}}$$
 
-So only the second term, $h \cdot (w_k - \bar w)$, decides the probabilities. A **cosine** is the cosine of the angle between two vectors: 1 for the same direction, 0 for perpendicular ([cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity)). Figure 2 plots the logit against that cosine:
+So only the second term, $h \cdot (w_k - \bar w)$, decides the probabilities. A **cosine** is the cosine of the angle between two vectors: 1 for the same direction, 0 for perpendicular ([**cosine similarity**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) (G-491)). Figure 2 plots the logit against that cosine:
 
 ![Every logit after "Steve Jobs was the founder of" against the cosine between the final vector and the token's row, with the shared mean row removed (3,000 random tokens and the 300 most likely; orange: the top 10). The logit grows with the alignment](images/logit_cosine.png){width=90%}
 
-The points lie close to one line: the [correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) is 0.98 (1 means the two lists rise and fall together perfectly). The top six tokens by this cosine are " Apple", " Microsoft", " Google", " the", " IBM" and " Intel", the same six as the top six logits. A logit is a measure of how well the final vector points towards a token, which is the dot-product idea of the [dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
+The points lie close to one line: the [**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) is 0.98 (1 means the two lists rise and fall together perfectly). The top six tokens by this cosine are " Apple", " Microsoft", " Google", " the", " IBM" and " Intel", the same six as the top six logits. A logit is a measure of how well the final vector points towards a token, which is the dot-product idea of the [dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
 
 Without removing the mean row, the raw cosine misleads: its correlation with the logits is $-0.29$, and " Apple" ranks 24,613th by raw cosine (Notebook).
 
@@ -146,7 +146,7 @@ On GPT-2 small's real logits the Notebook confirms both limits: at $T = 0.01$ th
 
 > **Key point:** On "Once upon a time there was a", GPT-2 small at $T = 1$ is as spread out as a fair pick among about 2,000 tokens. At $T = 0.3$ it is like a pick among 2.5; at $T = 2$, among 17,000.
 
-A handy measure of spread is the **entropy** (G-691), in bits:
+A handy measure of spread is the [**entropy**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#61-disorder-and-uncertainty) (G-691), in bits:
 
 $$H = -\sum_k p_k \log_2 p_k$$
 
@@ -304,6 +304,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Top $k$ sampling (G-1985) | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
 | Nucleus (top $p$) sampling (G-1360) | A sampling rule for text generation that keeps only the smallest set of most likely tokens whose probabilities add up to at least $p$, then samples among them; it cuts off the unlikely tail and adapts the cut to the context. |
 | [Logit](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122) | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
+| [GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview) (G-855) | A language model that writes text by predicting the next token again and again (Generative Pre-trained Transformer); it is built from transformer decoder blocks only. |
+| [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview) (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
+| [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [argmax](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview) (G-212) | The position of the largest value; on 10 class probabilities, the predicted class. |
 | [Entropy](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#61-disorder-and-uncertainty) (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
 | [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |

@@ -24,11 +24,11 @@ Training a deep network can take a long time, so a lot of work goes into making 
 - [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#3-why-normalise-inside-the-network) (G-266);
 - the choice of [activation function](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-165).
 
-The fourth, and probably the most important for speed, is the **optimizer** (G-1401): the algorithm that finds the values of the weights and biases for which the loss is smallest.
+The fourth, and probably the most important for speed, is the [**optimizer**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401): the algorithm that finds the values of the weights and biases for which the loss is smallest.
 
 ![The optimizers ahead. Momentum and NAG build up speed; AdaGrad and RMSProp adapt the learning rate; Adam combines both](images/optimizer_family.png){width=100%}
 
-Figure 1 is the plan. Each optimizer is a small change to gradient descent, not something new from scratch. Several of them rely on one tool, the **exponentially weighted moving average** (G-735), which comes first.
+Figure 1 is the plan. Each optimizer is a small change to gradient descent, not something new from scratch. Several of them rely on one tool, the [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735), which comes first.
 
 ## 2. Prerequisites
 
@@ -60,7 +60,7 @@ The loss is a function of all 9 parameters, so its graph lives in 10 dimensions,
 
 > **Key point:** Gradient descent moves every weight a small step against its slope, again and again. Batch, stochastic and mini-batch gradient descent differ only in how many rows of the data they use for each step.
 
-The optimizer used so far is **gradient descent** (G-862). In plain words: stand on the loss surface, feel which way is uphill, and take one small step the other way. One step on a small example, with two weights and the loss $L = w_1^2 + w_2^2$, starting at $w_1 = 3$, $w_2 = 4$ with step size $\eta = 0.1$:
+The optimizer used so far is [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862). In plain words: stand on the loss surface, feel which way is uphill, and take one small step the other way. One step on a small example, with two weights and the loss $L = w_1^2 + w_2^2$, starting at $w_1 = 3$, $w_2 = 4$ with step size $\eta = 0.1$:
 
 $$L = 3^2 + 4^2 = 25$$
 
@@ -119,7 +119,7 @@ A value in between works best, but finding it for a given dataset takes trial an
 
 > **Key point:** A schedule lowers the learning rate during training, but its timetable is fixed before training starts, so it cannot adapt to the dataset.
 
-A **learning-rate schedule** (G-1070) changes the learning rate during training, usually lowering it after a set number of epochs or when the loss stops improving by a threshold (as in the [learning schedules of stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#6-learning-schedules)). The schedule and the thresholds must be defined before training. Different datasets need different schedules, so a schedule that works well on one dataset may fail on another (Ruder 2016, §3).
+A [**learning-rate schedule**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) changes the learning rate during training, usually lowering it after a set number of epochs or when the loss stops improving by a threshold (as in the [learning schedules of stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#6-learning-schedules)). The schedule and the thresholds must be defined before training. Different datasets need different schedules, so a schedule that works well on one dataset may fail on another (Ruder 2016, §3).
 
 ### 5.3 One learning rate for every direction
 
@@ -183,7 +183,7 @@ Even the best learning rate needs 223 steps, all because the steep direction cap
 
 > **Key point:** A network's loss has many dips. Gradient descent stops in the first one it reaches, which may be a local minimum with a worse loss than the global one.
 
-The loss of a neural network is non-convex (a **non-convex function**, G-1333): it has several minima ([what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The best solution is the **global minimum**, the weights with the lowest loss of all. Gradient descent stops wherever the slope is zero, so starting from an unlucky point it settles in a **local minimum** (G-1110) and returns a sub-optimal solution. Stochastic gradient descent's zigzag gives it some chance to jump out; batch and mini-batch gradient descent have less ([the path to the minimum](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum)).
+The loss of a neural network is non-convex (a **non-convex function**, G-1333): it has several minima ([what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The best solution is the **global minimum**, the weights with the lowest loss of all. Gradient descent stops wherever the slope is zero, so starting from an unlucky point it settles in a [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) and returns a sub-optimal solution. Stochastic gradient descent's zigzag gives it some chance to jump out; batch and mini-batch gradient descent have less ([the path to the minimum](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum)).
 
 ### 5.5 Saddle points
 
@@ -195,7 +195,7 @@ $$w_{t+1} = w_t - \eta \times 0$$
 
 $$= w_t$$
 
-Saddle points are usually surrounded by a **plateau** (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+Saddle points are usually surrounded by a [**plateau**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
 
 Figure 6 shows the crawl on the simplest saddle, $L = w_1^2 - w_2^2$, which rises along $w_1$ and falls along $w_2$. Gradient descent starts at $(1.5, 0.001)$, almost exactly on the ridge, with learning rate 0.1.
 
@@ -233,11 +233,11 @@ Five optimizers improve gradient descent along the two ideas of Figure 1:
 
 | Optimizer | Main idea | Weak spot it targets |
 |---|---|---|
-| [Momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) | keep a running average of past gradients and build up speed | flat directions, narrow valleys, small local dips |
-| [Nesterov accelerated gradient (NAG)](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#4-two-pushes-at-once-or-one-after-the-other) | momentum that looks ahead before it corrects | momentum's overshooting |
-| [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large) | a separate, shrinking learning rate for every parameter | one learning rate for every direction |
-| [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) | AdaGrad that forgets old gradients | AdaGrad's learning rate shrinking to nothing |
-| [Adam](../DL-038-adam/DL-038-adam.md#4-the-update-rule) | momentum and RMSProp together | both |
+| [**Momentum**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) (G-1258) | keep a running average of past gradients and build up speed | flat directions, narrow valleys, small local dips |
+| [**Nesterov accelerated gradient (NAG)**](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#4-two-pushes-at-once-or-one-after-the-other) (G-1315) | momentum that looks ahead before it corrects | momentum's overshooting |
+| [**AdaGrad**](../DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large) (G-168) | a separate, shrinking learning rate for every parameter | one learning rate for every direction |
+| [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) (G-1697) | AdaGrad that forgets old gradients | AdaGrad's learning rate shrinking to nothing |
+| [**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | momentum and RMSProp together | both |
 
 Momentum, RMSProp and Adam all keep an [exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma) (EWMA): a running average that gives recent values more weight. We study the EWMA first.
 
@@ -245,7 +245,7 @@ Momentum, RMSProp and Adam all keep an [exponentially weighted moving average](.
 
 Figure 7 shows why the EWMA comes first: three of the five optimizers are built on it.
 
-> **Extra:** Methods that use second derivatives, such as **Newton's method** (G-1321), can also handle steep and flat directions ([second-order methods](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations)), but they are too expensive for the millions of parameters of a deep network (Ruder 2016, §4). The optimizers above use only the gradient.
+> **Extra:** Methods that use second derivatives, such as [**Newton's method**](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations) (G-1321), can also handle steep and flat directions ([second-order methods](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations)), but they are too expensive for the millions of parameters of a deep network (Ruder 2016, §4). The optimizers above use only the gradient.
 
 ## 7. Summary
 
@@ -301,4 +301,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Plateau](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) | A nearly flat region of the loss, where steps become very small. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
+| [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
+| [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#1-overview) (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
+| [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Newton's method](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations) (G-1321) | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |

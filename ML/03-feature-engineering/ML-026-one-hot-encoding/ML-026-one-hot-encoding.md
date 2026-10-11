@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, area/models-1, step/features, st
 
 > **Key point:** One-hot encoding turns a nominal column into one 0/1 column per category; we then drop one of those columns, and group rare categories first if there are too many.
 
-[Ordinal encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding) handled ordinal features, whose categories have an order. A **feature** (G-772) is an input variable (one column of the data table); the **target** (G-1949) is the output we predict; an **observation** (G-1374) is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
+[**Ordinal encoding**](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding) (G-1404) handled ordinal features, whose categories have an order. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table); the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict; an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). This Note handles the other kind of categorical feature: **nominal** features, whose categories have no order. The technique for them is one-hot encoding.
 
 Figure 1 shows the whole topic. The steps are:
 
@@ -93,7 +93,7 @@ Usually the first column is the one removed. Removing the second or the last one
 
 > **Key point:** The dummy columns always add up to 1, so any one of them can be calculated from the others; such dependence is called multicollinearity.
 
-The features are also called **independent variables** (G-937), and the target is called the **dependent variable** (G-591): the target depends on the features. As the name says, the features should be independent of each other. There should be no mathematical relationship between them.
+The features are also called [**independent variables**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#5-inputs-and-output) (G-937), and the target is called the [**dependent variable**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#5-inputs-and-output) (G-591): the target depends on the features. As the name says, the features should be independent of each other. There should be no mathematical relationship between them.
 
 **Multicollinearity** (G-1273) means that some features do have such a relationship: one feature can be calculated from the others. The three colour columns have exactly this problem.
 
@@ -114,7 +114,7 @@ $$Y = 1 - 0 - 0 = 1$$
 
 The column `color_Y` tells the model nothing that `color_B` and `color_R` do not already say.
 
-A **linear model** predicts a number as a starting value, called the **intercept** (G-960), plus each column multiplied by a **weight** (G-2106), a number the model learns: for example price = intercept + weight × age + weight × mileage. The dependence causes trouble mainly for linear models with an intercept, such as linear regression (a model that predicts a number from a weighted sum of the features) and logistic regression (the same weighted sum, turned into a probability of a class), which come in later Notes: the dummy columns add up to the intercept column (a column of 1s that the model uses to fit the intercept), so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
+A **linear model** predicts a number as a starting value, called the [**intercept**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960), plus each column multiplied by a [**weight**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106), a number the model learns: for example price = intercept + weight × age + weight × mileage. The dependence causes trouble mainly for linear models with an intercept, such as linear regression (a model that predicts a number from a weighted sum of the features) and logistic regression (the same weighted sum, turned into a probability of a class), which come in later Notes: the dummy columns add up to the intercept column (a column of 1s that the model uses to fit the intercept), so the model cannot be solved uniquely (Kuhn and Johnson 2019, §5.1). Because the dummy columns create it, the problem is called the **dummy variable trap** (G-646).
 
 ### 3.3 Dropping one column loses nothing
 
@@ -166,7 +166,7 @@ So we keep only the most frequent categories and merge all the rare ones into a 
 > In the training set of section 7.2, Maruti becomes about 4.02 lakh rupees (the mean selling price of its 1962 cars), Hyundai 4.61 lakh and BMW 41.69 lakh. Two cautions come with it:
 >
 > - **Rare categories.** Opel has one training car, sold for 68,000 rupees; a mean of one row is not reliable. So the encoder mixes each category's mean with the overall mean (6.41 lakh here), and leans on the overall mean when the category has few rows.
-> - **Leakage.** The codes are built from the target, so a row's own target must not be used to encode that row; otherwise the model sees the answer during training, a form of **data leakage** (G-535). The standard fix is to split the training set into folds and encode each fold with means from the other folds (k-fold target encoding).
+> - **Leakage.** The codes are built from the target, so a row's own target must not be used to encode that row; otherwise the model sees the answer during training, a form of [**data leakage**](../ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535). The standard fix is to split the training set into folds and encode each fold with means from the other folds (k-fold target encoding).
 >
 > scikit-learn's `TargetEncoder` does both: it shrinks towards the overall mean, and `fit_transform` encodes fold by fold (scikit-learn API, `TargetEncoder`; StatQuest, "One-Hot, Label, Target and K-Fold Target Encoding").
 
@@ -376,7 +376,7 @@ The encoded array holds only the fuel and owner information. To get all the feat
 >
 > `.values` turns the two DataFrame columns into a NumPy array. `np.hstack` ("horizontal stack") joins arrays with the same number of rows, side by side.
 
-Stacking by hand works, but it is clumsy: pull out some columns, encode them, then glue everything back together. The **column transformer** (G-415), covered in the next Note, applies a different transformer to each column in a single step.
+Stacking by hand works, but it is clumsy: pull out some columns, encode them, then glue everything back together. The [**column transformer**](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415), covered in the next Note, applies a different transformer to each column in a single step.
 
 ## 8. Top categories on the brand column
 
@@ -457,6 +457,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | min_frequency (G-1218) | `OneHotEncoder` parameter that merges rare categories into one column. |
 | sparse_output (G-1847) | The `OneHotEncoder` setting that picks the output format: `False` returns a normal NumPy array instead of a sparse matrix (a table stored as only its non-zero entries). |
 | Top categories (G-1987) | Keeping only the most frequent categories and merging the rest into one "uncommon" category. |
+| [Ordinal encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#3-why-categories-must-become-numbers) (G-1404) | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

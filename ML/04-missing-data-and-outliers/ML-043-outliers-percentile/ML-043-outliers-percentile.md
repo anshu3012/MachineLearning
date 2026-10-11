@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/percentile]
 
 > **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.
 
-[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. [The z-score rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) covers normal features and [the IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) covers skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a **feature** (G-772) (an input variable, one column of the data table) of any shape. Each **observation** (G-1374) is one record (one row), here one person.
+[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. [The z-score rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) covers normal features and [the IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) covers skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) of any shape. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one person.
 
 Figure 1 shows the whole method, in three steps:
 
@@ -40,7 +40,7 @@ Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile, and the lowest at the bottom, the 0th.
 
-The $p$-th **percentile** (G-1483) is the value that $p$% of the feature's values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's **percentile rank** (G-1482).
+The $p$-th [**percentile**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) is the value that $p$% of the feature's values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's [**percentile rank**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482).
 
 Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of Section 4 (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
 
@@ -62,7 +62,7 @@ Both rules are in use. This Note uses the first one, "below".
 
 > **Key point:** Choose a low and a high percentile; the values there are the two limits.
 
-The idea is simple: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an **outlier** (G-1420). The rule treats both ends at once.
+The idea is simple: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420). The rule treats both ends at once.
 
 The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common pairs are:
 
@@ -93,7 +93,7 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 > **Key point:** Trimming removes the observations beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
-**Trimming** (G-2019), which removes the rows, and **capping** (G-345), which moves each value onto the limit it crossed, work as in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers), with the percentile limits as the limits.
+[**Trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019), which removes the rows, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), which moves each value onto the limit it crossed, work as in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers), with the percentile limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician Charles P. Winsor (Hastings et al. 1947). Trimming with percentiles has no special name; it is simply trimming.
 
@@ -125,7 +125,7 @@ The data is a table of 10,000 people, 5,000 men and 5,000 women, published on Ka
 - `Height`: in inches.
 - `Weight`: in pounds.
 
-We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it. `Gender` and `Weight` are not used, so there is no **target** (G-1949) (an output to predict) here: outlier handling is a cleaning step done before any model.
+We work on `Height`. `Weight` has almost no outliers by the box-plot rule (1 value beyond the fences), so it shows little; the same steps work on it. `Gender` and `Weight` are not used, so there is no [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (an output to predict) here: outlier handling is a cleaning step done before any model.
 
 The summary numbers of `Height`:
 
@@ -308,7 +308,7 @@ This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sig
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 
-| | [Z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) | [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) | Percentile (this Note) |
+| | [**Z-score**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2141) | [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) | Percentile (this Note) |
 |---|---|---|---|
 | Fits | roughly normal feature | skewed feature | any feature |
 | Built on | mean and standard deviation | $Q_1$ and $Q_3$ | two chosen percentiles |
@@ -368,3 +368,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [`np.where`](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |
+| [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |

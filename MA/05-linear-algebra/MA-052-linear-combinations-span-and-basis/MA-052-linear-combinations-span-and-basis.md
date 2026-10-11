@@ -22,7 +22,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/span-basis]
 
 Figure 1 shows the whole Note in motion. We take two vectors, scale each by a number, and add the results. Turning one number draws a line; turning both reaches every point of the plane, unless the two vectors lie on the same line.
 
-What a vector is, and how a row of data becomes a feature vector, is taught in [three views of a vector](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point) and [feature vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#3-feature-vectors). Scaling a vector is in [multiplying or dividing by a scalar](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling). This Note adds the second operation, adding two vectors, and builds everything else from the two.
+What a vector is, and how a row of data becomes a feature vector, is taught in [three views of a vector](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point) and [**feature vectors**](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#3-feature-vectors) (G-771). Scaling a vector is in [multiplying or dividing by a scalar](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling). This Note adds the second operation, adding two vectors, and builds everything else from the two.
 
 > **Extra:** The geometric pictures in this Note and the next four (linear transformations, matrix multiplication, duality, eigenvectors) follow Sanderson's *Essence of Linear Algebra* (3Blue1Brown), the resource the [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#5-resources) recommends.
 
@@ -33,14 +33,14 @@ What a vector is, and how a row of data becomes a feature vector, is taught in [
 There are three related views of what a vector is (recapped from [three views of a vector](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point)):
 
 - **The arrow view (physics).** A vector is an arrow with a length and a direction. In linear algebra we almost always draw it with its tail at the origin (the point $[0, 0]$ where the axes cross).
-- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one **feature** (G-772) (an input variable, one column of the data table), and the list view is the feature vector of ML.
+- **The list view (computer science).** A vector is an ordered list of numbers. A house described by its area and its price is the 2D vector [area, price]; the order matters. Each number is one [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table), and the list view is the feature vector of ML.
 - **The abstract view (mathematics).** A vector is anything for which "add two of them" and "multiply one by a number" make sense. This view says that those two operations are what all of linear algebra is built on.
 
 The coordinates of a vector link the first two views. They are instructions for walking from the tail at the origin to the tip: the first number says how far to walk along the x-axis (right if positive, left if negative), the second how far parallel to the y-axis. Every list of numbers gives exactly one arrow, and every arrow gives exactly one list.
 
 The power of linear algebra lies in moving between the views. For data, a table of numbers becomes a picture of points we can reason about. For computer graphics or physics, a picture of space becomes numbers a computer can crunch.
 
-> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers (150 **observations** (G-1374): one observation is one record, a row of the data table), is best drawn as points: one point at the tip of each arrow. The points picture is why a scatter plot of a dataset is a picture of its feature vectors (Figure 2).
+> **Extra:** One collection of vectors, two pictures. A single vector is best drawn as an arrow. A large set of vectors, such as all 150 iris flowers (150 [**observations**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374): one observation is one record, a row of the data table), is best drawn as points: one point at the tip of each arrow. The points picture is why a scatter plot of a dataset is a picture of its feature vectors (Figure 2).
 >
 > ![Iris flowers as feature vectors [petal length, petal width]: 10 of them as arrows from the origin (left), all 150 as points at the arrow tips (right).](images/arrows_points.png){height=30%}
 
@@ -70,7 +70,7 @@ So to draw a sum, we slide the second arrow so that its tail sits on the tip of 
    $$= [1 + 3,\ 2 + (-1)]$$
    $$= [4, 1]$$
 
-Both vectors must have the same number of components. With [scaling](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a **scalar** (G-1743), which is why "scalar" and "number" are used almost as synonyms.
+Both vectors must have the same number of components. With [**scaling**](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling) (G-1746) (multiply every component by the number, which stretches, squishes or flips the arrow), we now have the two operations of linear algebra. A number used to scale a vector is called a [**scalar**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743), which is why "scalar" and "number" are used almost as synonyms.
 
 > **Python:** NumPy adds vectors component by component.
 >
@@ -211,7 +211,7 @@ With numbers:
 > rank(V3)                                  # 2
 > ```
 >
-> The number is the **rank** (G-1627) of the matrix. This matrix rank is a different meaning from the rank of a tensor (its number of axes) in [rank, axes, shape and size](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).
+> The number is the [**rank**](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) of the matrix. This matrix rank is a different meaning from the rank of a tensor (its number of axes) in [rank, axes, shape and size](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).
 
 > **Extra:** Linear dependence between the columns of a dataset is exactly the **multicollinearity** (inputs that depend on each other) of [the dummy variable trap](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other). The dummy columns of one category always add up to 1, the column of ones used for the intercept, so one of them is a linear combination of the others. The dependence is why one dummy column is dropped, and why the normal equation (the formula that solves least squares in one step) fails when columns are dependent (see [the cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)).
 
@@ -285,7 +285,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Linearly dependent (G-1101) | Said of a set of vectors in which at least one can be built from the others by scaling and adding (a linear combination), so it adds nothing to the span. |
 | Linearly independent (G-1102) | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
 | Basis (G-262) | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
+| [Feature vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#31-the-iris-flowers) (G-771) | The vector of input values of one data point. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Scaling (a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#6-multiplying-or-dividing-by-a-scalar-scaling) (G-1746) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |
 | [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |

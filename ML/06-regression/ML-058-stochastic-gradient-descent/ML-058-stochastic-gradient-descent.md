@@ -19,9 +19,9 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/sgd]
 
 > **Key point:** Stochastic gradient descent updates the coefficients after every single random observation. Each step is cheap and noisy, so it gets close to the answer in far fewer epochs than batch gradient descent, but it jitters around the minimum.
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
-**Batch gradient descent** (G-264), from [batch gradient descent with many features](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features), uses every observation of the training data for each update. **Stochastic gradient descent (SGD)** (G-1892) uses just one observation, picked at random, for each update. SGD and its variants are probably the most used **optimisation algorithms** (G-1398) in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
+[**Batch gradient descent**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264), from [batch gradient descent with many features](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#2-gradient-descent-with-many-features), uses every observation of the training data for each update. **Stochastic gradient descent (SGD)** (G-1892) uses just one observation, picked at random, for each update. SGD and its variants are probably the most used [**optimisation algorithms**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-1398) in machine learning, and nearly all of deep learning is trained with it (Goodfellow §8.3.1, §5.9).
 
 This Note explains:
 
@@ -42,7 +42,7 @@ $$100{,}000 \times 100 \times 1{,}000 = 10^{10}$$
 
 multiplications, ten billion, just for the derivatives.
 
-Figure 1 compares the cost of one update. Each bar is one method; the left chart uses a log scale, so each gridline is ten times the one below (a bar four gridlines shorter is 10,000 times smaller). Batch gradient descent needs 10 million multiplications for every single step. SGD needs only 100, the features of one observation, so it can take 100,000 steps in the time batch takes one. Both read the whole table once per **epoch** (G-696); SGD spends that work on many small steps instead of one big one.
+Figure 1 compares the cost of one update. Each bar is one method; the left chart uses a log scale, so each gridline is ten times the one below (a bar four gridlines shorter is 10,000 times smaller). Batch gradient descent needs 10 million multiplications for every single step. SGD needs only 100, the features of one observation, so it can take 100,000 steps in the time batch takes one. Both read the whole table once per [**epoch**](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696); SGD spends that work on many small steps instead of one big one.
 
 ![The cost of one update for 100,000 observations and 100 features. Left: multiplications per update, 10,000,000 for batch and 100 for SGD (log scale). Right: updates per epoch, 1 for batch and 100,000 for SGD.](images/cost_bars.png)
 
@@ -88,7 +88,7 @@ So an epoch of SGD makes $n$ small updates instead of one big one.
 This Note runs SGD on two datasets from the earlier Notes:
 
 - the **diabetes data** of [batch gradient descent in code](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#4-batch-gradient-descent-in-code): 10 features and 353 training patients, so an epoch is 353 updates;
-- the **100-point example** of [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class): 100 points with one feature, so only a slope $m$ and an intercept $b$ to learn, which lets us draw the paths.
+- the **100-point example** of [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#7-gradient-descent-as-a-class) (G-862): 100 points with one feature, so only a slope $m$ and an intercept $b$ to learn, which lets us draw the paths.
 
 **Why one observation is enough.** Real data repeats itself: many observations look alike and say almost the same thing about the coefficients. Take 12 points that sit in three tight clusters. The gradient from one point of a cluster is close to the gradient from its neighbours, so summing all 12 before every step mostly repeats work. One random point already points roughly downhill, and the next random point corrects it. SGD gains the most when the data has such redundancy (StatQuest, "Stochastic Gradient Descent, Clearly Explained!!!").
 
@@ -161,7 +161,7 @@ The gradient from one observation is a noisy estimate of the gradient from all o
 - **Large data:** SGD needs only one observation at a time in memory, and it gets close to the answer in few passes.
 - **Non-convex losses:** with a loss that has local minima (see [the shape of the loss function](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters)), batch gradient descent settles in whichever dip it reaches first. SGD's random jumps can carry it out of a sharp, shallow local minimum (Kleinberg et al. 2018), like shaking a tray so a marble hops out of a small dent. On modern neural networks, SGD finds better solutions than batch gradient descent (Kleinberg et al. 2018, abstract), which is one reason it is the usual way to train them.
 
-Figure 6 shows the escape on a made-up loss with one coefficient $w$, because linear regression's own loss has no **local minimum** (G-1110). The average loss has a narrow, shallow dip at $w = -1.49$ and a wide, deep minimum at $w = 1.92$. Each of the 100 observations sees the same curve tilted a little to the left or right, so a step from one observation is the true step plus some noise. Both methods start at $w = -3$ with learning rate 0.05. Watch the red batch marker: it rolls slowly into the shallow dip and stays there. The orange SGD marker is knocked across the dip by its noisy steps and settles in the deep minimum by epoch 7.
+Figure 6 shows the escape on a made-up loss with one coefficient $w$, because linear regression's own loss has no [**local minimum**](../ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110). The average loss has a narrow, shallow dip at $w = -1.49$ and a wide, deep minimum at $w = 1.92$. Each of the 100 observations sees the same curve tilted a little to the left or right, so a step from one observation is the true step plus some noise. Both methods start at $w = -3$ with learning rate 0.05. Watch the red batch marker: it rolls slowly into the shallow dip and stays there. The orange SGD marker is knocked across the dip by its noisy steps and settles in the deep minimum by epoch 7.
 
 ![Batch gradient descent and SGD on a made-up loss with a shallow local minimum and a deep minimum, both from w = −3 with learning rate 0.05. Faint orange dots: SGD's 100 steps inside the current epoch. Batch ends in the shallow dip; SGD ends in the deep minimum.](images/local_minimum.gif)
 
@@ -177,7 +177,7 @@ Near the minimum, every new observation still pushes the coefficients in its own
 
 > **Key point:** Making the learning rate shrink over time lets SGD move fast at first and settle down near the end.
 
-The fix for the jitter is a **learning schedule** (G-1070): a learning rate that decreases as training goes on. Big steps early on cover distance quickly; small steps later let SGD settle close to the minimum.
+The fix for the jitter is a [**learning schedule**](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070): a learning rate that decreases as training goes on. Big steps early on cover distance quickly; small steps later let SGD settle close to the minimum.
 
 A common schedule is
 
@@ -253,9 +253,9 @@ Figure 8 puts these runs side by side. Each bar is a run of SGD with its startin
 | Final answer | settles at the minimum | jitters around it (use a schedule) |
 | Local minima | can get stuck | can escape |
 
-> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is **online learning** (G-1391), and scikit-learn's `partial_fit` (G-1458) does it (see [scikit-learn's partial_fit](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit)).
+> **Extra:** SGD also suits data that keeps arriving. When a new observation comes in, SGD takes one more step from the current coefficients; it does not start again from the beginning (StatQuest). Learning from data as it arrives is [**online learning**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391), and scikit-learn's `partial_fit` (G-1458) does it (see [scikit-learn's partial_fit](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit)).
 
-[Mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two), taught next, sits between the two and is what most practice uses.
+[**Mini-batch gradient descent**](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-1222), taught next, sits between the two and is what most practice uses.
 
 ## 9. Summary
 
@@ -298,8 +298,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Optimisation algorithm](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-1398) | A method for finding the parameter values that make a function as small (or large) as possible. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Learning rate scheduler (learning schedule)](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
 | [SGDRegressor](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit) (G-1783) | A scikit-learn model that does linear regression with stochastic gradient descent, step by step, so it can also learn from data arriving in small pieces. |
 | [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |
 | [partial_fit](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit) (G-1458) | A scikit-learn method that continues training from where the model left off. |
+| [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | Gradient descent that uses a small random group of rows for every update. |

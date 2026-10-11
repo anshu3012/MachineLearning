@@ -32,7 +32,7 @@ Because of that division, the paper calls its attention **scaled dot-product att
 
 - [Query, key and value vectors](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value), and $\text{softmax}(QK^T)\thinspace V$.
 - [The softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function): it turns a list of scores into weights that sum to 1.
-- [Variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable): the average squared distance from the mean.
+- [**Variance of a random variable**](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076): the average squared distance from the mean.
 - [The vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem): why tiny gradients stop a network from learning.
 
 ## 3. What $d_k$ is
@@ -81,9 +81,9 @@ The scaled weights are less extreme (Figure 2): "bank" still attends most to its
 
 ## 4. Longer vectors give more spread-out dot products
 
-> **Key point:** The **variance** (G-2074) of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
+> **Key point:** The [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of a dot product grows in proportion to the length of the vectors. Dot products of 1,000-number vectors have about 350 times the variance of those of 3-number vectors.
 
-Each score in $QK^T$, an **attention score** (G-223), is a dot product of two vectors. Take 1,000 pairs of random vectors, every number drawn independently with mean 0 and variance 1, and compute the 1,000 dot products. Then repeat with longer vectors (Notebook):
+Each score in $QK^T$, an [**attention score**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-223), is a dot product of two vectors. Take 1,000 pairs of random vectors, every number drawn independently with mean 0 and variance 1, and compute the 1,000 dot products. Then repeat with longer vectors (Notebook):
 
 | Length $d$ | Range of the 1,000 dot products | Variance |
 |---|---|---|
@@ -147,7 +147,7 @@ Check on the scores $(4, 6, 2)$ of section 3, where "bank" has $\alpha = 0.867$:
 
 $$\alpha(1 - \alpha) = 0.867 \times 0.133 \approx 0.115$$
 
-If one weight is close to 1 and the rest close to 0, every entry is close to 0: for the big weight $\alpha_i(1 - \alpha_i) \approx 1 \times 0$, for the small ones $\alpha_i \approx 0$. Little gradient flows back to the scores, and so to $W_Q$ and $W_K$: the same **vanishing gradient** (G-2070) problem as in deep networks. Vaswani et al. (2017, section 3.2.1) give this as their reason for scaling: for large $d_k$ the dot products "grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients".
+If one weight is close to 1 and the rest close to 0, every entry is close to 0: for the big weight $\alpha_i(1 - \alpha_i) \approx 1 \times 0$, for the small ones $\alpha_i \approx 0$. Little gradient flows back to the scores, and so to $W_Q$ and $W_K$: the same [**vanishing gradient**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) problem as in deep networks. Vaswani et al. (2017, section 3.2.1) give this as their reason for scaling: for large $d_k$ the dot products "grow large in magnitude, pushing the softmax function into regions where it has extremely small gradients".
 
 An analogy: a teacher asks a class to raise hands with their questions. If a few children are much taller than the rest, only their hands are seen, and only their questions get answered; the others never take part in the lesson. If all the children are about the same height, the teacher sees every hand. Scaling makes all the scores "about the same height", so every word takes part in training.
 
@@ -212,7 +212,7 @@ We divide by $\sqrt{2}$ when $d_k = 2$, by $\sqrt{3}$ when $d_k = 3$, and by 8 w
 
 > **Key point:** $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$ computed by hand in NumPy gives exactly the weights and outputs of Keras' `MultiHeadAttention` layer with one head.
 
-Keras implements scaled dot-product attention inside `keras.layers.MultiHeadAttention` (G-121). With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#52-the-matrix-form) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
+Keras implements scaled dot-product attention inside `keras.layers.MultiHeadAttention` (G-121). With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#52-the-matrix-form) (G-1268) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
 
 > **Python:** Scaled dot-product attention by hand, checked against Keras ("money bank grows", 8 numbers per word).
 >
@@ -286,5 +286,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `MultiHeadAttention` (G-121) | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |
 | $d_k$ (G-24) | The length of each key vector (and query vector); attention divides its scores by $\sqrt{d_k}$ so that long vectors do not give scores so spread out that the softmax puts almost all the weight on one word. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
 | [Attention score](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-223) | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |

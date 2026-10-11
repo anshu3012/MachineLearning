@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/svm]
 
 > **Key point:** The SVM line $w^T x + b = 0$ has two parallel edges $w^T x + b = \pm 1$ around an empty band of width $2/\lVert w \rVert$. The band is wider the shorter $w$ is, so SVM picks the shortest $w$ that keeps every point on its correct side.
 
-[The margin](../ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin) described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$ is the largest. The margin is the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$: two lines (in 2D; a hyperplane is the flat boundary of any dimension) parallel to the boundary $\pi$, each touching the closest points of its class, the [support vectors](../ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors). This Note turns that picture into a formula that a computer can optimise.
+[The margin](../ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin) described SVM in pictures: among all lines that separate two classes, choose the one whose margin $d$ is the largest. The margin is the distance between the positive hyperplane $\pi^+$ and the negative hyperplane $\pi^-$: two lines (in 2D; a hyperplane is the flat boundary of any dimension) parallel to the boundary $\pi$, each touching the closest points of its class, the [**support vectors**](../ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923). This Note turns that picture into a formula that a computer can optimise.
 
 ![The three hyperplanes of an SVM, their equations, and the margin](images/equations.png){height=38%}
 
@@ -94,7 +94,7 @@ Once we know $w$ and $b$, classifying any new point takes one dot product and on
 
 > **Key point:** In 2D, w · u + b is just "put the point into the line's equation", as in the perceptron trick.
 
-In 2D this rule is the side test of [positive and negative sides](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides): put the point into the left-hand side of the line's equation and look at the sign. Written with vectors, the line $2x + 3y + 3 = 0$ has $w = (2, 3)$ and $b = 3$.
+In 2D this rule is the side test of [**positive and negative sides**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1529): put the point into the left-hand side of the line's equation and look at the sign. Written with vectors, the line $2x + 3y + 3 = 0$ has $w = (2, 3)$ and $b = 3$.
 
 - $u = (3, 2)$:
 
@@ -215,7 +215,7 @@ Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Fig
 
 ![The margin is the projection of $x_2 - x_1$ onto the unit vector $w / \lVert w \rVert$](images/distance.png){height=38%}
 
-The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [unit vector](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
+The **shortest** distance between the two edges is measured perpendicular to them, that is along $w$. So we project $x_2 - x_1$ onto the [**unit vector**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) in the direction of $w$, which is $w$ divided by its length (its **norm**, here the **L2 norm**, G-1028) $\lVert w \rVert$:
 
 $$d = (x_2 - x_1) \cdot \frac{w}{\lVert w \rVert}$$
 
@@ -282,7 +282,7 @@ $$\text{such that}$$
 
 $$y_i\thinspace(w^T x_i + b) \geq 1 \ \text{ for all } i$$
 
-The problem is a **constrained optimisation** (G-455) problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
+The problem is a [**constrained optimisation**](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-455) problem: we maximise a function while keeping a condition true, one condition per training point. On the data of Figure 4 the answer is $w = (0.049, 0.898)$, $b = -4.485$ and $d = 2.22$.
 
 Figure 6 shows the search in two dimensions. Every direction of $w$ is one candidate. For each direction, the widest margin that still obeys every constraint is the gap between the lowest green point and the highest red point, measured along $w$. Sweeping the direction from 60 to 120 degrees traces a curve with a single peak: 2.22, at the direction of the SVM's $w$. The optimiser finds this peak without drawing the curve.
 
@@ -290,7 +290,7 @@ Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the 
 
 ![The optimisation as a search over directions of w, on the 16 points of the earlier example. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
-> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM. `kernel="linear"` keeps the straight hyperplane of this Note; other kernels first lift the data into more dimensions, where a flat hyperplane can separate classes that no straight line separates in the original features. That lifting is the **[kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick)** (taught in full later).
+> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM. `kernel="linear"` keeps the straight hyperplane of this Note; other kernels first lift the data into more dimensions, where a flat hyperplane can separate classes that no straight line separates in the original features. That lifting is the **[**kernel trick**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) (G-1008)** (taught in full later).
 >
 > ```python
 > import numpy as np
@@ -351,8 +351,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Decision rule (SVM) (G-558) | How a trained SVM labels a new point $u$: by which side of the separating line it falls on, predicting +1 if $w \cdot u + b \geq 0$ and −1 otherwise. |
 | Constraint (G-456) | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. |
 | Hard-margin SVM (G-879) | The SVM that allows no point inside the margin or on the wrong side; it needs perfectly separable data. |
+| [Support vectors](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
+| [Positive and negative side](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1529) | The two halves of the plane on either side of a line $Ax + By + C = 0$: where $Ax + By + C$ is above 0 and where it is below 0; the perceptron predicts one class on each side. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Unit vector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) | A vector of length 1, used to describe a direction. |
 | [L2 norm (norm, magnitude, length of a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
 | [Constrained optimisation](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-455) | Maximising or minimising a function while keeping one or more constraints true. |
+| [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |

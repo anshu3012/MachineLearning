@@ -27,7 +27,7 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 > **Key point:** Linear algebra gives us the containers for data (vectors, matrices and tensors) and the operations that act on a whole container at once.
 
-**Linear algebra** (G-1090) stores every kind of data (tables, text, images, video) as vectors (lists of numbers, such as $(2, 3)$), **matrices** (G-1180; tables of numbers) and **tensors** (G-1957; grids of numbers with any number of axes), and acts on a whole container in one step; [why ML needs linear algebra](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#6-what-linear-algebra-is-and-why-ml-needs-it) explains why. How each kind of data becomes a tensor is shown in [tensors from 0D to 5D](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#3-tensors-from-0d-to-5d).
+[**Linear algebra**](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) stores every kind of data (tables, text, images, video) as vectors (lists of numbers, such as $(2, 3)$), **matrices** (G-1180; tables of numbers) and **tensors** (G-1957; grids of numbers with any number of axes), and acts on a whole container in one step; [why ML needs linear algebra](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#6-what-linear-algebra-is-and-why-ml-needs-it) explains why. How each kind of data becomes a tensor is shown in [tensors from 0D to 5D](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#3-tensors-from-0d-to-5d).
 
 ![Three rows of the placement data as a table and as a matrix. Each column of the matrix is a vector](images/table_matrix.png){width=75%}
 
@@ -43,7 +43,7 @@ Figure 2 shows the first step of linear algebra in ML: the table we read becomes
 
 An ML model predicts something, and its predictions are never exactly right. The gap between the prediction and the truth is the **error**. Training a model means changing it until the error is as small as we can get it, which is called **optimisation** (G-1400).
 
-Most optimisation methods are built on calculus. The **derivative** (G-595) of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) does exactly this, one small step at a time.
+Most optimisation methods are built on calculus. The [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the error tells us in which direction to change each part of the model so the error goes down. [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) does exactly this, one small step at a time.
 
 ![Error against one model setting $w$. At the red point the slope is positive, so a step to the left lowers the error](images/error_slope.png){width=60%}
 
@@ -70,7 +70,7 @@ $$5 - 0.3 \times 6 = 3.2$$
 
 ![Gradient descent on an illustrative error curve $E(w) = (w - 2)^2 + 1$, from $w = 5$ with step size 0.3. The red line is the slope at the current point; the error falls from 10 to 1.00 in seven steps.](images/descent_steps.gif){height=34%}
 
-> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the **irreducible error** (G-1327; ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training (**data leakage** (G-535), see [scaling the inputs](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs); Kaufman et al. 2012).
+> **Extra:** A model with 100% accuracy is a warning sign, not a success. Real outputs contain a random part that no model can predict, called the **irreducible error** (G-1327; ISLR §2.1.1). So a perfect score often signals a mistake, such as test data leaking into training ([**data leakage**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535), see [scaling the inputs](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs); Kaufman et al. 2012).
 
 Calculus first appears in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum), where a derivative set to zero gives the best line. Derivatives themselves are taught step by step in [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent).
 
@@ -80,26 +80,26 @@ Calculus first appears in [finding the minimum](../../../ML/06-regression/ML-050
 
 Often the data leaves a grey zone, where no answer is certain. Suppose we want to guess a person's gender from their salary alone. In the salary range 4 to 5 lakh rupees, there are both men and women, so salary cannot decide.
 
-**Probability** (G-1574) still lets us decide. If 40% of the people in that range are men and 60% are women, then for a new person earning 4.5 lakh rupees the more likely answer is "woman", and that is what we predict. The chances inside one range add up to 100%.
+[**Probability**](../../02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) still lets us decide. If 40% of the people in that range are men and 60% are women, then for a new person earning 4.5 lakh rupees the more likely answer is "woman", and that is what we predict. The chances inside one range add up to 100%.
 
 ![Salary cannot separate the two groups between 4 and 5 lakh rupees (the ranges outside that zone are drawn for illustration). With the shares 60% women and 40% men in that range, the prediction for a new person earning 4.5 lakh is "woman"](images/grey_zone.png){width=90%}
 
 Figure 5 draws the grey zone: both groups overlap there, so we predict the class with the larger share.
 
-Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors) (G-1297) work: compute the probability of every class, then pick the largest. The rules of probability are taught from [the five basic terms of random experiments and events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) to [joint, marginal and conditional probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability), and [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) builds on them.
+Picking the most probable class is how probabilistic classifiers such as [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors) (G-1297) work: compute the probability of every class, then pick the largest. The rules of probability are taught from [the five basic terms of random experiments and events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) to [joint, marginal and conditional probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability), and [**Bayes' theorem**](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) builds on them.
 
 ## 5. Statistics: drawing conclusions from data
 
 > **Key point:** Statistics is used the most of the four: from the moment we receive data to the moment we use the result.
 
-**Statistics** (G-1884) is the branch of mathematics for collecting and analysing data so that we can draw conclusions from it (see [what statistics is](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is)). It appears at every stage of an ML project.
+[**Statistics**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is) (G-1884) is the branch of mathematics for collecting and analysing data so that we can draw conclusions from it (see [what statistics is](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is)). It appears at every stage of an ML project.
 
 In real work, nobody hands us a dataset with a list of questions. We get the data and must find the meaningful questions ourselves, then answer them. Statistics supplies the tools:
 
 - **Is there an outlier?** One value far from all the others can mislead a model (see [how outliers spoil a model](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#3-how-outliers-spoil-a-model)).
 - **Is the data noisy?** Statistics helps us spot noisy data.
 - **Which algorithm suits this data?** The shape of the data points to suitable algorithms.
-- **Is this feature related to the target?** A **feature** (G-772) is an input variable (one column of the data table), and the **target** (G-1949) is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) answer this.
+- **Is this feature related to the target?** A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), and the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. If a feature is unrelated to the target, there is no reason to feed it to the algorithm. Measures such as [**correlation**](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) answer this.
 
 ![The questions statistics answers at each stage of an ML project](images/stats_stages.png){width=95%}
 
@@ -111,9 +111,9 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 
 | Branch | Its job in ML | Example | Why it matters | Where it is taught |
 |---|---|---|---|---|
-| Linear algebra | Represent data and act on it | A table as a matrix | the computer acts on a whole table in one step | [Vectors](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
+| Linear algebra | Represent data and act on it | A table as a matrix | the computer acts on a whole table in one step | [**Vectors**](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is) (G-2079), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
 | Calculus | Reduce the error (optimisation) | Gradient descent | the slope of the error says which way to change the model | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
-| Probability | Decide under uncertainty | Pick the more likely class | we can still decide when the data cannot settle a case | [Events](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) onward |
+| Probability | Decide under uncertainty | Pick the more likely class | we can still decide when the data cannot settle a case | [**Events**](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) (G-717) onward |
 | Statistics | Draw conclusions from data | Find outliers, related features | an outlier or an unrelated feature can mislead the model | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
 
 - ML is mathematics running on data; four branches carry most of it, so knowing them is how we understand why an algorithm works and fix it when it does not.
@@ -147,7 +147,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#2-what-statistics-is) (G-1884) | The branch of mathematics for collecting, analysing, interpreting and presenting data. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
+| [Vector (geometric view)](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-2079) | A point in a coordinate system, drawn as an arrow from the origin. |
+| [Event](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717) | A set of outcomes, such as "the sum is at most 10". |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |

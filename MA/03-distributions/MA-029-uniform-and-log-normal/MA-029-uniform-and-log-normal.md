@@ -38,7 +38,7 @@ The **uniform distribution** (G-2043) is a probability distribution in which all
 
 The uniform distribution comes in two kinds, one for each kind of random variable:
 
-- **Discrete uniform** (G-618): a fair die. Each face from 1 to 6 has probability $1/6$, so the PMF (the probability of each value) is six bars of equal height (see [the PMF of one die](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die)).
+- [**Discrete uniform**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die) (G-618): a fair die. Each face from 1 to 6 has probability $1/6$, so the PMF (the probability of each value) is six bars of equal height (see [the PMF of one die](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die)).
 - **Continuous uniform** (G-467): a continuous random variable spread evenly over a range, such as a production time anywhere between 5 and 6 hours. This Note is about this kind.
 
 ### 2.1 Notation and parameters
@@ -87,7 +87,7 @@ $$1/(6 - 5) = 1$$
 
 ![U(5, 6): the flat PDF with P(5.2 ≤ X ≤ 5.5) shaded (left), and the CDF (right)](images/uniform_pdf_cdf.png)
 
-The continuous uniform distribution is **symmetric**, like the normal distribution: its skewness is 0. Its excess kurtosis is $-1.2$, as it has no tails at all (see [excess kurtosis](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#4-excess-kurtosis-and-the-three-types)).
+The continuous uniform distribution is **symmetric**, like the normal distribution: its skewness is 0. Its excess kurtosis is $-1.2$, as it has no tails at all (see [**excess kurtosis**](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#4-excess-kurtosis-and-the-three-types) (G-720)).
 
 > **Extra:** The CDF, mean and variance of $U(a, b)$.
 >
@@ -126,10 +126,10 @@ Everyday examples are quantities that are equally likely anywhere within fixed l
 
 In machine learning, the uniform distribution mostly works behind the scenes:
 
-- **Random initialization** (G-1612). Neural networks and k-means clustering (see [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
+- **Random initialization** (G-1612). Neural networks and k-means clustering (see [**k-means**](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-996)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
 - **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each **observation** (G-1374; one record, one row of the data table) with equal probability ([the train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)).
-- **Data augmentation** (G-531). In deep learning with images, a small dataset is enlarged by making new images from old ones: zoomed in a little, shrunk, shifted, rotated. The amounts are drawn at random, often uniformly.
-- **Hyperparameter tuning** (G-909). Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)).
+- [**Data augmentation**](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531). In deep learning with images, a small dataset is enlarged by making new images from old ones: zoomed in a little, shrunk, shifted, rotated. The amounts are drawn at random, often uniformly.
+- [**Hyperparameter tuning**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909). Random search tries hyperparameter values drawn from ranges, often uniformly (scikit-learn `RandomizedSearchCV` docs; see [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)).
 - **Pseudo-random number generators.** Computers first produce uniform random numbers and turn them into samples from other distributions (MML §6.7.1).
 
 > **Python:** Uniform values and the uniform distribution.
@@ -258,7 +258,7 @@ The log-normal distribution appears in biology, medicine, chemistry, hydrology a
 - **Length of comments** in online discussion forums: most comments are a few words; a few are very long.
 - **Time spent reading online articles:** many readers leave quickly; a few stay to the end and read the other comments too.
 - **Length of chess games:** many games end quickly, and a few go on for a very long time.
-- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. The richest 1 to 3% follow a [Pareto distribution](../MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#1-overview) (Clementi and Gallegati 2005).
+- **Income:** there is evidence that the income of about 97 to 99% of the population is log-normally distributed: many people earn little, few earn a lot. The richest 1 to 3% follow a [**Pareto distribution**](../MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#1-overview) (G-1453) (Clementi and Gallegati 2005).
 
 ### 3.4 How to check whether data is log-normal
 
@@ -335,7 +335,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Log-normal distribution (G-1115) | A distribution with a long tail to the right (right-skewed, continuous) whose values follow a normal distribution once you take their logarithm. |
 | $\text{Lognormal}(\mu, \sigma^2)$ (G-20) | A short way to write a log-normal distribution: positive values with a long tail to the right (right-skewed), whose logarithm is normal, $\ln X \sim N(\mu, \sigma^2)$. |
 | [Discrete uniform distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#4-the-pmf-of-one-die) (G-618) | A discrete distribution in which every possible value is equally likely, such as a fair die. |
+| [Excess kurtosis](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#4-excess-kurtosis-and-the-three-types) (G-720) | Kurtosis minus 3, so a normal distribution scores 0. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
 | [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
+| [Pareto distribution](../../../MA/03-distributions/MA-030-pareto-and-power-law/MA-030-pareto-and-power-law.md#3-the-pareto-distribution) (G-1453) | A distribution of values that start at a smallest value $x_m$ and become rarer the larger they are, in a long right tail (a right-skewed power law); used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

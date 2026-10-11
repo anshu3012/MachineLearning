@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/seq2seq,
 
 > **Key point:** An encoder–decoder turns one sequence into another of a different length: one LSTM, the **encoder**, reads the input into a **context vector**, and a second LSTM, the **decoder**, writes the output word by word until it produces an end token.
 
-Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of language models](../DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) calls such tasks **sequence-to-sequence tasks** (G-1772) and places [the encoder–decoder](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
+Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a sequence goes in and a sequence of a different length comes out. The [history of language models](../DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) calls such tasks [**sequence-to-sequence tasks**](../DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) (G-1772) and places [the encoder–decoder](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (Sutskever et al. 2014) as the first stage of the road to the transformer. This Note opens the architecture up: what sits inside each block, how the whole thing is trained, how it predicts, and the improvements used in the original paper.
 
 ![A trained encoder–decoder translating a real English sentence into French, one decoder step per frame: the five most likely words at each step, and the chosen word (orange), which becomes the next input](images/greedy_decoding.gif){height=55%}
 
@@ -26,9 +26,9 @@ Translating "nice to meet you" into Hindi gives "aap se mil kar achha laga": a s
 
 - [The LSTM cell](../../05-rnn/DL-061-lstm/DL-061-lstm.md#9-the-lstm-cell-as-a-small-computer): an RNN with a cell state $c_t$ and a hidden state $h_t$ that reads a sequence one step at a time.
 - [Many-to-many models of different lengths](../../05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths): many-to-many models whose input and output lengths differ.
-- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): word embeddings and Keras' `Embedding` layer.
+- [**Word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127): word embeddings and Keras' `Embedding` layer.
 - [Categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy): categorical cross-entropy and softmax.
-- [Backpropagation through time](../../05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#8-the-full-training-loop): how an unrolled RNN is trained.
+- [**Backpropagation through time**](../../05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#8-the-full-training-loop) (G-246): how an unrolled RNN is trained.
 
 ## 3. Why sequence-to-sequence is hard
 
@@ -52,9 +52,9 @@ An LSTM already copes with the first difficulty: it reads one word per step for 
 
 At the highest level the architecture has three parts:
 
-1. **The encoder** (G-682) receives the input sentence one **token** (G-1981; one word, for now) per step and builds a summary of the whole sentence.
+1. [**The encoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) receives the input sentence one **token** (G-1981; one word, for now) per step and builds a summary of the whole sentence.
 2. **The context vector** is that summary: a fixed list of numbers.
-3. **The decoder** (G-564) reads the context vector and writes the output sentence one token per step.
+3. [**The decoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) reads the context vector and writes the output sentence one token per step.
 
 ### 4.1 The encoder
 
@@ -82,7 +82,7 @@ The decoder is a different LSTM from the encoder: the two do not share weights. 
 
 The `<end>` token is what lets the decoder choose the output length.
 
-To output a word, the decoder's hidden state passes through a dense layer with a **softmax** (G-1830) activation, with one unit per word of the output vocabulary. The softmax gives a probability for every word, and the word with the highest probability is the output of that step.
+To output a word, the decoder's hidden state passes through a dense layer with a [**softmax**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) activation, with one unit per word of the output vocabulary. The softmax gives a probability for every word, and the word with the highest probability is the output of that step.
 
 ## 5. Training
 
@@ -92,7 +92,7 @@ To output a word, the decoder's hidden state passes through a dense layer with a
 
 > **Key point:** A parallel corpus: each observation is a sentence and its translation. Words are turned into numbers; the output vocabulary gets two extra tokens, `<start>` and `<end>`.
 
-Translation data comes as a **parallel corpus** (G-1442): a table with two columns, a sentence in the source language and its translation in the target language. Each row is one **observation** (G-1374; one training example). The source sentence is the input; the translation is the **target** (G-1949), the output we want the model to produce.
+Translation data comes as a **parallel corpus** (G-1442): a table with two columns, a sentence in the source language and its translation in the target language. Each row is one **observation** (G-1374; one training example). The source sentence is the input; the translation is the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we want the model to produce.
 
 To follow the training by hand, take a corpus of two observations:
 
@@ -238,9 +238,9 @@ With a vocabulary of 100,000 words, every one-hot input vector has 100,000 numbe
 
 > **Key point:** Several LSTM layers on top of each other in each block. The context vector then has one pair of states per layer, which gives the summary more room.
 
-In a **stacked** LSTM (G-1865) the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 8). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking ([deep RNNs](../../05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn) treats stacking in full):
+In a **stacked** LSTM (G-1865) the outputs of one layer at each step are the inputs of the layer above, and each layer passes its own states forward in time (Figure 8). The encoder's context vector is then the final $(h, c)$ of every layer, and each decoder layer starts from the matching encoder layer. Three reasons are given for stacking ([**deep RNNs**](../../05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn) (G-573) treats stacking in full):
 
-1. **More room for the summary.** One layer must squeeze a long sentence into one $(h, c)$ pair; several layers give several. Sutskever et al. (2014, section 3.4) found that deep LSTMs "significantly outperform shallow LSTMs, where each additional layer reduced perplexity by nearly 10%, possibly due to their much larger hidden state". **Perplexity** (G-1492) measures how surprised the model is by the correct words; lower is better.
+1. **More room for the summary.** One layer must squeeze a long sentence into one $(h, c)$ pair; several layers give several. Sutskever et al. (2014, section 3.4) found that deep LSTMs "significantly outperform shallow LSTMs, where each additional layer reduced perplexity by nearly 10%, possibly due to their much larger hidden state". [**Perplexity**](../DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing) (G-1492) measures how surprised the model is by the correct words; lower is better.
 2. **Levels of abstraction.** Lower layers tend to work closer to the words and higher layers closer to the meaning, as early layers of the visual system detect edges that later layers combine into shapes (SLP3 §14.4.1).
 3. **More parameters, more capacity.** More weights let the model capture finer patterns in the data, provided there is enough data to avoid overfitting (learning the training pairs by heart and then failing on new sentences).
 
@@ -297,7 +297,7 @@ The details, from Sutskever et al. (2014, sections 3.1–3.6):
 - Each decoder step is a softmax classification over the output vocabulary; the loss is cross-entropy over the steps, so a low probability on the correct word costs much more than a high one.
 - Teacher forcing feeds the gold previous word during training, because a decoder fed its own early wrong words learns nothing at first (BLEU 0 for 3 epochs); prediction feeds the model's own word (greedy decoding).
 - Improvements: embeddings, stacked LSTMs, reversed source sentences, because they give shorter input vectors, more room for the summary, and first source words close to the first target words.
-- The weak point remains the single context vector, because a long sentence must fit in the same fixed size as a short one; [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) removes it.
+- The weak point remains the single context vector, because a long sentence must fit in the same fixed size as a short one; [**attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) removes it.
 - This is how one sequence becomes another of a different length: the encoder reads any length, and the `<end>` token lets the decoder write any length.
 
 ## 11. Sources
@@ -327,6 +327,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Stacked (deep) LSTM (G-1865) | Several LSTM layers on top of each other, each feeding its outputs to the next; the extra layers give the model more room and capacity, with higher layers working closer to the meaning. |
 | `<start>` and `<end>` tokens (G-56) | Special tokens that tell the decoder to begin writing and mark the end of the output. |
 | [Sequence-to-sequence (seq2seq) task](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#3-sequence-to-sequence-problems) (G-1772) | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
 | [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
 | [Token](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981) | One unit of text the model reads or writes; here, one word. |
 | [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
@@ -337,4 +339,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Tokenisation (tokenization)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
 | [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | [BLEU score](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
+| [Deep RNN (stacked RNN)](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#1-overview) (G-573) | An RNN with two or more recurrent layers stacked on top of each other, all unfolded through time. |
 | [Perplexity](../../../DL/06-transformers/DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#74-regularisation-residual-dropout-and-label-smoothing) (G-1492) | A score of how surprised a language model is by the correct tokens: the exponential of the mean cross-entropy per token; lower means it gave the correct tokens higher probability. |
+| [Attention](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |

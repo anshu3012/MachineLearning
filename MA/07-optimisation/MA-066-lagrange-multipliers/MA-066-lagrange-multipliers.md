@@ -72,7 +72,7 @@ The path is the line of all positions with $x + y = 3$. The tests:
 | $(3, 0)$ | 3 | yes | 9 |
 | $(2, 1)$ | 3 | yes | 6 |
 
-The function to minimise is the **objective function** (G-1372). The positions that obey the rule are the **feasible region** (G-759); here, the line $x + y = 3$. A rule of the form "this expression equals 0" is an **equality constraint**. For our path we write it as the expression $h(x, y) = 3 - x - y$ with the rule $h = 0$. A rule of the form "this expression is at most 0" is an **inequality constraint**; a rule written with $\ge$ is turned around, so $x + y \ge 3$ becomes $3 - x - y \le 0$.
+The function to minimise is the [**objective function**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372). The positions that obey the rule are the **feasible region** (G-759); here, the line $x + y = 3$. A rule of the form "this expression equals 0" is an **equality constraint**. For our path we write it as the expression $h(x, y) = 3 - x - y$ with the rule $h = 0$. A rule of the form "this expression is at most 0" is an **inequality constraint**; a rule written with $\ge$ is turned around, so $x + y \ge 3$ becomes $3 - x - y \le 0$.
 
 **The general form.** With several rules, we name the inequality expressions $g_1, \dots, g_m$ and the equality expressions $h_1, \dots, h_n$. In our example $m = 0$ and $n = 1$.
 
@@ -460,11 +460,11 @@ The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $
 Two things are new here:
 
 - **Complementary slackness picks the support vectors.** A point strictly outside the margin has an inactive constraint, so $\alpha_i = 0$ and it does not appear in $\mathbf{w}$. Only points on the margin, the support vectors, have $\alpha_i > 0$.
-- **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick).
+- **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [**kernel trick**](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) (G-1008).
 
 Figure 11 shows complementary slackness on real data: 100 Iris flowers, setosa against versicolor, described by petal length and width. Of the 100 multipliers of the hard-margin SVM, only 2 are not zero: the two flowers on the margin, each with $\alpha = 1.18$. The other 98 flowers could be removed without changing $\mathbf{w}$.
 
-How to read Figure 11: each dot is one flower, placed by its petal length (across) and petal width (up); blue dots are setosa and orange dots are versicolor. The solid line is the **decision boundary** (G-555) the SVM learns: it splits the two species. The dashed lines are the **margin**, the two lines parallel to the boundary at the closest allowed distance; no flower may lie between them. The green rings mark the flowers that sit exactly on a dashed line. Those are the flowers whose constraint is active, so they alone have a multiplier above 0.
+How to read Figure 11: each dot is one flower, placed by its petal length (across) and petal width (up); blue dots are setosa and orange dots are versicolor. The solid line is the [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) the SVM learns: it splits the two species. The dashed lines are the **margin**, the two lines parallel to the boundary at the closest allowed distance; no flower may lie between them. The green rings mark the flowers that sit exactly on a dashed line. Those are the flowers whose constraint is active, so they alone have a multiplier above 0.
 
 ![The hard-margin linear SVM on 100 Iris flowers (petal length and width). Rings: the support vectors, the only flowers with a nonzero dual multiplier (α = 1.18 each). Every other flower has α = 0.](images/svm_alphas.png)
 
@@ -543,4 +543,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Constrained optimisation (G-455) | Maximising or minimising a function while keeping one or more constraints true. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
+| [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

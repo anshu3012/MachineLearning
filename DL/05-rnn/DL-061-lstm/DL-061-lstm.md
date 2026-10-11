@@ -43,7 +43,7 @@ Take the sentence "Maharashtra is a beautiful state. The language spoken there i
 
 In Figure 2, compare the two red lines: the answer depends on the first box in both, but only the short chain still delivers it to the blank.
 
-The cause is the **vanishing gradient** (G-2070) problem (the slopes used for learning shrink towards 0 as they travel back through many time steps), taught in [why the gradient vanishes through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
+The cause is the [**vanishing gradient**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) problem (the slopes used for learning shrink towards 0 as they travel back through many time steps), taught in [why the gradient vanishes through time](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#4-why-the-vanishing-gradient-through-time). The effect is that recent inputs dominate the hidden state, and the influence of early inputs on far-away predictions is small. A simple RNN behaves like someone who has watched a long series but remembers only the latest episodes.
 
 ## 4. How we read a story: two kinds of context
 
@@ -121,9 +121,9 @@ The parts of the LSTM cell are called **gates** (G-825), and there are three of 
 
 | Gate | What it does | In the story |
 |---|---|---|
-| **Forget gate** (G-793) | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
-| **Input gate** (G-950) | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
-| **Output gate** (G-1422) | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
+| [**Forget gate**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#3-what-the-cell-must-do) (G-793) | decides what to remove from the long-term memory | Vikram dies: remove Vikram |
+| [**Input gate**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#3-what-the-cell-must-do) (G-950) | decides what new information to add to the long-term memory | Vikram Junior becomes king: add him |
+| [**Output gate**](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#7-the-output-gate) (G-1422) | decides what to read out of the long-term memory as output, and produces the short-term memory for the next time step | at the end: answer "good or bad" |
 
 ![The three gates placed on the long-term memory. The forget gate multiplies the cell state (removes), the input gate adds to it, and the output gate reads from it to give $h_t$. The examples come from the story of section 4](images/three_gates.png){width=100%}
 
@@ -167,7 +167,7 @@ Watch the middle panel. The cell state does not stay at one fixed value: B's gro
 
 > **Key point:** On real movie reviews whose words are followed by 25 extra time steps, a SimpleRNN stays at chance in all 10 runs, while an LSTM still learns the sentiment in 9 runs of 10.
 
-We can test the idea on real data too. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector (a list of numbers) by an embedding layer, and the **target** (G-1949) (the output we predict) is positive or negative. Each review is one **observation** (G-1374) (one record of the data). **Validation accuracy** is the share of the 5,000 test reviews that the network labels correctly.
+We can test the idea on real data too. The task is sentiment analysis of movie reviews from the IMDB dataset (keras.datasets): 5,000 reviews for training and 5,000 for testing, each word turned into a vector (a list of numbers) by an embedding layer, and the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is positive or negative. Each review is one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record of the data). **Validation accuracy** is the share of the 5,000 test reviews that the network labels correctly.
 
 The test changes one thing: the distance between the words and the end of the sequence.
 

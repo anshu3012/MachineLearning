@@ -28,7 +28,7 @@ Figure 1 is a flow chart: start at the top box and follow an arrow down one of t
 
 > **Key point:** Density estimation is the family of techniques that estimate the PDF of a random variable from a set of observations.
 
-**Density estimation** (G-586) is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. In simpler terms, it estimates the **underlying distribution** (G-2037): the distribution that produced the data points.
+**Density estimation** (G-586) is a statistical technique for estimating the probability density function of a random variable from a set of observations (data). An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the data table; a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable, one column of that table. In simpler terms, it estimates the **underlying distribution** (G-2037): the distribution that produced the data points.
 
 Density estimation is used in:
 
@@ -43,7 +43,7 @@ The methods come in two families, the two routes of Figure 1:
 
 Common techniques include kernel density estimation (Section 5), histogram-based estimation, and the Gaussian mixture model. The choice depends on the data and on what the estimate is for.
 
-> **Extra:** A **Gaussian mixture model** (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (a method that groups points around centres; MML §11.1, §11.5).
+> **Extra:** A [**Gaussian mixture model**](../../08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-829) assumes the density is a weighted sum of a few normal curves (say two, for data with two peaks) and estimates each curve's mean, standard deviation and weight. A mixture model has a fixed set of parameters, like a parametric method, yet it can describe data with several peaks, which one normal curve cannot. Gaussian mixture models are also closely related to k-means clustering (a method that groups points around centres; MML §11.1, §11.5).
 
 ## 3. Parametric density estimation
 
@@ -156,7 +156,7 @@ The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a h
 
 Take six data points: 2, 2.5, 3, 4, 8 and 8.5. Their histogram (Figure 5, left) shows two groups with nothing in between. No famous distribution has that shape, so we use a KDE.
 
-1. **Choose a kernel.** A **kernel** (G-2273) is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel** (G-828): the normal curve.
+1. **Choose a kernel.** A [**kernel**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-2273) is a small, symmetric bump with area 1. The most used one is the **Gaussian kernel** (G-828): the normal curve.
 2. **Put one kernel on every point.** Each data point becomes the centre (mean) of its own normal curve (Figure 5, right, dotted).
 3. **Give all kernels the same width.** The standard deviation of each bump is the **bandwidth** (G-257), $h$. The bandwidth is a setting we choose.
 4. **Add up.** At every $x$, add the heights of all the bumps at that $x$. Where many points sit close together, many bumps overlap and the sum is high. Dividing by the number of points keeps the total area at 1.

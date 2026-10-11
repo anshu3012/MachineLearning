@@ -116,7 +116,7 @@ Model A has the higher recall, matching the choice above. Figure 3 shows where t
 
 ![The confusion matrices of the two cancer detectors, both with accuracy 0.90. Recall reads the outlined row, everyone who really has cancer: 150 of 160 for model A (0.94), 100 of 160 for model B (0.63).](images/cancer_matrices.png)
 
-> **Extra:** Recall is also called **sensitivity** or the **true positive rate** (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994). Its partner for the negatives is **specificity** (G-2209), $TN / (TN + FP)$: of everyone who really is negative, the fraction the model cleared. The two names return in [the true positive rate](../ML-077-roc-auc/ML-077-roc-auc.md#31-true-positive-rate).
+> **Extra:** Recall is also called **sensitivity** or the [**true positive rate**](../ML-077-roc-auc/ML-077-roc-auc.md#31-true-positive-rate) (G-2022) (Fawcett 2006, §2). "Sensitivity" is the name used for medical diagnostic tests (Altman and Bland 1994). Its partner for the negatives is **specificity** (G-2209), $TN / (TN + FP)$: of everyone who really is negative, the fraction the model cleared. The two names return in [the true positive rate](../ML-077-roc-auc/ML-077-roc-auc.md#31-true-positive-rate).
 
 ### 3.3 Choosing between them
 

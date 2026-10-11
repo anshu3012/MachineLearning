@@ -163,7 +163,7 @@ A gap of 0.05 is about 1.5 of these standard deviations, well within the usual s
 
 > **Key point:** The more trials we run, the closer the empirical probability gets to the theoretical one; with few trials they can be far apart.
 
-The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the **law of large numbers** (G-1052), met in [estimating a PMF by simulation](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation).
+The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the [**law of large numbers**](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation) (G-1052), met in [estimating a PMF by simulation](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation).
 
 Ten tosses of a fair coin can easily give 3 heads, an empirical probability of 0.3 against the theoretical 0.5. One simulated coin, tossed more and more times:
 

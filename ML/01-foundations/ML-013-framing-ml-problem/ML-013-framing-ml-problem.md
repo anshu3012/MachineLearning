@@ -135,7 +135,7 @@ So we leave the meeting with a clear goal. In our mind, the task is no longer "i
 
 > **Key point:** We look at the big picture: what product we will build and how it will be used. Only then do we know whether the problem is supervised, and whether it is classification or regression.
 
-Next, we decide what type of ML problem we are solving (see [supervised learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning) and [regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)):
+Next, we decide what type of ML problem we are solving (see [**supervised learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning) (G-1919) and [regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)):
 
 - **Supervised or unsupervised?** (learning from labelled examples, or finding patterns without labels)
 - If supervised, **regression or classification?** (predicting a number, or predicting a class such as yes or no)
@@ -176,7 +176,7 @@ Then a colleague asks: why treat everyone who might leave the same? Some custome
 
 ![A yes or no answer gives everyone the same discount; a score lets the discount grow with the risk](images/yes_no_vs_score.png)
 
-So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a **regression** (G-1655) problem.
+So instead of yes or no, we predict, for each customer, **how likely they are to leave**, as a score from 0 to 100%. The higher the score, the larger the discount. Because the output is now a number, we treat this as a [**regression**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) problem.
 
 > **Extra:** Another way to see it: in practice, this task is usually still built as **binary classification** (leaves or stays), because the past data records only whether each customer left, yes or no. Most classifiers, such as logistic regression ([the model of the toy project](../ML-012-toy-project/ML-012-toy-project.md#8-training-the-model)), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
@@ -218,7 +218,7 @@ Figure 9 shows one observation; the table below says what each feature tells us.
 
 For example, a customer who searched 300 times in a month and did not find 300 of the things they searched for is clearly not getting what they want.
 
-Getting these features is a job for a **data engineer** (G-533). Netflix's day-to-day records live in its **OLTP** (G-1378) database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a **data warehouse** (G-541), where it is organised for analysis, and from there build the dataset we need.
+Getting these features is a job for a **data engineer** (G-533). Netflix's day-to-day records live in its **OLTP** (G-1378) database (online transaction processing: the system that records every action as it happens). Data engineers copy this data into a [**data warehouse**](../ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from) (G-541), where it is organised for analysis, and from there build the dataset we need.
 
 ## 8. Step 5: Metrics
 
@@ -237,7 +237,7 @@ Figure 10 draws both checks as two circles: the customers we flagged and the cus
 
 Choosing metrics deserves real time and thought, just like choosing the data.
 
-> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision). **Precision** (G-1547) asks: of the customers we flagged, how many really left? **Recall** (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
+> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision). [**Precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) asks: of the customers we flagged, how many really left? [**Recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
 
 ## 9. Step 6: Online or batch learning
 
@@ -245,8 +245,8 @@ Choosing metrics deserves real time and thought, just like choosing the data.
 
 We also decide at the start how the model will learn once it is in production (see [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is)):
 
-- **Batch learning** (G-265): train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
-- **Online learning** (G-1391): the model keeps learning on the server from data as it arrives.
+- [**Batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265): train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
+- [**Online learning**](../ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391): the model keeps learning on the server from data as it arrives.
 
 ### 9.1 Why churn suits online learning
 
@@ -342,6 +342,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Inertia (of an organisation) (G-939) | A big organisation's resistance to changing direction once it has started. |
 | Mathematical problem (G-1173) | A business goal restated as a measurable target, such as a churn rate to reach. |
 | Subscription (G-1911) | A model where customers pay a fixed amount every month (or year). |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |

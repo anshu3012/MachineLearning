@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/simple-imputatio
 
 > **Key point:** We fill each gap in a numerical column with one number taken from the same column: its mean or median, an arbitrary value, or a value at the end of its distribution.
 
-[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
+[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
 
 Figure 1 shows the three techniques on a small `Age` column with two gaps (the gaps are the missing values, marked `NaN`, "not a number"). Read each column after the first as the same `Age` column after one technique (the second column covers both mean and median imputation):
 
@@ -29,7 +29,7 @@ Figure 1 shows the three techniques on a small `Age` column with two gaps (the g
 
 ![Three ways to fill the gaps of a numerical column; the fill values come from the training set](images/overview.png)
 
-A fourth univariate technique, [random sample imputation](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation), has its own section, together with [a way to pick the best technique automatically](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search). scikit-learn's `SimpleImputer` does all three techniques of this Note.
+A fourth univariate technique, [**random sample imputation**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) (G-1616), has its own section, together with [a way to pick the best technique automatically](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search). scikit-learn's `SimpleImputer` does all three techniques of this Note.
 
 After every imputation we check what it did to the column. We compare four things before and after: the variance, the distribution, the covariance and correlation with other columns, and the outliers.
 
@@ -76,7 +76,7 @@ All three are bad for a model. Section 3 shows each of them on real data.
 
 > **Key point:** Use mean or median imputation when the data is missing completely at random and each column is missing under about 5% of its values.
 
-The two conditions are the same as for [complete case analysis](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#6-when-to-use-complete-case-analysis):
+The two conditions are the same as for [**complete case analysis**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#6-when-to-use-complete-case-analysis) (G-425):
 
 1. **The data is MCAR** (G-1192, missing completely at random: whether a value is missing has nothing to do with any data; see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)).
 2. **Under about 5% of the column is missing.**
@@ -115,13 +115,13 @@ We split the data 80/20: 712 training rows and 179 test rows. In the training se
 
 The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is filled later with these same training values.
 
-> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. Letting test rows shape the fill value is called **data leakage** (G-535), and the rule is always: fit on the training set, apply to both sets (scikit-learn docs, Data leakage).
+> **Extra:** Computing the mean on the whole table before the split lets the test rows influence the fill value. The test set would then no longer be truly unseen data. Letting test rows shape the fill value is called [**data leakage**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535), and the rule is always: fit on the training set, apply to both sets (scikit-learn docs, Data leakage).
 
 ### 3.2 Variance shrinks
 
 > **Key point:** Mean or median imputation always lowers the variance, and the more values are missing, the more it drops.
 
-The **variance** (G-2074) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 4 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
+The [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 4 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
 
 ![The 712 training ages before and after mean imputation. The 148 filled ages (red) stack at the mean; the band of one standard deviation narrows from 15.5–44.1 years to 17.1–42.5 years.](images/variance_shrink.gif)
 
@@ -155,7 +155,7 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 
 > **Key point:** A filled value ignores the other features, so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
 
-**Covariance** (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. **Correlation** (G-490) is the covariance rescaled to lie between $-1$ and $1$. A worked case with three passengers: ages 20, 30, 40 (mean 30) and family sizes 3, 1, 2 (mean 2).
+[**Covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. [**Correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) is the covariance rescaled to lie between $-1$ and $1$. A worked case with three passengers: ages 20, 30, 40 (mean 30) and family sizes 3, 1, 2 (mean 2).
 
 | Passenger | Age minus mean | Family minus mean | Product |
 |---|---|---|---|
@@ -448,6 +448,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
+| [Complete case analysis (CCA)](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
 | [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |

@@ -63,7 +63,7 @@ Figure 1 sweeps $p$ from left to right. How to read it:
 
 > **Key point:** Take the log, differentiate, set the slope to 0 and solve: the best $p$ is 4 out of 7.
 
-The peak of Figure 1 is where the slope of the likelihood curve is 0. To find it exactly we first take the log. The **log-likelihood** (G-1113) has its peak at the same $p$, because the log always grows when its input grows ([why we take the log](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#8-why-we-take-the-log), Section 8), and it is easier to differentiate.
+The peak of Figure 1 is where the slope of the likelihood curve is 0. To find it exactly we first take the log. The [**log-likelihood**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) has its peak at the same $p$, because the log always grows when its input grows ([why we take the log](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#8-why-we-take-the-log), Section 8), and it is easier to differentiate.
 
 ![The likelihood of p for 4 of 7 (top) and its log (bottom). The shapes differ, but both peak at p = 4/7 = 0.571, where the red tangent lines are flat. Orange: the values at p = 0.25, 0.5 and 0.57](images/binomial_log.png){height=42%}
 
@@ -72,7 +72,7 @@ In Figure 2, compare the two dashed lines: the same $p$ tops both curves, so eit
 1. **In words:** take the log of the likelihood, differentiate with respect to $p$, set the result to 0 and solve for $p$.
 2. **Formula:** the log turns the product into a sum and brings the exponents down:
    $$\ell(p) = \log\binom{7}{4} + 4\log p + 3\log(1 - p)$$
-   The first term has no $p$ in it, so its derivative is 0. The derivative of $\log p$ is $1/p$. For $\log(1 - p)$ the chain rule (see [derivatives](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#5-rules-for-computing-derivatives)) gives $1/(1 - p) \times (-1)$:
+   The first term has no $p$ in it, so its derivative is 0. The derivative of $\log p$ is $1/p$. For $\log(1 - p)$ the chain rule (see [**derivatives**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#5-rules-for-computing-derivatives) (G-595)) gives $1/(1 - p) \times (-1)$:
    $$\frac{d\ell}{dp} = \frac{4}{p} - \frac{3}{1 - p}$$
 3. **Example:** set it to 0 and multiply both sides by $p(1 - p)$:
    $$4(1 - p) - 3p = 0$$
@@ -122,7 +122,7 @@ In Figure 3, watch the width, not the peak: ten times more data leaves $\hat p$ 
 
 > **Key point:** $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$. The rate $\lambda$ is how many events happen per unit time on average; the average wait is $1/\lambda$.
 
-The **exponential distribution** (G-733) models the time between random events: the wait for the next text message, the time until the next person opens a web page. The distribution is right-skewed: short waits are common, long waits rare. The [sampling distribution](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) used it as a skewed population.
+The **exponential distribution** (G-733) models the time between random events: the wait for the next text message, the time until the next person opens a web page. The distribution is right-skewed: short waits are common, long waits rare. The [**sampling distribution**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1736) used it as a skewed population.
 
 1. **In words:** the density starts at height $\lambda$ at $x = 0$ and falls off exponentially. The **rate parameter** (G-1636) $\lambda$ is the average number of events per unit of time.
 2. **Formula:**
@@ -315,7 +315,7 @@ So the **MLE of a normal distribution** (G-1242) for the mice is $\hat\mu = 32$ 
    $$\hat\sigma^2_{\text{ML}} = 20/5 = 4$$
    $$s^2 = 20/4 = 5$$
 
-> **Another way to see it:** The [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) section also wrote the **population** (G-1525) **variance**, which divides by the population size $N$ and measures the distances from the true mean $\mu$. The MLE formula divides by $n$ too, but it measures the distances from the sample mean $\bar x$, because $\mu$ is unknown. That swap is the whole story of Section 5.2: distances from $\bar x$ come out a little too small, and dividing by $n - 1$ instead of $n$ makes up for it.
+> **Another way to see it:** The [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) section also wrote the [**population**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) **variance**, which divides by the population size $N$ and measures the distances from the true mean $\mu$. The MLE formula divides by $n$ too, but it measures the distances from the sample mean $\bar x$, because $\mu$ is unknown. That swap is the whole story of Section 5.2: distances from $\bar x$ come out a little too small, and dividing by $n - 1$ instead of $n$ makes up for it.
 
 ### 5.2 Biased but consistent
 
@@ -391,4 +391,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Unbiased estimator (G-2034) | A formula that guesses a true value from a sample (an estimator) and is right on average: its average over many samples equals the true value. |
 | Biased estimator (G-289) | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |
 | [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Sampling distribution](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#1-overview) (G-1736) | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |

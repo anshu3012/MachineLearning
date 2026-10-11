@@ -31,8 +31,8 @@ How to read Figure 1: the curve is the loss for each value of one parameter, $b_
 ## 2. Prerequisites
 
 - The [2-2-1 network and its data](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#3-the-data-and-the-network): the 2-2-1 network, the four students and the 9 derivatives.
-- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea), including its learning rate and stopping rule.
-- [Derivatives](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) and [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives).
+- [**Gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862), including its learning rate and stopping rule.
+- [**Derivatives**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (G-595) and [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives).
 
 ## 3. The loss is a function of all nine parameters
 
@@ -58,7 +58,7 @@ In this formula $x_{i1}$ and $x_{i2}$ are the two **features** of student $i$ (i
 $$L = L\big(W_{11}^{1}, W_{12}^{1}, W_{21}^{1}, W_{22}^{1},$$
 $$\qquad b_{11}, b_{12}, W_{11}^{2}, W_{21}^{2}, b_{21}\big)$$
 
-$y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's **trainable parameters** (G-1065): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
+$y = f(x)$ is a function of one variable; the loss is a function of nine. These nine numbers are the network's [**trainable parameters**](../../04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065): the values training is allowed to change. Picture the network as a box with 9 knobs, one per trainable parameter: turning any of them changes the loss, and training turns all of them until the loss is as small as possible.
 
 ![Student 1's loss when one parameter is turned and the other eight stay at their starting values; the red dot is the start](images/knobs.png){height=48%}
 
@@ -176,7 +176,7 @@ Figure 1 runs 10 updates with four learning rates:
 - $\eta = 1$: $-5,\ 12.36,\ -5,\ 12.36, \dots$ The value zigzags across the bowl forever.
 - $\eta = 1.1$: $-5,\ 14.10,\ -8.82,\ 18.68, \dots$, and $-50.06$ after 10 steps. Each jump overshoots more: the updates diverge.
 
-Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate (G-1068) is a **hyperparameter** (G-910), a setting we choose rather than learn, to tune (see [the learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate)).
+Multiplying the slope by a small factor such as 0.1 or 0.01 turns the zigzag into small steps. As we near the minimum the slope shrinks, so the steps shrink with it. Too small a learning rate wastes time; too large overshoots and can run away. The learning rate (G-1068) is a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), a setting we choose rather than learn, to tune (see [the learning rate](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#5-the-learning-rate)).
 
 > **Extra:** On this parabola the update is $b_{21} - 3.68 \leftarrow (1 - 2\eta)(b_{21} - 3.68)$: each step multiplies the distance to the minimum by $1 - 2\eta$. The factor is 0.8 for $\eta = 0.1$ (shrinks), $-1$ for $\eta = 1$ (same size, flipped side), and $-1.2$ for $\eta = 1.1$ (grows). Any $\eta$ above 1 diverges here; how large a rate is safe depends on how steep the loss is.
 
@@ -230,7 +230,7 @@ In Figure 11, the same rule gives three different results:
 - The ball that starts at 0.5 rolls into the right valley and stops at $+0.354$.
 - The ball that starts at exactly 0 never moves. The slope on the hilltop is zero, so the update changes nothing.
 
-So a slope of zero means "no direction is downhill from here", which is true at the bottom of any valley and also on a flat hilltop. Here the two valleys are equally deep. In general they are not, and gradient descent can settle in a **local minimum** (G-1110), a valley that is not the deepest one (see [what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The starting values of the weights decide which valley is reached, which is one reason why the starting values of the weights matter.
+So a slope of zero means "no direction is downhill from here", which is true at the bottom of any valley and also on a flat hilltop. Here the two valleys are equally deep. In general they are not, and gradient descent can settle in a [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110), a valley that is not the deepest one (see [what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The starting values of the weights decide which valley is reached, which is one reason why the starting values of the weights matter.
 
 ## 10. Summary
 
@@ -270,6 +270,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Converge (G-469) | To settle at a minimum, with steps becoming negligible. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |

@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/xgboost]
 
 ![XGBoost: gradient boosting plus optimisations in three areas](images/overview.png){height=38%}
 
-**XGBoost** (G-2133; eXtreme Gradient Boosting) is the gradient boosting of [boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) and [additive modelling](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
+**XGBoost** (G-2133; eXtreme Gradient Boosting) is the gradient boosting of [boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) and [**additive modelling**](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones) (G-174) with a long list of improvements. Some come from machine learning, most from software engineering. Figure 1 sorts them into three areas.
 
 This Note is a map of the whole library: what each improvement is and why it matters, without the maths. The Notes that follow work through the core:
 
@@ -144,7 +144,7 @@ Linear regression only does regression; logistic regression only classification.
 - ranking (ordering items, as in recommender systems);
 - anomaly detection.
 
-Because it is gradient boosting underneath, we can also write our own loss function and our own evaluation metric. For example, a loss that charges more for false negatives than for false positives: [cost-sensitive learning](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#9-cost-sensitive-learning) writes such a loss.
+Because it is gradient boosting underneath, we can also write our own loss function and our own evaluation metric. For example, a loss that charges more for false negatives than for false positives: [**cost-sensitive learning**](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#9-cost-sensitive-learning) (G-493) writes such a loss.
 
 ## 7. Speed
 
@@ -214,7 +214,7 @@ XGBoost keeps what it uses most often in the cache, such as the gradient statist
 
 Suppose our laptop has 8 GB of RAM and the dataset is 10 GB. The dataset cannot be loaded at once, so normally we could not even start.
 
-**Out-of-core computing** (G-1413) works in three steps:
+[**Out-of-core computing**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#6-out-of-core-learning) (G-1413) works in three steps:
 
 1. split the data into chunks, say five of 2 GB, kept on disk;
 2. load chunk 1 and train on it, which brings the model to some state;
@@ -303,7 +303,7 @@ At prediction time, any observation missing F1 follows it (Chen and Guestrin 201
 
 > **Key point:** Because of the default direction, XGBoost trains on data with missing values as they are, with no imputation step.
 
-So far, a dataset with missing values had to be fixed first: observations dropped ([complete case analysis](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis)) or values filled in ([imputing numerical data](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
+So far, a dataset with missing values had to be fixed first: observations dropped ([**complete case analysis**](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis) (G-425)) or values filled in ([imputing numerical data](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
 
 The Notebook shows this on the Titanic passengers, where Age is missing for 177 of 891:
 
@@ -328,7 +328,7 @@ We can read the learned default direction from the first tree. One of its nodes 
 
 > **Key point:** Instead of trying every value as a split, XGBoost cuts each feature into bins and tries only the bin edges; the bins follow quantiles, so they are narrow where the data is dense.
 
-The usual way to find a split, used in [regression trees](../ML-093-regression-trees/ML-093-regression-trees.md#43-trying-every-threshold), is the **exact greedy algorithm** (G-719):
+The usual way to find a split, used in [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#43-trying-every-threshold) (G-1654), is the **exact greedy algorithm** (G-719):
 
 1. sort the column;
 2. try the midpoint between every pair of neighbouring values as a split;
@@ -426,7 +426,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Weighted quantile sketch (G-2118) | XGBoost's method for choosing candidate split points in a column: it places bin edges at quantiles in which each row counts by its Hessian (weighted quantiles). |
 | LightGBM (G-1084) | Microsoft's gradient boosting library, aimed at speed and low memory use. |
 | CatBoost (G-348) | Yandex's gradient boosting library, with built-in handling of categorical columns. |
+| [Additive modelling](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#32-break-the-function-into-parts) (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
+| [Cost-sensitive learning](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#9-cost-sensitive-learning) (G-493) | Changing the learning so that mistakes on some classes cost more. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Out-of-core learning (out-of-core computing)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#6-out-of-core-learning) (G-1413) | Training on data too big for the memory (RAM) by loading it chunk by chunk, offline. |
 | [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
+| [Complete case analysis (CCA)](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |

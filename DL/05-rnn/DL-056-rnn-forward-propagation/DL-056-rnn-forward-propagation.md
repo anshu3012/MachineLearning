@@ -26,7 +26,7 @@ Figure 1 shows the whole idea. The three purple boxes are not three layers: they
 
 ## 2. Prerequisites
 
-- [Sequential data](../DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data), and [why an ANN struggles with it](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text).
+- [**Sequential data**](../DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data) (G-1774), and [why an ANN struggles with it](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text).
 - [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): a layer computes a weighted sum, adds a bias and applies an activation.
 - [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): a category becomes a vector (a list of numbers) with a single 1.
 - [Tensors and their shapes](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size): shapes such as $(3, 4, 5)$, a grid with 3 layers of 4 rows and 5 columns.
@@ -48,7 +48,7 @@ Take a sentiment analysis task: the input is a movie review, and the **target** 
 | movie was bad | 0 |
 | movie was not good | 0 |
 
-These reviews use 5 unique words, the **vocabulary** (G-2092): movie, was, good, bad, not. With **one-hot encoding** (G-1379), each word becomes a vector of 5 numbers with a single 1:
+These reviews use 5 unique words, the [**vocabulary**](../../06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092): movie, was, good, bad, not. With [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379), each word becomes a vector of 5 numbers with a single 1:
 
 | Word | Vector |
 |---|---|
@@ -76,7 +76,7 @@ In general the shape of one observation is (time steps, input features).
 
 > **Key point:** Keras' `SimpleRNN` layer takes (batch size, time steps, input features). Shorter reviews are padded to the longest one.
 
-Keras processes several reviews at once. The three reviews above, sent together, form a **batch** (G-263): a **tensor** (G-1957; a grid of numbers with any number of axes) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as **padding** (G-1436) (padding and its cost are covered in [zero padding wastes most of the network](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network)).
+Keras processes several reviews at once. The three reviews above, sent together, form a [**batch**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263): a **tensor** (G-1957; a grid of numbers with any number of axes) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as [**padding**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) (padding and its cost are covered in [zero padding wastes most of the network](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network)).
 
 ![The batch of the three reviews. Each review is a table with one row per time step and one column per input feature; each row is a word's one-hot vector. The 3-word reviews get a grey row of zeros, so the batch has shape (3, 4, 5)](images/batch_tensor.png){width=100%}
 
@@ -154,7 +154,7 @@ The rest of this Note builds the same thing with vectors in place of single numb
 An ANN has an input layer, one or more hidden layers and an output layer. An RNN has the same three parts, with two differences.
 
 1. **The input arrives one time step at a time.** An ANN takes the whole input at once. An RNN takes $x_{11}$ at $t = 1$, then $x_{12}$ at $t = 2$, then $x_{13}$ at $t = 3$.
-2. **The hidden layer feeds back to itself.** An ANN is a **feed-forward network** (G-775): information only moves from input to output. In an RNN, the hidden layer's output at one time step becomes an extra input to the same layer at the next time step. This fed-back output is the network's **state**.
+2. **The hidden layer feeds back to itself.** An ANN is a [**feed-forward network**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775): information only moves from input to output. In an RNN, the hidden layer's output at one time step becomes an extra input to the same layer at the next time step. This fed-back output is the network's **state**.
 
 The hidden layer with this feedback is the **recurrent layer** (G-1646), and its output at time $t$ is the **hidden state** (G-891) $h_t$.
 
@@ -429,6 +429,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | $W_i$, $W_h$, $W_o$ (G-39) | The three weight matrices of an RNN: $W_i$ multiplies the current input, $W_h$ multiplies the hidden state fed back from the previous time step, and $W_o$ turns the hidden state into the output. |
 | `SimpleRNN` (G-144) | The Keras layer for a basic RNN; input shape (batch size, time steps, input features). |
 | [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview) (G-1774) | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |

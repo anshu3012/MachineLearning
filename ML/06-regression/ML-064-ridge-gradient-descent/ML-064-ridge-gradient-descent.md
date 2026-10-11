@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/ridge]
 
 [The Ridge formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w) finds the Ridge coefficients in one jump. Like plain linear regression, **Ridge regression** (G-1691; linear regression with a penalty on large coefficients, see [the idea of Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)) can instead be trained with **gradient descent** (G-862; [the idea](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)): start somewhere, and repeatedly step downhill on the loss (the number that says how wrong the model is).
 
-Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (see [the cost of the inverse](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)).
+Here a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) y is the value we predict. Gradient descent is useful when there are many features, because the formula needs the inverse of a large matrix (see [the cost of the inverse](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)).
 
 The next figures use a [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) of the squared error, so first the surface it comes from. Take the one-feature example of [Ridge with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature): every pair (slope $m$, intercept $b$) is one line, and its squared error (the sum of the squared gaps between the line and the 100 targets) is
 
@@ -192,7 +192,7 @@ With λ = 250 the path zig-zags across the valley: the penalty makes the bowl so
 - **λ = 0:** the path ends at slope 27.8 and intercept −2.3, the linear regression answer.
 - **λ = 100:** the penalty moves the bottom of the bowl to slope 12.9 and intercept −1.4. These values are exactly the Ridge values from [the formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w).
 
-The penalty makes the bowl steeper in the m direction only. The steepness of a bowl along one direction is its **curvature** (G-521), the second derivative. Along the slope m it is the bottom-right entry of the transpose of X times X, plus λ:
+The penalty makes the bowl steeper in the m direction only. The steepness of a bowl along one direction is its [**curvature**](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian) (G-521), the second derivative. Along the slope m it is the bottom-right entry of the transpose of X times X, plus λ:
 
 $$\frac{\partial^2 L}{\partial m^2} = \sum_{i=1}^{100} x_i^2 + \lambda$$
 
@@ -287,7 +287,7 @@ $$\eta < \frac{2}{353} = 0.0057$$
 
 So 0.005 is just below the limit and 0.006 just above it.
 
-**Many directions at once.** A bowl over many coefficients has a different curvature in each direction. The matrix of all its second derivatives is the **Hessian matrix** (G-888). For the Ridge loss it is
+**Many directions at once.** A bowl over many coefficients has a different curvature in each direction. The matrix of all its second derivatives is the [**Hessian matrix**](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#51-the-hessian-matrix) (G-888). For the Ridge loss it is
 
 $$H = X^{\mathsf T}X + \lambda I$$
 
@@ -295,7 +295,7 @@ For the one-feature example of Section 3 with λ = 100 (and the intercept left o
 
 $$H = \begin{bmatrix} 100 & 5.84 \cr5.84 & 187.19 \end{bmatrix}$$
 
-The steepest and the flattest directions of the bowl are the eigenvectors of H, and the curvatures along them are its **eigenvalues** (G-665). Eigenvalues are often written λ; here λ is already the penalty, so we write h. The computer finds them (the notebook). Input: the matrix H. Output for the three paths of Section 3, with the step factor 1 − 0.005 h for the steepest direction:
+The steepest and the flattest directions of the bowl are the eigenvectors of H, and the curvatures along them are its [**eigenvalues**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665). Eigenvalues are often written λ; here λ is already the penalty, so we write h. The computer finds them (the notebook). Input: the matrix H. Output for the three paths of Section 3, with the step factor 1 − 0.005 h for the steepest direction:
 
 | λ | Eigenvalues h of H | Factor for the largest h |
 |---|---|---|
@@ -337,7 +337,7 @@ and finally dominates.
 
 ## 5. Gradient descent stops early
 
-> **Key point:** Stopping gradient descent early keeps the coefficients small, so **early stopping** (G-656) is a regulariser of its own, much like the ridge penalty.
+> **Key point:** Stopping gradient descent early keeps the coefficients small, so [**early stopping**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) is a regulariser of its own, much like the ridge penalty.
 
 Think of pouring water into an ice-cube tray: stop pouring early and every cube is only partly full. Gradient descent starts with small coefficients and fills them up step by step; stopping early leaves the slow ones small.
 

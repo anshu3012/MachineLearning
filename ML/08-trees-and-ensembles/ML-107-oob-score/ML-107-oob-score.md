@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/oob-sco
 
 ![Out-of-bag evaluation with 6 observations and 4 trees: each observation is predicted only by the trees whose bootstrap sample missed it](images/oob_vote.gif)
 
-**Out-of-bag (OOB) evaluation** (G-1411) is a way to test a bagging model (many models, each trained on a random resample of the data, whose answers are combined; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), such as a [random forest](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (bagging of decision trees), using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
+**Out-of-bag (OOB) evaluation** (G-1411) is a way to test a bagging model (many models, each trained on a random resample of the data, whose answers are combined; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), such as a [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) (bagging of decision trees), using only its training data. Each **observation** is one record (one row of the data table): its **features** (input variables, one column each) and its **target** (the output we predict). OOB evaluation is available in every bagging-based ensemble of scikit-learn (section 7). Figure 1 shows the whole process on 6 observations and 4 trees.
 
 The OOB score was introduced with [the out-of-bag score of the bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score): `oob_score=True`, then `oob_score_`. This Note:
 
@@ -34,7 +34,7 @@ The Notebook (`ML-107-oob-score.ipynb`) runs every step.
 
 > **Key point:** Drawing with replacement means some observations are drawn several times for a tree and others not at all; the observations a tree missed are out-of-bag for that tree.
 
-Each tree is trained on a **bootstrap sample** (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations ([drawing with replacement](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement)). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations** (G-1412): the tree has never seen them, so they can serve as test data for that tree.
+Each tree is trained on a [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319), drawn **with replacement** (`bootstrap=True`), which holds on average about 63.2% of the distinct observations ([drawing with replacement](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement)). The other **36.8%**, the observations a tree never drew, are its **out-of-bag (OOB) observations** (G-1412): the tree has never seen them, so they can serve as test data for that tree.
 
 Figure 2 draws one tree's bootstrap sample from 20 observations, one draw at a time. Each draw picks any of the 20 observations, including ones already drawn. Watch the bars: some observations are drawn two, three or four times, and 7 of the 20 (35%) are never drawn. Those 7 are the tree's out-of-bag observations (orange).
 
@@ -72,9 +72,9 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 3. **Example:** in Figure 1, 5 of the 6 observations are right:
    $$\text{OOB score} = \frac{5}{6} = 0.83$$
 
-For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions ([R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); see also [the out-of-bag score of the bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
+For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions ([**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717); see also [the out-of-bag score of the bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
 
-> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is **soft voting** (G-1828) ([soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
+> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is [**soft voting**](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) ([soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
 
 ## 4. The OOB score in scikit-learn
 
@@ -94,7 +94,7 @@ We use [the heart disease data](../ML-106-random-forest-tuning/ML-106-random-for
 >
 > `oob_score=True` must be set **before** `fit`: the OOB predictions are collected while the forest is trained. Without it, `oob_score_` does not exist.
 
-On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**, and a 5-fold **cross-validation** (G-510) on the training set gives 0.806. One split of 61 test patients is noisy, though: one patient moves the test accuracy by 0.016. So the Notebook repeats the comparison on 50 random splits, with 500 trees:
+On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**, and a 5-fold [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) on the training set gives 0.806. One split of 61 test patients is noisy, though: one patient moves the test accuracy by 0.016. So the Notebook repeats the comparison on 50 random splits, with 500 trees:
 
 | Estimate (mean over 50 splits) | Accuracy |
 |---|---|
@@ -209,7 +209,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | oob_decision_function_ (G-1393) | Each training row's class probabilities, given only by the trees that never saw that row (its OOB trees). |
 | oob_prediction_ (G-1394) | For a regressor, each training row's prediction from only the trees that never saw it (its OOB prediction). |
 | oob_score_ (G-1395) | The accuracy (classifier) or $R^2$ (regressor) of each training row's prediction by the trees that never saw it (the OOB predictions). |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
 | [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
 | [Soft voting](../../../ML/08-trees-and-ensembles/ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) | Predicting the class with the highest average predicted probability across the base models. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |

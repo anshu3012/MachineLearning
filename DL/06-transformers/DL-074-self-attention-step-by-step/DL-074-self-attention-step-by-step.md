@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 ## 1. Overview
 
-> **Key point:** **Self-attention** (G-1763) builds each word's new vector as a **weighted sum** (each vector multiplied by its weight, then added) of the embeddings (vectors, lists of numbers) of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830; it turns any numbers into positive weights that sum to 1). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices (tables of numbers) $W_Q$, $W_K$, $W_V$ (G-41) turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$ (built step by step in section 8).
+> **Key point:** [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) builds each word's new vector as a **weighted sum** (each vector multiplied by its weight, then added) of the embeddings (vectors, lists of numbers) of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830; it turns any numbers into positive weights that sum to 1). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices (tables of numbers) $W_Q$, $W_K$, $W_V$ (G-41) turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$ (built step by step in section 8).
 
 [Self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) was treated as a box: static embeddings go in, contextual embeddings come out. This Note opens the box. We build self-attention from first principles, as if inventing it:
 
@@ -54,7 +54,7 @@ Machines work with vectors, not words, so we write the mix with embeddings. With
 
 $$y_{\text{bank}} = 0.29\thinspace e_{\text{money}} + 0.52\thinspace e_{\text{bank}} + 0.19\thinspace e_{\text{grows}}$$
 
-A weighted sum of $n$-number vectors is again an $n$-number vector. The new vectors are the **contextual embeddings** (G-462) we wanted. Two questions remain: where do the weights come from, and how do we make them sum to 1?
+A weighted sum of $n$-number vectors is again an $n$-number vector. The new vectors are the [**contextual embeddings**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) we wanted. Two questions remain: where do the weights come from, and how do we make them sum to 1?
 
 ## 4. Weights from similarity
 
@@ -64,7 +64,7 @@ A weighted sum of $n$-number vectors is again an $n$-number vector. The new vect
 
 > **Key point:** Two vectors that point the same way have a large dot product.
 
-The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The more related two words are, the larger that share should be. The **dot product** (G-634) of two vectors is a simple measure of how similar they are (see [the geometric meaning](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning)).
+The weight $0.29$ means: "bank" takes 29% of its new meaning from "money". The more related two words are, the larger that share should be. The [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of two vectors is a simple measure of how similar they are (see [the geometric meaning](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning)).
 
 1. **In words:** multiply the vectors number by number, then add.
 2. **Formula:**
@@ -191,7 +191,7 @@ In a trained model nobody chooses these directions, and what a matrix actually l
 
 > **Key point:** A new vector from an old one: multiply by a matrix.
 
-To make a new vector from an old one, scaling alone (making it longer or shorter) is too limited: the direction must change as well. The standard way is a **linear transformation** (G-1097), multiplying the vector by a matrix (see [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear)). We use three matrices, $W_Q$, $W_K$ and $W_V$, one per role.
+To make a new vector from an old one, scaling alone (making it longer or shorter) is too limited: the direction must change as well. The standard way is a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097), multiplying the vector by a matrix (see [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear)). We use three matrices, $W_Q$, $W_K$ and $W_V$, one per role.
 
 1. **In words:** each embedding, written as a row vector, times each of the three matrices gives the word's query, key and value vectors.
 2. **Formula:**
@@ -285,7 +285,7 @@ In Figure 8, watch the row of "money" in the weights: a score of 8 against 4 and
 
 The order matters: $QK^{\top}$, queries times the transpose of the keys, so that entry $(i, j)$ is $q_i \cdot k_j$.
 
-The self-attention inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is explained in [why a wide spread is a problem](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates). Inside a transformer, $Y$ also does not replace $X$: it is added to $X$, so attention supplies a change to each word's vector (the residual connection of [add and norm](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm)).
+The self-attention inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is explained in [why a wide spread is a problem](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates). Inside a transformer, $Y$ also does not replace $X$: it is added to $X$, so attention supplies a change to each word's vector (the residual connection of [**add and norm**](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172)).
 
 ## 9. Learned matrices on real reviews
 
@@ -295,7 +295,7 @@ The self-attention inside a transformer works this way, with one more step: the 
 
 > **Key point:** Two models identical except for the three matrices, which start at the identity, so both begin as the same function.
 
-Section 6 claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [IMDB dataset](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
+Section 6 claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
 
 - **Static embeddings:** 50 numbers per word, learned from the training reviews themselves by the counting method of [the same effect in real text](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#42-the-same-effect-in-real-text), then **frozen**, so they cannot adapt to the task. They do capture meaning: the nearest words to "great" are wonderful, fine, fantastic, excellent, marvelous, superb.
 - **Model:** embeddings → self-attention → the average of the contextual embeddings over the words of the review → one sigmoid node.
@@ -384,6 +384,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
 | [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
+| [Add and norm](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172) | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |
+| [IMDB dataset](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |

@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/anova]
 
 ![Same group means, different spread: the gaps between means are clear on the left and lost in the noise on the right](images/between_within.png)
 
-ANOVA (**analysis of variance** (G-203)) was named in [the tools of inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics) as the test that compares the means of several groups. In [choosing a hypothesis test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview) ANOVA is the test for one numerical **feature** (G-772) against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
+ANOVA (**analysis of variance** (G-203)) was named in [the tools of inferential statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics) as the test that compares the means of several groups. In [choosing a hypothesis test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview) ANOVA is the test for one numerical [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) against a categorical feature with three or more categories (a feature is a variable of the data, one column of the data table, such as age or class).
 
 Figure 1 shows the whole idea. Both panels have the same group means, 5, 7 and 9. On the left the values sit close to their group mean, so the gaps between the means stand out. On the right the values are spread widely, and the same gaps could easily be chance. ANOVA turns this comparison into one number, the F statistic.
 
@@ -39,7 +39,7 @@ This Note covers:
 
 A two-sample t-test compares two group means (see [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test)). With three groups A, B and C, we could run three t-tests: A against B, A against C, B against C.
 
-The trouble is the Type I error (see [Type I error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error)). Each test, run at $\alpha = 0.05$, wrongly rejects a true $H_0$ 5% of the time. Over several tests these risks add up.
+The trouble is the Type I error (see [**Type I error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032)). Each test, run at $\alpha = 0.05$, wrongly rejects a true $H_0$ 5% of the time. Over several tests these risks add up.
 
 1. **In words:** the chance of at least one false alarm is one minus the chance that every test stays quiet.
 2. **Formula:** for $m$ independent tests,
@@ -332,7 +332,7 @@ All three pairs differ: first-class passengers were the oldest, third-class the 
 
 > **Key point:** `f_classif` scores each numerical feature by its ANOVA F against the class labels, for feature selection.
 
-[`SelectKBest`](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (scores each column against the target and keeps the $k$ best) can score features (the input variables of a model) with `f_classif` instead of `chi2`. For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the **target** (G-1949) (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
+[`SelectKBest`](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (scores each column against the target and keeps the $k$ best) can score features (the input variables of a model) with `f_classif` instead of `chi2`. For each numerical feature, `f_classif` computes the one-way ANOVA F with the classes of the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) as groups (scikit-learn docs, `f_classif`). A feature whose mean differs strongly between the classes gets a large F, and is kept.
 
 ## 10. Summary
 
@@ -390,4 +390,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Familywise error rate (G-752) | The chance of at least one false alarm (Type I error) when running several tests: $1 - (1 - \alpha)^m$ for $m$ tests, each at significance level $\alpha$. |
 | One-way ANOVA (G-1389) | A test of whether three or more group means are equal, with the groups defined by one categorical column. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Type I error (false positive)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

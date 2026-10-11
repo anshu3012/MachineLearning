@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ![The hyperparameters of RandomForestClassifier, in three groups](images/three_groups.png){height=36%}
 
-A random forest (many decision trees, each trained on a random part of the data, that vote; see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) is a very flexible algorithm with many **hyperparameters** (G-910): settings we choose before training, as opposed to what the trees learn from the data. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
+A random forest (many decision trees, each trained on a random part of the data, that vote; see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) is a very flexible algorithm with many [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): settings we choose before training, as opposed to what the trees learn from the data. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
 
 The Notebook (`ML-105-random-forest-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the decision surface with its test accuracy.
 
@@ -96,7 +96,7 @@ so each split may look at only one randomly chosen feature.
 
 ![Random forests on the demo data with different forest-level settings; each surface is one split, and each title gives the mean test accuracy over 20 splits](images/forest_settings.png){height=52%}
 
-The demo data has 500 points with 2 features and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows the **decision surface** (G-560) of six forests on one such split: every point of the plane is coloured by the class the forest predicts there. The line where the colour changes is the **decision boundary** (G-555). In each panel the horizontal axis is feature 1 and the vertical axis is feature 2; orange is class 0 and blue is class 1, for both the points and the regions. The Dash app lets us try any combination.
+The demo data has 500 points with 2 features and 2 classes: two rings of points, each around a blob of the other class. We train on 375 points and test on 125. Figure 2 shows the [**decision surface**](../../07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) of six forests on one such split: every point of the plane is coloured by the class the forest predicts there. The line where the colour changes is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). In each panel the horizontal axis is feature 1 and the vertical axis is feature 2; orange is class 0 and blue is class 1, for both the points and the regions. The Dash app lets us try any combination.
 
 With only 125 test points, one point changes the accuracy by
 
@@ -106,7 +106,7 @@ so a single split is noisy. The numbers below, and the accuracy in each panel ti
 
 **`n_estimators`.** One tree scores 0.846, 5 trees 0.868 and 10 trees 0.888. Then the score stops rising: 50, 100 and 200 trees all score about 0.887. Adding trees to a forest does not cause overfitting; the score just levels off (ESL §15.3.4).
 
-- With **few trees** the decision boundary is erratic: narrow strips and sharp corners wrap around single training points. Bending around single points is **overfitting** (G-1429) (Figure 2a, b).
+- With **few trees** the decision boundary is erratic: narrow strips and sharp corners wrap around single training points. Bending around single points is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) (Figure 2a, b).
 - With **more trees** these areas smooth out (Figure 2c).
 - Each extra tree costs training time, so beyond the point where the score stops rising, more trees only add cost.
 
@@ -118,7 +118,7 @@ Figure 3 grows the forest. Watch the decision surface lose its narrow strips whi
 
 **`max_features`.** One feature per split (the default here) scores 0.887, both features 0.884 (Figure 2f). Even with one feature the forest does well, because each split gets a randomly chosen feature, so both features are used across the tree.
 
-**`bootstrap`.** `True` scores 0.887, `False` 0.880. With `True`, each tree gets a **bootstrap sample** (G-319): observations drawn at random with replacement. Without bootstrap every tree sees the same observations, so the trees are more alike and the average removes less variance (see [why more randomness helps](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#33-why-more-randomness-helps)).
+**`bootstrap`.** `True` scores 0.887, `False` 0.880. With `True`, each tree gets a [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319): observations drawn at random with replacement. Without bootstrap every tree sees the same observations, so the trees are more alike and the average removes less variance (see [why more randomness helps](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#33-why-more-randomness-helps)).
 
 > **Extra:** With `bootstrap=False`, every tree is trained on the whole training set: the observations are not drawn without replacement, they are not sampled at all. So `max_samples` cannot be set (scikit-learn raises a `ValueError`). If, on top of that, `max_features=None`, the only randomness left is tie-breaking between equally good splits (scikit-learn API docs, `DecisionTreeClassifier`, `random_state`), and the trees come out nearly identical (45 or 46 leaves each in the Notebook): a forest of copies of one tree.
 
@@ -139,7 +139,7 @@ These settings are applied to each tree in the forest. Each is explained, with i
 | `min_impurity_decrease` | 0.0 | the smallest impurity decrease worth a split |
 | `ccp_alpha` | 0.0 (no pruning) | cost-complexity pruning (Extra below) |
 
-Most are **pruning** (G-1587) settings: they stop a tree before it fits every training point. In a random forest they are usually left at their defaults, because the trees are meant to be fully grown (**low bias, high variance**, G-1132: each tree can follow any pattern, but swings with its training sample); the forest removes the variance (see [why a forest lowers the variance](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#2-why-a-forest-lowers-the-variance)).
+Most are [**pruning**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1587) settings: they stop a tree before it fits every training point. In a random forest they are usually left at their defaults, because the trees are meant to be fully grown (**low bias, high variance**, G-1132: each tree can follow any pattern, but swings with its training sample); the forest removes the variance (see [why a forest lowers the variance](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#2-why-a-forest-lowers-the-variance)).
 
 > **Extra:** `ccp_alpha` (G-360) prunes a grown tree back. Every subtree is scored by its training error plus `ccp_alpha` times its number of leaves, and the subtree with the lowest score is kept. A larger `ccp_alpha` charges more for each leaf, so the tree gets smaller.
 >
@@ -164,12 +164,12 @@ Most are **pruning** (G-1587) settings: they stop a tree before it fits every tr
 
 | Setting | Default | Meaning |
 |---|---|---|
-| `oob_score` | `False` | score the forest on its out-of-bag observations (**out-of-bag score**, G-1411) (see [out-of-bag observations](../ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations)) |
+| `oob_score` | `False` | score the forest on its out-of-bag observations (**out-of-bag score**, G-1411) (see [**out-of-bag observations**](../ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412)) |
 | `n_jobs` | `None` (1 core) | train trees in parallel on several CPU cores; -1 means all |
 | `random_state` | `None` | fixes the random draws of observations and features, so the same settings give the same forest |
 | `verbose` | 0 | print progress during training and prediction |
 | `warm_start` | `False` | `True` keeps the trees already trained and adds new ones on the next `fit` |
-| `class_weight` | `None` | weights for each class, for imbalanced data (see [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight)) |
+| `class_weight` | `None` | weights for each class, for imbalanced data (see [**class_weight**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight) (G-391)) |
 | `monotonic_cst` | `None` | forces predictions to only rise (1) or only fall (-1) as a feature grows |
 
 Two of them deserve a closer look:
@@ -261,3 +261,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Pruning](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1587) | Stopping a tree early or cutting it back so it does not overfit. |
 | [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
+| [Out-of-bag observations (out-of-bag rows)](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%). |
+| [class_weight](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight) (G-391) | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. |

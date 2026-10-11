@@ -42,7 +42,7 @@ Few branches of mathematics are applied as widely. Some examples:
 
 Statistics has two branches (Figure 2):
 
-- **Descriptive statistics** (G-596; see [what the data looks like in numbers](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers)) summarises and describes the data we already have, without drawing conclusions beyond it. The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (the average), the [median](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (the middle value), the [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (how spread out the values are), the [five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (minimum, quartiles and maximum) and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
+- **Descriptive statistics** (G-596; see [what the data looks like in numbers](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers)) summarises and describes the data we already have, without drawing conclusions beyond it. The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (the average), the [**median**](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) (the middle value), the [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (how spread out the values are), the [**five-number summary**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) (minimum, quartiles and maximum) and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
 - **Inferential statistics** (G-944) uses the data we have to make predictions, or **inferences** (G-943), about a larger group we cannot fully observe.
 
 ![The two branches. Descriptive statistics summarises the data we have (the 891 Titanic fares); inferential statistics goes from a sample to a statement about the population (the salary survey of section 4)](images/two_branches.png){width=85%}
@@ -58,7 +58,7 @@ Suppose the government asks us for the average salary in India. India has about 
 So we pick, say, 50,000 people from different states, regions, genders and age groups. We ask them, compute their average salary, and use it to **infer** the average salary of the whole country (Figure 1).
 
 - The **population** (G-1525) is the entire group of individuals or objects we are interested in studying: here, every person in India.
-- A **sample** (G-1731) is a subset of the population, the part we actually measure: here, the 50,000 people.
+- A [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) is a subset of the population, the part we actually measure: here, the 50,000 people.
 
 Inferential statistics is exactly this step: from a sample, say something about the population. Two more examples:
 
@@ -74,7 +74,7 @@ Inferential statistics is exactly this step: from a sample, say something about 
 A badly made sample gives wrong conclusions about the population, however carefully we analyse it. A good sample is:
 
 - **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the **sampling noise** (G-1737; see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)).
-- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has **sampling bias** (G-1734), from the same section. Figure 3 shows the effect on the Titanic fares.
+- **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has [**sampling bias**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734), from the same section. Figure 3 shows the effect on the Titanic fares.
 - **Representative:** every kind of member is present. For India's average salary we need people from every state, men and women, every age group, business owners and employees.
 
 ![Why a sample must be random. Grey: the means of 1,000 random samples of 50 fares, which centre on the population mean, 32.2. Red: one sample of 50 passengers taken only from first class, whose mean, 72.6, is more than twice too high](images/biased_sample.png){width=90%}
@@ -116,11 +116,11 @@ The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-ten
 
 Inferential statistics has a set of standard tools. Each gets its own Note later:
 
-- **Hypothesis testing** (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called **statistical tests** (G-1881).
-- **Confidence intervals** (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
+- [**Hypothesis testing**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called [**statistical tests**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881).
+- [**Confidence intervals**](../../04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
 - **ANOVA** (G-203; analysis of variance): compares the means of several groups at once.
-- **Regression:** models how one variable depends on others. [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data) uses it as an ML algorithm: a line through the data.
-- **Chi-square test** (G-381): a test designed for categorical variables.
+- **Regression:** models how one variable depends on others. [**Simple linear regression**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data) (G-1808) uses it as an ML algorithm: a line through the data.
+- [**Chi-square test**](../../04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381): a test designed for categorical variables.
 - **Sampling techniques:** ways of drawing a good sample from a population.
 - **Bayesian statistics:** reasoning that updates beliefs with data, built on [the formula of Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
 
@@ -128,7 +128,7 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 
 > **Key point:** Every feature is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
 
-Descriptive statistics starts by asking what type of data each feature holds (Figure 5). We mostly work with tables. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row of the table. So "data" here means the values of one feature.
+Descriptive statistics starts by asking what type of data each feature holds (Figure 5). We mostly work with tables. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the table. So "data" here means the values of one feature.
 
 ![The four types of data](images/data_types.png)
 
@@ -140,8 +140,8 @@ The first split, into categorical and numerical data, is the one of [regression 
 
 Categorical data is nominal or ordinal, as [numerical and categorical data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#2-numerical-and-categorical-data) explains:
 
-- **Nominal** (G-1330): the categories have no order. Gender, state, religion and favourite IPL team are nominal: no state is "more" than another.
-- **Ordinal** (G-1403): the categories have a natural order. Course feedback of bad, average and good is ordinal: bad < average < good.
+- [**Nominal**](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#21-nominal-data) (G-1330): the categories have no order. Gender, state, religion and favourite IPL team are nominal: no state is "more" than another.
+- [**Ordinal**](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data) (G-1403): the categories have a natural order. Course feedback of bad, average and good is ordinal: bad < average < good.
 
 
 ### 6.2 Discrete and continuous data
@@ -212,6 +212,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Statistic (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
 | Discrete data (G-616) | Numerical data that takes only separate values, usually counts. |
 | Continuous data (G-465) | Numerical data that can take any value in a range. |
+| [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
+| [Five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Sampling noise](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1737) | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
 | [Sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734) | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
@@ -219,6 +221,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
 | [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |
+| [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
 | [Chi-square test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

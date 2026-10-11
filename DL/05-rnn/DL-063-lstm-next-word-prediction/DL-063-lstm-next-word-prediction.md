@@ -28,10 +28,10 @@ Figure 1 shows the whole model. The rest of the Note builds the training data fo
 ## 2. Prerequisites
 
 - [The cell state and hidden state of an LSTM](../DL-061-lstm/DL-061-lstm.md#9-the-lstm-cell-as-a-small-computer), and [how its parameters are counted](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#9-counting-the-parameters): what an LSTM layer computes.
-- [Integer encoding](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding), [padding to one length](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#42-cutting-every-review-to-50-words) and [the Embedding layer](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): integer encoding with `TextVectorization`, padding with `pad_sequences`, and the `Embedding` layer.
+- [**Integer encoding**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding) (G-956), [padding to one length](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#42-cutting-every-review-to-50-words) and [the Embedding layer](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): integer encoding with `TextVectorization`, padding with `pad_sequences`, and the `Embedding` layer.
 - [Many-to-one](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one): a many-to-one RNN reads a sequence and gives one output.
 - [Categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy): categorical cross-entropy for several classes.
-- [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): a category becomes a vector with a single 1.
+- [**One-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379): a category becomes a vector with a single 1.
 
 ## 3. Text generation as a supervised learning problem
 
@@ -41,7 +41,7 @@ Figure 1 shows the whole model. The rest of the Note builds the training data fo
 
 > **Key point:** Supervised learning trains a model on data where every input comes with its correct output. Plain text has no such pairs, so we make them.
 
-In **supervised learning** (G-1919), every **observation** (G-1374; one record of the data) has an input and a **target** (G-1949; the output we predict). The model learns the mapping from input to target, then predicts the target for new inputs. A text is only a list of sentences. To use supervised learning, we must create the pairs from the text itself.
+In [**supervised learning**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919), every **observation** (G-1374; one record of the data) has an input and a **target** (G-1949; the output we predict). The model learns the mapping from input to target, then predicts the target for new inputs. A text is only a list of sentences. To use supervised learning, we must create the pairs from the text itself.
 
 ### 3.2 Every prefix predicts its next word
 
@@ -84,7 +84,7 @@ Every story is split into sentences at a full stop, question mark or exclamation
 
 > **Key point:** `TextVectorization` builds the vocabulary from the training sentences and replaces every word by its index. We keep the 3,000 most frequent words; every other word becomes `[UNK]`.
 
-A model needs numbers, so every word gets an integer, as in [integer encoding](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the **out-of-vocabulary (OOV) token** (G-1416) for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
+A model needs numbers, so every word gets an integer, as in [integer encoding](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the [**out-of-vocabulary (OOV) token**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras) (G-1416) for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
 
 The first sentence, "A certain king had a beautiful garden, and in the garden stood a tree which bore golden apples.", becomes
 
@@ -154,13 +154,13 @@ Every padded row holds an input followed by its output, so we split it at the la
 
 > **Key point:** A regression model could output 2.7, and no word has the index 2.7.
 
-The output $y$ is a number, so the task looks like regression. But the number 2 only names the word "the"; 2.7 means nothing, and a regression model can output any real number. The numbers are categories, so the task is **classification** (G-395): with 3,000 possible words, it is **multi-class classification** (G-1266). Figure 4a shows the problem with a number: 2.7 lies between "the" and "and" and names neither.
+The output $y$ is a number, so the task looks like regression. But the number 2 only names the word "the"; 2.7 means nothing, and a regression model can output any real number. The numbers are categories, so the task is [**classification**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395): with 3,000 possible words, it is **multi-class classification** (G-1266). Figure 4a shows the problem with a number: 2.7 lies between "the" and "and" and names neither.
 
 ### 5.2 One-hot targets
 
 > **Key point:** Each target becomes a one-hot vector of length 3,000; the model outputs 3,000 probabilities, and the largest one names the predicted word.
 
-We replace every target by its one-hot vector (see [one column per category](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)): 3,000 numbers, all 0 except a 1 at the word's index. The output layer, a **softmax output layer** (G-1832), then has 3,000 nodes with a softmax activation. The softmax gives 3,000 probabilities that add up to 1, one per vocabulary word, and the predicted word is the one with the highest probability. Figure 4b shows both for the prefix "but": the target puts all its weight on the real next word, and the trained model spreads its probability over likely words, with the most on that word.
+We replace every target by its one-hot vector (see [one column per category](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)): 3,000 numbers, all 0 except a 1 at the word's index. The output layer, a [**softmax output layer**](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture) (G-1832), then has 3,000 nodes with a softmax activation. The softmax gives 3,000 probabilities that add up to 1, one per vocabulary word, and the predicted word is the one with the highest probability. Figure 4b shows both for the prefix "but": the target puts all its weight on the real next word, and the trained model spreads its probability over likely words, with the most on that word.
 
 ![(a) A regression output names no word: 2.7 falls between the indices of "the" and "and". (b) After the prefix "but": the one-hot target (green outline, 1 for the real next word "the") and the model's softmax probabilities for its five most likely words (seed 0)](images/onehot_softmax.png){width=100%}
 
@@ -185,11 +185,11 @@ We replace every target by its one-hot vector (see [one column per category](../
 
 Figure 1 shows the data flow for one observation.
 
-1. **Embedding.** The input is 50 integers, often many of them padding zeros: a sparse representation. The Embedding layer (see [word embeddings](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)) replaces each integer by a learned vector of 100 numbers, so one observation of shape $(50,)$ becomes $(50, 100)$.
+1. **Embedding.** The input is 50 integers, often many of them padding zeros: a sparse representation. The Embedding layer (see [**word embeddings**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127)) replaces each integer by a learned vector of 100 numbers, so one observation of shape $(50,)$ becomes $(50, 100)$.
 2. **LSTM.** The LSTM reads the 50 vectors one time step at a time. After the last one it outputs its hidden state $h_{50}$, 150 numbers, one per unit (see [the output gate](../DL-062-lstm-architecture/DL-062-lstm-architecture.md#7-the-output-gate)). This is a many-to-one RNN.
 3. **Dense.** $h_{50}$ goes to a layer of 3,000 nodes with a softmax activation, which gives one probability per vocabulary word.
 
-The model is compiled with the **categorical cross-entropy** (G-349) loss (the loss for multi-class classification with one-hot targets; see [categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)), the Adam optimizer (a version of gradient descent that adapts its step size), and accuracy (the share of correct predictions) as the metric.
+The model is compiled with the [**categorical cross-entropy**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) loss (the loss for multi-class classification with one-hot targets; see [categorical cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)), the Adam optimizer (a version of gradient descent that adapts its step size), and accuracy (the share of correct predictions) as the metric.
 
 > **Python:** The model.
 >
@@ -329,8 +329,8 @@ The text is also repetitive: different prompts lead into the same phrase, and "s
 
 > **Key point:** Two directions: tune the hyperparameters, or change the architecture.
 
-1. **Hyperparameter tuning** (G-909). The vocabulary size (3,000 here), the number of LSTM units (150), the size of the word vectors (100), the optimizer, the learning rate and the number of epochs can all be changed, and each choice judged on the validation stories, the **validation set** (G-2067).
-2. **Other architectures.** Several LSTM layers stacked on each other ([deep RNNs](../DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn)) or the GRU ([the four steps of the GRU](../DL-064-gru/DL-064-gru.md#8-the-four-steps-of-the-gru)) can be compared in the same way.
+1. [**Hyperparameter tuning**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909). The vocabulary size (3,000 here), the number of LSTM units (150), the size of the word vectors (100), the optimizer, the learning rate and the number of epochs can all be changed, and each choice judged on the validation stories, the [**validation set**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067).
+2. **Other architectures.** Several LSTM layers stacked on each other ([**deep RNNs**](../DL-065-deep-rnns/DL-065-deep-rnns.md#4-the-architecture-of-a-deep-rnn) (G-573)) or the GRU ([the four steps of the GRU](../DL-064-gru/DL-064-gru.md#8-the-four-steps-of-the-gru)) can be compared in the same way.
 
 ## 10. Summary
 
@@ -377,14 +377,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Baseline (G-2270) | A simple rule whose score a model must beat to show it has learned something. |
 | Bigram (G-2269) | A pair of consecutive words; the bigram rule guesses the word that most often follows the previous one. |
 | One-hot target (G-1380) | A target with probability 1 on the correct word and 0 on all others. |
+| [Integer encoding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Out-of-vocabulary (OOV) token](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras) (G-1416) | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
 | [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
 | [Softmax output layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture) (G-1832) | An output layer with one node per class whose outputs are probabilities adding up to 1. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
+| [Deep RNN (stacked RNN)](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#1-overview) (G-573) | An RNN with two or more recurrent layers stacked on top of each other, all unfolded through time. |

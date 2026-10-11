@@ -18,14 +18,14 @@ tags: [subject/machine-learning, area/likelihood, area/models-1, step/model, con
 
 > **Key point:** To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
 
-The sigmoid perceptron of the [previous lesson](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#7-does-it-help) improved the **decision boundary** (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
+The sigmoid perceptron of the [previous lesson](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#7-does-it-help) improved the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
 
 Machine learning normally works differently, as in linear regression:
 
-1. Define a **loss function** (G-706): a formula that measures how wrong a model is.
+1. Define a [**loss function**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706): a formula that measures how wrong a model is.
 2. Find the coefficients where the loss is smallest, with a formula or with gradient descent.
 
-This Note builds the loss function for **logistic regression** (G-1120). The next lessons minimise it with [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule).
+This Note builds the loss function for [**logistic regression**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120). The next lessons minimise it with [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule).
 
 ## 2. Comparing two models
 
@@ -47,7 +47,7 @@ In Figure 1, watch the two crosses: model 1's decision boundary leaves points 2 
 
 > **Key point:** For a green point use P(green) = ŷ; for a red point use P(red) = 1 − ŷ.
 
-Each point is one **observation** (G-1374) (one record, a row of the data table). Its position is given by its **features** (G-772) (the input values, such as the two coordinates), and its colour is the **target** (G-1949) (the output we predict). The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
+Each point is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table). Its position is given by its [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (the input values, such as the two coordinates), and its colour is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict). The sigmoid turns every point's position into a probability: $\hat{y} = \sigma(w \cdot x)$ is the probability of green (the positive class), and $1 - \hat{y}$ is the probability of red.
 
 For each point we take the probability the model gives to the colour the point **really** has. Suppose the two models give these values:
 
@@ -64,7 +64,7 @@ A value above 0.5 means the point is on its correct side; below 0.5, on the wron
 
 > **Key point:** The product is the likelihood: how probable the model finds the data we actually see.
 
-Treating the points as independent, the probability that the model produces exactly these colours is the product of the four values. This product is the **likelihood** (G-1086):
+Treating the points as independent, the probability that the model produces exactly these colours is the product of the four values. This product is the [**likelihood**](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086):
 
 - Model 1:
 
@@ -75,7 +75,7 @@ Treating the points as independent, the probability that the model produces exac
   $$0.7 \times 0.6 \times 0.7 \times 0.6 = 0.176$$
 
 
-Model 2 has the higher likelihood, so it is the better model. **Maximum likelihood estimation** (G-1191) means choosing the coefficients that make this product as large as possible.
+Model 2 has the higher likelihood, so it is the better model. [**Maximum likelihood estimation**](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) means choosing the coefficients that make this product as large as possible.
 
 ![The probabilities and the costs of each point under the two models](images/two_models.png){height=52%}
 
@@ -241,7 +241,7 @@ $$\frac{2.41}{4} = 0.603$$
 
 > **Key point:** There is no formula for the best w, so logistic regression is trained with gradient descent.
 
-The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such **closed-form solution** (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
+The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such [**closed-form solution**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
 
 ### 7.1 The search in a picture
 
@@ -264,7 +264,7 @@ The curve with the smallest log loss is the maximum likelihood model of section 
 
 > **Key point:** Gradient descent decides how to change the curve at each try: it steps in the direction in which the loss falls fastest.
 
-The method that chooses each next curve is **gradient descent** (G-862): compute the derivative of $L$ with respect to $w$ and step downhill repeatedly. Figure 8 runs it on the four points of section 2.
+The method that chooses each next curve is [**gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862): compute the derivative of $L$ with respect to $w$ and step downhill repeatedly. Figure 8 runs it on the four points of section 2.
 
 ![Gradient descent on the log loss of the four points, starting from model 1 (dotted line). Left: the decision boundary (P(green) = 0.5) turns; the labels give each point's probability for its true colour. Right: the log loss per step, with model 2's 0.434 dashed. Key frames: steps 0, 3 and 40.](images/gd_four.gif){height=80%}
 

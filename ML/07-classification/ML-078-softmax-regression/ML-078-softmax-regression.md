@@ -32,9 +32,9 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/softmax]
 
 A model gives a flower one raw score per class. Take a flower with scores 2.81 for setosa, 1.84 for versicolor and $-4.66$ for virginica. Raw scores are hard to read: some are above 1, some are below 0, and nothing says how sure the model is.
 
-The simplest fix is to pick the largest score. The function that does so is **argmax** (G-212): it gives 1 to the class with the largest score and 0 to all the others. Here argmax gives setosa 1, versicolor 0 and virginica 0. That output is easy to read, and it is how the final class is reported.
+The simplest fix is to pick the largest score. The function that does so is [**argmax**](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview) (G-212): it gives 1 to the class with the largest score and 0 to all the others. Here argmax gives setosa 1, versicolor 0 and virginica 0. That output is easy to read, and it is how the final class is reported.
 
-Argmax cannot be used to train the model, though. Training uses [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (repeatedly moving the weights in the direction that lowers the loss), and gradient descent needs a slope: how much the output changes when a score changes a little.
+Argmax cannot be used to train the model, though. Training uses [**gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) (repeatedly moving the weights in the direction that lowers the loss), and gradient descent needs a slope: how much the output changes when a score changes a little.
 
 1. Raise the setosa score from 2.81 to 2.91. Setosa is still the largest, so the argmax output stays 1, 0, 0.
 2. Lower it to 2.71. The output is still 1, 0, 0.
@@ -175,7 +175,7 @@ The other two scores come out at 1.84 and $-4.66$. Softmax then gives the probab
 
 > **Key point:** Turn the K-class problem into K yes-or-no problems, one per class.
 
-A simple way to picture training is to **one-hot encode** (G-1379) the output ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
+A simple way to picture training is to [**one-hot encode**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) the output ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)). A column with values 0, 1, 2 becomes three columns: "is it class 0?", "is it class 1?", "is it class 2?". Each column is a binary problem, so one logistic regression could be trained per column, giving three weight vectors.
 
 The one-model-per-class picture works, and scikit-learn offers it as **one-vs-rest** (G-1388). But the K models are trained separately, so nothing makes their probabilities add up to 1, and training K separate models gets slow when there are many classes.
 
@@ -213,7 +213,7 @@ In symbols, $\sum_{i=1}^{m}$ adds over the flowers ($i = 1, 2, 3$) and $\sum_{k=
 
 $$L = -\frac{1}{m}\sum_{i=1}^{m}\sum_{k=1}^{K} y_{ik}\log \hat y_{ik}$$
 
-Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly [the log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), extended to $K$ classes. With $K = 2$ it is the **binary cross entropy** (G-303).
+Here $y_{ik}$ is the one-hot value (1 if observation $i$ is class $k$, else 0; for flower 2, $y_{22} = 1$ and $y_{21} = y_{23} = 0$) and $\hat y_{ik}$ the softmax probability of class $k$ (for flower 2, $\hat y_{22} = 0.7$). For each observation, every term is multiplied by 0 except the true class. So the loss is simply the average of $-\log$(probability given to the true class): exactly [the log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), extended to $K$ classes. With $K = 2$ it is the [**binary cross entropy**](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303).
 
 Each class has an intercept plus one weight per feature, so with 2 features each class has 3 weights. With 3 classes:
 
@@ -284,6 +284,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Categorical cross entropy (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | Decision region (G-557) | The part of the input space in which a model predicts a given class. |
 | [argmax](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#1-overview) (G-212) | The position of the largest value; on 10 class probabilities, the predicted class. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

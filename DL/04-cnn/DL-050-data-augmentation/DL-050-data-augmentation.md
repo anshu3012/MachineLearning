@@ -35,7 +35,7 @@ This Note covers:
 
 ## 3. Why augment
 
-> **Key point:** Two reasons: data is scarce and costly in many fields, and augmentation reduces **overfitting** (G-1429) by showing the network variations that do not change the label.
+> **Key point:** Two reasons: data is scarce and costly in many fields, and augmentation reduces [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) by showing the network variations that do not change the label.
 
 ### 3.1 More data when data is expensive
 
@@ -58,7 +58,7 @@ These runs used a GPU, which does not repeat results exactly, so each point is t
 
 > **Key point:** If every cat in the training photos looks to the left, the network may learn "looks left" as a cat feature. Flipped copies teach it that cats look both ways.
 
-Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network **generalises** (G-838) better: it performs well on photos it has not seen.
+Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network [**generalises**](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) better: it performs well on photos it has not seen.
 
 Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (see [the ImageNet challenge](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial overfitting" (Krizhevsky et al. 2012, §4.1).
 
@@ -155,7 +155,7 @@ Also note that the network never trains on the original photos as such. In each 
 
 > **Key point:** A deliberately small dataset, a small CNN, the same training settings; the only change is the three augmentation layers.
 
-To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of [the cat vs dog dataset](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by **max pooling** (G-1182; keeping the largest value of each window, see [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling)), then a dense layer of 64 nodes, **dropout** (G-639; switching off random nodes during training, see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) of 0.5 and a **sigmoid** (G-1798; a function that squeezes a number into 0 to 1) output; photos of $150 \times 150$, batches of 16 (16 photos at a time), the **RMSProp** (G-1697) optimizer (the rule that updates the weights).
+To imitate a project with little data, we use only 1,000 cat and 1,000 dog photos for training from the cats-vs-dogs dataset of [the cat vs dog dataset](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#3-the-dataset), plus 500 + 500 for validation and 500 + 500 for a final test. The model is the small CNN of the Keras blog post "Building powerful image classification models using very little data" (Chollet 2016): three convolution layers with 32, 32 and 64 filters, each followed by **max pooling** (G-1182; keeping the largest value of each window, see [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling)), then a dense layer of 64 nodes, **dropout** (G-639; switching off random nodes during training, see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) of 0.5 and a **sigmoid** (G-1798; a function that squeezes a number into 0 to 1) output; photos of $150 \times 150$, batches of 16 (16 photos at a time), the [**RMSProp**](../../03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) optimizer (the rule that updates the weights).
 
 The augmented model adds three layers at its start, as in Chollet (2021, ch. 8): `RandomFlip("horizontal")`, `RandomRotation(0.1)` (up to 36 degrees) and `RandomZoom(0.2)`.
 
@@ -181,7 +181,7 @@ The augmented model adds three layers at its start, as in Chollet (2021, ch. 8):
 >
 > `Rescaling(1 / 255)` divides the pixels by 255 inside the model. The model without augmentation is the same list without the three random layers.
 
-Both models train for 60 **epochs** (G-696), three times each with different seeds; the Note quotes the means.
+Both models train for 60 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), three times each with different seeds; the Note quotes the means.
 
 ### 6.2 Results
 

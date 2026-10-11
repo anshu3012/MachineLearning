@@ -18,9 +18,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/cross-at
 
 > **Key point:** **Cross-attention** (G-507) is attention between two sequences: each word of the sentence being written gets a weighted mix of the words of the input sentence. The computation is the same as self-attention; only the inputs differ.
 
-In the transformer decoder, the **queries** (G-1607) come from the output sentence being written (French), and the **keys** (G-1011) and **values** (G-2068) come from the encoder's output for the input sentence (English). The weights say how strongly each French position relates to each English word.
+In the transformer decoder, the [**queries**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#3-self-attention-in-one-paragraph) (G-1607) come from the output sentence being written (French), and the [**keys**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) and [**values**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) come from the encoder's output for the input sentence (English). The weights say how strongly each French position relates to each English word.
 
-[Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
+[**Masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) covered the decoder's first attention layer. Its second attention layer is different: in the paper's architecture diagram, two of its three inputs come from the encoder and one from the decoder (Vaswani et al. 2017, Figure 1). The paper calls it **encoder–decoder attention** (G-684); it is now usually called **cross-attention** (SLP3 §13.3).
 
 Cross-attention is a mechanism used in sequence-to-sequence tasks such as translation and summarization. Cross-attention lets a model focus on different parts of the input sequence while it generates the output sequence. This Note compares it with self-attention in three respects (Figure 1):
 
@@ -35,8 +35,8 @@ The Note then shows the weights of a small trained translation model (section 7)
 ## 2. Prerequisites
 
 - [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices): query, key and value vectors, $W_Q$, $W_K$, $W_V$.
-- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
-- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer): heads, $W_O$, the parameter count $4d^2 + 4d$.
+- [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$.
+- [**Multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-1268): heads, $W_O$, the parameter count $4d^2 + 4d$.
 - [Attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) and [Bahdanau and Luong attention](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared): attention in the RNN encoder–decoder.
 - [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder's output, one vector per input word.
 - [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the decoder's first attention layer.
@@ -58,7 +58,7 @@ The second need is a relationship between two different sequences: for every Fre
 
 Figure 2 shows both needs for the next word after "je veux de la". The mechanism that computes the French-to-English table is cross-attention:
 
-- **self-attention** (G-1763) relates the items of **one** sequence to each other;
+- [**self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) relates the items of **one** sequence to each other;
 - **cross-attention** relates the items of one sequence to the items of **another**.
 
 ## 4. Input: two sequences instead of one
@@ -98,7 +98,7 @@ $$\text{CrossAttention}(Q, K, V) = \text{softmax}\negthinspace\left(\frac{QK^T}{
 
 (SLP3 eq. 13.11 and 13.12). Each French position gets a query vector; each English word gets a key vector and a value vector. The paper describes the same thing: "the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder" (Vaswani et al. 2017, §3.2.3).
 
-From here on nothing is new. Every query is compared with every key by a dot product, the scores are scaled by $\sqrt{d_k}$, a softmax turns each row into **attention weights** (G-225), and each output is the weighted sum of the value vectors.
+From here on nothing is new. Every query is compared with every key by a dot product, the scores are scaled by $\sqrt{d_k}$, a softmax turns each row into [**attention weights**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225), and each output is the weighted sum of the value vectors.
 
 ### 5.2 By hand
 
@@ -239,7 +239,7 @@ Cross-attention is used wherever a model produces one sequence while looking at 
 - **Text-to-image generation:** latent diffusion models, the basis of Stable Diffusion, condition the image on the text through cross-attention layers (Rombach et al. 2022, §3.3).
 - **Image captioning:** "Show, Attend and Tell" lets an RNN decoder attend to regions of the image while it writes the caption, the same idea before transformers (Xu et al. 2015).
 
-Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called **multimodal** (G-1274); cross-attention is the standard way to connect the two sides.
+Tasks whose input and output are of different kinds, such as audio and text, or text and images, are called [**multimodal**](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#63-multimodal-models) (G-1274); cross-attention is the standard way to connect the two sides.
 
 ## 10. Summary
 
@@ -289,6 +289,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Query, key, value vectors](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#3-self-attention-in-one-paragraph) (G-1607) | Three vectors made from each word's embedding by learned matrices: a word's query is compared with every word's key by dot products to get attention weights, and those weights mix the value vectors into the word's new vector. |
 | [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
 | [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
+| [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
+| [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | [Multimodal model](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#63-multimodal-models) (G-1274) | A model that takes in or produces more than one modality. |

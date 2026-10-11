@@ -18,9 +18,9 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 > **Key point:** A decision tree left alone grows until every leaf is pure, which overfits. Its hyperparameters are brakes: each one stops the tree earlier, and too much braking underfits.
 
-A decision tree ([nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) is a chain of yes/no questions: the first question is the **root**, each question splits its group of observations into two child groups, and a group that is not split again is a **leaf**, which gives the prediction. Decision trees are strong models with one big weakness: they tend to **overfit** (G-1429). They score very well on the training data and worse on new data (see [overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). A leaf is **pure** when all its observations have the same class; **impurity** (how mixed the classes in a group are) is measured by Gini or entropy (see [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity)). A tree asks questions about the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output).
+A decision tree ([nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) is a chain of yes/no questions: the first question is the **root**, each question splits its group of observations into two child groups, and a group that is not split again is a **leaf**, which gives the prediction. Decision trees are strong models with one big weakness: they tend to [**overfit**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429). They score very well on the training data and worse on new data (see [overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). A leaf is **pure** when all its observations have the same class; **impurity** (how mixed the classes in a group are) is measured by Gini or entropy (see [**Gini impurity**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity) (G-847)). A tree asks questions about the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output).
 
-To control this, scikit-learn's `DecisionTreeClassifier` offers several **hyperparameters** (G-910), settings we choose before training (see [hyperparameter tuning](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)), that act as tuning knobs. This Note covers:
+To control this, scikit-learn's `DecisionTreeClassifier` offers several [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), settings we choose before training (see [**hyperparameter tuning**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909)), that act as tuning knobs. This Note covers:
 
 - why a fully grown tree overfits, and why a very short one underfits;
 - `max_depth` on a real dataset, with its decision surfaces;
@@ -79,7 +79,7 @@ Figure 2 shows the results:
 
 From depth 5 onwards, strips around single points start to appear again: overfitting returns.
 
-Picking the depth by eye works for two features we can plot. With tens of features we cannot see the surface, so we choose `max_depth` by **cross-validation** (G-510) with `GridSearchCV`, exactly as for k in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k).
+Picking the depth by eye works for two features we can plot. With tens of features we cannot see the surface, so we choose `max_depth` by [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) with `GridSearchCV`, exactly as for k in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k).
 
 > **Extra:** On this data, 5-fold cross-validation over `max_depth` in {1, 2, 3, 4, 5, 6, 8, 10, None} picks **depth 2** (average 0.90), with a test accuracy of 0.94. The deeper trees in Figure 2 score similar test accuracies on these 100 test observations, but their cross-validation averages fall steadily after depth 2: 0.883 at depth 3, 0.837 at depth 5, 0.820 fully grown. One test split of 100 observations is a noisy measure; cross-validation averages over several splits and is steadier (ISLR §5.1). So we trust the cross-validation ranking.
 
@@ -97,13 +97,13 @@ For the rest of the Note we use a toy dataset: two interleaving half-moons, 500 
 
 > **Key point:** The impurity measure used to score splits; the two usually give similar accuracy.
 
-`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from [entropy](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy) and [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
+`criterion` chooses the impurity measure: `"gini"` (the default) or `"entropy"`, both from [**entropy**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy) (G-691) and [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity). On the moons data, both fully grown trees look almost the same: test accuracy 0.856 with Gini and 0.832 with entropy on this split. Averaged over 50 fresh moons datasets, the two are level (0.866 against 0.867). Both are worth trying when tuning.
 
 ### 4.2 splitter: best or random
 
 > **Key point:** `"random"` picks thresholds at random instead of searching for the best. On a single tree this adds randomness without a gain; the randomness pays off when many trees are averaged.
 
-For a numerical feature, the tree normally checks every candidate threshold and keeps the one with the highest **information gain** (the drop in impurity the split gives; see [information gain](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain)). This full search is `splitter="best"` (G-1853), the default.
+For a numerical feature, the tree normally checks every candidate threshold and keeps the one with the highest **information gain** (the drop in impurity the split gives; see [**information gain**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain) (G-946)). This full search is `splitter="best"` (G-1853), the default.
 
 With `splitter="random"`, the threshold of each feature is drawn at random, and the tree keeps the best of these random splits. Each split is a little worse, so the tree needs more of them: fully grown on the moons data, it ends with about 99 leaves instead of 45 (average over 50 datasets). Test accuracy does not improve: 0.862 against 0.866 for `"best"`.
 
@@ -149,7 +149,7 @@ With `min_samples_leaf=100`, the tree stops after 3 leaves: any further split wo
 
 `min_samples_leaf` works much like `min_samples_split`: a higher value underfits, a lower value overfits.
 
-Figure 5 sweeps it from 1 to 150. The number of leaves falls from 43 to 2 and training accuracy falls with it, from 1.00 to 0.82. Test accuracy is best in between, 0.904 at `min_samples_leaf=10`; from 70 onwards the tree keeps at most three questions (4 leaves or fewer) and **underfits** (G-2035).
+Figure 5 sweeps it from 1 to 150. The number of leaves falls from 43 to 2 and training accuracy falls with it, from 1.00 to 0.82. Test accuracy is best in between, 0.904 at `min_samples_leaf=10`; from 70 onwards the tree keeps at most three questions (4 leaves or fewer) and [**underfits**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035).
 
 ![min_samples_leaf from 1 to 150 on the moons data. Left: the decision surface. Right: training accuracy (blue), test accuracy (orange) and the number of leaves (green bars).](images/leaf_sweep.gif)
 
@@ -167,7 +167,7 @@ Figure 6 shows this on the moons split. Three fully grown trees that each see on
 
 ![Fully grown trees with max_features = 1 on the moons training data. Three trees with different random seeds draw different surfaces (test accuracy 0.880, 0.888, 0.864); the average vote of 50 such trees (right) scores 0.888.](images/random_trees.png)
 
-The same idea is the heart of **random forests** (see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works) and [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling)): many trees, each seeing random features at every split.
+The same idea is the heart of **random forests** (see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works) and [**node-level feature sampling**](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling) (G-1325)): many trees, each seeing random features at every split.
 
 > **Extra:** Even with `max_features=None`, scikit-learn shuffles the order in which it tries the features at each node. When two features give exactly the same gain, the order decides, so the tree can change with `random_state`. Fixing `random_state` makes the tree reproducible (sklearn reference, `random_state`).
 
@@ -340,10 +340,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | min_impurity_decrease (G-1219) | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |
 | Cost-complexity pruning (G-2222) | Growing a tree fully, then cutting back the leaves that buy the least fit: keep the subtree with the lowest leaf impurity + $\alpha$ × number of leaves. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Gini impurity](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#82-the-formula) (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Entropy](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#61-disorder-and-uncertainty) (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
+| [Information gain](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition) (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Node-level feature sampling (node-level column sampling)](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
 | [ccp_alpha](../../../ML/08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#4-the-tree-level-hyperparameters) (G-360) | The penalty per leaf used to cut a fully grown tree back (cost-complexity pruning strength). |

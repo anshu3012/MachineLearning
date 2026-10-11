@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/foundations, step/features, step
 
 > **Key point:** In a **sequence**, such as the words of a sentence, the order carries meaning, and an ordinary neural network (ANN) handles it badly: it needs one fixed input length and must learn every pattern separately at each position. A **recurrent neural network** (RNN) reads one item at a time with the same weights and carries a memory forward.
 
-So far the deep learning Notes have used one kind of network: the **artificial neural network** (G-216; ANN), or **multi-layer perceptron** (G-1270), from [combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons). An ANN works well on tabular data, where each **observation** (G-1374; one record of the data, one row of the table) is a fixed list of **features** (G-772; input variables, one per column). A **convolutional neural network** (G-484; CNN) is built for data laid out on a grid, such as images.
+So far the deep learning Notes have used one kind of network: the **artificial neural network** (G-216; ANN), or [**multi-layer perceptron**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270), from [combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons). An ANN works well on tabular data, where each **observation** (G-1374; one record of the data, one row of the table) is a fixed list of **features** (G-772; input variables, one per column). A **convolutional neural network** (G-484; CNN) is built for data laid out on a grid, such as images.
 
 This Note introduces a third family. A **recurrent neural network** (G-1647; RNN) is a neural network specialised for **sequential data** (G-1774): data that is a sequence of values $x^{(1)}, x^{(2)}, \dots, x^{(\tau)}$ whose order matters (Goodfellow et al., ch. 10). Here $x^{(1)}$ is the first item, for example the first word, and $x^{(\tau)}$ is the last, with $\tau$ the number of items. This Note covers:
 
@@ -35,7 +35,7 @@ The RNN's [architecture and formulas](../DL-056-rnn-forward-propagation/DL-056-r
 - [Combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons): layers of nodes, weights and biases.
 - [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how many weights a fully connected layer has.
 - [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): turning a category into a vector (a list of numbers) of 0s with a single 1.
-- [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words): counting how often each word occurs.
+- [**Bag of words**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250): counting how often each word occurs.
 
 ## 3. Sequential data
 
@@ -78,7 +78,7 @@ A network works with numbers, not words, so the first step is to turn words into
 
 To give a whole review to an ANN, we stack its word vectors one after another into one long input vector (Figure 3):
 
-1. **In words:** the input size is the number of words times the vocabulary size. A **fully connected layer** (G-583) then has one weight per input per node.
+1. **In words:** the input size is the number of words times the vocabulary size. A [**fully connected layer**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) then has one weight per input per node.
 2. **Formula:** with $T$ words, a vocabulary of $V$ words and $h$ hidden nodes,
    $$\text{inputs} = T \times V$$
    $$\text{weights} = T \times V \times h$$
@@ -109,7 +109,7 @@ $$4 \times 12 = 48 \text{ inputs}$$
 
 The network built for review 1 expects exactly 60. An ANN's input layer has a fixed size, chosen when the network is built, so it cannot take 36 inputs one time and 48 the next.
 
-Real text varies far more than our three reviews. The **IMDB dataset** (G-923) holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 4).
+Real text varies far more than our three reviews. The [**IMDB dataset**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) holds 50,000 film reviews labelled positive or negative (Maas et al. 2011; available in Keras). Among its 25,000 training reviews, the shortest has 11 words, the median 178 words and the longest 2,494 words (Figure 4).
 
 ![Lengths of the 25,000 IMDB training reviews. Most are under 300 words long, but a long tail reaches 2,494 words](images/imdb_lengths.png){width=100%}
 
@@ -124,7 +124,7 @@ Figure 4 is a histogram: each bar covers a range of review lengths, and its heig
 > lengths.min(), np.median(lengths), lengths.max()   # 11, 178.0, 2494
 > ```
 >
-> Each review comes already turned into a list of word numbers by **integer encoding**: every word in the vocabulary gets an integer, and each word of the review is replaced by its integer ([integer encoding](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding)). `num_words=10000` keeps the 10,000 most common words.
+> Each review comes already turned into a list of word numbers by **integer encoding**: every word in the vocabulary gets an integer, and each word of the review is replaced by its integer ([**integer encoding**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding) (G-956)). `num_words=10000` keeps the 10,000 most common words.
 
 ### 5.2 Zero padding wastes most of the network
 
@@ -177,11 +177,11 @@ The words are the same, yet accuracy falls steadily as they move (Figure 6): fro
 
 > **Key point:** An RNN reads one item at a time and reuses the same weights at every step. It carries a summary of what it has read so far, so its size does not depend on the length of the sequence.
 
-The four problems share one cause: an ANN reads the whole sequence at once, through a separate set of weights for each position. An RNN is still an ordinary network, with weights, biases, layers and activations. It adds one thing: a **feedback loop**, a connection that sends the hidden layer's output back into the same layer for the next item. The hidden layer with this loop is the **recurrent layer** (G-1646). The loop changes three things:
+The four problems share one cause: an ANN reads the whole sequence at once, through a separate set of weights for each position. An RNN is still an ordinary network, with weights, biases, layers and activations. It adds one thing: a **feedback loop**, a connection that sends the hidden layer's output back into the same layer for the next item. The hidden layer with this loop is the [**recurrent layer**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-1646). The loop changes three things:
 
 - **One item at a time.** It reads word 1, then word 2, then word 3, in order.
 - **The same weights at every step.** The weights that process word 2 are the ones that process word 50. This **parameter sharing** (G-1447) is what lets a model handle sequences of any length and recognise a pattern wherever it appears (Goodfellow et al., ch. 10).
-- **A memory.** After each word, the RNN updates an internal state, a short summary of everything it has read so far, and passes it on to the next step. This state is the **hidden state** (G-891).
+- **A memory.** After each word, the RNN updates an internal state, a short summary of everything it has read so far, and passes it on to the next step. This state is the [**hidden state**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891).
 
 ![Top: an ANN gives each position its own weights, so when "food tasted bad" shifts one place, "bad" meets $W_4$ instead of $W_3$. Bottom: an RNN reads one word at a time through one cell with the same weights and passes a memory on; the 5-word and the 3-word review use the same cell with no padding. The memory is drawn as the words read so far, older ones fainter; the next Note shows the numbers it really holds](images/ann_vs_rnn.gif){width=100%}
 
@@ -209,23 +209,23 @@ How the memory is computed is shown in [forward propagation in an RNN](../DL-056
 
 > **Key point:** RNNs and their descendants power sentiment analysis, next-word suggestions, image captions, translation, speech recognition and forecasting.
 
-- **Sentiment analysis** (G-1769): reading a review and deciding whether it is positive or negative. An online shop can score thousands of product reviews this way. The IMDB data of section 5 was built for exactly this task (Maas et al. 2011).
+- [**Sentiment analysis**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769): reading a review and deciding whether it is positive or negative. An online shop can score thousands of product reviews this way. The IMDB data of section 5 was built for exactly this task (Maas et al. 2011).
 - **Next-word suggestions:** when we type in Gmail, Smart Compose suggests how the sentence continues, using a neural language model that reads the words typed so far (Chen et al. 2019). Phone keyboards suggest the next word in the same spirit.
-- **Image captions:** a CNN reads a photo and an **LSTM** (G-1123), a kind of RNN, writes a sentence describing it (Vinyals et al. 2015). Such a model could describe the surroundings to a person who cannot see them.
+- **Image captions:** a CNN reads a photo and an [**LSTM**](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123), a kind of RNN, writes a sentence describing it (Vinyals et al. 2015). Such a model could describe the surroundings to a person who cannot see them.
 - **Machine translation:** an LSTM reads a sentence in one language and another LSTM writes it in another (Sutskever et al. 2014).
 - **Speech recognition:** deep RNNs turn a sound wave into text (Graves et al. 2013).
-- **Time series** (G-1975) **forecasting:** predicting the next values of a series, such as sales or electricity demand (Hewamalage et al. 2021).
+- [**Time series**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) **forecasting:** predicting the next values of a series, such as sales or electricity demand (Hewamalage et al. 2021).
 
-Question-answering systems, which read a paragraph and answer questions about it, now mostly use **transformers** (G-2007) such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work; [what a transformer is](../../06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is) introduces them.
+Question-answering systems, which read a paragraph and answer questions about it, now mostly use [**transformers**](../../06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) such as BERT (Devlin et al. 2019) instead of RNNs. Transformers grew out of the RNN line of work; [what a transformer is](../../06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is) introduces them.
 
 The RNN family is built up step by step:
 
 1. [the simple RNN](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn);
 2. [the types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one);
-3. [backpropagation through time](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn);
+3. [**backpropagation through time**](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn) (G-246);
 4. [the vanishing-gradient problem in RNNs](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#3-the-long-term-dependency-problem);
 5. [LSTM](../DL-061-lstm/DL-061-lstm.md#3-where-a-simple-rnn-fails) and [GRU](../DL-064-gru/DL-064-gru.md#3-why-the-gru-exists);
-6. [deep RNNs](../DL-065-deep-rnns/DL-065-deep-rnns.md#3-why-stack-recurrent-layers) and [bidirectional RNNs](../DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#3-why-read-a-sequence-in-both-directions).
+6. [**deep RNNs**](../DL-065-deep-rnns/DL-065-deep-rnns.md#3-why-stack-recurrent-layers) (G-573) and [**bidirectional RNNs**](../DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#3-why-read-a-sequence-in-both-directions) (G-292).
 
 ## 8. Summary
 
@@ -277,14 +277,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
 | [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
 | [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [IMDB dataset](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
+| [Integer encoding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
 | [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |
 | [Recurrent layer](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-1646) | A hidden layer whose output at one time step is an input to itself at the next. |
 | [Hidden state ($h_t$)](../../../DL/05-rnn/DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) | The RNN's running summary of the inputs so far: the recurrent layer's output at time step $t$. |
 | [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
 | [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
+| [Backpropagation through time (BPTT)](../../../DL/05-rnn/DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#1-overview) (G-246) | Backpropagation for an RNN: the chain rule runs back over the network unfolded in time, adding up the gradient from every time step at which a shared weight is used. |
+| [Deep RNN (stacked RNN)](../../../DL/05-rnn/DL-065-deep-rnns/DL-065-deep-rnns.md#1-overview) (G-573) | An RNN with two or more recurrent layers stacked on top of each other, all unfolded through time. |
+| [Bidirectional RNN](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#1-overview) (G-292) | Two RNNs reading a sequence in opposite directions, their hidden states joined at every time step, so the output at each word uses the words both before and after it. |

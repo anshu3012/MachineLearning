@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/ols]
 
 > **Key point:** We write down the total error of a line, find the m and b that make it smallest, and get two short formulas. Coded as our own class, they give exactly scikit-learn's answer.
 
-The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ and intercept $b = -0.896$ for the placement data. This Note opens the box: where do these two numbers come from? As before, the **feature** (G-772; an input variable, one column of the data table) is CGPA, the **target** (G-1949; the output we predict) is the package, and each **observation** (G-1374; one record, one row) is one student. The line itself is the **best-fit line** (G-280) of **linear regression** (G-1094).
+The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ and intercept $b = -0.896$ for the placement data. This Note opens the box: where do these two numbers come from? As before, the **feature** (G-772; an input variable, one column of the data table) is CGPA, the **target** (G-1949; the output we predict) is the package, and each **observation** (G-1374; one record, one row) is one student. The line itself is the [**best-fit line**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-280) of [**linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094).
 
 The plan has three parts:
 
@@ -34,7 +34,7 @@ The plan has three parts:
 There are two ways to compute the best $m$ and $b$: jump straight to the answer, or walk towards it.
 
 - **Closed-form solution** (G-398): a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For linear regression, this method is called **ordinary least squares (OLS)** (G-1406).
-- **Non-closed-form solution** (G-1332): no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is **gradient descent** (G-862).
+- **Non-closed-form solution** (G-1332): no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862).
 
 Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in Section 3). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
 
@@ -66,7 +66,7 @@ For point $i$, the actual package is $y_i$ and the line predicts $\hat y_i$, the
 
 $$d_i = y_i - \hat y_i$$
 
-This signed vertical gap is the **residual** (G-705) of observation $i$: positive when the point lies above the line, negative when it lies below.
+This signed vertical gap is the [**residual**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) of observation $i$: positive when the point lies above the line, negative when it lies below.
 
 **A three-point toy set.** To see every step by hand, we use three students before the 160. The index $i$ counts the observations (1, 2, 3), $x_i$ is the CGPA and $y_i$ the package:
 
@@ -111,11 +111,11 @@ Figure 5 puts the two choices side by side: the orange square grows faster for l
 
 ![What one residual d adds to the total: d squared (orange) against the absolute value of d (blue). Residuals of 1, 2 and 3 add 1, 4 and 9 when squared.](images/square_vs_abs.png)
 
-The total is called the **error function** or **loss function** (G-706); for squared errors it is the **sum of squared errors** (G-1684). The symbol $\sum_{i=1}^{n}$ (sigma) means "add the term for $i = 1$, then $i = 2$, and so on up to $i = n$"; with $n = 3$ toy points the guess line gives $E = 2$, the sum we just wrote. In general:
+The total is called the **error function** or **loss function** (G-706); for squared errors it is the [**sum of squared errors**](../ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684). The symbol $\sum_{i=1}^{n}$ (sigma) means "add the term for $i = 1$, then $i = 2$, and so on up to $i = n$"; with $n = 3$ toy points the guess line gives $E = 2$, the sum we just wrote. In general:
 
 $$E = \sum_{i=1}^{n} (y_i - \hat y_i)^2$$
 
-> **Extra:** Dividing $E$ by $n$ gives the average squared error, the **mean squared error** (G-1201) used as [a metric](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). Dividing by a constant does not change which line is best, so here we keep the plain sum.
+> **Extra:** Dividing $E$ by $n$ gives the average squared error, the [**mean squared error**](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) used as [a metric](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). Dividing by a constant does not change which line is best, so here we keep the plain sum.
 
 ### 3.3 E depends on m and b
 
@@ -165,7 +165,7 @@ Figure 1 already showed this surface (as $\log_{10} E$) and flattened it into th
 
 The surface is a bowl with a single lowest point, at $m = 0.558$, $b = -0.896$, where $E = 16.55$. The two slices on the right cut the bowl along $m$ and along $b$: each is a U-shaped curve, and at the bottom the curve is flat; its slope there is zero. A marble dropped into a salad bowl comes to rest at the one place where the floor of the bowl is level in every direction.
 
-A **derivative** (G-595) measures the slope of a function: the slope of its **tangent line** (G-1945), the straight line that touches the curve at one point. Since $E$ depends on two variables, it has two slopes, one for each. A **partial derivative** (G-1457) is the slope in one variable while the other is held fixed:
+A [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) measures the slope of a function: the slope of its [**tangent line**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945), the straight line that touches the curve at one point. Since $E$ depends on two variables, it has two slopes, one for each. A **partial derivative** (G-1457) is the slope in one variable while the other is held fixed:
 
 - $\dfrac{\partial E}{\partial b}$: how $E$ changes when $b$ moves and $m$ stays fixed.
 - $\dfrac{\partial E}{\partial m}$: how $E$ changes when $m$ moves and $b$ stays fixed.
@@ -178,7 +178,7 @@ Figure 8 slides a tangent line along each slice of Figure 7. With $m = 0.558$ fi
 
 > **Key point:** Setting both slopes of the toy $E(m, b)$ to zero gives two small equations; solving them gives the best line, $m = 0.5$ and $b = 1$.
 
-First the slope of a single squared term, using the **chain rule** (G-371): when one quantity sits inside another, the slope of the whole is the outer slope times the inner slope. Take student 2 on the line $m = 0.5$, $b = 1$:
+First the slope of a single squared term, using the [**chain rule**](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371): when one quantity sits inside another, the slope of the whole is the outer slope times the inner slope. Take student 2 on the line $m = 0.5$, $b = 1$:
 
 $$u = y - m x - b$$
 
@@ -337,7 +337,7 @@ $$m = \frac{1}{2} = 0.5$$
 
 $$b = 2 - 0.5 \times 2 = 1$$
 
-These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the **covariance** (G-496) of $x$ and $y$; the bottom is $n$ times the **variance** (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [variance](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) of $x$ and $y$; the bottom is $n$ times the [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [variance](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 9 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 
@@ -444,7 +444,7 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 
  The Notebook also checks the two conditions of Section 4 at the fitted line: the errors add up to 0, and so do the errors times $x$. Moving $m$ by just 0.01 raises $E$ from 16.55 to 17.35.
 
-> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: [multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview).
+> **Extra:** This class only handles one feature. The same idea works for many features, written with matrices instead of single sums: [**multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279).
 
 ## 7. Summary
 
@@ -506,4 +506,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
 | [SGDRegressor](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#41-scikit-learns-partial_fit) (G-1783) | A scikit-learn model that does linear regression with stochastic gradient descent, step by step, so it can also learn from data arriving in small pieces. |

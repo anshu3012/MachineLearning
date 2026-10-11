@@ -86,7 +86,7 @@ Figure 2 shows the flow: past sales go in, and for each product a prediction com
 
 A wrong decision here can cost crores of rupees. Every e-commerce site that runs sales, such as Myntra and Flipkart, makes this decision the same way.
 
-> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a **regression** (G-1655) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). The same idea comes back in transportation (Section 5.2).
+> **Extra:** Predicting how much of a product will sell in the future is called **demand forecasting** (G-580). Because the output is a number, it is a [**regression**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). The same idea comes back in transportation (Section 5.2).
 
 ### 3.2 Customer profiles for targeted marketing
 
@@ -124,7 +124,7 @@ Reaching only the people most likely to buy is called **targeted marketing** (G-
 
 Google and Facebook do the same with the data of their users. Most internet products are free to use, which leads to a well-known saying: *if you are not paying for the product, you are the product.*
 
-> **Extra:** Grouping customers by their buying behaviour without being told the groups is **clustering** (G-401), a kind of **unsupervised learning** (G-2058; [clustering](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering)). In marketing it is called **customer segmentation** (G-525).
+> **Extra:** Grouping customers by their buying behaviour without being told the groups is [**clustering**](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401), a kind of **unsupervised learning** (G-2058; [clustering](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering)). In marketing it is called **customer segmentation** (G-525).
 
 ### 3.3 Product placement on shelves
 
@@ -132,7 +132,7 @@ Google and Facebook do the same with the data of their users. Most internet prod
 
 In a supermarket, someone has decided which product sits next to which in the aisles. The placement is often decided with ML.
 
-**Association rule learning** (G-218) finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [association rule learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning).
+[**Association rule learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning) (G-218) finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [association rule learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning).
 
 Without these three uses of ML (stocking, profiles, placement), retail companies would not run nearly as well as they do today.
 
@@ -162,7 +162,7 @@ Where should the bank draw the line? Figure 5 shows the ML stage on real loans: 
 
 In Figure 5, the position of a dot along the horizontal axis is the model's chance (out of 100) that the applicant will not repay. The vertical line is the cut-off we choose, and the gif moves it.
 
-1. **Training.** A model learns from 700 past borrowers how the profiles of those who did not repay differ from the rest. It is a **logistic regression** (G-1120), a classifier that outputs a probability.
+1. **Training.** A model learns from 700 past borrowers how the profiles of those who did not repay differ from the rest. It is a [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120), a classifier that outputs a probability.
 2. **Scoring.** It gives each of the other 300 applicants a chance of not repaying, out of 100. Most red dots sit to the right of most green dots, but the two groups overlap.
 3. **A high cut-off, 80.** Only applicants scored above 80 are rejected, so the model rejects only 12 applicants: 9 who did not repay and 3 who did. Almost everyone reaches the loan officer.
 4. **A lower cut-off, 50.** More applicants score above 50. It rejects 38 of the 90 who did not repay, and also 20 of the 210 who did.
@@ -175,7 +175,7 @@ In Figure 5, the position of a dot along the horizontal axis is the model's chan
 
    Lowering the cut-off catches more future defaulters, but turns away more good customers. Where to put it is a business decision: in this dataset's own guidance, lending to someone who will not repay is counted as five times as costly as turning away someone who would (Hofmann 1994).
 
-> **Extra:** Predicting "will repay / will not repay" is a **classification** (G-395) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). In banking it is called **credit scoring** (G-502), and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
+> **Extra:** Predicting "will repay / will not repay" is a [**classification**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) problem ([regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). In banking it is called **credit scoring** (G-502), and the probability of not repaying is called the *probability of default* (Thomas et al. 2002, Ch. 1).
 
 ### 4.2 Other uses in banking and finance
 
@@ -256,7 +256,7 @@ As soon as the drop is detected, engineers are sent to repair that robotic arm.
 
 The same idea works in any factory, not only Tesla's. Predictive maintenance is one of the ways ML is changing the manufacturing sector.
 
-> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of **anomaly detection** (G-201), which [anomaly detection](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) lists as a use of unsupervised learning.
+> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of [**anomaly detection**](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201), which [anomaly detection](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) lists as a use of unsupervised learning.
 
 ## 7. Social media
 

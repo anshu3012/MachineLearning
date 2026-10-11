@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/xgboost]
 
 ![XGBoost regression: the gradient boosting loop, with a different tree in step 3](images/flow.png){height=36%}
 
-The loop in Figure 1 is the one from [gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error (see [finding the splitting criterion](../ML-093-regression-trees/ML-093-regression-trees.md#4-finding-the-splitting-criterion)); an XGBoost tree uses a quantity called the **similarity score** (G-1804).
+The loop in Figure 1 is the one from [**gradient boosting**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) (G-859). Step 3 is where XGBoost differs. A normal regression tree chooses its splits by the drop in squared error (see [finding the splitting criterion](../ML-093-regression-trees/ML-093-regression-trees.md#4-finding-the-splitting-criterion)); an XGBoost tree uses a quantity called the **similarity score** (G-1804).
 
 This Note grows one XGBoost tree by hand on four students, then uses it for the next prediction. The [XGBoost introduction](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#7-speed) lists the speed tricks; here we stay with the core idea. Why the formulas look the way they do is derived in [the objective: loss plus a penalty on the tree](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#4-the-objective-loss-plus-a-penalty-on-the-tree).
 
@@ -48,7 +48,7 @@ $$f_0 = \frac{4.5 + 11 + 6 + 8}{4}$$
 $$f_0 = \frac{29.5}{4}$$
 $$f_0 = 7.375$$
 
-The **residuals** (G-705; pseudo-residuals, see [pseudo-residuals](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model)) are actual minus predicted:
+The **residuals** (G-705; pseudo-residuals, see [**pseudo-residuals**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589)) are actual minus predicted:
 
 | Student | CGPA | Package | Prediction 1 | Residual 1 |
 |---|---|---|---|---|
@@ -212,7 +212,7 @@ The number of trees is the hyperparameter `n_estimators`; the goal is residuals 
 
 What we did in sections 5 to 7, sorting the values and testing every midpoint, is the exact greedy algorithm of [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins). The exact greedy algorithm finds the best split but checks every value, which is slow on millions of observations.
 
-For large data XGBoost first groups each feature into bins and only tests the bin edges: the **approximate algorithm** (G-207), introduced in [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins).
+For large data XGBoost first groups each feature into bins and only tests the bin edges: the [**approximate algorithm**](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins) (G-207), introduced in [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins).
 
 > **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in [more than one input](../ML-093-regression-trees/ML-093-regression-trees.md#5-more-than-one-input) (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first (see [one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
@@ -244,7 +244,7 @@ Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-resi
 
 > **Key point:** A split is kept only if its gain minus $\gamma$ is positive. Pruning starts from the bottom of the tree; a large $\gamma$ removes weak splits, and a very large one removes them all.
 
-An everyday picture: every split must pay a fee of $\gamma$, the **gamma** (G-823) parameter. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
+An everyday picture: every split must pay a fee of $\gamma$, the [**gamma**](../../07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) parameter. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
 
 Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5.04, where the two left leaves merge into one with output $-1.21$, and then the root bar at 17.52, where the whole tree collapses into one leaf with output 0.
 
@@ -350,10 +350,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Output value (leaf weight) (G-1426) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
 | Eta ($\eta$) (G-712) | XGBoost's name for the learning rate; default 0.3. |
 | Gamma ($\gamma$, `min_split_loss`) (G-821) | A setting that stops weak splits in XGBoost: a split is kept only if its gain exceeds gamma; default 0. |
+| [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview) (G-859) | A way to build a model from many trees added one by one: it starts from a simple guess, and each new tree is trained on the mistakes (pseudo-residuals) of the ensemble so far (a boosting algorithm). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
+| [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Approximate tree learning (histogram-based training)](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins) (G-207) | Finding a tree split by cutting each feature into bins and trying only the bin edges instead of every value; the split may be a little worse, but training is much faster. |
 | [gamma (RBF kernel)](../../../ML/07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. |

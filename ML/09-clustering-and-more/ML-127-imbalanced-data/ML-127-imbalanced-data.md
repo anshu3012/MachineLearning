@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/data, area/features, area/models-1, step/u
 
 ![Five ways to handle imbalanced data, in three groups](images/overview.png){height=40%}
 
-**Imbalanced data** (G-921) was defined in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data): data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
+[**Imbalanced data**](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) was defined in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data): data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
 
 - **Change the data** (resampling): random undersampling, random oversampling, SMOTE.
 - **Change the ensemble:** the balanced random forest.
@@ -32,7 +32,7 @@ The Notebook (`ML-127-imbalanced-data.ipynb`) runs every technique on the same d
 
 > **Key point:** One class (the majority) has far more observations than another (the minority); this happens with two classes or with many.
 
-Take a college where we know each student's CGPA and IQ and whether they were placed. Each student is one **observation** (G-1374; one record, one row of the data table); CGPA and IQ are **features** (G-772; input variables, one column each); placed or not is the **target** (G-1949), the output we predict. At a top college, most students are placed: out of 500 final-year students, perhaps 450 placed and 50 not. Placed is the **majority class** (G-1145), the class with many observations; not placed is the **minority class** (G-1229), the rare one.
+Take a college where we know each student's CGPA and IQ and whether they were placed. Each student is one **observation** (G-1374; one record, one row of the data table); CGPA and IQ are **features** (G-772; input variables, one column each); placed or not is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict. At a top college, most students are placed: out of 500 final-year students, perhaps 450 placed and 50 not. Placed is the **majority class** (G-1145), the class with many observations; not placed is the **minority class** (G-1229), the rare one.
 
 The same can happen with three or more classes. Suppose 10 more students did not sit for placements at all, a third class. The data now has one large class and two small ones, and it is still imbalanced.
 
@@ -88,7 +88,7 @@ The accuracy, 92.5%, looks excellent. The recall of class 0 is 0.14: of the 7 mi
 
 ![Confusion matrices on the 80 test observations. Left: logistic regression finds 1 of the 7 minority observations (red row). Right: a model that always answers class 1 finds none, and still scores 91.25%](images/confusion.png){width=100%}
 
-A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). So on imbalanced data we judge models by the minority class's precision (the share of flagged observations that are really minority), recall (the share of minority observations found) and F1 (their balance), see [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) and [recall](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall), and by ROC AUC (how well the model ranks minority above majority, see [the ROC curve](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve)).
+A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). So on imbalanced data we judge models by the minority class's precision (the share of flagged observations that are really minority), recall (the share of minority observations found) and F1 (their balance), see [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) and [**recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641), and by ROC AUC (how well the model ranks minority above majority, see [the ROC curve](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve)).
 
 > **Python:** The classification report.
 >
@@ -182,7 +182,7 @@ The boundary moves up much as with undersampling (Figure 5, middle). The minorit
 **Disadvantages:**
 
 - The data grows: here from 320 to 598 observations. A 1 GB dataset can become nearly 2 GB.
-- Copies are not new information. An observation repeated 21 times looks very important to the algorithm, which can **overfit** (G-1429) to it, especially decision trees: the tree carves out tiny regions around the repeated points, with more splits and more leaves (Chawla et al. 2002, §4.1).
+- Copies are not new information. An observation repeated 21 times looks very important to the algorithm, which can [**overfit**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) to it, especially decision trees: the tree carves out tiny regions around the repeated points, with more splits and more leaves (Chawla et al. 2002, §4.1).
 
 ## 7. SMOTE
 
@@ -369,7 +369,7 @@ On our data, the balanced forest finds 5 of the 7 minority test observations (re
 
 > **Key point:** Give the minority class a bigger weight; each of its mistakes then adds more to the loss, and the model works harder to avoid them.
 
-`class_weight` was introduced in [class_weight](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
+`class_weight` was introduced in [**class_weight**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight) (G-391): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
 
 With 900 observations of class 1 and 100 observations of class 0, we might give class 0 a weight of 10 and class 1 a weight of 1. Every mistake on class 0 then costs 10 times as much. For an algorithm trained by gradient descent (see [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)), those mistakes produce 10 times larger updates, so the parameters move more to correct them.
 
@@ -595,6 +595,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |
+| [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [class_weight](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight) (G-391) | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Hessian $h_i$](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#8-the-second-order-approximation-of-the-objective) (G-887) | How fast row $i$'s gradient changes as the previous prediction moves (the second derivative of that row's loss with respect to the prediction). XGBoost uses it together with the gradient to compute leaf weights and split gains. |

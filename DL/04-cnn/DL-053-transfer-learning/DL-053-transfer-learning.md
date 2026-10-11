@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/transfer-learning
 
 ## 1. Overview
 
-> **Key point:** **Transfer learning** (G-2005) reuses what a network learned on one large dataset for a new, related problem. We keep the convolutional base of a pretrained CNN, replace its top with new layers for our own classes, and train only what is needed. On 2,000 photos of cats and dogs, feature extraction reached 94.9% test accuracy against 76.5% for a CNN trained from scratch, and fine-tuning the last block added a little more: 95.7%.
+> **Key point:** [**Transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) reuses what a network learned on one large dataset for a new, related problem. We keep the convolutional base of a pretrained CNN, replace its top with new layers for our own classes, and train only what is needed. On 2,000 photos of cats and dogs, feature extraction reached 94.9% test accuracy against 76.5% for a CNN trained from scratch, and fine-tuning the last block added a little more: 95.7%.
 
 A pretrained model such as VGG16 knows the 1,000 [ImageNet classes](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc). Our own problem often has other classes, and only a little labelled data. Training a CNN from scratch on that little data **overfits** (G-1429; [it fits the training photos too closely and predicts new ones worse](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)); transfer learning avoids most of the problem by starting from features that are already good.
 
@@ -25,7 +25,7 @@ This Note covers:
 - why transfer learning is needed (section 3);
 - how it works (section 4);
 - why it works (section 5);
-- its two forms, **feature extraction** (G-762) and **fine-tuning** (G-779) (section 6);
+- its two forms, [**feature extraction**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) and **fine-tuning** (G-779) (section 6);
 - both forms in Keras code (section 7);
 - an experiment that compares them with training from scratch (section 8).
 

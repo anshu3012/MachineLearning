@@ -89,7 +89,7 @@ The distribution of a sum of $k$ squared standard normal draws is the **chi-squa
 
 ![Chi-square densities for four degrees of freedom](images/chi2_curves.png){height=35%}
 
-The chi-square distribution is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution)), it has one parameter, the degrees of freedom. Figure 4 shows four of them:
+The chi-square distribution is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [**t-procedure**](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1938)), it has one parameter, the degrees of freedom. Figure 4 shows four of them:
 
 - with 1 or 2 df, the density is highest at 0 and falls steadily;
 - with more df, the peak moves right and the curve spreads out;
@@ -165,13 +165,13 @@ $$\frac{(34 - 30)^2}{30} = 0.533$$
 
 $$\chi^2 = 0.533 + 0.533 = 1.067$$
 
-With 1 df this gives $p = 0.302$. The [one-sample proportion test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#42-the-z-statistic-for-a-proportion) gave $z = -1.033$, and its square is the same number:
+With 1 df this gives $p = 0.302$. The [**one-sample proportion test**](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#42-the-z-statistic-for-a-proportion) (G-1381) gave $z = -1.033$, and its square is the same number:
 
 $$(-1.033)^2 = 1.067$$
 
 The p-value is the same too, 0.302. The goodness-of-fit test is the proportion test extended to any number of categories.
 
-> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [Poisson distribution](../../03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#3-the-poisson-pmf)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom:
+> **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [**Poisson distribution**](../../03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#3-the-poisson-pmf) (G-1509)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom:
 >
 > $$df = k - 1 - (\text{number of estimated parameters})$$
 >
@@ -212,7 +212,7 @@ And of the 26 adults we expect this many women:
 
 $$26 \times 0.567 = 14.73$$
 
-The same rule in the language of probability: two events are independent when the probability of both is the product of their probabilities (see the [independent events](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)). The **marginal probabilities** (G-1165) come from the totals (see the [joint and marginal probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#3-marginal-probability)).
+The same rule in the language of probability: two events are independent when the probability of both is the product of their probabilities (see the [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)). The [**marginal probabilities**](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#32-marginal-probability-distributions) (G-1165) come from the totals (see the [joint and marginal probability](../../02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#3-marginal-probability)).
 
 1. **In words:** the expected count of a cell is its row total times its column total, divided by the grand total.
 2. **Formula:**
@@ -389,7 +389,7 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 
 > **Key point:** Feature selection with `SelectKBest(chi2)` ranks categorical features by how strongly they are related to the target.
 
-**Feature selection** (G-768) with **`SelectKBest`** (G-1762; keeps the $k$ features with the highest scores) `(score_func=chi2)` (see the [pipelines](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection)) scores each feature against the **target** (G-1949; the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
+[**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) with **`SelectKBest`** (G-1762; keeps the $k$ features with the highest scores) `(score_func=chi2)` (see the [**pipelines**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1499)) scores each feature against the **target** (G-1949; the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
 
 ## 8. Summary
 
@@ -446,9 +446,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [T-procedure](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula) (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
 | [Critical value](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
+| [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#1-overview) (G-1381) | A test of whether the share (proportion) of one category in the population equals a claimed value $\pi_0$, using a z statistic (a z-test). |
+| [Poisson distribution](../../../MA/03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#21-counts-in-an-interval) (G-1509) | A distribution that gives the probability of each possible count of events (0, 1, 2, ...) in a fixed interval of time or space, from the average count $\lambda$; used for counts such as questions per day. |
 | [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Marginal probability distribution](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#32-marginal-probability-distributions) (G-1165) | All the marginal probabilities of one variable, read from a joint table. |
 | [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [SelectKBest](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1762) | scikit-learn class that gives every column a score and keeps the `k` best, so only the most useful features go into the model. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

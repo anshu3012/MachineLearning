@@ -36,13 +36,13 @@ The Notebook (`ML-108-feature-importance.ipynb`) runs every example.
 
 > **Key point:** Feature importance tells us which features a model relies on: useful for dropping weak features (feature selection) and for explaining the model's decisions.
 
-**Feature importance** (G-764) is a number for each input feature that says how much the model relied on it. Two uses stand out.
+[**Feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) is a number for each input feature that says how much the model relied on it. Two uses stand out.
 
 ### 2.1 Feature selection
 
 > **Key point:** Keep the features with high importance and drop the rest.
 
-Too many features hurt: training slows down, and useless features can mislead the model. **Feature selection** (G-768) keeps only the useful features (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
+Too many features hurt: training slows down, and useless features can mislead the model. [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps only the useful features (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
 
 Take MNIST (see [the MNIST data](../../05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)): 42,000 images of handwritten digits, each 28 × 28 = 784 pixels, stored as one row of 784 pixel columns plus a label. Digits are written in the middle of the image, so the pixels near the border are almost always blank. Border pixels cannot help tell a 0 from a 4; the central pixels can.
 
@@ -87,7 +87,7 @@ The scikit-learn documentation defines a feature's importance as "the (normalize
 
 Every split makes its node's observations less mixed, and it gets credit for how much it cleaned up, counted in proportion to how many observations reached it. A split near the root handles all the observations, so its clean-up counts in full; a split deep down handles only a few, so its clean-up counts for little.
 
-The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease):
+The measure of "mixed" is the impurity (**Gini impurity**, G-847), and the credit is the split's **weighted impurity decrease** (G-2115) $\Delta$, defined, with a worked example, in [**min_impurity_decrease**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease) (G-1219):
 
 $$\Delta = \frac{N_t}{N}\left(G_t - \frac{N_L}{N_t}G_L - \frac{N_R}{N_t}G_R\right)$$
 
@@ -310,3 +310,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
 | [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [Gini impurity](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#82-the-formula) (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
+| [min_impurity_decrease](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease) (G-1219) | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |

@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/missing-values, 
 
 > **Key point:** A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
 
-[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the techniques for missing data, and [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) filled gaps (missing values) in numerical features. A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). A categorical feature (one whose values are labels, such as a city name) has no mean or median, so it needs its own techniques. This Note covers the two main ones.
+[Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the techniques for missing data, and [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) filled gaps (missing values) in numerical features. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). A categorical feature (one whose values are labels, such as a city name) has no mean or median, so it needs its own techniques. This Note covers the two main ones.
 
 Figure 1 shows both on a small `city` column with two gaps, marked NaN ("not a number", the mark pandas uses for a missing value):
 
@@ -27,9 +27,9 @@ Figure 1 shows both on a small `city` column with two gaps, marked NaN ("not a n
 
 ![Two ways to fill gaps in a categorical column: the most frequent category, or a new category "Missing"](images/overview.png)
 
-Both are **univariate imputation** (G-2051) techniques: they look only at the feature with the gap. scikit-learn's **`SimpleImputer`** (G-1809) does both.
+Both are [**univariate imputation**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-2051) techniques: they look only at the feature with the gap. scikit-learn's **`SimpleImputer`** (G-1809) does both.
 
-> **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. [Random sample imputation](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) covers it.
+> **Extra:** A third technique, filling each gap with a random value drawn from the column, works for numerical and categorical columns alike. [**Random sample imputation**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) (G-1616) covers it.
 
 ## 2. Most frequent value imputation
 
@@ -39,7 +39,7 @@ Both are **univariate imputation** (G-2051) techniques: they look only at the fe
 
 > **Key point:** The mode of a column is its most frequent value; every gap gets that value.
 
-The **mode** (G-1251) of a column is the value that occurs most often in it. **Most frequent value imputation**, or **mode imputation** (G-1264), fills every missing value of a column with its mode.
+The [**mode**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) of a column is the value that occurs most often in it. **Most frequent value imputation**, or **mode imputation** (G-1264), fills every missing value of a column with its mode.
 
 Take a column `city` with the values Mumbai, Delhi and Kolkata, plus some gaps. Mumbai appears most often, then Delhi, then Kolkata. Every gap becomes Mumbai.
 
@@ -51,7 +51,7 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 Mode imputation rests on three conditions:
 
-1. **The data is MCAR** (G-1192) (missing completely at random, see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)). The gaps have no pattern, so the observations with a gap look like the others.
+1. [**The data is MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) (missing completely at random, see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)). The gaps have no pattern, so the observations with a gap look like the others.
 2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
@@ -82,7 +82,7 @@ Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Se
 
 The aim is to tell the ML algorithm which rows had no value. The algorithm then treats "Missing" like any other category and can learn whether it matters.
 
-This is the categorical version of **arbitrary value imputation** (G-208) for numerical columns ([arbitrary value imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#5-arbitrary-value-imputation)), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
+This is the categorical version of [**arbitrary value imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) for numerical columns ([arbitrary value imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#5-arbitrary-value-imputation)), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
 
 ### 3.2 When to use it
 
@@ -107,7 +107,7 @@ So the "Missing" category suits two cases:
 
 **Disadvantage:** it does not estimate the missing value; it only labels it, so the results are not always good.
 
-> **Extra:** After [one-hot encoding](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (one 0/1 column per category), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233; see [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) for this feature.
+> **Extra:** After [**one-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per category), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233; see [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) for this feature.
 
 ## 4. The house price data
 
@@ -362,11 +362,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Univariate imputation](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
 | [SimpleImputer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#41-fever-fill-the-missing-values) (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |
+| [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
 | [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
 | [Arbitrary value imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. |
 | [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
 | [MNAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1248) | Missing not at random: the gaps depend on the missing value itself. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |

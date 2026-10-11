@@ -33,8 +33,8 @@ Two CNN parts are named in the key point above. A **filter** is a small grid of 
 ## 2. Prerequisites
 
 - The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image): early layers find edges, later layers combine them.
-- The [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): a filter is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
-- The [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): max pooling keeps the largest value of each window.
+- The [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481): a filter is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
+- The [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521): max pooling keeps the largest value of each window.
 
 ## 3. How visual information flows
 
@@ -106,7 +106,7 @@ As we pass through further areas of the brain, the same strategy, detection foll
 
 > **Key point:** A small vertical-bar filter, at one position, is tuned to orientation like a simple cell. The maximum of that filter's responses over a neighbourhood keeps the tuning but ignores shifts of the bar, like a complex cell.
 
-The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle three columns and negative on both sides, so it answers a bright vertical line; its response is the **filter** (G-777) applied at one fixed position, followed by **ReLU** (G-1668; keep a positive value, set a negative one to 0). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182; keep the largest value in a window) over a neighbourhood.
+The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle three columns and negative on both sides, so it answers a bright vertical line; its response is the [**filter**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) applied at one fixed position, followed by **ReLU** (G-1668; keep a positive value, set a negative one to 0). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182; keep the largest value in a window) over a neighbourhood.
 
 ![A model simple cell (one filter position, blue) and a model complex cell (maximum over a neighbourhood, orange). Left: both are tuned to orientation, strongest for a vertical bar and silent for a horizontal one. Right: shifting the vertical bar sideways by 2 pixels silences the simple cell, while the complex cell keeps responding](images/cell_models.png){width=100%}
 
@@ -115,7 +115,7 @@ Figure 4 shows both effects:
 - **Orientation.** As the bar rotates from horizontal (0°) to vertical (90°), both responses rise from 0 to their maximum, then fall back to 0 at 180°: the tuning Hubel and Wiesel recorded.
 - **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0. The bar is still inside the 7 × 7 receptive field, but it now lies mostly on the negative side of the filter, so the weighted sum is negative and ReLU sets it to 0. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
 
-These two models are exactly the two main layers of a CNN. The filter of a **convolution layer** (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
+These two models are exactly the two main layers of a CNN. The filter of a [**convolution layer**](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
 
 ## 6. From the visual cortex to CNNs
 
@@ -127,7 +127,7 @@ These two models are exactly the two main layers of a CNN. The filter of a **con
 
 The first model built on these findings was the **Neocognitron** (G-1314) of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to complex cells. Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
 
-Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401; grouping similar examples without labels) algorithm, not on **backpropagation** (G-247) and **gradient descent** (G-862) (Goodfellow et al. 2016, §9.10).
+Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401; grouping similar examples without labels) algorithm, not on [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) and [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) (Goodfellow et al. 2016, §9.10).
 
 ### 6.2 LeCun's CNNs
 
@@ -184,6 +184,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Receptive field (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | Preferred stimulus (G-1554) | The pattern, such as an edge of one orientation, that a cell responds to most. |
 | Neocognitron (G-1314) | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
+| [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
+| [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |

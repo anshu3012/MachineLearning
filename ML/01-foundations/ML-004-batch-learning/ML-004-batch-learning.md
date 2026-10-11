@@ -184,7 +184,7 @@ Figure 7 shows the problem:
 - Users want the news **now**, but the model learns about the new interest only at the next retrain, up to 24 hours later.
 - When it does update, the feed fills up with news that is already a day old.
 
-Batch learning cannot handle situations that change this quickly. For these, a different approach is used: **online learning** (G-1391), the topic of [what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
+Batch learning cannot handle situations that change this quickly. For these, a different approach is used: [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391), the topic of [what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 
 ## 6. Summary
 

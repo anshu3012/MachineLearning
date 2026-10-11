@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/sigmoid]
 
 > **Key point:** The slope of the S-curve is steepest in the middle and nearly flat at both ends. Its exact value comes from the curve's own height: slope = height × (1 − height).
 
-**Gradient descent** (G-862) on the **log loss** (G-303; [the measure of how wrong the predicted probabilities are](../ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)) needs the **derivative** (G-595) of the **sigmoid function** (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
+[**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) on the **log loss** (G-303; [the measure of how wrong the predicted probabilities are](../ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)) needs the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the [**sigmoid function**](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
 In plain words, the answer is easy to picture. The sigmoid is an S-shaped curve: flat on the far left, steep in the middle, flat again on the far right. So its slope is close to 0 at both ends and largest in the middle (Figure 3 in section 4 rides a tangent line along the curve). The formula of this Note gives that slope exactly.
 
@@ -73,7 +73,7 @@ $$\frac{d}{dz}e^{-z} = -e^{-z}$$
 
 ![The curve $e^{-z}$ with its tangent lines at $z = 0$ and $z = 1$. Each slope is the curve's own height with a minus sign.](images/exp_slope.png){height=38%}
 
-Each red line in Figure 1 is a **tangent line** (G-1945): the straight line that touches the curve at one point and has the curve's slope there. Compare each red label's height and slope: they match except for the sign, which is the rule $\frac{d}{dz}e^{-z} = -e^{-z}$.
+Each red line in Figure 1 is a [**tangent line**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945): the straight line that touches the curve at one point and has the curve's slope there. Compare each red label's height and slope: they match except for the sign, which is the rule $\frac{d}{dz}e^{-z} = -e^{-z}$.
 
 ## 3. The derivation
 
@@ -181,7 +181,7 @@ The derivative is used in two places later:
 >
 > The numerical slope (rise over a tiny run) matches the formula to six decimals.
 
-> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers (steps that each pass their output to the next) in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the **vanishing gradient** (G-2070) problem. Saturating sigmoids (flat at both ends) make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network (the layers between input and output), and [ReLU (a function that outputs 0 for negative inputs and the input itself otherwise)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) is the default choice (Goodfellow et al. §6.1, §6.3.2).
+> **Extra:** Because the derivative is at most 0.25, and almost 0 for large or small $z$, stacking many sigmoid layers (steps that each pass their output to the next) in a deep neural network multiplies many small numbers together. The gradients become tiny and learning stalls: the [**vanishing gradient**](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) problem. Saturating sigmoids (flat at both ends) make gradient-based learning very difficult, so the sigmoid is now discouraged inside the hidden layers of a network (the layers between input and output), and [**ReLU (a function that outputs 0 for negative inputs and the input itself otherwise)**](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) is the default choice (Goodfellow et al. §6.1, §6.3.2).
 
 ## 5. Summary
 
@@ -217,3 +217,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |

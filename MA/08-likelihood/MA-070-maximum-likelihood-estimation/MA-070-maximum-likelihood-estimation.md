@@ -39,16 +39,16 @@ We weigh five mice and get 29, 31, 32, 33 and 35 grams. Each weight is one **obs
 
 There are many types of distribution: normal, exponential, gamma, Poisson and so on (see [famous distributions](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#6-famous-distributions)). **Fitting a distribution** (G-786) happens in two steps:
 
-1. **Choose the family.** Most weights sit near the middle and the spread is roughly symmetric, so a **normal distribution** (G-1343) is a sensible guess.
-2. **Choose the parameters.** A normal curve can sit anywhere and be narrow or wide. Its mean $\mu$ sets the location and its standard deviation $\sigma$ the width. These two numbers are the **parameters of the distribution** (G-1449) (see [parameters and notation](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#3-parameters-and-notation)).
+1. **Choose the family.** Most weights sit near the middle and the spread is roughly symmetric, so a [**normal distribution**](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) is a sensible guess.
+2. **Choose the parameters.** A normal curve can sit anywhere and be narrow or wide. Its mean $\mu$ sets the location and its standard deviation $\sigma$ the width. These two numbers are the [**parameters of the distribution**](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution) (G-1449) (see [parameters and notation](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#3-parameters-and-notation)).
 
-[Parametric density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation) did step 2 by plugging in the sample's mean and standard deviation. Maximum likelihood is a general rule for step 2 that works the same way for any family; for the normal family it gives back the mean and the standard deviation (proved in [the MLE of the mean](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#43-the-mle-of-the-mean)).
+[**Parametric density estimation**](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation) (G-1451) did step 2 by plugging in the sample's mean and standard deviation. Maximum likelihood is a general rule for step 2 that works the same way for any family; for the normal family it gives back the mean and the standard deviation (proved in [the MLE of the mean](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#43-the-mle-of-the-mean)).
 
 ## 3. The idea: slide the curve, keep the peak
 
 > **Key point:** A curve far from the data explains the data badly; a curve sitting on the data explains it well. Recording how well at every position gives a hump, and the top of the hump is the best position.
 
-Pick any normal curve with $\sigma = 2$ and put its centre far to the left of the mice. The curve says "most weights should be near my centre", but every mouse sits out in its right-hand tail. So this curve makes the observed weights unlikely: its **likelihood** (G-1086) is low.
+Pick any normal curve with $\sigma = 2$ and put its centre far to the left of the mice. The curve says "most weights should be near my centre", but every mouse sits out in its right-hand tail. So this curve makes the observed weights unlikely: its [**likelihood**](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) is low.
 
 Now slide the curve to the right (Figure 1, top):
 
@@ -95,7 +95,7 @@ Hold $\sigma = 2$ fixed, like the data, and try every mean from 24 to 40 (Figure
 
 ![One mouse at 32 grams. Top: the curve N(μ, 2²) slides and the orange bar is its height above the mouse. Bottom: that height traced against μ; the red line is the tangent at the current μ, flat at the peak μ = 32. Idea after StatQuest, "Maximum Likelihood For the Normal Distribution, step-by-step!!!"](images/one_point_sweep.gif)
 
-In Figure 2, watch the red tangent line. Left of 32 it tilts upwards (the likelihood is still rising); right of 32 it tilts downwards; at $\mu = 32$ it is flat. The slope of the tangent line is the **derivative** (G-595) of the likelihood (see [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent)). So the peak is the place where the derivative is 0. Section 10 turns this into a recipe.
+In Figure 2, watch the red tangent line. Left of 32 it tilts upwards (the likelihood is still rising); right of 32 it tilts downwards; at $\mu = 32$ it is flat. The slope of the tangent line is the [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the likelihood (see [from secant to tangent](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent)). So the peak is the place where the derivative is 0. Section 10 turns this into a recipe.
 
 With one point, the best curve is centred on the point. One point is not enough to find $\sigma$, though.
 
@@ -119,7 +119,7 @@ $$L(\mu = 28, \sigma = 2 \mid 32, 34)$$
 $$= 0.027 \times 0.0022$$
 $$= 6.0 \times 10^{-5}$$
 
-The product rule holds because the two weighings are **independent events** (G-934): for independent events, probabilities multiply (see [the definition of independence](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)).
+The product rule holds because the two weighings are [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934): for independent events, probabilities multiply (see [the definition of independence](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)).
 
 ![Left: one mouse at 32 grams under curves with means 28, 30 and 32; the heights 0.027, 0.121 and 0.199 are the likelihoods. Right: two mice at 32 and 34; the curve with mean 28 gives the product 6.0 × 10⁻⁵, the curve with mean 33 gives 0.031](images/one_two_mice.png)
 
@@ -129,7 +129,7 @@ In Figure 3 (right), watch the mouse at 34 grams: under the curve with mean 28 i
 
 > **Key point:** Each new observation adds one more factor to the product.
 
-The mice are **independent and identically distributed** (G-933) (i.i.d., see [the conditions of the CLT](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions)): each weight comes from the same curve, and none affects another. For i.i.d. data the joint density factorises into a product of one density per point (MML, the book *Mathematics for Machine Learning* in Sources, §8.3.1, equation 8.16).
+The mice are [**independent and identically distributed**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) (i.i.d., see [the conditions of the CLT](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions)): each weight comes from the same curve, and none affects another. For i.i.d. data the joint density factorises into a product of one density per point (MML, the book *Mathematics for Machine Learning* in Sources, §8.3.1, equation 8.16).
 
 1. **In words:** the likelihood of the parameters, given all the data, is the product of the heights of the curve above each observation.
 2. **Example:** under $\mu = 28$, $\sigma = 2$ the five mice get heights 0.176, 0.065, 0.027, 0.009 and 0.0004. The mouse at 35 grams is far in the tail, so its height is almost 0. The likelihood is
@@ -200,7 +200,7 @@ The density of one observation under parameters $\theta$ is written $p(x \mid \t
 
 > **Key point:** $\hat\theta = \arg\max_\theta L(\theta)$: the parameter value that makes the likelihood largest.
 
-1. **In words:** the **likelihood function** (G-1085) multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
+1. **In words:** the [**likelihood function**](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
 2. **Example:** for the mice with $\sigma = 2$, the largest likelihood is $2.59 \times 10^{-5}$, and the $\mu$ that reaches it is 32. The MLE is 32, not $2.59 \times 10^{-5}$.
 3. **Formula:**
    $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta)$$
@@ -219,7 +219,7 @@ The approach is called **maximum likelihood estimation** (G-1191). MML (§8.3.4)
 
 > **Key point:** The log always grows when its input grows, so the largest likelihood also has the largest log.
 
-[From products to sums: the log](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log) introduced the **log-likelihood** (G-1113), the log of the likelihood, to avoid products too small for a computer. For maximum likelihood estimation the log-likelihood has a second, more important property.
+[From products to sums: the log](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log) introduced the [**log-likelihood**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113), the log of the likelihood, to avoid products too small for a computer. For maximum likelihood estimation the log-likelihood has a second, more important property.
 
 The log is an **increasing function** (G-930): if $a > b$, then $\log a > \log b$. So whichever $\theta$ gives the largest likelihood also gives the largest log-likelihood. Figure 6 shows the two curves for the mice: they have different shapes, but both peak at $\mu = 32$.
 
@@ -287,7 +287,7 @@ In Figure 6 the log-likelihood for the mean is even an exact upside-down parabol
 
 In Figure 7, watch the green points: the top of the hill and the bottom of the valley sit at the same $\mu = 32$.
 
-The minus sign is a convention, not new maths. MML (§8.3.1, remark) calls it a historical artifact: statistics talks about maximising likelihood, while the optimisation literature, including [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea), is written for minimising.
+The minus sign is a convention, not new maths. MML (§8.3.1, remark) calls it a historical artifact: statistics talks about maximising likelihood, while the optimisation literature, including [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862), is written for minimising.
 
 The negative log-likelihood is a loss function: one number per parameter setting, lower is better. [The Bernoulli model behind the log loss](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#43-the-bernoulli-model-behind-the-log-loss) called it the cross entropy for a classifier. [A model as a distribution of the target](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#2-a-model-as-a-distribution-of-the-target) shows that the usual ML losses are negative log-likelihoods of different models.
 
@@ -359,7 +359,7 @@ The answer matches intuition: the best guess of the average rate is the average 
 
 > **Key point:** If "derivative = 0" cannot be solved by algebra, we climb the log-likelihood (or descend the NLL) step by step.
 
-For the Poisson rate and for the normal distribution, step 4 can be solved by hand and gives a **closed-form** (G-398) answer: a formula in the data. For many models it cannot (MML §8.3.1). Logistic regression is one: its parameters sit inside the sigmoid, and [minimising the loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#7-minimising-the-loss) had to use gradient descent on the NLL instead.
+For the Poisson rate and for the normal distribution, step 4 can be solved by hand and gives a [**closed-form**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) answer: a formula in the data. For many models it cannot (MML §8.3.1). Logistic regression is one: its parameters sit inside the sigmoid, and [minimising the loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#7-minimising-the-loss) had to use gradient descent on the NLL instead.
 
 So in practice MLE means one of two things:
 
@@ -442,6 +442,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Consistency (of an estimator) (G-452) | Getting closer to the true parameter value as the amount of data grows. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Parameters (of a distribution)](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
+| [Parametric density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation) (G-1451) | Estimating how the data is spread (its probability density) by assuming it follows a named distribution and estimating that distribution's parameters from the data. |
 | [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
 | [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
@@ -449,4 +450,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
 | [Likelihood function $L(\theta \mid \text{data})$](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
 | [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Closed-form solution](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) | An answer given directly by a formula of ordinary operations. |

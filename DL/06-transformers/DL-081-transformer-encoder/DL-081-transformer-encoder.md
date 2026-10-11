@@ -16,16 +16,16 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/residual
 
 ## 1. Overview
 
-> **Key point:** The **encoder** (G-682) of a transformer turns a sentence into one context-aware vector per word, by passing the word vectors through 6 identical blocks of attention and a feed-forward network. Every vector keeps 512 numbers from start to end.
+> **Key point:** The [**encoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) of a transformer turns a sentence into one context-aware vector per word, by passing the word vectors through 6 identical blocks of attention and a feed-forward network. Every vector keeps 512 numbers from start to end.
 
-The transformer has two parts, an encoder and a **decoder** (G-564). The encoder first adds a positional encoding to each word's embedding, then passes the vectors through 6 identical **encoder blocks** (G-681). Each block has two **sub-layers** (G-1908): multi-head attention, then a small **feed-forward network** (G-775) that works on each word separately. Each sub-layer is wrapped in "add and norm": a **residual connection** (G-1681) adds the sub-layer's input to its output, and a layer normalisation follows.
+The transformer has two parts, an encoder and a [**decoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564). The encoder first adds a positional encoding to each word's embedding, then passes the vectors through 6 identical **encoder blocks** (G-681). Each block has two **sub-layers** (G-1908): multi-head attention, then a small [**feed-forward network**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) that works on each word separately. Each sub-layer is wrapped in "add and norm": a **residual connection** (G-1681) adds the sub-layer's input to its output, and a layer normalisation follows.
 
 The earlier Notes built the parts one at a time:
 
 - [self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#82-the-refined-computation) replaces each word's vector by a weighted mix of the vectors of all words;
-- [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) runs several such mixes side by side and joins the results;
-- [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) adds a vector for each position, so that the model knows the word order;
-- [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) rescales each word's vector to mean 0 and standard deviation 1.
+- [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) runs several such mixes side by side and joins the results;
+- [**positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) (G-1528) adds a vector for each position, so that the model knows the word order;
+- [**layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) (G-1054) rescales each word's vector to mean 0 and standard deviation 1.
 
  This Note puts them together into the encoder of "Attention Is All You Need" (Vaswani et al. 2017, §3.1). The decoder is the subject of the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#3-from-a-black-box-to-the-decoder-block).
 
@@ -45,7 +45,7 @@ We follow one sentence, "How are you", through the encoder. Along the way we:
 - [Positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need): a 512-number vector per position, added to the word's embedding.
 - [Layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works): each word's vector normalised by its own mean and standard deviation, then scaled by $\gamma$ and shifted by $\beta$.
 - [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#82-the-refined-computation): contextual embeddings from queries, keys and values.
-- [Forward propagation](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product): a dense layer as a matrix product plus a bias, followed by an activation.
+- [**Forward propagation**](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797): a dense layer as a matrix product plus a bias, followed by an activation.
 - [Vanishing and exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem): why deep networks are hard to train.
 
 ## 3. From a black box to the real block
@@ -71,8 +71,8 @@ The sentence enters at the bottom of the first block. The first block's output i
 
 The purple box of Figure 1 does three things to "How are you":
 
-1. **Tokenisation.** The sentence is split into **tokens** (G-1981), the units the model reads. With word-level tokenisation, each token is a word: "how", "are", "you". The paper itself uses pieces of words, a method called byte-pair encoding (Vaswani et al. 2017, §5.1).
-2. **Embedding.** Each token becomes a learned vector of $d_{\text{model}} = 512$ numbers (see [word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)).
+1. **Tokenisation.** The sentence is split into [**tokens**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981), the units the model reads. With word-level tokenisation, each token is a word: "how", "are", "you". The paper itself uses pieces of words, a method called byte-pair encoding (Vaswani et al. 2017, §5.1).
+2. **Embedding.** Each token becomes a learned vector of $d_{\text{model}} = 512$ numbers (see [**word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127)).
 3. **Positional encoding.** The vector of each position, also 512 numbers, is added to the word's embedding, so that the model knows the word order (the [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need)).
 
 ![The three input steps for "How are you": the sentence is split into tokens, each token gets a 512-number embedding, and the positional encoding of its position is added. The three sums are the rows of $X$](images/input_steps.png){width=100%}
@@ -252,7 +252,7 @@ The Notebook repeats the whole block by hand in NumPy, from $X$ to $Y_{\text{nor
 >         return self.norm2(z_norm + y)
 > ```
 
-> **Extra:** The paper also applies dropout (the [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)) with a rate of 0.1 to the output of each sub-layer, before it is added to the sub-layer's input, and to the sum of the embeddings and positional encodings (Vaswani et al. 2017, §5.4, "Residual Dropout"). Dropout only acts during training; the block above leaves it out to keep the computation exact.
+> **Extra:** The paper also applies dropout (the [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639)) with a rate of 0.1 to the output of each sub-layer, before it is added to the sub-layer's input, and to the sum of the embeddings and positional encodings (Vaswani et al. 2017, §5.4, "Residual Dropout"). Dropout only acts during training; the block above leaves it out to keep the computation exact.
 
 ## 6. Six blocks: shapes and parameters
 
@@ -300,7 +300,7 @@ The paper uses residual connections without explaining the choice; it cites the 
 
 A follow-up paper showed a second effect of the identity path: the gradient of the loss with respect to an early layer contains a term that comes straight from the last layer, without passing through any weights, so it "is unlikely" to [vanish](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem), that is, shrink towards 0 so that the early layers stop learning (He et al. 2016b, §3, eq. 5).
 
-**Reason 2: each word keeps its own information.** The residual connection carries the original vector forward, and each sub-layer only adds to it. The attention sub-layer can then concentrate on one job, relating the words to each other, without also having to preserve each word's embedding and position (StatQuest, "Transformer Neural Networks", 22:30). Jurafsky and Martin describe the transformer this way, as a **residual stream** (G-1683) per word: it "starts with the original input vector, and the various components read their input from the residual stream and add their output back into the stream" (SLP3 §7.2). If a sub-layer produces a poor output, the word's earlier vector is still there for the next layer to use.
+**Reason 2: each word keeps its own information.** The residual connection carries the original vector forward, and each sub-layer only adds to it. The attention sub-layer can then concentrate on one job, relating the words to each other, without also having to preserve each word's embedding and position (StatQuest, "Transformer Neural Networks", 22:30). Jurafsky and Martin describe the transformer this way, as a [**residual stream**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block) (G-1683) per word: it "starts with the original input vector, and the various components read their input from the residual stream and add their output back into the stream" (SLP3 §7.2). If a sub-layer produces a poor output, the word's earlier vector is still there for the next layer to use.
 
 Without that stream, attention alone tends to make all words alike. Dong et al. (2021) proved that a stack of attention layers without skip connections or feed-forward layers converges to an output in which every word has the same vector, and found that "skip connections play a key role in mitigating" this **rank collapse** (G-1628).
 
@@ -407,7 +407,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Encoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) | The part of a seq2seq model that reads the input sequence and summarises it. |
 | [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
 | [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
+| [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
+| [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Token](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981) | One unit of text the model reads or writes; here, one word. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Residual stream](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#6-inside-a-gpt-2-block) (G-1683) | The token vector that passes from block to block, to which every sub-layer adds its output. |
 | [$d_{\text{model}}$](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

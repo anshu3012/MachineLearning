@@ -221,7 +221,7 @@ The meta-model's weights show whom it trusts: 2.31 for the random forest's proba
 
 Figure 8 compares, with the scaled KNN:
 
-- **soft voting** (averaging the three probabilities, see [soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)): 0.885;
+- **soft voting** (averaging the three probabilities, see [**soft voting**](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828)): 0.885;
 - **blending by hand** (193 patients for the base models, 49 for the meta-model): 0.820;
 - **K-fold stacking by hand** (4 folds, `cross_val_predict`): 0.869;
 - **StackingClassifier** (10 folds): 0.869;
@@ -312,3 +312,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
 | [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Soft voting](../../../ML/08-trees-and-ensembles/ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) | Predicting the class with the highest average predicted probability across the base models. |

@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-training, step/features, concept/input-sca
 
 > **Key point:** When the input features live on very different scales, a network trains slowly or not at all. Bringing every feature to the same scale before training fixes it.
 
-Suppose a network predicts whether a user buys a product from two **features** (G-772) (input variables, one column each of the data table): age, in tens, and salary, in tens of thousands. Whether the user buys is the **target** (G-1949) (the output we predict), and each user is one **observation** (G-1374) (one record, one row of the table). Fed the raw features, the network in this Note never gets past guessing. Fed the same features standardized, it reaches 94% accuracy within 20 epochs.
+Suppose a network predicts whether a user buys a product from two [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each of the data table): age, in tens, and salary, in tens of thousands. Whether the user buys is the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict), and each user is one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). Fed the raw features, the network in this Note never gets past guessing. Fed the same features standardized, it reaches 94% accuracy within 20 epochs.
 
 ![The same network on raw and on standardized inputs. Left: validation accuracy per epoch. Right: the average size of the gradients of the age weights and the salary weights at the start of training (log scale).](images/scaling_effect.png)
 
@@ -33,7 +33,7 @@ The Notebook (`DL-023-data-scaling-in-ann.ipynb`) runs every step.
 ## 2. Prerequisites
 
 - [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) and [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling): the two ways to put features on one scale.
-- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling): what unscaled inputs do to the shape of the loss.
+- [**Gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling) (G-862): what unscaled inputs do to the shape of the loss.
 - [Customer churn](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set): a Keras network and its validation accuracy.
 
 ## 3. The problem in Keras
@@ -92,7 +92,7 @@ In Figure 2, watch how almost every point lands on one of the two dashed lines: 
 
 > **Key point:** For a first-layer weight, gradient = (error signal of its node) × (its input).
 
-Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. **Backpropagation** (G-247) computes the gradient $\partial L/\partial w$ of each weight (how much the loss $L$ changes when that weight changes). Gradient descent then moves each weight against its gradient, by a step scaled by the learning rate $\eta$:
+Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. [**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) computes the gradient $\partial L/\partial w$ of each weight (how much the loss $L$ changes when that weight changes). Gradient descent then moves each weight against its gradient, by a step scaled by the learning rate $\eta$:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 
@@ -125,7 +125,7 @@ $$69{,}742 / 38 \approx 1{,}835$$
 
 After standardizing, both are around 0.01, within a factor of 2.
 
-> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller **learning rate** (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
+> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
 ### 4.2 The shape of the loss
 
@@ -157,8 +157,8 @@ Figure 5 shows both pictures for our data on the simplest model, a single sigmoi
 
 Both techniques put the features on one scale (see the [feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief)):
 
-- **Standardization** (G-1874) subtracts the mean and divides by the standard deviation: every column gets mean 0 and standard deviation 1.
-- **Normalization** (G-1349) (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)).
+- [**Standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) subtracts the mean and divides by the standard deviation: every column gets mean 0 and standard deviation 1.
+- [**Normalization**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) (min-max scaling) subtracts the minimum and divides by the range: every column lands between 0 and 1 (see the [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)).
 
 Which to use follows [the rules for choosing a scaler](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#10-normalization-or-standardization-which-scaler-when). In short: normalize when the minimum and maximum are known in advance, such as a CGPA from 0 to 10; otherwise standardize, especially when the feature is close to normally distributed. Salary has no known maximum, so we standardize.
 
@@ -245,6 +245,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

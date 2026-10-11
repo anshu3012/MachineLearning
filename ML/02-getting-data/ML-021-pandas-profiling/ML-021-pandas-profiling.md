@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/understand, concept/pandas-prof
 
 > **Key point:** A profiling library runs most of the hand-made EDA (first questions, univariate, bivariate and multivariate analysis) by itself and writes the results into one web page.
 
-So far we built EDA by hand, in three steps: the [first questions for a new dataset](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis), and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview). Each step took a few lines of pandas or one plot at a time. A **profiling report** does most of this work in one go: we hand it a DataFrame, and it returns a web page that describes every column and every pair of columns.
+So far we built EDA by hand, in three steps: the [first questions for a new dataset](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [**univariate analysis**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2050), and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview). Each step took a few lines of pandas or one plot at a time. A **profiling report** does most of this work in one go: we hand it a DataFrame, and it returns a web page that describes every column and every pair of columns.
 
 The library that builds it is known as **Pandas Profiling** (G-1440). Figure 1 shows what one call of `ProfileReport` produces: a report with six sections, each answering questions of the hand-made EDA.
 
@@ -34,7 +34,7 @@ We use the same Titanic data as before, 891 passengers. The Notebook (`ML-021-pa
 
 > **Key point:** One `pip install` command adds the library to our Python setup.
 
-Pandas Profiling is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from **PyPI** (G-1593), the public store of Python libraries, and installs it on our machine.
+Pandas Profiling is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from [**PyPI**](../../01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593), the public store of Python libraries, and installs it on our machine.
 
 > **Python:** Installing the library.
 >
@@ -56,7 +56,7 @@ Once installed, building a report takes three steps (Figure 2):
 
 1. Import `ProfileReport` from the library.
 2. Call `ProfileReport` on our DataFrame. The call creates a report object.
-3. Save the object as an **HTML** (G-904) file with `to_file`.
+3. Save the object as an [**HTML**](../ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-904) file with `to_file`.
 
 ![The three lines of code as a flow: the CSV file becomes a DataFrame, `ProfileReport` builds the report object in 10 to 15 seconds, and `to_file` saves it as a web page](images/build_flow.png){width=100%}
 
@@ -173,7 +173,7 @@ Figure 5 shows the block for `Sex`. On the left, a table gives the basic facts; 
 
 - **Distinct:** 2 different values, male and female. As a share of the 891 rows, that is 0.2%.
 - **Missing:** 0, so every passenger has a recorded sex.
-- **The bars:** 577 male and 314 female passengers. The bar chart is the [count plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot) (one bar per category, as tall as its count), drawn sideways.
+- **The bars:** 577 male and 314 female passengers. The bar chart is the [**count plot**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot) (G-494) (one bar per category, as tall as its count), drawn sideways.
 
 The "More details" button opens four further tabs:
 
@@ -206,7 +206,7 @@ On the right is the histogram of `Age`, the same shape as in [the histogram](../
 **Quantile statistics** describe positions in the sorted data:
 
 - **5th and 95th percentile:** 4 and 56. Only 5% of the passengers were younger than 4, and only 5% older than 56.
-- **Q1, median, Q3:** 20.125, 28 and 38. The **first quartile** Q1 is the age a quarter of the passengers are below; the median splits them in half; the **third quartile** Q3 is the age three quarters are below. These cut points are **quantiles**: values that a given share of the data lies below (the 5th percentile above is one too). Together with the minimum and maximum, Q1, median and Q3 give the five-number summary drawn by a [box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot).
+- **Q1, median, Q3:** 20.125, 28 and 38. The **first quartile** Q1 is the age a quarter of the passengers are below; the median splits them in half; the **third quartile** Q3 is the age three quarters are below. These cut points are **quantiles**: values that a given share of the data lies below (the 5th percentile above is one too). Together with the minimum and maximum, Q1, median and Q3 give the five-number summary drawn by a [**box plot**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329).
 - **Range:** maximum minus minimum:
   $$80 - 0.42 = 79.58$$
 - **Interquartile range (IQR):** the width of the middle half of the ages, Q3 minus Q1:
@@ -215,7 +215,7 @@ On the right is the histogram of `Age`, the same shape as in [the histogram](../
 **Descriptive statistics** describe the centre and the spread:
 
 - **Standard deviation:** 14.53, and **variance:** 211.02, its square.
-- **Skewness:** 0.39, slightly skewed to the right (see [skewness](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
+- **Skewness:** 0.39, slightly skewed to the right (see [**skewness**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)).
 - **Sum:** 21,205.17, all known ages added up.
 - **Coefficient of variation**, **kurtosis**, **median absolute deviation** and **monotonicity** are new; the Extra boxes below explain them.
 
@@ -422,8 +422,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Monotonicity (G-1260) | Whether a column's values only go up, or only go down, from row to row. |
 | Nullity matrix (G-1364) | A picture of the whole table with each missing value drawn as a white line; it shows where values are missing and whether gaps in different columns fall in the same rows. |
 | Profiling report (G-1580) | An automatic EDA report describing every column and pair of columns of a dataset. |
+| [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
 | [PyPI](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593) | The Python Package Index, the public store of Python packages. |
 | [HTML](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-904) | The language web pages are written in: a tree of nested tags. |
+| [Count plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot) (G-494) | A bar chart with one bar per category, as tall as its frequency. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Variable](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2071) | One column of a dataset. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

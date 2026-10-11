@@ -18,16 +18,16 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/ridge]
 
 > **Key point:** Ridge finds its coefficients the same way plain least squares does: write the loss, find where its slope is zero, solve. The penalty changes the answer in one place only. With one feature, it adds λ to the bottom of the slope fraction; with many features, it adds λ to the diagonal of a matrix. A bigger bottom means a smaller slope.
 
-Ridge, as [explained before](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), adds λ times the squared coefficients to the loss, which keeps them small. Here λ (lambda) is the penalty strength, a number we choose, for example λ = 10. This Note derives the formulas that find the Ridge coefficients, the same way [ordinary least squares (OLS)](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) and [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) did for plain linear regression.
+Ridge, as [explained before](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), adds λ times the squared coefficients to the loss, which keeps them small. Here λ (lambda) is the penalty strength, a number we choose, for example λ = 10. This Note derives the formulas that find the Ridge coefficients, the same way [**ordinary least squares (OLS)**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) and [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) did for plain linear regression.
 
-Here a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) y is the value we predict. There are two cases:
+Here a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) y is the value we predict. There are two cases:
 
 - **One feature:** a formula for the slope m and the intercept b (Section 2).
 - **Many features:** a matrix formula for all coefficients at once (Section 3).
 
 Both are worked by hand on two points, then coded from scratch and checked against scikit-learn's `Ridge`.
 
-Figure 1 shows what the formulas will produce on the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The ordinary least-squares line has slope 27.83. With λ = 10 the **Ridge regression** (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
+Figure 1 shows what the formulas will produce on the 100-observation example of [the λ sweep](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#41-one-feature). The ordinary least-squares line has slope 27.83. With λ = 10 the [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) line tilts down to 24.95, and with λ = 100 to 12.93. All three lines pass through the same point, the point of means; Section 2 shows why.
 
 ![Ridge lines on the 100-observation example: λ = 0 (ordinary least squares, slope 27.83), λ = 10 (24.95) and λ = 100 (12.93). Every line passes through the point of means.](images/ridge_lines.png)
 
@@ -49,7 +49,7 @@ With one feature, the prediction for observation i is the slope times its featur
 
 $$\hat y_i = m x_i + b$$
 
-Here m is the slope, as in [simple linear regression](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#51-reading-m-and-b) (in [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), m counted the features instead). The Ridge loss is
+Here m is the slope, as in [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#51-reading-m-and-b) (G-1808) (in [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), m counted the features instead). The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
@@ -65,7 +65,7 @@ $$\bar y = (2 + 5) / 2 = 3.5$$
 
 > **Key point:** The penalty does not contain b, so the derivative with respect to b is the same as in OLS, and so is the answer.
 
-Differentiate L with respect to b and set it to zero. The symbol $\frac{\partial L}{\partial b}$ is the **partial derivative** (G-1457): the slope of L as b alone changes a little, with m held fixed. The term λm² does not contain b, so it disappears:
+Differentiate L with respect to b and set it to zero. The symbol $\frac{\partial L}{\partial b}$ is the [**partial derivative**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457): the slope of L as b alone changes a little, with m held fixed. The term λm² does not contain b, so it disappears:
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n}(y_i - m x_i - b) = 0$$
 
@@ -274,7 +274,7 @@ Divide by 2 and move the transpose of X times y to the right:
 
 $$X^{\mathsf T}Xw + \lambda w = X^{\mathsf T}y$$
 
-To factor out w, write λw as λIw, where I is the **identity matrix** (G-915), the square matrix with 1s on the diagonal and 0s elsewhere. Multiplying by I changes nothing, and a matrix cannot be added to a number, so we need the matrix form:
+To factor out w, write λw as λIw, where I is the [**identity matrix**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915), the square matrix with 1s on the diagonal and 0s elsewhere. Multiplying by I changes nothing, and a matrix cannot be added to a number, so we need the matrix form:
 
 $$I = \begin{bmatrix} 1 & 0 \cr0 & 1 \end{bmatrix}$$
 
@@ -392,7 +392,7 @@ The test $R^2$ ([the share of the target's variation the model explains](../ML-0
 
 The closed form has the same limit as the normal equation: inverting the matrix costs about the cube of its size in operations, and building $X^{\mathsf T}X$ needs the whole dataset in memory. On large data Ridge is trained with [gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#1-overview) instead (the next Note).
 
-> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a **closed-form solution** (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
+> **Extra:** scikit-learn reaches the same answer differently: it centres $X$ and $y$ (subtracts their means), solves for the coefficients without an intercept column, and then computes the intercept from the means. Centring is the matrix version of $b = \bar{y} - m\bar{x}$. The `"cholesky"` solver (the **Cholesky solver**, G-383) then solves the same equation $(X^{\mathsf T}X + \lambda I)w = X^{\mathsf T}y$ directly as a [**closed-form solution**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398), which is why the two rows of the table above agree (scikit-learn docs, `Ridge`).
 
 > **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert (the **inverse matrix**, G-968, is the matrix that undoes it; [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation)). Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970).
 >
@@ -418,7 +418,7 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 >
 > The same line covers data with more features than observations, where $X^{\mathsf T}X$ never has an inverse: Ridge still returns one answer (ISL §6.2.1).
 >
-> Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest **eigenvalue** (G-665; [a number saying how much a matrix stretches one special direction](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues)) of $X^{\mathsf T}X$ is only 0.0073, and the **condition number** (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
+> Figure 5 measures the effect on the diabetes training data. With $\lambda = 0$ the smallest **eigenvalue** (G-665; [a number saying how much a matrix stretches one special direction](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues)) of $X^{\mathsf T}X$ is only 0.0073, and the [**condition number**](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441), the largest eigenvalue divided by the smallest, is 48,311: the inverse exists but small rounding errors are blown up. Adding $\lambda$ lifts the smallest eigenvalue by $\lambda$, and at $\lambda = 0.1$ the condition number is already down to about 3,290.
 
 ![The diabetes training data with its column of 1s. Left: the smallest eigenvalue of XᵀX + λI rises with λ from 0.0073. Right: the condition number falls from 48,311 at λ = 0. Both axes use log scales.](images/invertible.png)
 
@@ -461,10 +461,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Cholesky solver (G-383) | A scikit-learn Ridge solver that computes the coefficients in one go from the formula (the closed-form solution) instead of by repeated steps. |
+| [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
+| [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
 | [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |

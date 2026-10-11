@@ -23,8 +23,8 @@ Of the four parts of feature engineering (see [the four parts of feature enginee
 
 Two parts remain:
 
-- **Feature selection** (G-768): keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
-- **Feature extraction** (G-762): build a few new features from the old ones. Its most important technique, PCA, comes next.
+- [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768): keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
+- [**Feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762): build a few new features from the old ones. Its most important technique, PCA, comes next.
 
 Both rest on one idea: the curse of dimensionality. This Note explains that idea, why it matters, and how we deal with it.
 
@@ -32,7 +32,7 @@ Both rest on one idea: the curse of dimensionality. This Note explains that idea
 
 > **Key point:** Every dataset has an optimal number of features. Past it, extra features do not help, and often make the model worse and slower.
 
-In ML, each **feature** (G-772) (an input variable, one column of the data table) is called a dimension. Each **observation** (G-1374) is one record (one row), here one image of a handwritten digit (the running example of Section 3), and the **target** (G-1949) is the output we predict, here the digit (see [dimensionality reduction](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction)). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional** (G-897). Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; [a 1D tensor can be a 3-dimensional vector](../../01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector) separates the two.
+In ML, each [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) is called a dimension. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one image of a handwritten digit (the running example of Section 3), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, here the digit (see [dimensionality reduction](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction)). A dataset with 10 features is 10-dimensional, and one with 1,000 features is **high-dimensional** (G-897). Here "dimension" has the "dimensions of a vector" sense, not the number of axes of a tensor; [a 1D tensor can be a 3-dimensional vector](../../01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector) separates the two.
 
 More features seem as if they should always help, since the model gets more information. In practice more features do not always help. Think of a detective handed a thousand pages of witness statements, most of them about the weather: the few useful clues get harder to find, not easier.
 
@@ -86,7 +86,7 @@ The blue line shows the optimal number of features: after about 40 pixels, addin
 
 > **Extra:** The blue line ranks the pixels by usefulness (mutual information, a score of how much a pixel tells about the digit) on all 1,797 images, including the images each cross-validation round later tests on. Ranking features with test data is a form of [data leakage](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-535): the test images helped choose the features. Here it barely matters: ranking inside each training part instead gives 90% with 16 pixels and 96% with 40, the same as Figure 2 (only the 1-pixel score drops, from 21% to 17%; Notebook, leakage check). In a real project, choose features on the training data only.
 
-> **Extra:** **Cross-validation** (G-510), used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
+> **Extra:** [**Cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510), used in `cross_val_score`, splits the data into 5 parts and tests on each part in turn. Cross-validation gives a more reliable accuracy than a single train/test split. It is covered in detail later.
 
 ## 4. Why more dimensions cause trouble
 
@@ -132,7 +132,7 @@ The number of cells grows as $5^d$, where $d$ is the number of features. Twenty 
 
 Data where most of the space is empty is called **sparse**. In sparse data, every point is far from the others.
 
-This "sparse" has a different meaning from the sparse data of [normalization](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
+This "sparse" has a different meaning from the sparse data of [**normalization**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-1349), where sparse means a table whose values are mostly zeros. Here it means a space that is mostly empty.
 
 ### 4.3 Why this hurts models
 
@@ -237,6 +237,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
+| [Normalization (feature scaling)](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
 | [LDA](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |
 | [Sparse data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-1840) | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. |

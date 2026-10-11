@@ -36,7 +36,7 @@ Figure 1 shows the main idea. A function with several outputs, such as the polar
 
 ### 2.1 Recap: a matrix moves a grid
 
-A $2 \times 2$ matrix moves every point of the plane so that grid lines stay straight, parallel and evenly spaced: a **linear transformation** (G-1097). Its first column is where $\hat{\imath}$ lands and its second column is where $\hat{\jmath}$ lands ($\hat{\imath} = (1, 0)$ and $\hat{\jmath} = (0, 1)$ are the two basic steps along the axes). [Linear transformations and matrices](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#2-transformations-functions-that-move-vectors) teaches this picture; we use it throughout.
+A $2 \times 2$ matrix moves every point of the plane so that grid lines stay straight, parallel and evenly spaced: a [**linear transformation**](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097). Its first column is where $\hat{\imath}$ lands and its second column is where $\hat{\jmath}$ lands ($\hat{\imath} = (1, 0)$ and $\hat{\jmath} = (0, 1)$ are the two basic steps along the axes). [Linear transformations and matrices](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#2-transformations-functions-that-move-vectors) teaches this picture; we use it throughout.
 
 ### 2.2 Functions with several outputs
 
@@ -83,7 +83,7 @@ $$f_i: \mathbb{R}^n \to \mathbb{R}$$
 
 Like a matrix, $\mathbf{f}$ moves every point of a grid. Unlike a matrix, it bends the grid: in Figure 1 the straight lines of constant $\theta$ become rays, and the straight lines of constant $r$ become arcs of circles. So $\mathbf{f}$ is not linear, and no single $2 \times 2$ matrix describes it everywhere.
 
-ML is full of such functions: a neural network layer turns a vector of inputs into a vector of outputs, and so does a prediction for all **observations** (G-1374) (records, one row of the data table each) of a dataset at once.
+ML is full of such functions: a neural network layer turns a vector of inputs into a vector of outputs, and so does a prediction for all [**observations**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each) of a dataset at once.
 
 ## 3. Zoom in: the function looks linear
 
@@ -140,7 +140,7 @@ In Figure 3, watch the green arrow while $h$ shrinks. For the step along $r$ it 
 
 Each column of Section 4.1 holds the partial derivatives of all $m$ outputs with respect to one input. Placing the $n$ columns side by side gives a matrix.
 
-1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the **gradient** (G-863) of $f_i$.
+1. **In words:** entry $(i, j)$ is the partial derivative of output $i$ with respect to input $j$. Row $i$ is the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) of $f_i$.
 2. **Formula:** the **Jacobian** (G-980) is the table of $m$ rows (one per output) and $n$ columns (one per input). The symbol $\in \mathbb{R}^{m \times n}$ below says exactly that:
    $$J = \frac{d\mathbf{f}}{d\mathbf{x}}$$
    $$J = \begin{bmatrix} \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \cr\vdots & & \vdots \cr\dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}$$
@@ -265,7 +265,7 @@ that is, the radius grows by 0.1 and the angle by 0.05.
    $$= \begin{bmatrix} 1.769 \cr1.137 \end{bmatrix}$$
    The exact value $\mathbf{f}(2.1,\ \pi/6 + 0.05)$ is $(1.764,\ 1.140)$: off by only 0.005.
 
-This **linearisation** (G-1099) is the **tangent line** (G-1945) of the [derivatives of one variable](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match, as Figure 2 showed.
+This [**linearisation**](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099) is the [**tangent line**](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) of the [derivatives of one variable](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent), in several dimensions. Figure 1 shows it as a picture: the orange cell lands on a curved cell, and the green parallelogram spanned by the Jacobian's columns (each times the cell's side) almost covers it. The smaller the cell, the better the match, as Figure 2 showed.
 
 ### 4.5 For a linear function, the Jacobian is its matrix
 
@@ -290,7 +290,7 @@ A linear map needs no approximation: the "best local linear map" is the map itse
 
 ### 5.1 Recap: the determinant is an area factor
 
-The **determinant** (G-598) was introduced with [eigenvectors and eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero): the factor by which a linear transformation scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** (G-2251) makes the determinant negative.
+The [**determinant**](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) was introduced with [eigenvectors and eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero): the factor by which a linear transformation scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** (G-2251) makes the determinant negative.
 
 ![The unit square under $A$ (rows $[1, 3]$, $[-2, 0]$) becomes a parallelogram of area 6. Then, back on the unit square, $\hat{\imath}$ swings towards $\hat{\jmath}$: the area shrinks to 0 when they line up, and past that point the square flips over and the determinant turns negative (red). Idea after 3Blue1Brown, "The determinant | Chapter 6, Essence of linear algebra"](images/det_sign.gif)
 
@@ -387,7 +387,7 @@ The question: as $t$ grows past 1, how fast does the value of $f$ change?
 
 The path is a curve drawn on that sheet. As $t$ runs from 0 to 1, the point starts at $(0, 1)$ at height 0 and climbs to $(2, 2)$ at height 8.
 
-Then the camera does what Figure 1 of [reading a contour map](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) does for a bowl. The lines of equal height $2, 4, \dots, 20$ drop to the floor, and the camera tilts up until it looks straight down. The floor is now the **contour map** (G-468) of the next figure, with the path drawn on it. How to read it:
+Then the camera does what Figure 1 of [reading a contour map](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) does for a bowl. The lines of equal height $2, 4, \dots, 20$ drop to the floor, and the camera tilts up until it looks straight down. The floor is now the [**contour map**](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) of the next figure, with the path drawn on it. How to read it:
 
 - each line joins points of the same height; darker = lower;
 - lines close together = steep: they crowd towards the top right, where the sheet climbs fastest;
@@ -438,7 +438,7 @@ $$h'(1) = 8 + 8 = 16$$
 
 The same 16, and the same two 8s.
 
-**Step 5: name the pattern.** Step 3 multiplied two pairs of numbers and Step 4 added the products. Multiplying two lists entry by entry and adding is the **dot product** (G-634):
+**Step 5: name the pattern.** Step 3 multiplied two pairs of numbers and Step 4 added the products. Multiplying two lists entry by entry and adding is the [**dot product**](../../05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634):
 
 $$\begin{bmatrix} 4 & 8 \end{bmatrix} \cdot \begin{bmatrix} 2 \cr1 \end{bmatrix}$$
 
@@ -451,14 +451,14 @@ The first list is the gradient of $f$ at the point, $\nabla f(2, 2) = [4, 8]$. T
 **Step 6: the general formula.** The same steps work at any $t$, for any $f$ and any path:
 
 1. **In words:** at each input, multiply "how strongly $f$ responds to it" by "how fast it moves"; add the products. That sum is the gradient dotted with the velocity.
-2. **Formula:** this is the **multivariate chain rule** (G-1281) of [the chain rule with several variables](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables), in vector form:
+2. **Formula:** this is the [**multivariate chain rule**](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables) (G-1281) of [the chain rule with several variables](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables), in vector form:
    $$\frac{d}{dt}\thinspace f(\mathbf{v}(t))$$
    $$= \frac{\partial f}{\partial x}\frac{dx}{dt} + \frac{\partial f}{\partial y}\frac{dy}{dt}$$
    $$= \nabla f(\mathbf{v}(t)) \cdot \mathbf{v}'(t)$$
    Check: with the numbers above it gives
    $$4 \times 2 + 8 \times 1 = 16$$
 
-It has the shape of the one-variable **chain rule** (G-371), where the derivative of $f(g(t))$ is $f'(g(t))$ times $g'(t)$: the outer derivative, taken at the inner output, times the inner derivative. The same rule holds with 100 inputs instead of 2: one product per input, then the sum.
+It has the shape of the one-variable [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), where the derivative of $f(g(t))$ is $f'(g(t))$ times $g'(t)$: the outer derivative, taken at the inner output, times the inner derivative. The same rule holds with 100 inputs instead of 2: one product per input, then the sum.
 
 ### 6.2 The same product as Jacobians
 
@@ -484,7 +484,7 @@ The Jacobian chain rule is the [matrix multiplication as composition](../../05-l
 
 > **Key point:** Write the squared error as two functions in a chain, the errors and then their squared length. The chain rule gives its gradient as one row times one matrix.
 
-[Setting the derivative to zero](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#5-setting-the-derivative-to-zero) in multiple linear regression differentiated the squared error by expanding it and applying two rules of **matrix calculus** (G-1176). The chain rule gives the same result in three short steps, and the steps scale to models that are too deep to expand.
+[Setting the derivative to zero](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#5-setting-the-derivative-to-zero) in multiple linear regression differentiated the squared error by expanding it and applying two rules of [**matrix calculus**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) (G-1176). The chain rule gives the same result in three short steps, and the steps scale to models that are too deep to expand.
 
 **The data and the model, with numbers first.** Three observations, the same three points as the gradient checking example of the [checking a gradient numerically](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#7-checking-a-gradient-numerically): inputs 1, 2, 3 and targets 2, 4, 5. A straight line predicts each target as intercept $b$ plus slope $m$ times the input. (Here $m$ is the slope of the line, as in the regression Notes, not a number of outputs.) The parameters are held in one vector $\boldsymbol{\theta}$ (theta); we take
 
@@ -577,7 +577,7 @@ Some models need derivatives with respect to a whole weight matrix, such as a ne
 - an $m \times n$ matrix differentiated with respect to a vector of length $p$ gives an $m \times n \times p$ array;
 - an $m \times n$ matrix differentiated with respect to a $p \times q$ matrix gives an $m \times n \times p \times q$ array, with entries $\partial A_{ij}/\partial B_{kl}$.
 
-Arrays with more than two indices are **tensors** (G-1957) (see [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)).
+Arrays with more than two indices are [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) (see [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)).
 
 There are two equivalent ways to handle them:
 
@@ -684,7 +684,7 @@ The practical method breaks the function into elementary steps, a **computation 
    Check with the formula $f'(x) = 2x + 2x\thinspace e^{x^2}$:
    $$f'(1) = 2 + 2 \times 2.718 = 7.437$$
 
-The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is **backpropagation** (G-247); done automatically by software for any program, it is **automatic differentiation** (G-232) (reverse mode). Backpropagation is taught in full with neural networks, in [the steps of backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+The backward pass has one step per forward step, each a multiplication by a local derivative, so computing the gradient takes work of the same order as computing $f$ itself (MML §5.6). This backward pass is [**backpropagation**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247); done automatically by software for any program, it is **automatic differentiation** (G-232) (reverse mode). Backpropagation is taught in full with neural networks, in [the steps of backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
 
 > **Extra:** Automatic differentiation is neither symbolic differentiation (which writes out a formula for $f'$) nor a numerical difference quotient (which only estimates it). Automatic differentiation gives the exact derivative, up to rounding, by applying the chain rule to the actual operations a program runs. The method has a **forward mode**, which multiplies the Jacobians from the input side, and a **reverse mode**, which starts from the output. With far more inputs (weights) than outputs (the loss), the reverse mode is significantly cheaper (MML §5.6; Baydin et al. 2018), because one reverse pass from the single loss gives its derivative with respect to every weight at once, while the forward mode needs one pass per weight (Baydin et al. 2018, §3.2). That is why deep learning libraries use it for training.
 

@@ -35,7 +35,7 @@ This Note covers:
 
 Suppose the subscribers' mean age has the 95% confidence interval 25.06 to 30.94 years (the example of [the z-procedure formula](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula)). The true mean age $\mu$ of all 77,000 subscribers is one fixed number. The true mean is either inside this interval or not; we just do not know which.
 
-What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A 95% **confidence level** (G-447) means:
+What is random is the sample. Another online event brings other people, another $\bar{x}$ and another interval. A 95% [**confidence level**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-447) means:
 
 - if we drew many random samples of the same size,
 - and built a 95% confidence interval from each,
@@ -128,9 +128,9 @@ The z-interval is
 
 $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
 
-The centre $\bar{x}$ moves from sample to sample. The width, twice the **margin of error** (G-1162), depends on three things:
+The centre $\bar{x}$ moves from sample to sample. The width, twice the [**margin of error**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-1162), depends on three things:
 
-- the **critical value** (G-504) $z_{\alpha/2}$, set by the confidence level;
+- the [**critical value**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) $z_{\alpha/2}$, set by the confidence level;
 - the **population standard deviation** $\sigma$;
 - the **sample size** $n$.
 

@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/accurac
 
 > **Key point:** Accuracy is the fraction of correct predictions. The confusion matrix splits the predictions into four counts, which also show what kind of mistakes a model makes.
 
-Regression models were judged with regression metrics such as R² (see [R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
+Regression models were judged with regression metrics such as R² (see [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)). Classification models need their own **classification metrics** (G-394): numbers that measure how well a model predicts classes. The main ones are:
 
 - accuracy (Section 2);
 - the confusion matrix (Section 4);
@@ -36,7 +36,7 @@ This Note covers the first two. The following Notes build on the confusion matri
 
 > **Key point:** Compare each prediction with the true class and count how many match.
 
-Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a model that predicts by asking yes/no questions about the features; see [decision trees](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview)), and predict the students of the **test set** (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the **accuracy** (G-162):
+Suppose we train two models on the student placement data, for example logistic regression and a decision tree (a model that predicts by asking yes/no questions about the features; see [**decision trees**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (G-561)), and predict the students of the [**test set**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962), the observations held back from training. For each test student we know the true result, so we can tick each prediction as right or wrong. The share ticked right is the [**accuracy**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162):
 
 $$\text{accuracy} = \frac{\text{correct}}{\text{total}}$$
 
@@ -50,7 +50,7 @@ That is 80%. A model with 9 of 10 right (90%) is better on this test set.
 
 > **Key point:** On the heart-disease data, logistic regression reaches 0.869 and a decision tree 0.836.
 
-The heart-disease dataset has 303 patients. Each patient is one **observation** (G-1374) (one record, a row of the data table). Each has 13 **features** (G-772) (input variables, one column each): medical measurements such as age, blood pressure and cholesterol. The **target** (G-1949) (the output we predict) is 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
+The heart-disease dataset has 303 patients. Each patient is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table). Each has 13 [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each): medical measurements such as age, blood pressure and cholesterol. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is 1 if the patient has heart disease, 0 if not. We split off 20% as the test set (random state 2) and train both models.
 
 > **Python:** Accuracy in scikit-learn.
 >
@@ -162,8 +162,8 @@ These two error types also have names from statistics:
 
 | Error | Meaning | Heart example |
 |---|---|---|
-| **Type I error** (G-2032) = false positive | predicted 1, truly 0 | a healthy patient told they have heart disease |
-| **Type II error** (G-2033) = false negative | predicted 0, truly 1 | an ill patient told they are healthy |
+| [**Type I error**](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) = false positive | predicted 1, truly 0 | a healthy patient told they have heart disease |
+| [**Type II error**](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error) (G-2033) = false negative | predicted 0, truly 1 | an ill patient told they are healthy |
 
 ### 4.5 Accuracy from the confusion matrix
 
@@ -207,7 +207,7 @@ Accuracy is again the diagonal total divided by the grand total.
 
 > **Key point:** If one class is very rare, a model that always predicts the common class gets very high accuracy while being useless.
 
-Data is **imbalanced** (G-921) when one class is much rarer than the other.
+Data is [**imbalanced**](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) when one class is much rarer than the other.
 
 Imagine a model that screens airline passengers for security threats. Out of 100,000 passengers, perhaps 10 are real threats. A "model" that simply says "not a threat" for everyone gets
 
@@ -228,7 +228,7 @@ Figure 7 shows that the high accuracy comes from the imbalance, not from the mod
 
 The model never changes and never catches a threat, yet its accuracy runs from 99.99% down to 50%. Its accuracy only measures how rare the positive class is.
 
-So on imbalanced data, accuracy alone is the wrong metric. The next Note introduces **precision** (G-1547) and **recall** (G-1641), which focus on the rare class.
+So on imbalanced data, accuracy alone is the wrong metric. The next Note introduces [**precision**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) and [**recall**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641), which focus on the rare class.
 
 ## 7. Summary
 
@@ -268,6 +268,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | True negative (TN) (G-2020) | A case the model predicts as negative that really is negative: a correct "no". The count of these is one cell of the confusion matrix. |
 | False positive (FP) (G-748) | Predicted positive, but actually negative; a Type I error. |
 | False negative (FN) (G-747) | Predicted negative, but actually positive; a Type II error. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

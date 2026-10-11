@@ -69,13 +69,13 @@ $$\text{large row} = 3 \times [2, 2, 4, 6] = [6, 6, 12, 18]$$
 
 Every row is a multiple of the same row $[2, 2, 4, 6]$, and every column is a multiple of the same column $[1, 2, 3]$. The table has 12 entries, but 7 numbers (3 sizes and 4 busyness values) describe it completely.
 
-**The standard terms.** A column of numbers times a row of numbers is an **outer product** (G-1418). We write the column as $\mathbf u$ and the row as $\mathbf v^{\mathsf T}$, where the T (**transpose**, G-2012) turns the column $\mathbf v$ on its side into a row. Here
+**The standard terms.** A column of numbers times a row of numbers is an [**outer product**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#62-higher-orders-tensors-and-outer-products) (G-1418). We write the column as $\mathbf u$ and the row as $\mathbf v^{\mathsf T}$, where the T (**transpose**, G-2012) turns the column $\mathbf v$ on its side into a row. Here
 
 $$\mathbf u = \begin{bmatrix} 1 \cr2 \cr3 \end{bmatrix}$$
 
 $$\mathbf v^{\mathsf T} = \begin{bmatrix} 2 & 2 & 4 & 6 \end{bmatrix}$$
 
-The **rank** (G-1627) of a matrix counts how many different row patterns it really has (the number of dimensions its outputs fill; see [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). Every row of an outer product is a multiple of one row, so an outer product has rank 1.
+The [**rank**](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) of a matrix counts how many different row patterns it really has (the number of dimensions its outputs fill; see [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838)). Every row of an outer product is a multiple of one row, so an outer product has rank 1.
 
 **The formal version.** A matrix with $m$ rows and $n$ columns is called $m \times n$: the plan table is $3 \times 4$. For a column $\mathbf u$ with $m$ entries and a column $\mathbf v$ with $n$ entries, the outer product $\mathbf u\mathbf v^{\mathsf T}$ is the $m \times n$ matrix whose entry in row $i$, column $j$ is $u_i v_j$. With two entries each:
 
@@ -115,7 +115,7 @@ $$12.89 + 0.11 = 13.00$$
 
 Layer 1 carries nearly everything: each of its entries is within 0.14 of the real table. Layer 2 is the small correction for the park.
 
-**The standard terms.** Each piece is a **rank-1 layer** (G-1631). The weight of layer $i$ is its **singular value** (G-1812), written $\sigma_i$ (the Greek letter "sigma"): here $\sigma_1 = 30.03$ and $\sigma_2 = 0.33$. The column of layer $i$ is the **left singular vector** (G-1079) $\mathbf u_i$, and its row is the transposed **right singular vector** (G-1692) $\mathbf v_i^{\mathsf T}$; both have length 1, so all the size sits in $\sigma_i$. The singular values come out sorted, biggest first.
+**The standard terms.** Each piece is a **rank-1 layer** (G-1631). The weight of layer $i$ is its [**singular value**](../MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812), written $\sigma_i$ (the Greek letter "sigma"): here $\sigma_1 = 30.03$ and $\sigma_2 = 0.33$. The column of layer $i$ is the [**left singular vector**](../MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1079) $\mathbf u_i$, and its row is the transposed [**right singular vector**](../MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) $\mathbf v_i^{\mathsf T}$; both have length 1, so all the size sits in $\sigma_i$. The singular values come out sorted, biggest first.
 
 **Worked example on the 2 × 2 matrix.** The SVD Notes used
 
@@ -172,7 +172,7 @@ The first layer already has the right overall size: its bottom row $[4.5, 4.5]$ 
 
 $$A = U\Sigma V^{\mathsf T} = \sum_{i=1}^{r} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}$$
 
-Here $U$ holds the columns $\mathbf u_i$, $V$ the columns $\mathbf v_i$, and $\Sigma$ (capital sigma) is the **diagonal matrix** (G-601) with $\sigma_1, \sigma_2, \dots$ on its diagonal and 0 elsewhere. The sign $\sum_{i=1}^{r}$ means "add the terms for $i = 1, 2, \dots, r$". Check: for $A$, $r = 2$ and the two terms are the two layers just added.
+Here $U$ holds the columns $\mathbf u_i$, $V$ the columns $\mathbf v_i$, and $\Sigma$ (capital sigma) is the [**diagonal matrix**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) with $\sigma_1, \sigma_2, \dots$ on its diagonal and 0 elsewhere. The sign $\sum_{i=1}^{r}$ means "add the terms for $i = 1, 2, \dots, r$". Check: for $A$, $r = 2$ and the two terms are the two layers just added.
 
 Why each $\mathbf u_i$ pairs only with its own $\mathbf v_i$: in the product $U\Sigma V^{\mathsf T}$, column $i$ of $U$ meets row $j$ of $V^{\mathsf T}$ through the entry of $\Sigma$ in row $i$, column $j$. That entry is 0 unless $i = j$, so all cross terms vanish. Layers with $\sigma_i = 0$ add nothing, so only the first $r$ count.
 
@@ -415,7 +415,7 @@ For the photo, Figure 9 (right) shows the share kept by the first $k$:
 | 20 | 98.1 percent |
 | 50 | 98.9 percent |
 
-The share rule is the same rule as choosing the number of principal components by explained variance in [how many components to keep](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#7-how-many-components-to-keep). The match is not a coincidence: [PCA through the SVD](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#2-pca-through-the-svd) shows that PCA is the SVD of the centred data matrix (each column minus its mean).
+The share rule is the same rule as choosing the number of principal components by explained variance in [how many components to keep](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#7-how-many-components-to-keep). The match is not a coincidence: [**PCA through the SVD**](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#2-pca-through-the-svd) (G-1468) shows that PCA is the SVD of the centred data matrix (each column minus its mean).
 
 > **Python:** The rank $k$ approximation of the photo.
 >
@@ -519,8 +519,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Outer product](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#62-higher-orders-tensors-and-outer-products) (G-1418) | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
+| [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
 | [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
 | [Left singular vector ($\mathbf u_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
 | [Right singular vector ($\mathbf v_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
 | [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
 | [L2 norm (norm, magnitude, length of a vector)](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
+| [PCA through the SVD](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#2-pca-through-the-svd) (G-1468) | Computing PCA from the SVD of the centred data: the columns of $V$ are the principal components, $\sigma_i^2/n$ their variances, and $U\Sigma$ the data's new coordinates (scores). |

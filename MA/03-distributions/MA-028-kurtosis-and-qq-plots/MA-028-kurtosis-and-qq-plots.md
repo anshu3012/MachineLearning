@@ -23,7 +23,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/kurtosis, 
 
 Figure 1 shows why we need more than one summary number. In each panel the two seasons have the same mean, yet they tell different stories: first the spread differs, then the skew, and finally only the tails.
 
-The first three are known: the mean and the standard deviation (the typical distance from the mean; [measures of dispersion](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation)) and skewness (how lopsided the curve is; [skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). This Note adds the fourth, **kurtosis** (G-1021). The Note's second half answers a common interview question: how do we check whether a **feature** (G-772; one variable of the data, one column of the table) is normal? The main tool is the **Q-Q plot** (G-1596), which also works for distributions other than the normal.
+The first three are known: the mean and the standard deviation (the typical distance from the mean; [measures of dispersion](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation)) and skewness (how lopsided the curve is; [**skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)). This Note adds the fourth, **kurtosis** (G-1021). The Note's second half answers a common interview question: how do we check whether a **feature** (G-772; one variable of the data, one column of the table) is normal? The main tool is the [**Q-Q plot**](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596), which also works for distributions other than the normal.
 
 ## 2. Four summary numbers of a distribution
 
@@ -51,7 +51,7 @@ The third difference is what kurtosis measures. Each number is a new perspective
 In statistics these numbers are called **moments** (G-1882): averages of the distances from the mean raised to a power. The first four are:
 
 - **1st moment:** the mean.
-- **2nd moment:** the **variance** (G-2074), the average squared distance from the mean. The standard deviation is its square root, so the two carry the same information.
+- **2nd moment:** the [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), the average squared distance from the mean. The standard deviation is its square root, so the two carry the same information.
 - **3rd moment:** skewness, from the cubed distances.
 - **4th moment:** kurtosis, from the distances raised to the fourth power.
 
@@ -84,7 +84,7 @@ The reason is in the formula below. Values near the mean contribute almost nothi
 
 > **Key point:** Kurtosis is the average of the z-scores raised to the fourth power.
 
-Each value's z-score is its distance from the mean in standard deviations (see [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean)). Raising z-scores to the fourth power makes far values count enormously. A value 2 standard deviations away contributes
+Each value's z-score is its distance from the mean in standard deviations (see [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874)). Raising z-scores to the fourth power makes far values count enormously. A value 2 standard deviations away contributes
 
 $$2^4 = 16$$
 
@@ -171,7 +171,7 @@ So analysts plot the return distribution of an asset and compute its kurtosis. I
 
 Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in [checking whether a column is normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#4-checking-whether-a-column-is-normal); the Q-Q plot is the most informative and gets a second look below.
 
-The third way is a **statistical test** (G-1881). The **Shapiro-Wilk test** (G-1788) ([see the Shapiro-Wilk test](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433; the chance of data at least this far from normal if the data really were normal); they come after hypothesis testing.
+The third way is a [**statistical test**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881). The [**Shapiro-Wilk test**](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) ([see the Shapiro-Wilk test](../../04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test)) and the **Anderson-Darling test** (G-200) decide with the help of a **p-value** (G-1433; the chance of data at least this far from normal if the data really were normal); they come after hypothesis testing.
 
 > **Extra:** For the 150 iris sepal lengths of Section 7.3, `stats.shapiro(sepal)` gives a p-value of 0.010. At the usual 5% level the test rejects normality, even though the histogram looks roughly like a bell. With large samples these tests flag even small departures from normality (Ghasemi and Zahediasl 2012), so they are best read together with a Q-Q plot.
 
@@ -197,10 +197,10 @@ How to read a Q-Q plot, and a five-value build, are in [how a Q-Q plot is built]
 
 Take 15 sepal lengths: every tenth one of the 150 sorted iris values (Section 7.3), from 4.5 cm to 7.6 cm. Is their shape normal? Figure 5 answers in four steps.
 
-1. **Sort the data.** Each of the 15 sorted values is one **quantile** (G-1599) of the data: the smallest, the second smallest, and so on.
-2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the **theoretical quantiles** (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut:
+1. **Sort the data.** Each of the 15 sorted values is one [**quantile**](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) of the data: the smallest, the second smallest, and so on.
+2. **Cut a normal curve into equal-area strips.** Any normal curve will do; we take mean 0 and standard deviation 1. Fifteen cuts make 16 strips, and each strip holds the same share of the area, 1/16, so a normal value is equally likely to land in any strip. The strips at the edges are wide, because the curve is low there and a strip needs more width to collect its 1/16. The strips in the middle are narrow, because the curve is high. The positions of the cuts are the [**theoretical quantiles**](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (G-1968): $-1.53$, $-1.15$, $-0.89$, ..., $1.53$. Cut number $k$ has the share $k/16$ of the area on its left. For the first cut:
    $$1/16 = 0.0625$$
-   The [z-table](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (a table of areas under the standard normal curve) gives:
+   The [**z-table**](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (G-2142) (a table of areas under the standard normal curve) gives:
    $$\Phi(-1.53) = 0.063$$
    where $\Phi(z)$ is the area under the standard normal curve to the left of $z$.
    So the first cut sits at $-1.53$.
@@ -281,7 +281,7 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points (Section 3.1).
 
-Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed **Laplace distribution** (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
+Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed [**Laplace distribution**](../../08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
 ![Q-Q plot of 1,000 standardized Laplace values against the normal. The middle follows the dashed line; both ends bend away from it, outwards.](images/laplace_qq.png){height=45%}
 
@@ -369,12 +369,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Volatile (G-2094) | Changing quickly and unpredictably. |
 | Anderson-Darling test (G-200) | A statistical test of whether data follows a given distribution, such as the normal; like the Shapiro-Wilk test, it decides with a p-value. |
 | Theoretical distribution (G-1967) | The known distribution that data is compared with, for example on a Q-Q plot. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | [Shapiro-Wilk test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
 | [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
 | [Quantiles](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) | Values that cut sorted data into equal-sized groups; a fraction $p$ of the values lie below the quantile $Q(p)$. |
 | [Theoretical quantile](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (G-1968) | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). |
+| [Z-table](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#4-the-z-table) (G-2142) | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |
 | [Laplace distribution](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044) | A peaked, heavy-tailed distribution with density $e^{-\lvert x - \mu\rvert/b}/(2b)$. |

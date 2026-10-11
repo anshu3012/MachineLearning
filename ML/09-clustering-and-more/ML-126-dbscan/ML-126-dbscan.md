@@ -187,7 +187,7 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 > **Key point:** Robust to outliers, no k to choose, any cluster shape, and only two hyperparameters.
 
-- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (see [anomaly detection](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection)).
+- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (see [**anomaly detection**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201)).
 - **No k:** DBSCAN finds the number of clusters by itself. In Figure 6 it found 2 without being told.
 - **Any shape:** clusters can be rings, crescents or any other shape, because only density matters.
 - **Few settings:** just two hyperparameters, eps and MinPts.
@@ -318,3 +318,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | k-distance plot (G-994) | A plot of every point's distance to its k-th nearest point, sorted from small to large; the bend where it shoots up gives a good eps for DBSCAN. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |

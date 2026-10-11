@@ -20,15 +20,15 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/boosting]
 
 ![Bagging trains deep trees side by side on random samples and gives each an equal vote; boosting trains stumps one after another, each on the previous one's mistakes, and weights each vote by its alpha (a number saying how much that model's vote counts)](images/parallel_sequential.png){height=40%}
 
-On tables of data, tree ensembles (many decision trees whose answers are combined) built by bagging ([random forests](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview)) and by boosting ([gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview), [XGBoost](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#1-overview)) are among the strongest models: a benchmark on 45 medium-sized datasets found them ahead of deep networks (Grinsztajn et al. 2022). "What is the difference between bagging and boosting?" is also a common interview question.
+On tables of data, tree ensembles (many decision trees whose answers are combined) built by bagging ([**random forests**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611)) and by boosting ([**gradient boosting**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview) (G-859), [**XGBoost**](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#1-overview) (G-2133)) are among the strongest models: a benchmark on 45 medium-sized datasets found them ahead of deep networks (Grinsztajn et al. 2022). "What is the difference between bagging and boosting?" is also a common interview question.
 
-We have now seen both: [bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and random forests, and boosting through [AdaBoost](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview). This Note puts them side by side on three points (Figure 1). The Notebook (`ML-113-bagging-vs-boosting.ipynb`) runs a small experiment on the first point.
+We have now seen both: [bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and random forests, and boosting through [**AdaBoost**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167). This Note puts them side by side on three points (Figure 1). The Notebook (`ML-113-bagging-vs-boosting.ipynb`) runs a small experiment on the first point.
 
 ## 2. Difference 1: the type of base model
 
 > **Key point:** Bagging starts from low-bias, high-variance models and lowers their variance; boosting starts from high-bias, low-variance models and lowers their bias.
 
-We want low bias and low variance, but a single model usually trades one for the other ([the bias-variance trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). **Bagging** (G-251) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#1-overview) (which predicts from the $k$ closest points) with a small $k$, and averages away much of their variance ([how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance)). Boosting attacks the trade-off from the opposite end.
+We want low bias and low variance, but a single model usually trades one for the other ([the bias-variance trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). [**Bagging**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) takes **low-bias, high-variance** models (G-1132), such as fully grown trees or [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#1-overview) (which predicts from the $k$ closest points) with a small $k$, and averages away much of their variance ([how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance)). Boosting attacks the trade-off from the opposite end.
 
 ### 2.1 Boosting: high bias, low variance models
 
@@ -37,7 +37,7 @@ We want low bias and low variance, but a single model usually trades one for the
 Boosting needs base models with **high bias and low variance**:
 
 - a **shallow decision tree** (G-1785), whose depth is very small;
-- above all the **decision stump** (G-559), a tree of depth 1 ([decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
+- above all the [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559), a tree of depth 1 ([decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
 
 A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (average test accuracy 0.846 with 50 stumps, 0.837 with 1,500, in [the experiment on the number of stages](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-n_estimators-from-underfitting-to-overfitting)). ESL §15.2 states the same contrast: bagged trees improve only through lower variance, while boosting grows its trees adaptively to remove bias.
 
@@ -93,9 +93,9 @@ Figure 4 runs both on the noisy circles of the Notebook, one base model per fram
 
 > **Key point:** In bagging every base model's vote counts the same, like a democracy; in boosting each model's vote is weighted by how well it did.
 
-When a new **query point** (G-1605) arrives, every trained base model gives its answer. The two methods combine those answers differently.
+When a new [**query point**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605) arrives, every trained base model gives its answer. The two methods combine those answers differently.
 
-**Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the **majority vote** (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
+**Bagging: equal votes.** Suppose four models answer 1, 1, 0 and 1. Every vote has the same weight, like a democracy, so the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) wins: three say 1, the output is 1 (Figure 1, left: every weight is 1).
 
 **Boosting: weighted votes.** Every model carries its own weight, its **alpha** (G-192; [the say of the stump](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#6-step-4-the-say-of-the-stump-alpha)). With weights such as 0.8, 1.5 and 5, the model with weight 5 is listened to far more than the one with 0.8. A model that made fewer mistakes during training earns a larger say. Suppose those three models answer 1, 1 and 0: class 1 collects the weights of the two models that said 1:
 
@@ -141,6 +141,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Shallow decision tree (G-1785) | A decision tree with a small maximum depth: high bias, low variance; boosting uses such trees as its base models. |
 | Parallel learning (G-1443) | Training the base models independently, so they can all be trained at once (bagging). |
 | Sequential learning (G-1775) | Training the base models one after another, each learning from the mistakes of the ones before; this is how boosting works. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview) (G-859) | A way to build a model from many trees added one by one: it starts from a simple guess, and each new tree is trained on the mistakes (pseudo-residuals) of the ensemble so far (a boosting algorithm). |
+| [XGBoost](../../../ML/08-trees-and-ensembles/ML-117-xgboost-intro/ML-117-xgboost-intro.md#1-overview) (G-2133) | eXtreme Gradient Boosting: a library that implements gradient boosting with many speed and accuracy optimisations. |
+| [AdaBoost (Adaptive Boosting)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
 | [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
 | [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |

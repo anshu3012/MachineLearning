@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/web-scraping]
 
 > **Key point:** When a website shows data but offers no file and no API, we download its pages, read their HTML and copy the values we need into a DataFrame (a pandas table).
 
-**Web scraping** (G-2105) means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no [CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) to download and no [API](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) (a way for programs to ask a website for data) to ask.
+**Web scraping** (G-2105) means writing a program that downloads web pages and pulls data out of them. Scraping is the last resort for getting data: we use it when there is no [**CSV file**](../ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) to download and no [API](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) (a way for programs to ask a website for data) to ask.
 
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
@@ -54,7 +54,7 @@ The site has no API and no download button. So our task is to visit the pages on
 
 > **Key point:** Every reply carries a status code; 200 means success, 403 means the server refused.
 
-**requests** (G-1674) is a Python library for downloading things from the web. `requests.get(url)` sends a **request** (G-1673) to the website's **server** (G-1779) (the computer that hosts the site) and returns its **response** (G-1686).
+[**requests**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1674) is a Python library for downloading things from the web. `requests.get(url)` sends a **request** (G-1673) to the website's [**server**](../../01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-1779) (the computer that hosts the site) and returns its [**response**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1686).
 
 > **Python:** Downloading a page.
 >
@@ -67,7 +67,7 @@ The site has no API and no download button. So our task is to visit the pages on
 > webpage = r.text  # the page's HTML, as one long string
 > ```
 
-The **status code** (G-1886) is a number in the reply that says how the request went (RFC 9110, §15). For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
+The [**status code**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1886) is a number in the reply that says how the request went (RFC 9110, §15). For AmbitionBox, a plain request came back with **403**, and `r.text` held only a short "Access Denied" message instead of the page.
 
 > **Extra:** Common status codes.
 >
@@ -83,7 +83,7 @@ The **status code** (G-1886) is a number in the reply that says how the request 
 
 > **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-A browser announces itself with a short text called the **User-Agent** (G-2064) (see [opening a file from a URL](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
+A browser announces itself with a short text called the [**User-Agent**](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url) (G-2064) (see [opening a file from a URL](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
 So we send a browser's User-Agent ourselves, in the request's **headers** (G-885) (extra information sent along with a request):
 
@@ -284,7 +284,7 @@ Inside one box there is only one `h2` and one `p` with class `rating`, so `find`
 
 > **Key point:** One list per column; the loop appends one value to each list per company; a dictionary of the lists becomes the DataFrame.
 
-Figure 7 shows the loop at work. Each pass takes one container, reads its values, and adds one row to the table. Each company becomes one **observation** (G-1374) (one record, one row of the table), and each detail we collect becomes a **feature** (G-772) (a variable describing the company, one column of the table).
+Figure 7 shows the loop at work. Each pass takes one container, reads its values, and adds one row to the table. Each company becomes one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table), and each detail we collect becomes a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (a variable describing the company, one column of the table).
 
 ![The loop turns each company box into one row](images/container_loop.gif)
 
@@ -346,7 +346,7 @@ Each page's address differs only in its number, so a loop over `page=1, 2, 3, ..
 
 At the end, **`pd.concat`** (G-125) stacks all the small DataFrames into one.
 
-Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a **missing value** (G-1234), `NaN` (not a number: pandas' mark for a value that is absent), instead.
+Over hundreds of pages, some company will lack a field. Then `find` returns `None`, and `.text` on `None` stops the program with an `AttributeError`; `info[3]` on a company with three details stops it with an `IndexError`. To keep going, we record a [**missing value**](../ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234), `NaN` (not a number: pandas' mark for a value that is absent), instead.
 
 > **Python:** Every page into one DataFrame.
 >
@@ -383,7 +383,7 @@ Over hundreds of pages, some company will lack a field. Then `find` returns `Non
 > final = pd.concat(pages, ignore_index=True)
 > ```
 >
-> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an **f-string** (G-741): `{j}` is replaced by the value of `j`. The padding line `info += [np.nan] * (4 - len(info))` makes every company's list of details exactly 4 long, so `info[3]` never fails. Step by step for a company that shows only 3 details:
+> `range(1, 334)` gives 1, 2, ..., 333. `f"...{j}"` is an [**f-string**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#7-looping-over-every-page) (G-741): `{j}` is replaced by the value of `j`. The padding line `info += [np.nan] * (4 - len(info))` makes every company's list of details exactly 4 long, so `info[3]` never fails. Step by step for a company that shows only 3 details:
 >
 > | Step | Value |
 > |---|---|
@@ -470,6 +470,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Container (G-458) | A tag (often a `div`) that holds everything about one item, such as one company. |
 | `find`, `find_all` (G-83) | Return the first matching tag, or a list of all matching tags. |
 | `pd.concat` (G-125) | pandas function that joins several DataFrames into one. |
+| [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
 | [requests](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1674) | Python library that sends web requests. |
 | [Server](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
 | [Response](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#6-fetching-one-page-in-python) (G-1686) | What `requests.get` returns: the status code plus the reply. |

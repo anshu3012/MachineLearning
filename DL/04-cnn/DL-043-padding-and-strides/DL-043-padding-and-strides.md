@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/padding-stride]
 
 > **Key point:** Padding adds a border of zeros around the image so that convolution keeps the image's size and uses the border pixels as often as the others. A stride larger than 1 makes the filter jump several pixels at a time, which shrinks the feature map and the amount of work.
 
-A plain convolution (see [sliding over the whole image](../DL-042-convolution-operation/DL-042-convolution-operation.md#63-sliding-over-the-whole-image)) has two side effects: the **feature map** (G-766) is smaller than the image, and pixels near the border take part in fewer positions of the **filter** (G-777) than pixels in the middle. **Padding** (G-1436) fixes both. **Strides** (G-1900) do the opposite of padding on purpose: they make the output smaller.
+A plain convolution (see [sliding over the whole image](../DL-042-convolution-operation/DL-042-convolution-operation.md#63-sliding-over-the-whole-image)) has two side effects: the [**feature map**](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) is smaller than the image, and pixels near the border take part in fewer positions of the [**filter**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) than pixels in the middle. [**Padding**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) fixes both. **Strides** (G-1900) do the opposite of padding on purpose: they make the output smaller.
 
 ![A 3 × 3 filter slides over a 5 × 5 image surrounded by one ring of zeros (grey). The feature map keeps the size 5 × 5](images/padding_slide.gif){width=100% height=55%}
 

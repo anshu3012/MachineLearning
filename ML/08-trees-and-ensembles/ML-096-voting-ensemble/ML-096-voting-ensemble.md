@@ -28,7 +28,7 @@ A **voting ensemble** (G-2096) is the simplest ensemble (a group of models whose
 
 > **Key point:** Train every model on the same data, independently; to predict, ask them all and take the majority (classification) or the mean (regression).
 
-Take a few models, say M1, M2 and M3. The models inside an ensemble are its **base models** (G-260). They can be different algorithms or the same algorithm with different settings; [the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#5-one-algorithm-different-settings) shows both.
+Take a few models, say M1, M2 and M3. The models inside an ensemble are its [**base models**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260). They can be different algorithms or the same algorithm with different settings; [the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#5-one-algorithm-different-settings) shows both.
 
 **Training:** each model is trained on the **same** dataset, independently of the others.
 
@@ -86,7 +86,7 @@ The vote is right with probability 0.673, just below 0.7, because the two weaker
 
 > **Key point:** (1) The models must be independent: the more different, the better. (2) Each model must be right more than 50% of the time. For models of equal accuracy, these two make the vote beat each model.
 
-**Assumption 1: the base models are independent.** In probability terms the models' mistakes are **independent events** (G-934): knowing one model is wrong tells us nothing about the others. In plain words: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works, just as a mixed quiz-show audience covers more topics than one of programmers only ([the base models must be different](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#31-the-base-models-must-be-different)); if they are very similar, voting gains little.
+**Assumption 1: the base models are independent.** In probability terms the models' mistakes are [**independent events**](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934): knowing one model is wrong tells us nothing about the others. In plain words: when one model is wrong, the others should not be wrong for the same reason. The more different the models are, the better the vote works, just as a mixed quiz-show audience covers more topics than one of programmers only ([the base models must be different](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#31-the-base-models-must-be-different)); if they are very similar, voting gains little.
 
 **Assumption 2: every model's accuracy is above 50%.** A model that is right less than half the time does harm: a vote of independent models that all share one accuracy below 50% is **worse than each of them** (section 5.1 shows it with numbers).
 
@@ -202,7 +202,7 @@ $$1 - 0.784 = 0.216$$
 
 The match has a reason: with $p = 0.3$, each combination where the majority is right has the probability of one of the four "majority wrong" combinations in Figure 4, with right and wrong swapped. This calculation shows assumption 2 at work for three models of equal accuracy: voting amplifies whatever the models are, good or bad.
 
-> **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a **binomial distribution** (G-308), so
+> **Extra:** With $n$ models (an odd number, so there are no ties), the vote is right when more than half are right. The number of right models follows a [**binomial distribution**](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308), so
 > $$P(\text{vote right}) = \sum_{k > n/2} \binom{n}{k} p^k (1-p)^{n-k}$$
 > Reading the symbols with $n = 3$ and $p = 0.7$:
 >

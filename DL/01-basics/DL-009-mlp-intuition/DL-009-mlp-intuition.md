@@ -19,9 +19,9 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp]
 
 > **Key point:** One perceptron has one straight decision boundary, a hyperplane. Feeding the outputs of several perceptrons into another perceptron combines their hyperplanes into a curved decision boundary, and that combination is a multi-layer perceptron.
 
-A single **perceptron** (G-1486) cannot separate data whose classes need a curved **decision boundary** (G-555; the line or curve between the regions given to each class), such as **XOR** (G-2134; see [why one perceptron cannot learn XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)). The fix must be built from perceptrons themselves. This Note builds the **multi-layer perceptron (MLP)** (G-1270) from first principles: two perceptrons, one way to combine them, and then larger networks.
+A single [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) cannot separate data whose classes need a curved **decision boundary** (G-555; the line or curve between the regions given to each class), such as **XOR** (G-2134; see [why one perceptron cannot learn XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)). The fix must be built from perceptrons themselves. This Note builds the [**multi-layer perceptron (MLP)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) from first principles: two perceptrons, one way to combine them, and then larger networks.
 
-A perceptron first adds up its weighted inputs plus a bias, then passes that sum through a function that decides how much the node outputs; that function is its **[activation function](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is)** (taught in full later). Throughout this Note every perceptron uses the **sigmoid** (G-1798) activation, not the **step function** (G-1889). The sigmoid is the function
+A perceptron first adds up its weighted inputs plus a bias, then passes that sum through a function that decides how much the node outputs; that function is its **[activation function](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is)** (taught in full later). Throughout this Note every perceptron uses the [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) activation, not the [**step function**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889). The sigmoid is the function
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
@@ -33,7 +33,7 @@ $$\sigma(3) = 0.953$$
 
 $$\sigma(-3) = 0.047$$
 
-So each perceptron outputs a **probability** (G-1574) between 0 and 1, exactly like **logistic regression** (G-1120).
+So each perceptron outputs a [**probability**](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) between 0 and 1, exactly like [**logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120).
 
 ### 1.1 A first picture: one input
 
@@ -167,7 +167,7 @@ We repeat this for every point. Adding is the superimposing; the sigmoid is the 
 
 ### 3.3 Weights and a bias
 
-> **Key point:** A **weighted sum** (G-2119) plus a bias lets one perceptron count more than the other, and lets us shift the result.
+> **Key point:** A [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) plus a bias lets one perceptron count more than the other, and lets us shift the result.
 
 Plain adding treats both perceptrons equally. To make perceptron 1 count twice as much, we multiply its output by a weight of 10 and perceptron 2's by 5, and add a bias of 3:
 
@@ -236,7 +236,7 @@ No single perceptron can do this, because its 0.5 contour is always one straight
 
 > **Key point:** We can add hidden nodes, input nodes, output nodes or hidden layers. Each answers a different need.
 
-The **architecture** (G-209) of a neural network is how its nodes are arranged and connected: how many layers, how many nodes in each, and which nodes are joined by weights. Figure 8 shows four ways to change it, with the changed part in red.
+The [**architecture**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) of a neural network is how its nodes are arranged and connected: how many layers, how many nodes in each, and which nodes are joined by weights. Figure 8 shows four ways to change it, with the changed part in red.
 
 ![Four ways to change an MLP's architecture; the changed layer is red](images/architectures.png){height=46%}
 
@@ -258,15 +258,15 @@ Each extra hidden node adds one more straight line to the combination, so the de
 
 > **Key point:** One input node per feature; with three features, each hidden perceptron is a plane instead of a line.
 
-The input layer has one node per feature, so we add input nodes only when the data gains a feature (Figure 8b). With 12th marks as a third feature, every point lives in 3D. Each hidden perceptron is then a **plane** (G-1502), and the output perceptron combines planes in exactly the same way. With four or more features the planes become hyperplanes (see [from a line to a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)).
+The input layer has one node per feature, so we add input nodes only when the data gains a feature (Figure 8b). With 12th marks as a third feature, every point lives in 3D. Each hidden perceptron is then a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), and the output perceptron combines planes in exactly the same way. With four or more features the planes become hyperplanes (see [from a line to a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)).
 
 ### 4.3 More nodes in the output layer
 
 > **Key point:** For multi-class classification, one output node per class; the class with the highest output wins.
 
-So far the output layer had one node. In **multi-class classification** (G-1266) there are more than two classes. To tell whether a photo shows a dog, a cat or a human, we give the output layer three nodes, one per class (Figure 8c). Each gives a score for its class, and we predict the class with the highest one.
+So far the output layer had one node. In [**multi-class classification**](../../05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) there are more than two classes. To tell whether a photo shows a dog, a cat or a human, we give the output layer three nodes, one per class (Figure 8c). Each gives a score for its class, and we predict the class with the highest one.
 
-> **Extra:** In practice the three output scores are turned into probabilities that add up to 1 with the **softmax function** (G-1830), exactly as in [softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function) (Goodfellow et al. 2016, §6.2.2.3). Softmax with categorical cross-entropy is the combination described in [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models).
+> **Extra:** In practice the three output scores are turned into probabilities that add up to 1 with the [**softmax function**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830), exactly as in [**softmax regression**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function) (G-1833) (Goodfellow et al. 2016, §6.2.2.3). Softmax with categorical cross-entropy is the combination described in [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models).
 
 ### 4.4 More hidden layers
 
@@ -364,7 +364,7 @@ Reading the panels in order:
 - **Spirals, 4 hidden layers of 4 sigmoid nodes:** 50%, no better than guessing. The network predicts one class everywhere.
 - **Spirals, same layers with ReLU:** 98% in the figure. Changing only the activation function makes the deep network trainable.
 
-Averaged over 5 random starts (adam solver, Notebook), the sigmoid network stays at 50% every time, while the ReLU network reaches 84% (73% to 98%). The sigmoid network stalls because of the **vanishing gradient** (G-2070):
+Averaged over 5 random starts (adam solver, Notebook), the sigmoid network stays at 50% every time, while the ReLU network reaches 84% (73% to 98%). The sigmoid network stalls because of the [**vanishing gradient**](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070):
 
 1. To update a weight, training multiplies the gradient by the sigmoid's derivative once for every layer it passes back through.
 2. That derivative is at most 0.25.
@@ -392,7 +392,7 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 >
 > `hidden_layer_sizes=(4, 4, 4, 4)` gives four hidden layers of 4 nodes. scikit-learn calls the sigmoid `"logistic"`. The input and output layers are sized automatically from `X` and `y`.
 
-> **Extra:** **ReLU** (G-1668) is another activation function, the recommended default for hidden units in modern networks (Goodfellow et al. 2016, §6.3). The `solver` (G-1836; lbfgs or adam) is the method used to find the weights; adam is one of the **optimizers** (G-1401) covered later. The circles use lbfgs and the spirals adam, because each worked best on its data. Averaged over 5 random starts (Notebook): on the circles, lbfgs 97% against adam 47%; on the ReLU spirals, adam 84% against lbfgs 78%. Adam's 47% on the circles is a stopping problem, not a weak method: its loss sits at 0.693 on a flat stretch, like the start of Figure 11, and scikit-learn's default stopping rule (`n_iter_no_change=10`, `tol=1e-4`) ends training there after 41 to 274 steps. With `n_iter_no_change=5000` the same five runs reach 99 to 100% (Notebook).
+> **Extra:** [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) is another activation function, the recommended default for hidden units in modern networks (Goodfellow et al. 2016, §6.3). The `solver` (G-1836; lbfgs or adam) is the method used to find the weights; adam is one of the [**optimizers**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) covered later. The circles use lbfgs and the spirals adam, because each worked best on its data. Averaged over 5 random starts (Notebook): on the circles, lbfgs 97% against adam 47%; on the ReLU spirals, adam 84% against lbfgs 78%. Adam's 47% on the circles is a stopping problem, not a weak method: its loss sits at 0.693 on a flat stretch, like the start of Figure 11, and scikit-learn's default stopping rule (`n_iter_no_change=10`, `tol=1e-4`) ends training there after 41 to 274 steps. With `n_iter_no_change=5000` the same five runs reach 99 to 100% (Notebook).
 
 ## 6. Summary
 
@@ -457,6 +457,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Multi-class classification](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) | Classification where the output is one of more than two classes, such as the next word out of a whole vocabulary; the output layer has one node per class. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview) (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
 | [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation) (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |

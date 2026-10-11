@@ -34,13 +34,13 @@ The SVD (singular value decomposition) writes a matrix as $A = U\Sigma V^{\maths
 
 > **Key point:** Turn a line through the centre of the data and add up the squared distances of the projected points from the centre. The line with the largest sum is PC1, and the square root of that sum is the first singular value.
 
-[How PCA finds the new features](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) found the **first principal component** (G-1563) by turning a line through the centre of the data until the shadows of the points on it spread the most. The same search, with one change of bookkeeping, produces the SVD.
+[How PCA finds the new features](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) found the [**first principal component**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) by turning a line through the centre of the data until the shadows of the points on it spread the most. The same search, with one change of bookkeeping, produces the SVD.
 
-1. **In words:** centre the data, so that its centre sits on the origin (**centred data**, G-365). Draw a line through the origin. Drop each point onto the line; the foot is its **projection** (G-1583). Measure each foot's distance from the origin, square it and add over all points: call the sum SS. Turn the line and repeat. Instead of the variance of the shadows, we keep their sum of squares, which is the variance times $n$.
+1. **In words:** centre the data, so that its centre sits on the origin (**centred data**, G-365). Draw a line through the origin. Drop each point onto the line; the foot is its [**projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583). Measure each foot's distance from the origin, square it and add over all points: call the sum SS. Turn the line and repeat. Instead of the variance of the shadows, we keep their sum of squares, which is the variance times $n$.
 2. **Example:** for the 30 flats, SS is about 40 along the rooms axis (0°). As the line turns, SS rises to its peak, 78.2, at 45°, then falls to its lowest value, 1.55, at 135° (Figure 2).
 3. **What the SVD calls each number:**
-   - The unit vector along the best line, $[0.707, 0.707]$, is the first **right singular vector** (G-1692) $\mathbf v_1$. Its entries say the recipe of PC1: 0.707 parts rooms and 0.707 parts washrooms. These entries are the **loading scores**.
-   - The square root of the peak is the first **singular value** (G-1812) $\sigma_1$ of the centred data:
+   - The unit vector along the best line, $[0.707, 0.707]$, is the first [**right singular vector**](../MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) $\mathbf v_1$. Its entries say the recipe of PC1: 0.707 parts rooms and 0.707 parts washrooms. These entries are the **loading scores**.
+   - The square root of the peak is the first [**singular value**](../MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) $\sigma_1$ of the centred data:
 
      $$\sqrt{78.2} = 8.843$$
 
@@ -60,7 +60,7 @@ In Figure 2, watch the red curve while the line turns: it climbs to its peak, ma
 
 > **Key point:** The covariance matrix is $X_c^{\mathsf T}X_c/n$, and $X_c^{\mathsf T}X_c = V\Sigma^2V^{\mathsf T}$: its eigenvectors are the right singular vectors of the data.
 
-[PCA in five steps](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps) found the principal components as the eigenvectors of the covariance matrix, after centring each **feature** (G-772) (an input variable, one column of the data table). In matrix form, the covariance matrix of centred data with $n$ rows (one per **observation** (G-1374), a record) is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
+[PCA in five steps](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps) found the principal components as the eigenvectors of the covariance matrix, after centring each [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table). In matrix form, the covariance matrix of centred data with $n$ rows (one per [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374), a record) is $X_c^{\mathsf T}X_c / n$: entry $(j, k)$ is the sum of products of columns $j$ and $k$, divided by $n$.
 
 [$A^{\mathsf T}A$ gives $V$](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear) showed that $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$ for any matrix. With $A = X_c$:
 
@@ -86,7 +86,7 @@ In Figure 2, watch the red curve while the line turns: it climbs to its peak, ma
 Section 2.1 found these numbers by turning a line; the formula finds them all at once. Figure 1 maps each part of the SVD to its PCA meaning:
 
 - **$V^{\mathsf T}$:** its rows are the principal components, largest variance first. They are already sorted, because singular values come sorted.
-- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The **explained variance ratio** (G-727) is:
+- **$\Sigma$:** $\sigma_i^2/n$ is the variance along PC $i$. The [**explained variance ratio**](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#71-explained-variance) (G-727) is:
 
   $$\sigma_i^2 / \sum_j \sigma_j^2$$
 
@@ -133,7 +133,7 @@ Forming $X_c^{\mathsf T}X_c$ squares the singular values, and small ones lose ac
 
 > **Key point:** Bag-of-words vectors only see shared words, so two texts on the same topic with no word in common have cosine similarity 0.
 
-[Text as vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#4-text-as-vectors-a-movie-recommender) turned texts into bag-of-words count vectors (the count of each word in a text), and [cosine similarity](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) compared them by angle. The angle only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
+[Text as vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#4-text-as-vectors-a-movie-recommender) turned texts into bag-of-words count vectors (the count of each word in a text), and [**cosine similarity**](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) (G-491) compared them by angle. The angle only sees shared words. Take seven short documents (common words such as "a" and "and" removed):
 
 | | Document |
 |---|---|
@@ -228,7 +228,7 @@ In Figure 6, viewers and films fall into the same two groups: Asha, Ben and the 
 
 > **Key point:** Undo each factor in reverse order: $U^{\mathsf T}$ for $U$, $1/\sigma_i$ for each $\sigma_i$, $V$ for $V^{\mathsf T}$; where $\sigma_i = 0$ there is nothing to undo, so keep 0.
 
-The inverse of a product is the product of the inverses in reverse order. For $A = U\Sigma V^{\mathsf T}$, the orthogonal factors are undone by their transposes, and $\Sigma$ by replacing each $\sigma_i$ with $1/\sigma_i$. When some $\sigma_i$ is 0, $A$ has no inverse, but we can still invert everything that is not 0. The result is the **Moore–Penrose pseudo-inverse** (G-1262), listed under [matrix factorisation](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#46-matrix-factorisation).
+The inverse of a product is the product of the inverses in reverse order. For $A = U\Sigma V^{\mathsf T}$, the orthogonal factors are undone by their transposes, and $\Sigma$ by replacing each $\sigma_i$ with $1/\sigma_i$. When some $\sigma_i$ is 0, $A$ has no inverse, but we can still invert everything that is not 0. The result is the **Moore–Penrose pseudo-inverse** (G-1262), listed under [**matrix factorisation**](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#46-matrix-factorisation) (G-1177).
 
 1. **In words:** transpose $\Sigma$, replace each non-zero $\sigma_i$ by $1/\sigma_i$ and leave the zeros; then sandwich it between $V$ and $U^{\mathsf T}$.
 2. **Formula:**
@@ -274,7 +274,7 @@ $$= V\Sigma^{-2}\Sigma U^{\mathsf T} \qquad (V^{\mathsf T}V = I)$$
 $$= V\Sigma^{-1}U^{\mathsf T}$$
 $$= X^{+}$$
 
-1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the vector of **target** (G-1949) values (the outputs we predict).
+1. **In words:** the least-squares coefficients are the pseudo-inverse of the design matrix times the vector of [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) values (the outputs we predict).
 2. **Formula:**
    $$\beta = X^{+}\mathbf{y}$$
 3. **Example:** the four students of the normal-equation example (CGPA 6.89, 5.12, 7.82, 7.42; packages 3.26, 1.98, 3.25, 3.67), with a column of 1s for the intercept. $X$ has singular values 13.92 and 0.30, and $X^{+}\mathbf{y} = [-0.81, 0.57]$: intercept $-0.81$ and slope $0.57$, the same as the normal equation.
@@ -366,6 +366,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Explained variance ratio](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#71-explained-variance) (G-727) | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
+| [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
+| [Matrix factorisation (decomposition)](../../../MA/05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#46-matrix-factorisation) (G-1177) | Writing a matrix as a product of simpler matrices. |
 | [Column space](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Loading (loading score)](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#61-reading-the-result-the-recipe-and-the-scree-plot) (G-2204) | How much one original feature counts in a principal component (its weight there); it is one entry of that component's eigenvector. |

@@ -90,7 +90,7 @@ The dot product can also be written as a matrix multiplication. Write $a$ as a r
 
 The school rule of matrix multiplication says a $1 \times n$ matrix can multiply an $n \times 1$ matrix because the inner sizes match, and the result has the outer sizes: $1 \times 1$, a single number (Figure 3). Each entry of the row meets its partner in the column, the products are added, and the result is exactly the dot product.
 
-By default a vector is a column. So to put $a$ in the row position we **transpose** (G-2012) it, and write
+By default a vector is a column. So to put $a$ in the row position we [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) it, and write
 
 $$a \cdot b = a^{\mathsf T} b$$
 
@@ -158,7 +158,7 @@ Both sides are 82.
 In linear algebra the dot product does three main jobs:
 
 1. **Similarity.** It tells how similar two vectors are, and so which of several vectors are closest in direction. Section 6 builds this into cosine similarity.
-2. **Projection** (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is (Figure 4):
+2. [**Projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583). It gives the projection of one vector onto another: how far $a$ reaches along the direction of $b$. For $a = [3, 4]$ and $b = [7, 1]$ that distance is (Figure 4):
 
    $$\frac{a \cdot b}{\lVert b \rVert} = \frac{25}{7.07} = 3.54$$
 
@@ -179,7 +179,7 @@ Two uses in ML follow from these. A recommender system turns items into vectors 
 
 So far the dot product was a recipe on components. The picture below gives it a meaning.
 
-**In plain words.** Hold two arrows at the origin. Shine a light straight down onto the line of $b$, so that $a$ casts a **shadow** on it. This shadow is the **projection** (G-1583) of $a$ onto $b$. The dot product is the length of that shadow times the length of $b$. If $a$ leans the same way as $b$, the shadow is long and the product is large. At a right angle the shadow shrinks to a point and the product is 0. If $a$ leans away, the shadow points backwards and the product is negative. The projection figure of Section 4 shows one shadow.
+**In plain words.** Hold two arrows at the origin. Shine a light straight down onto the line of $b$, so that $a$ casts a **shadow** on it. This shadow is the [**projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) of $a$ onto $b$. The dot product is the length of that shadow times the length of $b$. If $a$ leans the same way as $b$, the shadow is long and the product is large. At a right angle the shadow shrinks to a point and the product is 0. If $a$ leans away, the shadow points backwards and the product is negative. The projection figure of Section 4 shows one shadow.
 
 **Worked example.** Take $a = [3, 4]$ and $b = [7, 1]$, as in that figure.
 
@@ -337,7 +337,7 @@ $p$ and $q$ point almost the same way. $p$ and $r$ have an obtuse angle.
 
 > **Key point:** Turn every summary into a vector, compute the cosine similarity with the movie the user liked, and recommend the movies with the smallest angles.
 
-[Text as vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#4-text-as-vectors-a-movie-recommender) turned movie summaries into **bag-of-words** (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
+[Text as vectors](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#4-text-as-vectors-a-movie-recommender) turned movie summaries into [**bag-of-words**](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) vectors and recommended by Euclidean distance. Cosine similarity does the same job by angle. When a user picks a movie, we compute $\cos\theta$ between its vector and every other movie's vector, and recommend those with the smallest angle: ideally $0^\circ$, otherwise angles of $30^\circ$ or $60^\circ$ before ones near $90^\circ$.
 
 For the three toy summaries A = *hi how are you*, B = *my name is riya* and C = *this is 2023*, the vector of a summary lists how often each word of the whole vocabulary appears in it (a count vector). A word that a summary lacks has count 0.
 

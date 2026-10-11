@@ -54,7 +54,7 @@ Figure 2 shows the sum on the four students of [the XGBoost regression data](../
 
 A tree with $T$ leaves gives one of $T$ numbers, depending on the leaf an observation lands in. These leaf outputs are also called **leaf weights** (G-1063), written $w_1, w_2, \dots, w_T$. A tree with 3 leaves has three unknowns, not one.
 
-Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$. The gap between them is measured by a loss function $L(y_i, \hat y_i)$, such as squared error (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)). So the task is an optimisation problem: choose the $w_j$ that make the total loss smallest.
+Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$. The gap between them is measured by a loss function $L(y_i, \hat y_i)$, such as squared error (see [**mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201)). So the task is an optimisation problem: choose the $w_j$ that make the total loss smallest.
 
 ## 4. The objective: loss plus a penalty on the tree
 
@@ -375,7 +375,7 @@ This number is the tree's **structure score** (G-1905): the lower it is, the bet
 
 The paper uses it as a score for a tree, like the impurity of a decision tree but valid for a wider range of losses (Chen and Guestrin 2016, §2.2).
 
-The term in each leaf, $G_j^2/(H_j + \lambda)$, is the **similarity score** (G-1804). Since $G_j = -\sum r_i$, squaring removes the sign:
+The term in each leaf, $G_j^2/(H_j + \lambda)$, is the [**similarity score**](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804). Since $G_j = -\sum r_i$, squaring removes the sign:
 
 - regression ($h = 1$): $(\sum r_i)^2 / (n + \lambda)$;
 - classification ($h = p(1-p)$): $(\sum r_i)^2 / (\sum p_i(1-p_i) + \lambda)$.
@@ -458,6 +458,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |

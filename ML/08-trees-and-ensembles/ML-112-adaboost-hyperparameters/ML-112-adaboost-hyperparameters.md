@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 > **Key point:** AdaBoost has two settings that matter, `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, so a grid search tunes them together.
 
-AdaBoost is boosting with stumps: small models trained one after another, each focusing on the mistakes of the ones before (see [stage by stage](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage)). AdaBoost has few **hyperparameters** (G-910), settings we choose before training.
+AdaBoost is boosting with stumps: small models trained one after another, each focusing on the mistakes of the ones before (see [stage by stage](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage)). AdaBoost has few [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), settings we choose before training.
 
 ![Decision surfaces of AdaBoost on noisy circles: 1 to 1,500 stumps with learning_rate 1.0, and 1,500 stumps with learning_rate 0.1. Titles give training and test accuracy](images/surfaces.png){height=50%}
 
@@ -46,7 +46,7 @@ Figure 2 marks where each one acts on the boosting loop. Watch the three orange 
 
 > **Key point:** Any classifier that accepts sample weights can be boosted; in practice we almost always keep the default, a decision stump.
 
-`estimator` is the base model that AdaBoost trains at every stage, the **weak learner** (G-2104). If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a **decision stump** (G-559; a tree with one question, see [decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
+`estimator` is the base model that AdaBoost trains at every stage, the [**weak learner**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104). If we leave it out, it is `DecisionTreeClassifier(max_depth=1)`, a **decision stump** (G-559; a tree with one question, see [decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
 
 Other algorithms are allowed, such as logistic regression or an SVM, with one condition: the model's `fit` must accept a `sample_weight` argument, because that is how scikit-learn passes the observation weights to it ([weights instead of upsampling](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#10-weights-instead-of-upsampling-how-scikit-learn-does-it)). KNN has no such argument, so AdaBoost refuses it:
 
@@ -89,9 +89,9 @@ Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`,
 
 > **Key point:** One stump underfits; tens of stumps fit the circle; very many start drawing small islands around single points, the sign of overfitting.
 
-The data is the noisy concentric circles of [seeing it in classification](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#3-seeing-it-in-classification): 500 **observations** (G-1374; points, one row of the data table each), 2 **features** (G-772; input variables, the two coordinates) and a **target** (G-1949) class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
+The data is the noisy concentric circles of [seeing it in classification](../ML-103-random-forest-bias-variance/ML-103-random-forest-bias-variance.md#3-seeing-it-in-classification): 500 **observations** (G-1374; points, one row of the data table each), 2 **features** (G-772; input variables, the two coordinates) and a [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) class: a small blue disc inside an orange ring, with so much noise that the classes overlap. We train on 400 points and test on 100.
 
-With the default settings (50 stumps, learning rate 1.0), 10-fold **cross-validation** (G-510; the data is split into 10 parts and each part in turn is used for testing, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each **decision surface** (G-560), the predicted class at every point of the plane, is drawn by predicting a grid of points, as in [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces).
+With the default settings (50 stumps, learning rate 1.0), 10-fold **cross-validation** (G-510; the data is split into 10 parts and each part in turn is used for testing, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) gives an accuracy of **0.812**. Figure 1 shows what changing `n_estimators` does. Each [**decision surface**](../../07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560), the predicted class at every point of the plane, is drawn by predicting a grid of points, as in [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces).
 
 A test set of 100 points is noisy: one point moves the accuracy by 0.01. So the table averages 20 fresh circles datasets of 400 training points, each tested on 5,000 new points from the same distribution. Figure 1's titles show the single dataset drawn.
 
@@ -103,15 +103,15 @@ A test set of 100 points is noisy: one point moves the accuracy by 0.01. So the 
 | 500 | small notches appear around single points | 0.887 | 0.844 |
 | 1,500 | isolated strips and boxes: overfitting | 0.911 | 0.837 |
 
-- **Too few stumps underfit.** **Underfitting** (G-2035) means the model is too simple for the pattern. One stump can only cut the plane once; it cannot draw a disc.
-- **Too many stumps overfit.** **Overfitting** (G-1429) means the model fits the noise of the training data. Each extra stage focuses on the observations still misclassified, and on noisy data those are mostly noise. From 50 to 1,500 stumps the training accuracy climbs from 0.879 to 0.911 while the test accuracy slips from 0.846 to 0.837: the gap between them more than doubles. Experiments with noisy labels show the same: AdaBoost puts large weights on the noisy observations and its accuracy drops (Dietterich 2000). With 1,500 stumps, the surface grows small regions around single points.
+- **Too few stumps underfit.** [**Underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) means the model is too simple for the pattern. One stump can only cut the plane once; it cannot draw a disc.
+- **Too many stumps overfit.** [**Overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) means the model fits the noise of the training data. Each extra stage focuses on the observations still misclassified, and on noisy data those are mostly noise. From 50 to 1,500 stumps the training accuracy climbs from 0.879 to 0.911 while the test accuracy slips from 0.846 to 0.837: the gap between them more than doubles. Experiments with noisy labels show the same: AdaBoost puts large weights on the noisy observations and its accuracy drops (Dietterich 2000). With 1,500 stumps, the surface grows small regions around single points.
 - **Training time grows** with the number of stumps: 1,500 stumps take 30 times as long to train as 50.
 
 Figure 3 grows the two 1,500-stump models of Figure 1 (bottom middle and bottom right) stump by stump, on the same split. Watch the left panel after 500 stumps: notches and thin strips appear around single points, while learning rate 0.1 on the right keeps a smooth blocky disc.
 
 ![The decision surface after 1 to 1,500 stumps, learning rate 1.0 (left) and 0.1 (right), on the training split; titles give training and test accuracy](images/grow.gif){height=45%}
 
-So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth)).
+So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([**max_depth**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth) (G-1184)).
 
 > **Extra:** On this data the overfitting of stumps is slow: 1,500 stumps lose less than 0.01 of test accuracy. With deeper base trees it is much faster: section 5 shows 50 trees of depth 8 reaching training accuracy 1.00 while the test accuracy falls to 0.813.
 
@@ -150,7 +150,7 @@ Figure 4 shows the effect on the circles data after 50 stages. Watch the marker 
 
 ![Observation weights after 50 stages (marker area grows with the weight), learning rate 1.0 (left) and 0.1 (right), replayed from scikit-learn's own stumps and alphas](images/weights.png){height=40%}
 
-Scaling every stump's say down this way is called **shrinkage** (G-1796) (ESL §10.12.1). Think of walking down a dark hill: short careful steps take longer but are less likely to overshoot the path. Shrinkage returns in gradient boosting.
+Scaling every stump's say down this way is called [**shrinkage**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) (ESL §10.12.1). Think of walking down a dark hill: short careful steps take longer but are less likely to overshoot the path. Shrinkage returns in gradient boosting.
 
 ### 4.3 The trade-off with n_estimators
 
@@ -185,7 +185,7 @@ So we do not tune the two separately. A large `n_estimators` with a small `learn
 
 > **Key point:** A grid of 4 values of n_estimators and 5 learning rates, with 10-fold cross-validation, finds 500 stumps at learning rate 0.1: accuracy 0.832, up from 0.812.
 
-**Grid search** (G-872), training every combination in a list of values, was introduced in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k), and used on a random forest in [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest). Here the grid covers the two hyperparameters that matter:
+[**Grid search**](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872), training every combination in a list of values, was introduced in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k), and used on a random forest in [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest). Here the grid covers the two hyperparameters that matter:
 
 > **Python:** Grid search over AdaBoost.
 >
@@ -272,5 +272,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [max_depth](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#2-overfitting-and-underfitting-in-a-tree) (G-1184) | The cap on a tree's depth; None lets it grow until every leaf is pure. |
 | [Shrinkage](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |
 | [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |

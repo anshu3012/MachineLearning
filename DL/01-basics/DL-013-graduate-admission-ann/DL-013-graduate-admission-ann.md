@@ -19,13 +19,13 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/ann-regression
 
 > **Key point:** For regression, a network ends in one node with a linear activation and is trained with mean squared error; everything else is the same Keras workflow.
 
-The [customer churn](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview) and the [MNIST](../DL-012-mnist-ann/DL-012-mnist-ann.md#6-predicting-with-argmax) used networks for classification, with two and with ten classes. Here the output is a **number**: a student's chance of admission to a graduate programme, between 0 and 1. Predicting a number is **regression** (G-1655).
+The [customer churn](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview) and the [MNIST](../DL-012-mnist-ann/DL-012-mnist-ann.md#6-predicting-with-argmax) used networks for classification, with two and with ten classes. Here the output is a **number**: a student's chance of admission to a graduate programme, between 0 and 1. Predicting a number is [**regression**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655).
 
 The Keras workflow is unchanged: prepare, build, compile, fit, predict (the [Keras workflow figure](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#1-overview) of the churn project). Three things are new:
 
 1. **Output layer:** one node with the **linear** activation (G-1089; it returns its weighted sum unchanged), so it can give any number.
-2. **Loss:** **mean squared error** (G-1201).
-3. **Score:** **R²** (G-1717) instead of accuracy.
+2. **Loss:** [**mean squared error**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201).
+3. **Score:** [**R²**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) instead of accuracy.
 
 The goal is to see a network solve a regression problem, not to build the best model. The Notebook (`DL-013-graduate-admission-ann.ipynb`) runs every step.
 
@@ -65,7 +65,7 @@ Students applying to universities abroad take the **GRE** and **TOEFL** (G-869) 
 > df.duplicated().sum()   # 0
 > ```
 
-There are no **missing values** (G-1234) and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
+There are no [**missing values**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) and no duplicated rows, and every column is already numeric. The chance of admission averages 0.72 and runs from 0.34 to 0.97.
 
 ## 3. Preparing the inputs
 
@@ -73,7 +73,7 @@ There are no **missing values** (G-1234) and no duplicated rows, and every colum
 
 The serial number is a row label with no pattern in it, so we drop it. The other 7 columns are the features, and `Chance of Admit` is the target. A test size of 0.2 gives 400 training and 100 test students.
 
-The features differ widely in size: a GRE score of 337 sits next to an SOP rating of 4.5. As in the other two projects, unequal scales slow training down, so we scale. This time we use **min-max scaling** (G-1217) rather than **standardization** (G-1874): min-max scaling is the usual choice when every feature has a known minimum and maximum (see the [normalization](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#10-normalization-or-standardization-which-scaler-when), section 10). GRE stops at 340, TOEFL at 120, the ratings at 5, so every feature is bounded. After scaling, each feature runs from 0 to 1.
+The features differ widely in size: a GRE score of 337 sits next to an SOP rating of 4.5. As in the other two projects, unequal scales slow training down, so we scale. This time we use [**min-max scaling**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) rather than [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874): min-max scaling is the usual choice when every feature has a known minimum and maximum (see the [**normalization**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#10-normalization-or-standardization-which-scaler-when) (G-1349), section 10). GRE stops at 340, TOEFL at 120, the ratings at 5, so every feature is bounded. After scaling, each feature runs from 0 to 1.
 
 ![The 7 features of the 400 training students. Left: raw values; right: after min-max scaling. Each box spans the middle half of a feature's values.](images/scales.png)
 
@@ -110,13 +110,13 @@ The scaler takes each minimum and maximum from the training students only and re
 
 > **Key point:** 7 inputs, a hidden layer of 7 ReLU nodes, and one output node with the linear activation: 64 parameters.
 
-A **ReLU** (G-1668) node returns its weighted sum when that sum is positive and 0 otherwise. A **parameter** is a weight or a bias, a number the network learns.
+A [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) node returns its weighted sum when that sum is positive and 0 otherwise. A **parameter** is a weight or a bias, a number the network learns.
 
 ### 4.1 The linear output node
 
 > **Key point:** A linear output passes its weighted sum through unchanged, so the network can predict any number.
 
-In classification the output node squeezes its **weighted sum** (G-2119) into a probability with a **sigmoid** (G-1798; [squashes any number into 0 to 1](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) or **softmax** ([G-1830](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula); one probability per class, all adding to 1). In regression we want the number itself, so the output node uses the **linear activation**: it returns its input unchanged, $f(z) = z$. With a linear output and the mean squared error loss, a single perceptron is **linear regression** (G-1094; see the [perceptron loss](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models), section 8).
+In classification the output node squeezes its [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) into a probability with a **sigmoid** (G-1798; [squashes any number into 0 to 1](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) or **softmax** ([G-1830](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula); one probability per class, all adding to 1). In regression we want the number itself, so the output node uses the **linear activation**: it returns its input unchanged, $f(z) = z$. With a linear output and the mean squared error loss, a single perceptron is **linear regression** (G-1094; see the [**perceptron loss**](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models) (G-1484), section 8).
 
 ![The numbers an output node can give with three activations. Shaded: the outputs it can reach. Linear reaches any number; sigmoid only 0 to 1; ReLU nothing below 0.](images/output_range.png)
 
@@ -128,7 +128,7 @@ Figure 2 compares three choices for the output node:
 
 A network can only be right if its output node can produce the target, and only the linear node can produce every number.
 
-The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as **ReLU** (G-1668); otherwise the whole network would collapse into one linear model (see the [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#34-the-combiner-is-a-perceptron), section 3.4).
+The rule: **for regression, the output layer has one node per number to predict, with the linear activation.** Hidden layers keep a non-linear activation such as [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668); otherwise the whole network would collapse into one linear model (see the [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#34-the-combiner-is-a-perceptron), section 3.4).
 
 > **Extra:** A linear output is not limited to 0 to 1, and in our results one prediction from each network comes out slightly above 1 (up to 1.01). Since the target here is a proportion, a sigmoid output node would keep every prediction inside 0 to 1. The linear output is the general rule because most regression targets, such as prices or temperatures, have no such limit.
 
@@ -150,9 +150,9 @@ $$\text{total} = 56 + 8 = 64$$
 
 Figure 3(a) shows the first network:
 
-- the **input layer** (G-952) has 7 nodes, one per feature;
-- the **hidden layer** (G-890) has 7 ReLU nodes;
-- the **output layer** (G-1424) has 1 linear node.
+- the [**input layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) has 7 nodes, one per feature;
+- the [**hidden layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) has 7 ReLU nodes;
+- the [**output layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) has 1 linear node.
 
 Counting with the rule of the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#3-counting-trainable-parameters):
 
@@ -183,7 +183,7 @@ $$(7 \times 7 + 7) + (7 \times 1 + 1) = 56 + 8 = 64$$
 
 > **Key point:** The loss is the average squared difference between the predicted and the true chance.
 
-For regression the usual loss is **mean squared error (MSE)**: the average of the squared differences between the true and the predicted values (see the [regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse), section 3). MSE is the same quantity linear regression minimises. The Notebook compiles with the **Adam** (G-169) **optimizer** (G-1401; the rule that updates the weights, see the [Keras compile step](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#51-compile-loss-and-optimizer)) and trains for 10 **epochs** (G-696; full passes over the training data). The argument `validation_split=0.2` sets aside 20 percent of the training students; the loss on them is the **validation loss**, a loss on students the network does not train on. No accuracy metric is added, since there are no classes to count.
+For regression the usual loss is **mean squared error (MSE)**: the average of the squared differences between the true and the predicted values (see the [**regression metrics**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1652), section 3). MSE is the same quantity linear regression minimises. The Notebook compiles with the [**Adam**](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) **optimizer** (G-1401; the rule that updates the weights, see the [Keras compile step](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#51-compile-loss-and-optimizer)) and trains for 10 **epochs** (G-696; full passes over the training data). The argument `validation_split=0.2` sets aside 20 percent of the training students; the loss on them is the **validation loss**, a loss on students the network does not train on. No accuracy metric is added, since there are no classes to count.
 
 > **Python:** Compiling and training.
 >
@@ -267,7 +267,7 @@ Figure 4 (right) shows the loss falling fast in the first few epochs and then le
 
 Figure 6 shows the difference on the test students. Each dot is one student: the horizontal position is the actual chance and the vertical position is the predicted chance. The first network's predictions scatter widely around the dashed line of perfect predictions; the second network's hug it, with a few misses among students with a low chance.
 
-> **Extra:** On this small table of 400 rows, plain linear regression on the same scaled inputs scores $R^2 = 0.82$, slightly better than our network (see the [multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)). The relationship here is close to linear, and a network needs much data and tuning before its extra flexibility pays off. Deep learning shines on large data and on images, text and sound, not necessarily on small tables (see the [what is deep learning](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#4-five-differences-between-dl-and-ml), section 4; Grinsztajn et al. 2022).
+> **Extra:** On this small table of 400 rows, plain linear regression on the same scaled inputs scores $R^2 = 0.82$, slightly better than our network (see the [**multiple linear regression**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-1279)). The relationship here is close to linear, and a network needs much data and tuning before its extra flexibility pays off. Deep learning shines on large data and on images, text and sound, not necessarily on small tables (see the [what is deep learning](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#4-five-differences-between-dl-and-ml), section 4; Grinsztajn et al. 2022).
 
 ## 7. Summary
 
@@ -318,17 +318,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
+| [Normalization (feature scaling)](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#61-the-formula) (G-1484) | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |
 | [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
 | [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
 | [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
+| [Regression metric](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview) (G-1652) | A number that summarises how close a regression model's predictions are to the true values. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
 | [Capacity](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344) | A model's ability to fit a wide variety of functions; too much capacity for the data leads to overfitting. |

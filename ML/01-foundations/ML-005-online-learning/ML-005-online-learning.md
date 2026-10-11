@@ -98,7 +98,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around batch learning, so only some of its models offer `partial_fit`.
 
-One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step with **[stochastic gradient descent](../../06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works)** (SGD, taught in full later): it picks one observation, measures that observation's error, and nudges every coefficient a little to shrink it, then moves to the next. This is what makes `partial_fit` possible.
+One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step with **[**stochastic gradient descent**](../../06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892)** (SGD, taught in full later): it picks one observation, measures that observation's error, and nudges every coefficient a little to shrink it, then moves to the next. This is what makes `partial_fit` possible.
 
 > **Python:** Training one observation at a time.
 >
@@ -115,7 +115,7 @@ One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job 
 > model.partial_fit(np.array([[2.0, 1.0, 0.5]]), np.array([6.0]))
 > ```
 >
-> `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its **target** (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
+> `np.array([[...]])` is a table with one row: one **observation** (G-1374; one record), with three **features** (G-772; input variables). `np.array([...])` holds its [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output value we want to predict. Each `partial_fit` call takes a fraction of a second, so the model can keep learning as each new observation arrives.
 
 Before the figure, the two words it needs. Each observation has one feature $x$ (the input) and one target $y$ (the output). The model is a straight line, and a line has two numbers (see [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear)). The **slope** is how much $y$ rises when $x$ grows by 1; the **intercept** is the value of $y$ at $x = 0$. For the line $y = 0.67x + 0.25$ the slope is 0.67, the intercept is 0.25, and at $x = 3$ the line answers
 
@@ -131,7 +131,7 @@ What does each call change? Figure 5 runs `partial_fit` on a stream of mini-batc
 2. **Calls 2 to 10.** Each call nudges the slope towards the data: 0.94, 1.18, and 1.66 after 10 calls.
 3. **Call 50.** After 500 observations the line is $y = 1.81x + 0.51$, close to the true $y = 2x$.
 
-The model never goes back to old observations. Each call moves the **parameters** (G-1450), the slope and the intercept, a little, starting from where the last call left them.
+The model never goes back to old observations. Each call moves the [**parameters**](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450), the slope and the intercept, a little, starting from where the last call left them.
 
 ### 4.2 Dedicated libraries
 
@@ -148,7 +148,7 @@ The **learning rate** (G-1068) sets how strongly each new mini-batch changes the
 
 Think of two news readers. A reader who believes every new headline changes their mind daily and forgets what they knew. A reader who ignores all headlines never learns anything new.
 
-- **Too high:** the model changes very quickly and forgets what it learned before. It chases every bit of **noise** (G-1326): the random variation in the data that carries no pattern.
+- **Too high:** the model changes very quickly and forgets what it learned before. It chases every bit of [**noise**](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#31-the-model) (G-1326): the random variation in the data that carries no pattern.
 - **Too low:** the model barely changes. It remembers the past well but is slow to learn anything new.
 
 We want a balance: the model should learn new patterns while still remembering the old ones.
@@ -305,6 +305,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sequential data](../../../DL/05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#1-overview) (G-1774) | Data that comes as an ordered series of pieces whose order matters, such as text or a time series; models read it one piece after another, in order. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

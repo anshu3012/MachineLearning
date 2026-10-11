@@ -36,9 +36,9 @@ This Note covers how KNN predicts, how to run it in scikit-learn, how to choose 
 KNN does it in five steps:
 
 1. **Choose k**, the number of neighbours to consult, for example k = 3.
-2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [KNN imputer](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#4-distance-between-observations-with-missing-values), section 4.1): the square root of the summed squared differences, feature by feature.
+2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [**KNN imputer**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#4-distance-between-observations-with-missing-values) (G-1017), section 4.1): the square root of the summed squared differences, feature by feature.
 3. **Sort** the distances from smallest to largest.
-4. **Keep the k nearest** training points: the **neighbours** (G-1306).
+4. **Keep the k nearest** training points: the [**neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306).
 5. **Vote** (a **majority vote**, G-1146): each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
 
 **The steps on four students.** A tiny table of our own, to make step 2 concrete. Each row is one training student: CGPA, IQ and the placement result.
@@ -203,7 +203,7 @@ Figure 2 shows where the gap comes from. Its left panel has a **log scale** on t
 
 > **Key point:** There is no universally right k. A rough start is $\sqrt{n}$, made odd; the reliable way is to try many values with cross-validation.
 
-k (`n_neighbors`, G-992) is a **hyperparameter** (G-910): a setting we choose before training (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). Different datasets need different k, so we must find a good value for each one. There are two approaches: a rule of thumb and experiments.
+k (`n_neighbors`, G-992) is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose before training (the [**pipelines**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-1499)). Different datasets need different k, so we must find a good value for each one. There are two approaches: a rule of thumb and experiments.
 
 ### 4.1 The rule of thumb: square root of n
 
@@ -259,7 +259,7 @@ The red line in Figure 3 shows the result. The best test accuracy is at **k = 3:
 
 > **Extra:** Choosing k by its test-set score has a flaw: the test set is no longer unseen. We tried 15 models on the same 114 test observations and kept the luckiest, so the 99.1% is an optimistic score, not an honest estimate for new patients. Picking k on the test set is the same kind of leak as fitting the scaler on the test set.
 >
-> The right way is **cross-validation** (G-510) on the training set only (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
+> The right way is [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) on the training set only (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
 >
 > The blue line in Figure 3 is this cross-validation accuracy. Cross-validation picks **k = 10** (97.1% average), not 3. The final, honest test accuracy with k = 10 is **97.4%**.
 >
@@ -354,7 +354,7 @@ So the surface for k = 1 (Figure 5, top left) is full of small islands: orange p
 
 The largest possible k is n, the number of training observations; here n = 455. Then the "neighbourhood" of any query point is the whole training set, so the vote is always the same: 288 benign against 167 malignant.
 
-The whole plane turns blue (Figure 5, bottom right): every tumour is predicted benign, wherever it lies. The model ignores the features entirely, which is **underfitting** (G-2035): high bias (ISL §2.2.3). Its test accuracy, 0.61, is just the share of benign tumours in the test set.
+The whole plane turns blue (Figure 5, bottom right): every tumour is predicted benign, wherever it lies. The model ignores the features entirely, which is [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035): high bias (ISL §2.2.3). Its test accuracy, 0.61, is just the share of benign tumours in the test set.
 
 ### 6.3 The middle
 
@@ -425,7 +425,7 @@ The outlier island is the k = 1 picture of Figure 5 again: KNN is sensitive to o
 
 In **imbalanced data** (G-921; see [when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), one class is much rarer than the other, for example 98% "yes" and 2% "no". Around almost any query point, most neighbours belong to the common class, so the vote is biased towards it.
 
-A quick test on synthetic data with 98% of observations in class 0 and 2% in class 1 (5,000 observations, 10 features) shows the effect (Figure 8). KNN with k = 5 scores 98% accuracy on the test set, yet finds only 1 of the 30 rare-class observations: a **recall** (G-1641) of 0.03. The accuracy looks excellent because almost everything is predicted as the common class.
+A quick test on synthetic data with 98% of observations in class 0 and 2% in class 1 (5,000 observations, 10 features) shows the effect (Figure 8). KNN with k = 5 scores 98% accuracy on the test set, yet finds only 1 of the 30 rare-class observations: a [**recall**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) of 0.03. The accuracy looks excellent because almost everything is predicted as the common class.
 
 ![KNN (k = 5) on synthetic data with 2% rare class: test confusion counts. 1,469 common observations are right, but 29 of the 30 rare ones are predicted as common: accuracy 0.98, recall 0.03.](images/imbalanced.png)
 
@@ -491,10 +491,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation) (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
 | [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |

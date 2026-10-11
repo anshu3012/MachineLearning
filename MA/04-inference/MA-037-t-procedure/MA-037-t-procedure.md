@@ -197,7 +197,7 @@ A common slip is to read the 0.05 column for a 95% interval. For $df = 40$ it gi
 
 1. **Random sample.** As for the z-procedure: drawn at random and representative.
 2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
-3. **Independent observations.** An **observation** (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
+3. **Independent observations.** An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
 
 > **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
 

@@ -73,7 +73,7 @@ $$A\mathbf{x} = [4, 6, 3, -3, -1]^{\mathsf T}$$
 
 Each entry is at most the matching entry of $\mathbf{b}$, as the table above checked.
 
-Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a linear program is a **convex optimisation problem** (G-478).
+Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a linear program is a [**convex optimisation problem**](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478).
 
 ### 2.2 The answer is at a corner
 
@@ -127,7 +127,7 @@ Real solvers use the simplex algorithm or interior-point methods (for the latter
 
 We follow the recipe of [Lagrangian duality](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#6-lagrangian-duality): put a price on each limit, find the lowest Lagrangian over the plan, and then choose the prices that make that lowest value as high as possible.
 
-**In plain words.** Suppose a buyer wants to rent all your oven time, flour and market demand. The buyer must pay at least what the workshop would earn itself, or you refuse. The buyer wants the lowest total rent. Prices per unit of each limit, one per limit, are the **multipliers** (G-1036). The cheapest rent that you still accept equals your best profit.
+**In plain words.** Suppose a buyer wants to rent all your oven time, flour and market demand. The buyer must pay at least what the workshop would earn itself, or you refuse. The buyer wants the lowest total rent. Prices per unit of each limit, one per limit, are the [**multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036). The cheapest rent that you still accept equals your best profit.
 
 **Worked example.** For the workshop, the prices are one number per limit, in the order oven, flour, demand, $x_1 \ge 0$, $x_2 \ge 0$:
 
@@ -258,7 +258,7 @@ Each symbol, with the triangle value ($d = 2$, so $\mathbf{x} = (x_1, x_2)$):
 - $Q = \begin{bmatrix} 2 & 1 \cr1 & 2 \end{bmatrix}$ is a symmetric table that shapes the bowl.
 - $\mathbf{c} = [-8, -7]^{\mathsf T}$ tilts the bowl.
 - The **quadratic form** (G-1597) is $\tfrac12\mathbf{x}^{\mathsf T} Q \mathbf{x}$ (a sum of terms in which each unknown is squared or multiplied by another, see [the matrix modules](../../05-linear-algebra/MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#43-matrices)). Its steps at $\mathbf{x} = (1, 1)$ follow the list.
-- $Q$ must be symmetric and **positive definite** (G-1530; all eigenvalues positive; here 1 and 3, where an [eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) is the factor by which a special direction is stretched), so the objective is a strictly convex bowl (see [the second-order condition](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#43-second-order-condition-in-several-variables)).
+- $Q$ must be symmetric and **positive definite** (G-1530; all eigenvalues positive; here 1 and 3, where an [**eigenvalue**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) is the factor by which a special direction is stretched), so the objective is a strictly convex bowl (see [the second-order condition](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#43-second-order-condition-in-several-variables)).
 - $A$ and $\mathbf{b}$ are as before. Here the rows of $A$ are $[1, 1]$, $[-1, 0]$, $[0, -1]$ and $\mathbf{b} = [2, 0, 0]^{\mathsf T}$.
 
 The quadratic form at $\mathbf{x} = (1, 1)$, one step per line:
@@ -522,5 +522,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Convex optimisation problem](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
 | [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [KKT conditions](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
 | [Support vector machine (SVM)](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |

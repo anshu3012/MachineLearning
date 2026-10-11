@@ -18,11 +18,11 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/polynomial-f
 
 > **Key point:** Logistic regression draws a straight boundary. Adding powers and products of the features as new features lets the same algorithm draw curved boundaries, just as polynomial regression did for linear regression.
 
-[When logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) states a limitation: logistic regression works well only when the classes are (almost) **linearly separable** (G-1103): a straight line can split them. The **decision boundary** (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
+[When logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) states a limitation: logistic regression works well only when the classes are (almost) [**linearly separable**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103): a straight line can split them. The [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) is the line or curve where the model switches from predicting one class to the other. On data where the true decision boundary is curved, a straight line misclassifies many points.
 
-In this Note each point is one **observation** (G-1374) (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its **features** (G-772) (input variables, one column each), and its class $y$ is the **target** (G-1949) (the output we predict).
+In this Note each point is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each), and its class $y$ is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict).
 
-Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as [polynomial regression](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview).
+Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as [**polynomial regression**](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515).
 
 ## 2. The idea
 
@@ -105,7 +105,7 @@ In the left panel of Figure 2 the two pale colours are the model's two answers: 
 - **Degrees 3 and 4:** the boundary bends around the moons. **Test accuracy** (G-2211) jumps to 0.93.
 - **Degrees 10 and 25:** the boundary develops odd loops and islands far from the data. Training accuracy keeps rising, but test accuracy falls to about 0.92, and the gap between the two grows from 0.012 to 0.045.
 
-As with polynomial regression, the degree controls flexibility. Too low a degree gives **underfitting** (G-2035): the boundary is too simple for the pattern. Too high a degree gives **overfitting** (G-1429): the boundary follows single training points. The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
+As with polynomial regression, the degree controls flexibility. Too low a degree gives [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035): the boundary is too simple for the pattern. Too high a degree gives [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the boundary follows single training points. The degree is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
 
 > **Extra:** A penalty keeps the many weights small ([penalising large coefficients](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), so it fights the overfitting of high degrees. Same 20 training sets and test set:
 >
@@ -159,6 +159,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |

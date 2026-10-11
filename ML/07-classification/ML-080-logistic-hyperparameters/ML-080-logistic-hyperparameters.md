@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/production, step/tune, concept/hyperparame
 
 > **Key point:** The settings that matter most are the regularisation (C and the L1/L2 mix), the solver, max_iter and class_weight. The rest can usually stay at their defaults.
 
-scikit-learn's `LogisticRegression` has about fifteen **hyperparameters** (G-910): settings chosen before training, not learned from the data. This Note covers:
+scikit-learn's `LogisticRegression` has about fifteen [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): settings chosen before training, not learned from the data. This Note covers:
 
 - what each one does;
 - which ones are worth tuning;
@@ -35,7 +35,7 @@ An interactive app at the end lets you change them and watch the decision bounda
 
 > **Key point:** l1_ratio = 0 is L2 (Ridge), 1 is L1 (Lasso), in between is Elastic Net; C = inf switches the penalty off.
 
-The same three penalties as in [Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [Lasso](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) and [Elastic Net](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) are available, and the mix is set by **l1_ratio** (G-1027), the L1 share of the penalty:
+The same three penalties as in [Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [Lasso](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) and [Elastic Net](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) are available, and the mix is set by [**l1_ratio**](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#3-alpha-and-l1_ratio) (G-1027), the L1 share of the penalty:
 
 | Wanted | New way (1.8+) | Old way |
 |---|---|---|
@@ -44,7 +44,7 @@ The same three penalties as in [Ridge](../../06-regression/ML-062-ridge-regressi
 | Elastic Net | `0 < l1_ratio < 1` | `penalty="elasticnet"` |
 | no penalty | `C=np.inf` | `penalty=None` |
 
-On the breast-cancer data: 569 tumours, each one **observation** (G-1374) (one record, a row of the data table), with 30 **features** (G-772) (input variables, one column each: measurements of the tumour, standardised). The **target** (G-1949) (the output we predict) is malignant or benign. Scores come from 5-fold **cross-validation** (G-510):
+On the breast-cancer data: 569 tumours, each one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table), with 30 [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each: measurements of the tumour, standardised). The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is malignant or benign. Scores come from 5-fold [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510):
 
 | Setting | CV accuracy | Non-zero coefficients |
 |---|---|---|
@@ -187,7 +187,7 @@ To test this on real data, we make the breast-cancer data imbalanced: all 357 be
 
 ![Recall and precision on the malignant class, averaged over 30 draws: "balanced" finds more malignant tumours (recall 0.770 to 0.850) but raises more false alarms (precision 0.989 to 0.872)](images/class_weight.png){height=36%}
 
-In Figure 7, the orange bars show the trade. The weighted model finds more of the rare malignant tumours (**recall** (G-1641) up by 0.08), but also raises more false alarms (**precision** (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more ([precision and recall](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision)).
+In Figure 7, the orange bars show the trade. The weighted model finds more of the rare malignant tumours ([**recall**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) up by 0.08), but also raises more false alarms ([**precision**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) down by 0.12). Weighting trades precision for recall, so check both, and choose by which mistake costs more ([precision and recall](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision)).
 
 The `"balanced"` weight of each class is $n / (k \times n_c)$: the number of observations $n$, over the number of classes $k$ times that class's count $n_c$ (scikit-learn docs). For a training half of $n = 188$ observations with $k = 2$ classes, 10 malignant and 178 benign (the split used above):
 

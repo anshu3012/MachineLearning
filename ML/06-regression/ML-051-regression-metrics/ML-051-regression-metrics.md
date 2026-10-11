@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/regress
 
 After training a regression model, we need to know how good it is. A **regression metric** (G-1652) compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
 
-Three words recur. A **feature** (G-772) is an input variable (one column of the data table), here CGPA. The **target** (G-1949) is the output we predict, here the package, measured in LPA (lakh rupees per year). An **observation** (G-1374) is one record (one row), here one student.
+Three words recur. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), here CGPA. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, here the package, measured in LPA (lakh rupees per year). An [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
 This Note covers five metrics, in order:
 
@@ -70,7 +70,7 @@ The sign is dropped because some points lie above the line and some below; witho
 **Advantages:**
 
 - **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
-- **Robust to outliers.** An **outlier** (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size (Section 5).
+- **Robust to outliers.** An [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size (Section 5).
 
 **Disadvantage:** the absolute value has a sharp corner at 0, so it has no single slope there and cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises ([the error at one point](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) chose squares for exactly this reason).
 
@@ -277,7 +277,7 @@ How it behaves:
 
 In Figure 7, adjusted R² on the training data stays flat at 0.772 however many random features are added: adjusted R² is not fooled. On the small test set (40 observations), the penalty is strong, and adjusted R² falls from 0.775 to 0.468 with 20 random features.
 
-> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data. It is **target leakage** (G-1948): information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression ([multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane): several features at once).
+> **Extra:** A version of this demonstration sometimes builds a "useful" feature, such as an IQ score, by adding small noise to the package itself. Such a feature is made from the answer, so it would never exist in real data. It is **target leakage** (G-1948): information about the answer that the model should not have (Kaufman et al. 2012). The honest version of the lesson is the one above: useless features raise R² on the training data, and adjusted R² exposes them. Adjusted R² is most useful with multiple linear regression ([**multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane) (G-1279): several features at once).
 
 > **Extra:** scikit-learn has no function for adjusted R²; we compute it from `r2_score` with the formula above. Here $n$ is the number of observations in the set being scored (40 for the test set) and $k$ the number of features.
 
@@ -332,3 +332,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |

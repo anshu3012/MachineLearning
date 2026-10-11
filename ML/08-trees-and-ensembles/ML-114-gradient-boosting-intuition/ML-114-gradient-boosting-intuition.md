@@ -27,17 +27,17 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/gradient-boo
 - watches it fit a curve (sections 11 and 12);
 - compares it with AdaBoost (section 13).
 
-The maths behind each step is in [additive modelling](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones); classification is in [one algorithm, a different loss](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss).
+The maths behind each step is in [**additive modelling**](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#3-additive-modelling-a-complex-function-as-a-sum-of-simple-ones) (G-174); classification is in [one algorithm, a different loss](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss).
 
 ## 2. Boosting passes mistakes forward
 
 > **Key point:** Every boosting algorithm adds small models one at a time; each new model is told about the mistakes of the models before it. AdaBoost tells it through observation weights; gradient boosting tells it through the residuals.
 
-Boosting (see [a stage-wise additive model](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model)) builds a big model from small models, added one after another: a **stage-wise additive model** (G-1867). What makes it boosting is that each new model learns from the mistakes of the ones before.
+Boosting (see [a stage-wise additive model](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model)) builds a big model from small models, added one after another: a [**stage-wise additive model**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867). What makes it boosting is that each new model learns from the mistakes of the ones before.
 
-Gradient boosting changes three things in **AdaBoost** (G-167):
+Gradient boosting changes three things in [**AdaBoost**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167):
 
-- **The first model.** AdaBoost starts with a **decision stump** (G-559), a tree with one split. Gradient boosting starts with a single leaf: one number, predicted for every observation (section 4).
+- **The first model.** AdaBoost starts with a [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559), a tree with one split. Gradient boosting starts with a single leaf: one number, predicted for every observation (section 4).
 - **The size of the trees.** AdaBoost adds stumps. Gradient boosting adds trees that are larger than a stump but still limited in size, commonly 8 to 32 leaves.
 - **How the trees are scaled.** AdaBoost gives each stump its own say. Gradient boosting multiplies every tree by the same number, the learning rate (section 8).
 
@@ -54,7 +54,7 @@ Figure 2 puts the two side by side. Watch the middle box: the only difference is
 
 > **Key point:** Two features (IQ and CGPA), one numeric target (package in LPA): a regression problem.
 
-Each student is an **observation** (G-1374) (one record, one row of the table). IQ and CGPA are the **features** (G-772), the input variables. LPA is the **target** (G-1949), the number we predict.
+Each student is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). IQ and CGPA are the [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), the input variables. LPA is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the number we predict.
 
 | Student | IQ | CGPA | LPA |
 |---|---|---|---|
@@ -152,7 +152,7 @@ The fix is to add only part of each tree's correction. That part is the **learni
    $$F_1 = 4.8 + 0.1 \times (-1.8)$$
    $$F_1 = 4.8 - 0.18 = 4.62$$
 
-The answer, 4.62, is still far from 3, but it moved the right way. More trees will bring it closer, one small step at a time. The same idea, shrinking every model's contribution so that learning slows down and overfitting slows down even more, was called **shrinkage** (G-1796) in [what the learning rate does](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#41-what-the-learning-rate-does).
+The answer, 4.62, is still far from 3, but it moved the right way. More trees will bring it closer, one small step at a time. The same idea, shrinking every model's contribution so that learning slows down and overfitting slows down even more, was called [**shrinkage**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) in [what the learning rate does](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#41-what-the-learning-rate-does).
 
 Figure 4 compares the two choices for all five students. Watch the red bars: they land exactly on every actual package, which is memorising. The blue bars all move a tenth of the way from the mean 4.8 towards their targets.
 
@@ -328,6 +328,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Base prediction ($F_0$) (G-261) | The first model of gradient boosting; for regression, the mean of the target. |
 | Pseudo-residual (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
 | Learning rate ($\eta$) in gradient boosting (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
+| [Additive modelling](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#32-break-the-function-into-parts) (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
 | [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
 | [AdaBoost (Adaptive Boosting)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
 | [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |

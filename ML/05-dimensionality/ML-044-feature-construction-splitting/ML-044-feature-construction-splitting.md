@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/feature-c
 
 > **Key point:** Feature construction builds a new feature from existing ones by hand; feature splitting breaks one feature that holds several facts into several features.
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one passenger), and the **target** (G-1949) is the output we predict (here `Survived`).
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row, here one passenger), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict (here `Survived`).
 
 Every technique in the Notes so far changed a feature that was already there: filling gaps, encoding, scaling, removing outliers. Those are all feature transformation. This Note covers the second part of feature engineering: making new features. A cook does the same: from flour and water already on the shelf, a cook makes dough, an ingredient the shelf did not have.
 
@@ -32,10 +32,10 @@ Figure 1 shows the two ideas on the Titanic data. Construction combines `SibSp` 
 
 Every earlier technique had a fixed procedure. Standardization, for example, always subtracts the mean and divides by the standard deviation. Feature construction has no such procedure.
 
-**Feature construction** (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)). Three things decide which feature we build:
+[**Feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)). Three things decide which feature we build:
 
 - **intuition:** a sense of what could matter for the target;
-- **domain knowledge** (G-631): knowing the field the data comes from;
+- [**domain knowledge**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-631): knowing the field the data comes from;
 - **experience:** after working on many datasets, useful features become easier to spot.
 
 At first feature construction feels hard, because it is not obvious which features could be built from which. The habit to build is simple: for every new dataset, ask "can I construct a new feature that helps the model?"
@@ -149,7 +149,7 @@ Accuracy is the share of passengers the model classifies correctly. The table be
 | `Age`, `Pclass`, `SibSp`, `Parch` (baseline) | 69.4% |
 | `Age`, `Pclass`, `Family_type` one-hot | 72.7% |
 
-The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). [One-hot encoding](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (one 0/1 column per group) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
+The one-hot version beats the baseline in 78 of 100 cross-validation folds and loses in 12. Conditions: logistic regression, 10-fold cross-validation repeated 10 times (Section 8). [**One-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per group) matters here because survival rises and then falls across the three groups (Figure 3), and only a separate weight per group can follow that shape (Section 8 explains why).
 
 Fed in as one number 0, 1, 2, as in the code below, the same feature moves 20-fold accuracy only from 69.3% to 70.0%.
 
@@ -215,7 +215,7 @@ Sometimes a dataset is not tidy: one cell holds two or three facts at once. The 
 
 Take a name feature whose value is "Mr. Ankit". The value holds two facts: the **title** (G-1979) Mr (the word before the name that shows sex, and often marital status or rank) and the first name Ankit.
 
-**Feature splitting** (G-769) breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and [mixed variables](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
+**Feature splitting** (G-769) breaks such a feature into one feature per fact: here, a `Title` feature with Mr and a `First_name` feature with Ankit. The new features can affect the model in ways the combined feature could not. Splitting is useful in many situations, and [**mixed variables**](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) (G-1237) already split two Titanic columns, `Cabin` and `Ticket`, in the same way.
 
 ## 6. Splitting the title out of the Titanic names
 
@@ -388,3 +388,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
 | [Domain knowledge](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-631) | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Mixed variable](../../../ML/03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) (G-1237) | A column holding both numerical and categorical data. |

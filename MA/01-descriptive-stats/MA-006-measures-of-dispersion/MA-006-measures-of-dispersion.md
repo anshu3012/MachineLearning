@@ -17,7 +17,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/bessel, co
 
 ## 1. Overview
 
-> **Key point:** A **measure of dispersion** (G-1206) says how spread out a feature is around its centre: range, **variance** (G-2074), **standard deviation** (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
+> **Key point:** A **measure of dispersion** (G-1206) says how spread out a feature is around its centre: range, [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
 
 ![Variance of 3, 2, 1, 5, 4: each value's distance from the mean, squared and averaged](images/deviations.png)
 
@@ -34,7 +34,7 @@ Figure 1 shows the idea behind the most used measure, the variance. This Note wo
 
 > **Key point:** Two features can share a mean and still be spread very differently.
 
-A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. Take two features of three observations each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0 (the mean is the average, see [the mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean)), yet the second is more spread out, as [mean is not enough](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#51-mean-is-not-enough) shows. A measure of centre alone cannot tell them apart. In Figure 2, both rows balance on the same dashed line; only their width differs.
+A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row. Take two features of three observations each: $-5, 0, 5$ and $-10, 0, 10$. Both have mean 0 (the mean is the average, see [the mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean)), yet the second is more spread out, as [mean is not enough](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#51-mean-is-not-enough) shows. A measure of centre alone cannot tell them apart. In Figure 2, both rows balance on the same dashed line; only their width differs.
 
 ![Two features with the same mean, 0, and different spreads](images/same_mean.png)
 
@@ -65,9 +65,9 @@ Salaries in India show the problem. Some of the richest people in the world live
 
 > **Key point:** Variance is the average squared distance from the mean.
 
-A better measure uses every value, not just the two extremes. We measure how far each value sits from the mean, and then average those distances. Squaring each distance first stops them cancelling (section 4.1). The result is the **variance** (G-2074).
+A better measure uses every value, not just the two extremes. We measure how far each value sits from the mean, and then average those distances. Squaring each distance first stops them cancelling (section 4.1). The result is the [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074).
 
-When the data is the whole **population** (G-1525), every member of the group we care about, the mean is the **population mean** $\mu$ (G-1524) and the variance is written $\sigma^2$. When the data is a **sample** (G-1731), a small part of the population, the mean is the **sample mean** $\bar{x}$ (G-1725). [The mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) is taught in the previous Note; both means are computed the same way, from different data. This section works with the population version; section 6 changes it for a sample.
+When the data is the whole [**population**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525), every member of the group we care about, the mean is the **population mean** $\mu$ (G-1524) and the variance is written $\sigma^2$. When the data is a [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731), a small part of the population, the mean is the **sample mean** $\bar{x}$ (G-1725). [The mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) is taught in the previous Note; both means are computed the same way, from different data. This section works with the population version; section 6 changes it for a sample.
 
 **Step by step**, for the five values 3, 2, 1, 5, 4 (Figure 1):
 
@@ -145,7 +145,7 @@ $$\sigma^2 = \frac{10}{4} = 2.5 \text{ LPA}^2$$
 
 $$\sigma = \sqrt{2.5} = 1.58 \text{ LPA}$$
 
-This square root is the **standard deviation** (G-1871). "1.58 LPA" means something: a typical salary here is about 1.58 lakh away from the mean of 15 lakh. Figure 4 draws the standard deviation on the salary axis itself, as the mean plus and minus one standard deviation, where the variance has no place.
+This square root is the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871). "1.58 LPA" means something: a typical salary here is about 1.58 lakh away from the mean of 15 lakh. Figure 4 draws the standard deviation on the salary axis itself, as the mean plus and minus one standard deviation, where the variance has no place.
 
 ![Salaries of 16, 17, 13 and 14 LPA: the standard deviation, 1.58 LPA, is a length on the same axis](images/salary_sd.png)
 
@@ -218,7 +218,7 @@ Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known 
 **Why the bottom is always at $\bar{x}$.** Write the variance around $v$ as a function of $v$:
 $$f(v) = \frac{1}{n}\sum_{i=1}^{n} (x_i - v)^2$$
 
-The lowest point of a smooth curve is where its slope, the **derivative** (G-595), is zero (see [what the sign of the derivative tells us](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)). By the [chain rule](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule), the derivative of $(x_i - v)^2$ with respect to $v$ is $2(x_i - v) \times (-1)$, so
+The lowest point of a smooth curve is where its slope, the [**derivative**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595), is zero (see [what the sign of the derivative tells us](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)). By the [chain rule](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule), the derivative of $(x_i - v)^2$ with respect to $v$ is $2(x_i - v) \times (-1)$, so
 
 $$f'(v) = -\frac{2}{n}\sum_{i=1}^{n} (x_i - v)$$
 
@@ -270,7 +270,7 @@ $$= \frac{1}{n-1}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
 $$= s^2$$
 
-The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In the language of estimators, dividing by $n$ is a **biased estimator** (G-289) of $\sigma^2$ and $s^2$ is an **unbiased estimator** (G-2034): right on average.
+The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In the language of estimators, dividing by $n$ is a [**biased estimator**](../../08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#52-biased-but-consistent) (G-289) of $\sigma^2$ and $s^2$ is an [**unbiased estimator**](../../08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#52-biased-but-consistent) (G-2034): right on average.
 
 > **Extra:** The exact size of the loss. For any point $\mu$, an identity of algebra splits the squared distances:
 > $$\sum_{i=1}^{n}(x_i - \mu)^2$$
@@ -319,7 +319,7 @@ Its weaknesses are mathematical.
 
 So inferential statistics is built on the variance, and the mean absolute deviation is rarely used.
 
-> **Extra:** The abbreviation MAD is also used for the **median absolute deviation** (G-1207), a different, even more robust measure (see [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age)). Always check which one is meant.
+> **Extra:** The abbreviation MAD is also used for the [**median absolute deviation**](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age) (G-1207), a different, even more robust measure (see [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age)). Always check which one is meant.
 
 ## 8. Coefficient of variation
 

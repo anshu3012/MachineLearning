@@ -32,7 +32,7 @@ Figure 1 is the map of the whole group. First we decide whether the outliers are
 
 Every class has one student who scores top marks while the rest of the class struggles to pass. That student is an outlier of the class: nothing like everyone else.
 
-In data, an **outlier** (G-1420) is a data point (an **observation** (G-1374): one record, one row of the data table) that lies very far from the other data points. Each **feature** (G-772) is an input variable (one column of the table), and the **target** (G-1949) is the output a model predicts. An outlier can be very high or very low, but never in the middle: an average value is by definition not an outlier.
+In data, an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is a data point (an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374): one record, one row of the data table) that lies very far from the other data points. Each [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the table), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output a model predicts. An outlier can be very high or very low, but never in the middle: an average value is by definition not an outlier.
 
 ### 2.1 One outlier changes the mean
 
@@ -64,7 +64,7 @@ One extreme value can quietly spoil a whole analysis in this way. In ML, outlier
 
 A regression line pulled by outliers is drawn in [detecting and removing outliers](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
 
-Two students studied very little and still scored top marks. These two outliers tilt a **linear regression** (G-1094) line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
+Two students studied very little and still scored top marks. These two outliers tilt a [**linear regression**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) line towards them, so it fits the other students worse. Outliers are dangerous because they are often hidden: nothing warns us, the model just performs worse.
 
 Figure 3 puts numbers on it with example data for 20 students. The line through them rises 3.33 marks per study hour and misses a typical student by 4.5 marks. Adding the two outliers flattens the slope to 1.91, and the line now misses the same 20 students by 8.4 marks on average, almost twice as much. The line is chosen to keep the total squared distance to all points small, so two far points pull it towards themselves.
 
@@ -92,7 +92,7 @@ Since the true value cannot be recovered, the best choice is to remove it (or tr
 
 > **Key point:** In anomaly detection, such as spotting credit card fraud, the outliers are exactly what we are looking for.
 
-Some problems are about finding unusual cases. **Anomaly detection** (G-201) algorithms search for data points that do not behave like the rest. A common example is fraud detection: finding the few credit card transactions that look wrong among millions of normal ones.
+Some problems are about finding unusual cases. [**Anomaly detection**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) algorithms search for data points that do not behave like the rest. A common example is fraud detection: finding the few credit card transactions that look wrong among millions of normal ones.
 
 There, the fraudulent transactions are the outliers. If we removed the outliers, we would remove the very thing the model must learn to find.
 
@@ -154,7 +154,7 @@ Once we decide to handle outliers, the work has two parts (Figure 1):
 1. **Detection:** compute a lower and an upper limit for the feature. Values outside them are outliers.
 2. **Treatment:** remove or change those values.
 
-Section 7 maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
+Section 7 maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([**z-score**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2141), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
 
 Figure 6 runs both parts on the 714 known Titanic ages, with the IQR fences of section 8.2 as the detection rule. The **IQR** (interquartile range, G-966) is the width of the middle half of the data: the 75th percentile Q3 minus the 25th percentile Q1. Each fence lies 1.5 IQR beyond Q1 or Q3:
 
@@ -199,14 +199,14 @@ Outliers always sit at an end of the data, either too high or too low. **Capping
 - Values above 90 (here 96 and 99) become 90.
 - All 20 observations stay; with trimming only 16 remain.
 
-Capping with limits set by percentiles is called **winsorization** (G-2123); [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers it.
+Capping with limits set by percentiles is called [**winsorization**](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#3-trimming-and-capping-winsorization) (G-2123); [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers it.
 
 ### 7.3 Two less common treatments
 
 > **Key point:** An outlier can also be treated as a missing value, or hidden inside a range by discretization.
 
 - **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique, from [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) to [iterative imputation](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview).
-- **Discretization** (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [discretization](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
+- [**Discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [discretization](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
 
 Trimming and capping are used far more, and they are what Notes ML-041 to ML-043 focus on.
 
@@ -294,6 +294,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |
 | [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
 | [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
 | [Winsorization](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#3-trimming-and-capping-winsorization) (G-2123) | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
 | [Discretization](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals. |

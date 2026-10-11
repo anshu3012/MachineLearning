@@ -25,9 +25,9 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 The [small CNN of part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#3-a-small-cnn) was set up there, with its [forward equations](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#4-forward-propagation) and the [gradients of its output node](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#6-the-ann-part-partial-lpartial-w_2-and-partial-lpartial-b_2). To train the filter we still need to go back through five more steps. A **gradient** is the slope of the loss with respect to a number or a grid of numbers. A **tensor** (a grid of numbers of any shape, see [what a tensor is](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is)) is a single number, a list or a table. Going from the loss back towards the input, one gradient per tensor, is the **backward pass** (G-249). This Note finds each backward step:
 
 - the output node (section 4);
-- **flatten** (G-788) (section 5);
-- **max pooling** (G-1182) (section 6);
-- **ReLU** (G-1668) (section 7);
+- [**flatten**](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) (section 5);
+- [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) (section 6);
+- [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) (section 7);
 - the convolution (section 8).
 
 ![The filter's gradient is a convolution: slide $\partial L/\partial Z_1$ over the input $X$ exactly as a filter would slide](images/conv_backward.png){width=85%}
@@ -54,7 +54,7 @@ $$\qquad \cdot\frac{\partial A_1}{\partial Z_1}\cdot\frac{\partial Z_1}{\partial
 
 and the same with $\partial Z_1/\partial b_1$ at the end. Part 1 found the first two factors. We now take the rest one at a time, from the output backwards.
 
-The gradient flowing back has a name at every step: $\partial L/\partial Z_2$, then $\partial L/\partial F$, $\partial L/\partial P_1$ (2 × 2), $\partial L/\partial A_1$ (4 × 4), $\partial L/\partial Z_1$ (4 × 4), and finally $\partial L/\partial W_1$ and $\partial L/\partial b_1$. Each has the shape of its tensor. As in [memoization](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node), each one is computed once and reused for the next step.
+The gradient flowing back has a name at every step: $\partial L/\partial Z_2$, then $\partial L/\partial F$, $\partial L/\partial P_1$ (2 × 2), $\partial L/\partial A_1$ (4 × 4), $\partial L/\partial Z_1$ (4 × 4), and finally $\partial L/\partial W_1$ and $\partial L/\partial b_1$. Each has the shape of its tensor. As in [**memoization**](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#52-backpropagation-stores-one-number-per-node) (G-1210), each one is computed once and reused for the next step.
 
 ![The plan. Top: the forward pass with the shape of each tensor. Bottom: the backward pass, right to left, with the rule for each step and the section that derives it. Dotted lines join each tensor to its gradient, which has the same shape.](images/backward_plan.png){width=100%}
 
@@ -194,7 +194,7 @@ $$\frac{\partial L}{\partial Z_1} = \frac{\partial L}{\partial A_1} \odot \mathb
 
 Here $\mathbb{1}[Z_1 > 0]$ is the mask: 1 in each cell where $Z_1 > 0$ and 0 elsewhere, written with the **indicator** (G-2278) sign $\mathbb{1}[\ldots]$, "1 if the condition holds, else 0". The sign $\odot$ is the **element-wise product** (G-2277) (also called the Hadamard product): multiply the two grids cell by cell, as in the four lines above. Check: the four lines give $\begin{bmatrix} 0.1 & 0 \cr0.3 & 0 \end{bmatrix}$, the Notebook's result.
 
-We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the **feature map** (G-766).
+We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes with each value of the [**feature map**](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766).
 
 ## 8. Back through the convolution
 
@@ -448,5 +448,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

@@ -77,7 +77,7 @@ Every step of the puzzle has a standard name. The statement we want to judge, "S
 | Step of the puzzle | Number | Name | Symbol |
 |---|---|---|---|
 | Share of librarians before the description | 10/210 = 1/21 | **prior** (G-1565) | $P(H)$ |
-| Share of librarians who fit the description | 0.4 | **likelihood** (G-1086) | $P(E \mid H)$ |
+| Share of librarians who fit the description | 0.4 | [**likelihood**](../../08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | $P(E \mid H)$ |
 | Share of farmers who fit the description | 0.1 | likelihood of the other case | $P(E \mid \text{not } H)$ |
 | Share of all people who fit the description | 24/210 | **evidence** (G-718) | $P(E)$ |
 | Share of librarians among those who fit | 4/24 | **posterior** (G-1536) | $P(H \mid E)$ |
@@ -116,7 +116,7 @@ The 210 appears in every term and cancels. The sample size was only a convenienc
 
 $$P(H \mid E) = \frac{P(E \mid H) \times P(H)}{P(E \mid H) \times P(H) + P(E \mid \text{not } H) \times P(\text{not } H)}$$
 
-The denominator adds the two ways the evidence can appear: with the hypothesis true, and with the hypothesis false. Together they are the evidence $P(E)$, here 24/210. Splitting the evidence into cases in this way is the **law of total probability** (G-1053), taught in [the evidence as a total probability](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability).
+The denominator adds the two ways the evidence can appear: with the hypothesis true, and with the hypothesis false. Together they are the evidence $P(E)$, here 24/210. Splitting the evidence into cases in this way is the [**law of total probability**](../MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053), taught in [the evidence as a total probability](../MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability).
 
 For any two events $A$ and $B$ with $P(B) \neq 0$, the same statement is Bayes' theorem:
 
@@ -136,7 +136,7 @@ The same definition with the roles swapped gives
 
 $$P(B \mid A) = \frac{P(B \cap A)}{P(A)}$$
 
-"Both $B$ and $A$" is the same event as "both $A$ and $B$", so $P(B \cap A) = P(A \cap B)$, the **joint probability** (G-986). Multiplying both sides by $P(A)$:
+"Both $B$ and $A$" is the same event as "both $A$ and $B$", so $P(B \cap A) = P(A \cap B)$, the [**joint probability**](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986). Multiplying both sides by $P(A)$:
 
 $$P(A \cap B) = P(B \mid A) \times P(A) \qquad (2)$$
 

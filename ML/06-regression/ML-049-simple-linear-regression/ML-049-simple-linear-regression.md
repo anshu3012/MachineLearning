@@ -21,15 +21,15 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/best-fit-lin
 
 **Linear regression** (G-1094) is usually the first ML algorithm people learn, for good reason. Linear regression is simple, easy to explain, and many later algorithms build on its ideas.
 
-Three words first. A **feature** (G-772) is an input variable (one column of the data table). The **target** (G-1949) is the output we predict (another column). An **observation** (G-1374) is one record (one row), here one student.
+Three words first. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table). The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict (another column). An [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
-Linear regression is a **supervised** (G-1919; it learns from examples with known answers) algorithm for **regression** (G-1655) problems, where the target is a number, such as a price or a salary (see [regression and classification](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). Figure 1 shows its family.
+Linear regression is a **supervised** (G-1919; it learns from examples with known answers) algorithm for [**regression**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) problems, where the target is a number, such as a price or a salary (see [regression and classification](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)). Figure 1 shows its family.
 
 ![The linear regression family](images/lr_family.png)
 
 - **Simple linear regression** (G-1808): one feature and one target. This Note.
-- **Multiple linear regression** (G-1279): several features, for example CGPA, gender and 12th-grade marks to predict a package.
-- **Polynomial regression** (G-1515): for data that follows a curve rather than a line.
+- [**Multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279): several features, for example CGPA, gender and 12th-grade marks to predict a package.
+- [**Polynomial regression**](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515): for data that follows a curve rather than a line.
 - **Regularised versions** of these models, which add a [penalty against large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) to fight overfitting (fitting the noise in the training data so closely that new data is predicted badly).
 
 This Note builds the intuition and runs the scikit-learn code. The mathematics, [the two formulas for m and b](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas), is derived separately.
@@ -168,7 +168,7 @@ With 160 students, adding one squared residual per student gives the totals belo
 2. **A steeper line**: 52.0. Better, but it overshoots at high CGPA.
 3. **The best-fit line**: 16.6, the smallest possible total.
 
-The total used is the **sum of squared errors** (G-1684), also called the sum of squared residuals. The squares are needed because plain residuals cancel: a $+0.21$ and a $-0.30$ add up to only $-0.09$, although both predictions are off by much more. Squaring makes every residual positive, so that gaps above and below the line both count, and then all are added. Fitting a line by making this sum as small as possible is called the method of **least squares** (ordinary least squares, G-1406).
+The total used is the [**sum of squared errors**](../ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684), also called the sum of squared residuals. The squares are needed because plain residuals cancel: a $+0.21$ and a $-0.30$ add up to only $-0.09$, although both predictions are off by much more. Squaring makes every residual positive, so that gaps above and below the line both count, and then all are added. Fitting a line by making this sum as small as possible is called the method of **least squares** (ordinary least squares, G-1406).
 
 ### 3.5 Turning the line to find the lowest total
 
@@ -244,7 +244,7 @@ The predictions are close, but not exact: the stochastic errors of Section 3.3 c
 
 ![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
 
-How to measure a regression model's accuracy properly is covered by the regression metrics, starting with the [mean absolute error](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae).
+How to measure a regression model's accuracy properly is covered by the regression metrics, starting with the [**mean absolute error**](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194).
 
 ## 5. What the model learned: m and b
 
@@ -363,3 +363,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
 | [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
 | [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
+| [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |

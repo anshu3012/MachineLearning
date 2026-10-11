@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bptt]
 
 > **Key point:** Backpropagation through time (BPTT) is ordinary backpropagation applied to the unfolded RNN. Because $W_i$ and $W_h$ are used at every time step, their gradient is a sum with one term per time step.
 
-An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network **unfolded** (G-2041) in time, so it is called **backpropagation through time** (G-246) (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
+An RNN learns like any neural network: forward propagation gives a prediction and a loss, backpropagation gives the derivative of the loss with respect to every weight, and gradient descent updates the weights. In an RNN this backward pass runs over the network [**unfolded**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#41-the-smallest-rnn-one-node) (G-2041) in time, so it is called **backpropagation through time** (G-246) (**BPTT**; Goodfellow §10.2). No special algorithm is needed: the chain rule on the unfolded graph is enough (Goodfellow §10.2.2).
 
 ![The RNN unfolded over three time steps. Loss $L$ depends on $W_i$ through three paths, one for each time step at which $W_i$ is used. BPTT adds up the three terms](images/bptt_paths.png){width=100%}
 
@@ -43,7 +43,7 @@ Figure 1 shows the one new idea. $W_i$ is the matrix of input weights (a matrix 
 
 > **Key point:** A vocabulary of three words, so every word is a vector of 3 numbers and every review is a $3 \times 3$ table.
 
-We use a sentiment analysis task: the input is a text, and the **target** (G-1949) (the output we predict) is its sentiment, 1 for positive and 0 for negative. The toy dataset has three reviews, each one **observation** (G-1374) (one record):
+We use a sentiment analysis task: the input is a text, and the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is its sentiment, 1 for positive and 0 for negative. The toy dataset has three reviews, each one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record):
 
 | Review | Sentiment |
 |---|---|
@@ -51,16 +51,16 @@ We use a sentiment analysis task: the input is a text, and the **target** (G-194
 | rat rat mat | 1 |
 | mat mat cat | 0 |
 
-The vocabulary has three words, so one-hot encoding turns each into a vector (a list) of 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input **feature** (G-772) (one input variable). Review $i$ is $x_i$, and its word at time step $t$ is $x_{it}$.
+The vocabulary has three words, so one-hot encoding turns each into a vector (a list) of 3 numbers: cat $= [1, 0, 0]$, mat $= [0, 1, 0]$, rat $= [0, 0, 1]$. Each of the 3 positions is one input [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (one input variable). Review $i$ is $x_i$, and its word at time step $t$ is $x_{it}$.
 
-The task is **many-to-one** (G-1155): a sequence goes in, a single output comes out (see [many-to-one](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one)).
+The task is [**many-to-one**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one) (G-1155): a sequence goes in, a single output comes out (see [many-to-one](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#3-many-to-one)).
 
 ### 3.2 The network
 
 > **Key point:** $W_i$ is $3 \times 3$, $W_h$ is $3 \times 3$, $W_o$ is $3 \times 1$. We leave out the biases to keep the formulas short.
 
 - **Input:** 3 numbers per time step.
-- **Recurrent layer** (G-1646): 3 nodes, with input weights $W_i$ ($3 \times 3$) and feedback weights $W_h$ ($3 \times 3$).
+- [**Recurrent layer**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-1646): 3 nodes, with input weights $W_i$ ($3 \times 3$) and feedback weights $W_h$ ($3 \times 3$).
 - **Output:** 1 sigmoid node, with weights $W_o$ ($3 \times 1$).
 
 The three matrices hold 21 weights. The biases (3 in the recurrent layer, 1 in the output) are learned in exactly the same way as the weights, so we leave them out here.
@@ -147,7 +147,7 @@ In Figure 3, the red arrow stops at $w_o$: the error never needs to travel back 
 
 > **Key point:** $h_3$ depends on $W_i$ directly, and also through $h_2$, which depends on $W_i$ directly and through $h_1$.
 
-The unfolded network uses the same $W_i$ at every **time step** (G-1976): however many steps we draw, there is still only one $W_i$ to train. Using one set of weights at every step is **parameter sharing** (G-1447). A shared weight changes the loss once for every place it is used. Each such route from the loss back to the weight is a **path** (G-1465), and the rule for several paths is simple: work out each path's product, then add them up. [A first-layer weight with two paths](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#44-a-weight-of-the-first-layer-two-paths) met the same rule in an ANN, where a first-layer weight reaches the loss through several nodes.
+The unfolded network uses the same $W_i$ at every [**time step**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#32-time-steps) (G-1976): however many steps we draw, there is still only one $W_i$ to train. Using one set of weights at every step is [**parameter sharing**](../DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn) (G-1447). A shared weight changes the loss once for every place it is used. Each such route from the loss back to the weight is a **path** (G-1465), and the rule for several paths is simple: work out each path's product, then add them up. [A first-layer weight with two paths](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#44-a-weight-of-the-first-layer-two-paths) met the same rule in an ANN, where a first-layer weight reaches the loss through several nodes.
 
 Follow the dependencies backwards from $L$:
 

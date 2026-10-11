@@ -26,7 +26,7 @@ Figure 1 is a **heat map**: a table of numbers in which each number's cell is al
 
 ## 2. Prerequisites
 
-- [The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture), [teacher forcing](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) and [greedy decoding](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction): the plain model that attention improves.
+- [The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture), [**teacher forcing**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) and [**greedy decoding**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870): the plain model that attention improves.
 - [The LSTM cell](../../05-rnn/DL-061-lstm/DL-061-lstm.md#9-the-lstm-cell-as-a-small-computer): hidden states $h_t$ (the vector an LSTM holds after reading word $t$).
 - [The softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function): turns scores into probabilities.
 - [A hidden layer](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#41-more-nodes-in-a-hidden-layer): a small feed-forward network (data flows one way, input to output) with a hidden layer.
@@ -70,7 +70,7 @@ Following Bahdanau et al. (2015):
 - $h_1, \dots, h_n$ are the encoder's hidden states, one per input word ($n$ words). Each is a vector.
 - $s_0, s_1, \dots$ are the decoder's hidden states.
 - $y_{i-1}$ is the decoder's input at step $i$: the previous word (the gold word under teacher forcing).
-- $c_i$ is the new **context vector** (G-461) for decoder step $i$.
+- $c_i$ is the new [**context vector**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) for decoder step $i$.
 
 Without attention, decoder step $i$ uses two inputs: $y_{i-1}$ and $s_{i-1}$. With attention it uses three: $y_{i-1}$, $s_{i-1}$ and $c_i$. Bahdanau et al. (2015, section 3.1) write the new decoder state as
 
@@ -110,7 +110,7 @@ Every decoder step has its own weights. With $n$ input words and $m$ output word
 
 $$4 \times 4 = 16$$
 
-The weight $\alpha_{21}$, for example, says how much "turn" ($h_1$) counts when the decoder writes its second word, "band". The weights $\alpha_{ij}$ are the **attention weights** (G-225). They are also called **alignment scores** (G-190): they say which input word each output word lines up with.
+The weight $\alpha_{21}$, for example, says how much "turn" ($h_1$) counts when the decoder writes its second word, "band". The weights $\alpha_{ij}$ are the [**attention weights**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225). They are also called **alignment scores** (G-190): they say which input word each output word lines up with.
 
 > **Another way to see it:** In the original paper the name alignment score belongs to the raw numbers $e_{ij}$ of section 6.1, before the softmax of section 6.2 turns them into the weights $\alpha_{ij}$. Both names are in use, and both point at the same idea: how strongly an output word lines up with an input word.
 
@@ -134,11 +134,11 @@ where $e_{ij}$ is a raw score and $a$ is some function (Bahdanau et al. 2015, eq
 
 ### 6.2 Let a neural network find the function
 
-> **Key point:** Instead of choosing a formula for $a$, use a small **feed-forward network** (G-775), the **alignment model** (G-189), and train it together with the encoder and decoder.
+> **Key point:** Instead of choosing a formula for $a$, use a small [**feed-forward network**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775), the **alignment model** (G-189), and train it together with the encoder and decoder.
 
 Which mathematical function should $a$ be? We could try many and keep the best. Bahdanau et al. took another route: a feed-forward neural network can approximate a very wide range of functions, so they let a small network be $a$ and trained it jointly with everything else (Bahdanau et al. 2015, section 3.1). The network takes $s_{i-1}$ and $h_j$ as inputs and outputs one number, $e_{ij}$. Its weights are learned by the same backpropagation that trains the two LSTMs.
 
-The raw scores can be any real numbers (positive or negative). A **softmax** (G-1830) over the input positions turns them into weights that are positive and sum to 1 ([the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula)):
+The raw scores can be any real numbers (positive or negative). A [**softmax**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) over the input positions turns them into weights that are positive and sum to 1 ([the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula)):
 
 1. **In words:** exponentiate each score and divide by the sum of all exponentials for that decoder step. Exponentiating means computing $\exp(e) = 2.718^{e}$, which is always positive: $\exp(0) = 1$ and $\exp(1) = 2.718$.
 2. **Formula:**
@@ -230,7 +230,7 @@ The weights form a clear diagonal band: as the decoder writes the French sentenc
 Two details of Bahdanau et al. (2015) differ from the simple picture above:
 
 - **A bidirectional encoder** (G-291; Bahdanau et al. 2015, section 3.2; see [how a bidirectional RNN works](../../05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works)). One RNN reads the sentence forwards and a second reads it backwards; $h_j$ joins the two states at position $j$. Each $h_j$ then summarises the words before and after word $j$, with a focus on the words around it. Attention itself is computed exactly as above. Figure 8 shows the layout.
-- **A gated unit, not an LSTM** (appendix A.1.1). Their encoder and decoder use the gated hidden unit of Cho et al. (2014), the unit now called the **GRU** (G-826), which the paper describes as similar to an LSTM unit and, like it, able to learn long-term dependencies.
+- **A gated unit, not an LSTM** (appendix A.1.1). Their encoder and decoder use the gated hidden unit of Cho et al. (2014), the unit now called the [**GRU**](../../05-rnn/DL-064-gru/DL-064-gru.md#1-overview) (G-826), which the paper describes as similar to an LSTM unit and, like it, able to learn long-term dependencies.
 
 ![The bidirectional encoder of Bahdanau et al. (2015). A forward RNN reads the sentence left to right, a backward RNN right to left, and $h_j$ joins their two states at position $j$](images/bidirectional.png){width=95%}
 
@@ -283,6 +283,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Alignment (G-191) | Which input words each output word relates to; read from the cross-attention weights. |
 | Attention weight $\alpha_{ij}$ (G-224) | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1. |
 | Context vector $c_i$ (G-460) | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
+| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |
 | [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
 | [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |

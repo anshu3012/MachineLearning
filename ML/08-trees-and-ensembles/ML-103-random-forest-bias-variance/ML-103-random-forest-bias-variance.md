@@ -16,13 +16,13 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ## 1. Overview
 
-> **Key point:** A **random forest** (G-1611) takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
+> **Key point:** A [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
 
 ![Concentric circles: (a) one fully grown tree draws boxes around single points; (b) a random forest of 500 trees draws one smooth inner region. Titles give the accuracy on the training and test sets](images/circles.png){height=45%}
 
 Figure 1 shows the whole story. One fully grown tree (a) carves out thin strips and small boxes for single points: it overfits. A forest of 500 such trees (b) keeps the shape of the data, a blue disc inside an orange ring, and drops most of the strips. Its test accuracy rises from 0.86 to 0.91.
 
-This Note explains why, using the **bias-variance trade-off** (G-288), and shows the same effect on a regression problem. The Notebook (`ML-103-random-forest-bias-variance.ipynb`) computes every number; `images/figs.py` draws the figures.
+This Note explains why, using the [**bias-variance trade-off**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288), and shows the same effect on a regression problem. The Notebook (`ML-103-random-forest-bias-variance.ipynb`) computes every number; `images/figs.py` draws the figures.
 
 ## 2. Why a forest lowers the variance
 
@@ -30,12 +30,12 @@ This Note explains why, using the **bias-variance trade-off** (G-288), and shows
 
 Two words carry this Note (both explained in [bias and variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias)):
 
-- **Bias** (G-287): the error of a model that is too simple to follow the true pattern, such as a straight line through curved data. The model is wrong even on its own training data.
-- **Variance** (G-2074): how much the fitted model changes when the training data changes. A model that hugs every training point fits them perfectly, then fits new data badly.
+- [**Bias**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287): the error of a model that is too simple to follow the true pattern, such as a straight line through curved data. The model is wrong even on its own training data.
+- [**Variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074): how much the fitted model changes when the training data changes. A model that hugs every training point fits them perfectly, then fits new data badly.
 
-We want both low, but a single model usually trades one for the other. **Bagging** (G-251) escapes this by averaging low-bias, high-variance models (G-1132), each trained on its own random sample, a **bootstrap sample** (G-319), so a change in the data is spread across many models (see [how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance)). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
+We want both low, but a single model usually trades one for the other. [**Bagging**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) escapes this by averaging low-bias, high-variance models (G-1132), each trained on its own random sample, a [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319), so a change in the data is spread across many models (see [how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance)). Think of many people guessing the number of sweets in a jar: each guess is off, some high and some low, but the average of the guesses lands close to the truth.
 
-A random forest applies this to **fully grown** **decision trees** (G-561; no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. Figure 2 shows the recipe. The next two sections measure the effect. Averaging helps most when the trees differ from one another; the random choice of features at each split, which makes them differ more, is the subject of [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling).
+A random forest applies this to **fully grown** **decision trees** (G-561; no `max_depth`). Each tree fits its training data almost perfectly, so the forest starts with low bias; averaging hundreds of them keeps the bias low and cuts the variance. Figure 2 shows the recipe. The next two sections measure the effect. Averaging helps most when the trees differ from one another; the random choice of features at each split, which makes them differ more, is the subject of [**node-level feature sampling**](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling) (G-1325).
 
 ![A random forest is bagging with fully grown trees. Each bootstrap sample grows one deep tree with low bias and high variance; averaging the 500 trees (or taking their majority vote) keeps the low bias and cancels most of the variance](images/forest_flow.png){width=90%}
 
@@ -48,7 +48,7 @@ The data is made with `make_circles` (see [the data: two circles](../../07-class
 **One fully grown tree** (Figure 1a). Its surface has long thin strips and isolated boxes. Each exists because of a single point: a lone blue point among orange ones gets its own blue strip, although the region around it clearly belongs to orange.
 
 - Training accuracy: **1.00**, every training point is classified correctly: low bias.
-- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high variance. This is **overfitting** (G-1429): the model fits the quirks of its training sample, not the pattern.
+- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high variance. This is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the model fits the quirks of its training sample, not the pattern.
 
 **A random forest of 500 trees** (Figure 1b). Most strips and boxes are gone. The surface captures the true nature of the data: a blue region inside an orange one.
 
@@ -73,7 +73,7 @@ Variance means how much a model changes when the training data changes, so Figur
 > rf.score(X_test, y_test)      # 0.91
 > ```
 >
-> `n_estimators` is the number of trees and `n_jobs=-1` trains them on every CPU core (both from [BaggingClassifier in code](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#3-baggingclassifier-in-code)). The surfaces are drawn on a grid of points, as in [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces).
+> `n_estimators` is the number of trees and `n_jobs=-1` trains them on every CPU core (both from [BaggingClassifier in code](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#3-baggingclassifier-in-code)). The surfaces are drawn on a grid of points, as in [**decision surfaces**](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces) (G-560).
 
 > **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not. Each tree's bootstrap sample holds about 63% of the training observations (ESL §7.11), and a fully grown tree gets every observation it saw right. So for any training observation, the trees that saw it are a majority, and they outvote the rest.
 >
@@ -131,8 +131,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
 | [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| [Node-level feature sampling (node-level column sampling)](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |

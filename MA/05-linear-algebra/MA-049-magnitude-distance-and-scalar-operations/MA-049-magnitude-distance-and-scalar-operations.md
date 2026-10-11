@@ -109,7 +109,7 @@ $$4 + 9 + 36 = 49 = 7^2$$
 
 > **Key point:** The Euclidean distance between two vectors is the magnitude of their difference: subtract component by component, then take the norm.
 
-The **Euclidean distance** (G-715), the straight-line distance between two points, is defined in [the Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance). Here we see how it links to the magnitude.
+The [**Euclidean distance**](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715), the straight-line distance between two points, is defined in [the Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance). Here we see how it links to the magnitude.
 
 ### 3.1 Distance as the norm of the difference
 
@@ -233,7 +233,7 @@ The second scalar operation works like the first, with multiplication in place o
 
 The number line under Figure 6 shows why a negative scalar flips. Multiplying the number 1 by 2 moves it out to 2, on the same side of zero. Multiplying it by $-1$ sends it to $-1$, the same distance from zero on the other side. A vector behaves the same way along its own line through the origin.
 
-The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) comes from it: a scalar is a number that scales a vector.
+The operation is called **scaling** (G-1746), and the name [**scalar**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) comes from it: a scalar is a number that scales a vector.
 
 ![The vector [2, 3] (pale blue) multiplied by 1, 2, 0.5, −1 and −2 (orange). Every result lies on the same line through the origin; the length is multiplied by the size of the scalar, and a negative scalar flips the direction. Below, the same scalar acts on the number 1 on a number line. Number-line idea after Khan Academy, "Multiplying a vector by a scalar".](images/scaling.gif){height=60%}
 
@@ -252,7 +252,7 @@ The operation is called **scaling** (G-1746), and the name **scalar** (G-1743) c
 
    $$\lVert s x \rVert = \lvert s \rvert \thinspace\lVert x \rVert$$
 
-Dividing a vector by its own magnitude scales it to length 1, giving the **unit vector** (G-2048) used in [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point). For $[3, 4]$, whose length is 5:
+Dividing a vector by its own magnitude scales it to length 1, giving the [**unit vector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) used in [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point). For $[3, 4]$, whose length is 5:
 
 $$[3, 4] / 5 = [0.6, 0.8]$$
 

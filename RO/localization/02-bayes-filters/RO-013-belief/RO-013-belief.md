@@ -28,7 +28,7 @@ We answer it in steps:
 - the two probability tables that tell the robot how commands and readings change the belief (Section 5);
 - one picture of how states, commands and readings depend on each other, the hidden Markov model (Section 6).
 
-The [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. Here the state $x_t$ is the robot's cell at time $t$, the command is $u_t$ and the reading is $z_t$.
+The [**state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. Here the state $x_t$ is the robot's cell at time $t$, the command is $u_t$ and the reading is $z_t$.
 
 ## 2. What the robot knows: its history
 
@@ -100,7 +100,7 @@ The set never shrinks, however many readings arrive. Crossing places out only wo
 
 ### 4.1 The belief, as a picture
 
-The second thing the robot can keep in memory: instead of "possible" or "impossible", one probability for each of the 10 cells. Together they form a [probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (a list of every outcome with its probability, adding to 1). Figure 4 plays the running example.
+The second thing the robot can keep in memory: instead of "possible" or "impossible", one probability for each of the 10 cells. Together they form a [**probability distribution**](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) (a list of every outcome with its probability, adding to 1). Figure 4 plays the running example.
 
 ![The belief over the 10 cells in five stages: uniform at 0.1; after reading door, three peaks (modes) of 0.19 at the doors; after moving 2 cells, the modes sit at cells 3, 5 and 9; because the move is uncertain, they spread to 0.16; after reading door again, one main mode of 0.31 at cell 3. An arrow marks the true cell](images/belief_story.gif)
 
@@ -112,7 +112,7 @@ What to watch in each stage:
    \frac{1}{10} = 0.1
    $$
 
-2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the belief, a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is **multimodal** (G-1275).
+2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the belief, a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
 3. **Moves 2 cells.** Every mode moves 2 cells to the right, with the robot.
 4. **The move is uncertain.** The move may have been 1 or 3 cells, so each mode spreads onto its neighbours and gets lower (0.19 becomes 0.16).
 5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
@@ -129,7 +129,7 @@ $$\text{door cell: } 3/16 = 0.1875$$
 
 $$\text{wall cell: } 1/16 = 0.0625$$
 
-The figure shows 0.1875 rounded to 0.19. The exact rule behind this share-counting is Bayes' theorem, applied at every reading by the [correction step](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step).
+The figure shows 0.1875 rounded to 0.19. The exact rule behind this share-counting is Bayes' theorem, applied at every reading by the [**correction step**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2448).
 
 ### 4.2 The definition
 
@@ -142,7 +142,7 @@ Each symbol:
 - $x_t$ is the cell at time $t$; the belief has one value for every possible cell;
 - $z_{1:t}$ means all readings from time 1 to $t$, here $(z_1, z_2) = (\text{door}, \text{door})$ at $t = 2$;
 - $u_{1:t}$ means all commands from time 1 to $t$, here $(\text{stay}, \text{move 2})$;
-- the bar $\mid$ is read "given", as in a [conditional probability](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition).
+- the bar $\mid$ is read "given", as in a [**conditional probability**](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444).
 
 The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the information state of Section 2.2. So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
 
@@ -180,7 +180,7 @@ $$\overline{\text{bel}}(x_2 = 3) = 0.1625$$
 
 $$\text{bel}(x_2 = 3) = 0.3095$$
 
-The move lowered it, the reading raised it. The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gives the two rules behind these numbers, and the [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) computes them cell by cell.
+The move lowered it, the reading raised it. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) gives the two rules behind these numbers, and the [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461) computes them cell by cell.
 
 ## 5. The two tables that drive the belief
 
@@ -214,11 +214,11 @@ The robot ends somewhere, so the three outcomes add to 1:
 
 $$0.1 + 0.8 + 0.1 = 1$$
 
-Why only $u_t$ and $x_{t-1}$, and not the whole past? If the state is complete, the current cell and the command already contain everything that affects the next cell; how the robot got to cell 1 does not matter (the [complete state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property)). This is the Markov property applied to motion (PR §2.3.3).
+Why only $u_t$ and $x_{t-1}$, and not the whole past? If the state is complete, the current cell and the command already contain everything that affects the next cell; how the robot got to cell 1 does not matter (the [**complete state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2315)). This is the Markov property applied to motion (PR §2.3.3).
 
 Why is the reading $z_t$ not in it? A reading does not move the robot. It helps us **guess** where the robot went, but it does not **cause** where it went. The transition probability describes the robot itself, not our guessing (PR §2.3.3).
 
-For a real wheeled robot, $x_t$ is a pose and the table becomes a probability density over poses: the [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density). Here the hallway keeps it a small table.
+For a real wheeled robot, $x_t$ is a pose and the table becomes a probability density over poses: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319). Here the hallway keeps it a small table.
 
 A sequence of states where the next state depends only on the current one is a **Markov chain** (G-2437) (CS188 §8.1).
 
@@ -249,9 +249,9 @@ In each cell, the two readings add to 1:
 
 $$0.6 + 0.4 = 1$$
 
-Why does it depend on $x_t$ alone? Once the true cell is known, how the robot got there and what it read before tell us nothing more about what it will read now (PR §2.3.3). This is the [Markov property](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) applied to readings.
+Why does it depend on $x_t$ alone? Once the true cell is known, how the robot got there and what it read before tell us nothing more about what it will read now (PR §2.3.3). This is the [**Markov property**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316) applied to readings.
 
-Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place given reading? Because $p(z \mid x)$ is the one we can measure. We park the robot in front of a door 100 times and count how often it reads "door"; doing the same at a wall gives the other row. This direction, from cause to effect, is easy to collect; the other direction, from effect back to cause, is what Bayes' theorem computes from it (Labbe ch.2). For a real range sensor the table becomes the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture).
+Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place given reading? Because $p(z \mid x)$ is the one we can measure. We park the robot in front of a door 100 times and count how often it reads "door"; doing the same at a wall gives the other row. This direction, from cause to effect, is easy to collect; the other direction, from effect back to cause, is what Bayes' theorem computes from it (Labbe ch.2). For a real range sensor the table becomes the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture) (G-2377).
 
 ## 6. The whole picture: the hidden Markov model
 
@@ -335,5 +335,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Measurement probability (G-2435) | The probability of a sensor reading given the true state, $p(z_t \mid x_t)$, such as 0.6 for reading "door" in front of a door; it tells the robot how well each state explains a reading. |
 | Dynamic Bayes network (G-2441) | A Bayesian network that repeats the same variables at every time step, such as states, commands and readings of a robot; it shows which variable depends on which over time, so a whole run's probability splits into small factors. |
 | Hidden Markov model (HMM) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
+| [State $x_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
+| [Probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [Multimodal](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
+| [Correction step (measurement update)](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2448) | The Bayes-filter step after a reading: multiply each state's predicted belief by the measurement probability $p(z_t \mid x_t)$ and rescale so the beliefs add to 1; it raises the states that explain the reading and sharpens the belief. |
+| [Conditional probability](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) | The algorithm that keeps a robot's belief up to date one step at a time: a prediction step after each command and a correction step after each reading; it gives the exact belief without storing the history, under the Markov assumption. |
+| [Histogram filter (discrete Bayes filter)](../../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) (G-2461) | The Bayes filter run on a space cut into cells, keeping one probability per cell; sensing multiplies each cell by $p(z \mid x)$ and rescales, moving slides and blurs the list. It makes the Bayes filter computable for a continuous position. |
+| [Complete state](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2315) | A state that, once known, makes earlier states, controls and measurements useless for predicting the future (position plus speed for a coasting robot, not position alone); it lets the robot keep only its latest estimate. |
+| [Motion model $p(x_t \mid u_t, x_{t-1})$](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
+| [Markov property](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316) | The property of a sequence of states that the future depends on the past only through the present state; it lets a filter forget the history and work from the latest state alone. |
+| [Beam model](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture) (G-2377) | The measurement model of a range finder that mixes four densities for one reading (measurement noise, unexpected objects, failures, random readings) with weights that add up to 1, so no single odd reading can rule out the true pose. |

@@ -45,9 +45,9 @@ The standard definition attaches the terms: **Machine Learning (ML)** (G-1140) i
 
 ![A spam filter learning from more and more labelled text messages (SMS Spam Collection, 1,000 test messages, mean of 20 random training sets). The dashed line is a filter that calls every message "not spam".](images/spam_experience.gif)
 
-1. **The data.** 5,574 text messages, each with a **label** (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a **test set** (G-1962), which the filter never learns from, because what we care about is how well it sorts new messages it has not seen, not the ones it learned from (ISLR §2.2.1).
-2. **The experience.** A **Naive Bayes** (G-1297) filter (a method that scores a message by how often each of its words appeared in spam; see [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
-3. **The score.** Each time, we count how many of the 1,000 test messages it sorts correctly. This share is its **accuracy** (G-162).
+1. **The data.** 5,574 text messages, each with a [**label**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032): spam or not spam (Almeida et al. 2011). We keep 1,000 of them aside as a [**test set**](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962), which the filter never learns from, because what we care about is how well it sorts new messages it has not seen, not the ones it learned from (ISLR §2.2.1).
+2. **The experience.** A [**Naive Bayes**](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) filter (a method that scores a message by how often each of its words appeared in spam; see [Naive Bayes](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture)) learns from 10 labelled messages, then 20, 50, and so on up to all 4,574 that are left.
+3. **The score.** Each time, we count how many of the 1,000 test messages it sorts correctly. This share is its [**accuracy**](../ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162).
 4. **The result.** In Figure 2 the horizontal axis is on a log scale: each tick is a bigger jump than the one before (10, 20, 50, 100 and so on), so the small amounts of data are spread out. With 10 messages it scores 86.9 percent, no better than always answering "not spam" (86.6 percent of the test messages are not spam). With 100 messages it scores 93.8 percent, and with all 4,574 it scores 98.1 percent. The code never changed; only the data grew.
 
 Tom Mitchell's definition states this exactly (Mitchell 1997, Ch. 1): a program **learns** from experience E at a task T, measured by P, if its performance at T, measured by P, improves with E. In Figure 2:
@@ -76,9 +76,9 @@ Explicit programming is how traditional software is built. The top half of Figur
 
 In ML we do not write the logic. The bottom half of Figure 1 shows what we do instead:
 
-1. We collect **data** that contains both inputs and their outputs. Each input variable is a **feature** (G-772), one piece of information the model uses, stored as one column of the data table ([features](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) are taught in full later), the output we want to predict is the **target** (G-1949), and each record is an **observation** (G-1374; one row of the table).
+1. We collect **data** that contains both inputs and their outputs. Each input variable is a [**feature**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), one piece of information the model uses, stored as one column of the data table ([features](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) are taught in full later), the output we want to predict is the [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), and each record is an **observation** (G-1374; one row of the table).
 2. We give the data to an **ML algorithm**, a general method for finding patterns.
-3. The algorithm explores the data and finds the **pattern** between input and output. This step is called **training** (G-1255).
+3. The algorithm explores the data and finds the **pattern** between input and output. This step is called [**training**](../ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255).
 4. The result is a **model** (G-1256): the logic, found by the algorithm instead of written by us.
 5. We give the model new inputs, and it produces the outputs. Each output is a **prediction**: the model's answer for an input whose true output we do not know.
 
@@ -86,8 +86,8 @@ Figure 3 shows steps 1 to 5 on real data: the CGPA and salary package (in lakh r
 
 ![A model making predictions (200 students, CGPA and package). The dots are the training data, the black line is the model, and the dashed orange path reads off the prediction for a new student. Idea after StatQuest, "A Gentle Introduction to Machine Learning".](images/predict_line.gif)
 
-1. **The data.** Each dot is one student: the feature is the CGPA, the target is the package. The data a model learns from is its **training set** (G-2002), also called training data.
-2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [simple linear regression](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#35-turning-the-line-to-find-the-lowest-total)). The line is the model: package = 0.57 × CGPA − 0.99.
+1. **The data.** Each dot is one student: the feature is the CGPA, the target is the package. The data a model learns from is its [**training set**](../ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002), also called training data.
+2. **Training.** The algorithm fits a straight line through the dots (how it finds the line is the subject of [**simple linear regression**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#35-turning-the-line-to-find-the-lowest-total) (G-1808)). The line is the model: package = 0.57 × CGPA − 0.99.
 3. **Prediction.** A new student has a CGPA of 7.5. We go up from 7.5 to the line and across to the vertical axis. The same step in numbers, one line per step:
 
    $$0.57 \times 7.5 = 4.275$$
@@ -127,7 +127,7 @@ The advantage: we do not have to write code for each condition or case. The ML a
 
 When the model trains on this data, it discovers that the pattern is addition. After training, the model adds the numbers of a new row that looks like the rows it trained on (Extra below).
 
-Figure 4 shows training at work on the two-number case. Each row has two numbers; call the first one $a$ and the second one $b$. For the row 2, 3 we have $a = 2$ and $b = 3$. The model is a formula with three numbers it can change, called its **parameters** (G-1450): $w_1$ multiplies $a$, $w_2$ multiplies $b$, and $c$ is added at the end.
+Figure 4 shows training at work on the two-number case. Each row has two numbers; call the first one $a$ and the second one $b$. For the row 2, 3 we have $a = 2$ and $b = 3$. The model is a formula with three numbers it can change, called its [**parameters**](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450): $w_1$ multiplies $a$, $w_2$ multiplies $b$, and $c$ is added at the end.
 
 $$\text{sum} \approx w_1 a + w_2 b + c$$
 
@@ -360,6 +360,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
 | [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
+| [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
 | [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Prediction ($\hat{y}$)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) (G-1550) | The value the model gives for an input whose true output is not known; the hat marks a prediction. |

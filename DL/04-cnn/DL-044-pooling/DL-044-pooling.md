@@ -95,7 +95,7 @@ The order inside a CNN is: convolution gives the feature map, ReLU adds non-line
 A pooling layer needs three settings:
 
 1. the **size** of the window, the area it summarises, usually 2 × 2;
-2. the **stride** (G-1900), usually 2, so that the windows do not overlap;
+2. the [**stride**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900), usually 2, so that the windows do not overlap;
 3. the **type**: max, average and others (section 8).
 
 ### 4.3 One worked example
@@ -131,7 +131,7 @@ $$\lfloor (4 - 2)/2 \rfloor + 1 = 2$$
 
 What does the largest value mean? A feature map is large where the filter's pattern is present (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
 
-Within each small region, the **receptive field** (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
+Within each small region, the [**receptive field**](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
 
 ## 5. Pooling a volume
 

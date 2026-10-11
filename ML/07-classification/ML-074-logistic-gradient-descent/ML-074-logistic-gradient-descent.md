@@ -29,15 +29,15 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/logistic-reg
 
 > **Key point:** Start with any weight. Measure the slope of the loss there. Step downhill by learning rate × slope. Far from the minimum the slope is large and the steps are big; close to it the slope is small and the steps are tiny.
 
-**Gradient descent** (G-862) was built step by step in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea). The recap in one line: the slope of the loss curve tells which way is downhill and how far away the bottom is, and each step moves the weight by the **learning rate** (G-1068) times that slope.
+[**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) was built step by step in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea). The recap in one line: the slope of the loss curve tells which way is downhill and how far away the bottom is, and each step moves the weight by the [**learning rate**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) times that slope.
 
 ### 2.1 A model with one weight
 
-To see the steps, take the smallest possible logistic regression: one **feature** (G-772) (an input variable), one weight $w$, no intercept. The data is 30 students. The feature is the CGPA shifted down by 6:
+To see the steps, take the smallest possible logistic regression: one [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable), one weight $w$, no intercept. The data is 30 students. The feature is the CGPA shifted down by 6:
 
 $$x = \text{CGPA} - 6$$
 
-The **target** (G-1949) (the output we predict) is $y = 1$ for placed and 0 for not placed. The model is
+The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is $y = 1$ for placed and 0 for not placed. The model is
 
 $$\hat y = \sigma(wx)$$
 
@@ -86,7 +86,7 @@ Every student gives such a slope, $-(y_i - \hat y_i)x_i$, where the small $i$ nu
 
 > **Key point:** For one observation, ŷ = σ(w₀ + w₁x₁ + ... + wₙxₙ).
 
-Take a dataset with $m$ **observations** (G-1374) (records, one row of the data table each) and $n$ features (one column each). The target $y$ is the class, 0 or 1. The model has $n + 1$ weights: $w_0$ (the **intercept** (G-960), the part of the prediction that does not depend on any feature) and $w_1$ to $w_n$. The prediction for observation $i$ is
+Take a dataset with $m$ [**observations**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each) and $n$ features (one column each). The target $y$ is the class, 0 or 1. The model has $n + 1$ weights: $w_0$ (the [**intercept**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960), the part of the prediction that does not depend on any feature) and $w_1$ to $w_n$. The prediction for observation $i$ is
 
 $$\hat y_i = \sigma(w_0 + w_1 x_{i1} + w_2 x_{i2} + \dots + w_n x_{in})$$
 
@@ -154,7 +154,7 @@ $$L = -\frac{1}{m}\sum_{i=1}^{m}\Big[y_i \log \hat y_i$$
 
 $$\qquad + (1 - y_i)\log(1 - \hat y_i)\Big]$$
 
-The transpose $y^{\mathsf T}$ turns the column $y$ into a row. The **dot product** (G-634) of a row and a column multiplies matching entries and adds them. With $y = (1, 0, 1)$ and the logs of the predictions:
+The transpose $y^{\mathsf T}$ turns the column $y$ into a row. The [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of a row and a column multiplies matching entries and adds them. With $y = (1, 0, 1)$ and the logs of the predictions:
 
 $$\log \hat y = (\log 0.731, \log 0.426, \log 0.622)$$
 
@@ -206,7 +206,7 @@ $$\qquad + (1 - y)^{\mathsf T}\log(1 - \hat{y})\Big]$$
 
 > **Key point:** The derivative of y log ŷ with respect to w is y(1 − ŷ) x.
 
-For a single observation, differentiate $y \log \hat{y}$ step by step with the **chain rule** (G-371) (multiply the derivatives of the nested steps):
+For a single observation, differentiate $y \log \hat{y}$ step by step with the [**chain rule**](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) (multiply the derivatives of the nested steps):
 
 - the derivative of $\log \hat{y}$ with respect to $\hat{y}$ is $1/\hat{y}$;
 - the derivative of $\hat{y} = \sigma(z)$ with respect to $z$ is $\hat{y}(1 - \hat{y})$ (see [the derivation of the sigmoid derivative](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation));
@@ -321,7 +321,7 @@ Both slopes are negative, so gradient descent raises both $w_0$ and $w_1$. In th
 
 $$\frac{\partial L}{\partial w} = -\frac{1}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the **gradient** (G-863) has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 2).
+$X^{\mathsf T}$ has shape $(n + 1) \times m$ and $(y - \hat{y})$ has shape $m \times 1$, so the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) has shape $(n + 1) \times 1$: one slope per weight, the same shape as $w$ (Figure 2).
 
 > **Extra:** This gradient has exactly the same form as the one for linear regression with mean squared error: $X^{\mathsf T}(\text{actual} - \text{predicted})$, scaled. The only difference is that the predictions now pass through the sigmoid (Bishop §4.3.2).
 
@@ -340,7 +340,7 @@ $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$
 
 $$w_{\text{new}} = w_{\text{old}} + \frac{\eta}{m}\thinspace X^{\mathsf T}(y - \hat{y})$$
 
-Compare it with the sigmoid perceptron of [the new update in action](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#6-the-new-update-in-action): $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point **stochastic gradient descent** (G-1892) on this very loss, run for a fixed number of steps. **Batch gradient descent** (G-264) uses all points in every step and, run to the end, reaches the true minimum.
+Compare it with the sigmoid perceptron of [the new update in action](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#6-the-new-update-in-action): $w \leftarrow w + \eta(y - \hat{y})x$ for one random point. The new rule is the same idea, averaged over **all** points in each step. The perceptron was one-point [**stochastic gradient descent**](../../06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) on this very loss, run for a fixed number of steps. [**Batch gradient descent**](../../06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) uses all points in every step and, run to the end, reaches the true minimum.
 
 | | Sigmoid perceptron | Batch gradient descent |
 |---|---|---|
@@ -382,13 +382,13 @@ In Figure 5, watch the orange curve jitter above the dashed minimum (0.1383 afte
 
 > **Key point:** After 5,000 epochs, the weights match scikit-learn's to three decimals.
 
-One **epoch** (G-696) is one pass over all the training points; batch gradient descent makes one update per epoch.
+One [**epoch**](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) is one pass over all the training points; batch gradient descent makes one update per epoch.
 
 The test data has 100 points with two features whose classes overlap a little (`make_classification`, `class_sep=1.5`, random state 4). scikit-learn's `LogisticRegression(penalty=None)` fits the same model without regularisation, so the two should agree.
 
 ![Batch gradient descent on the 100 points. Left: the decision boundary ($p = 0.5$) turns into place; the dashed line is scikit-learn's. Right: the log loss per epoch (log scale) falls to scikit-learn's minimum.](images/boundary_gd.gif){height=56%}
 
-In Figure 6 the two pale colours are the two predicted classes (blue: $p < 0.5$, green: $p > 0.5$) and the orange line between them is the decision boundary, $p = 0.5$. Watch the orange line, the **decision boundary** (G-555) where $p = 0.5$, swing from its start at $w = (1, 1, 1)$ onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
+In Figure 6 the two pale colours are the two predicted classes (blue: $p < 0.5$, green: $p > 0.5$) and the orange line between them is the decision boundary, $p = 0.5$. Watch the orange line, the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) where $p = 0.5$, swing from its start at $w = (1, 1, 1)$ onto scikit-learn's dashed decision boundary while the loss curve flattens onto the dashed minimum.
 
 | | Intercept | $w_1$ | $w_2$ | Log loss |
 |---|---|---|---|---|
@@ -436,7 +436,7 @@ In Figure 8, the decision boundary turns only slowly, yet the weights keep growi
 
 The reason: once every point is on its correct side, multiplying all the weights by 2 keeps the same decision boundary but makes every $z$ twice as large, so every $\hat{y}$ moves closer to its correct 0 or 1. The loss always decreases, so there is no finite minimum (Bishop §4.3.2). The decision boundary itself still turns slowly: its slope $-w_1/w_2$ goes from $-30$ to $-23$ to $-18$ in the table. Gradient descent turns it towards the decision boundary with the widest gap, but only very slowly (Soudry et al. 2018).
 
-In practice this is handled by stopping after a fixed number of epochs, or by adding **regularisation** (G-1659), a penalty on large weights in the loss, the standard fix (Bishop §4.3.2). scikit-learn uses a penalty by default.
+In practice this is handled by stopping after a fixed number of epochs, or by adding [**regularisation**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659), a penalty on large weights in the loss, the standard fix (Bishop §4.3.2). scikit-learn uses a penalty by default.
 
 ## 10. Summary
 

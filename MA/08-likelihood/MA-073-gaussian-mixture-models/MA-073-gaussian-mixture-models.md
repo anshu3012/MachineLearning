@@ -20,7 +20,7 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 
 The Note starts from data we can see, shares six points between two curves by hand, and only then writes the formulas. The textbook is *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.
 
-The [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) fitted one distribution to data. Here the data has several bumps, and no single named distribution fits it.
+The [**maximum likelihood estimation**](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) (G-1191) fitted one distribution to data. Here the data has several bumps, and no single named distribution fits it.
 
 This Note covers:
 
@@ -77,7 +77,7 @@ The rule behind the pies: a point's share of a curve is that curve's height abov
 
 > **Key point:** The share of curve $k$ that a point carries is its responsibility; giving every point such shares is a soft assignment.
 
-The share of curve $k$ for point $n$ is the **responsibility** (G-1687), written $r_{nk}$. The six pies are a **soft assignment** (G-1826): each point is shared among the curves by probabilities, instead of being given wholly to one. The opposite, a **hard assignment** (G-877), is what k-means does (Section 11.2). The curves themselves are the **components** of a **Gaussian mixture model** (**GMM**, G-829), and the shares of one point always add up to 1.
+The share of curve $k$ for point $n$ is the **responsibility** (G-1687), written $r_{nk}$. The six pies are a **soft assignment** (G-1826): each point is shared among the curves by probabilities, instead of being given wholly to one. The opposite, a [**hard assignment**](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em) (G-877), is what k-means does (Section 11.2). The curves themselves are the **components** of a **Gaussian mixture model** (**GMM**, G-829), and the shares of one point always add up to 1.
 
 In other words, each point is coloured by how tall each curve is above it: the leftmost point mostly with the colour of A, a middle point half and half, the rightmost mostly with the colour of B.
 
@@ -183,7 +183,7 @@ $$\frac{3.77}{6} = 0.63 \quad \text{for B}$$
 | Weights | 0.50, 0.50 | 0.37, 0.63 |
 | Log-likelihood | $-15.82$ | $-14.15$ |
 
-The log-likelihood is the sum over the six points of the log of the total height of the two weighted curves (Section 9.1). It rose, so the new curves fit the six points better. The [expectation maximization](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) repeats the two steps until the curves stop moving; these two steps are its **E-step** (G-654) and **M-step** (G-1139).
+The log-likelihood is the sum over the six points of the log of the total height of the two weighted curves (Section 9.1). It rose, so the new curves fit the six points better. The [expectation maximization](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) repeats the two steps until the curves stop moving; these two steps are its [**E-step**](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) and [**M-step**](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139).
 
 ### 4.3 Another way to see it: shrink the formula
 
@@ -234,7 +234,7 @@ The generative story gives the density at once. A value $x$ can arise through an
    with the weights:
    $$0 \le \pi_k \le 1$$
    $$\sum_{k=1}^{K}\pi_k = 1$$
-   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. The symbol $\sum_{k=1}^{K}$ means "add the terms for $k = 1, 2, \dots, K$". Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [normal distribution](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#51-the-formula-and-a-worked-example), and the second number is the **variance**.
+   The parameters are all the weights, means and variances: $\theta = \lbrace\pi_k, \mu_k, \sigma_k^2 : k = 1, \dots, K\rbrace$. The symbol $\sum_{k=1}^{K}$ means "add the terms for $k = 1, 2, \dots, K$". Here $N(x \mid \mu, \sigma^2)$ is the normal PDF of the [**normal distribution**](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#51-the-formula-and-a-worked-example) (G-1343), and the second number is the **variance**.
 3. **Check on the six points:** the starting mixture is $0.5\thinspace N(x \mid 2, 4) + 0.5\thinspace N(x \mid 4, 4)$. Adding the two weighted heights of Section 4.1:
    $$p(3) = 0.0880 + 0.0880 = 0.176$$
    $$p(6) = 0.0135 + 0.0605 = 0.074$$
@@ -266,7 +266,7 @@ $$p(0) = 0.00515 + 0.04394 + 0.00004$$
 
 $$p(0) = 0.049$$
 
-This is the same $p(0)$ as before. The sum is the **law of total probability** (G-1053) of the [Bayes problem](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability), with machines replaced by components.
+This is the same $p(0)$ as before. The sum is the [**law of total probability**](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) of the [Bayes problem](../../02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability), with machines replaced by components.
 
 ### 6.2 Why the weights must add up to 1
 
@@ -280,7 +280,7 @@ For the six points:
 
 $$0.5 + 0.5 = 1$$
 
-A sum of this kind, with non-negative weights adding up to 1, is called a **convex combination** (G-475).
+A sum of this kind, with non-negative weights adding up to 1, is called a [**convex combination**](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-475).
 
 ## 7. Mixtures in two dimensions
 
@@ -292,7 +292,7 @@ Plain picture first: a bell curve in two dimensions is a hill. Seen from above, 
 
 > **Key point:** The mean vector sets the centre; the covariance matrix sets the width in each direction and the tilt.
 
-For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The **covariance matrix** (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) and the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix)).
+For data with $D$ **features** (G-772; input variables, one column each of the data table), a component is a **multivariate normal distribution** (G-1283) $N(\mathbf{x} \mid \boldsymbol\mu, \boldsymbol\Sigma)$. The mean $\boldsymbol\mu$ is a vector with one entry per feature. The [**covariance matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) $\boldsymbol\Sigma$ holds the variances on its diagonal and the covariances off it (see the [covariance and correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) and the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix)).
 
 Figure 7 draws both cases with variances 1 and 4. The top row shows each density as a surface: the two features run along the floor and the density is the height, a hill with its top at the mean. For the first case the height at the point $(1, 2)$ is $0.0293$ (computed in the example below). The bottom row is the same hill seen from above, a **contour map** (see the [partial derivatives and gradients](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)): each line joins points of the same density, with the same colours and the same centre as the surface. Read it so: lines close together mean a steep hill side, and the centre is the top. Without covariance the ellipses stand upright, twice as tall as wide; with a covariance of 1.6 they tilt.
 
@@ -419,7 +419,7 @@ In the same way (the book's Theorems 11.2 and 11.3) the other two conditions are
 
   $$\pi_A = \frac{2.23}{6} = 0.37$$
 
-  The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [Lagrange multipliers](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#41-one-function-holds-all-the-conditions)).
+  The weights must add up to 1, so the book derives this with a Lagrange multiplier (equations 11.43 to 11.49; see the [**Lagrange multipliers**](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#41-one-function-holds-all-the-conditions) (G-1036)).
 
 With all $r_{nk}$ equal to 1 for one component, these are the mean, the MLE variance and the share of points of that component's data, as for one normal curve.
 
@@ -460,7 +460,7 @@ Such a spike describes one point, not a cluster. In practice libraries keep the 
 
 > **Key point:** KDE places one kernel on every observation with a fixed width; a GMM places $K$ components and learns their centres, widths and weights.
 
-The [density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. [Density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) already placed a GMM between parametric and non-parametric methods.
+The [**density estimation**](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) (G-586) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. [Density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) already placed a GMM between parametric and non-parametric methods.
 
 | | KDE | GMM |
 |---|---|---|
@@ -562,17 +562,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Multivariate normal distribution (G-1283) | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
 | Adjusted Rand index (ARI) (G-175) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random. |
 | `reg_covar` (G-132) | scikit-learn's small number added to the diagonal of every covariance matrix in `GaussianMixture`, so no component shrinks into a spike on one point (collapses). |
+| [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Multimodal](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
 | [Hard assignment](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em) (G-877) | Giving each observation wholly to one cluster (responsibility 0 or 1). |
 | [E-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | [M-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
 | [Convex combination](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-475) | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
+| [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
+| [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586) | Working out, from observed data, how likely each value of a random variable is: estimating its probability density function (PDF). |
 | [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
 | [Component](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-429) | One number of a vector, its position along one axis. |

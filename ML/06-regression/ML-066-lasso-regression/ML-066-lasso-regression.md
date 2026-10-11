@@ -39,7 +39,7 @@ $$L = \sum_{i=1}^{n}(y_i - \hat y_i)^2 + \lambda\sum_{j=1}^{m}|\beta_j|$$
 
 The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ the prediction, $n$ the number of observations, $m$ the number of features, $\beta_j$ the coefficient of feature $j$ (for the diabetes data, $m = 10$), and $\lambda$ the penalty strength. LASSO stands for "least absolute shrinkage and selection operator" (Tibshirani 1996). As with Ridge, $\lambda \geq 0$: with $\lambda = 0$ Lasso is plain linear regression, a small $\lambda$ may overfit, and a large one underfits. The intercept is not penalised, because it only sets the average level of $y$, and shrinking it would not make the line flatter ([the idea of Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)).
 
-This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 **observations** (G-1374), that is, records or rows; the **target** (G-1949) we predict is disease progression; the features are age, sex, bmi (body mass index), bp (blood pressure) and six blood measurements s1 to s6), and why its coefficients can reach exactly 0.
+This Note shows what Lasso does with one feature, with a flexible polynomial, and with the 10-feature diabetes data (442 [**observations**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374), that is, records or rows; the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) we predict is disease progression; the features are age, sex, bmi (body mass index), bp (blood pressure) and six blood measurements s1 to s6), and why its coefficients can reach exactly 0.
 
 ## 2. One feature: the slope reaches exactly 0
 
@@ -91,7 +91,7 @@ Lasso found which of the 16 power features matter without being told.
 
 A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. A model in which many coefficients are exactly 0 is a **sparse model** (G-1844). Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
-Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2). The last column of the table below is the test R², the share of the target's variation the model explains on the test data: 1 is perfect, 0 is no better than predicting the average (see [R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)).
+Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2). The last column of the table below is the test R², the share of the target's variation the model explains on the test data: 1 is perfect, 0 is no better than predicting the average (see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)).
 
 ![Diabetes coefficients for alpha 0, 0.1, 1 and 10, on the same scale](images/bars.png){height=50%}
 
@@ -266,6 +266,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Elastic Net regression (Elastic Net)](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#1-overview) (G-667) | Linear regression whose loss gets both the L2 (ridge) and the L1 (lasso) penalty, each with its own strength. It shrinks the coefficients and can set some to 0, so we need not choose between ridge and lasso in advance. |

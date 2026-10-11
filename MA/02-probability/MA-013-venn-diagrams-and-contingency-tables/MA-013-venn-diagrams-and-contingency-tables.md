@@ -85,11 +85,11 @@ Figure 2 shades the four events built from these regions.
 
 Each one is read from the diagram by counting the outcomes in its shaded part:
 
-- **Intersection** (G-967) $A \cap B$, the overlap: $\lbrace4, 6\rbrace$.
+- [**Intersection**](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) $A \cap B$, the overlap: $\lbrace4, 6\rbrace$.
   $$P(A \cap B) = 2/6$$
-- **Union** (G-2045) $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$.
+- [**Union**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) $A \cup B$, everything inside either circle: $\lbrace2, 4, 5, 6\rbrace$.
   $$P(A \cup B) = 4/6$$
-- **Complement** (G-422) $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$.
+- [**Complement**](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#62-the-complement-rule) (G-422) $A^c$, everything outside circle $A$: $\lbrace1, 2, 3\rbrace$.
   $$P(A^c) = 3/6$$
 - **Neither**, $(A \cup B)^c$, everything outside both circles: $\lbrace1, 3\rbrace$.
   $$P(\text{neither}) = 2/6$$
@@ -120,7 +120,7 @@ Both routes agree with the counts in the table above.
 >
 > The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the panel labelled "neither" is exactly this region outside both circles.
 
-> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
+> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [**mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
 >
 > $$P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$$
 >
@@ -128,7 +128,7 @@ Both routes agree with the counts in the table above.
 >
 > $$P(A \cap B) = \frac{2}{6} = \frac{1}{3}$$
 >
-> The two differ, so $A$ and $B$ are dependent (see the [independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition)): knowing the roll is even makes "at least 4" more likely: of the three even outcomes 2, 4 and 6, two are at least 4, so the chance rises from $1/2$ to $2/3$.
+> The two differ, so $A$ and $B$ are dependent (see the [**independent events**](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)): knowing the roll is even makes "at least 4" more likely: of the three even outcomes 2, 4 and 6, two are at least 4, so the chance rises from $1/2$ to $2/3$.
 
 ## 3. Contingency tables
 
@@ -264,6 +264,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | [Union (A ∪ B)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
 | [Complement ($A^c$)](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#62-the-complement-rule) (G-422) | The event that $A$ does not happen: every outcome not in $A$. |
+| [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

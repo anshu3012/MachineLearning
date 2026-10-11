@@ -31,7 +31,7 @@ Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. 
 
 > **Key point:** Quantiles cut sorted data into equal-sized groups; quartiles make 4 groups, quintiles 5, deciles 10 and percentiles 100.
 
-**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An **observation** (G-1374) is one record, one row of the data table; a **feature** (G-772) is one variable, one column of that table. Quantiles help us understand a distribution (how the values of a feature are spread), compare features and spot outliers (values far from the rest).
+**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the data table; a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable, one column of that table. Quantiles help us understand a distribution (how the values of a feature are spread), compare features and spot outliers (values far from the rest).
 
 Figure 2 shows the idea on the 244 restaurant bills of the tips data, one dot per bill, sorted along a line:
 
@@ -45,10 +45,10 @@ A quantile is the cut itself, a value on the line, and not the group between two
 
 The names are confusing because they sound alike. "Quantile" is the general word; the others are kinds of quantile, named by the number of groups (Figure 3):
 
-- **Quartiles** (G-1602) cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the **median**, G-1209) and $Q_3$. [Percentiles in `describe()`](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) meets them in code.
+- [**Quartiles**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) cut the data into 4 groups, at the 25th, 50th and 75th percentiles: $Q_1$, $Q_2$ (the **median**, G-1209) and $Q_3$. [Percentiles in `describe()`](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) meets them in code.
 - **Quintiles** (G-1608) cut it into 5 groups, at the 20th, 40th, 60th and 80th percentiles.
 - **Deciles** (G-554) cut it into 10 groups, at the 10th, 20th, ..., 90th percentiles.
-- **Percentiles** (G-1483) cut it into 100 groups.
+- [**Percentiles**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) cut it into 100 groups.
 
 ![Quartiles, quintiles and deciles cut the same sorted data into 4, 5 and 10 groups](images/quantiles.png)
 
@@ -186,19 +186,19 @@ Their quartiles, with the location formula of Section 3.1, are $Q_1 = 234$, medi
 
   $$\text{mean} = \frac{17276}{10} = 1727.6$$
 
-  The **standard deviation** (G-1871), found from the distances to the mean as in [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation), jumps from 406 to 4664.
+  The [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), found from the distances to the mean as in [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation), jumps from 406 to 4664.
 
 ![The ten values of Section 5 (grey dots) with the box from $Q_1$ to $Q_3$ and the median line, on a log scale. Changing 1500 to 15000 moves the mean (red) and the standard deviation, not the box.](images/iqr_robust.png)
 
 In Figure 6 the horizontal axis is the value on a log scale (equal distances along the axis mean equal factors, as the ticks 5, 10, 50, 100, 500, 1,000, 5,000, 10,000 show, so 6 and 15000 fit on one axis). There are two rows, one for each case (largest value 1500 and 15000): grey dots are the ten values, the blue box runs from $Q_1$ to $Q_3$, and the red triangle is the mean. Compare the box with the red mean in the two cases: the box stays where it is and the mean moves far right.
 
-This property is **robustness** (G-1700): a statistic is robust when a few extreme values cannot pull it far. The IQR and the median are robust, the mean and the standard deviation are not. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
+This property is [**robustness**](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#64-benefit-3-robustness) (G-1700): a statistic is robust when a few extreme values cannot pull it far. The IQR and the median are robust, the mean and the standard deviation are not. pandas' `describe()` prints all five numbers, along with the count, mean and standard deviation.
 
 ## 5. Building a box plot by hand
 
 > **Key point:** Quartiles give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
 
-A **box plot** (G-329), or box-and-whisker plot, draws the five-number summary; [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
+A [**box plot**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), or box-and-whisker plot, draws the five-number summary; [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
 
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
@@ -225,7 +225,7 @@ $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
 The box runs from 234 to 328.25, with the median line at 285.5.
 
-**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the **fences** (G-776), computed 1.5 IQR beyond the box (see [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)):
+**Step 3: the fences.** The whiskers' limits are not the smallest and largest values. They are the [**fences**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776), computed 1.5 IQR beyond the box (see [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)):
 $$\text{IQR} = 328.25 - 234 = 94.25$$
 
 $$1.5 \times \text{IQR} = 141.375$$
@@ -236,7 +236,7 @@ $$\text{upper fence} = 328.25 + 141.375 = 469.625$$
 
 **Step 4: whiskers and outliers.** Each whisker stops at the last real value inside its fence:
 
-- **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an **outlier** (G-1420) dot.
+- **Left:** the fence is at 92.625; the smallest value inside it is 213. So the whisker ends at 213, and 6, below the fence, is drawn as an [**outlier**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) dot.
 - **Right:** the fence is at 469.625; the last value inside it is 350. The whisker ends at 350, and 1500 is an outlier.
 
 These four steps are the whole construction.
@@ -272,7 +272,7 @@ One box plot answers four questions:
 
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
-- **Is it skewed?** A lopsided distribution has **skewness** (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
+- **Is it skewed?** A lopsided distribution has [**skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
 - **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)). The fences are built from the quartiles, and section 4 showed that the outliers themselves cannot pull the quartiles, so the outliers cannot hide by stretching the fences. A rule built on the mean and standard deviation lacks this protection, because the outliers move both.
 
 A box plot hides how many observations stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.

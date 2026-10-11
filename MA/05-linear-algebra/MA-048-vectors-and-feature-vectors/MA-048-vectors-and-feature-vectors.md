@@ -35,9 +35,9 @@ Figure 1 shows the simplest vector there is: an arrow in a 2D plane from the ori
 
 > **Key point:** A number alone (a speed) is a scalar; a number with a direction (a velocity) is a vector.
 
-Say a car moves at 5 km/h. That one number tells us how fast, but not which way. A single number like this is a **scalar** (G-1743). Now say the car moves at 5 km/h to the east. We have added a direction, and the pair "how much, which way" is a **vector** (G-2081). Speed is a scalar; velocity, speed with a direction, is a vector.
+Say a car moves at 5 km/h. That one number tells us how fast, but not which way. A single number like this is a [**scalar**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743). Now say the car moves at 5 km/h to the east. We have added a direction, and the pair "how much, which way" is a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081). Speed is a scalar; velocity, speed with a direction, is a vector.
 
-We draw a vector as an arrow. The length of the arrow is its size, called its **magnitude** (G-1028); the way the arrow points is its **direction** (G-613). In Figure 2, the left panel is the scalar: one number, no arrow. The middle panel draws "5 km/h east" three times, at three different places. All three arrows have length 5 and point east, so they are the same vector: only the size and the direction count, not where the arrow is drawn.
+We draw a vector as an arrow. The length of the arrow is its size, called its [**magnitude**](../MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#22-in-n-dimensions) (G-1028); the way the arrow points is its [**direction**](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-613). In Figure 2, the left panel is the scalar: one number, no arrow. The middle panel draws "5 km/h east" three times, at three different places. All three arrows have length 5 and point east, so they are the same vector: only the size and the direction count, not where the arrow is drawn.
 
 ![A scalar has only a size; a vector has a size and a direction; in linear algebra the arrow starts at the origin. Idea after Khan Academy, "Vector intro for linear algebra"](images/same_vector.png)
 
@@ -95,7 +95,7 @@ Linear algebra always lets us start in small dimensions and grow:
 
 Figure 4 builds a 3D vector the same way as Figures 1 and 3: watch the vector fill in one component per axis walked, so three components need three axes. We cannot draw the $n$-dimensional case, but nothing about the vector changes.
 
-The **dimension** (G-610) of a vector is the dimension of the coordinate system it lives in, which is its number of components. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This dimension is the same "dimension of a vector" as in [a 1D tensor can be a 3-dimensional vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector): the number of items in it, not the number of axes of the tensor.
+The [**dimension**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (G-610) of a vector is the dimension of the coordinate system it lives in, which is its number of components. A vector in 2D space has dimension 2; in 3D, dimension 3; in $n$-dimensional space, dimension $n$. This dimension is the same "dimension of a vector" as in [a 1D tensor can be a 3-dimensional vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#5-a-1d-tensor-can-be-a-3-dimensional-vector): the number of items in it, not the number of axes of the tensor.
 
 In ML we usually write a vector in square brackets with its components separated by commas: $[x_1, x_2, \dots, x_n]$ is an $n$-dimensional vector.
 
@@ -111,7 +111,7 @@ Many books and later Notes write the same vector with round brackets, $(x_1, x_2
 
 The iris dataset, a classic first ML dataset, describes 150 flowers with five columns. Four are measurements in centimetres: sepal length, sepal width, petal length and petal width. The fifth is the species: setosa, versicolor or virginica.
 
-Each flower is one **observation** (G-1374) (one record, one row of the table). The four measurements are the features; the species is the **target** (G-1949) (the output we predict; see [learning from inputs and outputs](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs)). The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
+Each flower is one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). The four measurements are the features; the species is the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict; see [learning from inputs and outputs](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs)). The first flower in the dataset has measurements 5.1, 3.5, 1.4 and 0.2, and is a setosa.
 
 A **feature vector** (G-771) is the vector formed by the feature values of one observation. For the first flower it is
 
@@ -133,7 +133,7 @@ So we encode the text values as numbers. Say male = 0 and female = 1, and the po
 
 $$x = [17,\ 52,\ 0,\ 1,\ 2]$$
 
-The encodings themselves are taught in [ordinal encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#5-how-ordinal-encoding-works) and [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category).
+The encodings themselves are taught in [**ordinal encoding**](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#5-how-ordinal-encoding-works) (G-1404) and [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379).
 
 > **Extra:** Coding Q, C and S as 0, 1 and 2 tells a model that S is "twice" C, which means nothing. The scikit-learn user guide (scikit-learn §8.3.4) warns that estimators would read such integer codes "as being ordered, which is often not desired", and offers one-hot encoding as the alternative for a feature with no natural order.
 
@@ -153,7 +153,7 @@ The summaries are text, and ML algorithms do not work with text. So we must turn
 
 > **Key point:** List every unique word (the vocabulary); each text becomes a vector with one count per vocabulary word.
 
-There are many techniques for this in **NLP** (G-1305) (natural language processing, the part of ML that works with text). The simplest is **bag of words** (G-250):
+There are many techniques for this in [**NLP**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) (natural language processing, the part of ML that works with text). The simplest is **bag of words** (G-250):
 
 1. Collect the **vocabulary** (the list of all the different words): every unique word in all the texts.
 2. Give each vocabulary word one dimension.
@@ -197,7 +197,7 @@ In Figure 7, count the shaded cells in each "(diff)²" row: 5 for C, 8 for A. C 
 2. compute distances between them;
 3. recommend the nearest.
 
-[Cosine similarity](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) gives a better measure of closeness for text.
+[**Cosine similarity**](../MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) (G-491) gives a better measure of closeness for text.
 
 > **Python:** Bag of words in scikit-learn.
 >
@@ -269,7 +269,7 @@ Linear algebra is one of the most foundational subjects in mathematics; computer
 
 We can picture at most three dimensions. ML data rarely stops there.
 
-Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a **feature** (G-772) (an input variable, one column of the data table) for education marks and the data becomes 3D: we can still picture the plane that fits it (see [more inputs: a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane)). Add one more feature, or ten, and we can no longer picture anything.
+Take predicting salary from years of experience. The data is 2D, and linear regression draws a line through it. Add a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) for education marks and the data becomes 3D: we can still picture the plane that fits it (see [more inputs: a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane)). Add one more feature, or ten, and we can no longer picture anything.
 
 Linear algebra solves this. Its ideas are written so that whatever is true in 2D and 3D stays true in $n$ dimensions: the line becomes a plane, and the plane becomes a **hyperplane** (G-911; a flat surface in more than 3 dimensions), with the same kind of equation. Datasets with 5,000 features are common, and linear algebra handles them the same way it handles two.
 
@@ -343,7 +343,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Dimension](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (G-610) | One feature (input column) of the data, seen as one axis of the space the observations live in: 10 features give 10 dimensions. A tensor's dimensions mean something else, its number of axes. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Ordinal encoding](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#3-why-categories-must-become-numbers) (G-1404) | Replacing ordered categories by 0, 1, 2, ... in their order; for input columns. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
+| [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
 | [Data matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) (G-536) | A dataset written as one matrix $X$: each observation's feature vector is a row and each feature a column, so the whole dataset can be handled with matrix operations. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

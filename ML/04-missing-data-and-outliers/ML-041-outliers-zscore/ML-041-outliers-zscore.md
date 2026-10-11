@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/zscore]
 
 > **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
 
-[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a **feature** (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each **observation** (G-1374) is one record (one row), here one student.
+[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
@@ -32,7 +32,7 @@ Figure 1 shows the whole method, in three steps:
 
 > **Key point:** The z-score method works only on a column that is normally distributed, or almost.
 
-A **normal distribution** (G-1343) has the shape of a bell, so its curve is also called the **bell curve** (G-274). Most values sit near the centre, and fewer and fewer values lie towards the two ends.
+A [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) has the shape of a bell, so its curve is also called the **bell curve** (G-274). Most values sit near the centre, and fewer and fewer values lie towards the two ends.
 
 People's heights and marks in an exam often follow this shape, at least roughly.
 
@@ -42,7 +42,7 @@ So before we use the method, we plot the feature and check that it looks like a 
 
 > **Key point:** In a normal feature, about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
 
-A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the **mean** (G-1203), the average of the values, and $\sigma$ for the **standard deviation** (G-1871), the typical distance of a value from the mean. Figure 2 shows the three ranges:
+A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the [**mean**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203), the average of the values, and $\sigma$ for the [**standard deviation**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), the typical distance of a value from the mean. Figure 2 shows the three ranges:
 
 - from $\mu - \sigma$ to $\mu + \sigma$: about 68.3% of the values;
 - from $\mu - 2\sigma$ to $\mu + 2\sigma$: about 95.4%;
@@ -72,7 +72,7 @@ The part of a distribution far from the centre, where values are rare, is a **ta
    $$(100 - 99.7)/2 = 0.15$$
    On the CGPA data, 3 students are below 5.11 and 2 are above 8.81.
 
-A value beyond 3 standard deviations is so rare that the usual practice is to call it an **outlier** (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
+A value beyond 3 standard deviations is so rare that the usual practice is to call it an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
 ### 3.2 The limits
 
@@ -93,7 +93,7 @@ The rule turns into two limits, step by step:
 
 > **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
-The **z-score** (G-2141) of a value is the **standardization** (G-1874) formula of [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), applied to one value:
+The **z-score** (G-2141) of a value is the [**standardization**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) formula of [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), applied to one value:
 
 1. **In words:** subtract the mean of the column, then divide by its standard deviation.
 2. **Formula:**
@@ -118,7 +118,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments, **trimming** (G-2019) and **capping** (G-345), are described in [trimming](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) and [capping](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [trimming](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) and [capping](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -136,13 +136,13 @@ The data comes from a college: one observation per student, 1,000 students, thre
 
 - `cgpa`: the student's CGPA (out of 10) before the placement season.
 - `placement_exam_marks`: marks out of 100 in the aptitude test that companies hold before placement (aptitude, coding, English).
-- `placed`: 1 if the student got a job offer, 0 if not. This column is the **target** (G-1949), the output a model would predict.
+- `placed`: 1 if the student got a job offer, 0 if not. This column is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output a model would predict.
 
 Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 5 plots the distribution of each.
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
-- **`cgpa`** is close to normal: a bell. Its **skewness** (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
+- **`cgpa`** is close to normal: a bell. Its [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 - **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
 So the z-score method can only be used on `cgpa`. The marks feature needs the [IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#2-the-condition-a-skewed-feature).

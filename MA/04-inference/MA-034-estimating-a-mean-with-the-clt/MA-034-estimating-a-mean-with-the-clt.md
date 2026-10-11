@@ -95,7 +95,7 @@ Two spreads are easy to confuse here, and Figure 3 puts them on one axis.
 
 1. **The spread of single fares.** The 50 fares of the first sample run from about 0 to over 160 pounds. Their standard deviation, $s = 51.34$ pounds, is the long bar in the top row.
 2. **The spread of means.** The 100 sample means sit much closer together, in the middle row. A sample with one very expensive ticket moves its mean only a little, because the other 49 fares pull it back. For a mean to land far out, most of its 50 fares must be far out together, which is rare. The standard deviation of the 100 means is 7.56 pounds, the short bar.
-3. **The name.** The standard deviation of the sample means is the **standard error** (G-1872) of the mean, introduced in [mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). The CLT predicts it as $\sigma/\sqrt{n}$, with $\sigma = 51.74$ and $n = 50$:
+3. **The name.** The standard deviation of the sample means is the [**standard error**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) of the mean, introduced in [mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). The CLT predicts it as $\sigma/\sqrt{n}$, with $\sigma = 51.74$ and $n = 50$:
 
    $$\frac{51.74}{\sqrt{50}} = \frac{51.74}{7.071} = 7.32$$
 
@@ -103,7 +103,7 @@ Two spreads are easy to confuse here, and Figure 3 puts them on one axis.
 
 So the standard deviation describes the data, and belongs on a plot of the data; the standard error describes how precisely the mean is known, and belongs on a plot of an estimate (idea after StatQuest, "Standard Deviation vs Standard Error, Clearly Explained!!!").
 
-**Another way: the bootstrap.** The formula $\sigma/\sqrt{n}$ works for the mean only. Every statistic, a median or a standard deviation too, has a standard error, and the **bootstrap** (G-320) estimates it from one sample without any formula:
+**Another way: the bootstrap.** The formula $\sigma/\sqrt{n}$ works for the mean only. Every statistic, a median or a standard deviation too, has a standard error, and the [**bootstrap**](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) estimates it from one sample without any formula:
 
 1. draw 50 fares **from the sample itself**, with replacement, so some fares appear twice and some not at all;
 2. compute the mean of this new sample;
@@ -200,7 +200,7 @@ A range must be narrow enough to be useful. "The average salary in a company is 
 
 Two sizes appear in this method, and they are easy to swap:
 
-- $n = 50$, the **sample size** (G-1727): the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
+- $n = 50$, the [**sample size**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1727): the standard deviation of the sample means is already $\sigma/\sqrt{50}$; the division by $\sqrt{n}$ has happened once, inside the CLT.
 - $k = 100$, the **number of samples**: averaging the 100 sample means divides their spread by $\sqrt{100}$.
 
 Dividing $s_{\bar{x}} = 7.56$ by $\sqrt{50}$ instead gives:

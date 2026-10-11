@@ -172,7 +172,7 @@ Figure 5 shows why the second perceptron layer then has an easy job. Each hidden
 3. **The corners move.** $(0, 0)$ goes to $(0, 0)$, both $(0, 1)$ and $(1, 0)$ go to $(1, 0)$, and $(1, 1)$ goes to $(1, 1)$. The two green observations now sit at the same spot.
 4. **One line is enough.** In the new positions, the line $h_1 - h_2 = 0.5$ has both green observations on one side and both red ones on the other. An output perceptron with this line classifies all four correctly.
 
-The hidden layer has changed how the data is represented, into a form where the classes are linearly separable. Finding such a form from the data is **representation learning** (G-1670), and it is what the hidden layers of a multi-layer perceptron do.
+The hidden layer has changed how the data is represented, into a form where the classes are linearly separable. Finding such a form from the data is [**representation learning**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#1-overview) (G-1670), and it is what the hidden layers of a multi-layer perceptron do.
 
 ## 7. Summary
 

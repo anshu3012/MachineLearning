@@ -17,14 +17,14 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 
 > **Key point:** A matrix stretches some directions more than others. To find the SVD by hand, we multiply the matrix by its own transpose. That new matrix keeps the stretching but forgets the final turn, so its eigenvectors are the directions of most and least stretch, and its eigenvalues are the squared stretches.
 
-The [rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t) picture showed what $A = U\Sigma V^{\mathsf T}$ means: turn, stretch, turn. The small $\mathsf T$ marks the **transpose** (G-2012): the same numbers with rows and columns swapped, so row 1 becomes column 1. For example:
+The [rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t) picture showed what $A = U\Sigma V^{\mathsf T}$ means: turn, stretch, turn. The small $\mathsf T$ marks the [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012): the same numbers with rows and columns swapped, so row 1 becomes column 1. For example:
 
 $$\begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}^{\mathsf T} = \begin{bmatrix} 3 & 4 \cr0 & 5 \end{bmatrix}$$
 
 The three factors are:
 
 - $V$, whose columns $\mathbf v_1, \mathbf v_2$ are the input directions (the **right singular vectors**, G-1692);
-- $\Sigma$, the **diagonal matrix** (G-601) of stretches $\sigma_1, \sigma_2$ (the **singular values**, G-1812);
+- $\Sigma$, the [**diagonal matrix**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) of stretches $\sigma_1, \sigma_2$ (the **singular values**, G-1812);
 - $U$, whose columns $\mathbf u_1, \mathbf u_2$ are the output directions (the **left singular vectors**, G-1079).
 
 It gave the factors of
@@ -111,7 +111,7 @@ $$= \begin{bmatrix} 45 \cr45 \end{bmatrix}$$
 
 $$= 45\begin{bmatrix} 1 \cr1 \end{bmatrix}$$
 
-The direction did not change; it was only scaled by 45. So $\mathbf v_1$ is an **eigenvector** (G-666) of $A^{\mathsf T}A$ with **eigenvalue** (G-665) 45. And
+The direction did not change; it was only scaled by 45. So $\mathbf v_1$ is an [**eigenvector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) of $A^{\mathsf T}A$ with [**eigenvalue**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) 45. And
 
 $$\sqrt{45} = 6.71$$
 
@@ -129,7 +129,7 @@ $$\sqrt{5} = 2.24$$
 
 the trough stretch.
 
-**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order (as in Section 2.1), and $U^{\mathsf T}U = I$, the **identity matrix** (G-915), because $U$ is an **orthogonal matrix** (G-1407) (see [what an orthogonal matrix does to space](../MA-057-svd-geometry/MA-057-svd-geometry.md#24-what-an-orthogonal-matrix-does-to-space)):
+**Why it works: the algebra, one step per line.** Start from $A = U\Sigma V^{\mathsf T}$. The transpose of a product is the product of the transposes in reverse order (as in Section 2.1), and $U^{\mathsf T}U = I$, the [**identity matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915), because $U$ is an [**orthogonal matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns) (G-1407) (see [what an orthogonal matrix does to space](../MA-057-svd-geometry/MA-057-svd-geometry.md#24-what-an-orthogonal-matrix-does-to-space)):
 
 $$A^{\mathsf T} = (U\Sigma V^{\mathsf T})^{\mathsf T} = V\Sigma^{\mathsf T}U^{\mathsf T}$$
 
@@ -156,7 +156,7 @@ $A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, fo
 
 $$(A^{\mathsf T}A)^{\mathsf T} = A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$$
 
-A **symmetric matrix** (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
+A [**symmetric matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
 
 $$-1 + 1 = 0$$
 
@@ -176,7 +176,7 @@ $$(9 + 81)/2 = 45$$
 
 So the square root $\sigma = \sqrt\lambda$ is a real number of at least 0, and it is the length of $A\mathbf{v}$, as in Figure 2.
 
-A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532). So $A^{\mathsf T}A$ is symmetric and positive semi-definite for every matrix $A$ of any shape.
+A symmetric matrix with no negative eigenvalues is [**positive semi-definite**](../MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1532). So $A^{\mathsf T}A$ is symmetric and positive semi-definite for every matrix $A$ of any shape.
 
 ### 2.3 $AA^{\mathsf T}$ gives $U$, with the same numbers
 
@@ -324,7 +324,7 @@ $$= \frac{1}{\sqrt5}\cdot\frac{1}{\sqrt2}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
 
 $$= \frac{1}{\sqrt{10}}\begin{bmatrix} -3 \cr1 \end{bmatrix}$$
 
-*The formula:* the step is the **singular value equation** (G-1814) $A\mathbf v_i = \sigma_i\mathbf u_i$ solved for $\mathbf u_i$:
+*The formula:* the step is the [**singular value equation**](../MA-057-svd-geometry/MA-057-svd-geometry.md#34-the-singular-value-equation) (G-1814) $A\mathbf v_i = \sigma_i\mathbf u_i$ solved for $\mathbf u_i$:
 
 $$\mathbf u_i = \frac{1}{\sigma_i}A\mathbf v_i$$
 
@@ -415,7 +415,7 @@ $$C = \begin{bmatrix} 2 & 1 \cr4 & 2 \end{bmatrix}$$
 
 Its columns $[2, 4]$ and $[1, 2]$ both lie on the line through $[1, 2]$. Every output $C\mathbf{x}$ is a mix of the two columns, so every output lands on that one line: $C$ squishes the whole plane onto it.
 
-- The set of all outputs is the **column space** (G-414) of $C$: here, the line through $[1, 2]$.
+- The set of all outputs is the [**column space**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) of $C$: here, the line through $[1, 2]$.
 - The number of dimensions of the column space is the **rank** (G-1627) of the matrix: here 1. (The second row is twice the first, the algebraic sign of the same fact.)
 - While the plane squashes onto a line, a whole other line of inputs, the one through $[-1, 2]$, lands on the origin. The set of inputs that land on $\mathbf{0}$ is the **null space** (G-1362).
 
@@ -553,14 +553,14 @@ The unreached direction is perpendicular to the output line.
 
 | Subspace | Where | Basis from the SVD | Dimension | For $C$ |
 |---|---|---|---|---|
-| **Column space** (G-414) (span of the columns: every output) | output $\mathbb{R}^m$ | $\mathbf u_1, \dots, \mathbf u_r$ | $r$ | line through $[1, 2]$ |
+| [**Column space**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) (span of the columns: every output) | output $\mathbb{R}^m$ | $\mathbf u_1, \dots, \mathbf u_r$ | $r$ | line through $[1, 2]$ |
 | **Null space** (G-1362) (vectors sent to $\mathbf{0}$) | input $\mathbb{R}^n$ | $\mathbf v_{r+1}, \dots, \mathbf v_n$ | $n - r$ | line through $[-1, 2]$ |
 | **Row space** (G-1713) (span of the rows) | input $\mathbb{R}^n$ | $\mathbf v_1, \dots, \mathbf v_r$ | $r$ | line through $[2, 1]$ |
 | **Left null space** (G-1078) (outputs never reached, perpendicular to them) | output $\mathbb{R}^m$ | $\mathbf u_{r+1}, \dots, \mathbf u_m$ | $m - r$ | line through $[-2, 1]$ |
 
 Check: for $C$, $r = 1$, so each subspace has dimension 1 (a line), as the last column says.
 
-The first two are the ones Figure 5 showed moving: the column space is where every output lands (the **span** (G-1838) of the columns, from [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)), and the null space is everything the matrix squishes to the origin. The other two are their partners: the row space is the input directions perpendicular to the null space, and the left null space is the output directions perpendicular to the column space.
+The first two are the ones Figure 5 showed moving: the column space is where every output lands (the [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) of the columns, from [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)), and the null space is everything the matrix squishes to the origin. The other two are their partners: the row space is the input directions perpendicular to the null space, and the left null space is the output directions perpendicular to the column space.
 
 What makes the SVD's bases special is that they line up in pairs: $A$ sends $\mathbf v_1$ to a multiple of $\mathbf u_1$, $\mathbf v_2$ to a multiple of $\mathbf u_2$, and so on, with no mixing. The null-space $\mathbf{v}$'s go to zero, which is where the zeros on the diagonal of $\Sigma$ come from. Any method of making perpendicular bases could give bases of the four subspaces; only the SVD's bases also make the matrix diagonal.
 

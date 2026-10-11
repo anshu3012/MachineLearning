@@ -19,9 +19,9 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adam]
 
 > **Key point:** Adam keeps two running averages (EWMAs) per parameter: of the gradient (momentum's idea) and of the squared gradient (RMSProp's idea). It corrects both for starting at 0, then steps by the first divided by the root of the second. It is the most widely used optimizer and the usual starting point.
 
-**Adam** (G-169), short for *adaptive moment estimation* (Kingma and Ba 2015), is the last **optimizer** (G-1401) of this series and the most used. Whether we train a plain network, a **convolutional network** (G-484; a network for images) or a **recurrent network** (G-1647; a network for sequences such as text), Adam is usually the first choice.
+**Adam** (G-169), short for *adaptive moment estimation* (Kingma and Ba 2015), is the last [**optimizer**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) of this series and the most used. Whether we train a plain network, a **convolutional network** (G-484; a network for images) or a **recurrent network** (G-1647; a network for sequences such as text), Adam is usually the first choice.
 
-Adam borrows from the optimizers before it. **Momentum** (G-1258) and **NAG** (G-1315) are built on one idea, **speed from past gradients**; **AdaGrad** (G-168) and **RMSProp** (G-1697) on another, **a learning rate that adapts to each parameter**. Adam merges the two.
+Adam borrows from the optimizers before it. [**Momentum**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) and [**NAG**](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview) (G-1315) are built on one idea, **speed from past gradients**; [**AdaGrad**](../DL-036-adagrad/DL-036-adagrad.md#1-overview) (G-168) and [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) on another, **a learning rate that adapts to each parameter**. Adam merges the two.
 
 ![Five optimizers on the elongated bowl of a sparse feature, each with a learning rate that works for it. Adam (red) heads towards the minimum like the adaptive methods and curls in like momentum](images/adam_race.gif){width=80%}
 
@@ -161,7 +161,7 @@ instead of the corrected 1, a first step more than three times too large. Kingma
 
 > **Key point:** Adam heads for the minimum like an adaptive method, curls in like momentum, and then settles, while RMSProp keeps jittering.
 
-On the **elongated bowl** (G-673) of the IIT feature (Figure 1), each optimizer gets a learning rate that works for it. Steps until the loss is within 0.01 of its minimum (Notebook):
+On the [**elongated bowl**](../DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) of the IIT feature (Figure 1), each optimizer gets a learning rate that works for it. Steps until the loss is within 0.01 of its minimum (Notebook):
 
 | Optimizer | $\eta$ | Steps | Still moving at the end? |
 |---|---|---|---|
@@ -187,10 +187,10 @@ Adam's path shows both behaviours. Adam moves in $m$ and $b$ together from the s
 
 The setup:
 
-- **data:** the **MNIST** (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
+- **data:** the [**MNIST**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
 - **network:** hidden layers of 128 and 64 **ReLU** (G-1668; each node outputs its input if positive, else 0) nodes and a softmax output (10 probabilities, one per digit);
-- **training:** **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds;
-- **learning rates** (G-1068): 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
+- **training:** [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64, 20 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), 3 seeds;
+- [**learning rates**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068): 0.01 for SGD, momentum, NAG ($\beta = 0.9$) and AdaGrad; 0.001, Keras' default, for RMSProp and Adam.
 
 ![Training loss on MNIST per epoch for six optimizers, mean of 3 seeds](images/mnist_all.png){width=95%}
 

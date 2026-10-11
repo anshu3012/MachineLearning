@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/iqr]
 
 > **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
 
-The [three rules for detecting outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) were listed earlier, and the [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) put the first one to work on a normal feature. This Note covers the second rule: the **IQR method** (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a **feature** (G-772) (an input variable, one column of the data table) is skewed. Each **observation** (G-1374) is one record (one row), here one student.
+The [three rules for detecting outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) were listed earlier, and the [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139) put the first one to work on a normal feature. This Note covers the second rule: the [**IQR method**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) is skewed. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
@@ -32,9 +32,9 @@ Figure 1 shows the whole method, in three steps:
 
 > **Key point:** The IQR method is meant for a feature that is skewed, not normal.
 
-A feature is **skewed** (G-1817) when its values have a long tail on one side (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). The [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) does not fit such a feature, because it assumes a bell shape.
+A feature is [**skewed**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) when its values have a long tail on one side (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). The [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) does not fit such a feature, because it assumes a bell shape.
 
-The IQR method makes no such assumption. The IQR method is built only on **percentiles** (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot): the **box plot** (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the outliers, and the IQR.
+The IQR method makes no such assumption. The IQR method is built only on [**percentiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050): the [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the outliers, and the IQR.
 
 ## 3. The fences
 
@@ -44,7 +44,7 @@ The IQR method makes no such assumption. The IQR method is built only on **perce
 
 > **Key point:** Sort the values; the median splits them into two halves; $Q_1$ and $Q_3$ are the middles of the halves, and the IQR is the distance between them.
 
-Sort the values and cut the sorted list into four equal parts. The three cut points are the **quartiles** (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the **interquartile range** (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot), section 8).
+Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot), section 8).
 
 Figure 2 finds them by hand for the exam marks of the first nine students of Section 5. Watch each step add one line:
 
@@ -73,7 +73,7 @@ The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its 
 
 > **Key point:** Step 1.5 IQR out from each side of the box; a value beyond either point is an outlier.
 
-The two box-plot **fences** (G-776) come from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
+The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) come from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
 
 1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
 2. **Formula:**
@@ -91,7 +91,7 @@ The two box-plot **fences** (G-776) come from the [univariate analysis](../../02
 
    $$\text{upper} = 44 + 40.5 = 84.5$$
 
-A mark below $-23.5$ or above 84.5 is an **outlier** (G-1420). Figure 3 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
+A mark below $-23.5$ or above 84.5 is an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420). Figure 3 builds the fences on the real marks; watch the orange arms grow 40.5 marks out of each side of the box, and only the far right tail turn red.
 
 ![The IQR fences built step by step on the 1,000 exam marks: Q1 and Q3, the IQR of 27, arms of 1.5 IQR, then the 15 outliers beyond 84.5](images/fences_build.gif)
 
@@ -107,7 +107,7 @@ The plan for any skewed feature is therefore short:
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the fence it crossed.
 
-Both treatments are explained in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers): **trimming** (G-2019) deletes the rows outside the limits, and **capping** (G-345) moves each value beyond a limit onto the limit. Here the fences are the limits.
+Both treatments are explained in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers): [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) deletes the rows outside the limits, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) moves each value beyond a limit onto the limit. Here the fences are the limits.
 
 ## 5. The placement data
 
@@ -124,7 +124,7 @@ The data is the [placement data](../ML-041-outliers-zscore/ML-041-outliers-zscor
 
 - `cgpa`: the student's CGPA (out of 10).
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
-- `placed`: 1 if the student got a job offer, 0 if not; the **target** (G-1949), the output a model would predict.
+- `placed`: 1 if the student got a job offer, 0 if not; the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output a model would predict.
 
 The [histograms of the placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
 
@@ -350,11 +350,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | `quantile` (G-127) | pandas method that returns a percentile, given as a fraction (0.25 for the 25th). |
+| [Z-score method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2139) | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. |
 | [IQR method (IQR rule, IQR proximity rule)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
+| [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
 | [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
 | [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |

@@ -57,7 +57,7 @@ Each point keeps its $x$ and gets a height $x^2$:
 - the crosses lie near 0, so their $x^2$ is small (at most $1.3^2 = 1.69$);
 - the circles lie far from 0, so their $x^2$ is large (at least $2.1^2 = 4.41$).
 
-In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates the two classes. Read back on the original axis, this line corresponds to two cut points, $x = -1.73$ and $x = +1.73$: a boundary that no single linear cut could give. Adding $x^2$ as a new input is the same idea as the [polynomial features](../ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features) used with logistic regression.
+In 2D the boundary is a line, and the horizontal line $x^2 = 3$ now separates the two classes. Read back on the original axis, this line corresponds to two cut points, $x = -1.73$ and $x = +1.73$: a boundary that no single linear cut could give. Adding $x^2$ as a new input is the same idea as the [**polynomial features**](../ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features) (G-1513) used with logistic regression.
 
 ### 3.2 The feature map and the kernel
 
@@ -98,7 +98,7 @@ There are many kernels. Besides the plain linear one, scikit-learn's SVM comes w
 2. **Polynomial** (G-1514): built from powers of the inputs. The $x^2$ example above is of this type.
 3. **Sigmoid** (G-1799): an S-shaped kernel.
 
-> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
+> **Extra:** The sigmoid kernel is $\tanh(\gamma\thinspace x \cdot x' + r)$. The sigmoid kernel has the same S-shape as the [**sigmoid function**](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) of logistic regression, but it is a different formula (tanh, ranging from −1 to 1), and it does not turn SVM into logistic regression. The sigmoid kernel came to SVMs from neural networks, where tanh is a common activation, and in general it does no better than RBF (Lin and Lin 2003).
 
 ## 4. A 2D example: concentric circles
 
@@ -131,7 +131,7 @@ This bump is the shape behind the **RBF kernel**, short for radial basis functio
 
 > **Key point:** Kernels are built into SVM. We choose the kernel and its settings as hyperparameters and tune them with grid search.
 
-The kernel trick is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are **hyperparameters** (G-910), so we choose them like C in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c): with a **grid search** (trying every combination of listed values; see [grid search](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
+The kernel trick is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), so we choose them like C in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c): with a **grid search** (trying every combination of listed values; see [grid search](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 In summary, an SVM with a kernel works in three steps:
 
@@ -192,6 +192,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Sigmoid kernel (G-1799) | A way to score how alike two points are, built from an S-shaped curve, $\tanh(\gamma\thinspace x \cdot x' + r)$ (a kernel). Like other kernels, it lets an SVM draw a curved boundary without computing new features. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Polynomial features](../../../ML/07-classification/ML-079-polynomial-logistic-regression/ML-079-polynomial-logistic-regression.md#22-the-formal-version-polynomial-features) (G-1513) | New input columns made from powers and products of the original inputs, such as $x_1^2$ and $x_1 x_2$; they let a linear model fit curves and curved decision boundaries. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [gamma (RBF kernel)](../../../ML/07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) | How far one point's influence reaches in the RBF kernel; large gamma gives tighter boundaries. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |

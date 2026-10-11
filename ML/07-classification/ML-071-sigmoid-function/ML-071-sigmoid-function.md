@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/logistic-reg
 
 > **Key point:** The perceptron trick stops as soon as every point is correct. The fix: let every point act on the line, with strength depending on its distance. Replacing the step function with the sigmoid function does exactly this, and also turns the model's output into a probability.
 
-The perceptron trick has a weakness, found when [the decision boundary stops too early](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early): once no point is misclassified, the line stops moving, wherever it happens to be. **Logistic regression** (G-1120) keeps improving the line after that.
+The perceptron trick has a weakness, found when [the decision boundary stops too early](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early): once no point is misclassified, the line stops moving, wherever it happens to be. [**Logistic regression**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) keeps improving the line after that.
 
 This Note changes the perceptron's rule so that correctly classified points also take part. The change needs one new ingredient, the **sigmoid function** (G-1798), one of the most important functions in machine learning and deep learning.
 
@@ -64,7 +64,7 @@ $$z = (-5)(1) + (0.5)(7.5) + (0.01)(110)$$
 
 $$z = -5 + 3.75 + 1.1 = -0.15$$
 
-The model then passed it through a **step function** (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
+The model then passed it through a [**step function**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889): 1 if $z > 0$, otherwise 0. As long as $\hat{y}$ is only ever 0 or 1, the problem remains. We need a function whose output can be anything between 0 and 1.
 
 Figure 1 shows the problem as a picture. With the step function, the update $y - \hat y$ is exactly 0 for every correctly placed point, near or far, and exactly $\pm 1$ for every misplaced one, however far it is from the line. The planned table of Section 2.2 needs a smooth curve instead.
 
@@ -140,7 +140,7 @@ $$z = -39.26 + 6.53 \times 6.5 = 3.19$$
 
 $$\sigma(3.19) = 0.96$$
 
-a 96% chance of being placed. The crossing at CGPA 6.01 is the **decision boundary** (G-555): above it the model predicts placed, below it not placed.
+a 96% chance of being placed. The crossing at CGPA 6.01 is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): above it the model predicts placed, below it not placed.
 
 ![The sigmoid on one feature: 100 students at 0 (not placed) or 1 (placed) against CGPA. First $w_0$ shifts the curve, then $w_1$ steepens it; the last frame is the fitted logistic regression curve, which crosses 0.5 at CGPA 6.01. Idea after StatQuest, "Logistic Regression".](images/s_curve.gif)
 
@@ -160,11 +160,11 @@ The right panel is the same surface seen from above, a [contour map](../../../MA
 
 So instead of a hard yes or no, every student now gets a **probability of being placed**: the further onto the positive side, the higher the chance. The probability of **not** being placed is $1 - \hat{y}$. A student with $\hat{y} = 0.7$ has a 70% chance of being placed and a 30% chance of not.
 
-This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview), and [log loss](../ML-072-log-loss/ML-072-log-loss.md#1-overview) builds on it.
+This **probabilistic interpretation** (G-1566) is the second view of logistic regression mentioned in the [**perceptron trick**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485), and [log loss](../ML-072-log-loss/ML-072-log-loss.md#1-overview) builds on it.
 
-> **Extra:** What does the number $z = w \cdot x$ itself mean? The **odds** (G-1376) of an event are its probability divided by the probability of the opposite: $p / (1 - p)$. A 0.75 chance of being placed is odds of
+> **Extra:** What does the number $z = w \cdot x$ itself mean? The [**odds**](../../08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) of an event are its probability divided by the probability of the opposite: $p / (1 - p)$. A 0.75 chance of being placed is odds of
 > $$\frac{0.75}{0.25} = 3$$
-> "3 to 1". The **log-odds** (G-1116) are the natural log of the odds. Solving $p = \sigma(z)$ for $z$ gives
+> "3 to 1". The [**log-odds**](../../08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) are the natural log of the odds. Solving $p = \sigma(z)$ for $z$ gives
 >
 > $$z = \ln\frac{p}{1 - p}$$
 >
@@ -273,7 +273,7 @@ The step version stops right next to the green class. The sigmoid version moves 
 
 So the change was in the right direction. Why is the sigmoid line still off-centre? The line is not finished yet. Run longer, the sigmoid perceptron keeps moving towards the logistic regression line, and with the small penalty that scikit-learn adds by default it lands on that line (details in the Extra below). In fact the sigmoid update is already the gradient descent step of logistic regression (Bishop §4.3.2), as the [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule) will show.
 
-What we still lack is a way to say which line is best: a **loss function** (G-706), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function for logistic regression is [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
+What we still lack is a way to say which line is best: a [**loss function**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706), one number that measures how good a line is. With a loss function, we know what the updates are minimising and when to stop. The loss function for logistic regression is [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function).
 
 > **Extra:** The test, in the notebook. Gaps (blue, green) of the sigmoid perceptron:
 >
@@ -318,6 +318,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
 | [Odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |

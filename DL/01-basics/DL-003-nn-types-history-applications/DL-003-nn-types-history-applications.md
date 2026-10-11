@@ -52,9 +52,9 @@ MLPs work on any supervised problem (learning from examples with known answers),
 
 > **Key point:** At least one convolutional layer; the standard network for images and video.
 
-An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a **feature map** (G-766).
+An image is a grid of pixels, and what matters in it (an edge, a corner) is small and can sit anywhere. So the network looks at the image through a small window. In part 2 of Figure 2, a 3 × 3 filter slides over the digit one stop at a time; at each stop it writes one number, and the numbers form a new grid called a [**feature map**](../../04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766).
 
-A layer that slides small filters over an image in this way is a **convolutional layer** (G-480); [the convolution operation](../../04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) shows the sliding step by step. A **convolutional neural network (CNN)** (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
+A layer that slides small filters over an image in this way is a [**convolutional layer**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480); [the convolution operation](../../04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) shows the sliding step by step. A [**convolutional neural network (CNN)**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) is a network with at least one convolutional layer. CNNs power almost every image and video application: self-driving cars, or scanning chest images for cancer. Yann LeCun is known as the father of CNNs.
 
 ### 2.3 Recurrent neural network (RNN) and LSTM
 
@@ -64,7 +64,7 @@ A sentence arrives one word at a time, and each word only makes sense with the w
 
 MLPs and CNNs have none. They are **feed-forward networks** (G-775): information moves in one direction only, from the first layer to the last. In a **recurrent neural network (RNN)** (G-1647), the output of a hidden layer is fed back into the network, so earlier inputs influence later ones. In part 3 of Figure 2, the words "the film was good" enter one by one; after each word the red loop carries the hidden layer's output back, and the hidden layer ends up holding all four words.
 
-A popular improved variant is the **LSTM** (G-1123) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
+A popular improved variant is the [**LSTM**](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) (long short-term memory). RNNs and LSTMs are used heavily in natural language processing: voice assistants such as Google Now, Siri and Cortana, and chatbots.
 
 ### 2.4 Autoencoder
 
@@ -103,7 +103,7 @@ In Figure 3, watch the curve pause at each orange dot: every rise starts with an
 
 > **Key point:** Rosenblatt's perceptron promised learning machines; Minsky and Papert showed it cannot learn XOR, and funding dried up.
 
-After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the **perceptron** (G-1486), a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
+After the Second World War, countries, above all the United States, invested heavily in computer science research. In 1958 the psychologist **Frank Rosenblatt** introduced the [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486), a model that learns, loosely based on a neuron in the brain (Rosenblatt 1958). The press hailed it as the true start of artificial intelligence, and Rosenblatt himself made bold claims for it.
 
 In 1969 **Marvin Minsky** and Seymour Papert showed a major limitation: a single perceptron can never learn the **XOR** (G-2134) function, however long it is trained. The reason is that a perceptron separates its two classes with one straight line, and XOR's classes cannot be split by one line (a perceptron trained in code [fails on XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)).
 
@@ -121,7 +121,7 @@ In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published 
 
 - A single perceptron can only learn linear functions.
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
-- Such a network can be trained with **backpropagation** (G-247): work out how much each weight adds to the error (its derivative) and nudge every weight so the error shrinks ([the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)).
+- Such a network can be trained with [**backpropagation**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247): work out how much each weight adds to the error (its derivative) and nudge every weight so the error shrinks ([the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)).
 
 Training layered networks with backpropagation overcame the perceptron's biggest flaw, and enthusiasm returned. In 1989 Yann LeCun, a former postdoctoral researcher with Hinton (ACM 2019), used a network trained by backpropagation to read handwritten zip codes from images (LeCun et al. 1989).
 
@@ -150,7 +150,7 @@ The theorem in section 3.3 says a good network exists; it does not say we can tr
 1. **Too little labelled data.**
 2. **Too little computing power** to compute all the weights with backpropagation and add many layers.
 3. **No good way to initialise the weights:** they started at random values, which caused errors in training.
-4. **Better rivals:** algorithms such as the [support vector machine](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) and [random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) trained well on less data.
+4. **Better rivals:** algorithms such as the [**support vector machine**](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) and [**random forest**](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) trained well on less data.
 
 Interest fell again for about 15 years: the second AI winter.
 
@@ -160,7 +160,7 @@ Interest fell again for about 15 years: the second AI winter.
 
 In 2006, Hinton (with Simon Osindero and Yee-Whye Teh) published a method for training **deep belief networks** (G-567) (Hinton et al. 2006). The method's key idea, **unsupervised pre-training** (G-2059), sets the starting weights with a network trained layer by layer on the inputs alone, without labels (that is what "unsupervised" means), instead of at random. With it, networks with many layers could be trained.
 
-From then on, the field of artificial neural networks was rebranded as **deep learning** (G-568). Between 2006 and 2010, many papers followed.
+From then on, the field of artificial neural networks was rebranded as [**deep learning**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568). Between 2006 and 2010, many papers followed.
 
 ### 3.6 2012: ImageNet and after
 
@@ -168,7 +168,7 @@ From then on, the field of artificial neural networks was rebranded as **deep le
 
 **ImageNet** (G-920) is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
 
-In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called **AlexNet** (G-187), trained on GPUs. Its error was about 15%, against about 26% for the best other entry (Figure 6).
+In 2012, Hinton's team (Alex Krizhevsky, Ilya Sutskever and Hinton) entered a deep network, later called [**AlexNet**](../../04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#53-alexnet-the-2012-winner) (G-187), trained on GPUs. Its error was about 15%, against about 26% for the best other entry (Figure 6).
 
 ![ImageNet top-5 error: the best entries of 2010 and 2011 (about 28% and 26%), and in 2012 the second-best entry against AlexNet](images/imagenet_errors.png){height=28%}
 
@@ -205,7 +205,7 @@ Figure 7 is the map of this section: each coloured group is one of the subsectio
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
 
 - **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics (Figure 8). Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
-- **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
+- **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [**reinforcement learning**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning) (G-1660), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
 - **Virtual assistants and chatbots:** Google Now, Siri and Cortana understand speech and follow the context of a conversation. Their quality jumped once deep learning, such as RNNs, became mainstream around 2015, and most companies now run chatbots built on it.
 
 ![A self-driving car in three steps: the sensors read the surroundings, the computer's deep learning models decide, and the controls act](images/self_driving.png){height=24%}
@@ -322,5 +322,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
+| [Support vector machine (SVM)](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
+| [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
 | [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
 | [AlexNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#53-alexnet-the-2012-winner) (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
+| [Reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#51-agent-environment-policy-and-reward) (G-1660) | Learning by acting and receiving rewards or punishments. |

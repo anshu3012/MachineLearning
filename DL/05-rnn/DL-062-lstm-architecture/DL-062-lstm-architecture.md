@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm-gates]
 
 > **Key point:** An LSTM cell uses three gates to manage its two memories. The forget gate removes from the cell state, the input gate adds to it, and the output gate reads from it to make the new hidden state.
 
-The [core idea of the LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) is this: an LSTM keeps a long-term memory (the **cell state** (G-361) $c_t$) next to its short-term memory (the **hidden state** (G-891) $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
+The [core idea of the LSTM](../DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) is this: an LSTM keeps a long-term memory (the [**cell state**](../DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm) (G-361) $c_t$) next to its short-term memory (the [**hidden state**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891) $h_t$), and a more complex cell lets the two talk to each other. This Note opens that cell. Every part of it is either a small neural network layer or a simple element-by-element operation on vectors.
 
 ![The LSTM cell. The green line is the cell state, the red line the hidden state, blue the current input. The forget gate (red area) scales the old cell state, the input gate (blue area) adds new candidate values, and the output gate (orange area) turns the new cell state into the new hidden state. Boxes are neural network layers; circles are pointwise operations](images/lstm_cell.png){width=100%}
 
@@ -103,7 +103,7 @@ In Figure 2, follow one colour: the result in each position depends only on the 
 Each box in Figure 1 is an ordinary layer of nodes, like a hidden layer of an ANN. Every node computes a weighted sum plus a bias and applies an activation function:
 
 - the forget gate's layer, the input gate's $i_t$ layer and the output gate's layer use the **sigmoid** (written $\sigma$);
-- the candidate layer that makes $\tilde c_t$ uses **tanh** (G-1947).
+- the candidate layer that makes $\tilde c_t$ uses [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947).
 
 The two activations have different jobs, which is why each layer uses the one it does.
 

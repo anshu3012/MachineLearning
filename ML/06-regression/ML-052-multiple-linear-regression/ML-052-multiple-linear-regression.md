@@ -19,13 +19,13 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/multiple-lr]
 
 > **Key point:** Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a plane; with more, a hyperplane.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Figure 1 marks all three on the first rows of this Note's example data.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Figure 1 marks all three on the first rows of this Note's example data.
 
 ![The first five observations of the example data. Blue columns: the two features. Orange column: the target. Green row: one observation.](images/data_table.png)
 
 [Simple linear regression](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) used one feature, CGPA, to predict the package (a student's salary offer) with a best-fit line. Real data almost always has several features: CGPA, gender, IQ, 12th-grade marks, and so on. Linear regression with more than one feature is called **multiple linear regression** (G-1279).
 
-Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. **Simple linear regression** (G-1808) is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code. The mathematics is derived in [the model in matrix form](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), and the model is coded from scratch in [our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class).
+Nothing new has to be learned for multiple linear regression: everything from simple linear regression carries over. [**Simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) is just the special case with one feature. A recipe works the same way: the cake's taste depends on sugar, flour and butter together, each in its own amount, instead of on sugar alone. This Note covers the geometry and the code. The mathematics is derived in [the model in matrix form](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), and the model is coded from scratch in [our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class).
 
 ## 2. From a line to a hyperplane
 
@@ -92,7 +92,7 @@ Figure 4 builds this prediction one term at a time: start at the intercept, then
 
 ![One prediction built term by term: the intercept −1.9, plus 58.6 × 1, plus 29.1 × 0.5, gives 71.3.](images/prediction_steps.gif)
 
-With $n$ features there are $n + 1$ numbers to find: one **coefficient** (G-407) per feature plus the **intercept** (G-960). Training the model means finding them.
+With $n$ features there are $n + 1$ numbers to find: one **coefficient** (G-407) per feature plus the [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960). Training the model means finding them.
 
 ### 3.1 What the coefficients mean
 
@@ -108,9 +108,9 @@ Figure 5 slices the plane of Figure 2 at three fixed values of feature2. Each sl
 
 ![Slices of the fitted plane at feature2 = −1, 0 and 1. One step along feature1 adds 58.6 (orange); one step in feature2 lifts the whole line by 29.1 (red)](images/coef_slices.png){height=40%}
 
-So the coefficients act as **weights** (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that feature.
+So the coefficients act as [**weights**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#6-weighted-mean) (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that feature.
 
-> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. **Standardising** (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation (typical distance from the mean) of about 1.
+> **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. [**Standardising**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation (typical distance from the mean) of about 1.
 
 ## 4. Multiple linear regression in scikit-learn
 

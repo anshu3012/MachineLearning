@@ -18,18 +18,18 @@ tags: [subject/deep-learning, area/dl-optimizers, step/foundations, concept/ewma
 
 > **Key point:** An exponentially weighted moving average keeps one running number and, with every new value, moves it a small part of the way towards that value. Recent values count most, old values fade away, and one constant, $\beta$ (beta, usually 0.9), sets how fast they fade.
 
-The **exponentially weighted moving average** (G-735; EWMA) is a technique for finding the trend hidden in a **time series** (G-1975): data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day **noise** (G-1326; random ups and downs) and keeps the slow pattern.
+The **exponentially weighted moving average** (G-735; EWMA) is a technique for finding the trend hidden in a [**time series**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975): data recorded one value after another in time, such as the daily temperature of a city or the daily price of a share. It smooths away the day-to-day **noise** (G-1326; random ups and downs) and keeps the slow pattern.
 
 ![Daily mean temperature in Delhi, 2013–2016. The simple mean (red) is one flat number; the EWMA with $\beta = 0.9$ (blue) follows the seasons](images/ewma_delhi.png){width=100%}
 
-Figure 1 shows the difference. The simple **mean** (G-1203) of all 1,462 days, 25.5 °C, says nothing about summer or winter. The EWMA follows the rise and fall of every year.
+Figure 1 shows the difference. The simple [**mean**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) of all 1,462 days, 25.5 °C, says nothing about summer or winter. The EWMA follows the rise and fall of every year.
 
 EWMA is used in time series forecasting, in finance and in signal processing. In deep learning it is the building block of several methods:
 
 - **momentum** (G-1258; [momentum builds speed](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed)) keeps an EWMA of the gradients (the slopes of the loss that tell each weight which way to step, [what the gradient is](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#4-what-the-gradient-is));
 - **RMSProp** (G-1697; [an average that forgets](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets)) keeps an EWMA of the squared gradients;
 - **Adam** (G-169; [the Adam update](../DL-038-adam/DL-038-adam.md#4-the-update-rule)) keeps both;
-- **batch normalisation** (G-266) keeps one of each node's mean and variance (spread), for use [during prediction](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#5-batch-normalisation-during-prediction).
+- [**batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) keeps one of each node's mean and variance (spread), for use [during prediction](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#5-batch-normalisation-during-prediction).
 
 ## 2. Prerequisites
 
@@ -88,7 +88,7 @@ The second choice gives more accurate values at the start, so it is the one we p
 
 On the Delhi data (Figure 3), the zero start reads 1.0 °C on a day of 10 °C. The two curves still differ by 3.5 °C on day 10 and 1.2 °C on day 20, and only agree within 0.1 °C from day 44 on (Notebook). The zero start's error shrinks by a factor $\beta$ every day, so it fades, but slowly.
 
-> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor ([bias correction](../DL-038-adam/DL-038-adam.md#5-bias-correction)).
+> **Extra:** Optimizers start their averages at 0, so they face exactly this start-up error. Adam removes it with a correction factor ([**bias correction**](../DL-038-adam/DL-038-adam.md#5-bias-correction) (G-285)).
 
 ## 5. The effect of $\beta$
 
@@ -255,4 +255,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Bias correction](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-285) | A fix for a running average (EWMA) that starts at 0 and is too small in the first steps: divide it by $1 - \beta^t$. |
 | [pandas, DataFrame](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441) | Python's main table library, and its name for a table. |

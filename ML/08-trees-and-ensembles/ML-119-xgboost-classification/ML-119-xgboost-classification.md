@@ -43,7 +43,7 @@ Given a new student's CGPA, the model must say whether they will be placed. The 
 
 > **Key point:** The base model predicts the same log-odds of placement for everyone, 0.405 (the natural log of 3/2). As a probability that is 0.6.
 
-As in [stage 1: the log-odds of class 1](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1), stage 1 predicts the **log-odds** (G-1116) of class 1: the natural logarithm of the odds $p/(1-p)$, where the odds compare placed against not placed. The sigmoid (the S-shaped function that turns any number into a probability between 0 and 1; see [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) turns it back into a probability:
+As in [stage 1: the log-odds of class 1](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1), stage 1 predicts the [**log-odds**](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) of class 1: the natural logarithm of the odds $p/(1-p)$, where the odds compare placed against not placed. The sigmoid (the S-shaped function that turns any number into a probability between 0 and 1; see [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)) turns it back into a probability:
 
 $$\ln\frac{p}{1-p}$$
 
@@ -73,7 +73,7 @@ So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a t
 | 4 | 8.15 | 1 | 0.6 | 0.4 |
 | 5 | 9.60 | 1 | 0.6 | 0.4 |
 
-A **residual** (G-705) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
+A [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
 
 ![Stage 1 predicts probability 0.6 for every student. The residuals are the gaps from 0.6 to the actual class: -0.6 for the two students not placed, +0.4 for the three placed](images/residuals.png){height=32%}
 
@@ -83,7 +83,7 @@ The next model, an XGBoost tree, takes CGPA as its feature and these residuals a
 
 > **Key point:** Similarity = (sum of residuals) squared divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
 
-The **similarity score** (G-1804) keeps the numerator of regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
+The [**similarity score**](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) keeps the numerator of regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
 
 1. **In words:** add the residuals in the leaf and square the sum; divide by the sum of $p(1-p)$ over those observations plus $\lambda$.
 2. **Formula:**
@@ -114,7 +114,7 @@ The candidate thresholds are the midpoints of neighbouring CGPA values. The firs
 
 $$(5.70 + 6.25)/2 = 5.975$$
 
-The others are 6.675, 7.625 and 8.875. For each, the **gain** (G-820) is the children's similarity minus the parent's, as in [gain: choosing the root split](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split).
+The others are 6.675, 7.625 and 8.875. For each, the [**gain**](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split) (G-820) is the children's similarity minus the parent's, as in [gain: choosing the root split](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split).
 
 Worked for CGPA < 5.975: student 1 alone on the left, the other four on the right.
 

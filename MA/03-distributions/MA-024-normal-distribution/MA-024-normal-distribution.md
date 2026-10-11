@@ -101,7 +101,7 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 - IQ scores of a population;
 - measurement errors in repeated measurements (Taylor 1997, ch. 5).
 
-For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the **central limit theorem** (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see [the central limit theorem](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
+For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the [**central limit theorem**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see [the central limit theorem](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 
 So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in [where the normal distribution is used](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science).
 
@@ -219,7 +219,7 @@ Four properties make the normal distribution so convenient. Figure 6 shows all f
 
 1. **Symmetry.** The curve is symmetric around the mean: the left half is a mirror image of the right half (Figure 1). So a probability computed on one side gives the matching probability on the other side for free.
 2. **Mean = median = mode.** For a true normal distribution the three measures of central tendency (see [what central tendency means](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means)) are exactly equal: the peak (mode) is also the middle value (median) and the average (mean).
-3. **The empirical rule** (G-53). About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule)). [Deriving the rule](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule) obtains these numbers from the z-table.
+3. [**The empirical rule**](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53). About 68% of values lie within 1 standard deviation of the mean, 95% within 2 and 99.7% within 3 (see [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule)). [Deriving the rule](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule) obtains these numbers from the z-table.
 4. **Total area 1.** The area under the curve is exactly 1, as for every PDF.
 
 ## 7. The CDF of the normal distribution

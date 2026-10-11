@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-architecture]
 
 > **Key point:** A CNN stacks blocks of convolution and pooling, flattens the result, and finishes with fully connected layers and an output layer. LeNet-5 (LeCun et al. 1998) is the classic example: two convolution-and-pooling blocks, then layers of 120, 84 and 10 nodes, about 60,000 parameters in all.
 
-The parts were built earlier: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (sliding a small grid of weights over an image), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (shrinking a feature map). This Note puts them together into a whole network, first in general and then in the first CNN that solved a real problem.
+The parts were built earlier: the [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) (sliding a small grid of weights over an image), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521) (shrinking a feature map). This Note puts them together into a whole network, first in general and then in the first CNN that solved a real problem.
 
 ![LeNet-5: two blocks of convolution (tanh) and average pooling turn a 32 × 32 image into 16 maps of 5 × 5; these are flattened to 400 numbers and passed through fully connected layers of 120, 84 and 10 nodes](images/lenet5.png){width=100%}
 
@@ -31,9 +31,9 @@ Figure 1 shows LeNet-5. This Note covers:
 
 ## 2. Prerequisites
 
-- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
-- [The MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): **Flatten** (G-788), Dense layers, softmax output and counting **parameters** (G-1448).
-- [Tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu), two activation functions (functions applied to each node's sum).
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182).
+- [The MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): [**Flatten**](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788), Dense layers, softmax output and counting [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448).
+- [Tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668), two activation functions (functions applied to each node's sum).
 
 ## 3. The general CNN architecture
 
@@ -44,13 +44,13 @@ Figure 1 shows LeNet-5. This Note covers:
 Almost every CNN follows the pattern of Figure 2. The sequence of layers is the **CNN architecture** (G-403):
 
 1. **Input:** an image, for example an RGB image of 32 × 32 × 3.
-2. **Convolution layer:** (G-480) a set of **filters** (G-777) (kernels), say 3, each with 3 channels (layers of the image, such as red, green and blue) because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
+2. [**Convolution layer:**](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) a set of [**filters**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) (kernels), say 3, each with 3 channels (layers of the image, such as red, green and blue) because the input has 3. The output is a volume of feature maps with 3 channels, one per filter.
 3. **Non-linearity:** an activation function such as ReLU applied to every number of the feature maps.
-4. **Pooling layer** (G-1520): shrinks the volume.
+4. [**Pooling layer**](../DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520): shrinks the volume.
 5. **Repeat** steps 2–4 as many times as needed: a second convolution, a second pooling, and so on.
 6. **Flatten:** turn the final 3D volume into one long 1D vector of numbers.
-7. **Fully connected layers** (G-583): the Dense layers of an ANN, as many as the problem needs.
-8. **Output layer** (G-1424): one node with sigmoid ([sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#6-sigmoid), a function that squeezes a number into 0 to 1) for binary classification, or one node per class with softmax (a function that turns the scores into probabilities that add to 1) for multi-class classification.
+7. [**Fully connected layers**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583): the Dense layers of an ANN, as many as the problem needs.
+8. [**Output layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424): one node with sigmoid ([sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#6-sigmoid), a function that squeezes a number into 0 to 1) for binary classification, or one node per class with softmax (a function that turns the scores into probabilities that add to 1) for multi-class classification.
 
 The convolution and pooling blocks extract the features; the fully connected part uses them to classify. The CS231n notes write the same pattern as INPUT → [[CONV → RELU] × N → POOL?] × M → [FC → RELU] × K → FC.
 
@@ -64,9 +64,9 @@ Different CNN architectures come from different choices for:
 - the filter size, the stride and whether there is padding;
 - the number of fully connected layers and of nodes in each;
 - the activation function;
-- whether [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) or [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training) is used.
+- whether [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639) or [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training) is used.
 
-Over the years, competitions such as **ImageNet** (G-920), a hard image classification task with many classes, have produced a series of famous architectures: LeNet, AlexNet, GoogLeNet, VGGNet, ResNet and Inception. All of them follow the pattern above with different choices. LeNet came first.
+Over the years, competitions such as [**ImageNet**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920), a hard image classification task with many classes, have produced a series of famous architectures: LeNet, AlexNet, GoogLeNet, VGGNet, ResNet and Inception. All of them follow the pattern above with different choices. LeNet came first.
 
 ## 4. LeNet-5
 
@@ -85,7 +85,7 @@ Yann LeCun, often called the father of CNNs, worked on convolutional networks fr
 LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 
 1. **Convolution 1:** 6 filters of 5 × 5, stride 1, no padding, tanh.
-2. **Average pooling 1** (G-238): 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
+2. [**Average pooling 1**](../DL-044-pooling/DL-044-pooling.md#81-max-average-and-l2-pooling) (G-238): 2 × 2 window, stride 2. LeNet-5 uses average pooling, not max pooling.
 3. **Convolution 2:** 16 filters of 5 × 5, stride 1, no padding, tanh.
 4. **Average pooling 2:** 2 × 2 window, stride 2.
 5. **Flatten.**
@@ -93,13 +93,13 @@ LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 7. **Fully connected:** 84 nodes, tanh.
 8. **Output:** 10 nodes with softmax, one for each digit.
 
-The activation is **tanh** (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh)).
+The activation is [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh)).
 
 ### 4.3 The shapes, layer by layer
 
 > **Key point:** 32 → 28 → 14 → 10 → 5, then 5 × 5 × 16 = 400 numbers.
 
-The sizes follow from the formulas of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): $n - f + 1$ for a convolution without padding, $\lfloor (n - 2)/2 \rfloor + 1$ for 2 × 2 pooling with stride 2.
+The sizes follow from the formulas of [**strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900): $n - f + 1$ for a convolution without padding, $\lfloor (n - 2)/2 \rfloor + 1$ for 2 × 2 pooling with stride 2.
 
 | Layer | Calculation | Output |
 |---|---|---|
@@ -237,13 +237,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | CNN architecture (G-403) | The sequence of layers of a CNN: convolution and pooling blocks, Flatten, fully connected layers, output. |
 | LeNet-5 (G-1080) | An early network for reading handwritten digits, built by LeCun et al. in 1998 (a CNN): two blocks of convolution then pooling (conv-pool blocks), then layers of 120, 84 and 10 nodes. |
+| [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
+| [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [Pooling layer](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520) | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
 | [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
 | [Average pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#81-max-average-and-l2-pooling) (G-238) | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |
 | [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |

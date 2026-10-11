@@ -18,7 +18,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 
 > **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat (its determinant is 0), and the eigenvectors are the vectors it squishes to zero. When there are enough eigenvectors to form a basis, $A$ becomes a diagonal matrix in that basis.
 
-[PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) defined eigenvectors and eigenvalues: an **eigenvector** (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its **eigenvalue** (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
+[PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) defined eigenvectors and eigenvalues: an [**eigenvector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its [**eigenvalue**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
 
 This Note goes deeper, with the same matrix:
 
@@ -27,13 +27,13 @@ This Note goes deeper, with the same matrix:
 - transformations with no eigenvectors, one line of them, or every vector (Section 5);
 - the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy (Section 6).
 
-The Note reads matrices as **linear transformations** (G-1097), as in the [linear transformations and matrices](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation).
+The Note reads matrices as [**linear transformations**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097), as in the [linear transformations and matrices](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation).
 
 ## 2. Eigenvectors stay on their own span
 
 > **Key point:** An eigenvector is not knocked off its span: it stays on the line it spans. Every vector on that line is an eigenvector with the same eigenvalue.
 
-Take any vector and look at its **span** (G-1838), the line through the origin and its tip (see the [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
+Take any vector and look at its [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838), the line through the origin and its tip (see the [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
 
 For $A$ with columns $[3, 0]$ and $[1, 2]$ (rows $[3, 1]$ and $[0, 2]$):
 
@@ -287,7 +287,7 @@ Computing the 100th power of a non-diagonal matrix by repeated multiplication, b
 
 > **Key point:** Put the eigenvectors as the columns of $P$; then $P^{-1}AP$ is diagonal, and $A^k = P D^k P^{-1}$.
 
-Usually the basis vectors are not eigenvectors. But if a matrix has enough eigenvectors to span the whole space, we can switch to a coordinate system whose basis vectors are eigenvectors. Such a **basis** (G-262) is called an **eigenbasis** (G-664).
+Usually the basis vectors are not eigenvectors. But if a matrix has enough eigenvectors to span the whole space, we can switch to a coordinate system whose basis vectors are eigenvectors. Such a [**basis**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) is called an **eigenbasis** (G-664).
 
 1. **In words:** put the eigenvectors as the columns of a **change of basis matrix** (G-374) $P$. Sandwiching $A$ between $P^{-1}$ and $P$ gives the same transformation seen from the eigenbasis, and there it only scales each basis vector: a diagonal matrix of eigenvalues.
 2. **Formula:**
@@ -366,7 +366,7 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 
 > **Key point:** PCA is an eigen-decomposition of a covariance matrix, which always has an eigenbasis; repeated multiplication drifts towards the top eigenvector.
 
-- **PCA.** The **principal components** (G-1563) are the eigenvectors of the **covariance matrix** (G-495), and the eigenvalues are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
+- **PCA.** The [**principal components**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) are the eigenvectors of the [**covariance matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495), and the eigenvalues are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
 - **Powers of a matrix.** Whenever a model applies the same matrix again and again, the eigenbasis explains the result: each step multiplies the eigenbasis coordinates by their eigenvalues, so the direction with the largest eigenvalue takes over.
 
 > **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues come from Section 3.3:

@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/bidirectional-rnn
 
 > **Key point:** A bidirectional RNN runs two RNNs over the same sequence, one from left to right and one from right to left, and joins their hidden states at every time step. Each output can then use both the past and the future of the sequence.
 
-An RNN keeps a **hidden state** (G-891), its summary of the inputs read so far, and updates it at every **time step** (G-1976), one word at a time. A **bidirectional RNN** (G-292) (Schuster and Paliwal 1997) combines an RNN that moves forward through time, from the start of the sequence, with another that moves backward through time, from the end (Goodfellow §10.3). The RNNs of the earlier Notes read only from left to right, so the output at a time step can depend only on the inputs up to that step. A bidirectional RNN removes that limit.
+An RNN keeps a [**hidden state**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#42-two-differences-from-an-ann) (G-891), its summary of the inputs read so far, and updates it at every [**time step**](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#32-time-steps) (G-1976), one word at a time. A **bidirectional RNN** (G-292) (Schuster and Paliwal 1997) combines an RNN that moves forward through time, from the start of the sequence, with another that moves backward through time, from the end (Goodfellow §10.3). The RNNs of the earlier Notes read only from left to right, so the output at a time step can depend only on the inputs up to that step. A bidirectional RNN removes that limit.
 
 ![A bidirectional RNN on "Amazon is a website". The forward RNN (blue) reads left to right; the backward RNN (green) reads right to left. At every time step their two hidden states are joined to give the output, so $\hat y_1$, the output for "Amazon", already depends on "website"](images/birnn_unrolled.png){width=100%}
 
@@ -47,7 +47,7 @@ Now suppose the correct output at an early time step depends on an input that co
 
 > **Key point:** In "I love Amazon. It's a great website" the word Amazon is an organisation; in "I love Amazon. It's a beautiful river" it is a location. Reading left to right, the words that decide come after Amazon.
 
-**Named entity recognition** (G-1300) (NER) is the task of labelling the names in a sentence with their type: a person, a location, an organisation (see [many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many)). Chatbots use it to pick names and places out of messages. Take two sentences:
+[**Named entity recognition**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) (NER) is the task of labelling the names in a sentence with their type: a person, a location, an organisation (see [many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many)). Chatbots use it to pick names and places out of messages. Take two sentences:
 
 - "I love Amazon. It's a great website." Here Amazon is an **organisation**.
 - "I love Amazon. It's a beautiful river." Here Amazon is a **location**.
@@ -56,7 +56,7 @@ A tagger reading left to right reaches Amazon with exactly the same context, "I 
 
 ![The two sentences as a left-to-right RNN meets them. Up to "Amazon" both read "I love Amazon"; the word that decides the label, "website" or "river", comes later, on the far side of the dashed line](images/ner_context.png){width=100%}
 
-In Figure 2, everything left of the dashed line is identical in the two sentences, so a left-to-right tagger must give "Amazon" the same label in both. The next inputs decide the output at an earlier step: that is the situation a bidirectional RNN is built for. **Machine translation** (G-1141) has the same need: a word of the output may depend on parts of the input that come later.
+In Figure 2, everything left of the dashed line is identical in the two sentences, so a left-to-right tagger must give "Amazon" the same label in both. The next inputs decide the output at an earlier step: that is the situation a bidirectional RNN is built for. [**Machine translation**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) has the same need: a word of the output may depend on parts of the input that come later.
 
 Goodfellow §10.3 gives a speech example: the correct interpretation of the current sound may depend on the next few sounds, and even on the next few words.
 
@@ -163,9 +163,9 @@ Wrapping an `LSTM` gives a BiLSTM and wrapping a `GRU` gives a BiGRU. The bidire
 
 ### 6.1 The task and the models
 
-> **Key point:** 8,936 training sentences, 2,012 test sentences, 44 tags. Every model reads a sentence and gives one tag per word: a **many-to-many** (G-1154) task.
+> **Key point:** 8,936 training sentences, 2,012 test sentences, 44 tags. Every model reads a sentence and gives one tag per word: a [**many-to-many**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) (G-1154) task.
 
-**Part-of-speech tagging** (G-1456) labels every word of a sentence with its grammatical class: noun (NN), plural noun (NNS), verb in the past tense (VBD), preposition (IN), adverb (RB) and so on. The data is the CoNLL-2000 corpus (a collection of labelled text): Wall Street Journal sentences, each word labelled with one of 44 tags (Tjong Kim Sang and Buchholz 2000). A copy of the word and tag columns is stored in the Note's `data` folder (from the NLTK data collection), so the Notebook runs without a download.
+[**Part-of-speech tagging**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1456) labels every word of a sentence with its grammatical class: noun (NN), plural noun (NNS), verb in the past tense (VBD), preposition (IN), adverb (RB) and so on. The data is the CoNLL-2000 corpus (a collection of labelled text): Wall Street Journal sentences, each word labelled with one of 44 tags (Tjong Kim Sang and Buchholz 2000). A copy of the word and tag columns is stored in the Note's `data` folder (from the NLTK data collection), so the Notebook runs without a download.
 
 - Each sentence is padded to 80 words (the longest has 78). Words seen fewer than 2 times in training share one "unknown" id, giving a vocabulary of 9,676.
 - Every model is `Embedding(9676, 64)`, a recurrent layer with `return_sequences=True`, and a `Dense(44, activation="softmax")` layer that gives 44 probabilities (one per tag) at every time step (see [many-to-many models](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many)).
@@ -266,8 +266,8 @@ Bidirectional RNNs have been extremely successful in handwriting recognition, sp
 
 > **Key point:** Twice the parameters, so more training time and more overfitting risk; and the whole sequence must be available before any output, which adds latency in real-time tasks.
 
-1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can fit the training data too closely (**overfitting**, G-1429). The usual remedies apply: [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#1-overview) and [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting).
-2. **The whole sequence must be available.** The backward RNN starts at the last input. In **real-time speech recognition**, the words arrive one by one while the person speaks, so the backward RNN cannot start until the sentence is finished. The reply is delayed: a **latency** (G-1048) problem that a unidirectional RNN does not have. Figure 7 shows the delay on a four-word command. Watch the two rows as the words arrive: the unidirectional RNN gives each output when its word arrives, while the bidirectional RNN keeps waiting and gives all four outputs only after the last word.
+1. **Complexity.** The recurrent layer has twice the parameters, so training takes longer and the network can fit the training data too closely (**overfitting**, G-1429). The usual remedies apply: [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#1-overview) (G-639) and [regularisation](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting).
+2. **The whole sequence must be available.** The backward RNN starts at the last input. In **real-time speech recognition**, the words arrive one by one while the person speaks, so the backward RNN cannot start until the sentence is finished. The reply is delayed: a [**latency**](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#71-large-datasets-slow-predictions) (G-1048) problem that a unidirectional RNN does not have. Figure 7 shows the delay on a four-word command. Watch the two rows as the words arrive: the unidirectional RNN gives each output when its word arrives, while the bidirectional RNN keeps waiting and gives all four outputs only after the last word.
 
 ![The same four words arriving one by one. Top: a bidirectional RNN can give no output until the last word, because its backward pass starts there. Bottom: a unidirectional RNN gives each output as its word arrives](images/latency.gif){width=100%}
 
@@ -323,6 +323,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Many-to-many RNN](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) (G-1154) | An RNN that takes a sequence and produces a sequence; also called sequence-to-sequence. |
 | [Part-of-speech tagging](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1456) | Labelling every word of a sentence with its part of speech. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Latency](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#71-large-datasets-slow-predictions) (G-1048) | The delay between a request and its answer; high for KNN on large data. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

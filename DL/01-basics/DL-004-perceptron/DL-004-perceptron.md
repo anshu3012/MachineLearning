@@ -20,7 +20,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 
 ![A perceptron with two inputs](images/perceptron.png)
 
-The **perceptron** (G-1486) is the building block of every **neural network** (G-1316; see [deep learning as ML with neural networks](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks)). It is also a **supervised learning** (G-1919) algorithm in its own right, like linear regression or logistic regression. Figure 1 shows its whole design.
+The **perceptron** (G-1486) is the building block of every **neural network** (G-1316; see [deep learning as ML with neural networks](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#21-the-simple-definition-ml-with-neural-networks)). It is also a [**supervised learning**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) algorithm in its own right, like linear regression or logistic regression. Figure 1 shows its whole design.
 
 This Note covers six things:
 
@@ -35,8 +35,8 @@ How the perceptron learns its weights starts with the [perceptron trick](../DL-0
 
 ## 2. Prerequisites
 
-- The general form of a line, its positive and negative sides, and the step function: the [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides), sections 3 and 7.
-- Lines, planes and hyperplanes: the [equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane).
+- The general form of a line, its positive and negative sides, and the step function: the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides) (G-1485), sections 3 and 7.
+- Lines, planes and hyperplanes: the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703).
 - The dot product: the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
 
 ## 3. The parts of a perceptron
@@ -58,7 +58,7 @@ The weights and the bias are the numbers the perceptron learns. Together they ar
 
 > **Key point:** z is the dot product of the weights with the inputs, plus the bias.
 
-The orange block computes the **summation** (G-1915), a **weighted sum** (G-2119) of the inputs:
+The orange block computes the **summation** (G-1915), a [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) of the inputs:
 
 1. **In words:** multiply each input by its weight, add them up, and add the bias.
 2. **Formula:**
@@ -69,7 +69,7 @@ The orange block computes the **summation** (G-1915), a **weighted sum** (G-2119
    $$b \times 1 = 3 \times 1 = 3$$
    $$z = 100 + 10.2 + 3 = 113.2$$
 
-The sum $w_1x_1 + w_2x_2$ is the **dot product** (G-634) of the weight vector with the input vector (a vector is a list of numbers, here $(w_1, w_2)$ and $(x_1, x_2)$; see the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)).
+The sum $w_1x_1 + w_2x_2$ is the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of the weight vector with the input vector (a vector is a list of numbers, here $(w_1, w_2)$ and $(x_1, x_2)$; see the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)).
 
 ### 3.3 The activation function
 
@@ -127,13 +127,13 @@ Figure 3 runs prediction on real data. This dataset is different from the IQ exa
 
 ![Prediction with a trained perceptron, $z = 5.82 x_1 + 1.48 x_2 + 1$ on standardized CGPA and resume score. For each student the inputs flow in, z fills a bar (green if positive, red if negative), the step function fires 1 or 0, and the student lands on the plane in that colour. At the end all 100 students appear with the line z = 0 between the two regions](images/perceptron_fire.gif){width=100%}
 
-Watch the bar: its sign alone decides the output. Student 4 has $z = 1.19$, just above 0, and lands close to the line. The last frame is the straight **decision boundary** (G-555) of section 7, with 97 of the 100 students on their correct side. The three circled students are the ones on the wrong side.
+Watch the bar: its sign alone decides the output. Student 4 has $z = 1.19$, just above 0, and lands close to the line. The last frame is the straight [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) of section 7, with 97 of the 100 students on their correct side. The three circled students are the ones on the wrong side.
 
 ### 4.1 More inputs
 
 > **Key point:** One more feature means one more input node and one more weight; nothing else changes.
 
-If we also know each student's state (encoded as a number, see the [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), we add an input $x_3$ with weight $w_3$:
+If we also know each student's state (encoded as a number, see the [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379)), we add an input $x_3$ with weight $w_3$:
 
 $$z = w_1x_1 + w_2x_2 + w_3x_3 + b$$
 
@@ -175,7 +175,7 @@ So the perceptron is weakly inspired by the neuron. Calling it a model of the br
 
 Suppose training on the placement data gave $w_1 = 2$ for IQ, $w_2 = 4$ for CGPA and $b = 1$. The weight of CGPA is twice the weight of IQ. So, for this model, CGPA matters about twice as much as IQ in deciding placement. The box below gives another way to see it.
 
-In this way the weights tell us the **feature importance** (G-764) of each input. The bias does not belong to any input; its role is to shift the line (Section 7).
+In this way the weights tell us the [**feature importance**](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of each input. The bias does not belong to any input; its role is to shift the line (Section 7).
 
 Figure 6 shows what a weight does to the decision. It takes the trained perceptron of section 8, on standardized CGPA ($x_1$) and resume score ($x_2$):
 
@@ -219,9 +219,9 @@ Figure 7 shows where this line comes from, for the same trained perceptron. It i
 2. **The plane crosses zero along a line.** Where the height is exactly 0, we get the line $z = 0$, the blue line.
 3. **The step flattens it.** The step function replaces every positive height by 1 and every negative height by 0, so the tilted plane becomes two flat terraces that meet at the blue line.
 
-So a trained perceptron is nothing more than a line that splits the plane into two **decision regions** (G-557), one per class. This line is the perceptron's decision boundary. One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
+So a trained perceptron is nothing more than a line that splits the plane into two [**decision regions**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557), one per class. This line is the perceptron's decision boundary. One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
 
-With three inputs the points live in 3D and $z = 0$ is a **plane** (G-1502), like a sheet held across a room. With four or more inputs it is a **hyperplane** (G-911; see the [equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)). In every case there are two regions.
+With three inputs the points live in 3D and $z = 0$ is a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), like a sheet held across a room. With four or more inputs it is a **hyperplane** (G-911; see the [equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)). In every case there are two regions.
 
 ### 7.1 The big limitation
 
@@ -326,6 +326,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Feature importance (weights) (G-763) | Reading the size of a weight as how much its input matters, fair only on scaled inputs. |
 | [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
 | [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
+| [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
@@ -335,6 +337,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
 | [Decision region](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557) | The part of the input space in which a model predicts a given class. |
 | [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |

@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/function-
 
 > **Key point:** A mathematical transformation applies one formula to every value of a feature, usually to make a skewed feature closer to a normal distribution.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). So far, feature transformation has meant filling missing values, encoding categories and scaling numbers. This Note adds one more kind: **mathematical transformation** (G-1174), where we apply a mathematical formula, such as a logarithm or a square root, to every value of a feature.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). So far, feature transformation has meant filling missing values, encoding categories and scaling numbers. This Note adds one more kind: **mathematical transformation** (G-1174), where we apply a mathematical formula, such as a logarithm or a square root, to every value of a feature.
 
 Think of a map of India drawn to scale: Delhi, Mumbai and a small village are hard to show together. A log scale works like a map that shrinks the big distances more than the small ones, so everything fits on one page.
 
@@ -26,13 +26,13 @@ Figure 1 shows the whole topic. A skewed feature goes through scikit-learn's `Fu
 
 ![A skewed column, the formulas we can choose from, and FunctionTransformer applying one of them](images/overview.png)
 
-The formulas covered here are the log, reciprocal, square and square root transforms. Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the [power transformer](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn).
+The formulas covered here are the log, reciprocal, square and square root transforms. Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the [**power transformer**](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn) (G-1542).
 
 ## 2. Why make data normal
 
 > **Key point:** Some algorithms, such as linear and logistic regression, often score better when a skewed feature is brought close to a normal distribution (section 7 measures it); tree-based algorithms do not care.
 
-The **normal distribution** (G-1343) is the symmetric, bell-shaped curve ([what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). **Skewness** (G-1817) is the number that says how lopsided a distribution is ([skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
+The [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) is the symmetric, bell-shaped curve ([what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). [**Skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) is the number that says how lopsided a distribution is ([skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
 
 Real data is rarely normal. Fares, salaries and house prices are usually right-skewed: most values are small and a few are huge. Figure 2 shows the Titanic fares against the normal curve with the same mean and standard deviation:
 
@@ -85,7 +85,7 @@ Before transforming a feature, we need to know whether it is normal already. The
 
 > **Key point:** Sort the data, cut the normal curve into as many equal slices as there are values, and plot the $k$-th smallest value against the $k$-th slice; a straight line of dots means the data has the normal shape.
 
-A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). **Quantiles** (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
+A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). [**Quantiles**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
 
 We build one by hand for the five values 1, 2, 3, 4 and 10 from [the skewness example](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness). Figure 4 animates the steps:
 
@@ -205,7 +205,7 @@ $$(0 + 1 + 3)/3 = 1.3$$
 
 $$2^{1.3} = 2.5$$
 
-On the log scale the big value sways the average far less. This log-scale average is the **geometric mean** (G-844).
+On the log scale the big value sways the average far less. This log-scale average is the [**geometric mean**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#8-choosing-a-measure) (G-844).
 
 A long right tail is therefore pulled in, and the distribution starts to look more normal. The result rarely becomes perfectly normal, but it gets much closer than before.
 
@@ -628,6 +628,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview) (G-1542) | A transform that raises each column to a learned power $\lambda$ to make it close to normal. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |

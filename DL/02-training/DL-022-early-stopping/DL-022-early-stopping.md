@@ -53,11 +53,11 @@ We use 50 points for training and 50 for validation.
 
 The network has three layers:
 
-- an **input layer** (G-952) of 2 nodes, one per feature;
-- one **hidden layer** (G-890) of 256 **ReLU** (G-1668) nodes (a ReLU node returns its weighted sum if that is positive and 0 otherwise);
-- a **sigmoid** (G-1798) output node (it squashes its sum into 0 to 1, the probability of class 1).
+- an [**input layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) of 2 nodes, one per feature;
+- one [**hidden layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) of 256 [**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) nodes (a ReLU node returns its weighted sum if that is positive and 0 otherwise);
+- a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) output node (it squashes its sum into 0 to 1, the probability of class 1).
 
-The **trainable parameters** (G-1065) are the weights and biases:
+The [**trainable parameters**](../../04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) are the weights and biases:
 
 $$2 \times 256 + 256 = 768 \text{ in the hidden layer}$$
 

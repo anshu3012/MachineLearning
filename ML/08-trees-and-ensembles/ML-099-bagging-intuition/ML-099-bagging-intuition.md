@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/bagging]
 
 **Bagging**, short for **bootstrap aggregation**, is one of the two most important ensemble techniques, with boosting (see [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging)). The name joins its two steps: **B**ootstrapping and **AGG**regation.
 
-This Note covers the core idea, why bagging works, when to use it, a small worked example in code, and the four ways to sample: bagging, pasting, random subspaces and random patches. The next two Notes apply it to classification ([bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview)) and regression ([bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview)).
+This Note covers the core idea, why bagging works, when to use it, a small worked example in code, and the four ways to sample: bagging, pasting, random subspaces and random patches. The next two Notes apply it to classification ([bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#1-overview)) and regression ([**bagging regressor**](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview) (G-252)).
 
 The Notebook (`ML-099-bagging-intuition.ipynb`) runs the worked example.
 
@@ -108,7 +108,7 @@ Bootstrapping is older than bagging, and its first use explains why the samples 
 3. **Record** the mean in a histogram (a chart whose bars count how many values fall in each range).
 4. **Repeat** steps 1 to 3 many times; Figure 3 goes up to 10,000 samples.
 
-*What the histogram says.* The 10,000 means show how the mean could vary if we redid the experiment. Their standard deviation (how far they typically lie from their own mean), 0.32, estimates the **standard error** (G-1872) of the mean. The middle 95 percent of them lie between −0.15 and 1.12. This interval contains 0, so with only 8 patients we cannot rule out that the drug does nothing.
+*What the histogram says.* The 10,000 means show how the mean could vary if we redid the experiment. Their standard deviation (how far they typically lie from their own mean), 0.32, estimates the [**standard error**](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) of the mean. The middle 95 percent of them lie between −0.15 and 1.12. This interval contains 0, so with only 8 patients we cannot rule out that the drug does nothing.
 
 The two design choices now have a reason:
 
@@ -127,7 +127,7 @@ The method works for any statistic, not only the mean: in step 2 we could calcul
 
 > **Key point:** We want low bias and low variance, but in a single model reducing one usually raises the other.
 
-From [bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) and [variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance): **bias** is a model's inability to fit even its training data, and **variance** is how much its predictions change when the training data changes. A good model has low bias (accurate on the training data) and low variance (consistent results when the data changes slightly).
+From [**bias**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) and [**variance**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073): **bias** is a model's inability to fit even its training data, and **variance** is how much its predictions change when the training data changes. A good model has low bias (accurate on the training data) and low variance (consistent results when the data changes slightly).
 
 The trouble is that the two pull against each other. Most algorithms end up either low bias, high variance (they overfit) or high bias, low variance (they underfit).
 
@@ -137,7 +137,7 @@ The trouble is that the two pull against each other. Most algorithms end up eith
 
 Bagging uses base models that are **low bias, high variance**:
 
-- a **fully grown decision tree** (`max_depth=None`, see [max_depth](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth)), which fits its training data perfectly but overfits;
+- a **fully grown decision tree** (`max_depth=None`, see [**max_depth**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth) (G-1184)), which fits its training data perfectly but overfits;
 - other **unstable** models, whose fit changes a lot when the data changes a little: Breiman (1996, section 1) found trees and neural networks unstable, and nearest-neighbour methods stable.
 
 Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the variance (ESL §8.7, §15.2; Breiman, 1996, section 4).
@@ -318,7 +318,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | High bias, low variance algorithm (G-895) | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. |
 | Low bias, high variance algorithm (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | With replacement (G-2125) | Sampling in which each drawn item is put back, so it can be drawn again. |
+| [Bagging regressor](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview) (G-252) | A bagging ensemble of regressors that predicts the mean of their predictions. |
 | [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
+| [max_depth](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#2-overfitting-and-underfitting-in-a-tree) (G-1184) | The cap on a tree's depth; None lets it grow until every leaf is pure. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

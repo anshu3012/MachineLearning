@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/multi-he
 
 > **Key point:** One self-attention gives one table of weights per sentence, one point of view. **Multi-head attention** (G-1268) runs several self-attentions, called **heads** (G-883), in parallel, joins their outputs and mixes them with one more learned matrix, $W_O$; with 8 heads of 64 numbers it costs the same as one head of 512.
 
-[Self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) turns each word's embedding (a vector, a list of numbers) into a **contextual embedding** (G-462): a new vector that depends on the other words of the sentence. [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#3-what-d_k-is) gave the final formula, where $Q$, $K$, $V$ are the tables (matrices) of query, key and value vectors, one row per word:
+[Self-attention](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence) turns each word's embedding (a vector, a list of numbers) into a [**contextual embedding**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462): a new vector that depends on the other words of the sentence. [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#3-what-d_k-is) (G-1745) gave the final formula, where $Q$, $K$, $V$ are the tables (matrices) of query, key and value vectors, one row per word:
 
 $$\text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
@@ -36,13 +36,13 @@ This Note shows the one limitation of that formula, then the fix that the transf
 - [Query, key and value vectors](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices) from $W_Q$, $W_K$, $W_V$, and [the matrix form for a whole sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once).
 - [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#7-the-full-formula-in-code): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, and Keras' `MultiHeadAttention` layer with one head.
 - [Static and contextual embeddings](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
-- [Linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): multiplying by a matrix maps a vector to a new vector, possibly of a different length.
+- [**Linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation) (G-1097): multiplying by a matrix maps a vector to a new vector, possibly of a different length.
 
 ## 3. Self-attention in one paragraph
 
 > **Key point:** Self-attention gives each word a query, a key and a value vector, compares every query with every key, and returns each word as a weighted sum of the value vectors.
 
-Take the sentence "money bank". Each word's embedding is multiplied by three learned matrices, $W_Q$, $W_K$ and $W_V$, giving its **query, key and value vectors** (G-1607). The query of "money" is compared with the keys of "money" and "bank" by dot products; the scores are divided by $\sqrt{d_k}$ and turned into **attention weights** (G-225) by the softmax; the weighted sum of the value vectors is the contextual embedding of "money". The same happens for "bank". For all words at once, with the embeddings as the rows of a matrix $X$:
+Take the sentence "money bank". Each word's embedding is multiplied by three learned matrices, $W_Q$, $W_K$ and $W_V$, giving its **query, key and value vectors** (G-1607). The query of "money" is compared with the keys of "money" and "bank" by dot products; the scores are divided by $\sqrt{d_k}$ and turned into [**attention weights**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) by the softmax; the weighted sum of the value vectors is the contextual embedding of "money". The same happens for "bank". For all words at once, with the embeddings as the rows of a matrix $X$:
 
 $$Q = XW_Q$$
 
@@ -136,7 +136,7 @@ $Z_1$ holds the head-1 outputs of "money" and "bank" as its two rows; $Z_2$ hold
 
 > **Key point:** Join the heads' outputs side by side, then multiply by a learned matrix $W_O$. The result has the same shape as the input.
 
-Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side (**concatenation** (G-436)) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
+Each word now has two 4-number vectors. Placing $Z_1$ and $Z_2$ side by side ([**concatenation**](../../05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436)) gives $Z'$, of shape $2 \times 8$. But the output of the layer should have the same shape as its input, $2 \times 4$, so that the next layer can treat it like the embeddings. One more learned matrix, $W_O$ of shape $8 \times 4$, does this:
 
 $$Z = Z'\thinspace W_O = [\thinspace Z_1 \thickspace\thickspace Z_2\thinspace]\thinspace W_O$$
 
@@ -267,7 +267,7 @@ Keras' `MultiHeadAttention` layer confirms it (Notebook):
 
 The paper puts it this way: "Due to the reduced dimension of each head, the total computational cost is similar to that of single-head attention with full dimensionality" (Vaswani et al. 2017, §3.2.2). Each head does one eighth of the work, and the 8 heads run in parallel.
 
-> **Extra:** The paper also measured the number of heads, keeping the total computation fixed (Vaswani et al. 2017, Table 3, rows A; English-to-German translation, development set). The **BLEU score** (G-315), a translation-quality score, was 24.9 with 1 head of 512, 25.5 with 4 heads of 128, 25.8 with 8 heads of 64, 25.8 with 16 heads of 32, and 25.4 with 32 heads of 16. "Single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads." Very small heads lose quality: their 16-number queries and keys are too short to compare words well.
+> **Extra:** The paper also measured the number of heads, keeping the total computation fixed (Vaswani et al. 2017, Table 3, rows A; English-to-German translation, development set). The [**BLEU score**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315), a translation-quality score, was 24.9 with 1 head of 512, 25.5 with 4 heads of 128, 25.8 with 8 heads of 64, 25.8 with 16 heads of 32, and 25.4 with 32 heads of 16. "Single-head attention is 0.9 BLEU worse than the best setting, quality also drops off with too many heads." Very small heads lose quality: their 16-number queries and keys are too short to compare words well.
 
 ## 7. Multi-head attention in code
 
@@ -378,6 +378,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | $W_O$ (G-40) | The learned output matrix that mixes the concatenated head outputs back to $d_{\text{model}}$ numbers per word. |
 | `[CLS]`, `[SEP]` (G-57) | The special tokens BERT adds at the start and the end of every sentence. |
 | [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | [Concatenation ($[h_{t-1}, x_t]$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#51-computing-f_t) (G-436) | Joining two vectors end to end into one longer vector, so one layer can read both at once: 3 numbers and 4 numbers give 7. |
 | [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |

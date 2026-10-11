@@ -34,7 +34,7 @@ The Notebook (`ML-019-univariate-analysis.ipynb`) draws every graph as an intera
 
 > **Key point:** Studying one column is univariate analysis, two columns together is **bivariate analysis** (G-310), and more than two is **multivariate analysis** (G-1280).
 
-Each column of a dataset is called a **variable** (G-2071). In ML, an input variable is called a **feature** (G-772), and the variable we want to predict is the **target** (G-1949). Each row, one record, is an **observation** (G-1374). EDA has three levels, named by how many variables we look at together (Figure 2):
+Each column of a dataset is called a **variable** (G-2071). In ML, an input variable is called a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), and the variable we want to predict is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949). Each row, one record, is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374). EDA has three levels, named by how many variables we look at together (Figure 2):
 
 - **Univariate analysis:** one variable on its own ("uni" means one). For example, how old were the passengers?
 - **Bivariate analysis:** two variables together ("bi" means two). For example, did older passengers survive less often?
@@ -219,7 +219,7 @@ How is the curve built? Figure 8 shows the steps:
 
 With five passengers the single bumps are easy to see. With all 714, the sum is the smooth curve of Figure 7. The bump is called the **kernel** (G-2273), which gives the kernel density estimate its name; here it is the bell-shaped Gaussian curve (SciPy docs, `gaussian_kde`).
 
-The curve estimates the column's **probability density function (PDF)** (G-1568). The x axis shows the age; the y axis shows the **density** (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare. The height is a density, not a probability: the probability of an age falling in a range is the area under the curve over that range (the Extra below gives one number).
+The curve estimates the column's [**probability density function (PDF)**](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568). The x axis shows the age; the y axis shows the [**density**](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), how likely ages near that value are. Where the curve is high, as around 25, ages are common; where it is low, as at 70, they are rare. The height is a density, not a probability: the probability of an age falling in a range is the area under the curve over that range (the Extra below gives one number).
 
 So the two graphs answer slightly different questions:
 
@@ -238,7 +238,7 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 > **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
 
-A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median (the middle value) and the percentiles (the value below which a given share of the data lies), see [percentiles](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles).
+A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median (the middle value) and the percentiles (the value below which a given share of the data lies), see [**percentiles**](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483).
 
 ![The parts of a box plot, drawn for the Titanic ages](images/box_anatomy.png)
 
@@ -428,4 +428,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
+| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |

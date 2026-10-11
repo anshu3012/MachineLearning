@@ -147,7 +147,7 @@ Figure 4 sets the two side by side on the grid. The overlap is the same 5 red ce
 
 ![The same overlap, two different worlds. Left: given B (the 33 cells with sum at most 10), A covers 5 cells, so P(A | B) = 5/33. Right: given A (die 1 shows 5), B covers 5 of its 6 cells, so P(B | A) = 5/6. Grey cells are ruled out.](images/swap.png)
 
-Confusing the two is a classic mistake. [Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) is exactly the rule that converts one into the other.
+Confusing the two is a classic mistake. [**Bayes' theorem**](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) is exactly the rule that converts one into the other.
 
 ## 5. The multiplication rule
 
@@ -225,4 +225,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
 | [Event](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717) | A set of outcomes, such as "the sum is at most 10". |
 | [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Dependent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) | Events that are not independent: knowing one changes the probability of the other. |

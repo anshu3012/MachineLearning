@@ -28,9 +28,9 @@ The same algorithm also solves classification; only the loss function changes (s
 
 > **Key point:** Every ML model is a function $y = f(x)$ that maps the features to the target.
 
-Whatever the algorithm, an ML model learns a mathematical relationship between the **features** (G-772) (the input variables, one column of the data table each) and the **target** (G-1949) (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each **observation** (G-1374) (one record, one row of the table) gives one pair of $x$ and $y$.
+Whatever the algorithm, an ML model learns a mathematical relationship between the [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (the input variables, one column of the data table each) and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict). With one feature $x$ (say CGPA) and a target $y$ (say package), the model is a function $y = f(x)$. With several features, it is $y = f(x_1, x_2, x_3)$. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table) gives one pair of $x$ and $y$.
 
-Linear regression learns a straight line ([a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)): a very simple function. A **regression tree** (G-1654) is also a function, made of if-else rules whose leaves predict the mean of the targets that reach them ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). Learning means finding the function that matches the data.
+Linear regression learns a straight line ([a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)): a very simple function. A [**regression tree**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) is also a function, made of if-else rules whose leaves predict the mean of the targets that reach them ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). Learning means finding the function that matches the data.
 
 ## 3. Additive modelling: a complex function as a sum of simple ones
 
@@ -92,7 +92,7 @@ The notation $\lbrace(x_i, y_i)\rbrace_{i=1}^{n}$ in Figure 1 simply means this 
 >
 > Any loss works, as long as it can be differentiated.
 
-A **loss function** (G-706) measures how wrong a prediction is (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
+A [**loss function**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) measures how wrong a prediction is (see [**mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201)). In Figure 1 it is written $L(y, F(x))$, where $F(x)$ is the model's output, $\hat{y}$. Gradient boosting accepts any **differentiable loss** (G-605), one we can differentiate at every point; this flexibility is one of its strengths (Friedman 2001).
 
 For regression we take the squared error with a factor of one half.
 
@@ -122,7 +122,7 @@ Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one 
    $$+ \frac{1}{2}(90.71 - \gamma)^2$$
    The derivation below gives $\gamma = 142.41$.
 
-To find the minimum, we differentiate with respect to $\gamma$ and set the result to zero, as for linear regression ([finding the minimum](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum)), where the **derivative** (G-595) is the slope of a curve. By the chain rule, the 2 from the square cancels the $\frac{1}{2}$, and the inner derivative of $(y_i - \gamma)$ is $-1$:
+To find the minimum, we differentiate with respect to $\gamma$ and set the result to zero, as for linear regression ([finding the minimum](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum)), where the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) is the slope of a curve. By the chain rule, the 2 from the square cancels the $\frac{1}{2}$, and the inner derivative of $(y_i - \gamma)$ is $-1$:
 
 $$\frac{d}{d\gamma} \sum_{i=1}^{n} \frac{1}{2}(y_i - \gamma)^2$$
 
@@ -168,7 +168,7 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
    $$r_{21} = 144.26 - 142.41 = 1.85$$
    $$r_{31} = 90.71 - 142.41 = -51.70$$
 
-The derivative of the loss is its **gradient** (G-863), the same quantity gradient descent follows (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a **pseudo-residual** (G-1589).
+The derivative of the loss is its [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863), the same quantity gradient descent follows (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a [**pseudo-residual**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589).
 
 Figure 5 draws this for each startup. Watch the sign: where the loss slopes down (startup 1) the residual is positive and the green arrow says "predict more"; where it slopes up (startup 3) the residual is negative; startup 2 sits almost at the bottom, so its residual is almost 0.
 
@@ -222,7 +222,7 @@ Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watc
 
 ![Loss in region $R_{11}$ against the leaf value. Squared error (left): the tree's own value, $-51.70$, is the minimum. Absolute error (right): the tree's own value, $-1$, is far from the minimum at $-53.55$](images/leaf_values.png){height=36%}
 
-> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the **median** (G-1209), 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
+> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the [**median**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209), 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
 
 ## 9. Step 2(d): update the model
 
@@ -240,7 +240,7 @@ Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watc
    For startup 3:
    $$F_1 = 142.41 - 51.70 = 90.71$$
 
-In practice each tree is multiplied by the **learning rate** (G-1067) $\eta$ before it is added, as in [the learning rate](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction):
+In practice each tree is multiplied by the [**learning rate**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction) (G-1067) $\eta$ before it is added, as in [the learning rate](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction):
 
 $$F_m(x) = F_{m-1}(x) + \eta \sum_j \gamma_{jm} \mathbf{1}(x \in R_{jm})$$
 
@@ -288,7 +288,7 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 > gbr.fit(X, y)
 > ```
 >
-> `"huber"`, the **Huber loss** (G-905), is squared error for small residuals and absolute error for large ones, so outliers pull less; `"quantile"` predicts a chosen quantile instead of the mean. Old names such as `"ls"` and `"lad"` were removed from scikit-learn and now raise an error.
+> `"huber"`, the [**Huber loss**](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#71-when-neither-mse-nor-mae-fits) (G-905), is squared error for small residuals and absolute error for large ones, so outliers pull less; `"quantile"` predicts a chosen quantile instead of the mean. Old names such as `"ls"` and `"lad"` were removed from scikit-learn and now raise an error.
 
 ## 11. Summary
 
@@ -340,6 +340,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |

@@ -36,7 +36,7 @@ This Note covers:
 
 > **Key point:** We want a number about the whole population, but we can only measure samples.
 
-Recap (see [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics)): the **population** (G-1525) is the entire group we want to study; a **sample** (G-1731) is the part we actually measure. A number computed from the population, such as $\mu$, is a **parameter** (G-1448); the same number computed from a sample, such as $\bar{x}$, is a **statistic** (G-1880).
+Recap (see [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics)): the [**population**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) is the entire group we want to study; a [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) is the part we actually measure. A number computed from the population, such as $\mu$, is a [**parameter**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448); the same number computed from a sample, such as $\bar{x}$, is a [**statistic**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) (G-1880).
 
 Our running example is the average monthly salary in India. The population is the salary of all 140 crore people. Asking all of them is impossible, so we ask, say, 50,000 people chosen at random from every state and district, and infer the national average from them.
 
@@ -91,7 +91,7 @@ Every sample of 50 people gives a slightly different mean. The sampling distribu
 - perform hypothesis tests;
 - predict a population parameter, such as the mean, from sample data.
 
-The first two are taught in [confidence intervals](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) and [the problem hypothesis testing solves](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves). The third is the subject of this Note and of [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#3-a-sampling-distribution-of-the-mean-fare).
+The first two are taught in [**confidence intervals**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) and [the problem hypothesis testing solves](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves). The third is the subject of this Note and of [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#3-a-sampling-distribution-of-the-mean-fare).
 
 ## 4. The central limit theorem
 
@@ -354,7 +354,7 @@ The same works anywhere. A t-shirt company that does not know the heights of all
 The CLT also justifies many standard techniques:
 
 - **confidence intervals**: a range for a population parameter;
-- **hypothesis tests**, such as the [t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test) (does a sample mean differ from a claimed value?) and [ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (do the means of several groups differ?);
+- **hypothesis tests**, such as the [**t-test**](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test) (G-1940) (does a sample mean differ from a claimed value?) and [**ANOVA**](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) (do the means of several groups differ?);
 - **linear regression**: its tests on the coefficients rely on normality, which the CLT provides for large samples (Wooldridge, ch. 5).
 
 The CLT has one big condition hidden in the word "random": the samples must be random and representative (see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)). Salaries collected only in cities give a sampling distribution centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
@@ -409,5 +409,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | [Statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
+| [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
 | [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
+| [T-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview) (G-1940) | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. |
+| [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |
 | [Exponential distribution](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#31-the-distribution-of-waiting-times) (G-733) | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |

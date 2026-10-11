@@ -61,7 +61,7 @@ In Figure 3, watch the three lines leave 1. A factor of 2 gives 16 after 4 uses 
 
 Two more conditions make this a problem in practice:
 
-- **Depth:** the problem only appears in **deep neural networks** (G-570), with many hidden layers, because only they have long chains of factors.
+- **Depth:** the problem only appears in [**deep neural networks**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-570), with many hidden layers, because only they have long chains of factors.
 - **Activation:** the problem appears with **sigmoid** or **tanh**. Both squash a huge input range into a small output range (0 to 1, or $-1$ to 1), so their slopes are small.
 
 ### 3.2 Where the small factors come from
@@ -209,7 +209,7 @@ The spikes in the green curve come from the large learning rate of 0.5, chosen s
 > keras.layers.Dense(10, activation="relu")
 > ```
 
-ReLU has its own weakness, the **dying ReLU** (G-650): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both are taught later: [the dying ReLU problem](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) and [Leaky ReLU](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu).
+ReLU has its own weakness, the [**dying ReLU**](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) (G-650): a node whose input stays negative has slope 0, so its weights get no updates and it stays dead. Variants such as **Leaky ReLU** keep a small slope for negative inputs. Both are taught later: [the dying ReLU problem](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) and [**Leaky ReLU**](../../02-training/DL-028-relu-variants/DL-028-relu-variants.md#51-leaky-relu) (G-1064).
 
 ### 6.3 Initialise the weights properly
 

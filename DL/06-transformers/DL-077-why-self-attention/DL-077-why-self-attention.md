@@ -32,13 +32,13 @@ This Note answers two questions:
 - [The attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step): a new context vector for every output word, built from all encoder states.
 - [Luong's simpler score](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#51-a-simpler-score): Luong's dot-product score.
 - [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value): query, key and value vectors.
-- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#4-longer-vectors-give-more-spread-out-dot-products): dividing the scores by $\sqrt{d_k}$ ($d_k$ is the length of a key vector).
+- [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#4-longer-vectors-give-more-spread-out-dot-products) (G-1745): dividing the scores by $\sqrt{d_k}$ ($d_k$ is the length of a key vector).
 
 ## 3. Attention in the encoder–decoder, in three equations
 
 > **Key point:** For output step $i$, the decoder state $s_i$ is compared with every encoder state $h_j$ by a dot product; the softmax turns the scores into weights $\alpha_{ij}$; the context vector $c_i$ is the weighted sum of the encoder states.
 
-Recall the setting of [the attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing). We translate the English sentence "Turn off the light." into French, "Éteins la lumière.", a pair taken from the English–French dataset used in these Notes. An **LSTM** (G-1123) encoder reads the 4 English words and keeps a hidden state after each: $h_1, h_2, h_3, h_4$. An LSTM decoder writes the 3 French words, with a hidden state $s_i$ at each step.
+Recall the setting of [the attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing). We translate the English sentence "Turn off the light." into French, "Éteins la lumière.", a pair taken from the English–French dataset used in these Notes. An [**LSTM**](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) encoder reads the 4 English words and keeps a hidden state after each: $h_1, h_2, h_3, h_4$. An LSTM decoder writes the 3 French words, with a hidden state $s_i$ at each step.
 
 The plain encoder–decoder hands the decoder one context vector for the whole sentence. Attention gives the decoder a fresh context vector $c_i$ at every step, a weighted mix of all encoder states. With the dot-product score of **Luong attention** (G-1137; Luong et al. 2015), the context vector comes from three equations:
 
@@ -48,7 +48,7 @@ The plain encoder–decoder hands the decoder one context vector for the whole s
 2. **Weights:** $\alpha_{ij} = \text{softmax} _j(e_{ij})$: the softmax over $j$ turns the scores of one step into positive numbers that sum to 1.
 3. **Context vector:** $c_i = \sum_j \alpha_{ij}\thinspace h_j$, where $\sum_j$ adds the terms for $j = 1, \dots, 4$.
 
-For example, the **context vector** (G-461) for writing "la" (Figure 2) is:
+For example, the [**context vector**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) for writing "la" (Figure 2) is:
 
 $$c_2 = \alpha_{21}h_1 + \alpha_{22}h_2$$
 
@@ -93,7 +93,7 @@ Then the same for "off", "the" and "light". Written side by side (Figure 1), the
 | Weights | $\alpha_{ij} = \text{softmax} _j(e_{ij})$ | $w_{ij} = \text{softmax} _j(s_{ij})$ |
 | Output | context vector $c_i$ | contextual embedding $y_i$ |
 
-The decoder state acts as the **query**: at step $i$ the decoder asks which input words will help it write the next word. The encoder states answer as **keys** (G-1011), and they are also the **values** (G-2068) that get mixed. In Luong attention the key and the value of a word are the same vector $h_j$; self-attention gives each word two different vectors for these two jobs.
+The decoder state acts as the **query**: at step $i$ the decoder asks which input words will help it write the next word. The encoder states answer as [**keys**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011), and they are also the [**values**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) that get mixed. In Luong attention the key and the value of a word are the same vector $h_j$; self-attention gives each word two different vectors for these two jobs.
 
 ![The three equations of Luong attention (left) and of self-attention (right), step by step. The colours mark the only substitutions: the decoder state becomes a query (blue), the encoder state used for comparing becomes a key (orange), and the encoder state that is mixed becomes a value (green)](images/three_equations.png){width=100%}
 
@@ -148,7 +148,7 @@ In self-attention the queries, keys and values all come from the same sentence. 
 
 ![Weight matrices from the Notebook (untrained networks, so the values have no meaning yet; the shapes do). Left: Luong attention, French queries over English keys, $3 \times 4$. Middle: self-attention on the English embeddings without projections. Right: with $W_Q$, $W_K$, $W_V$ and scaling. Both self-attention matrices are $4 \times 4$](images/weights.png){width=100%}
 
-The "self" therefore describes where the inputs come from, not a different calculation. Keras' `MultiHeadAttention` layer shows this directly: it takes a `query` sequence and a `value` sequence. Called with the English sentence as both, it does self-attention and returns $4 \times 4$ weights; called with the French states as the query and the English sentence as the value, the same layer returns $3 \times 4$ weights (Notebook). The second use, between the decoder and the encoder of a transformer, is called **cross-attention** (G-507) and has its own section in [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other).
+The "self" therefore describes where the inputs come from, not a different calculation. Keras' `MultiHeadAttention` layer shows this directly: it takes a `query` sequence and a `value` sequence. Called with the English sentence as both, it does self-attention and returns $4 \times 4$ weights; called with the French states as the query and the English sentence as the value, the same layer returns $3 \times 4$ weights (Notebook). The second use, between the decoder and the encoder of a transformer, is called [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) and has its own section in [cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other).
 
 > **Extra:** The middle panel of Figure 6 shows why self-attention needs its projection matrices. Without $W_Q$ and $W_K$, the query and the key of a word are the same vector, and the dot product of a vector with itself (its squared length) is usually the largest score: "off" and "the" put all their weight on themselves. Jurafsky and Martin (SLP3 draft, ch. 7, section on attention) note the same: in the simple version, "the softmax weight will likely be highest for $x_i$, since $x_i$ is very similar to itself". Separate query, key and value matrices, (see [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value)), let a word look for something other than itself (right panel).
 
@@ -191,6 +191,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Self-attention (intra-attention) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | `keras.layers.Attention` (G-103) | Keras' layer that lets each item of one sequence look at another sequence: it scores queries from the first against keys from the second by dot product (Luong-style attention). It returns the attention weights and the weighted sums of the values (context vectors). |
 | Inter-sequence attention (G-958) | Attention between two different sequences, such as an output and an input sentence. |
+| [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
 | [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Luong attention (multiplicative, dot)](../../../DL/06-transformers/DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#5-luong-attention) (G-1137) | Attention between a decoder state and the encoder states, scored by multiplying them: $s_i^\top h_j$ (dot) or $s_i^\top W_a h_j$. |
 | [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |

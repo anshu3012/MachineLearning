@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/convolution]
 
 > **Key point:** A convolution slides a small grid of numbers, the filter, over an image. At each position it multiplies the filter and the pixels under it cell by cell and adds the products. The numbers it writes out form a new grid, the feature map, which is large wherever the image contains the pattern the filter looks for.
 
-A **convolutional neural network** (G-484; CNN) is built from three kinds of layers: convolution layers, pooling layers (which shrink a feature map) and fully connected layers (ordinary ANN layers) (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn)). The **convolution layer** (G-480) is the one that gives the network its name, and the one that finds features such as edges.
+A **convolutional neural network** (G-484; CNN) is built from three kinds of layers: convolution layers, pooling layers (which shrink a feature map) and fully connected layers (ordinary ANN layers) (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn)). The [**convolution layer**](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) is the one that gives the network its name, and the one that finds features such as edges.
 
 ![A 3 × 3 horizontal-edge filter slides over a 6 × 6 image whose top half is black (0) and bottom half white (255). At each position: multiply cell by cell, add, write one number into the 4 × 4 feature map. Darker blue means a larger pixel value](images/conv_slide.gif){width=100% height=55%}
 
@@ -48,7 +48,7 @@ Figure 1 shows the whole **convolution operation** (G-481) on a tiny image. This
 
 > **Key point:** One channel. Each pixel holds a number from 0 (black) to 255 (white), often scaled to 0–1.
 
-An **MNIST** (G-1249; a set of handwritten-digit images) digit is a grid of 28 × 28 **pixels** (G-1501), and each pixel holds one number between 0 and 255 (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#41-an-image-is-a-grid-of-numbers) for a digit drawn as its numbers). In MNIST, 0 means black, the background, and 255 means white, the ink. We often divide by 255 to bring the values into the range 0 to 1, as in the [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels).
+An **MNIST** (G-1249; a set of handwritten-digit images) digit is a grid of 28 × 28 [**pixels**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-1501), and each pixel holds one number between 0 and 255 (see the [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#41-an-image-is-a-grid-of-numbers) for a digit drawn as its numbers). In MNIST, 0 means black, the background, and 255 means white, the ink. We often divide by 255 to bring the values into the range 0 to 1, as in the [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels).
 
 To the computer, a greyscale image is just a 2D array of numbers. Every operation on the image is an operation on that array.
 
@@ -56,7 +56,7 @@ To the computer, a greyscale image is just a 2D array of numbers. Every operatio
 
 > **Key point:** Three channels, red, green and blue, each a greyscale-like grid of 0–255. Shape: height × width × 3.
 
-A colour image stores three grids of the same size, one for each primary colour: **red, green and blue** (RGB). Mixing the three intensities gives every other colour. Each grid is called a **channel** (G-375), and each holds values from 0 to 255.
+A colour image stores three grids of the same size, one for each primary colour: **red, green and blue** (RGB). Mixing the three intensities gives every other colour. Each grid is called a [**channel**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-375), and each holds values from 0 to 255.
 
 So a colour image has shape height × width × 3. The only difference between a greyscale and an RGB image is the number of channels: one against three.
 
@@ -264,7 +264,7 @@ The [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strid
 
 > **Key point:** In a CNN the filter values are weights. They start random and backpropagation sets them, so the network builds the filters its task needs.
 
-People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by **backpropagation** (G-247), exactly like the weights of an ANN (see the [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
+People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247), exactly like the weights of an ANN (see the [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
 
 The Notebook shows this happening. A small CNN with one convolution layer of 8 filters (3 × 3), followed by Flatten (turns the grid of numbers into one long list) and a softmax output layer (one probability per digit), trains for 2 epochs on MNIST and reaches 96.7% test accuracy.
 
@@ -286,7 +286,7 @@ $$K_{\text{left}} = \begin{bmatrix} 1 & 0 & -1 \cr1 & 0 & -1 \cr1 & 0 & -1 \end{
 
 On a handwritten 0 (Figure 8, middle), the red values are the places where the filter finds its left edge: the stroke is bright and the background on its right is dark. The blue values are the opposite edge, where the background is on the left: a right edge. The Notebook counts 136 clearly positive cells and 138 clearly negative ones (absolute value above 0.1).
 
-In a CNN, the feature map goes through an activation function next, usually **ReLU** (G-1668), $\max(0, z)$ (see the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). Negative values become 0 and positive values stay. The activation is needed because a convolution, like a node, is only a weighted sum plus a bias: without a non-linear step, stacked convolution layers would [collapse into one linear layer](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#42-the-algebra-linear-layers-collapse). After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
+In a CNN, the feature map goes through an activation function next, usually [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668), $\max(0, z)$ (see the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). Negative values become 0 and positive values stay. The activation is needed because a convolution, like a node, is only a weighted sum plus a bias: without a non-linear step, stacked convolution layers would [collapse into one linear layer](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#42-the-algebra-linear-layers-collapse). After ReLU (Figure 8, right) only the red left edges remain: the feature map now answers one question, "is there a left edge here?".
 
 ## 10. Convolution on colour images
 

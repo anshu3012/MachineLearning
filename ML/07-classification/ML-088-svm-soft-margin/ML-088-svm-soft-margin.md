@@ -94,7 +94,7 @@ Figure 3 shows why the two forms agree. As $\lVert w \rVert$ grows, the margin $
 
 ![The margin 2/‖w‖ (blue) and the term ‖w‖/2 (orange) against the length of w. The first falls where the second rises, so the same ‖w‖ makes the margin largest and the term smallest; marked: ‖w‖ = 0.899, margin 2.22, term 0.45.](images/max_min.png)
 
-> **Extra:** In practice, and in scikit-learn, the term is written $\tfrac{1}{2}\lVert w \rVert^2$ instead of $\lVert w \rVert / 2$ (scikit-learn user guide §1.4.7). Squaring does not change which $w$ is smallest, and the squared form is smooth (it has no kink at $w = 0$) and is exactly the L2 penalty of [Ridge regression](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients).
+> **Extra:** In practice, and in scikit-learn, the term is written $\tfrac{1}{2}\lVert w \rVert^2$ instead of $\lVert w \rVert / 2$ (scikit-learn user guide §1.4.7). Squaring does not change which $w$ is smallest, and the squared form is smooth (it has no kink at $w = 0$) and is exactly the L2 penalty of [**Ridge regression**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-1691).
 
 ## 4. Slack: how far a point breaks the rules
 
@@ -194,7 +194,7 @@ A larger C makes each mistake cost more, which is why a larger C pushes the line
 
 > **Key point:** Large C: avoid mistakes, accept a narrow margin. Small C: keep the margin wide, accept some mistakes. Tune C with cross-validation.
 
-$C$ (G-336) is a **hyperparameter** (G-910; see [hyperparameter tuning](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)): a tuning knob we set before training. C can be any positive number. An everyday picture: C is the size of the fine for each rule-breaking point. A huge fine makes the line bend over backwards to avoid any mistake; a tiny fine lets it relax and keep a wide road.
+$C$ (G-336) is a **hyperparameter** (G-910; see [**hyperparameter tuning**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909)): a tuning knob we set before training. C can be any positive number. An everyday picture: C is the size of the fine for each rule-breaking point. A huge fine makes the line bend over backwards to avoid any mistake; a tiny fine lets it relax and keep a wide road.
 
 - **Large C** (say 1,000 or 10,000): the classification error dominates. The algorithm stops caring about the width of the margin and concentrates on misclassifying no point.
 - **Small C** (say 0.1, 0.01 or 0.001): the margin error dominates. The algorithm keeps the margin wide even if some points end up misclassified.
@@ -232,7 +232,7 @@ The soft-margin loss has the same shape as the loss of regularised logistic regr
 | Logistic regression | [log loss](../ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) | $\lambda \lVert w \rVert^2$ (L2) | $\lambda$ on the penalty |
 | Soft-margin SVM | $\sum \xi_i$: the **hinge loss** | $\lVert w \rVert / 2$ | $C$ on the error |
 
-- The margin term $\lVert w \rVert / 2$ plays the role of the **regularisation** (G-1659) term: it keeps $w$ small, which here means a wide margin.
+- The margin term $\lVert w \rVert / 2$ plays the role of the [**regularisation**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) term: it keeps $w$ small, which here means a wide margin.
 - The error term $\sum \xi_i$ is called the **hinge loss** (G-898), the SVM's counterpart of the log loss.
 - $C$ multiplies the error instead of the penalty, so it works the other way round: written as "hinge loss + $\tfrac{\lambda}{2} \lVert w \rVert^2$", the SVM has $\lambda = 1/C$ (ESL §12.3.2). A large C means weak regularisation; a small C means strong regularisation.
 
@@ -303,5 +303,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
 | [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |

@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/rmsprop]
 
 > **Key point:** RMSProp replaces AdaGrad's sum of squared gradients with an exponentially weighted moving average of them. Old gradients fade away, so their average cannot grow without limit and the learning rate does not shrink to nothing.
 
-**RMSProp** (G-1697), short for *root mean square propagation* (Hinton 2012, lecture 6e), is an improvement of [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#6-the-update-rule) (G-168; divides each parameter's learning rate by the root of the sum of its past squared gradients). It keeps AdaGrad's good idea, a separate **learning rate** (G-1068) for every parameter, and removes its weakness: learning rates that only ever fall.
+**RMSProp** (G-1697), short for *root mean square propagation* (Hinton 2012, lecture 6e), is an improvement of [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#6-the-update-rule) (G-168; divides each parameter's learning rate by the root of the sum of its past squared gradients). It keeps AdaGrad's good idea, a separate [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) for every parameter, and removes its weakness: learning rates that only ever fall.
 
 ![AdaGrad and RMSProp with the same learning rate 0.2 on the elongated bowl of a sparse feature. AdaGrad's steps keep shrinking and it crawls; RMSProp keeps moving and reaches the minimum](images/rmsprop_race.gif){width=80%}
 
@@ -46,7 +46,7 @@ Figure 1 shows the difference on the students data. With the same learning rate,
 
 > **Key point:** AdaGrad's $v_t$ adds up every squared gradient since the first step. After many steps $v_t$ is huge, $\eta/\sqrt{v_t}$ is tiny, and the updates almost stop.
 
-Recall the data: 100 students, the sparse IIT feature (a **sparse feature**, G-1841: mostly 0) and the package as **target** (G-1949; the output we predict). Its loss is an **elongated bowl** (G-673) over the weight $m$ and the bias $b$, and AdaGrad heads for the minimum by giving each parameter its own learning rate. But AdaGrad divides $\eta$ by $\sqrt{v_t}$, where
+Recall the data: 100 students, the sparse IIT feature (a **sparse feature**, G-1841: mostly 0) and the package as **target** (G-1949; the output we predict). Its loss is an [**elongated bowl**](../DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) over the weight $m$ and the bias $b$, and AdaGrad heads for the minimum by giving each parameter its own learning rate. But AdaGrad divides $\eta$ by $\sqrt{v_t}$, where
 
 $$v_t = v_{t-1} + (\nabla L)^2$$
 
@@ -66,7 +66,7 @@ The whole problem comes from one fact: $v_t$ uses every gradient of the past, so
 
 RMSProp changes only the line that computes $v_t$:
 
-1. **In words:** keep an **exponentially weighted moving average** (G-735) of each parameter's squared gradient, then divide the learning rate by its square root, as AdaGrad does.
+1. **In words:** keep an [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) of each parameter's squared gradient, then divide the learning rate by its square root, as AdaGrad does.
 2. **Formula:**
    $$v_t = \beta\thinspace v_{t-1} + (1-\beta)\thinspace\left(\nabla L(w_t)\right)^2$$
    $$w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L(w_t)$$
@@ -110,11 +110,11 @@ On a convex problem (a **convex function**, G-476) such as **linear regression**
 
 The setup:
 
-- **data:** the **MNIST** (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as target (the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
+- **data:** the [**MNIST**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) handwritten digits ([the MNIST data](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#2-the-mnist-data)), 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as target (the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
 - **network:** hidden layers of 128 and 64 **ReLU** (G-1668; each node outputs its input if positive, else 0) nodes and a softmax output (10 probabilities, one per digit);
-- **training:** both optimizers use learning rate 0.001 (Keras' default for both), **batch size** (G-267) 64, accumulators starting at 0, and 30 **epochs** (G-696), with 3 seeds each.
+- **training:** both optimizers use learning rate 0.001 (Keras' default for both), [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64, accumulators starting at 0, and 30 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), with 3 seeds each.
 
-After every epoch we record the median **effective learning rate** (G-662) $\eta/\sqrt{v}$ over all weights.
+After every epoch we record the median [**effective learning rate**](../DL-036-adagrad/DL-036-adagrad.md#8-the-weakness-the-learning-rate-only-goes-down) (G-662) $\eta/\sqrt{v}$ over all weights.
 
 ![MNIST, mean of 3 seeds. Left: training loss per epoch. Right: the median effective learning rate. AdaGrad's (green) falls epoch after epoch and its loss levels off; RMSProp's (purple) does not fall, and its loss keeps dropping](images/mnist_rmsprop.png){width=100%}
 
@@ -145,7 +145,7 @@ Two limits are worth knowing:
 - Compared with AdaGrad, it adds a **hyperparameter** (G-910; a setting chosen before training), $\beta$, which sets how long the average remembers (Goodfellow et al. 2016, §8.5.2).
 - Its average starts at $v_0 = 0$ with no correction, so early in training $v_t$ is pulled towards 0 (Goodfellow et al. 2016, §8.5.3), the [start-up effect of a zero start](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula).
 
-**Adam** (G-169) fixes the second and adds **momentum** (G-1258), and usually performs a little better, which is why RMSProp is used less today ([Adam's bias correction](../DL-038-adam/DL-038-adam.md#5-bias-correction)).
+[**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) fixes the second and adds [**momentum**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258), and usually performs a little better, which is why RMSProp is used less today ([Adam's bias correction](../DL-038-adam/DL-038-adam.md#5-bias-correction)).
 
 > **Extra:** RMSProp was never published as a paper; it comes from Hinton's 2012 Coursera lecture slides, which suggest $\beta = 0.9$ (Hinton 2012, lecture 6e; Ruder 2016, §4.5).
 

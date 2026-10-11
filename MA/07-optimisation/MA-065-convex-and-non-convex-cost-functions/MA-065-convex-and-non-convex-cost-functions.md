@@ -17,7 +17,7 @@ tags: [subject/maths, area/calculus, step/model, concept/convexity]
 
 > **Key point:** A convex cost function is one bowl: every chord lies on or above the curve, any minimum is the global minimum, and gradient descent (with a small enough learning rate) finds it from any start. A non-convex one can have several dips, and gradient descent may stop in the wrong one.
 
-The idea first appeared with [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters): a **convex** function (G-476) is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap **gradient descent** (G-862) in a **local minimum** (G-1110) instead of the **global minimum** (G-848).
+The idea first appeared with [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters): a **convex** function (G-476) is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) in a [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) instead of the [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848).
 
 ![One dataset, two models. Top: the loss as a surface over the two parameters, with contour lines drawn on it and dropped to the floor. Bottom: the same surfaces seen from above, as contour maps. The loss of a straight line is one bowl (left); the loss of a tiny neural network has two separate minima with a ridge between them (right)](images/loss_surfaces.png)
 
@@ -33,7 +33,7 @@ This Note writes the chord test as a formula, shows what it guarantees and what 
 
 > **Key point:** We fix the data and treat the loss as a function of the model's parameters; one parameter gives a curve, two give a surface, many give a surface we can no longer draw.
 
-A **loss function** (G-706), or **cost function** (G-492), measures how far a model's predictions are from the true values (see the [regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
+A [**loss function**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706), or **cost function** (G-492), measures how far a model's predictions are from the true values (see the [**regression metrics**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1652)). During training the data is fixed. What changes are the parameters, so we read the loss as a function of the parameters:
 
 $$\text{loss} = L(\text{parameters})$$
 
@@ -135,7 +135,7 @@ so the midpoint has a value below the lowest one, which is impossible.
 
 A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 
-> **Extra:** Points with zero slope are called **stationary points** (G-1879). For $g$, the derivative (the slope, [derivatives](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero)) is
+> **Extra:** Points with zero slope are called **stationary points** (G-1879). For $g$, the derivative (the slope, [**derivatives**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (G-595)) is
 >
 > $$g'(w) = 4w^3 - 8w + 1$$
 >
@@ -170,7 +170,7 @@ Figure 4 runs gradient descent on $g$ from two starting points with the same lea
 
 The orange run is the worst case for a non-convex loss: it converges, but to a sub-optimal answer. The parameters it returns give a loss 2.82 higher than the best possible. On a convex loss this cannot happen: every start ends at the same lowest value.
 
-> **Extra:** Ways to reduce the risk: start from several random points and keep the best result, or use [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (one observation per step), whose noisy steps can jump out of a shallow dip (Kleinberg et al. 2018). Methods built for this (momentum, adaptive learning rates) are covered with neural networks.
+> **Extra:** Ways to reduce the risk: start from several random points and keep the best result, or use [**stochastic gradient descent**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) (one observation per step), whose noisy steps can jump out of a shallow dip (Kleinberg et al. 2018). Methods built for this (momentum, adaptive learning rates) are covered with neural networks.
 
 ## 5. Two losses compared
 
@@ -216,7 +216,7 @@ How to read Figure 5: a loss over two parameters cannot be drawn as one curve, s
 
 Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex (Goodfellow et al. §8.2.2–8.2.3).
 
-> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a **saddle point** (G-1718): the loss rises along one diagonal and falls along the other (see [the Hessian](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
+> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718): the loss rises along one diagonal and falls along the other (see [the Hessian](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
 
 > **Python:** a numerical chord test. We pick 10,000 random pairs of parameter points and random $\theta$, and record by how much the curve ever rises above the chord. A result above 0 proves the loss is non-convex; 0 is evidence (not proof) that it is convex.
 >
@@ -289,4 +289,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Regression metric](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#1-overview) (G-1652) | A number that summarises how close a regression model's predictions are to the true values. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
 | [Saddle point](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718) | A flat point that curves up in one direction and down in another. |

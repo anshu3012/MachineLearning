@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 
 > **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** (G-1528) fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the word embedding, and add it to the embedding before self-attention.
 
-**Self-attention** (G-1763), taught in [the idea: a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence), turns the embeddings of a sentence into **contextual embeddings** (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
+[**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763), taught in [the idea: a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence), turns the embeddings of a sentence into [**contextual embeddings**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
 
 This Note builds the fix step by step. We start from the simplest idea (count the words), find its problems, and improve it until we reach the formula of "Attention Is All You Need" (Vaswani et al. 2017, §3.5). Figure 1 shows where the result goes: each word's embedding plus its position's encoding becomes the input of self-attention.
 
@@ -27,7 +27,7 @@ This Note builds the fix step by step. We start from the simplest idea (count th
 ## 2. Prerequisites
 
 - [Query, key and value](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) in self-attention: queries, keys, values and contextual embeddings.
-- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): each word as a dense vector of $d$ numbers.
+- [**Word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127): each word as a dense vector of $d$ numbers.
 - [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): word order carries meaning ("dog bites man" against "man bites dog").
 - [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why a network trains badly on inputs with very large values.
 
@@ -55,7 +55,7 @@ Figure 3 shows the before and after for the two words that swap roles. In the to
 
 The simplest idea is to count. "Rahul" is word 1, "killed" word 2, "the" word 3, "lion" word 4. If each embedding has 512 numbers, we append a 513th number holding the position. Three problems follow.
 
-1. **Unbounded.** The numbers have no upper limit. A book of 500 pages with 200 words per page has 100,000 words, so its last word gets the value 100,000. Networks train best when their inputs are small, roughly between $-1$ and $1$; huge input values make the gradients unstable (see [why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) and [exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem)).
+1. **Unbounded.** The numbers have no upper limit. A book of 500 pages with 200 words per page has 100,000 words, so its last word gets the value 100,000. Networks train best when their inputs are small, roughly between $-1$ and $1$; huge input values make the gradients unstable (see [why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) and [**exploding gradients**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem) (G-731)).
 
    Dividing each position by the sentence length keeps every value between 0 and 1, but it breaks consistency:
 
@@ -309,5 +309,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Rotation matrix $M_k$ (G-1707) | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
+| [Exploding gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [$d_{\text{model}}$](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |

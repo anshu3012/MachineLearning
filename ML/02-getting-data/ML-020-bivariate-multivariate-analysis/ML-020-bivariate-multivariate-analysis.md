@@ -18,12 +18,12 @@ tags: [subject/machine-learning, area/data, area/descriptive, step/understand, c
 
 > **Key point:** To study two columns together, we first check their types; each pair of types has its own plots.
 
-[Univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) looks at one column at a time. Here we look at columns together:
+[**Univariate analysis**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2050) looks at one column at a time. Here we look at columns together:
 
 - **Bivariate analysis:** studying two columns together, to find how they are related.
 - **Multivariate analysis:** studying more than two columns together in one view.
 
-Each column is a variable. In ML, an input variable is a **feature** (G-772; one column of the data table), the variable we want to predict is the **target** (G-1949), and each row, one record, is an **observation** (G-1374).
+Each column is a variable. In ML, an input variable is a **feature** (G-772; one column of the data table), the variable we want to predict is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), and each row, one record, is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374).
 
 The choice of plot depends on the data types of the two columns. Two columns can be numerical + numerical, numerical + categorical, or categorical + categorical. Figure 1 shows the plots that suit each pair.
 
@@ -69,7 +69,7 @@ The Titanic columns are the same as in [the Titanic dataset of the first look at
 
 A **scatter plot** (G-1749) puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
 
-The first frame of Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly **linear relationship** (G-1095), one that follows a straight line.
+The first frame of Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly [**linear relationship**](../../06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095), one that follows a straight line.
 
 The tips themselves explain the line: they are close to a fixed share of the bill. Half of all tips lie between 13% and 19% of the bill, with a median of 15%. A few dots break the trend, such as a 7-dollar bill with a 5-dollar tip, but the general direction is clear.
 
@@ -108,7 +108,7 @@ Reading it, the bills and tips far from the main cloud (the biggest ones) mostly
 
 > **Key point:** A bar plot shows one number per category, by default the mean; each bar's height is the average of the numerical column for that group.
 
-A **bar plot** (G-258) puts a categorical column on the x-axis and a numerical column on the y-axis. Each bar's height is the **mean** (G-1203) of the numerical column for that category.
+A **bar plot** (G-258) puts a categorical column on the x-axis and a numerical column on the y-axis. Each bar's height is the [**mean**](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) of the numerical column for that category.
 
 On the Titanic, we can ask: what was the average age of the passengers in each class? With `Pclass` on x and `Age` on y, the bars give:
 
@@ -134,13 +134,13 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 >
 > Plotly draws the bars we give it, so we compute the means first with `groupby`. seaborn computes them itself: `sns.barplot(data=titanic, x="Pclass", y="Age", hue="Sex")`.
 
-> **Extra:** The black line on each bar in Figure 3 is a **confidence interval** (G-446; see [confidence levels](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels)): a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
+> **Extra:** The black line on each bar in Figure 3 is a **confidence interval** (G-446; see [**confidence levels**](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-447)): a range in which the true mean most likely lies (by default, with 95% confidence). A short line means many passengers and a reliable mean; a long one means few passengers or very spread-out ages. seaborn draws these lines by default (seaborn docs, `barplot`: `errorbar=("ci", 95)`).
 
 ## 5. Box plot: spread of a numerical column across categories
 
 > **Key point:** Side-by-side box plots compare the whole spread of a numerical column across categories, not only its mean.
 
-A **box plot** (G-329) summarises a numerical column by its median, its quartiles and its outliers (see [the box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) for how to read one). Drawn once per category, side by side, it compares whole distributions, not only averages.
+A [**box plot**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) summarises a numerical column by its median, its quartiles and its outliers (see [the box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) for how to read one). Drawn once per category, side by side, it compares whole distributions, not only averages.
 
 Figure 4 puts `Sex` on the x-axis and `Age` on the y-axis, and splits each sex by survival (hue). The plot also shows the outliers: the dots above the boxes, mostly among the men.
 
@@ -163,7 +163,7 @@ Two patterns stand out:
 
 > **Key point:** Drawing the distribution of a numerical column once per category, on the same axes, shows where the groups differ.
 
-A **KDE plot** (G-1005) draws the smooth density curve (KDE) of a column, the estimate of its PDF (probability density function, the curve whose area measures how likely values are), as in [the density plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
+A [**KDE plot**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) draws the smooth density curve (KDE) of a column, the estimate of its PDF (probability density function, the curve whose area measures how likely values are), as in [the density plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot).
 
 To compare groups, we split the rows by a category and draw one curve per group. Figure 5 shows the ages of the Titanic passengers twice: in red those who died, in green those who survived.
 
@@ -447,12 +447,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Pair plot (G-1437) | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. |
 | Line plot (G-1088) | A scatter plot with the dots joined in order, used when x is time. |
 | Pivot table (G-1500) | A grid with one column's values as rows, another's as columns, and a third in the cells. |
+| [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| [Confidence level](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-447) | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. |
 | [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
 | [Bivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |

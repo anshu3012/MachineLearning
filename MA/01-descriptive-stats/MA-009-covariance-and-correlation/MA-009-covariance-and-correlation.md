@@ -20,7 +20,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/causation,
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
-A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row. A **scatter plot** (G-1749; one point per observation, with one feature along each axis) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both. Each dot is one observation. The two mean lines (a vertical line at the mean of the first feature and a horizontal line at the mean of the second) cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
+A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row. A **scatter plot** (G-1749; one point per observation, with one feature along each axis) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both. Each dot is one observation. The two mean lines (a vertical line at the mean of the first feature and a horizontal line at the mean of the second) cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
 
 ## 2. From mean to variance to covariance
 
@@ -28,8 +28,8 @@ A **feature** (G-772) is one variable of the data, one column of the table; an *
 
 Each measure fixes a blind spot of the one before:
 
-- **Mean** (G-1203): gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
-- **Variance** (G-2074): gives the spread, and tells those two apart (see the [measures of dispersion](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). But it looks at one feature at a time.
+- [**Mean**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203): gives the centre of a feature, but $-10, 0, 10$ and $-20, 0, 20$ have the same mean, 0.
+- [**Variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074): gives the spread, and tells those two apart (see the [measures of dispersion](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). But it looks at one feature at a time.
 - **Covariance** (G-496): the points $(-1, -1), (0, 0), (1, 1)$ rise from left to right, and $(-1, 1), (0, 0), (1, -1)$ fall. Their $x$ and $y$ variances are identical (2/3 each), as the [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#31-what-variance-cannot-see) (section 3.1) shows. Only a measure that uses both features together can tell them apart (Figure 2).
 
 ![Two tiny datasets with the same means and the same variances, 2/3 for each feature. The rising one has covariance +2/3, the falling one $-2/3$.](images/same_variance.png)
@@ -82,7 +82,7 @@ Figure 3 draws the same computation. Each employee's product is the area of a re
 
 Every rectangle is positive, so the covariance is positive: more experience goes with a higher salary.
 
-Now the formal version, with every symbol named. $x_i$ is the experience of employee $i$ (so $x_4 = 12$), $y_i$ the salary ($y_4 = 12$), and $\sum_{i=1}^{n}$ means "add the terms for employee 1, 2, ..., $n$". A **sample** (G-1731) of $n$ employees divides by $n - 1$. A whole **population** (G-1525) of $N$ employees divides by $N$, and its means are written $\mu_x$ and $\mu_y$ ("mu").
+Now the formal version, with every symbol named. $x_i$ is the experience of employee $i$ (so $x_4 = 12$), $y_i$ the salary ($y_4 = 12$), and $\sum_{i=1}^{n}$ means "add the terms for employee 1, 2, ..., $n$". A [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) of $n$ employees divides by $n - 1$. A whole [**population**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) of $N$ employees divides by $N$, and its means are written $\mu_x$ and $\mu_y$ ("mu").
 
 Sample:
 
@@ -150,7 +150,7 @@ Yet $y$ is completely fixed by $x$. Covariance sees only a linear trend: zero co
 
 > **Key point:** Multiplying a feature by a number multiplies the covariance by it too, so the size of a covariance says nothing about how strong the relationship is.
 
-Covariance tells the direction of the **linear relationship** (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
+Covariance tells the direction of the [**linear relationship**](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
 
 Take the employees again and measure experience in months instead of years. Every $x$ is multiplied by 12, so every distance from the mean is multiplied by 12, and so is every product:
 
@@ -191,7 +191,7 @@ So a large covariance does not mean a strong relationship. Covariance is reliabl
 
 > **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the **standard deviation** (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
+The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
 
 The standard deviation is the square root of the average squared distance from the mean (with $n - 1$ for a sample). Using the distances from the table in section 3, one step per line:
 

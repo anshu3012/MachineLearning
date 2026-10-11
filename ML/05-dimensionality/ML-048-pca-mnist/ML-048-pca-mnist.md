@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/features, step/reduce, concept/pca]
 
 > **Key point:** On real image data, PCA cuts 784 features to 50 and KNN gets slightly *more* accurate and much faster. PCA also lets us see the data in 2D and 3D.
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict. Here each observation is one image, each feature one pixel, and the target the digit.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. Here each observation is one image, each feature one pixel, and the target the digit.
 
 [Principal component analysis (PCA)](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) turns many features into a few new ones that keep most of the spread of the data. It was built from [its geometry](../ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) and from [its mathematics](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#5-pca-in-five-steps). This Note uses scikit-learn's `PCA` on a real dataset of handwritten digits, for PCA's two main jobs:
 
@@ -31,13 +31,13 @@ Then we answer two practical questions. How many components should we keep (Sect
 
 > **Key point:** Each image is 28 × 28 pixels, stored as one row of 784 columns plus a label from 0 to 9.
 
-**MNIST** (G-1249) is a well-known set of images of handwritten digits, 0 to 9. Each image is 28 × 28 = 784 grey pixels, and each pixel's brightness runs from 0 (white) to 255 (black).
+[**MNIST**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) is a well-known set of images of handwritten digits, 0 to 9. Each image is 28 × 28 = 784 grey pixels, and each pixel's brightness runs from 0 (white) to 255 (black).
 
 To put images in a table, each image becomes one row with one column per pixel: the first 28 columns are the top row of the image, the next 28 the second row, and so on. One more column holds the label, the digit the image shows. Reshaping a row back into 28 × 28 shows the picture again (Figure 1).
 
 ![The first MNIST training image, a 5, as a 28 × 28 picture (top) and as part of its row of 784 columns (bottom). Every 28 columns, a new image row starts (red lines).](images/image_row.png){height=42%}
 
-We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for testing. The task is **classification** (G-395): from the 784 pixel values, predict the digit.
+We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for testing. The task is [**classification**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395): from the 784 pixel values, predict the digit.
 
 > **Extra:** The images here come from the full MNIST set on OpenML (70,000 images), loaded with `fetch_openml("mnist_784")`. We take a random 42,000, the same size as the Digit Recognizer competition file on Kaggle, which is also drawn from MNIST and needs a Kaggle account to download.
 
@@ -58,7 +58,7 @@ We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for tes
 
 > **Key point:** KNN reaches 96.8% on the raw pixels, but each prediction compares the image with 33,600 others across 784 features, which is slow.
 
-We first train **KNN** (G-998) (K-nearest neighbours) with its default of 5 neighbours on all 784 features. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
+We first train [**KNN**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) (K-nearest neighbours) with its default of 5 neighbours on all 784 features. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
 
 The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 distances in 784 dimensions. On an idle machine the run took about 19 seconds. The heavy arithmetic is the computation problem of the curse of dimensionality (see [why the same data spreads thin](../ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#42-the-same-data-spreads-thin)).
 
@@ -182,8 +182,8 @@ After `fit`, a `PCA` object keeps the results of its eigen-decomposition (see [t
 
 | Attribute | What it holds | For 3 components on MNIST |
 |---|---|---|
-| `explained_variance_` (G-729) | the **eigenvalues** (G-665), largest first | 331,121, 245,937, 211,045 |
-| `components_` (G-430) | the **eigenvectors** (G-666), one per row | shape (3, 784) |
+| `explained_variance_` (G-729) | the [**eigenvalues**](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665), largest first | 331,121, 245,937, 211,045 |
+| `components_` (G-430) | the [**eigenvectors**](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666), one per row | shape (3, 784) |
 | `explained_variance_ratio_` | each eigenvalue divided by the sum of all | 9.7%, 7.2%, 6.2% |
 
 These numbers come from PCA fitted on the training set. Figure 7 is fitted on all 70,000 images, so its third component shows 6.1% instead of 6.2%.

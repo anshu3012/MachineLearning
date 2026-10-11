@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/column-tr
 
 > **Key point:** A column transformer sends each column to its own transformer and joins all the outputs into one array, in a single step.
 
-Real datasets mix feature types. A **feature** (G-772) is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
+Real datasets mix feature types. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
 
 Figure 1 shows the whole topic. Every column goes to the transformer that fixes its problem, and scikit-learn's **`ColumnTransformer`** (G-417) runs all of them at once and joins their outputs into one array of numbers.
 
@@ -31,7 +31,7 @@ Figure 1 shows the whole topic. Every column goes to the transformer that fixes 
 
 Take customer data with four features:
 
-- **age:** numerical, but some values are **missing values** (G-1234). Age needs **imputation** (G-927) to fill them.
+- **age:** numerical, but some values are [**missing values**](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234). Age needs [**imputation**](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) (G-927) to fill them.
 - **city:** nominal categories. City needs one-hot encoding.
 - **gender:** nominal categories. Gender also needs one-hot encoding.
 - **review:** ordinal categories, such as good and excellent. Review needs ordinal encoding.
@@ -44,7 +44,7 @@ Gluing arrays by hand is a lot of manual work, and the work grows with every fea
 
 > **Key point:** 100 made-up patients; fever has missing values, cough is ordinal, gender and city are nominal, and age is ready as it is.
 
-The data is a small made-up dataset of 100 patients. Each patient is one **observation** (G-1374) (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the **target** (G-1949) `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
+The data is a small made-up dataset of 100 patients. Each patient is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
 
 | age | gender | fever | cough | city | has_covid |
 |---|---|---|---|---|---|
@@ -160,7 +160,7 @@ Cough has an order, Mild < Strong, so we use `OrdinalEncoder` and give it that o
 
 > **Key point:** Gender (2 categories) and city (4 categories) become 1 + 3 = 4 columns once the first category of each is dropped.
 
-Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per feature to avoid **multicollinearity** (one input column being exactly predictable from the others; see [multicollinearity](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other)).
+Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per feature to avoid **multicollinearity** (one input column being exactly predictable from the others; see [**multicollinearity**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273)).
 
 The column count works out as follows:
 
@@ -387,5 +387,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Imputation](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) (G-927) | Filling in missing values, for example with the mean, median or mode. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
 | [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [get_feature_names_out](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#74-fit-on-the-training-set-transform-both) (G-846) | `OneHotEncoder` method that returns the names of the new columns. |

@@ -29,13 +29,13 @@ Textbooks list them in slightly different ways; these five are the core ones (IS
 | 4 | Homoscedasticity: residuals have the same spread everywhere | residuals against predictions |
 | 5 | No autocorrelation of the residuals | residuals in row order |
 
-Three words first. A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
+Three words first. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
 Recall from [the equation of multiple linear regression](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) the symbols used below. The model predicts:
 
 $$\hat y = \beta_0 + \beta_1 x_1 + \dots$$
 
-Here $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the **residuals** (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below (each dot is one observation: its actual target against the model's prediction): each stick is the gap between an observation's actual target and the model's prediction.
+Here $\hat y$ ("y hat") is the predicted target, $y$ the actual target, $x_1, x_2, \dots$ the features and each $\beta$ a coefficient (a learned number). The first two assumptions concern the features; the last three concern the [**residuals**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the errors $y_i - \hat y_i$ on each observation. Figure 1 draws them for the model below (each dot is one observation: its actual target against the model's prediction): each stick is the gap between an observation's actual target and the model's prediction.
 
 ![The 60 test observations: actual target against predicted target. Each stick is one residual, the vertical gap to the dashed diagonal of perfect predictions (blue: actual above, red: actual below). Assumptions 3 to 5 are about these sticks.](images/residuals_def.png)
 
@@ -67,7 +67,7 @@ The check is a scatter plot of the output against each feature (Figure 2).
 
 ![Each feature against the target](images/linearity.png)
 
-- **feature1:** a clear rising line (**correlation** (G-490) 0.82).
+- **feature1:** a clear rising line ([**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) 0.82).
 - **feature3:** also rising, with more scatter (0.58).
 - **feature2:** no visible relationship at all (0.03). Its fitted coefficient is only $-0.28$, against 72.7 and 53.3 for the other two: the model has learned to almost ignore it.
 
@@ -77,7 +77,7 @@ The check is a scatter plot of the output against each feature (Figure 2).
 
 > **Key point:** The features should not be strongly related to each other. If they are, the model cannot tell which one deserves the credit, and the coefficients become unreliable.
 
-**Multicollinearity** (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met as [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) in one-hot encoding.
+[**Multicollinearity**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met as [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) in one-hot encoding.
 
 ### 3.1 Why it is a problem
 
@@ -87,7 +87,7 @@ A coefficient $\beta_1$ is the change in the output when $x_1$ rises by 1 *and a
 
 An analogy: two scientists finish a project together. If one is a physicist and the other a chemist, it is easy to say who contributed what. If both have identical skills, it is impossible. With related features the model faces the second case, so the coefficients become unreliable: a small change in the data can move them a long way (ISL §3.3.3). The predictions, on the other hand, usually stay good (Kutner §7.6).
 
-Figure 3 tests this on our data. We refit the model on 20 **bootstrap** (G-320) resamples of the training data: each resample draws 140 observations from the 140 with replacement, so it differs a little from the original. With the Note's own features (left), feature1's coefficient stays between 69.9 and 78.0. Then we add a near-copy of feature1, feature1 plus a little noise (VIF 429, Section 3.2). Now feature1's coefficient swings from 21.5 to 102.5 and the copy's swings the opposite way, sometimes below 0. Their sum stays between 69.7 and 78.0: the model knows the pair's joint effect, but not how to split the credit.
+Figure 3 tests this on our data. We refit the model on 20 [**bootstrap**](../../08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) resamples of the training data: each resample draws 140 observations from the 140 with replacement, so it differs a little from the original. With the Note's own features (left), feature1's coefficient stays between 69.9 and 78.0. Then we add a near-copy of feature1, feature1 plus a little noise (VIF 429, Section 3.2). Now feature1's coefficient swings from 21.5 to 102.5 and the copy's swings the opposite way, sometimes below 0. Their sum stays between 69.7 and 78.0: the model knows the pair's joint effect, but not how to split the credit.
 
 ![Refitting on 20 bootstrap resamples of the training data. Left: the Note's features; feature1's coefficient barely moves. Right: with a near-copy of feature1 added, the two coefficients swing wildly in opposite directions, while their sum (dashed green) stays steady.](images/collinear_coefs.gif)
 
@@ -119,7 +119,7 @@ If they explain none of it, the VIF is 1.
 > # [1.011, 1.010, 1.014]
 > ```
 
-A quicker, rougher check is a **heatmap** (G-886) of the correlations between the features (Figure 4, left): a table of correlations in which each cell pairs the feature of its row with the feature of its column, coloured darker the closer the value is to 1. The diagonal is 1 because each feature matches itself. Here every correlation between different features is at most 0.06: no multicollinearity.
+A quicker, rougher check is a [**heatmap**](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) of the correlations between the features (Figure 4, left): a table of correlations in which each cell pairs the feature of its row with the feature of its column, coloured darker the closer the value is to 1. The diagonal is 1 because each feature matches itself. Here every correlation between different features is at most 0.06: no multicollinearity.
 
 ![Correlations between the features, and their VIF](images/multicollinearity.png)
 
@@ -150,7 +150,7 @@ Figure 5 does these steps one point at a time. The result is the **residual plot
 How to read a residual plot:
 
 - **Points scattered evenly above and below 0, with no shape:** the line describes the data well.
-- **A curve,** for example the residuals sit high on the left, low in the middle and high again on the right (above the dashed zero line, then below it, then above again): the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) fits better (Figure 7, left).
+- **A curve,** for example the residuals sit high on the left, low in the middle and high again on the right (above the dashed zero line, then below it, then above again): the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [**polynomial regression**](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) (G-1515) fits better (Figure 7, left).
 - **A funnel or a wave:** assumptions 4 and 5 below.
 
 With several features there is no single $x$ to put on the horizontal axis, so the predicted value $\hat y$ is used instead. The reading rules stay the same.
@@ -159,9 +159,9 @@ With several features there is no single $x$ to put on the horizontal axis, so t
 
 > **Key point:** The residuals should follow a bell-shaped (normal) distribution centred on 0: most errors small, few large, positive and negative alike.
 
-When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a **normal distribution** (G-1343).
+When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343).
 
-Why it matters: the ranges and tests reported with the model rest on this assumption. A **prediction interval** (the range a new observation's target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [confidence intervals](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
+Why it matters: the ranges and tests reported with the model rest on this assumption. A **prediction interval** (the range a new observation's target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [**confidence intervals**](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
 
 Non-normal residuals do not make the coefficients themselves wrong on average. Least squares gives unbiased coefficients as long as the errors average zero, whatever their shape; the Gauss–Markov theorem says it is even the best linear unbiased estimator without normal errors (Wikipedia, "Gauss–Markov theorem"). So normality matters for the intervals and tests, not for the fitted line.
 
@@ -172,7 +172,7 @@ Two checks, both on the residuals (Figure 6, top):
 
 ![Residual checks for assumptions 3, 4 and 5](images/residual_checks.png){height=62%}
 
-> **Extra:** Formal tests exist as well. The **Shapiro-Wilk test** (G-1788) gives a **p-value** (G-1433; the chance of results at least this extreme if the data were normal, see [the definition](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition)); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
+> **Extra:** Formal tests exist as well. The [**Shapiro-Wilk test**](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) gives a **p-value** (G-1433; the chance of results at least this extreme if the data were normal, see [the definition](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition)); above 0.05 means no evidence against normality. Here $p = 0.51$, and the skewness of the residuals is $-0.23$, close to 0. With large samples these tests flag even small departures from normality, so look at the plots too (Ghasemi and Zahediasl 2012).
 
 ## 6. Assumption 4: homoscedasticity
 
@@ -192,7 +192,7 @@ Figure 7 (middle) shows what heteroscedasticity looks like: a funnel that widens
 
 > **Key point:** One residual should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
 
-**Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in **time series** (G-1975) data, measurements taken at points in time (ISL §3.3.3).
+**Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in [**time series**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) data, measurements taken at points in time (ISL §3.3.3).
 
 The check is to plot the residuals in row order (Figure 6, bottom right). They should jump up and down with no pattern. Here they do.
 
@@ -263,7 +263,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
 | [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
 | [Heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) | A table drawn as coloured cells, darker for larger values. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
 | [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
 | [Shapiro-Wilk test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#5-checking-normality-the-shapiro-wilk-test) (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
 | [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |

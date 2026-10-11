@@ -16,11 +16,11 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/random-fores
 
 ## 1. Overview
 
-> **Key point:** Two differences: bagging can use any **base model** (G-260) while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.
+> **Key point:** Two differences: bagging can use any [**base model**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) while a random forest always uses decision trees; and bagging samples features once per tree while a random forest samples them again at every node.
 
 ![Feature sampling with 2 of 5 features: bagging draws the pair once and the whole tree uses it; a random forest draws a new pair at every node](images/column_sampling.gif)
 
-A **random forest** (G-1611) is built on **bagging** (G-251; training many models on random samples and combining their votes, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
+A [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) is built on **bagging** (G-251; training many models on random samples and combining their votes, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)), but the two are not the same, even when bagging uses decision trees. Figure 1 shows the subtle difference: **where** the **features** (input variables, one column of the data table each) are sampled. Each **observation** (one record, one row of the table) has a value for every feature and a **target**, the class we predict.
 
 This Note covers both differences and checks the second one in code. The Notebook (`ML-104-bagging-vs-random-forest.ipynb`) runs every check.
 
@@ -83,7 +83,7 @@ The Extra below gives the formula, and Figure 3 plots it.
 
 ESL Figure 15.1 shows this gain on spam email data, and section 4.3 repeats the comparison on the same data.
 
-> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has **variance** (G-2074) $\sigma^2$, its spread around its average and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
+> **Extra:** Why does difference between the trees matter so much? Suppose each tree's prediction has [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) $\sigma^2$, its spread around its average and any two trees are correlated by $\rho$ (0: unrelated, 1: identical).
 >
 > 1. **In words:** the variance of the average of $n$ trees has a part that more trees can remove and a part, set by the correlation, that they cannot.
 > 2. **Formula:**

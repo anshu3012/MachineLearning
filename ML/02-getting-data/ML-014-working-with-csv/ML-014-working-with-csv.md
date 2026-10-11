@@ -46,7 +46,7 @@ A **TSV file** (G-2025) (tab-separated values) is the same thing with a tab betw
 
 > **Key point:** `pd.read_csv` reads a CSV file into a DataFrame; its many parameters handle the ways real files differ from the ideal.
 
-Every CSV file in this Note is read with one function, `pd.read_csv`, which returns a **DataFrame** (G-1441): the pandas name for a table. Called with only a file name, it assumes a well-behaved file:
+Every CSV file in this Note is read with one function, `pd.read_csv`, which returns a [**DataFrame**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441): the pandas name for a table. Called with only a file name, it assumes a well-behaved file:
 
 - commas between values;
 - column names on the first line;
@@ -78,7 +78,7 @@ Figure 3 groups them by the question each one answers. The rest of the Note take
 
 Our main example file holds job seekers who took a data-science training course: city, gender, education, experience, training hours, and a `target` column (1 if the person was looking for a job change, 0 if not). We use its first 1,000 rows, so `df.shape` is `(1000, 14)`.
 
-In ML terms, each row is one **observation** (G-1374) (one record, here one job seeker). The `target` column is the **target** (G-1949) (the output a model would predict), and the other columns are **features** (G-772) (input variables a model would learn from).
+In ML terms, each row is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, here one job seeker). The `target` column is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output a model would predict), and the other columns are [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables a model would learn from).
 
 ## 5. Opening a file from a URL
 
@@ -284,7 +284,7 @@ The numbers do not have to be next to each other: `skiprows=[1, 5, 9]` works too
 >             skiprows=lambda i: i > 0 and i % 2 == 0)
 > ```
 >
-> `lambda i: ...` is a **lambda** (G-1040): a one-line function without a name. `i % 2` is the remainder after dividing by 2, so `i % 2 == 0` means "i is even". The result has 500 of the 1,000 rows.
+> `lambda i: ...` is a [**lambda**](../../03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#8-trying-the-other-transforms) (G-1040): a one-line function without a name. `i % 2` is the remainder after dividing by 2, so `i % 2 == 0` means "i is even". The result has 500 of the 1,000 rows.
 
 Figure 6 applies the rule to the first seven lines of the file, one line at a time. Watch line 0: the rule's `i > 0` part is False there, so the header is kept. After line 0, every even line number gives a remainder of 0, the rule returns `True`, and the line is struck out.
 
@@ -363,7 +363,7 @@ isbn;title;author;year
 
 The title "Flu; The Story of the 1918 Pandemic" contains a `;`, so that line (line 5 of the file, counting the header as line 1) splits into 5 values.
 
-**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A **parser** (G-1454) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
+**Before:** `pd.read_csv("books.csv", sep=";")` stops with `ParserError: Expected 4 fields in line 5, saw 5`. A [**parser**](../ML-017-web-scraping/ML-017-web-scraping.md#5-parsing-the-page-with-beautifulsoup) (G-1454) is the part of a program that reads text and splits it into pieces; a parser error is a strong hint that some lines do not fit.
 
 **After:** we tell pandas what to do with bad lines.
 
@@ -391,7 +391,7 @@ Figure 8 shows why the line breaks. Watch the title: its `;` splits it in two, s
 
 > **Key point:** pandas guesses each column's type; `dtype` lets us set it ourselves, for example to save memory.
 
-Each column has one data type, its **dtype** (G-540): whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
+Each column has one data type, its [**dtype**](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#5-what-type-is-each-column) (G-540): whole numbers (`int64`), decimals (`float64`), text (`str`), and so on. `read_csv` guesses each column's dtype from its values, and we can see the guesses with `df.info()`.
 
 In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0` and `1.0`, so pandas reads it as `float64`. A whole-number type is the natural choice for a 0/1 column.
 
@@ -402,7 +402,7 @@ In our job-seekers file, `target` holds only 0 and 1, but it is written as `0.0`
 > df["target"].dtype    # int8
 > ```
 >
-> Curly brackets make a **dictionary** (G-603): pairs of `key: value`. Here the key is the column name and the value is the type we want.
+> Curly brackets make a [**dictionary**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#5-reading-the-reply) (G-603): pairs of `key: value`. Here the key is the column name and the value is the type we want.
 
 | | dtype | bytes per value | memory for 1,000 rows |
 |---|---|---|---|
@@ -421,7 +421,7 @@ Figure 9 shows the measured memory of the column, from `memory_usage`: the same 
 
 > **Key point:** Dates are read as plain text unless we list them in `parse_dates`; only then can we use date tools on them.
 
-Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. To work with a date, pandas must hold it as a **datetime** (G-545): a value it understands as a point in time. As text we cannot ask:
+Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. To work with a date, pandas must hold it as a [**datetime**](../../03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#4-converting-text-to-a-datetime-type) (G-545): a value it understands as a point in time. As text we cannot ask:
 
 - "which month?";
 - "which weekday?";

@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/normaliza
 
 > **Key point:** Normalization rescales every feature into a common, fixed range. Its main technique, min-max scaling, squeezes each column into 0 to 1.
 
-**Feature scaling** (G-767) has two main types: standardization ([the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): subtract the mean, divide by the standard deviation) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them:
+[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) has two main types: standardization ([the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): subtract the mean, divide by the standard deviation) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them:
 
 - min-max scaling (sections 4 to 6);
 - mean normalization (section 7);
@@ -150,7 +150,7 @@ The data is the wine dataset: 178 wines grown in the same region of Italy, from 
 
 > **Key point:** Split before scaling; fit on the training set only; transform both sets.
 
-As with standardization, the **train-test split** (G-1998) comes first, and the scaler learns only from the training set. With 30% held back for testing, the training set has 124 rows and the test set 54.
+As with standardization, the [**train-test split**](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) comes first, and the scaler learns only from the training set. With 30% held back for testing, the training set has 124 rows and the test set 54.
 
 scikit-learn's **`MinMaxScaler`** (G-1228) class applies the min-max formula. `fit` learns each column's minimum and maximum from the training set; `transform` applies the formula with those stored numbers.
 
@@ -250,7 +250,7 @@ So min-max scaling handles outliers badly. For all other purposes it is a good, 
    and the weight 32 becomes
    $$x' = \frac{32 - 68.6}{98} \approx -0.373$$
 
-Subtracting the mean is the same **mean centring** (G-1195) that standardization does: the data moves so that its centre sits at 0. The division then shrinks it, so the values land between -1 and 1. A value below the mean gives a negative number; a value above the mean gives a positive number. Figure 6 shows both steps on the five weights.
+Subtracting the mean is the same [**mean centring**](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195) that standardization does: the data moves so that its centre sits at 0. The division then shrinks it, so the values land between -1 and 1. A value below the mean gives a negative number; a value above the mean gives a positive number. Figure 6 shows both steps on the five weights.
 
 ![Mean normalization of the five weights. Step 1 subtracts the mean 68.6, so the centre moves to 0; step 2 divides by the range 98, so the values land between −0.373 and 0.627.](images/mean_norm_steps.gif)
 

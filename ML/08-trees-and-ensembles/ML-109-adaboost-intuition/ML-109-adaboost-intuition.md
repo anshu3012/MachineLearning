@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/adaboost, co
 
 ![AdaBoost as a stage-wise additive model: each stage trains a stump on reweighted data and gets a say; the final model is the sign of the weighted sum](images/stagewise.png){height=40%}
 
-**AdaBoost** (G-167) is the first **boosting** (G-318) algorithm we study. Boosting was previewed in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting): models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
+**AdaBoost** (G-167) is the first [**boosting**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) algorithm we study. Boosting was previewed in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting): models trained in series, each one focusing on the mistakes of the one before. Figure 1 shows how AdaBoost does it.
 
 Compared with a **random forest** (G-1611; many full trees trained independently and voting, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)), AdaBoost changes three things:
 
@@ -39,7 +39,7 @@ This Note gives the core idea for classification, on a picture. [A worked exampl
 
 > **Key point:** Other boosting algorithms often score higher, but AdaBoost is the simplest, and it teaches the ideas they all build on.
 
-AdaBoost gives good results, but in practice random forests, [gradient boosting](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) and XGBoost often beat it. We study it anyway because it is the entry point to boosting. Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
+AdaBoost gives good results, but in practice random forests, [**gradient boosting**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) (G-859) and XGBoost often beat it. We study it anyway because it is the entry point to boosting. Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
 
 ## 2. Three ideas we need first
 
@@ -232,6 +232,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Sign function (G-1800) | Returns +1 for a positive number and -1 for a negative one; AdaBoost uses it to turn the weighted vote of its stumps into a class. |
 | [Boosting](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
 | [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#1-overview) (G-859) | A way to build a model from many trees added one by one: it starts from a simple guess, and each new tree is trained on the mistakes (pseudo-residuals) of the ensemble so far (a boosting algorithm). |
 | [Information gain](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition) (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

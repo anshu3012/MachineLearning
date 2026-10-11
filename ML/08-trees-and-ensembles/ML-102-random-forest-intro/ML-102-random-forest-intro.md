@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/random-fores
 
 ![A random forest in outline, drawn for the three-tree forest built by hand in section 5: each tree gets its own random data, grows differently, and votes](images/forest_overview.png){height=48%}
 
-A **random forest** (G-1611) is **bagging** (G-251; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)) with **decision trees** (G-561; see [a decision tree is nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) as the **base models** (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random data goes to different trees, each tree predicts, and the forest takes the majority.
+A **random forest** (G-1611) is **bagging** (G-251; see [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)) with **decision trees** (G-561; see [a decision tree is nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) as the [**base models**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260), the models the ensemble combines. Figure 1 shows the whole idea: random data goes to different trees, each tree predicts, and the forest takes the majority.
 
 This Note covers:
 
@@ -80,7 +80,7 @@ Figure 2 builds one tree this way on 12 patients of the heart disease data (the 
 
 Watch the feature row at the top of Figure 2: the two orange candidates change from split to split.
 
-Drawing the features again at every split is **node-level column sampling** (G-1325). The number of features drawn is the setting `max_features` (G-1185). scikit-learn's default for classification is the square root of the number of features. With 5 features:
+Drawing the features again at every split is [**node-level column sampling**](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325). The number of features drawn is the setting `max_features` (G-1185). scikit-learn's default for classification is the square root of the number of features. With 5 features:
 
 $$\sqrt{5} = 2.2$$
 
@@ -92,9 +92,9 @@ Because every tree sees different observations and different features at each sp
 
 > **Key point:** Every tree predicts; the forest returns the majority vote or the mean.
 
-A new **query point** (G-1605), the observation we want a prediction for, goes to every tree. The combining step is **aggregation** (G-183): the forest returns the **majority vote** (G-1146) for classification or the mean for regression, as every ensemble does (see [how an ensemble predicts](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
+A new [**query point**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605), the observation we want a prediction for, goes to every tree. The combining step is [**aggregation**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183): the forest returns the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) for classification or the mean for regression, as every ensemble does (see [how an ensemble predicts](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
 
-Figure 3 builds a forest of 100 trees on the student placement data of [the toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The **decision boundary** (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
+Figure 3 builds a forest of 100 trees on the student placement data of [the toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
 
 ![A random forest grows. Left: the newest tree's own bootstrap sample and its regions. Right: the share of all trees so far that vote "placed". Each tree is a bootstrap sample plus a fully grown tree with a random feature choice at each split, as in RandomForestClassifier. Growing the forest tree by tree follows StatQuest's "Random Forests Part 1" (Starmer)](images/forest_grows.gif)
 
@@ -102,7 +102,7 @@ Figure 3 builds a forest of 100 trees on the student placement data of [the toy 
 
 > **Key point:** The observations a tree never drew can test that tree, so a forest can be checked without a separate test set.
 
-Each tree leaves out about a third of the observations (the patients marked "out" in Figure 2). The left-out observations of a tree are its **out-of-bag** observations. Each observation is predicted by only the trees that never saw it, and the share predicted correctly is the **out-of-bag score** (G-1411): [how the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed) explains it in full.
+Each tree leaves out about a third of the observations (the patients marked "out" in Figure 2). The left-out observations of a tree are its **out-of-bag** observations. Each observation is predicted by only the trees that never saw it, and the share predicted correctly is the [**out-of-bag score**](../ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411): [how the OOB score is computed](../ML-107-oob-score/ML-107-oob-score.md#3-how-the-oob-score-is-computed) explains it in full.
 
 ## 5. A random forest by hand
 

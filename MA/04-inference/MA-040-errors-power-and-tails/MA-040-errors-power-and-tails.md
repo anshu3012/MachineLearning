@@ -50,7 +50,7 @@ Figure 2 runs the training-program test of [the z-test example](../MA-039-reject
 
 ### 2.1 Type I error
 
-A **Type I error** (G-2032) occurs when the sample leads us to reject $H_0$ although it is in fact true. A Type I error is the mistake of finding a significant effect or relationship when there is none, also called a **false positive** (G-748).
+A **Type I error** (G-2032) occurs when the sample leads us to reject $H_0$ although it is in fact true. A Type I error is the mistake of finding a significant effect or relationship when there is none, also called a [**false positive**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748).
 
 In the courtroom of [the three rules for $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it), $H_0$ says "no crime". A Type I error convicts an innocent person.
 
@@ -58,7 +58,7 @@ The probability of a Type I error is the significance level $\alpha$ (see [how r
 
 ### 2.2 Type II error
 
-A **Type II error** (G-2033) occurs when the sample leads us to fail to reject $H_0$ although it is in fact false. The researcher fails to detect an effect or relationship that actually exists. A Type II error is also called a **false negative** (G-747).
+A **Type II error** (G-2033) occurs when the sample leads us to fail to reject $H_0$ although it is in fact false. The researcher fails to detect an effect or relationship that actually exists. A Type II error is also called a [**false negative**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-747).
 
 In the courtroom: the accused did commit the crime, but the evidence was too weak and they walk free.
 
@@ -73,7 +73,7 @@ The probability of a Type II error is written $\beta$.
 
 The second row is sometimes labelled "accept $H_0$". As [failing to reject $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
 
-The same two errors appear in classification. In the **confusion matrix** (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
+The same two errors appear in classification. In the [**confusion matrix**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
 
 ## 3. Power of a test
 
@@ -180,8 +180,8 @@ Disadvantages:
 
 ### 6.2 In machine learning
 
-1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A **paired t-test** (G-1439) on the scores of the same **cross-validation** (G-510) folds (see [cross-validation with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) answers it; [comparing two machine learning models](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#8-comparing-two-machine-learning-models) runs one.
-2. **Feature selection.** Which features are related to the **target** (G-1949; the output we predict), and which can we drop (see [feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic (a score that is large when a feature's values differ between the classes) and its p-value (the chance of a result this extreme if $H_0$ were true) for each feature, and `chi2` the chi-square statistic; `SelectKBest` (G-1762) keeps the $k$ features with the highest scores (scikit-learn §1.13). Figure 6 does this on scikit-learn's wine dataset (178 wines, 13 features, 3 classes): every feature's p-value is below 0.00001, so all are related to the class, and the F statistic ranks them; `SelectKBest(k=5)` keeps the five highest.
+1. **Model comparison.** We train XGBoost, a random forest and linear regression on the same data. Is one really better, or did it win by chance on this split? A [**paired t-test**](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test) (G-1439) on the scores of the same [**cross-validation**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) folds (see [cross-validation with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) answers it; [comparing two machine learning models](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#8-comparing-two-machine-learning-models) runs one.
+2. **Feature selection.** Which features are related to the **target** (G-1949; the output we predict), and which can we drop (see [**feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768))? A t-test, chi-square test or ANOVA between each feature and the target gives a p-value per feature. scikit-learn's `f_classif` computes the ANOVA F statistic (a score that is large when a feature's values differ between the classes) and its p-value (the chance of a result this extreme if $H_0$ were true) for each feature, and `chi2` the chi-square statistic; `SelectKBest` (G-1762) keeps the $k$ features with the highest scores (scikit-learn §1.13). Figure 6 does this on scikit-learn's wine dataset (178 wines, 13 features, 3 classes): every feature's p-value is below 0.00001, so all are related to the class, and the F statistic ranks them; `SelectKBest(k=5)` keeps the five highest.
 
    ![One ANOVA F test per feature of the wine dataset (f_classif), with each p-value above its bar. SelectKBest(k = 5) keeps the five features with the largest F (orange).](images/feature_tests.png)
 3. **Hyperparameter tuning.** Two settings of a model give different cross-validation scores (see [one split is not enough](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#4-one-split-is-not-enough)). A test says whether one setting is significantly better.
@@ -238,5 +238,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Paired t-test (dependent t-test)](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test) (G-1439) | A test of whether two linked measurements of the same subjects differ on average; it works on the difference within each pair (a t-test on the differences). |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [SelectKBest](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1762) | scikit-learn class that gives every column a score and keeps the `k` best, so only the most useful features go into the model. |
 | [Right-tailed and left-tailed test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#32-the-curves-and-the-tail-area) (G-1693) | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |

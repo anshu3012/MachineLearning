@@ -43,8 +43,8 @@ Figure 1 shows the idea before any formula. In a typical batch of 1000 markers, 
 
 Let $D$ be "the marker is defective". In probability language:
 
-- **Priors** (G-1565): $P(M1) = 0.2$, $P(M2) = 0.3$, $P(M3) = 0.5$.
-- **Likelihoods** (G-1086): $P(D \mid M1) = 0.05$, $P(D \mid M2) = 0.03$, $P(D \mid M3) = 0.01$.
+- [**Priors**](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565): $P(M1) = 0.2$, $P(M2) = 0.3$, $P(M3) = 0.5$.
+- [**Likelihoods**](../../08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086): $P(D \mid M1) = 0.05$, $P(D \mid M2) = 0.03$, $P(D \mid M3) = 0.01$.
 
 The question asks for $P(M3 \mid D)$. By **Bayes' theorem** (G-269; it turns $P(D \mid M3)$, the chance of a defect given the machine, into $P(M3 \mid D)$, the chance of the machine given a defect; see [the names of the four parts](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)),
 
@@ -106,7 +106,7 @@ $$= 0.208$$
 
 The same calculation for every machine:
 
-| Machine | Prior $P(M)$ | **Joint probability** (G-986) $P(D \cap M)$ | **Posterior** (G-1536) $P(M \mid D)$ |
+| Machine | Prior $P(M)$ | [**Joint probability**](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986) $P(D \cap M)$ | [**Posterior**](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1536) $P(M \mid D)$ |
 |---|---|---|---|
 | M1 | 0.20 | 0.010 | 0.417 |
 | M2 | 0.30 | 0.009 | 0.375 |
@@ -141,7 +141,7 @@ A screening test is given to 1000 women. What we know:
 
 - **Prior:** 1 percent have breast cancer, so 10 women are sick and 990 are healthy.
 - **Sensitivity** (G-1641; also called recall, [the share of real positives found](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall)): the test is positive for 90 percent of the sick women: $P(+ \mid \text{cancer}) = 0.9$.
-- **False positive rate** (G-749): the test is also positive for 9 percent of the healthy women: $P(+ \mid \text{healthy}) = 0.09$.
+- [**False positive rate**](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#32-false-positive-rate) (G-749): the test is also positive for 9 percent of the healthy women: $P(+ \mid \text{healthy}) = 0.09$.
 
 A woman tests positive. What is the chance that she has cancer? The test sounds "90 percent accurate", so many people answer 9 in 10. Count instead, exactly as with the markers:
 
@@ -162,7 +162,7 @@ A woman tests positive. What is the chance that she has cancer? The test sounds 
 
    That is about 1 in 11.
 
-The healthy group is so large that its few false positives (89) swamp the true positives (9). This posterior is the **precision** (G-1547) of the test; in medicine it is called the positive predictive value.
+The healthy group is so large that its few false positives (89) swamp the true positives (9). This posterior is the [**precision**](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) of the test; in medicine it is called the positive predictive value.
 
 The lesson: the test did not decide anything. The test moved the chance from 1 in 100 (the prior) to about 1 in 11 (the posterior). A test **updates** the prior.
 
@@ -176,7 +176,7 @@ $$0.9 / 0.09 = 10$$
 
 This ratio of the two likelihoods is the **Bayes factor** (G-2215).
 
-The Bayes factor works on **odds** (G-1376): the number of "yes" cases to the number of "no" cases.
+The Bayes factor works on [**odds**](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376): the number of "yes" cases to the number of "no" cases.
 
 1. **Prior odds:** 10 sick to 990 healthy, that is $1 : 99$.
 2. **Multiply by the Bayes factor.** These are the posterior odds.

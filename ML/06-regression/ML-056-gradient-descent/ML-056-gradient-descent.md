@@ -28,7 +28,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/gradient-des
 
 In ML, the function is the **loss function** (G-706; for linear regression, the sum of squared errors) and the parameters are the model's coefficients. Nearly all of deep learning is trained with a version of gradient descent (Goodfellow Ch. 8).
 
-Throughout, a **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row, here one data point), and the **target** (G-1949) is the output we predict. We learn gradient descent on linear regression because we can check the answer against [ordinary least squares (OLS)](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b), whose [normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) becomes slow with many features; most models have no direct formula at all.
+Throughout, a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row, here one data point), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. We learn gradient descent on linear regression because we can check the answer against [**ordinary least squares (OLS)**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406), whose [**normal equation**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse) (G-1344) becomes slow with many features; most models have no direct formula at all.
 
 ## 2. The idea
 
@@ -55,7 +55,7 @@ Figure 1 shows the rule at four places on the loss curve of the example in Secti
 
 > **Key point:** The step is the slope times a small number, the learning rate: $b_{\text{new}} = b_{\text{old}} - \eta \cdot \text{slope}$.
 
-In words: subtract from the current value the slope multiplied by a small constant $\eta$ (eta), the **learning rate** (G-1068).
+In words: subtract from the current value the slope multiplied by a small constant $\eta$ (eta), the [**learning rate**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068).
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \thinspace\frac{\partial L}{\partial b}$$
 
@@ -74,7 +74,7 @@ The learning rate keeps the steps from being too large. Without it, a slope of 5
 
 Two common stopping rules:
 
-1. **A fixed number of iterations**, called **epochs** (G-696): for example, 100 updates.
+1. **A fixed number of iterations**, called [**epochs**](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696): for example, 100 updates.
 2. **The step size becomes negligible**: for example, when $b_{\text{new}} - b_{\text{old}}$ is below 0.0001, the algorithm has reached (almost) the bottom.
 
 A plot of the loss after each epoch shows the same thing: once the curve goes flat, more epochs change nothing, so that is where to stop (the right panels of Figures 7 and 8).
@@ -87,7 +87,7 @@ Gradient descent needs the slope of the loss at the current $b$. For linear regr
 
 $$L(m, b) = \sum_{i=1}^{n} (y_i - m x_i - b)^2$$
 
-In words: differentiate each squared term with respect to $b$. The **chain rule** (G-371) brings down a factor 2, and the inner derivative of $-b$ is $-1$.
+In words: differentiate each squared term with respect to $b$. The [**chain rule**](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) brings down a factor 2, and the inner derivative of $-b$ is $-1$.
 
 $$\frac{\partial L}{\partial b} = -2\sum_{i=1}^{n} (y_i - m x_i - b)$$
 
@@ -159,13 +159,13 @@ Each slope is about one fifth of the previous one, so each step shrinks too. Not
 
 > **Key point:** Too small and gradient descent crawls; too large and it overshoots and can run away. The right value is found by trying.
 
-The learning rate is a **hyperparameter** (G-910): a setting we choose, not a value the algorithm learns. Figure 5 starts from the same $b = 100$ with three learning rates.
+The learning rate is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose, not a value the algorithm learns. Figure 5 starts from the same $b = 100$ with three learning rates.
 
 ![Three learning rates from the same start](images/learning_rates.png)
 
 - **0.01, too small:** after 10 steps $b$ has only moved from 100 to 58. $b$ would reach the bottom eventually, but slowly.
 - **0.1, good:** the bottom is reached within about 5 steps.
-- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never **converges** (G-469): it **diverges** (G-628). (The Extra in Section 4 shows why: above 0.25, every step overshoots by more than it gains.)
+- **0.26, too large:** each step jumps over the bottom to the other side, landing higher than before: $100 \to -53.6 \to 112.3 \to -66.9 \to \dots$. The loss grows with every step, and the algorithm never [**converges**](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469): it **diverges** (G-628). (The Extra in Section 4 shows why: above 0.25, every step overshoots by more than it gains.)
 
 A common approach is to try a few values on a logarithmic scale, such as 0.1, 0.01 and 0.001 (Goodfellow §11.4.3), and keep the one where the loss falls fastest without jumping around.
 
@@ -189,7 +189,7 @@ $$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m}$$
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b}$$
 
-The vector of these **partial derivatives** (G-1457) is called the **gradient** (G-863); it points uphill, in the direction where the loss rises fastest, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
+The vector of these [**partial derivatives**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) is called the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863); it points uphill, in the direction where the loss rises fastest, so stepping against it goes downhill. Stepping down against the gradient gives the method its name.
 
 The gradient can be read one number at a time. At the starting point of Figure 7 it is $(-25{,}362,\ 28{,}641)$:
 
@@ -204,7 +204,7 @@ Lines close together mean a steep slope; the centre of the rings is the lowest p
 
 ![Gradient descent on m and b: the path and the loss per epoch](images/contour_path.png)
 
-The left panel is a **contour plot** (G-468): a map of the bowl seen from above, with each ring joining points of equal loss and the darkest region at the bottom. The path heads straight down the bowl and arrives at $m = 27.2$, $b = -1.9$. The right panel shows the loss falling from about 4.2 million to 28,400, quickly at first and then levelling off. Its vertical axis is a log scale: each labelled gridline (100k, 1M) is ten times the one below, so the early fall is much bigger than it looks.
+The left panel is a [**contour plot**](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468): a map of the bowl seen from above, with each ring joining points of equal loss and the darkest region at the bottom. The path heads straight down the bowl and arrives at $m = 27.2$, $b = -1.9$. The right panel shows the loss falling from about 4.2 million to 28,400, quickly at first and then levelling off. Its vertical axis is a log scale: each labelled gridline (100k, 1M) is ten times the one below, so the early fall is much bigger than it looks.
 
 ## 7. Gradient descent as a class
 
@@ -252,7 +252,7 @@ Gradient descent only follows the local slope, so the shape of the loss function
 
 - **Convex:** a function is **convex** (G-476) when a straight line between any two points on its curve never goes below the curve. Such a function has no false dips: any local minimum is also the global one (Boyd and Vandenberghe §4.2.2). The sum of squared errors of linear regression is convex, so gradient descent with a small enough learning rate reaches the best answer (Section 5 shows what a too-large one does).
 - **Non-convex, with a local minimum:** a straight line between two points can cut through the curve. Then there can be several dips: a **local minimum** (G-1110; lowest only in its neighbourhood) and a **global minimum** (G-848; lowest of all). Started near the local one, gradient descent settles there and stops, unaware that a better answer exists.
-- **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a **saddle point** (G-1718), flat in one direction and curved in another.
+- **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718), flat in one direction and curved in another.
 
 Figure 10 runs gradient descent on the middle curve of Figure 9 from two starting points, with the same learning rate. Picture each run as a ball rolling downhill. Start A rolls into the global minimum (loss 0.23). Start B rolls into the local minimum (loss 1.44) and stays there: the slope is zero, so the steps are zero. Where gradient descent ends depends on where it starts.
 
@@ -322,6 +322,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
+| [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

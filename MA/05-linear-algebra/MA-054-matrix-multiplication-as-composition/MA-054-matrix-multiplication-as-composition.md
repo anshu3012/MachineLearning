@@ -21,7 +21,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 
 Figure 1 applies two transformations one after the other: a rotation by 90°, then a shear. From start to finish, the plane has undergone a third linear transformation, with a matrix of its own. That matrix is the product of the shear matrix and the rotation matrix.
 
-This Note builds on [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): the columns of a matrix are where $\hat{\imath} = [1, 0]$ and $\hat{\jmath} = [0, 1]$ (the two unit arrows along the axes, the **basis vectors**) land, and $A\mathbf{x}$ is the linear combination of those columns (a sum of the columns, each multiplied by a number, see [linear combinations](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations)).
+This Note builds on [the matrix of a transformation](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): the columns of a matrix are where $\hat{\imath} = [1, 0]$ and $\hat{\jmath} = [0, 1]$ (the two unit arrows along the axes, the **basis vectors**) land, and $A\mathbf{x}$ is the linear combination of those columns (a sum of the columns, each multiplied by a number, see [**linear combinations**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091)).
 
 ## 2. Composition: one transformation after another
 
@@ -267,7 +267,7 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
 1. **In words:** the number of columns of the left matrix must equal the number of rows of the right matrix; the result takes the rows of the left and the columns of the right.
 2. **Formula:**
    $$(m \times n)\thinspace(n \times p) = (m \times p)$$
-3. **Example:** the data matrix $X$ with 3 points and 2 **features** (G-772) (input variables, one column each) times $A^{\mathsf T}$ (the transpose of $A$, see section 7.2) in [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) gives three transformed points:
+3. **Example:** the data matrix $X$ with 3 points and 2 [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each) times $A^{\mathsf T}$ (the transpose of $A$, see section 7.2) in [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) gives three transformed points:
    $$(3 \times 2)(2 \times 2) = 3 \times 2$$
    PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components gives:
    $$(40 \times 3)(3 \times 2) = 40 \times 2$$
@@ -285,7 +285,7 @@ $$(1 \times n)(n \times 1) = 1 \times 1$$
 
 > **Key point:** Libraries that store points as rows write $\mathbf{x}^{\mathsf T}W^{\mathsf T}$ instead of $W\mathbf{x}$; then the matrix applied first stands on the left.
 
-This Note writes a point as a column and puts the matrix on its left, $W\mathbf{x}$. A data table stores each point as a row, so many libraries write the same step with the point on the left. Turning rows into columns is the **transpose** (G-2012); it flips a matrix across its diagonal, so the rows of $W$ become the columns of $W^{\mathsf T}$.
+This Note writes a point as a column and puts the matrix on its left, $W\mathbf{x}$. A data table stores each point as a row, so many libraries write the same step with the point on the left. Turning rows into columns is the [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012); it flips a matrix across its diagonal, so the rows of $W$ become the columns of $W^{\mathsf T}$.
 
 1. **In words:** in **row form** (G-2245), each point is a $1 \times 2$ row, and it is multiplied on the right by the transposed matrix.
 2. **Example:** the stage of Section 2.1, with the seat as the row $[2 \ \ 1]$. Here $T_1^{\mathsf T} = T_1$, so the first turn gives:
@@ -336,7 +336,7 @@ In Figure 6, compare the two panels at the end: the same parallelogram, and $[1,
 
 The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR (the output is 1 only when exactly one of the two inputs is 1): no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
 
-> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see [polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview)) help precisely because squaring is not linear.
+> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see [**polynomial regression**](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515)) help precisely because squaring is not linear.
 
 ## 8. Summary
 
@@ -381,5 +381,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Associativity (G-219) | A property of matrix multiplication: in a product of three matrices, which pair is multiplied first does not change the result, because both groupings mean apply $C$, then $B$, then $A$; written $(AB)C = A(BC)$. |
 | Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left. |
 | Shape rule (G-1786) | The rule for which matrices can be multiplied: an $m \times n$ matrix times an $n \times p$ matrix gives an $m \times p$ matrix, so the inner sizes must match. |
+| [Linear combination](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091) | A sum of vectors each multiplied by a number, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$; changing the numbers reaches different vectors, and all the vectors it can reach form the span. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |

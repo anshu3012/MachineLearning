@@ -25,7 +25,7 @@ Figure 1 shows the whole idea of this Note. We draw a straight line through two 
 Earlier Notes already used derivatives as tools:
 
 - the derivative as the slope of a function at a point, set to zero in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum);
-- stepping against the derivative in [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea);
+- stepping against the derivative in [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862);
 - the chain rule in [the derivation of the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation);
 - the Taylor series (a polynomial built from derivatives), in [the Taylor series of XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
 
@@ -384,7 +384,7 @@ $$= \frac14 \times 2 = \frac12$$
 
 ![Two lines chained together: height = 2 × weight (left) and shoe size = ¼ × height (right). As the weight moves from 2 to 5, the height moves twice as far and the shoe size half as far as the weight: ¼ × 2 = ½. Numbers after StatQuest, "The Chain Rule, Clearly Explained!!!"](images/chain_shoe.gif)
 
-In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the **chain rule** (G-371). The [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) used it: to differentiate a function of a function, multiply the outer derivative by the inner derivative. We write it once more with the notation of **composition** (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
+In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371). The [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) used it: to differentiate a function of a function, multiply the outer derivative by the inner derivative. We write it once more with the notation of [**composition**](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
@@ -418,7 +418,7 @@ Figure 9 draws these rates as nudges on three number lines, one per stage of the
 
 Most ML models are long chains of functions: a weighted sum, then a sigmoid, then a log loss. The chain rule is what turns their derivatives into a product of small, easy pieces. [Finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum) already used it on $(y_i - m x_i - b)^2$, and the next Notes extend it to many variables.
 
-The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the **residual** (G-705):
+The smallest case of that use fits in three lines. One person has weight 2 and height 3. We predict height as $b + 1 \times$ weight and may only move the intercept $b$. The error on this person is the [**residual**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705):
 
 $$r = 3 - (b + 1 \times 2) = 1 - b$$
 
@@ -444,7 +444,7 @@ The loss is lowest where this derivative is 0, at $b = 1$: the line then passes 
 
 > **Key point:** Near a point $x_0$, a function is approximated by a polynomial built from its derivatives at $x_0$; the degree-1 polynomial is the tangent line.
 
-[The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) introduced the **Taylor series** (G-1954): near a point, a smooth function is approximated by a **polynomial** (a sum of powers of $x$ such as $1 - \tfrac12 x^2$) built from its value and derivatives there. It worked through $e^x$, adding terms up to $x^3/6$. Here we name the pieces and add what is new.
+[The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) introduced the [**Taylor series**](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954): near a point, a smooth function is approximated by a **polynomial** (a sum of powers of $x$ such as $1 - \tfrac12 x^2$) built from its value and derivatives there. It worked through $e^x$, adding terms up to $x^3/6$. Here we name the pieces and add what is new.
 
 ### 6.1 Building one by hand: match the value, the slope and the bend
 
@@ -454,7 +454,7 @@ Take $\cos x$ near $x = 0$. We want a simple polynomial $c_0 + c_1 x + c_2 x^2$ 
 
 1. **Match the value.** $\cos 0 = 1$, and the polynomial at 0 is $c_0$. So $c_0 = 1$.
 2. **Match the slope.** The slope of $\cos x$ at 0 is $-\sin 0 = 0$: the curve is flat at its top. The slope of the polynomial at 0 is $c_1$. So $c_1 = 0$.
-3. **Match the bend.** The cosine curves downwards at 0. The **second derivative** (G-2249), the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
+3. **Match the bend.** The cosine curves downwards at 0. The [**second derivative**](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
 
 The result is
 
@@ -651,6 +651,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Linearisation (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
 | Analytic function (G-197) | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
 | Power series (G-1541) | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |

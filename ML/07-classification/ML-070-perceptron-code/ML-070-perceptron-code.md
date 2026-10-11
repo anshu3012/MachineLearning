@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/logistic-reg
 
 > **Key point:** The perceptron trick takes about ten lines of Python. The trick finds a decision boundary (the line that separates the classes), but it stops as soon as no point is misclassified, so the boundary can end up very close to one class. Logistic regression keeps improving until the boundary sits well between them.
 
-The [previous lesson on the perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) described the **perceptron trick** (G-1485): start with any line, pick random points, and move the line towards each misclassified one. The line that separates the two classes is the model's **decision boundary** (G-555): points on one side are predicted as class 1, points on the other side as class 0. This Note:
+The [previous lesson on the perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) described the [**perceptron trick**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485): start with any line, pick random points, and move the line towards each misclassified one. The line that separates the two classes is the model's [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): points on one side are predicted as class 1, points on the other side as class 0. This Note:
 
 - codes the trick (section 3) and draws its decision boundary (section 4);
 - watches the decision boundary move (section 5);
@@ -44,7 +44,7 @@ The comparison shows the trick's weakness, which the following Notes fix.
 >     hypercube=False, class_sep=10)
 > ```
 
-`X` has 100 rows and 2 columns. Each row is one **observation** (G-1374) (one record, here one point) and each column is one **feature** (G-772) (an input variable), $x_1$ or $x_2$. `y` holds the **target** (G-1949), the output we predict: the class of each observation, 50 zeros and 50 ones. `class_sep` sets how far apart the classes are. In the figures, class 1 is green and class 0 is blue.
+`X` has 100 rows and 2 columns. Each row is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, here one point) and each column is one [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable), $x_1$ or $x_2$. `y` holds the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict: the class of each observation, 50 zeros and 50 ones. `class_sep` sets how far apart the classes are. In the figures, class 1 is green and class 0 is blue.
 
 ## 3. The code
 
@@ -73,9 +73,9 @@ In plain words, the code does three things. First it adds a column of 1s to the 
 
 Line by line:
 
-- `np.insert(X, 0, 1, axis=1)` puts a 1 at the start of every row, so each row becomes $(1, x_1, x_2)$. The first weight then acts as the **intercept** (G-960), also called the **bias** of the perceptron (G-284).
+- `np.insert(X, 0, 1, axis=1)` puts a 1 at the start of every row, so each row becomes $(1, x_1, x_2)$. The first weight then acts as the [**intercept**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960), also called the **bias** of the perceptron (G-284).
 - `weights` starts as $(1, 1, 1)$: the decision boundary $1 + x_1 + x_2 = 0$.
-- In each loop, `X[j] @ weights` is the [dot product](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#71-notation) (multiply matching entries and add) $w_0 + w_1 x_1 + w_2 x_2$ for row $j$, and `step` turns it into a prediction of 1 or 0. This 0-or-1 cut at zero is the **step function** (G-1889).
+- In each loop, `X[j] @ weights` is the [dot product](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#71-notation) (multiply matching entries and add) $w_0 + w_1 x_1 + w_2 x_2$ for row $j$, and `step` turns it into a prediction of 1 or 0. This 0-or-1 cut at zero is the [**step function**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889).
 - The update changes the weights only when $y \neq \hat{y}$ (see [one update rule](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#73-one-update-rule)).
 
 With seed 0, the result is $w_0 = 1.00$, $w_1 = 1.34$, $w_2 = 0.19$, and no training point is misclassified.
@@ -84,7 +84,7 @@ Figure 1 tracks the three weights through all 1,000 loops. Watch them move only 
 
 ![The weights w0, w1 and w2 after every loop of the seed-0 run (log scale for the loop number). They change only at loops 1, 8, 31, 40, 44 and 108, when the picked point was misclassified; loops 109 to 1,000 change nothing.](images/weights_trace.png)
 
-> **Extra:** The fixed **random seed** (G-1617) makes the random picks the same on every run, so the results repeat. Without it, every run gives a slightly different decision boundary.
+> **Extra:** The fixed [**random seed**](../../08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617) makes the random picks the same on every run, so the results repeat. Without it, every run gives a slightly different decision boundary.
 
 ## 4. Drawing the decision boundary
 
@@ -147,7 +147,7 @@ We train scikit-learn's `LogisticRegression` on the same 100 points and turn its
 > b = -lor.intercept_[0] / lor.coef_[0][1]
 > ```
 
-Figure 4 draws the perceptron's decision boundaries from five random orders (seeds 0 to 4) in red and the **logistic regression** (G-1120) boundary in black.
+Figure 4 draws the perceptron's decision boundaries from five random orders (seeds 0 to 4) in red and the [**logistic regression**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) boundary in black.
 
 ![Five perceptron decision boundaries and the logistic regression boundary, with a zoom on the gap](images/compare.png){height=48%}
 
@@ -179,7 +179,7 @@ The perceptron trick stops improving as soon as the training error is zero: its 
 
 A new class-1 point that falls just next to the green cluster could easily land on the wrong side of a boundary that hugs it. A boundary in the middle of the gap leaves room for such points. Think of parking a car in a garage: parked tight against one wall, the smallest drift scrapes the paint; parked in the middle, there is room on both sides.
 
-A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron's boundaries misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. How well a model does on new data is its **generalisation** (G-838). The same idea drives the maximal margin classifier, taught in the [support vector machine](../ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm): a boundary with a wide margin on the training data should also keep a wide margin on new data, and so classify it correctly (ISL §9.1.3).
+A test on real data confirms this. On the iris flowers, setosa against versicolor (two species a straight line can separate), the perceptron's boundaries misclassified 5.5% of new flowers on average, against 1.2% for logistic regression. How well a model does on new data is its **generalisation** (G-838). The same idea drives the maximal margin classifier, taught in the [**support vector machine**](../ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm) (G-1921): a boundary with a wide margin on the training data should also keep a wide margin on new data, and so classify it correctly (ISL §9.1.3).
 
 > **Extra:** The test, in the notebook: sepal length and sepal width (standardised), 10 random training flowers per species, the other 80 flowers as the test set, averaged over 100 random draws.
 
@@ -228,3 +228,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Random seed](../../../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617) | A number that fixes a random number generator so that a run can be repeated exactly. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Support vector machine (SVM)](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |

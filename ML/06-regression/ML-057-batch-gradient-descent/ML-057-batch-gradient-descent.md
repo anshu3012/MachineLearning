@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-1, area/production, step/model, ste
 
 > **Key point:** The three kinds of gradient descent differ only in how many observations they use for each update: all of them (batch), one (stochastic), or a small group (mini-batch).
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
 Gradient descent comes in three main types. The update rule is the same in all three; they differ in how many training observations are used to compute each update (Figure 1).
 
@@ -29,8 +29,8 @@ Gradient descent comes in three main types. The update rule is the same in all t
 | Type | Observations per update | Updates per epoch ($n$ observations) |
 |---|---|---|
 | **Batch gradient descent** (G-264) | all $n$ | 1 |
-| **Stochastic gradient descent (SGD)** (G-1892) | 1, chosen at random | $n$ |
-| **Mini-batch gradient descent** (G-1222) | a small random group, for example 32 | $n$ / batch size |
+| [**Stochastic gradient descent (SGD)**](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | 1, chosen at random | $n$ |
+| [**Mini-batch gradient descent**](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | a small random group, for example 32 | $n$ / batch size |
 
 [Gradient descent on one feature](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) already used batch gradient descent. This Note extends it to any number of features, writes it with matrices, and codes it. [Stochastic gradient descent](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) and [mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) are taught next.
 
@@ -53,11 +53,11 @@ and there are $m + 1$ coefficients to find. Batch gradient descent:
 
 3. **Repeat** for a fixed number of epochs.
 
-The loss used here is the **mean squared error loss** (G-1201):
+The loss used here is the [**mean squared error loss**](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201):
 
 $$L = \frac{1}{n}\sum (y_i - \hat y_i)^2$$
 
-Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same **learning rate** (G-1068) works for small and large datasets. The division does not change the answer: the coefficients that make the total squared error smallest also make the mean squared error smallest, because the two differ only by the constant factor $n$.
+Dividing by $n$ keeps the size of the derivatives independent of how many observations there are, so the same [**learning rate**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) works for small and large datasets. The division does not change the answer: the coefficients that make the total squared error smallest also make the mean squared error smallest, because the two differ only by the constant factor $n$.
 
 Figure 2 shows step 2 on real data: the run of Section 4 on the diabetes data, with 10 features. All 10 coefficients start at 1 and the intercept at 0. At every epoch each one moves by its own derivative, at the same time. The intercept jumps to 150.5 in the first epoch, because its derivative is just the average error; the 10 coefficients grow slowly towards the OLS values (diamonds), the large ones such as bmi and s5 first.
 
@@ -75,7 +75,7 @@ With two features, the prediction is:
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$$
 
-Differentiating the mean squared error with the **chain rule** (G-371), as in [the slope of the loss](../ML-056-gradient-descent/ML-056-gradient-descent.md#3-the-slope-of-the-loss-with-respect-to-b):
+Differentiating the mean squared error with the [**chain rule**](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), as in [the slope of the loss](../ML-056-gradient-descent/ML-056-gradient-descent.md#3-the-slope-of-the-loss-with-respect-to-b):
 
 $$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)$$
 
@@ -232,7 +232,7 @@ Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epoc
 >
 > Early stopping keeps the coefficients short: with 65 features their length (the square root of the sum of their squares) is about 49 at the stopping epoch, against about 2,968 for OLS. More observations shrink the gain (last row), as expected: with more data OLS overfits less. Figure 5's peak of 0.418 is a little higher than 0.401 because the curve picks its best epoch with the test data itself; 0.401 is the honest figure.
 
-> **Extra:** Back to the 10-feature fit of section 4. Even after 50,000 epochs its coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. The largest gap is in the coefficient of s1, a blood measurement strongly related to another one, s2 (**correlation** (G-490) 0.895; **multicollinearity** (G-1273), see [no multicollinearity](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#3-assumption-2-no-multicollinearity)). With related features, the loss has a long, narrow valley along which many pairs of coefficients give almost the same loss (ISL §3.3.3, Figure 3.15). The notebook confirms the valley here: the flattest direction of the loss points mostly along s1, s2 and s3 (weights 0.71, $-0.56$, $-0.32$), and the loss curves 447 times more steeply in its steepest direction than in this flattest one. A step size small enough for the steep direction makes slow progress in the flat one (Goodfellow §4.3.1), the same effect as with [unscaled features](../ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling).
+> **Extra:** Back to the 10-feature fit of section 4. Even after 50,000 epochs its coefficients are still far from OLS's (the largest gap is 319), although R² is almost identical. The largest gap is in the coefficient of s1, a blood measurement strongly related to another one, s2 ([**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) 0.895; [**multicollinearity**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273), see [no multicollinearity](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#3-assumption-2-no-multicollinearity)). With related features, the loss has a long, narrow valley along which many pairs of coefficients give almost the same loss (ISL §3.3.3, Figure 3.15). The notebook confirms the valley here: the flattest direction of the loss points mostly along s1, s2 and s3 (weights 0.71, $-0.56$, $-0.32$), and the loss curves 447 times more steeply in its steepest direction than in this flattest one. A step size small enough for the steep direction makes slow progress in the flat one (Goodfellow §4.3.1), the same effect as with [unscaled features](../ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling).
 
 ## 6. Advantages and disadvantages
 

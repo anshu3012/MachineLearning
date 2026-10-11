@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/mixed-var
 
 > **Key point:** A mixed variable holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
 
 Think of a postal address such as "Flat 12B": a number and a letter packed into one label. To sort flats by floor or by block, we first pull the two parts apart.
 
@@ -295,7 +295,7 @@ The first five rows, with all the new columns filled:
 
 `cabin_num` is left unfilled here: no single number stands for "no cabin". Filling it is a missing-values question: see [imputing, filling in the gaps](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps).
 
-The new features are then ready for the usual tools: [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) for the categorical ones, [standardization](../ML-023-standardization/ML-023-standardization.md#42-the-formula) for the numerical ones.
+The new features are then ready for the usual tools: [**one-hot encoding**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) for the categorical ones, [**standardization**](../ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874) for the numerical ones.
 
 > **Extra:** The split features carry information the raw ones hid. Survival rate by deck:
 >
@@ -358,3 +358,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature splitting](../../../ML/05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature) (G-769) | Breaking a column that holds several facts into one column per fact. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |

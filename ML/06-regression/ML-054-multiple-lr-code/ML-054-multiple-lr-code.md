@@ -18,11 +18,11 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/multiple-lr,
 
 > **Key point:** The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R² (0.44) as scikit-learn on the diabetes data.
 
-In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. [The derivation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) gives this calculation, the **normal equation** (G-1344), which gives every **coefficient** (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
+In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. [The derivation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) gives this calculation, the [**normal equation**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344), which gives every [**coefficient**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-Here $\beta$ (beta) is the list of coefficients. $X^{\mathsf T}$ is the **transpose** (G-2012) of $X$: its rows and columns swapped, so the matrix with rows $(1, 2)$ and $(3, 4)$ becomes the matrix with rows $(1, 3)$ and $(2, 4)$. The exponent $-1$ marks the **inverse** (G-968), the matrix that undoes a matrix when they are multiplied. The rules are shown with numbers in [two rules about transposes](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes).
+Here $\beta$ (beta) is the list of coefficients. $X^{\mathsf T}$ is the [**transpose**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) of $X$: its rows and columns swapped, so the matrix with rows $(1, 2)$ and $(3, 4)$ becomes the matrix with rows $(1, 3)$ and $(2, 4)$. The exponent $-1$ marks the [**inverse**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968), the matrix that undoes a matrix when they are multiplied. The rules are shown with numbers in [two rules about transposes](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes).
 
 This Note turns it into a class with `fit` (learn the coefficients from training data) and `predict` (use them on new rows), like scikit-learn's `LinearRegression`, and checks that both give the same answer.
 
@@ -30,22 +30,22 @@ This Note turns it into a class with `fit` (learn the coefficients from training
 
 > **Key point:** 442 diabetes patients, 10 features, and a number to predict: how far the disease progressed one year later.
 
-The example is scikit-learn's built-in **diabetes dataset** (G-600). Each **observation** (G-1374) (one record, one row of the data table) is a patient. The 10 **features** (G-772) (input variables, one column each) are:
+The example is scikit-learn's built-in **diabetes dataset** (G-600). Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the data table) is a patient. The 10 [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each) are:
 
 - age and sex;
 - body mass index (bmi);
 - average blood pressure (bp);
 - six blood measurements (s1 to s6).
 
-The **target** (G-1949), the output we predict, is a number measuring disease progression one year later.
+The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict, is a number measuring disease progression one year later.
 
 > **Extra:** The features come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
 
-Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the **correlation** (G-490) $r$ (see [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)): 1 means two features rise and fall together exactly, 0 means no linear (straight-line) link. Figure 1 is a **heat map**: the square in row s1 and column s2 holds the r of that pair, printed as a number and coloured from dark blue ($-1$) through white (0) to dark red ($+1$). The diagonal is 1 because each feature matches itself. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. Section 5 shows what this pair does to the coefficients.
+Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the [**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) $r$ (see [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)): 1 means two features rise and fall together exactly, 0 means no linear (straight-line) link. Figure 1 is a **heat map**: the square in row s1 and column s2 holds the r of that pair, printed as a number and coloured from dark blue ($-1$) through white (0) to dark red ($+1$). The diagonal is 1 because each feature matches itself. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. Section 5 shows what this pair does to the coefficients.
 
 ![Correlation between the 10 diabetes features on the 353 training patients; s1 and s2 (outlined) are at 0.90](images/feature_corr.png)
 
-We split the data 80/20, a **train-test split** (G-1998): 353 patients to train, 89 to test.
+We split the data 80/20, a [**train-test split**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998): 353 patients to train, 89 to test.
 
 > **Python:** Loading and splitting.
 >
@@ -73,12 +73,12 @@ We split the data 80/20, a **train-test split** (G-1998): 353 patients to train,
 > reg.intercept_                          # 151.88
 > ```
 
-An **R² score** (G-1717) of 0.44 means the 10 measurements explain less than half the variation in disease progression: a useful but far from perfect model.
+An [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) of 0.44 means the 10 measurements explain less than half the variation in disease progression: a useful but far from perfect model.
 
 Figure 2 shows where the number comes from. R² compares two sums of squares on the 89 test patients:
 
 - **total:** each actual value minus the mean of the actual values (blue), squared and added up: 491,740;
-- **residual** (G-705): each actual value minus its prediction (orange), squared and added up: 275,407.
+- [**residual**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705): each actual value minus its prediction (orange), squared and added up: 275,407.
 
 Then:
 
@@ -101,8 +101,8 @@ The class has two methods. `fit` learns the coefficients from the training data,
 
 > **Key point:** Three steps: add the 1s, compute $\beta$, split it into intercept and coefficients.
 
-1. **Add a column of 1s** at the front of $X$, so the **intercept** (G-960) is learned like any other coefficient. **`np.insert`** (G-1356), called as `np.insert(X, 0, 1, axis=1)`, inserts the value 1 at position 0 along the columns. The training data goes from 353 × 10 to 353 × 11.
-2. **Apply the normal equation.** In NumPy, **`@`** (G-55) is matrix multiplication, `.T` is the **transpose** (G-2012) and **`np.linalg.inv`** (G-1357) the **inverse** (G-968). The result has 11 numbers.
+1. **Add a column of 1s** at the front of $X$, so the [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) is learned like any other coefficient. **`np.insert`** (G-1356), called as `np.insert(X, 0, 1, axis=1)`, inserts the value 1 at position 0 along the columns. The training data goes from 353 × 10 to 353 × 11.
+2. **Apply the normal equation.** In NumPy, **`@`** (G-55) is matrix multiplication, `.T` is the [**transpose**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) and **`np.linalg.inv`** (G-1357) the [**inverse**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968). The result has 11 numbers.
 3. **Split the result:** the first number is the intercept $\beta_0$, the other 10 are the coefficients.
 
 [The worked example](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#61-a-worked-example) does the same three steps by hand, with every number shown.
@@ -147,7 +147,7 @@ The right panel plots the 89 test predictions against the true values. If the mo
 
 The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the features are standardised, these coefficients can be compared with each other.
 
-> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of **multicollinearity** (G-1273): s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
+> **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of [**multicollinearity**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273): s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
 >
 > - **Strongly related:** correlation 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
 > - **Trading weight:** over 200 bootstrap refits, the s1 and s2 coefficients swing far more than bmi's (standard deviation 464 and 369 against 77), in opposite directions (correlation $-0.97$).

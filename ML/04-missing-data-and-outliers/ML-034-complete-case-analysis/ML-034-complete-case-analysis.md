@@ -31,9 +31,9 @@ This Note covers the left-most box: removing rows, called complete case analysis
 
 > **Key point:** Almost every scikit-learn algorithm fails on data with missing values, so we must deal with the gaps before training.
 
-We use three words for the parts of a data table. A **feature** (G-772) is an input variable: one column of the table, such as `age`. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record: one row of the table.
+We use three words for the parts of a data table. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable: one column of the table, such as `age`. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. An [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record: one row of the table.
 
-A **missing value** (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values)).
+A [**missing value**](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) is a cell of the table with no value in it, shown in pandas as `NaN` ("not a number"). Most scikit-learn models refuse to train on such data, so we remove or fill the gaps first (see [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values)).
 
 > **Extra:** A few scikit-learn models do accept `NaN`, for example `HistGradientBoostingClassifier`, decision trees and random forests. Most others, such as linear and logistic regression, KNN and SVMs, raise an error. Removing or filling the gaps works for all of them (scikit-learn docs, Estimators that handle NaN values).
 
@@ -69,14 +69,14 @@ Univariate techniques depend on the type of the feature:
 
 scikit-learn's `SimpleImputer` class does all of these. Multivariate imputation has two main techniques, each with its own class:
 
-- **KNN imputer** (G-108) (`KNNImputer`): fills a gap from the most similar observations, using the k-nearest-neighbours algorithm.
-- **Iterative imputer** (G-98) (`IterativeImputer`): predicts each feature with an ML model trained on the other features, and repeats. Its algorithm is called **MICE** (G-1216).
+- [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#7-knn-imputation-with-scikit-learn) (G-108) (`KNNImputer`): fills a gap from the most similar observations, using the k-nearest-neighbours algorithm.
+- [**Iterative imputer**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#8-the-iterative-imputer-in-scikit-learn) (G-98) (`IterativeImputer`): predicts each feature with an ML model trained on the other features, and repeats. Its algorithm is called [**MICE**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216).
 
 Figure 2 compares the two options on four real rows of the job data used in Section 8, where row 3 has no `enrolled_university` value. Removing the row loses its three good values; imputing keeps them and fills the gap with the most frequent category.
 
 ![Four rows of the job data. Left: row 3 has a gap. Middle: removing the row also removes its three good values. Right: imputing fills the gap with the mode, no_enrollment.](images/remove_vs_impute.png){height=26%}
 
-A last technique, the **missing indicator** (G-1233), adds a column that records whether the value was missing (1) or not (0). The indicator is used together with imputation.
+A last technique, the [**missing indicator**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233), adds a column that records whether the value was missing (1) or not (0). The indicator is used together with imputation.
 
 ### 3.3 Where each technique is covered
 
@@ -88,7 +88,7 @@ A last technique, the **missing indicator** (G-1233), adds a column that records
 | [Imputing numerical data](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) | Univariate imputation of numerical columns with `SimpleImputer` |
 | [Missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) | Univariate imputation of categorical columns: mode and "Missing" |
 | [Missing indicator and random sample](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) | Missing indicator and random sample imputation |
-| [KNN imputer](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) | KNN imputer (multivariate) |
+| [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) (G-1017) | KNN imputer (multivariate) |
 | [Iterative imputer, MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) | Iterative imputer, MICE (multivariate) |
 
 ## 4. Complete case analysis
@@ -277,7 +277,7 @@ The five columns are each missing at most 4%, yet together they cost 10.3% of th
 
 For each numerical column, we draw the histogram of the full column and of the CCA column on the same axes. Both use **density** on the vertical axis, so that bars from 19,158 rows and from 17,182 rows have comparable heights.
 
-Figure 8 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves (**KDE** (G-1005), a smooth curve fitted to the data; see [density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)), red solid before and green dashed after.
+Figure 8 shows the result. In the top row, red is before and green is after; where they overlap, the bars look olive. The bottom row shows the same columns as smooth density curves ([**KDE**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005), a smooth curve fitted to the data; see [**density plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-587)), red solid before and green dashed after.
 
 ![Histograms (top) and density curves (bottom) of the three numerical columns, before and after CCA: the shapes are almost identical](images/numeric_before_after.png){width=100%}
 
@@ -397,5 +397,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [`IterativeImputer`](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#8-the-iterative-imputer-in-scikit-learn) (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
 | [MICE](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216) | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |
 | [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
+| [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation) (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
 | [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
+| [Density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-587) | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
 | [SimpleImputer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#41-fever-fill-the-missing-values) (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |

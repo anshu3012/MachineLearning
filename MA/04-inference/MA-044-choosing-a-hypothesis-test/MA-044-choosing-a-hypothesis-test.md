@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, step/understand, co
 
 ![Choosing a test from the features involved](images/test_chooser.png)
 
-The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the **features** (G-772) the question is about, and the test follows. A feature is a variable of the data, one column of the data table, such as gender or height.
+The earlier hypothesis-testing Notes built the z-test and three t-tests. Real questions come with data of many kinds: counts of men and women, heights, age groups. Figure 1 is the guide this Note follows: name the [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) the question is about, and the test follows. A feature is a variable of the data, one column of the data table, such as gender or height.
 
 This Note covers:
 
@@ -36,12 +36,12 @@ Two of these tests are new here and taught in full: the **one-sample proportion 
 Every test in this Note follows the eight steps of a hypothesis test (see [the eight steps of a hypothesis test](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test)). In short:
 
 1. **Hypotheses.** The **null hypothesis** $H_0$ (G-1361) says there is no difference or no relationship; the **alternative hypothesis** $H_1$ (G-193) says there is one.
-2. **Significance level** (G-1801). Fix $\alpha$, usually 0.05, before running the test (see [the significance level](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)).
+2. [**Significance level**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) (G-1801). Fix $\alpha$, usually 0.05, before running the test (see [the significance level](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level)).
 3. **Test.** Choose the test from the features involved (Figure 1) and compute its statistic.
-4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see [p-values](../MA-041-p-values/MA-041-p-values.md#2-definition)).
+4. **P-value.** The probability, if $H_0$ were true, of a result at least as extreme as ours (see [**p-values**](../MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433)).
 5. **Decision.** $p \le \alpha$: reject $H_0$. $p > \alpha$: fail to reject $H_0$.
 
-With $\alpha = 0.05$ in a **two-tailed test** (G-2028), the **rejection region** (G-1662) is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
+With $\alpha = 0.05$ in a [**two-tailed test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-2028), the [**rejection region**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1662) is the outer 2.5% at each end of the test statistic's distribution, 5% in total (see [one-tailed and two-tailed tests](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests)).
 
 ![The six tests of this Note, sorted by the one shared rule](images/p_sort.png){width=80%}
 
@@ -109,7 +109,7 @@ The sample proportion is below 0.5, but a sample of 60 can easily miss by that m
 >
 > $$z = \frac{\hat{p} - \pi_0}{\sqrt{\pi_0 (1 - \pi_0) / n}}$$
 
-Our sample has 26 men in 60 people, so $\hat{p} = 0.433$, against a claim of 0.5. Is that gap big, or the kind of gap chance makes all the time? To judge, we ask how far the share of men would wander from 0.5 across many samples of 60, if the population really were 50/50. Then we measure our gap in those units of wandering. This unit is the **standard error** (G-1872). The number of standard errors between the sample proportion and the claim is the z statistic.
+Our sample has 26 men in 60 people, so $\hat{p} = 0.433$, against a claim of 0.5. Is that gap big, or the kind of gap chance makes all the time? To judge, we ask how far the share of men would wander from 0.5 across many samples of 60, if the population really were 50/50. Then we measure our gap in those units of wandering. This unit is the [**standard error**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872). The number of standard errors between the sample proportion and the claim is the z statistic.
 
 Figure 4 shows the idea. The bell curve is how the share of men would vary across samples of 60 if the population were 50/50. Our 0.433 sits close to the middle, so a gap this size is ordinary.
 
@@ -123,11 +123,11 @@ If the claim $\pi_0 = 0.5$ is true, each score has standard deviation (the Berno
 
 $$\sqrt{\pi_0 (1 - \pi_0)} = \sqrt{0.5 \times 0.5} = 0.5$$
 
-The mean of $n = 60$ scores wanders by that standard deviation divided by $\sqrt{n}$ (see [sampling distributions](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions)). That is the standard error:
+The mean of $n = 60$ scores wanders by that standard deviation divided by $\sqrt{n}$ (see [**sampling distributions**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1736)). That is the standard error:
 
 $$SE = \frac{0.5}{\sqrt{60}} = \frac{0.5}{7.746} = 0.0645$$
 
-By the central limit theorem the sample proportion is close to normal for large $n$ (the [central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)), which is the bell curve in Figure 4, so the [z-test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) applies. The gap, and the gap in standard errors:
+By the central limit theorem the sample proportion is close to normal for large $n$ (the [**central limit theorem**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364)), which is the bell curve in Figure 4, so the [**z-test**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) (G-2143) applies. The gap, and the gap in standard errors:
 
 $$\hat{p} - \pi_0 = 0.433 - 0.5 = -0.067$$
 
@@ -198,14 +198,14 @@ Adding a second categorical feature changes the question: is there a difference 
 - $H_0$: gender and age group are independent (the share of men is the same in every age group);
 - $H_1$: they are related.
 
-The counts go in a **contingency table** (G-464), as in the [contingency tables](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables); pandas builds it with `pd.crosstab` (see [two categorical columns](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#7-heatmap-two-categorical-columns)):
+The counts go in a [**contingency table**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464), as in the [contingency tables](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables); pandas builds it with `pd.crosstab` (see [two categorical columns](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#7-heatmap-two-categorical-columns)):
 
 | | child | adult | elderly |
 |---|---|---|---|
 | female | 12 | 12 | 10 |
 | male | 8 | 14 | 4 |
 
-The **chi-square test of independence** (G-380) compares each count with the count expected if gender and age group were independent. Row totals are 34 women and 26 men; column totals are 20 children, 26 adults and 14 elderly, out of 60. The expected count of a cell is its row total times its column total divided by 60. For example, the women who are children:
+The [**chi-square test of independence**](../MA-045-chi-square-tests/MA-045-chi-square-tests.md#51-the-question-and-the-table) (G-380) compares each count with the count expected if gender and age group were independent. Row totals are 34 women and 26 men; column totals are 20 children, 26 adults and 14 elderly, out of 60. The expected count of a cell is its row total times its column total divided by 60. For example, the women who are children:
 
 $$34 \times 20 / 60 = 11.33$$
 
@@ -232,7 +232,7 @@ $$H_0: \mu = 1.55$$
 
 $$H_1: \mu \neq 1.55$$
 
-The question calls for the **one-sample t-test** (G-1382) of [the one-sample t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test). It works like the proportion test: measure the gap between the sample mean and the claimed mean in standard errors. Here $\bar{x} = 1.5327$ m is the sample mean, $\mu_0 = 1.55$ the claimed mean, $s = 0.211$ the sample standard deviation and $n = 60$. One step per line:
+The question calls for the [**one-sample t-test**](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test) (G-1382) of [the one-sample t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test). It works like the proportion test: measure the gap between the sample mean and the claimed mean in standard errors. Here $\bar{x} = 1.5327$ m is the sample mean, $\mu_0 = 1.55$ the claimed mean, $s = 0.211$ the sample standard deviation and $n = 60$. One step per line:
 
 $$\bar{x} - \mu_0 = 1.5327 - 1.55 = -0.0173$$
 
@@ -242,7 +242,7 @@ $$t = \frac{\bar{x} - \mu_0}{s / \sqrt{n}} = \frac{-0.0173}{0.0273} = -0.64$$
 
 The t statistic has $n - 1 = 59$ degrees of freedom, and $p = 0.53$.
 
-We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 shows why. Under $H_0$, the t statistic follows **Student's t-distribution** (G-1906) with 59 **degrees of freedom** (G-578). Our $t = -0.64$ sits near the middle of it, well short of the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
+We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 shows why. Under $H_0$, the t statistic follows [**Student's t-distribution**](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906) with 59 [**degrees of freedom**](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578). Our $t = -0.64$ sits near the middle of it, well short of the 5% rejection region beyond $\pm 2.00$, and the two tails at least that far out hold 53% of the area.
 
 ![The one-sample t-test of the 60 heights against 1.55 m. The curve is the t-distribution with 59 degrees of freedom; our t = −0.64. The shaded tails, at least as far from 0 as our t, hold p = 0.53; the dashed lines mark the 5% rejection region.](images/t_one_sample.png)
 
@@ -254,7 +254,7 @@ We fail to reject $H_0$: the mean height is consistent with 1.55 m. Figure 7 sho
 
 > **Key point:** $H_0$: the population correlation $\rho$ is 0, no linear relationship; $H_1$: $\rho \neq 0$.
 
-**Pearson's correlation coefficient** $r$ (G-1474) runs from $-1$ to $+1$; a value near 0 means no linear relationship (see [correlation](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
+**Pearson's correlation coefficient** $r$ (G-1474) runs from $-1$ to $+1$; a value near 0 means no linear relationship (see [**correlation**](../../01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490)). But $r$ comes from a sample. Two unrelated features give a small non-zero $r$ in a sample by chance, so we test:
 
 $$H_0: \rho = 0 \ \text{(no relationship)}$$
 
@@ -310,7 +310,7 @@ $$t = 0.30/0.0964 = 3.11$$
 
 The p-value is 0.002, so it is significant. Sample size matters as much as the size of $r$.
 
-The formal version: moving $\sqrt{n - 2}$ from the bottom of $SE(r)$ to the top gives the usual form. With $r$ the sample correlation, $n$ the number of pairs and $df$ the **degrees of freedom** (G-578),
+The formal version: moving $\sqrt{n - 2}$ from the bottom of $SE(r)$ to the top gives the usual form. With $r$ the sample correlation, $n$ the number of pairs and $df$ the [**degrees of freedom**](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578),
 
 $$t = \frac{r}{\sqrt{(1 - r^2)/(n - 2)}}$$
 
@@ -456,15 +456,20 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Null hypothesis ($H_0$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
 | [Alternative hypothesis ($H_1$, $H_a$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis) (G-193) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
 | [Significance level ($\alpha$)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) (G-1801) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
+| [P-value](../../../MA/04-inference/MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433) | The probability, assuming $H_0$ is true, of getting a sample as or more extreme than ours. |
 | [Two-tailed test (two-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-2028) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
 | [Rejection region (critical region)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1662) | The values of the test statistic for which we reject $H_0$; its area under $H_0$ is $\alpha$. |
 | [Fail to reject $H_0$](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) (G-746) | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| [Sampling distribution](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#1-overview) (G-1736) | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
+| [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
+| [Z-test (one-sample)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
 | [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
 | [Chi-square test of independence](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#51-the-question-and-the-table) (G-380) | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$. |
 | [One-sample t-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test) (G-1382) | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
 | [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
 | [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
 | [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-1389) | A test of whether three or more group means are equal, with the groups defined by one categorical column. |

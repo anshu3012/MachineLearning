@@ -18,9 +18,9 @@ tags: [subject/machine-learning, area/features, step/reduce, concept/pca]
 
 > **Key point:** PCA is an unsupervised feature extraction technique. PCA turns many features into a few new ones while keeping the essence of the data.
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
-**Principal component analysis (PCA)** (G-1469) is the best-known **feature extraction** technique (building a few new features out of the old ones; [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction)). PCA reduces the number of features in a dataset, which fights the [curse of dimensionality](../ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (the trouble that too many features cause).
+**Principal component analysis (PCA)** (G-1469) is the best-known **feature extraction** technique (building a few new features out of the old ones; [**feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-762)). PCA reduces the number of features in a dataset, which fights the [**curse of dimensionality**](../ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520) (the trouble that too many features cause).
 
 Three facts to keep in mind:
 
@@ -54,7 +54,7 @@ PCA works like a photographer who walks around the stadium to find the best angl
 
 > **Key point:** To choose between two features, project the points onto each axis and keep the feature whose points are more spread out.
 
-PCA is a feature extraction technique, but it is easiest to understand by first looking at **feature selection**: keeping some existing features and dropping the rest (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) for the two ideas).
+PCA is a feature extraction technique, but it is easiest to understand by first looking at **feature selection**: keeping some existing features and dropping the rest (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) for the two ideas).
 
 Take made-up data about 30 flats with three features (one observation per flat): the number of rooms, the number of grocery shops nearby, and the price. The made-up counts are drawn as decimals, such as 2.4 rooms, so that the points do not stack on top of each other. Suppose we must drop one of the two input features.
 
@@ -124,7 +124,7 @@ Here PC1 holds almost all the spread, 2.61 against 0.05. So we keep PC1, drop PC
 
 "Find the line the shadows spread most along" and "find the line that passes closest to the points" sound like two different jobs. Figure 5 shows they are one job. It has two steps.
 
-1. **Centre the data.** Subtract the mean of each feature, so the centre of the cloud sits on the origin. The data is now **centred** (G-365). The shape of the cloud does not change: the highest flat is still the highest.
+1. **Centre the data.** Subtract the mean of each feature, so the centre of the cloud sits on the origin. The data is now [**centred**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#7-mean-normalization) (G-365). The shape of the cloud does not change: the highest flat is still the highest.
 2. **Turn a line through the origin** and project every flat onto it, as in Figure 4.
 
 ![The centred flats and a line turning through the origin. For one flat (black), a is its distance from the origin, c (orange) the distance of its shadow from the origin, and b (red) its distance to the line. The bars average c² and b² over all 30 flats; they always add up to 2.66. Idea after StatQuest, "Principal Component Analysis (PCA), Step-by-Step".](images/pythagoras.gif)
@@ -221,7 +221,7 @@ Data B is twice as spread out as Data A, but its variance is 4 times larger, bec
 
 > **Key point:** Squared distances give a smooth formula that the optimisation inside PCA can work with; absolute distances do not.
 
-We could measure spread without squares: take the absolute distance $|x_i - \bar{x}|$ of each point from the mean and average them. That average is the **mean absolute deviation** (G-1193).
+We could measure spread without squares: take the absolute distance $|x_i - \bar{x}|$ of each point from the mean and average them. That average is the [**mean absolute deviation**](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#7-mean-absolute-deviation) (G-1193).
 
 PCA does not use it. Finding the best direction is an optimisation problem, and solving it needs a formula we can differentiate. To differentiate means to find the slope of a curve at a point. For $|d|$ the slope is $-1$ to the left of zero and $+1$ to the right, so exactly at zero there is no single slope: the curve has a sharp corner. For $d^2$ the slope is $2d$: it is 6 at $d = 3$, $-6$ at $d = -3$ and 0 at $d = 0$, a smooth change with no jump. The square is smooth everywhere, so variance is used (Figure 7).
 
@@ -297,6 +297,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
+| [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
 | [Unsupervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#31-learning-from-inputs-only) (G-2058) | Learning from inputs only, to find structure. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [Centred data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#7-mean-normalization) (G-365) | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
 | [Mean absolute deviation](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#7-mean-absolute-deviation) (G-1193) | The average absolute distance of the points from their mean. Sometimes also abbreviated MAD, which clashes with the median absolute deviation. |

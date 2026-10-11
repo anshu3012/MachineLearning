@@ -137,7 +137,7 @@ The pairs $HT$ and $TH$ are different outcomes: the order of the tosses is recor
 
 > **Key point:** Picking a random observation of a dataset is a random experiment too; its sample space is the set of values the chosen feature can take.
 
-The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The **feature** (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each outcome.
+The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each outcome.
 
 | Term | Drawing a Titanic passenger |
 |---|---|
@@ -181,13 +181,13 @@ $$\lbrace1\rbrace\cup \lbrace4, 5, 6\rbrace= \lbrace1, 4, 5, 6\rbrace$$
 
 > **Key point:** Two events are independent when one happening does not change the probability of the other.
 
-**Independent events** (G-934) are taught in [the definition of independence](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition): one event happening does not change the probability of the other. Flipping a coin and rolling a die together is the standard case: the coin's result has no effect on the die's.
+[**Independent events**](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) are taught in [the definition of independence](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition): one event happening does not change the probability of the other. Flipping a coin and rolling a die together is the standard case: the coin's result has no effect on the die's.
 
 ### 4.4 Dependent events
 
 > **Key point:** Two events are dependent when one happening changes the probability of the other, as when cards are drawn without being put back.
 
-Two events are **dependent** (G-590) when the occurrence of one **does** affect the probability of the other. They are the opposite of independent events.
+Two events are [**dependent**](../MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) when the occurrence of one **does** affect the probability of the other. They are the opposite of independent events.
 
 Drawing two cards from a pack **without replacement** (G-2126; the first card is not put back) is the standard example. A pack has 52 cards, 13 of them spades. Write $P(\text{spade})$ for the probability of the event "the card is a spade" (a number from 0 to 1):
 
@@ -213,7 +213,7 @@ Drawing two cards from a pack **without replacement** (G-2126; the first card is
 
 Figure 6 shows the two branches. The chance of a spade on the second draw depends on what the first draw took out, so the two draws are dependent. With replacement (the first card goes back and the pack is shuffled), the second draw is again $13/52$ whatever happened first, and the draws are independent.
 
-> **Extra:** The probability "spade second, given spade first" is a **conditional probability** (G-444); see [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition). It is written (the bar $\mid$ reads "given"):
+> **Extra:** The probability "spade second, given spade first" is a [**conditional probability**](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444); see [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition). It is written (the bar $\mid$ reads "given"):
 >
 > $$P(\text{2nd spade} \mid \text{1st spade}) = 12/51$$
 >
@@ -233,7 +233,7 @@ Figure 6 shows the two branches. The chance of a spade on the second draw depend
 
 > **Key point:** Two events are mutually exclusive when they cannot both happen in the same trial.
 
-**Mutually exclusive events** (G-1286) are taught in [the definition of mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition): they cannot happen together in one trial, so they share no outcome. On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
+[**Mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) are taught in [the definition of mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition): they cannot happen together in one trial, so they share no outcome. On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
 
 $\lbrace1, 2, 3\rbrace$ and $\lbrace3, 4, 5\rbrace$ are not (Figure 5, middle right): a roll of 3 belongs to both.
 
@@ -256,7 +256,7 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 
 ![The four rows of the table on die faces. Purple faces belong to both events (an overlap); white faces belong to neither (a gap).](images/exclusive_exhaustive.png)
 
-> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The **law of total probability** (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then (Blitzstein and Hwang 2019, §2.3):
+> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The [**law of total probability**](../MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then (Blitzstein and Hwang 2019, §2.3):
 >
 > $$P(A) = \sum_i P(A \mid B_i)\thinspace P(B_i)$$
 >

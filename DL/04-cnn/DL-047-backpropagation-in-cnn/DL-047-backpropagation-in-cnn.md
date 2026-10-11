@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-backprop]
 
 > **Key point:** A CNN learns the same way as an ordinary network: it makes a guess, measures how wrong the guess is, and nudges every weight in the direction that makes the error smaller. We cut a small CNN into a CNN part and an ANN part. For the ANN part, each output weight's nudge is the output error times the number that weight multiplied.
 
-**Backpropagation** (G-247) for an ANN is [the algorithm](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) that finds the **gradient** (the list of slopes of the loss with respect to every weight) and uses it to update the weights. A CNN adds three new operations, and the **chain rule** (G-371; the slope along a path of links is the product of the slopes of the links, see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)) must pass through each of them:
+[**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) for an ANN is [the algorithm](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) that finds the **gradient** (the list of slopes of the loss with respect to every weight) and uses it to update the weights. A CNN adds three new operations, and the **chain rule** (G-371; the slope along a path of links is the product of the slopes of the links, see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)) must pass through each of them:
 
 - [convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (a filter slides over the image, giving a feature map);
 - [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (the largest value of each small window is kept);
@@ -34,7 +34,7 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 ## 2. Prerequisites
 
 - [The steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation), [how it runs](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#7-the-classification-derivatives) and [why subtracting the derivative works](../../01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#7-why-we-subtract-the-derivative): the chain rule along a network, and the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$.
-- [A filter is a node](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#4-how-they-are-similar-a-filter-is-a-node): a **filter** (G-777) works like a node, its values are weights.
+- [A filter is a node](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#4-how-they-are-similar-a-filter-is-a-node): a [**filter**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) works like a node, its values are weights.
 - [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
 - [The log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) and [the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result).
 
@@ -49,12 +49,12 @@ In practice Keras computes all of this for us. Knowing how the gradients flow th
 The network (Figure 1) has:
 
 1. **Input:** a 6 × 6 greyscale image $X$ (a grid of 36 brightness values).
-2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 **feature map** (G-766). The side is:
+2. **Convolution:** one 3 × 3 filter with its bias, giving a 4 × 4 [**feature map**](../DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766). The side is:
 
    $$6 - 3 + 1 = 4$$
 
-3. **ReLU** (G-1668): negatives become 0; the shape stays 4 × 4.
-4. **Max pooling** (G-1182): 2 × 2 window, stride 2, giving 2 × 2.
+3. [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668): negatives become 0; the shape stays 4 × 4.
+4. [**Max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182): 2 × 2 window, stride 2, giving 2 × 2.
 5. **Flatten:** the 2 × 2 grid read out row by row as a list of 4 numbers.
 6. **Output:** a single node with [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a function that squashes any number into the range 0 to 1), giving the prediction $\hat{y}$, a number between 0 and 1.
 
@@ -87,7 +87,7 @@ $$4 + 1 = 5 \quad \text{(output node)}$$
 
 $$10 + 5 = 15$$
 
-These 15 numbers are the **trainable parameters** (G-1065). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
+These 15 numbers are the [**trainable parameters**](../DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065). ReLU, max pooling and flatten have none. Training means finding the 15 values that make the loss smallest.
 
 ### 3.3 The loss
 
@@ -101,7 +101,7 @@ $$= 0 - \log 0.7896$$
 
 $$= 0.2362$$
 
-Here $\log$ is the natural logarithm. The general rule is the **binary cross-entropy** (G-303) (derived in [the log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)), for one image with target $y$ (0 or 1) and prediction $a_2 = \hat{y}$:
+Here $\log$ is the natural logarithm. The general rule is the [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) (derived in [the log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)), for one image with target $y$ (0 or 1) and prediction $a_2 = \hat{y}$:
 
 $$L = -y\log a_2 - (1 - y)\log(1 - a_2)$$
 
@@ -109,7 +109,7 @@ Check: $y = 0$ and $a_2 = 0.2104$ give 0.2362, as above (Notebook: 0.2362). For 
 
 ## 4. Forward propagation
 
-> **Key point:** The image passes through six operations, each turning one grid of numbers into the next, until a single probability comes out. This walk from image to prediction is **forward propagation** (G-797).
+> **Key point:** The image passes through six operations, each turning one grid of numbers into the next, until a single probability comes out. This walk from image to prediction is [**forward propagation**](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797).
 
 Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one operation, each box one tensor (a grid of numbers). Figure 3 plays the walk on our first image, a 0 shrunk to 6 × 6; the steps below give the same numbers in writing.
 
@@ -117,7 +117,7 @@ Figure 1 is the **logical diagram** (G-1118) of the network: each arrow is one o
 
 In Figure 3, watch the grids shrink, 6 × 6 to 4 × 4 to 2 × 2 to 4 numbers to 1, as each operation runs.
 
-**Step 1, convolution.** The input $X$ is the 6 × 6 grid of pixel brightnesses, 0 for the blank background and 1 for full ink (Figure 3 draws the background white and the ink dark). The filter $W_1$ sits on the top-left 3 × 3 window of $X$; each pixel is multiplied by the filter value on top of it, and the 9 products are added (the **convolution operation** (G-481), see [one step](../DL-042-convolution-operation/DL-042-convolution-operation.md#62-one-step)). The top-left window of our image is
+**Step 1, convolution.** The input $X$ is the 6 × 6 grid of pixel brightnesses, 0 for the blank background and 1 for full ink (Figure 3 draws the background white and the ink dark). The filter $W_1$ sits on the top-left 3 × 3 window of $X$; each pixel is multiplied by the filter value on top of it, and the 9 products are added (the [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481), see [one step](../DL-042-convolution-operation/DL-042-convolution-operation.md#62-one-step)). The top-left window of our image is
 
 $$\begin{bmatrix} 0 & 0 & 0.0078 \cr0 & 0.0078 & 0.2706 \cr0 & 0.1765 & 0.4667 \end{bmatrix}$$
 
@@ -191,7 +191,7 @@ $$Z_2 = -1.3228 + 0$$
 
 $$Z_2 = -1.3228$$
 
-**Step 6, sigmoid.** The **sigmoid function** (G-1798) squeezes $Z_2$ into a probability:
+**Step 6, sigmoid.** The [**sigmoid function**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) squeezes $Z_2$ into a probability:
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
@@ -280,7 +280,7 @@ $$\times\ 0.1661 = 0.2104$$
 
 $$\times\ 0.4947 = 0.1041$$
 
-So raising $w_1$ by a small amount raises the loss by about 0.1041 times that amount. Multiplying the slopes along a path is the **chain rule** (G-371) (Goodfellow et al. 2016, §6.5.2; see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)). For all of $W_2$ and for $b_2$:
+So raising $w_1$ by a small amount raises the loss by about 0.1041 times that amount. Multiplying the slopes along a path is the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) (Goodfellow et al. 2016, §6.5.2; see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)). For all of $W_2$ and for $b_2$:
 
 $$\frac{\partial L}{\partial W_2} = \frac{\partial L}{\partial A_2}\cdot\frac{\partial A_2}{\partial Z_2}\cdot\frac{\partial Z_2}{\partial W_2}$$
 
@@ -432,7 +432,7 @@ $$\underset{1 \times 1}{\underbrace{(a_2 - y)}}\thickspace\underset{1 \times 4}{
 
 > **Key point:** For a batch, each image gives its own gradient as in section 6, and the batch gradient is their average. One matrix product computes all of them at once.
 
-With **mini-batch gradient descent** (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see [mini-batch](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground)).
+With [**mini-batch gradient descent**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222), a batch of, say, 32 or 64 images goes forward together and backpropagation runs once for the batch (see [mini-batch](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#10-mini-batch-the-middle-ground)).
 
 Start with the smallest batch, $m = 2$ images: our 0 and the Notebook's second image, a 1 ($y = 1$). Section 6 gives each image its own gradient:
 

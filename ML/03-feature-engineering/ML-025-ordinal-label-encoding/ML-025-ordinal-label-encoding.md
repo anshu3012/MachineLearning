@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/encoding,
 
 > **Key point:** Ordinal encoding turns the ordered categories of a feature into the numbers 0, 1, 2, ...; label encoding does the same for the categories of the target.
 
-Recall the three basic terms. A **feature** (G-772) is an input variable, one column of the data table. The **target** (G-1949) is the output we predict. An **observation** (G-1374) is one record, one row of the table. Feature transformation changes a feature's form so a model can use it. [Standardization](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
+Recall the three basic terms. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. An [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the table. Feature transformation changes a feature's form so a model can use it. [**Standardization**](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874) covered one of its jobs, feature scaling. This Note covers another job, which comes up in almost every ML problem: **encoding categorical data**, that is, turning categories into numbers.
 
 Figure 1 shows the whole topic. The kind of categorical data decides the technique:
 
@@ -33,7 +33,7 @@ Figure 1 shows the whole topic. The kind of categorical data decides the techniq
 
 > **Key point:** Data is either numerical (numbers) or categorical (categories); categorical data is either nominal (no order) or ordinal (has an order).
 
-Every column is either **numerical data** (G-1367) or **categorical data** (G-351; see [numerical and categorical data](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data)). Categorical data itself comes in two types, nominal and ordinal.
+Every column is either [**numerical data**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data) (G-1367) or **categorical data** (G-351; see [numerical and categorical data](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data)). Categorical data itself comes in two types, nominal and ordinal.
 
 ![Nominal categories sit side by side; ordinal categories stack in order](images/nominal_vs_ordinal.png){width=85%}
 
@@ -160,7 +160,7 @@ Before encoding, we identify the type of every categorical feature and of the ta
 
 Applying a different encoder to different columns by hand is tedious. We would have to separate `gender` and one-hot encode it, separate `review` and `education` and ordinal encode them, and then join everything back together.
 
-scikit-learn has a class for exactly this, the **column transformer** (G-415), taught in [the easy way: ColumnTransformer](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer). Until then, we drop `age` and `gender` and keep only `review`, `education` and `purchased`.
+scikit-learn has a class for exactly this, the [**column transformer**](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415), taught in [the easy way: ColumnTransformer](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer). Until then, we drop `age` and `gender` and keep only `review`, `education` and `purchased`.
 
 > **Python:** Loading the data and keeping the last three columns.
 >
@@ -365,6 +365,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Numerical data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#22-numerical-and-categorical-data) (G-1367) | Data made of numbers. |
 | [Categorical data (categorical column)](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-351) | Data made of categories: labels rather than numbers. |

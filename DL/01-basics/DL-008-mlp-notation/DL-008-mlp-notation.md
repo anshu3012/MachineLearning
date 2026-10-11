@@ -17,13 +17,13 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/mlp-notation]
 
 > **Key point:** Before training a multi-layer perceptron, we count its trainable parameters and give every weight, bias and output a name that says exactly where it sits.
 
-A **multi-layer perceptron (MLP)** (G-1270) is many **perceptrons** (G-1486) organised in **layers** (G-1056; see [multi-layer perceptrons](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp)). Each perceptron multiplies its inputs by numbers called **weights** (G-2106) and adds one more number, its **bias** (G-287); both are explained in [inputs, weights and bias](../DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias). Even a small network has dozens of them. Training it with **backpropagation** (G-247; the method that adjusts every weight and bias to shrink the error, see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)) means talking about each of them one at a time, so each needs an unambiguous name.
+A [**multi-layer perceptron (MLP)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) is many [**perceptrons**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) organised in **layers** (G-1056; see [multi-layer perceptrons](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp)). Each perceptron multiplies its inputs by numbers called [**weights**](../DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) and adds one more number, its [**bias**](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287); both are explained in [inputs, weights and bias](../DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias). Even a small network has dozens of them. Training it with **backpropagation** (G-247; the method that adjusts every weight and bias to shrink the error, see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)) means talking about each of them one at a time, so each needs an unambiguous name.
 
 ![The 4-3-2-1 network used in this Note: layers 0 to 3, with the weights coming into each node drawn in that node's colour](images/network.png){height=42%}
 
 This Note does two things, both on the network in Figure 1:
 
-1. Count its **trainable parameters** (G-1065): the weights and biases that training must find.
+1. Count its [**trainable parameters**](../../04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065): the weights and biases that training must find.
 2. Fix a standard **notation** for biases, outputs and weights.
 
 ## 2. The setup: layers and data
@@ -36,10 +36,10 @@ This Note does two things, both on the network in Figure 1:
 
 The network in Figure 1 has four layers:
 
-- **Layer 0**, the **input layer** (G-952): 4 nodes, one per **feature** (G-772; an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
-- **Layer 1**, the first **hidden layer** (G-890): 3 perceptrons.
+- **Layer 0**, the [**input layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952): 4 nodes, one per **feature** (G-772; an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
+- **Layer 1**, the first [**hidden layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890): 3 perceptrons.
 - **Layer 2**, the second hidden layer: 2 perceptrons.
-- **Layer 3**, the **output layer** (G-1424): 1 perceptron, whose output is the prediction $\hat y_i$.
+- **Layer 3**, the [**output layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424): 1 perceptron, whose output is the prediction $\hat y_i$.
 
 We describe such a network by its layer sizes: a **4-3-2-1 network**. Input, hidden and output layers are defined in [the parts of a neural network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network).
 
@@ -189,7 +189,7 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 > sum(W[k].size + b[k].size for k in (1, 2, 3))   # 26
 > ```
 >
-> Python counts from 0, so $W_{42}^{1}$ is `W[1][3, 1]`. Storing each layer's weights as one matrix is exactly what [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (computing a prediction layer by layer) uses.
+> Python counts from 0, so $W_{42}^{1}$ is `W[1][3, 1]`. Storing each layer's weights as one matrix is exactly what [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797) (computing a prediction layer by layer) uses.
 
 ## 6. Summary
 
@@ -237,3 +237,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
 | [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |

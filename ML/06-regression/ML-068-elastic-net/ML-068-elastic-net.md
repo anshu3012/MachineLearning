@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/elasticnet]
 
 [Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) are two regularised versions of linear regression (a penalty on large coefficients is added to the loss):
 
-- **Ridge** (L2, **L2 regularisation**, G-1029): shrinks all coefficients, never to exactly 0. Suited to data where every **feature** (G-772) (an input variable, one column of the data table) matters.
+- **Ridge** (L2, **L2 regularisation**, G-1029): shrinks all coefficients, never to exactly 0. Suited to data where every [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) matters.
 - **Lasso** (L1, **L1 regularisation**, G-1026): can set coefficients to exactly 0, removing features. Suited to data where only some features matter.
 
 Figure 1 recalls the difference on a made-up model of house prices with two useful features (area, rooms) and two useless ones (door number, the owner's birth month). Watch the two grey terms: Ridge keeps them with small coefficients, Lasso removes them.
@@ -98,7 +98,7 @@ $a$ sets the strength of the Ridge part and $b$ the strength of the Lasso part. 
 | 0 | above 0 | Lasso |
 | above 0 | above 0 | Elastic Net, a hybrid of the two |
 
-The best pair $(a, b)$ is found by **cross-validation** (G-510) (section 6).
+The best pair $(a, b)$ is found by [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) (section 6).
 
 Figure 2 places every model on one map of the two strengths. Watch the edges: they are the models of the earlier Notes, and only the inside is new.
 
@@ -114,7 +114,7 @@ $$\text{alpha} = a + b$$
 
 $$r = \frac{b}{a + b}$$
 
-Here $r$ is the **l1_ratio** (G-1027) **hyperparameter** (G-910): a setting chosen before training, not learned from the data.
+Here $r$ is the **l1_ratio** (G-1027) [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting chosen before training, not learned from the data.
 
 In words: `alpha` is the total penalty, and `l1_ratio` is the fraction of it that goes to the L1 (Lasso) part. The rest, $1 - r$, goes to the L2 (Ridge) part.
 
@@ -224,7 +224,7 @@ The picture follows the estimation picture of ESL Figure 3.11 and the shapes of 
 
 Elastic Net is especially recommended when features are strongly correlated with each other: **multicollinearity** (G-1273; see [no multicollinearity](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#3-assumption-2-no-multicollinearity)). Height and weight are a typical pair: when one rises, the other usually does too.
 
-Figure 6 uses 200 **observations** (G-1374) (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the **target** (G-1949) (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
+Figure 6 uses 200 [**observations**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each) with six features. $x_1$, $x_2$ and $x_3$ are three almost identical copies of one signal, and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is 3 times that signal plus noise. The other three features are pure noise.
 
 ![Coefficients of four models on three correlated inputs and three noise inputs](images/grouping.png){height=50%}
 

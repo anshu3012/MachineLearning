@@ -19,9 +19,9 @@ tags: [subject/machine-learning, area/data, step/clean, concept/mice]
 
 > **Key point:** MICE fills every gap with its feature's mean first, then improves the fills one feature at a time with a model trained on the other features, and repeats until the fills stop changing.
 
-A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). The **target** (G-1949) is the output we predict.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
-A method that fills a gap using the other features too is called **multivariate imputation** (G-1282). The **KNN imputer** (G-1017; see [the nearest-neighbour idea](../ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea)) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
+A method that fills a gap using the other features too is called [**multivariate imputation**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-1282). The **KNN imputer** (G-1017; see [the nearest-neighbour idea](../ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea)) was the first such technique: it fills a gap from the observations most similar to the one with the gap. This Note covers the second one, the **iterative imputer** (G-978). The iterative imputer turns each feature with gaps into a small prediction problem: that feature is the output, the other features are the inputs. Think of a crossword: each answer you write in gives letters that help with the crossing answers, so you go round the grid several times, fixing earlier guesses as the crossings fill in.
 
 The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputation by Chained Equations**. The same letters are also read as **Multiple** Imputation by Chained Equations, after the several filled copies of the data that statisticians make with it (Section 8.5). Figure 1 shows the whole loop:
 
@@ -39,9 +39,9 @@ Each model is one "equation" that predicts one feature. The equations are "chain
 
 Data goes missing in [three ways](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#5-why-data-goes-missing-mcar-mar-and-mnar):
 
-- **MCAR (missing completely at random)** (G-1192): the value was never collected, for no reason related to the data.
-- **MAR (missing at random)** (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
-- **MNAR (missing not at random)** (G-1248): whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
+- [**MCAR (missing completely at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192): the value was never collected, for no reason related to the data.
+- [**MAR (missing at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
+- [**MNAR (missing not at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1248): whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
 
 MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
 
@@ -139,7 +139,7 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 $$\text{R and D} = \text{start} + w_A \times \text{Admin} + w_M \times \text{Marketing}$$
 
-that misses the four training values by the least total squared **residual** (G-705), the gap between an actual and a predicted value. The weights $w_A$ and $w_M$ are the **coefficients** (G-407) of the model, and "start", the starting value, is the **intercept** (G-960). This is the [least-squares idea](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum) with two inputs instead of one: set the slope of the total squared error to zero for each weight. Working with deviations from the means keeps it to two equations.
+that misses the four training values by the least total squared [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the gap between an actual and a predicted value. The weights $w_A$ and $w_M$ are the [**coefficients**](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) of the model, and "start", the starting value, is the [**intercept**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960). This is the [least-squares idea](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum) with two inputs instead of one: set the slope of the total squared error to zero for each weight. Working with deviations from the means keeps it to two equations.
 
 *Step 1: means.* Write $A$ for Administration, $M$ for Marketing and $R$ for R&D.
 
@@ -437,7 +437,7 @@ Figure 5 continues the example for 10 iterations at full precision. With linear 
 
 > **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1, and 38.87 against 39.39 in iteration 2); the settled values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every **residual** (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is **extrapolation** (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is [**extrapolation**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth (Section 8.4).
 
 ## 8. The iterative imputer in scikit-learn
 
@@ -474,7 +474,7 @@ scikit-learn marks `IterativeImputer` as **experimental**: its settings may stil
 | `imputation_order` | the order of the features; `"ascending"` starts with the feature with the fewest gaps | `"ascending"` |
 | `n_nearest_features` | use only this many other features as inputs (faster on wide data) | `None` (all) |
 | `sample_posterior` (G-141) | draw each fill at random from the model's spread instead of its best guess | `False` |
-| `add_indicator` | also add a 0/1 column marking each gap (see [missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) | `False` |
+| `add_indicator` | also add a 0/1 column marking each gap (see [**missing indicator**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233)) | `False` |
 | `random_state` | seed for the random parts | `None` |
 
 After fitting, `n_iter_` holds the number of iterations actually run. On the toy table, the default imputer stops after 4.
@@ -515,7 +515,7 @@ On the full 50-row data, we:
 2. hid 20% of the values in both parts at random;
 3. fitted each imputer on the training part and filled the test part.
 
-The error is the **root mean squared error** (G-1705): square each difference from the true value, average the squares, and take the square root. The unit is 10,000 dollars, and the number is the average over 100 random splits:
+The error is the [**root mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705): square each difference from the true value, average the squares, and take the square root. The unit is 10,000 dollars, and the number is the average over 100 random splits:
 
 | Imputer | Error |
 |---|---|
@@ -611,5 +611,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
 | [Normal equations](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#52-the-gradient-then-zero) (G-1345) | A set of equations, one per coefficient, whose solution is the best-fit (least-squares) coefficients: $X^{\mathsf T}X\beta = X^{\mathsf T}y$. |
 | [Extrapolation](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738) | Predicting for inputs outside the range of the training data. |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | [Root mean squared error (RMSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |

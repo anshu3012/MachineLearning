@@ -28,7 +28,7 @@ Along the way we see two things the paper version did not show: why the weight u
 
 > **Key point:** 10 observations, features X1 and X2, classes 1 and 0; no single straight cut separates them.
 
-Each **observation** (G-1374) is one record (one row of the table). X1 and X2 are the **features** (G-772), the input variables (columns). The **target** (G-1949) `label` is the class we predict.
+Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row of the table). X1 and X2 are the [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), the input variables (columns). The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) `label` is the class we predict.
 
 | Row | X1 | X2 | label |
 |---|---|---|---|
@@ -68,7 +68,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 $$1/10 = 0.1$$
 
-**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a **decision stump** (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5** ($\le$ means "at most"): below, class 0; above, class 1 (Figure 1, top left).
+**The stump.** A `DecisionTreeClassifier` with `max_depth=1` is a [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559): a tree with a single split. Trained on all 10 observations, it chooses **X2 $\le$ 2.5** ($\le$ means "at most"): below, class 0; above, class 1 (Figure 1, top left).
 
 > **Python:** Weights and the first stump.
 >
@@ -93,7 +93,7 @@ $$1/10 = 0.1$$
 
 $$0.1 + 0.1 + 0.1 = 0.3$$
 
-The stump's say in the final vote is its **alpha** (G-192), from [the formula](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula) (here $\ln$ is the natural logarithm):
+The stump's say in the final vote is its [**alpha**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#43-the-say-of-each-stump-alpha) (G-192), from [the formula](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula) (here $\ln$ is the natural logarithm):
 
 $$\alpha_1 = \frac{1}{2}\ln\left(\frac{1-0.3}{0.3}\right)$$
 
@@ -190,7 +190,7 @@ $$\frac{0.0655}{0.9165} = 0.0714$$
 
 **Ranges.** The running total of the normalised weights, `np.cumsum`, gives each observation's upper end; its lower end is the upper end minus its own weight. Observation 0 owns 0 to 0.0714, observation 1 owns 0.0714 to 0.1429, observation 2 owns 0.1429 to 0.3095, and so on.
 
-**Upsampling.** Drawing a new dataset in which each row appears in proportion to its weight is **upsampling** (G-2063). We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (see [step 7: upsampling](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight)).
+**Upsampling.** Drawing a new dataset in which each row appears in proportion to its weight is [**upsampling**](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight) (G-2063). We draw 10 random numbers between 0 and 1 and, for each, pick the observation whose range it falls in (see [step 7: upsampling](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight)).
 
 > **Python:** Ranges and the new dataset.
 >
@@ -383,7 +383,7 @@ These two bookkeeping changes leave the decisions unchanged (what changes the st
 
 Both give alphas 0.8473, 1.2993 and 1.8458 (`abc.estimator_weights_`) and the same predictions. Without random draws, the three weighted stumps classify **all 10 observations** correctly. The first alpha, 0.8473, is exactly twice our hand-computed 0.4236.
 
-Figure 8 puts the two ensembles side by side on the training data. Watch the top-right corner: our vote leaves observation 8 at (9, 9) in the class-1 region, while scikit-learn's weighted stumps put it on the class-0 side of their **decision boundary** (G-555), the line where the vote changes sign.
+Figure 8 puts the two ensembles side by side on the training data. Watch the top-right corner: our vote leaves observation 8 at (9, 9) in the class-1 region, while scikit-learn's weighted stumps put it on the class-0 side of their [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line where the vote changes sign.
 
 ![Decision regions of our three upsampled stumps (left, 9 of 10 correct, observation 8 missed) and scikit-learn's three weighted SAMME stumps (right, 10 of 10 correct)](images/upsample_vs_weights.png){height=40%}
 

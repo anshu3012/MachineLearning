@@ -37,7 +37,7 @@ $$[1, 2] \cdot [3, 4] = 11$$
 
 The rule has a picture.
 
-PCA (principal component analysis) uses the **projection** (G-1583) (shadow) of a point onto a line, and [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector (a vector of length 1). Here the line's vector need not have length 1, and that gives a full picture of the dot product.
+PCA (principal component analysis) uses the [**projection**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) (shadow) of a point onto a line, and [projecting one point](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) showed that its length is $u^{\mathsf T}x$ when $u$ is a unit vector (a vector of length 1). Here the line's vector need not have length 1, and that gives a full picture of the dot product.
 
 1. **In words:** drop $\mathbf{w}$ straight onto the line through the origin and $\mathbf{v}$. Measure the length of this shadow, with a minus sign if it points opposite to $\mathbf{v}$. Multiply by the length of $\mathbf{v}$.
 2. **Formula:**
@@ -225,7 +225,7 @@ On the surface, the dot product is a tool for projections and for testing whethe
 
 > **Key point:** $w^{\mathsf T}x + w_0$ projects $x$ onto the direction of $w$, scales by $\lVert w \rVert$ and shifts.
 
-Linear models score a feature vector $x$ (one value per **feature** (G-772), an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation (a hyperplane is a flat surface, such as a line in 2D; see [the vector form](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form)). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
+Linear models score a feature vector $x$ (one value per [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), an input variable) with $w^{\mathsf T}x + w_0$, the left side of the hyperplane equation (a hyperplane is a flat surface, such as a line in 2D; see [the vector form](../MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form)). The part $w^{\mathsf T}x$ is a linear transformation from feature vectors to numbers, and $w$ is its dual vector. Read as a projection: the score measures how far $x$ reaches along the direction of $w$, times $\lVert w \rVert$, plus the shift $w_0$. Points with equal shadows on the line of $w$ get equal scores; the hyperplane is the set of points whose score is 0.
 
 ![The score of a linear model with w = [3, 4] and shift -5: every line perpendicular to w is a line of equal score](images/score_projection.png){height=45%}
 
@@ -252,7 +252,7 @@ A $1 \times n$ matrix is one linear function from $n$ features to a number: one 
 - **A layer of neurons:** row $j$ of the weight matrix is the dual vector of neuron $j$; the neuron's output before the activation is the projection of the input onto that row, scaled.
 - **PCA:** each principal component is a unit vector $u$, and a point's score on it is $u^{\mathsf T}x$, the position of its shadow on the line of $u$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)).
 
-> **Extra:** Recommender systems often give every user and every item a learned vector, an **embedding** (G-677), and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
+> **Extra:** Recommender systems often give every user and every item a learned vector, an [**embedding**](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-677), and predict a rating as their dot product (Koren et al. 2009). By duality, a user's vector is a linear scoring function over items: it projects each item's vector onto the user's taste direction.
 
 ## 8. Summary
 

@@ -28,8 +28,8 @@ There are three standard regularised versions of linear regression:
 | Name | Penalty | Also called |
 |---|---|---|
 | **Ridge regression** (G-1691) | sum of squared coefficients (for coefficients 3 and −2: $9 + 4 = 13$) | **L2 regularisation** (G-1029) |
-| **Lasso regression** (G-1047) | sum of absolute coefficients | L1 regularisation |
-| **Elastic Net** (G-667) | a mix of both | |
+| [**Lasso regression**](../ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | sum of absolute coefficients | L1 regularisation |
+| [**Elastic Net**](../ML-068-elastic-net/ML-068-elastic-net.md#1-overview) (G-667) | a mix of both | |
 
 Figure 1 draws the three penalties for a single coefficient $\beta$. All three are 0 when the coefficient is 0 and grow with its size, so all three push coefficients towards 0. They differ in how: the square is gentle on small coefficients ($0.5^2 = 0.25$) and harsh on large ones ($2^2 = 4$), while the absolute value charges the same rate everywhere and has a sharp corner at 0. That corner is why Lasso can set coefficients exactly to 0 (see [a corner in the loss curve](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#2-the-picture-a-corner-in-the-loss-curve)).
 
@@ -46,9 +46,9 @@ This Note covers the idea of regularisation and of Ridge. What comes next:
 
 > **Key point:** An overfitting linear model has extreme coefficients: a very steep line that chases the training points.
 
-**Overfitting** (G-1429) means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance): the fitted model changes a lot from one training sample to the next).
+[**Overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) means a model performs very well on the training data but poorly on new data, and gives very different results when trained on different samples (the high [**variance**](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073): the fitted model changes a lot from one training sample to the next).
 
-For linear regression, overfitting shows up in the coefficients. Each **feature** (G-772; an input variable, one column of the data table) gets one coefficient, and each **observation** (G-1374; one record, one row of the table) is one training point. The **target** (G-1949) is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
+For linear regression, overfitting shows up in the coefficients. Each **feature** (G-772; an input variable, one column of the data table) gets one coefficient, and each **observation** (G-1374; one record, one row of the table) is one training point. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the value we predict. Take the extreme case of only two training points. The least-squares line passes exactly through both, with zero training error. Its slope is whatever those two points dictate, which may be much steeper than the real pattern. On new points the line can be far off.
 
 Figure 2 (left) draws 20 such samples of two points, all from the same gentle pattern (the dashed line). Watch how far the least-squares lines swing: from one sample to the next the slope ranges from $-2.0$ to $2.3$, while the true slope is 0.9. The right panel previews the fix of Section 3: the Ridge slopes stay between about 0 and 0.7 (the lowest is $-0.02$).
 
@@ -101,7 +101,7 @@ Think of a tailor who fits a suit to one photo of a customer. A suit that follow
 
 ## 4. The effect of λ
 
-> **Key point:** λ = 0 is ordinary linear regression. As λ grows, the coefficients shrink towards 0. Too large a λ flattens the model into **underfitting** (G-2035).
+> **Key point:** λ = 0 is ordinary linear regression. As λ grows, the coefficients shrink towards 0. Too large a λ flattens the model into [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035).
 
 ### 4.1 One feature
 
@@ -133,7 +133,7 @@ The best alpha is somewhere in between and is found by trying values on held-out
 
 ### 4.3 Many features: the diabetes data
 
-> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² (the share of the target's variation the model explains: 1 is perfect, 0 is no better than the average; see [R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) a lot; a huge alpha destroys the model.
+> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² (the share of the target's variation the model explains: 1 is perfect, 0 is no better than the average; see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)) a lot; a huge alpha destroys the model.
 
 Figure 6 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
@@ -206,10 +206,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Elastic Net regression (Elastic Net)](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#1-overview) (G-667) | Linear regression whose loss gets both the L2 (ridge) and the L1 (lasso) penalty, each with its own strength. It shrinks the coefficients and can set some to 0, so we need not choose between ridge and lasso in advance. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |

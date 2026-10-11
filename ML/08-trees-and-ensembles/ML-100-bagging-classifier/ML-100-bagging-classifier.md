@@ -51,8 +51,8 @@ The demo data is the two-moons toy dataset: 500 **observations** (points; each i
 
 With a decision tree, 100 estimators, 50 observations each, drawn with replacement, and both features:
 
-- **One tree** (Figure 1, top left): 0.856. Its **decision surface** (G-560; the feature plane coloured by the predicted class) has small boxes of one colour inside the other. A tree splits on one feature at a time, so each region it carves out is a rectangle, and a fully grown tree keeps splitting until it gives single training points their own rectangle. That is **overfitting** (G-1429). The tree is right on the training data, wrong on new data.
-- **Bagging** (G-251; top middle): 0.912. The **decision boundary** (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The **bias** (G-287) stays low and the **variance** (G-2073) falls, as [why bagging works](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works) predicted.
+- **One tree** (Figure 1, top left): 0.856. Its **decision surface** (G-560; the feature plane coloured by the predicted class) has small boxes of one colour inside the other. A tree splits on one feature at a time, so each region it carves out is a rectangle, and a fully grown tree keeps splitting until it gives single training points their own rectangle. That is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429). The tree is right on the training data, wrong on new data.
+- **Bagging** (G-251; top middle): 0.912. The [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line where the predicted class changes, is much smoother: each tree's stray boxes sit in different places, so the majority vote outvotes them. The [**bias**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) stays low and the [**variance**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) falls, as [why bagging works](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works) predicted.
 
 Figure 2 builds the same bagging classifier one tree at a time. Watch the left panel: every tree draws its own 50 points (large markers; bigger means drawn more than once) and cuts its own boxes. On the right, the vote of all trees so far turns from one tree's hard boxes into a smooth band of shared votes, and test accuracy climbs from 0.816 with one tree to 0.912 after 10 trees; from there on it only wobbles between 0.896 and 0.928 and ends at 0.912 with 100 trees.
 
@@ -159,12 +159,12 @@ In Figure 3, every tree-based variant clears the dashed line of one tree; only t
 
 > **Key point:** Every tree misses some observations: about 37% when it draws as many as the training set, about 78% with `max_samples=0.25`. Each observation is predicted by only the trees that never saw it; the share of observations they get right is a free estimate of test accuracy.
 
-The observations a tree never drew are its **out-of-bag (OOB) rows** (G-1412). The 37% is counted per tree: every tree misses a different set of observations. Across many trees, almost every observation is drawn by some trees and missed by others.
+The observations a tree never drew are its [**out-of-bag (OOB) rows**](../ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412). The 37% is counted per tree: every tree misses a different set of observations. Across many trees, almost every observation is drawn by some trees and missed by others.
 
-A tree has never seen its out-of-bag observations, so for that tree they work like test data. **OOB evaluation** (G-1411) uses this, one observation at a time (Figure 4):
+A tree has never seen its out-of-bag observations, so for that tree they work like test data. [**OOB evaluation**](../ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) uses this, one observation at a time (Figure 4):
 
 1. **Take one training observation.** Find the trees whose sample does not contain it.
-2. **Let only those trees vote.** Their majority is the observation's **OOB prediction** (G-1392).
+2. **Let only those trees vote.** Their majority is the observation's [**OOB prediction**](../ML-107-oob-score/ML-107-oob-score.md#31-the-steps) (G-1392).
 3. **Compare** the OOB prediction with the observation's true class.
 4. **Repeat for every training observation.** The share predicted correctly is the **OOB score**.
 

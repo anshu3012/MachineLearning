@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/ridge]
 
 > **Key point:** As λ grows, Ridge shrinks the coefficients towards 0 (the largest first) without making any exactly 0, and trades more bias for less variance. It helps most where least squares is unstable: many or correlated features, or few observations.
 
-The last three Notes built **Ridge regression** (G-1691): [the idea](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [the formulas](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature), and [gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient). Ridge adds a penalty on the size of the coefficients; its strength is **λ** (lambda, a number from 0 upwards; the larger λ, the stronger the penalty). This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
+The last three Notes built [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691): [the idea](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [the formulas](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature), and [gradient descent](../ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient). Ridge adds a penalty on the size of the coefficients; its strength is **λ** (lambda, a number from 0 upwards; the larger λ, the stronger the penalty). This Note collects the five points that are easiest to mix up afterwards. The five points are also common interview questions.
 
 | # | Question | Short answer |
 |---|---|---|
@@ -28,7 +28,7 @@ The last three Notes built **Ridge regression** (G-1691): [the idea](../ML-062-r
 | 4 | What happens to the loss function? | its lowest point moves towards 0 |
 | 5 | When should Ridge be used? | when least squares is unstable: many or correlated features, or few observations |
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the value we predict. All diabetes examples below use test size 0.2 and random state 2.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the value we predict. All diabetes examples below use test size 0.2 and random state 2.
 
 ## 2. Point 1: coefficients shrink but never reach 0
 
@@ -59,7 +59,7 @@ Once $\lambda$ is much bigger than the numbers in $X^{\mathsf T}X$, adding $X^{\
 
 $$\beta \approx X^{\mathsf T}y / \lambda$$
 
-Ten times the $\lambda$ then gives a tenth of the coefficients. Here "much bigger" means much bigger than about 3, the largest **eigenvalue** (G-665) of $X^{\mathsf T}X$: a number that says how strongly the matrix stretches its most-stretched direction (see [the vectors that do not turn](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)). A one-feature check with made-up numbers $X^{\mathsf T}X = 3$ and $X^{\mathsf T}y = 6$, where the Ridge answer is $6 / (3 + \lambda)$ and the shortcut is $6 / \lambda$:
+Ten times the $\lambda$ then gives a tenth of the coefficients. Here "much bigger" means much bigger than about 3, the largest [**eigenvalue**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) of $X^{\mathsf T}X$: a number that says how strongly the matrix stretches its most-stretched direction (see [the vectors that do not turn](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)). A one-feature check with made-up numbers $X^{\mathsf T}X = 3$ and $X^{\mathsf T}y = 6$, where the Ridge answer is $6 / (3 + \lambda)$ and the shortcut is $6 / \lambda$:
 
 | $\lambda$ | Ridge answer $6 / (3 + \lambda)$ | Shortcut $6 / \lambda$ |
 |---|---|---|
@@ -103,7 +103,7 @@ The penalty is $\lambda\sum\beta_j^2$, and the square grows fast: a coefficient 
 
 > **Key point:** A small λ gives low bias and high variance (overfitting); a large λ gives high bias and low variance (underfitting). The best λ is in between.
 
-Recall [bias](../ML-061-bias-variance/ML-061-bias-variance.md#2-bias) and [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance): **bias** (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
+Recall [bias](../ML-061-bias-variance/ML-061-bias-variance.md#2-bias) and [**variance**](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073): [**bias**](../ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) is error from a model too simple to follow the pattern, and **variance** is how much the model changes from one training sample to another. Think of a dartboard: bias is how far the average throw lands from the bullseye, variance is how scattered the throws are.
 
 Measuring bias needs the true curve, so here we use made-up data where we know it: the curve
 
@@ -128,8 +128,8 @@ How to read the figure below:
 | 100 | 4.17 | 0.31 | 8.48 |
 | 1000 | 5.05 | 0.26 | 9.31 |
 
-- **Small alpha:** the flexible curve bends with each noisy sample, so the variance is high: **overfitting** (G-1429).
-- **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: **underfitting** (G-2035).
+- **Small alpha:** the flexible curve bends with each noisy sample, so the variance is high: [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429).
+- **Large alpha:** the coefficients are squeezed so hard that the curve is too stiff, and bias takes over: [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035).
 - **In between** (here about alpha 1): the total error is smallest.
 
 So, as in [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), λ moves a model along the **bias-variance trade-off** (G-288; ISL §6.2.1). Choose λ where variance has fallen a lot but bias has not yet risen much.
@@ -252,6 +252,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |

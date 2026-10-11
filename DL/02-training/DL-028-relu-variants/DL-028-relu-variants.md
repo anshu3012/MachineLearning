@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/dying-relu, 
 
 > **Key point:** A ReLU node whose weighted sum stays negative outputs 0 with slope 0, so it never learns again: it is dead. Four variants give negative inputs a non-zero output and slope, which keeps every node alive.
 
-**ReLU** (G-1668) is the default **activation function** (G-165) for **hidden layers** (G-890; see the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). ReLU's biggest weakness is the **dying ReLU problem** (G-650). This Note covers:
+[**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) is the default [**activation function**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) for **hidden layers** (G-890; see the [activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu)). ReLU's biggest weakness is the **dying ReLU problem** (G-650). This Note covers:
 
 - what a dead node is, why it happens and why it is permanent;
 - three fixes, the third being a change of activation;
@@ -59,7 +59,7 @@ $$a_1 = \max(0, z_1)$$
 
 ![A ReLU node with $z_1 < 0$. The factor $\partial a_1/\partial z_1$ is 0, so the gradients of $w_1$ and $w_2$ are 0](images/dying.png){width=70%}
 
-Here $L$ is the loss and $\hat{y}$ is the network's prediction. **Backpropagation** (G-247) reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
+Here $L$ is the loss and $\hat{y}$ is the network's prediction. [**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) reaches $w_1$ through the chain $L \to \hat{y} \to a_1 \to z_1 \to w_1$:
 
 1. **In words:** the gradient of $w_1$ is a product of four factors, one of which is ReLU's slope.
 2. **Formula:**
@@ -87,7 +87,7 @@ Neither weight changes. If $z_1$ is negative for every **observation** (G-1374; 
 
 > **Key point:** Two causes: a learning rate so high that one update throws the weights negative, and a large negative bias.
 
-**1. A high learning rate** (G-1068). Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace\partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
+[**1. A high learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068). Suppose that for the first observation $z_1$ is positive, so the gradient is not 0. With a very large learning rate, $\eta\thinspace\partial L/\partial w$ is a big number. Subtracting it from a small weight makes $w_1$ and $w_2$ strongly negative, and in the next round $z_1$ is negative for every observation.
 
 **2. A large negative bias.** If $b_1$ is very negative, $z_1 = w_1 x_1 + w_2 x_2 + b_1$ is negative however the inputs vary. The bias can start out negative, or it can be pushed there by updates, again usually because the learning rate is high.
 
@@ -98,7 +98,7 @@ Neither weight changes. If $z_1$ is negative for every **observation** (G-1374; 
 Once $z_1$ is negative for every observation, nothing can make $z_1$ positive again:
 
 - the weights and the bias get no updates, so they stay as they are;
-- only the **features** (G-772) $x_1$, $x_2$ (the input variables) change from observation to observation, and they are scaled into a small range, so they cannot outweigh a large negative bias or negative weights.
+- only the [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) $x_1$, $x_2$ (the input variables) change from observation to observation, and they are scaled into a small range, so they cannot outweigh a large negative bias or negative weights.
 
 For these two reasons a dead node is called permanently dead.
 
@@ -165,10 +165,10 @@ Because $\partial a/\partial z$ is never 0, the gradient in section 3.1 is never
 
 Advantages:
 
-1. **Non-saturating** (G-1339) on both sides: the output is unbounded in both directions.
+1. [**Non-saturating**](../DL-027-activation-functions/DL-027-activation-functions.md#55-non-saturating) (G-1339) on both sides: the output is unbounded in both directions.
 2. **Easy to compute:** no exponentials.
 3. **No dying ReLU problem.**
-4. **Close to zero-centred** (G-2148): outputs can be negative as well as positive, though not symmetric.
+4. [**Close to zero-centred**](../DL-027-activation-functions/DL-027-activation-functions.md#54-zero-centred) (G-2148): outputs can be negative as well as positive, though not symmetric.
 
 The only questionable point of Leaky ReLU is the constant: why 0.01 and not some other value? The value 0.01 was chosen by experiment. Parametric ReLU lets the data choose it instead.
 
@@ -183,7 +183,7 @@ The only questionable point of Leaky ReLU is the constant: why 0.01 and not some
    $$f(z) = \begin{cases} z & z \ge 0 \cr a\thinspace z & z < 0 \end{cases}$$
 3. **Example:** if training sets $a = 0.25$, then $f(-2) = -0.5$; with $a = 0.01$ it would be Leaky ReLU, with $a = 0$ plain ReLU.
 
-The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a **hyperparameter** (G-910) that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better **ImageNet** (G-920; a large benchmark of labelled photos) accuracy than with ReLU (He et al. 2015).
+The slope $a$ is a parameter like a weight, found by gradient descent from the data. The slope $a$ is not a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) that we set. Everything else, advantages included, is as for Leaky ReLU. The extra flexibility can help: the paper that introduced PReLU reports better **ImageNet** (G-920; a large benchmark of labelled photos) accuracy than with ReLU (He et al. 2015).
 
 > **Python:** PReLU is a separate layer after a `Dense` layer without activation.
 >
@@ -225,7 +225,7 @@ A larger $\alpha$ pulls the negative side further down.
 Advantages:
 
 1. **Close to zero-centred**, so it converges faster.
-2. **Better generalisation** (G-838): in experiments it often gives better results on test data than ReLU (Clevert et al. 2016).
+2. [**Better generalisation**](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838): in experiments it often gives better results on test data than ReLU (Clevert et al. 2016).
 3. **No dying ReLU problem:** the slope is above 0 for every $z$ ($\alpha e^{z} > 0$ on the negative side). In Figure 3, ELU with a starting bias of $-1$ reaches 96%.
 4. **Continuous and differentiable everywhere** (with $\alpha = 1$, which Figure 1 uses): there is no corner at 0.
 
@@ -289,7 +289,7 @@ ReLU makes a hard choice: it keeps $z$ when $z$ is positive and replaces it by 0
    $$= z\thinspace p(z)$$
    Using this average as the activation function needs no randomness at all.
 
-The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the [standard normal](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) **cumulative distribution function** (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
+The **GELU** (G-834; Gaussian error linear unit) uses for $p$ the [standard normal](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) [**cumulative distribution function**](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) $\Phi(z)$ (G-18): the probability that a standard normal value is below $z$. For example, $\Phi(0) = 0.50$ because half of the values are below 0, and $\Phi(1) = 0.84$ because 84 percent are below 1.
 
 1. **In words:** the input times the probability of keeping it.
 2. **Formula:**
@@ -320,7 +320,7 @@ Compared with ReLU (last frame of Figure 6):
 - **For negative $z$** the output is a small negative number, not 0: GELU dips to $-0.17$ and returns towards 0. The slope is not exactly 0, so a node with a slightly negative $z$ still receives a gradient.
 - **At 0** the curve bends smoothly; there is no corner.
 
-GELU is the activation inside GPT's feed-forward layers; its use there is in section 6.4 of the [GPT](../../06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu).
+GELU is the activation inside GPT's feed-forward layers; its use there is in section 6.4 of the [**GPT**](../../06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) (G-855).
 
 ## 7. Summary
 
@@ -393,3 +393,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
 | [$\Phi(z)$](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-18) | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview) (G-855) | A language model that writes text by predicting the next token again and again (Generative Pre-trained Transformer); it is built from transformer decoder blocks only. |

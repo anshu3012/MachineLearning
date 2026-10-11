@@ -23,7 +23,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the sum of two dice: the probability of each exact sum. Stacking every bar up to $x$ gives the CDF: the probability of a sum of $x$ or less.
 
-**Random variables** (G-1620), distributions and the PMF/PDF/CDF family are introduced in [random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [PMF, PDF and CDF](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf). Here we build the two functions for discrete variables, in this order:
+[**Random variables**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620), distributions and the PMF/PDF/CDF family are introduced in [random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [PMF, PDF and CDF](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf). Here we build the two functions for discrete variables, in this order:
 
 - PMF from a list of outcomes, on three coin flips (section 2);
 - PMF from a formula (sections 3, 4 and 6);
@@ -49,7 +49,7 @@ Flip a fair coin three times and let $X$ be the number of heads. $X$ can only be
    $$P(X = 2) = 3/8$$
    $$P(X = 3) = 1/8$$
 
-In the last frame of Figure 2, each group has collapsed into a bar whose height is its share. The bar chart lists every possible value of $X$ and its probability, and there is no bar at 1.5, because $P(X = 1.5) = 0$. A list of probabilities like this, one for each value of a **discrete random variable** (G-617), is called a **probability mass function** (G-1572). The four bars add up to 1, because one of the four values is certain to happen:
+In the last frame of Figure 2, each group has collapsed into a bar whose height is its share. The bar chart lists every possible value of $X$ and its probability, and there is no bar at 1.5, because $P(X = 1.5) = 0$. A list of probabilities like this, one for each value of a [**discrete random variable**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-617), is called a **probability mass function** (G-1572). The four bars add up to 1, because one of the four values is certain to happen:
 
 $$1/8 + 3/8 + 3/8 + 1/8 = 1$$
 
@@ -112,7 +112,7 @@ The formula says at once that every face is equally likely, and that 1.5 or 7 ha
 
 > **Key point:** Repeat the experiment many times, count each outcome and divide by the number of trials; the shares approach the true PMF.
 
-We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the **estimated PMF** (G-708), the same idea as the [relative frequency](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency) of a frequency table.
+We can also find a PMF without any formula: run the experiment many times and count. The share of trials that gave each value is an estimate of its probability, the **estimated PMF** (G-708), the same idea as the [**relative frequency**](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency) (G-1664) of a frequency table.
 
 1. **In words:** the estimated probability of a value is the number of times it appeared divided by the number of trials.
 2. **Formula:**
@@ -190,7 +190,7 @@ The Bernoulli distribution has **one** parameter, $p$ (with $0 \le p \le 1$). Th
 
 > **Key point:** The number of successes in $n$ independent Bernoulli trials with the same $p$.
 
-The **binomial distribution** (G-308), used in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability), counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
+The [**binomial distribution**](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308), used in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability), counts the successes in $n$ independent trials, each with success probability $p$. Its parameters are $n$ and $p$.
 
 1. **In words:** choose which $k$ of the $n$ trials succeed, then multiply the probabilities of $k$ successes and $n - k$ failures.
 2. **Formula:**
@@ -230,7 +230,7 @@ For a discrete variable, "4 or less" means adding the PMF of every value up to 4
    $$F(4) = \frac{4}{6} \approx 0.667$$
    The CDF of the die climbs $1/6, 2/6, 3/6, 4/6, 5/6, 6/6$: it starts above 0 and ends at exactly 1.
 
-The discrete CDF is the [cumulative relative frequency](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#23-cumulative-frequency) of a frequency table, with probabilities in place of relative frequencies.
+The discrete CDF is the [**cumulative relative frequency**](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#23-cumulative-frequency) (G-518) of a frequency table, with probabilities in place of relative frequencies.
 
 ### 8.1 Reading the CDF of two dice
 
@@ -278,7 +278,7 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 > - **A CDF is defined for every $x$, not only the possible values.** No sum lies between 7 and 7.5, so:
 >   $$F(7.5) = P(X \le 7.5)$$
 >   $$F(7.5) = P(X \le 7) = 21/36$$
->   So the CDF of a discrete variable is a **step function** (G-1889): flat between possible values, jumping up at each one by that value's probability (Figure 9, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
+>   So the CDF of a discrete variable is a [**step function**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889): flat between possible values, jumping up at each one by that value's probability (Figure 9, bottom). Drawing it as bars, one per value, shows only its values at the jumps.
 > - **The PMF can be read back from the jumps:** the jump at 9 is the difference of two CDF values:
 >   $$F(9) - F(8) = 30/36 - 26/36$$
 >   $$F(9) - F(8) = 4/36 = p(9)$$
@@ -331,5 +331,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | $P(X = x)$ (G-34) | The probability that the random variable $X$ takes the value $x$. |
 | [Discrete random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#23-discrete-and-continuous-random-variables) (G-617) | A random variable that takes separate values, such as a die's face. |
 | [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| [Relative frequency](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency) (G-1664) | A category's share of all the data: its frequency divided by the total. |
 | [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
+| [Cumulative relative frequency](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#23-cumulative-frequency) (G-518) | The running total of the relative frequencies; ends at 1. |
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |

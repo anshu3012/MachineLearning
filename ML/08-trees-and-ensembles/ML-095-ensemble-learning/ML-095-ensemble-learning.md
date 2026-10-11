@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/ensemble]
 
 ![An ensemble: different models trained on the data, their predictions combined into one](images/ensemble_idea.png){height=38%}
 
-The word **ensemble** means a group, for example a group of musicians. **Ensemble learning** (G-689) (first met as a [step of the ML development life cycle](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning)) combines several ML models into one bigger, stronger model (Figure 1).
+The word **ensemble** means a group, for example a group of musicians. [**Ensemble learning**](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning) (G-689) (first met as a [step of the ML development life cycle](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning)) combines several ML models into one bigger, stronger model (Figure 1).
 
 Ensembles are tried in almost every serious ML project and in almost every Kaggle competition (Kaggle is a website that hosts data-science contests). This Note covers:
 
@@ -61,7 +61,7 @@ Ensemble learning rests on the same fact: a crowd of models knows more than one 
 
 Every ML algorithm has two stages: **training**, where it finds the pattern in the data, and **prediction**, where it answers for a new query point (a new **observation**, one record or row of the data table, as when [KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). Each observation has **features** (input variables, one column each) and a **target** (the output we predict). Training differs between the types of ensemble (section 4). Prediction works the same way for all of them.
 
-An ensemble is a collection of smaller models, called **base models** (G-260). They can be any algorithms: [decision trees](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (models that predict by asking yes/no questions), [SVMs](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm) (models that separate classes with the widest possible margin), [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts), linear regression and so on.
+An ensemble is a collection of smaller models, called **base models** (G-260). They can be any algorithms: [**decision trees**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) (models that predict by asking yes/no questions), [SVMs](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm) (models that separate classes with the widest possible margin), [KNN](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts), linear regression and so on.
 
 ### 3.1 The base models must be different
 
@@ -75,7 +75,7 @@ Models are the same: an ensemble of identical models makes the same mistakes as 
 2. **Same algorithm, different data:** for example three linear models, each trained on a different part of the data. Different data makes them learn differently.
 3. **Both:** different algorithms, each shown different data.
 
-In Figure 3 and in Figure 6a, each dot is a data point with two features (its position), coloured by its true class, and the pale background colour shows what the vote predicts at that position: orange area, one class; blue area, the other. Where the colour changes is the decision boundary. A dot sitting in the wrong colour is a point the vote gets wrong. Figure 3 tests the first way on the two-moons data (two interlocking half-moon classes, used again in section 5). Watch the left panel: three copies of the same tree draw one **decision boundary** (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
+In Figure 3 and in Figure 6a, each dot is a data point with two features (its position), coloured by its true class, and the pale background colour shows what the vote predicts at that position: orange area, one class; blue area, the other. Where the colour changes is the decision boundary. A dot sitting in the wrong colour is a point the vote gets wrong. Figure 3 tests the first way on the two-moons data (two interlocking half-moon classes, used again in section 5). Watch the left panel: three copies of the same tree draw one [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line where the prediction switches class, so their vote is that tree and scores the same 0.875. On the right, three different algorithms disagree in places, and their vote scores 0.890.
 
 ![Left: three copies of one depth-3 tree, trained on the same data, and their vote. Right: logistic regression (green), a depth-3 tree (red) and KNN with k = 5 (purple), and their vote (black dashed). Test accuracy of the vote in each title](images/same_vs_different.png)
 
@@ -85,7 +85,7 @@ In Figure 3 and in Figure 6a, each dot is a data point with two features (its po
 
 Take the placement data: from a student's CGPA and IQ, predict *placed* or *not placed* (as in the [placement toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)). We have 5 trained base models and one new student.
 
-We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the **majority vote** (G-1146), exactly as KNN votes among neighbours. Figure 4 draws this vote with 5 models; Figure 1 shows the same with 3.
+We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146), exactly as KNN votes among neighbours. Figure 4 draws this vote with 5 models; Figure 1 shows the same with 3.
 
 ### 3.3 Regression: the mean
 
@@ -115,7 +115,7 @@ Figure 5 shows the four types. Each one is taught in full in later Notes; here w
 
 > **Key point:** Different algorithms, all trained on the same data; the final answer is the majority vote or the mean.
 
-Take, say, an SVM, a logistic regression and a decision tree, and train all three on the same dataset D. For a new query point, each predicts, and we take the majority (classification) or the mean (regression). The variety comes from the algorithms being different. Voting is the subject of the next three Notes, starting with the [voting ensemble](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability).
+Take, say, an SVM, a logistic regression and a decision tree, and train all three on the same dataset D. For a new query point, each predicts, and we take the majority (classification) or the mean (regression). The variety comes from the algorithms being different. Voting is the subject of the next three Notes, starting with the [**voting ensemble**](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability) (G-2096).
 
 ### 4.2 Stacking
 
@@ -137,7 +137,7 @@ Suppose the data D has 1,000 students and we decide to show each model 500 of th
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a **random forest** (G-1611), a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); see [how the base model differs](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#2-difference-1-the-base-model). Later we cover [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
+When the base models are decision trees, the bagging ensemble gets its own name: a [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611), a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); see [how the base model differs](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#2-difference-1-the-base-model). Later we cover [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 
 ### 4.4 Boosting
 
@@ -195,7 +195,7 @@ As section 5 showed, combining models usually improves accuracy (classification)
 
 > **Key point:** Averaging models (voting, bagging) lowers variance and leaves bias unchanged. Training models in series (boosting) lowers bias. Either way the ensemble reaches low bias and low variance together, which a single model rarely can.
 
-A single model usually trades **bias** (G-287) against **variance** (G-2073) (the [bias-variance trade-off](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). Ensembles escape the trade-off in two different ways:
+A single model usually trades [**bias**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) against [**variance**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) (the [**bias-variance trade-off**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288)). Ensembles escape the trade-off in two different ways:
 
 - **Bagging and voting lower variance.** They average models. Averaging cancels the errors that differ from model to model, as in Figure 2, and that part of the error is the variance. Averaging cannot remove an error that all the models share: if every model is too low by 2 on average, their mean is also too low by 2. So the bias stays the same. Bagging therefore starts from low-bias, high-variance models such as deep trees and cuts their variance (see [why bagging works](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works)).
 - **Boosting lowers bias.** Each new model corrects the mistakes the earlier ones still make. Boosting therefore starts from simple high-bias models and cuts their bias (see [parallel against sequential learning](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#3-difference-2-parallel-against-sequential-learning)).
@@ -261,8 +261,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Robustness (G-1700) | Performing well even when the data changes somewhat. |
 | Ensemble (G-690) | Several trained models whose predictions are combined. |
 | [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning) (G-689) | Combining several models into one stronger model. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Voting ensemble](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview) (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression). |
 | [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
+| [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |

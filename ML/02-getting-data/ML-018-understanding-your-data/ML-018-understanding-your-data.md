@@ -350,7 +350,7 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 > **Key point:** A positive correlation means both columns rise together; a negative one means one rises as the other falls; near 0 means no linear (straight-line) link.
 
-**Correlation** (G-490) measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient** (G-1474), written $r$, which always lies between $-1$ and $+1$ (Figure 7):
+[**Correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient** (G-1474), written $r$, which always lies between $-1$ and $+1$ (Figure 7):
 
 - **Close to +1:** when one goes up, the other goes up too.
 - **Close to -1:** when one goes up, the other goes down. The two are inversely related.

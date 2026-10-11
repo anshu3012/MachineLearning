@@ -153,7 +153,7 @@ With 50 features, each student would be a 50-dimensional vector, and still a 1D 
 
 > **Key point:** One observation's features form a 1D tensor; the whole table of features is a 2D tensor.
 
-Most ML data starts as a table (Figure 6). Each student is an **observation** (G-1374; one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a **target** (G-1949), the output we predict (placed or not):
+Most ML data starts as a table (Figure 6). Each student is an **observation** (G-1374; one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict (placed or not):
 
 ![Tabular data as tensors](images/tabular.png)
 
@@ -173,7 +173,7 @@ ML algorithms work only with numbers, so text must be turned into numbers first.
 
 One simple method is **one-hot encoding** (G-1379; see [how one-hot encoding works](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works), where it is applied to categorical columns):
 
-1. List every unique word: the **vocabulary** (G-2092). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
+1. List every unique word: the [**vocabulary**](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
 3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its shape is (2, 4).
 

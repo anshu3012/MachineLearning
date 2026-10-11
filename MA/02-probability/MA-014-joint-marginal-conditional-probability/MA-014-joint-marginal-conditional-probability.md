@@ -20,7 +20,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/condition
 
 ![Joint, marginal and conditional probability in one table: Titanic class against survival](images/joint_margins.png){height=45%}
 
-Figure 1 is the Titanic data as a table of probabilities. The class of a passenger is the **random variable** $X$ (a quantity whose value depends on which passenger we pick; here 1, 2 or 3, see [random variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables)); survival is $Y$ (0 = died, 1 = survived). The blue inner cells are joint probabilities, the orange margins are marginal probabilities, and dividing a cell by its margin gives a conditional probability.
+Figure 1 is the Titanic data as a table of probabilities. The class of a passenger is the **random variable** $X$ (a quantity whose value depends on which passenger we pick; here 1, 2 or 3, see [**random variables**](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) (G-1620)); survival is $Y$ (0 = died, 1 = survived). The blue inner cells are joint probabilities, the orange margins are marginal probabilities, and dividing a cell by its margin gives a conditional probability.
 
 This Note:
 
@@ -29,7 +29,7 @@ This Note:
 - revisits independent, dependent and mutually exclusive events in formulas (section 5);
 - ends with Bayes' theorem as a tiny classifier (section 6).
 
-Contingency tables are introduced in [contingency tables](../MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables). Conditional probability is defined in [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition).
+Contingency tables are introduced in [**contingency tables**](../MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464). Conditional probability is defined in [the definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition).
 
 ## 2. Joint probability
 
@@ -162,7 +162,7 @@ Taking the margins for every value gives one distribution per variable:
 |---|---|---|---|---|
 | $P(X = x)$ | 0.242 | 0.207 | 0.551 | 1 |
 
-Each is the **marginal probability distribution** of its variable: the ordinary distribution of $X$ (or $Y$) alone, read from the joint table. The marginal distribution of $X$ is exactly the empirical class probabilities of [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability).
+Each is the **marginal probability distribution** of its variable: the ordinary distribution of $X$ (or $Y$) alone, read from the joint table. The marginal distribution of $X$ is exactly the empirical class probabilities of [**empirical probability**](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability) (G-678).
 
 > **Python:** Joint and marginal probabilities together.
 >
@@ -179,7 +179,7 @@ Each is the **marginal probability distribution** of its variable: the ordinary 
 
 Conditional probability (G-444) is taught in [the definition](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition): $P(A \mid B)$, "the probability of $A$ given $B$", is the probability of $A$ once $B$ has already happened. There are two ways to compute it:
 
-- **By counting:** shrink the sample space (the set of all possible outcomes, see [sample space](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space)) to the outcomes of $B$ (the **reduced sample space**), then take the share of them that are also in $A$.
+- **By counting:** shrink the sample space (the set of all possible outcomes, see [**sample space**](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729)) to the outcomes of $B$ (the **reduced sample space**), then take the share of them that are also in $A$.
 - **By formula:**
   $$P(A \mid B) = \frac{P(A \cap B)}{P(B)}$$
 
@@ -342,9 +342,9 @@ The three relations between two events were described in words in [types of even
 
 | Relation | Conditional | Joint | Taught in |
 |---|---|---|---|
-| Independent | $P(A \mid B) = P(A)$ | $P(A \cap B) = P(A)\thinspace P(B)$ | [independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) |
+| Independent | $P(A \mid B) = P(A)$ | $P(A \cap B) = P(A)\thinspace P(B)$ | [**independent events**](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) |
 | Dependent | $P(A \mid B) \ne P(A)$ | $P(A \cap B) = P(A \mid B)\thinspace P(B)$ | [conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) |
-| Mutually exclusive | $P(A \mid B) = 0$ | $P(A \cap B) = 0$ | [mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) |
+| Mutually exclusive | $P(A \mid B) = 0$ | $P(A \cap B) = 0$ | [**mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) |
 
 For independent events the conditional probability equals the marginal one; the joint probability is the product of the marginals. The general rule $P(A \cap B) = P(A \mid B)\thinspace P(B)$ holds for every pair of events; independence is the special case $P(A \mid B) = P(A)$.
 
@@ -467,4 +467,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | $P(X = x, Y = y)$ (G-35) | The joint probability that $X$ takes the value $x$ and $Y$ the value $y$ together. |
 | `normalize` (`pd.crosstab`) (G-123) | Turns counts into probabilities: `"all"` joint, `"index"` per row, `"columns"` per column. |
 | Marginal probability distribution (G-1165) | All the marginal probabilities of one variable, read from a joint table. |
+| [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
+| [Empirical (experimental) probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#1-overview) (G-678) | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |
 | [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |

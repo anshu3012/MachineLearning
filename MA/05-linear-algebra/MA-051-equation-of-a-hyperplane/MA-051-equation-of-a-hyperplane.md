@@ -42,9 +42,9 @@ The dot product and its geometric form are taught in [the geometric meaning of t
 
 In 2D a flat boundary is a line; in 3D it is a plane. In 4D, 5D or $n$-D the equivalent is a **hyperplane** (G-911; see [more inputs, a hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane)).
 
-ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) and [SVM](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
+ML data is very often high-dimensional. Each **feature** (G-772; an input variable, one column of the data table) adds one dimension. Even the iris toy dataset has 4 features, and MNIST, the handwritten digits dataset, has 784 (one per pixel of a 28 x 28 image). Classifiers that separate classes with a straight boundary, such as [**logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1120) and [SVM](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#33-the-core-idea-of-svm), therefore work with hyperplanes. To use them, and to code such algorithms ourselves, we need one equation that works in every dimension.
 
-Figure 2 shows one such boundary on real data. With three features of the iris flowers (sepal length, petal length and petal width), a linear SVM fitted with scikit-learn finds a **plane** (G-1502) with every setosa flower on one side and every versicolor flower on the other. With all four features the same boundary would be a hyperplane, which we can no longer draw but can still write down.
+Figure 2 shows one such boundary on real data. With three features of the iris flowers (sepal length, petal length and petal width), a linear SVM fitted with scikit-learn finds a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) with every setosa flower on one side and every versicolor flower on the other. With all four features the same boundary would be a hyperplane, which we can no longer draw but can still write down.
 
 ![Iris setosa (blue) and versicolor (orange) in three features, separated by the plane −0.54x₁ + 0.98x₂ + 0.62x₃ − 0.18 = 0 that a linear SVM (scikit-learn LinearSVC) found.](images/iris_plane.png){height=45%}
 
@@ -56,7 +56,7 @@ Figure 2 shows one such boundary on real data. With three features of the iris f
 
 > **Key point:** $y = mx + b$ and $ax + by + c = 0$ describe the same line; the general form is the one that grows into higher dimensions.
 
-In school a line is $y = mx + b$, with **slope** (G-1823) $m$ and **intercept** (G-960) $b$. The same line has a general form, $ax + by + c = 0$, used in [the general form of a line](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#31-the-general-form-of-a-line).
+In school a line is $y = mx + b$, with [**slope**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) $m$ and [**intercept**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) $b$. The same line has a general form, $ax + by + c = 0$, used in [the general form of a line](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#31-the-general-form-of-a-line).
 
 Solving the general form for $y$ links the two:
 
@@ -299,7 +299,7 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 >
 > $$= 0 + t\thinspace\frac{\lVert w \rVert^2}{\lVert w \rVert} = t\lVert w \rVert$$
 >
-> which has the sign of $t$. This sign rule is the side test of [positive and negative sides](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) in the perceptron trick and [the decision rule](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#2-the-decision-rule) of the SVM.
+> which has the sign of $t$. This sign rule is the side test of [**positive and negative sides**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1529) in the perceptron trick and [the decision rule](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#2-the-decision-rule) of the SVM.
 
 ## 7. Summary
 
@@ -336,6 +336,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Equation of a hyperplane (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
+| [Positive and negative side](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1529) | The two halves of the plane on either side of a line $Ax + By + C = 0$: where $Ax + By + C$ is above 0 and where it is below 0; the perceptron predicts one class on each side. |

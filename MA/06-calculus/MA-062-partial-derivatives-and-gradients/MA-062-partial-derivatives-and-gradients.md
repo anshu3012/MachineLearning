@@ -53,7 +53,7 @@ Each line on a contour map is called a **contour line**: it joins points of the 
 
 ![Contour map of $f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$ with gradient arrows: each crosses the contour lines at right angles and points uphill](images/gradient_arrows.png){height=48%}
 
-Figure 2 is the contour map from the end of Figure 1, with arrows added. At every point, the **gradient** (G-863) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step **gradient descent** (G-862) takes.
+Figure 2 is the contour map from the end of Figure 1, with arrows added. At every point, the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) is an arrow pointing in the steepest uphill direction. Its opposite, the green arrow, is the step [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) takes.
 
 Earlier Notes already used these ideas:
 
@@ -140,7 +140,7 @@ A one-variable derivative answers: if we nudge the input a little, how many time
 
 ![The point $(1, 1)$ in the input plane (left) and the single output number $f$ on a number line (right). A nudge of 0.1 in $x_1$ alone moves the output by 0.31; the same nudge in $x_2$ alone moves it by 0.52. Idea after Khan Academy, "Partial derivatives, introduction"](images/nudge_lines.gif){height=50%}
 
-The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The derivative in [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b) was the first **partial derivative** (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (a limit of the difference quotient, [the slope of a secant line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line)):
+The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The derivative in [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b) was the first [**partial derivative**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (a limit of the difference quotient, [the slope of a secant line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line)):
 
 1. **In words:** move only $x_i$ by a step $h$, divide the change in $f$ by $h$, and let $h$ shrink to 0.
 2. **Formula:**
@@ -368,7 +368,7 @@ Figure 9 draws both rules as arrows added tip to tail. A gradient is a vector, s
 
 > **Key point:** When an input affects $f$ through several intermediate variables, we multiply along each path and add up the paths; written with gradients, this is a matrix product.
 
-This rule is the **multivariate chain rule** (G-1281), the several-variable form of the **chain rule** (G-371).
+This rule is the **multivariate chain rule** (G-1281), the several-variable form of the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371).
 
 ### 6.1 One outer input, two paths
 
@@ -509,7 +509,7 @@ $$\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x_1}\frac{\partial 
    $$\begin{bmatrix} 8 & 11 \end{bmatrix} \begin{bmatrix} 1 & 1 \cr2 & 1 \end{bmatrix}$$
    $$= \begin{bmatrix} 30 & 19 \end{bmatrix}$$
 
-The matrix in the middle is the first example of a **Jacobian** (G-980), the subject of [the Jacobian](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian). The chain rule as a product of matrices mirrors [composition](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another): doing one function after another multiplies their matrices.
+The matrix in the middle is the first example of a [**Jacobian**](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980), the subject of [the Jacobian](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian). The chain rule as a product of matrices mirrors [**composition**](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another) (G-431): doing one function after another multiplies their matrices.
 
 The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; partial derivatives are not really fractions.
 
@@ -645,3 +645,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
+| [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |

@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** At prediction time (**inference**) there is no target sentence, so the decoder writes the translation one word at a time, feeding each chosen word back in as input. The encoder runs once; the **causal mask** (G-357) stays on, as in training.
+> **Key point:** At prediction time (**inference**) there is no target sentence, so the decoder writes the translation one word at a time, feeding each chosen word back in as input. The encoder runs once; the [**causal mask**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#61-where-the-mask-goes) (G-357) stays on, as in training.
 
 In more detail:
 
@@ -34,7 +34,7 @@ The Notebook trains a small transformer on 40,000 English–French sentence pair
 ## 2. Prerequisites
 
 - [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#6-inside-one-decoder-block): the decoder block, the shifted-right input, the output layer and training in one pass.
-- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the causal mask, and why prediction must be autoregressive.
+- [**Masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172): the causal mask, and why prediction must be autoregressive.
 - [Cross-attention](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other): queries from the decoder, keys and values from the encoder.
 - [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction): greedy decoding with an RNN decoder.
 - [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder, which works the same way in training and in inference.
@@ -50,7 +50,7 @@ The Notebook trains a small transformer on 40,000 English–French sentence pair
 | Decoder runs | once per sentence pair | once per output word |
 | Positions used at the output | all (one loss term each) | only the last (it gives the next word) |
 | Causal mask | on | on |
-| Way of working | **non-autoregressive** (G-1331): all positions in parallel | **autoregressive** (G-233): each new word depends on the earlier ones |
+| Way of working | [**non-autoregressive**](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#9-training-every-position-in-one-pass) (G-1331): all positions in parallel | [**autoregressive**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#3-autoregressive-models) (G-233): each new word depends on the earlier ones |
 
 Figure 2 counts the decoder runs for "we're friends .".
 
@@ -62,7 +62,7 @@ In training the correct French sentence is in the data, so the decoder can recei
 
 > **Key point:** A small transformer with the paper's design, trained with teacher forcing for 25 epochs on 40,000 short sentence pairs (about 4 minutes on a GPU), translates unseen sentences with a BLEU score of 41.4.
 
-The data and the test set are those of the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, **dropout** (G-639) 0.1, Adam with the paper's **learning-rate warm-up** (G-1071) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
+The data and the test set are those of the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): sentence pairs from the Tatoeba project, English up to 8 words, French up to 10, vocabularies of 6,004 English and 8,004 French tokens, and 1,500 English sentences held out for testing. The model follows the paper's design (post-norm blocks, sinusoidal positional encodings, embeddings multiplied by $\sqrt{d_{\text{model}}}$, [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) 0.1, Adam with the paper's [**learning-rate warm-up**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1071) schedule; Vaswani et al. 2017, §3 and §5.3), at a smaller size:
 
 | | Paper's base model | This Note's model |
 |---|---|---|
@@ -74,7 +74,7 @@ The data and the test set are those of the [encoder–decoder](../DL-068-encoder
 
 ![Training the small transformer: the cross-entropy loss on the training pairs and on the 5 percent held out for validation, per epoch](images/training_curve.png){width=80%}
 
-Figure 3 shows the training. The training loss keeps falling for all 25 epochs; the validation loss stops improving after about 10 epochs and then creeps up slightly, a first sign of **overfitting** (G-1429).
+Figure 3 shows the training. The training loss keeps falling for all 25 epochs; the validation loss stops improving after about 10 epochs and then creeps up slightly, a first sign of [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429).
 
 Some translations of test sentences:
 
@@ -103,7 +103,7 @@ Take the new sentence "we're friends .".
 
 1. **Input.** `<start>` is embedded and the positional encoding of position 1 is added: $X$ is $1 \times d_{\text{model}}$.
 2. **Masked self-attention.** With one position there is one query and one key. The softmax over a single score gives the weight 1, so the output is the value vector of `<start>` itself (multiplied by $W_O$). Add and norm follow.
-3. **Cross-attention** (G-507). The query of `<start>` is compared with the keys of the 3 English tokens. In the last decoder block of the trained model, averaged over the 4 heads, the weights are 0.78 on "we're", 0.21 on "friends" and 0.01 on ".". The output is the matching weighted sum of the English value vectors. Add and norm follow.
+3. [**Cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507). The query of `<start>` is compared with the keys of the 3 English tokens. In the last decoder block of the trained model, averaged over the 4 heads, the weights are 0.78 on "we're", 0.21 on "friends" and 0.01 on ".". The output is the matching weighted sum of the English value vectors. Add and norm follow.
 4. **Feed-forward network**, add and norm. Then the next decoder block repeats steps 2 to 4 with its own weights.
 5. **Output layer.** The final vector goes through the linear layer ($d_{\text{model}} \to 8{,}004$) and the softmax. The most likely word is "nous", with probability 0.999.
 
@@ -111,7 +111,7 @@ Take the new sentence "we're friends .".
 
 Figure 4 shows step 1: almost all the probability goes to "nous", and the position that predicts it reads mostly "we're".
 
-Choosing the most likely word at every step is **greedy decoding** (G-870), the method [the encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) used for its LSTM decoder (SLP3 §7.6.1).
+Choosing the most likely word at every step is [**greedy decoding**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870), the method [the encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) used for its LSTM decoder (SLP3 §7.6.1).
 
 ## 6. Later steps: the input grows by one word
 
@@ -228,6 +228,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | KV cache (G-1022) | Storing the key and value vectors of earlier positions so that each new step computes them only for the new word. |
 | Beam search (G-272) | A way of producing the output sentence (a decoding method) that keeps several candidate sentences at each step and picks the most probable complete one. |
 | [Causal (look-ahead) mask](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#61-where-the-mask-goes) (G-357) | The mask with $-\infty$ above the diagonal, so every word attends only to itself and the words before it; used in training and at inference. |
+| [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
 | [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
 | [Non-autoregressive](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#9-training-every-position-in-one-pass) (G-1331) | Producing all output positions at once, as the decoder does during training. |
 | [Autoregressive (causal) generation](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#3-autoregressive-models) (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |

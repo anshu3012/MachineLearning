@@ -80,7 +80,7 @@ The method, called **decoding notation** (G-566):
 2. Replace every index range by a tiny one: two points, two components.
 3. Write out every case the formula stands for, with the indices filled in.
 
-Figure 3 applies it to a formula from an algorithm we have not met yet, [Gaussian mixture models](../../08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#43-another-way-to-see-it-shrink-the-formula). We do not need to know the algorithm; the point is the unpacking. The formula is:
+Figure 3 applies it to a formula from an algorithm we have not met yet, [**Gaussian mixture models**](../../08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#43-another-way-to-see-it-shrink-the-formula) (G-829). We do not need to know the algorithm; the point is the unpacking. The formula is:
 
 $$\gamma_k(x_i) = \frac{\pi_k\thinspace p(x_i \mid k)}{\sum_{j=1}^{K} \pi_j\thinspace p(x_i \mid j)}$$
 
@@ -135,7 +135,7 @@ Once we can program a little, every concept can be checked by building a small t
 
 - **Confidence intervals** (a range built from a sample that is meant to contain the true mean): simulate many samples and count how often the interval contains the true mean (see [seeing it by simulation](../../04-inference/MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#21-seeing-it-by-simulation)).
 - **Matrices as transformations:** type in a matrix and watch the grid move (see [reading a matrix as a picture](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)).
-- **The t distribution** (a bell curve with fatter tails, used when the spread is estimated from a small sample): plot it next to the normal curve and raise the **degrees of freedom** (df, a number that sets the shape of the t curve, see [degrees of freedom](../../04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom)) until the two match.
+- **The t distribution** (a bell curve with fatter tails, used when the spread is estimated from a small sample): plot it next to the normal curve and raise the **degrees of freedom** (df, a number that sets the shape of the t curve, see [**degrees of freedom**](../../04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578)) until the two match.
 - **Dividing by $n - 1$ in the sample variance** (the spread of a sample, see [the sample version](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version)): simulate many samples and compare the averages of both versions.
 
 Figure 4 is the third example built this way: the t distribution (dashed) drawn over the standard normal while the degrees of freedom (df) rise from 1 to 30.
@@ -215,7 +215,7 @@ In Figure 6, compare the two columns: on the left the ML only starts after every
 > | Gradient descent | training almost every model | [the idea of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
 > | Convex and non-convex cost functions | whether gradient descent finds the best answer | [the chord test](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) |
 > | Constrained optimisation, Lagrange multipliers | SVM, the constraint view of Ridge and Lasso | [the Lagrangian](../../07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#4-the-lagrangian) |
-> | Convex sets, functions and problems | knowing when a minimum is the global one | [convex sets](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets) |
+> | Convex sets, functions and problems | knowing when a minimum is the global one | [**convex sets**](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#2-convex-sets) (G-479) |
 > | Linear and quadratic programming | SVM training, resource planning | [linear programming](../../07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#2-linear-programming) |
 >
 > In these Notes, integration appears mainly as the area under a probability density (see [area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
@@ -251,3 +251,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Geometric understanding (G-2248) | Knowing what a computation means as a picture: which tool fits, why it works, how to read the result. |
 | Contextual learning (G-463) | Studying a maths topic together with the ML algorithm that uses it, instead of the whole subject up front. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-829) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
+| [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [Convex set](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-479) | A set that contains the whole segment between any two of its points. |

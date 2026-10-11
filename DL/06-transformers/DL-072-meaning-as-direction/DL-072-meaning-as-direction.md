@@ -16,14 +16,14 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 
 ## 1. Overview
 
-> **Key point:** In a trained **word embedding** (G-2127), meaning lives in **directions** (G-613): the arrow from "man" to "woman" points roughly the same way as the arrow from "uncle" to "aunt", so adding it to "uncle" lands next to "aunt". A **dot product** (G-634) with a direction measures how much of that meaning a word carries, in GloVe and in GPT-2's first layer alike.
+> **Key point:** In a trained [**word embedding**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127), meaning lives in **directions** (G-613): the arrow from "man" to "woman" points roughly the same way as the arrow from "uncle" to "aunt", so adding it to "uncle" lands next to "aunt". A [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) with a direction measures how much of that meaning a word carries, in GloVe and in GPT-2's first layer alike.
 
 A [word embedding](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) gives each word a dense vector (a short list of numbers, for example 100), learned so that words used in similar ways get similar vectors. The [first look at embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) used *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
 
 We use two real embedding tables:
 
 1. **GloVe** (G-851), 100 numbers per word, trained on 6 billion **tokens** (G-1981; here single words and punctuation marks) of Wikipedia and news text (Pennington et al. 2014). We keep its 100,000 most frequent words.
-2. **GPT-2 small's token-embedding table** (G-1980), 768 numbers per token (for GPT-2, a word or a piece of a word), the first layer of a real transformer (Radford et al. 2019).
+2. [**GPT-2 small's token-embedding table**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#5-from-tokens-to-vectors-token-and-position-embeddings) (G-1980), 768 numbers per token (for GPT-2, a word or a piece of a word), the first layer of a real transformer (Radford et al. 2019).
 
 Figure 1 shows the central idea on real GloVe vectors. We cannot draw 100 dimensions (each of a vector's 100 numbers is one dimension), so the figure draws the flat sheet (a plane) that passes through the points for man, woman and king. Watch the orange arrow "woman − man" being lifted onto "king": its tip lands near "queen", but not on it.
 
@@ -42,7 +42,7 @@ Figure 1 shows the central idea on real GloVe vectors. We cannot draw 100 dimens
 
 > **Key point:** Each word is one point in a 100-dimensional space (a vector of 100 numbers, one number per dimension). Words whose vectors make a small angle (high cosine similarity) are used in similar ways.
 
-GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The **cosine similarity** (G-491) of two vectors (see [the definition and range](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#62-definition-and-range)) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66) (Figure 2).
+GloVe gives each word a vector of 100 numbers. We cannot draw 100 dimensions, but we can measure angles. The [**cosine similarity**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) of two vectors (see [the definition and range](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#62-definition-and-range)) is 1 when they point the same way and 0 when they are perpendicular. The 8 words with the highest cosine similarity to "tower" are (Notebook): towers (0.85), building (0.73), dome (0.69), spire (0.68), gate (0.67), skyscraper (0.67), roof (0.66) and walls (0.66) (Figure 2).
 
 ![The 8 GloVe words closest to "tower" by cosine similarity. All are tall structures or parts of buildings](images/tower_neighbours.png){width=75%}
 
@@ -120,7 +120,7 @@ Three things stand out.
 
 > **Key point:** Average the arrows from singular to plural over 10 nouns to get a "plural direction". Its dot product with a word's vector scores how plural the word is: on 12 nouns not used to build it, every plural scores above its singular, in GloVe and in GPT-2.
 
-Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a **unit vector** (G-2048) $p$ (length 1). By [the dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection), the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
+Section 4 compared two arrows. A direction can also be used as a **probe** (G-1575) for a single word. Take a [**unit vector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) $p$ (length 1). By [the dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection), the dot product $e \cdot p$ is the length of the shadow of $e$ on the line through $p$: large and positive when $e$ points along $p$, zero when it is perpendicular, negative when it points away.
 
 A tiny case with 2-number vectors: the unit vector is $p = (0.6, 0.8)$. Its length is 1:
 

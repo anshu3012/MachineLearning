@@ -38,7 +38,7 @@ The Poisson distribution was named in one line in [famous PDFs](../MA-022-pdf-an
 
 > **Key point:** The binomial distribution needs a number of trials and a probability; the Poisson distribution needs only a rate.
 
-The **binomial distribution** (G-308) counts successes in a fixed number $n$ of trials, each with success probability $p$ (see [the binomial distribution](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). Many counts have no trials to count:
+The [**binomial distribution**](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) counts successes in a fixed number $n$ of trials, each with success probability $p$ (see [the binomial distribution](../MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). Many counts have no trials to count:
 
 - the questions students send in one day;
 - the flashes of a firefly in 10 seconds;
@@ -57,7 +57,7 @@ For example, a firefly lights up 3 times in 10 seconds on average. The Poisson d
 
 > **Key point:** $Y \sim \text{Po}(\lambda)$ reads: $Y$ follows a Poisson distribution with rate $\lambda$.
 
-A distribution is often written as a short name with its **parameters** (G-1448) in brackets. The symbol $\sim$ reads "follows":
+A distribution is often written as a short name with its [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) in brackets. The symbol $\sim$ reads "follows":
 
 | Notation | Read as | Parameters |
 |---|---|---|
@@ -189,9 +189,9 @@ Figure 4 shows how $\lambda$ changes the shape:
 
 > **Key point:** A Poisson variable has mean $\lambda$ and variance $\lambda$: one number fixes both its centre and its spread.
 
-The **expected value** (G-725) is the sum of every value times its probability (see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
+The [**expected value**](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) is the sum of every value times its probability (see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
 
-1. **In words:** the average count is the rate, and so is the variance; the **standard deviation** (G-1871) is the square root of the rate.
+1. **In words:** the average count is the rate, and so is the variance; the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) is the square root of the rate.
 2. **Formula:**
 
    $$E[Y] = \lambda$$
@@ -279,7 +279,7 @@ More examples with $\lambda = 4$:
 | at most 2, $P(Y \le 2)$ | 0.238 |
 | between 2 and 6, $P(2 \le Y \le 6)$ | 0.798 |
 
-> **Python:** `cdf`, the **cumulative distribution function** (G-515), adds the bars up to a count; `sf` adds the bars above it.
+> **Python:** `cdf`, the [**cumulative distribution function**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515), adds the bars up to a count; `sf` adds the bars above it.
 >
 > ```python
 > questions = stats.poisson(4)

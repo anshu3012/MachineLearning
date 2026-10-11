@@ -16,9 +16,9 @@ tags: [subject/machine-learning, area/features, step/features, concept/power-tra
 
 ## 1. Overview
 
-> **Key point:** A power transformer raises each feature to a power $\lambda$ that it learns from the data, choosing the $\lambda$ that makes the feature closest to a **normal distribution** (G-1343), the symmetric bell-shaped curve.
+> **Key point:** A power transformer raises each feature to a power $\lambda$ that it learns from the data, choosing the $\lambda$ that makes the feature closest to a [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343), the symmetric bell-shaped curve.
 
-A **feature** (G-772) is an input variable (one column of the data table), the **target** (G-1949) is the output we predict, and an **observation** (G-1374) is one record (one row). Earlier, [the log, reciprocal, square and square-root transforms](../ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) changed skewed features with four fixed formulas (a distribution is skewed when one tail is longer than the other):
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Earlier, [the log, reciprocal, square and square-root transforms](../ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) changed skewed features with four fixed formulas (a distribution is skewed when one tail is longer than the other):
 
 - the log;
 - the reciprocal;
@@ -118,13 +118,13 @@ The search goes like this:
 2. Transform the feature with each one.
 3. Keep the $\lambda$ whose result is the best approximation to a normal distribution.
 
-Figure 3 shows the search on the concrete `Age` feature. At $\lambda = 1$ the feature keeps its long right tail (**skewness** (G-1817) 3.34; skewness is 0 for a symmetric feature and positive for a right tail). Lowering $\lambda$ pulls the tail in; going too low, to $\lambda = -0.5$, overshoots and creates a left tail instead.
+Figure 3 shows the search on the concrete `Age` feature. At $\lambda = 1$ the feature keeps its long right tail ([**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) 3.34; skewness is 0 for a symmetric feature and positive for a right tail). Lowering $\lambda$ pulls the tail in; going too low, to $\lambda = -0.5$, overshoots and creates a left tail instead.
 
 The best value, $\lambda = 0.067$, gives a skewness of almost exactly 0.
 
 ![Box-Cox on Age as lambda moves: 1 (unchanged), 0.5, -0.5 (overshoot), and the learned 0.067](images/lambda_sweep.gif)
 
-The search needs a score that says how normal each result looks. The score scikit-learn uses is the **log-likelihood** (G-1113): a number that is higher when a normal curve explains the transformed values better. A tiny case with a normal curve of centre 5 and spread 1: each value $x$ gets the score below (the log of the curve's height there), and the score of a set of values is the sum.
+The search needs a score that says how normal each result looks. The score scikit-learn uses is the [**log-likelihood**](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113): a number that is higher when a normal curve explains the transformed values better. A tiny case with a normal curve of centre 5 and spread 1: each value $x$ gets the score below (the log of the curve's height there), and the score of a set of values is the sum.
 
 $$\text{score}(x) = -0.92 - (x - 5)^2 / 2$$
 
@@ -154,7 +154,7 @@ The first set is explained far better by this curve, and it has the higher score
 
 Each feature gets its own $\lambda$. A dataset with 8 features gets 8 values of $\lambda$, one per feature.
 
-> **Extra:** How "closest to normal" is measured. The two standard ways are **maximum likelihood** (G-1191) and Bayesian statistics (Box and Cox 1964). scikit-learn uses maximum likelihood (scikit-learn docs, `PowerTransformer`): for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
+> **Extra:** How "closest to normal" is measured. The two standard ways are [**maximum likelihood**](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) and Bayesian statistics (Box and Cox 1964). scikit-learn uses maximum likelihood (scikit-learn docs, `PowerTransformer`): for each $\lambda$, it asks "if the transformed values really came from a normal distribution, how likely would we be to see exactly these values?", and keeps the $\lambda$ with the highest answer. Maximum likelihood comes back in its own right with logistic regression. A beginner only needs the idea: a computer search picks the most normal-looking $\lambda$.
 
 ### 3.4 Only positive values
 
@@ -262,7 +262,7 @@ As always, we split first: 80% for training (824 rows) and 20% for testing (206 
 
 > **Key point:** With no transform, linear regression scores R² 0.63 on the test set and 0.46 with cross-validation.
 
-To measure a regression model, we use the **R² score** (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² is taught in full later, in [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); here we only compare its values.
+To measure a regression model, we use the [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² is taught in full later, in [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); here we only compare its values.
 
 | Check | R² |
 |---|---|

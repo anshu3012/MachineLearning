@@ -327,7 +327,7 @@ $$= 0.5 \times 0.5 = 0.25 \text{ m/s}$$
 
 > **Key point:** Three equations give how fast each number of the pose changes, from the two inputs $v$ and $\omega$.
 
-We need a short way to write "how fast this changes". A dot over a symbol means its rate of change per second, the [derivative](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) with respect to time (G-2296). For example, $\dot{x} = 0.433$ m/s means $x$ grows by 0.433 m each second.
+We need a short way to write "how fast this changes". A dot over a symbol means its rate of change per second, the [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) with respect to time (G-2296). For example, $\dot{x} = 0.433$ m/s means $x$ grows by 0.433 m each second.
 
 The x speed and y speed of Section 5.1 are $\dot{x}$ and $\dot{y}$. The heading changes at the angular velocity, by the definition of $\omega$ in Section 4.1. Together:
 
@@ -484,3 +484,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Euler step (G-2299) | One step of predicting motion: hold the rates fixed for a short time $\Delta t$ and add rate times $\Delta t$ to each quantity; repeated, it traces a path, more accurately the smaller $\Delta t$ is. |
 | Holonomic constraint (G-2301) | An equation on a robot's pose, such as a train on a circular track $x^2 + y^2 = 25$, or a velocity rule that follows from one; it removes whole poses the system can never be in. |
 | Nonholonomic constraint (G-2302) | A rule on velocities that does not follow from any equation on the pose, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which poses it can reach. |
+| [Derivative](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |

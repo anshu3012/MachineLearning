@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/datetime]
 
 > **Key point:** A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a datetime type and pull each one out with `.dt`.
 
-A **feature** (G-772) is an input variable (one column of the data table), and an **observation** (G-1374) is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
 
 Figure 1 shows one value split into these features. The rest of the Note shows the pandas code for each one. The Notebook (`ML-033-date-and-time.ipynb`) runs every example.
 

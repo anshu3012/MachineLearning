@@ -184,7 +184,7 @@ $$\bar{x} = \frac{2}{6} \times 5 + \frac{1}{6} \times 4 + \frac{3}{6} \times 3$$
 
 $$\bar{x} = \frac{23}{6}$$
 
-The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability)). Replacing the shares by true probabilities gives the expected value.
+The second form says: take each **distinct** value and multiply it by the share of the data it makes up. A share of the data is an empirical probability (see [**empirical probability**](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability) (G-678)). Replacing the shares by true probabilities gives the expected value.
 
 ### 3.3 The formula
 
@@ -468,3 +468,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Linearity of expectation (G-1100) | The rule that the expected value of a sum is the sum of the expected values, with constants scaling and shifting it: $E[aX + bY + c] = a\thinspace E[X] + b\thinspace E[Y] + c$, for any random variables. |
 | Shortcut variance formula (G-1794) | A quicker way to compute a variance: the mean of the squares minus the square of the mean, $\mathrm{Var}(X) = E[X^2] - (E[X])^2$; it gives the same number as the definition. |
 | [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| [Empirical (experimental) probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#1-overview) (G-678) | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |

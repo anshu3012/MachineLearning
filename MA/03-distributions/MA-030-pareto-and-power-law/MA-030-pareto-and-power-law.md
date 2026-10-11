@@ -321,7 +321,7 @@ The normal distribution is so well studied that once data is normal, many calcul
 |---|---|---|
 | Log, $\log(1 + x)$ | pulls in a long right tail; makes log-normal data normal | [function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) |
 | Reciprocal, square, square root | other fixed formulas, for other shapes of skew | [function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) |
-| Box-Cox | learns the best power $\lambda$; positive values only | [power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#3-box-cox-transform) |
+| Box-Cox | learns the best power $\lambda$; positive values only | [**power transformer**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#3-box-cox-transform) (G-1542) |
 | Yeo-Johnson (G-2136) | Box-Cox adapted to zeros and negative values | [power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#4-yeo-johnson-transform) |
 
 Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is:
@@ -377,4 +377,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Non-Gaussian distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#1-overview) (G-1334) | Any distribution that is not normal. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Mathematical transformation](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#1-overview) (G-1174) | Applying one mathematical formula, such as the log or the square root, to every value of a column, usually to bring its distribution closer to normal. |
+| [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview) (G-1542) | A transform that raises each column to a learned power $\lambda$ to make it close to normal. |
 | [Yeo-Johnson transform](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview) (G-2136) | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |

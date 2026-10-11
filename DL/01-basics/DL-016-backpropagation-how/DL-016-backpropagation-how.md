@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 
 > **Key point:** We turn the algorithm into code twice: for regression (linear nodes, squared error) and for classification (sigmoid nodes, binary cross-entropy). Our code and Keras, started from the same weights, produce the same losses to every printed digit.
 
-[Backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) was built, with its [9 derivatives](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives), for a 2-2-1 regression network (2 inputs, 2 hidden nodes, 1 output). This Note runs it:
+[**Backpropagation**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) (G-247) was built, with its [9 derivatives](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives), for a 2-2-1 regression network (2 inputs, 2 hidden nodes, 1 output). This Note runs it:
 
 1. **Regression:** the same network and data, trained for several epochs (an epoch is one full pass over the data) with our own NumPy code, then with Keras.
 2. **Classification:** the same architecture with **sigmoid** (a function that squashes any number into the range 0 to 1) activations and **binary cross-entropy** (G-303; [the loss for two classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)). The derivatives change, so we derive them, then train again.
@@ -42,8 +42,8 @@ The data and network are those of [the backpropagation example](../DL-015-backpr
    - for each student, in order:
      a. predict $\hat{y}$ with forward propagation;
      b. compute the loss $(y - \hat{y})^2$;
-     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, where the step size $\eta = 0.001$ is the **learning rate** (G-1068).
-   - print the average of the 4 losses: the loss of the **epoch** (G-696), one full pass over the data.
+     c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, where the step size $\eta = 0.001$ is the [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068).
+   - print the average of the 4 losses: the loss of the [**epoch**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), one full pass over the data.
 
 ![The two loops as a table filling in: each cell is one student's loss, each row one epoch, the last column the epoch's average](images/loss_grid.gif){height=34%}
 
@@ -98,7 +98,7 @@ For student 1 (CGPA 8, profile score 8) the function returns the prediction $\ha
 >
 > `-=` changes the arrays in place, so `params` holds the new values afterwards. The copy of `W2` matters: the hidden-layer derivatives use the weights from before this update.
 
-The code computes $g$ once, stores it, and reuses it in all 9 updates instead of working it out again for each one. Storing an answer and reusing it instead of recomputing it is **memoization** ([memoization](../DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers)).
+The code computes $g$ once, stores it, and reuses it in all 9 updates instead of working it out again for each one. Storing an answer and reusing it instead of recomputing it is **memoization** ([**memoization**](../DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210)).
 
 The minus signs in the formulas and the minus of the update rule cancel: every update here adds $\eta \cdot 2(y - \hat{y})$ times the parameter's factors.
 
@@ -179,7 +179,7 @@ Now the output is whether the student is placed (1) or not (0):
 
 Two things change:
 
-- **Activations:** every node computes its weighted sum $z$ (its inputs times the weights, plus the bias) and then outputs $\sigma(z)$, as in [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes).
+- **Activations:** every node computes its weighted sum $z$ (its inputs times the weights, plus the bias) and then outputs $\sigma(z)$, as in [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) (G-797).
 - **Loss:** [binary cross-entropy](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function), the right loss for two classes with a sigmoid output ([why not squared error](../DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#81-why-not-the-squared-error)). Here $y$ is the target (1 placed, 0 not) and $\hat{y}$ the predicted probability of being placed, and $\log$ is the natural logarithm:
   $$L = -y\log\hat{y} - (1 - y)\log(1 - \hat{y})$$
 
@@ -305,7 +305,7 @@ In Figure 8, watch the running product along the bottom: each step back multipli
    $$\frac{\partial L}{\partial W_{11}^{1}} = -0.0513$$
    $$\frac{\partial L}{\partial b_{11}} = -0.0064$$
 
-The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect called the [vanishing gradient](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+The hidden-layer gradients are about 7 times smaller than the output-layer ones: the factors $W_{11}^{2} = 0.1$ and $O_{11}(1 - O_{11}) = 0.14$ shrink them. Each sigmoid between a weight and the loss multiplies its gradient by at most 0.25, an effect called the [**vanishing gradient**](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) (G-2070).
 
 > **Python:** The classification gradients.
 >
@@ -343,7 +343,7 @@ In Figure 9, all four lines lie on top of each other at about 0.54 and stay flat
 The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
 - **A tiny learning rate** with tiny hidden gradients (Section 7.3): the weights hardly move.
-- **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); two hidden nodes stuck as copies of each other are the **symmetry problem** (G-1933); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
+- **Identical hidden nodes:** every weight starts at 0.1, so both hidden nodes stay the same, and the network acts as if it had one hidden node. Two hidden nodes with the same inputs need different starting weights to "break symmetry" (Goodfellow et al. 2016, §8.4); two hidden nodes stuck as copies of each other are the [**symmetry problem**](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (G-1933); the Notebook confirms that the two columns of $W^{1}$ are still equal after training. Two twins given the same lessons in the same order give the same answers on every exam.
 
 ![Training the classifier for 2,000 epochs with learning rate 0.1. Left: every weight starts at 0.1. Right: one weight, $W_{11}^{1}$, starts at 0.11. Top: the CGPA weight of each hidden node. Bottom: the average loss](images/symmetry.gif){height=50%}
 
@@ -395,8 +395,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `shuffle=False` (G-143) | Keras setting that keeps the rows in their original order in every epoch. |
 | `keras.optimizers.SGD` (G-104) | Plain gradient descent in Keras, with a fixed learning rate. |
 | $\partial L/\partial z$ (G-16) | How much the loss changes when a node's weighted sum $z$ changes (the derivative of the loss with respect to $z$). Every weight entering the node multiplies it by its own input. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Symmetry problem](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (G-1933) | Nodes that start with equal weights get equal updates and stay identical, so a layer acts like one node. |
 | [`get_weights()` / `set_weights()`](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#42-relu-and-tanh-nothing-moves) (G-85) | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. |

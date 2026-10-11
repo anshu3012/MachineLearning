@@ -33,7 +33,7 @@ This Note puts the CNN Notes into practice. The task is **binary image classific
 ## 2. Prerequisites
 
 - [The general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks, Flatten, dense layers.
-- [Strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): the size of each layer's output.
+- [**Strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): the size of each layer's output.
 - [Building a network in Keras](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras): building, compiling and training a Keras model.
 - [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why inputs are scaled.
 - [Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting), [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): ways to reduce overfitting.
@@ -81,7 +81,7 @@ We could read every file ourselves, put all photos in one big array and train on
    That is about 3.7 GB. As 32-bit numbers (4 bytes each):
    $$4 \times 3.68 = 14.7 \text{ GB}$$
 
-Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 photos. Only the current batch has to be in memory; when the network has learned from it, the next batch is read. An object that hands out data piece by piece in this way is called a **generator** (G-843).
+Instead, Keras reads the photos in [**batches**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263): small groups, here 32 photos. Only the current batch has to be in memory; when the network has learned from it, the next batch is read. An object that hands out data piece by piece in this way is called a [**generator**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-843).
 
 ### 4.2 `image_dataset_from_directory`
 
@@ -97,13 +97,13 @@ Instead, Keras reads the photos in **batches** (G-263): small groups, here 32 ph
 >     validation_split=0.2, subset="both", seed=1337)
 > ```
 >
-> `labels="inferred"` takes each photo's label from its folder. With `label_mode="int"` the folders get the numbers 0, 1, ... in alphabetical order: `Cat` is 0 and `Dog` is 1. `image_size=(256, 256)` resizes every photo, so each batch has the shape $(32, 256, 256, 3)$. `validation_split=0.2` with `subset="both"` keeps 20% of the photos apart as the **validation set** (G-2067); the `seed` fixes which ones.
+> `labels="inferred"` takes each photo's label from its folder. With `label_mode="int"` the folders get the numbers 0, 1, ... in alphabetical order: `Cat` is 0 and `Dog` is 1. `image_size=(256, 256)` resizes every photo, so each batch has the shape $(32, 256, 256, 3)$. `validation_split=0.2` with `subset="both"` keeps 20% of the photos apart as the [**validation set**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067); the `seed` fixes which ones.
 
 ![The first training batch served by the call above: 32 photos, resized to 256 × 256 (drawn smaller here), each labelled by its folder.](images/batch.png)
 
 Figure 3 shows the first batch it serves. Its title calls the batch a **tensor**: an array with several axes, here 32 photos × 256 rows × 256 columns × 3 colour values. The batch holds 32 photos of all kinds, now all square, with labels 0 (cat) and 1 (dog), 16 of each here. The square resize stretches photos that were not square, which the network has to live with.
 
-The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an **epoch** (G-696), takes 586 batches. The last batch is only partly full, so the division is rounded up ($\lceil x \rceil$ means "round $x$ up"):
+The split gives 18,728 training photos and 4,682 validation photos (Notebook). With 32 photos per batch, one pass over the training photos, an [**epoch**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), takes 586 batches. The last batch is only partly full, so the division is rounded up ($\lceil x \rceil$ means "round $x$ up"):
 
 $$18{,}728 / 32 = 585.25$$
 $$\lceil 585.25 \rceil = 586$$
@@ -131,7 +131,7 @@ Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slo
 
 ## 6. The CNN
 
-> **Key point:** Three blocks of convolution (32, 64, 128 **filters**, G-777) and **max pooling** (G-1182), then Flatten and dense layers of 128, 64 and 1 node. Of its 14.8 million parameters, 99.3% sit in the first dense layer.
+> **Key point:** Three blocks of convolution (32, 64, 128 **filters**, G-777) and [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182), then Flatten and dense layers of 128, 64 and 1 node. Of its 14.8 million parameters, 99.3% sit in the first dense layer.
 
 The design follows [the general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks that grow the number of filters while the maps shrink, then fully connected layers (Figure 4).
 
@@ -156,7 +156,7 @@ The design follows [the general CNN architecture](../DL-045-lenet-5/DL-045-lenet
 > model.summary()
 > ```
 >
-> The output layer has one node with a **sigmoid** (G-1798): its value is the probability that the photo shows a dog (label 1).
+> The output layer has one node with a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798): its value is the probability that the photo shows a dog (label 1).
 
 Each output size follows from the formula of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
 
@@ -229,10 +229,10 @@ Such a growing gap between training and validation performance is **overfitting*
 [Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting) lists the ways to fight it:
 
 - **More data.** The best remedy, but here we already use every photo we have.
-- **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. [Data augmentation](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) covers it.
+- **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. [**Data augmentation**](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) covers it.
 - **L1 or L2 regularisation:** penalise large weights.
-- **Dropout** (G-639): switch off random nodes during training (see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
-- **Batch normalisation** (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (see [advantages of batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#6-advantages)).
+- [**Dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off random nodes during training (see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
+- [**Batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (see [advantages of batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#6-advantages)).
 - **A simpler model:** fewer layers or fewer nodes.
 
 We try two of them together. A `BatchNormalization` layer goes after each of the three convolution layers, and a `Dropout(0.1)` layer after each of the two hidden dense layers. Everything else stays the same, and again we train 3 times.
@@ -360,6 +360,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `image_dataset_from_directory` (G-94) | The Keras function that loads photos from class folders as batches of (images, labels). |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Generator](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-843) | The GAN network that creates new data. |
@@ -369,5 +370,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |

@@ -80,7 +80,7 @@ This student is one of the 3 nearest. Repeating the three lines for every stored
 
 The idea behind step 4: points that are close together tend to share the same answer, just as where a person lives says something about them. A student who looks like placed students will probably be placed too.
 
-This procedure is the **K-nearest neighbours (KNN)** (G-998) algorithm, covered in detail in [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
+This procedure is the [**K-nearest neighbours (KNN)**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) algorithm, covered in detail in [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
 
 > **Extra:** IQ ranges over about 60 points, while CGPA ranges over about 5. Measured raw, distances would depend almost only on IQ. Write $\Delta$ (delta) for "the gap in": $\Delta \text{IQ}$ is the gap between two students' IQs. The distance is
 
@@ -108,9 +108,9 @@ So in instance-based learning, there is no real training step. Putting off the w
 
 > **Key point:** The prediction is a majority vote among the *k* nearest points. A different *k* can give a different answer.
 
-Step 4 of Figure 2 is a **majority vote** (G-1146): each of the *k* nearest students casts one vote for its own class, and the class with the most votes wins. The new point is called the **query point** (G-1605).
+Step 4 of Figure 2 is a [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146): each of the *k* nearest students casts one vote for its own class, and the class with the most votes wins. The new point is called the [**query point**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605).
 
-Real data has **outliers** (G-1420): a few students with a good IQ and CGPA who were still not placed, or the reverse. Where the two classes meet, placed and not-placed students also sit side by side. In such a region the answer depends on how many neighbours vote. Figure 3 shows the vote for a query point with IQ 97.5 and CGPA 8.0.
+Real data has [**outliers**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420): a few students with a good IQ and CGPA who were still not placed, or the reverse. Where the two classes meet, placed and not-placed students also sit side by side. In such a region the answer depends on how many neighbours vote. Figure 3 shows the vote for a query point with IQ 97.5 and CGPA 8.0.
 
 ![The KNN vote for one new student (the star) as k grows. Outlined dots: the k nearest students. Right: the votes. Idea after StatQuest, "K-nearest neighbors, Clearly Explained".](images/knn_votes.gif)
 
@@ -141,14 +141,14 @@ The best *k* is found by trying several values on data kept aside from training.
 
 In **model-based learning**, the algorithm studies the training data and builds a mathematical function that connects the features to the target.
 
-For a **classification** (G-395) problem, the learned function is a **decision boundary** (G-555): a line (or curve) that separates the classes. Every point on one side is predicted *placed*; every point on the other side, *not placed*.
+For a [**classification**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) problem, the learned function is a **decision boundary** (G-555): a line (or curve) that separates the classes. Every point on one side is predicted *placed*; every point on the other side, *not placed*.
 
-How does the algorithm find that line? Figure 4 shows **logistic regression** (G-1120), a model-based classifier, learning it on our 60 students.
+How does the algorithm find that line? Figure 4 shows [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120), a model-based classifier, learning it on our 60 students.
 
 ![Logistic regression learning its decision boundary on the placement data, then dropping the training data. Green: placed; red: not placed; purple: the current decision boundary.](images/model_training.gif)
 
 1. **Start.** The line begins in a bad place: only 38 percent of the training students are on the correct side.
-2. **One training step.** The algorithm measures how wrong the line is with a **loss function** (G-706), a single number that is large when many students are on the wrong side, then turns and shifts the line a little to make that number smaller. Repeating this step is **gradient descent** (G-862).
+2. **One training step.** The algorithm measures how wrong the line is with a [**loss function**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706), a single number that is large when many students are on the wrong side, then turns and shifts the line a little to make that number smaller. Repeating this step is [**gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862).
 3. **After a few steps.** The loss falls from 1.094 to 0.259 after 2 steps, and 97 percent of the students are on the correct side. Later steps barely move the line (loss 0.142).
 4. **Training data dropped.** The model keeps three numbers, $w_1 = 1.36$, $w_2 = 2.72$ and $b = -0.53$ (for IQ and CGPA on the same scale), and nothing else. The new student, IQ 94.5 and CGPA 8.3, falls just above the line: *placed*, with probability 0.57.
 
@@ -160,7 +160,7 @@ $$w_2 \times \text{CGPA} = 2.72 \times 0.75 = 2.04$$
 
 $$z = -1.21 + 2.04 + (-0.53) = 0.30$$
 
-A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the **sigmoid** (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)):
+A score above 0 means the student is on the *placed* side of the boundary, and $z = 0$ is the boundary itself. The score is turned into a probability by the [**sigmoid**](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) function, which maps any number to a value between 0 and 1 (it is the subject of [the sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)):
 
 $$\text{probability} = \frac{1}{1 + e^{-z}}$$
 
@@ -195,8 +195,8 @@ After training, a model-based algorithm keeps only the function. To classify a n
 
 The function is described by a few numbers called **parameters** (G-1450). For example:
 
-- in a linear model (a straight line), the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
-- in a neural network, the parameters are its **weights** (G-2106);
+- in a linear model (a straight line), the parameters are the line's [**slope**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) and [**intercept**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960);
+- in a neural network, the parameters are its [**weights**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106);
 - in Naive Bayes ([comparing posteriors](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors)), the parameters are probabilities.
 
 ![What each approach keeps after training](images/what_is_kept.png)

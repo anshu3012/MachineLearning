@@ -26,7 +26,7 @@ Figure 1 shows the same idea on flat shapes. In the top row, every straight segm
 
 Two Notes prepare this one:
 
-- the [chord test](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) defined a convex function and showed why gradient descent (the method that repeatedly steps downhill, see [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) likes them;
+- the [chord test](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) defined a convex function and showed why gradient descent (the method that repeatedly steps downhill, see [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)) likes them;
 - [constrained optimisation problems](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) added constraints, which cut the parameter space down to a feasible region.
 
 This Note puts the two together:
@@ -108,8 +108,8 @@ Figure 3 is a still summary. The top row repeats the two walks of Figure 2 with 
 
 Informally, a convex set has no dents and no holes (Figure 1). Common convex sets in ML:
 
-- **a line, a plane or a hyperplane** (G-911) (see the [equation of a hyperplane](../../05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)), the set where a linear equation holds;
-- **a half-space**, one side of a hyperplane, such as all points with $x + y \ge 3$ in the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems);
+- [**a line, a plane or a hyperplane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) (see the [**equation of a hyperplane**](../../05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703)), the set where a linear equation holds;
+- **a half-space**, one side of a hyperplane, such as all points with $x + y \ge 3$ in the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-1036);
 - **a box**, such as all points whose every coordinate lies between −1 and 1;
 - **a ball**, all weight vectors $\mathbf w$ of length at most a limit $t$: the Ridge constraint. The diamond, where the absolute values of the weights add up to at most $t$, is the Lasso constraint.
 
@@ -117,9 +117,9 @@ Informally, a convex set has no dents and no holes (Figure 1). Common convex set
 
 > **Key point:** The overlap (intersection) of convex sets is convex; their union usually is not.
 
-**In plain words.** Look at the bottom row of Figure 3. On the left, two discs overlap in a lens shape. Take two points of the lens. The segment between them stays in the first disc, because that disc is convex. It also stays in the second disc, for the same reason. So it stays in both discs at once, which is the lens. The overlap of two sets is their **intersection** (G-967), and the argument works for any number of convex sets.
+**In plain words.** Look at the bottom row of Figure 3. On the left, two discs overlap in a lens shape. Take two points of the lens. The segment between them stays in the first disc, because that disc is convex. It also stays in the second disc, for the same reason. So it stays in both discs at once, which is the lens. The overlap of two sets is their [**intersection**](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967), and the argument works for any number of convex sets.
 
-On the right, two separate discs together form their **union** (G-2045). A walk from one disc to the other crosses empty space (red dashed), so a union does not keep convexity.
+On the right, two separate discs together form their [**union**](../../02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045). A walk from one disc to the other crosses empty space (red dashed), so a union does not keep convexity.
 
 The overlap rule is why a feasible region made of many convex constraints is convex: the region is the overlap of one convex set per constraint. A box in two dimensions, for example, is the overlap of four half-spaces:
 
@@ -138,7 +138,7 @@ In $n$ dimensions the same box is the overlap of $2n$ half-spaces.
 
 > **Key point:** A function is convex when it is shaped like a bowl: a string stretched between any two points of its graph never dips below the graph. Equivalently, the region above its graph is a convex set.
 
-**The idea in plain words.** Draw the graph of a function. Pick two points on the graph and stretch a straight string between them. This string is a **chord** (G-384). For a bowl, every string lies on or above the bowl. For a curve with a hump, a string stretched across the hump passes under it. A function whose every chord lies on or above its graph is a **convex function** (G-476).
+**The idea in plain words.** Draw the graph of a function. Pick two points on the graph and stretch a straight string between them. This string is a [**chord**](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) (G-384). For a bowl, every string lies on or above the bowl. For a curve with a hump, a string stretched across the hump passes under it. A function whose every chord lies on or above its graph is a [**convex function**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476).
 
 ![The chord test. A chord joins two points of each graph and slides. Left: softplus, every chord stays on or above the graph (green). Right: $w^2(w - 1)^2$, the chord from $w = 0.17$ to $0.83$ runs below the hump (red gap), so the function is not convex](images/chord_test.gif)
 
@@ -182,9 +182,9 @@ $$\le\thickspace\theta f(\mathbf{a}) + (1 - \theta) f(\mathbf{b})$$
 - left side: the curve at the mixed input;
 - right side: the chord at the same input.
 
-Check: for $f(w) = w^2$, $a = -1$, $b = 3$, $\theta = 0.5$, the left side is 1 and the right side is 5, and $1 \le 5$. The definition comes from the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula). One condition was left implicit there: the **domain** (G-632) of $f$, the set of inputs where $f$ is defined, must itself be a convex set, so that the mixed input $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined (Boyd and Vandenberghe §3.1.1).
+Check: for $f(w) = w^2$, $a = -1$, $b = 3$, $\theta = 0.5$, the left side is 1 and the right side is 5, and $1 \le 5$. The definition comes from the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula). One condition was left implicit there: the [**domain**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#2-functions-one-number-in-one-number-out) (G-632) of $f$, the set of inputs where $f$ is defined, must itself be a convex set, so that the mixed input $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined (Boyd and Vandenberghe §3.1.1).
 
-A **strictly convex function** (G-1899) is one whose curve lies strictly below every chord between two different points, as $w^2$ does (1 is strictly less than 5). It has at most one minimum, which is why a strictly convex loss leaves gradient descent nowhere to get stuck.
+A [**strictly convex function**](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1899) is one whose curve lies strictly below every chord between two different points, as $w^2$ does (1 is strictly less than 5). It has at most one minimum, which is why a strictly convex loss leaves gradient descent nowhere to get stuck.
 
 **Two related ideas.**
 
@@ -220,12 +220,12 @@ Figure 5 shows why the two statements say the same thing. The two black dots of 
 
 Walk along a curve from left to right and watch its slope.
 
-1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the **second derivative** (G-2249), is positive.
+1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the [**second derivative**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), is positive.
 2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of Section 3 and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
 3. **Example:** the hump function $q(w) = w^2(w - 1)^2$ of Figure 4, with $q(0.5) = 0.0625$. Its slope and second derivative are
    $$q'(w) = 2w(w - 1)(2w - 1)$$
    $$q''(w) = 12w^2 - 12w + 2$$
-   - $q''$ is 0 at $w = 0.211$ and $w = 0.789$, the **inflection points** (G-945) where the bending changes direction.
+   - $q''$ is 0 at $w = 0.211$ and $w = 0.789$, the [**inflection points**](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#5-the-pdf-of-the-normal-distribution) (G-945) where the bending changes direction.
    - Outside them $q''$ is positive: $q$ curves up, convex there.
    - Between them $q''$ is negative. At $w = 0.5$:
      $$q''(0.5) = 12 \times 0.25 - 12 \times 0.5 + 2$$
@@ -274,7 +274,7 @@ Here $\ln$ is the natural logarithm and $e \approx 2.718$.
 
 > **Key point:** A function is convex exactly when the tangent line (or plane) at any point never rises above the graph.
 
-**The idea in plain words.** Put a ruler against a bowl so that it just touches the bowl at one point. That ruler is the **tangent line** (G-1945). On a bowl, the ruler stays under the bowl everywhere else. On a curve with a hump, a ruler laid on top of the hump floats above the curve on both sides.
+**The idea in plain words.** Put a ruler against a bowl so that it just touches the bowl at one point. That ruler is the [**tangent line**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945). On a bowl, the ruler stays under the bowl everywhere else. On a curve with a hump, a ruler laid on top of the hump floats above the curve on both sides.
 
 ![The first-order test. Left: every tangent of softplus lies below the curve, so it is convex. Right: the tangent of $w^2(w - 1)^2$ at $w = 0.5$ lies above the curve near 0 and 1, so it is not convex](images/first_order.png)
 
@@ -299,7 +299,7 @@ The curve (2.13) is above the tangent (1.69). For $q$ at the top of the hump, th
 $$f(\mathbf{y}) \thickspace\ge\thickspace f(\mathbf{x}) + \nabla f(\mathbf{x})\thinspace(\mathbf{y} - \mathbf{x})$$
 
 - left side: the curve at $\mathbf y$;
-- right side: the **tangent plane** (G-1946) at $\mathbf x$, evaluated at $\mathbf y$. It is the first-order Taylor approximation of the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#3-linearisation-the-tangent-plane).
+- right side: the [**tangent plane**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#1-overview) (G-1946) at $\mathbf x$, evaluated at $\mathbf y$. It is the first-order Taylor approximation of the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#3-linearisation-the-tangent-plane).
 
 Check with softplus, $\mathbf x = 0$, $\mathbf y = 2$: the left side is 2.13, the right side 1.69, and $2.13 \ge 1.69$.
 
@@ -313,7 +313,7 @@ $$f(\mathbf{y}) \ge f(\mathbf{x}^\ast) + \mathbf 0\thinspace(\mathbf{y} - \mathb
 
 $$f(\mathbf{y}) \ge f(\mathbf{x}^\ast) \quad \text{for every } \mathbf y$$
 
-So for a convex function, any point with zero gradient is a **global minimum** (G-848). Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
+So for a convex function, any point with zero gradient is a [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848). Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
 
 > **Extra:** Softplus is the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) in disguise. For an **observation** (one record, a row of the data table) with score $z$:
 > $$\text{label 0:} \quad -\ln\big(1 - \sigma(z)\big) = \ln(1 + e^{z})$$
@@ -340,7 +340,7 @@ $$f_2(1, 1) = 5$$
 
 On the left, the surface of $f_1$ is a bowl, and from above its contours are closed ellipses around the bottom (the centre ring is the lowest point; rings close together mean a steep wall). The surface is drawn up to height 8 only, so the tall corners do not hide the bottom. On the right, the surface of $f_2$ curves up in one direction and down in the other, and from above its contours open out: a saddle. Each arrow is a direction, labelled with how strongly the function curves along it. Watch the sign of each label: along the arrow labelled −1, the saddle curves down, and that one direction is enough to break convexity.
 
-**The standard term.** The curvature in every direction is collected in the **Hessian matrix** (G-888), the table of all second partial derivatives (see the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#53-curvature-what-the-hessian-says-about-the-shape)). The arrows of Figure 8 are its **eigenvectors** (G-666; directions the matrix only stretches, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)), and their labels are its **eigenvalues** (G-665; the stretch factors): the curvature along each arrow. A symmetric matrix with no negative eigenvalues is **positive semi-definite** (G-1532) (see the [SVD geometry](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared)). The test that the Hessian is positive semi-definite at every point is the **second-order condition** (G-1761).
+**The standard term.** The curvature in every direction is collected in the [**Hessian matrix**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#51-the-hessian-matrix) (G-888), the table of all second partial derivatives (see the [Hessian and multivariate Taylor](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#53-curvature-what-the-hessian-says-about-the-shape)). The arrows of Figure 8 are its **eigenvectors** (G-666; directions the matrix only stretches, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)), and their labels are its **eigenvalues** (G-665; the stretch factors): the curvature along each arrow. A symmetric matrix with no negative eigenvalues is [**positive semi-definite**](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1532) (see the [SVD geometry](../../05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared)). The test that the Hessian is positive semi-definite at every point is the **second-order condition** (G-1761).
 
 **Worked example on numbers.** For $f_1(x, y) = x^2 + xy + y^2$, the second partial derivatives are:
 
@@ -435,7 +435,7 @@ Check: with $\alpha = 1$ and $\beta = 2$, the rule says $w^2 + 2|w|$ is convex, 
 This rule covers the regularised losses of earlier Notes:
 
 - **Ridge:** squared error plus a penalty $\alpha$ times the sum of squared weights (see the [Ridge regression maths](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features)): convex plus convex.
-- **Lasso:** squared error plus a penalty $\alpha$ times the sum of absolute weights (see the [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0)): convex plus convex, even though $|w|$ has a corner.
+- **Lasso:** squared error plus a penalty $\alpha$ times the sum of absolute weights (see the [**Lasso regression**](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0) (G-1047)): convex plus convex, even though $|w|$ has a corner.
 - **Regularised logistic regression:** log loss plus a penalty: convex plus convex.
 
 **What does not keep convexity.** A difference or a product of convex functions can fail:
@@ -445,7 +445,7 @@ This rule covers the regularised losses of earlier Notes:
   is an upside-down bowl (Figure 9, right).
 - **Product:** $w^2$ and $(w - 1)^2$ are convex, but their product is the hump function $q(w) = w^2(w - 1)^2$ of Figures 4 and 7. Its chord from 0 to 1 is at height 0, while the curve at 0.5 is 0.0625 (Section 3).
 
-> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The **hinge loss** (G-898) of the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss),
+> **Extra:** One more rule: the pointwise **maximum** of convex functions is convex (Boyd and Vandenberghe §3.2.3). The [**hinge loss**](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) of the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss),
 > $$\text{hinge}(z) = \max(0,\ 1 - z)$$
 >
 > $$\text{hinge}(0.4) = 0.6$$
@@ -493,7 +493,7 @@ The problem is a **convex optimisation problem** (G-478) when (MML §7.3; Boyd a
 - $f$ and every $g_i$ are convex functions;
 - every $h_j$ is **affine** (a straight line or plane, linear plus a constant): $h_j(\mathbf{x}) = \mathbf a_j^{\mathsf T}\mathbf{x} - b_j$.
 
-Then the **feasible region** (G-759), the set of allowed points, is a convex set (Section 2.2). Check with the example: the constraint $x + y \ge 3$ becomes
+Then the [**feasible region**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759), the set of allowed points, is a convex set (Section 2.2). Check with the example: the constraint $x + y \ge 3$ becomes
 
 $$g_1(x, y) = 3 - x - y \le 0$$
 
@@ -508,8 +508,8 @@ and $g_1$ is linear, hence convex. There are no equality constraints.
 For a convex optimisation problem:
 
 - **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
-- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the **KKT conditions** (G-1013) of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) is the answer.
-- **Strong duality** (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
+- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) is the answer.
+- [**Strong duality**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
   $$\text{primal minimum} = f(2, 1) = 6$$
   $$\text{dual maximum} = D(4)$$
   $$D(4) = 3 \times 4 - \frac{3 \times 16}{8}$$
@@ -533,7 +533,7 @@ Figure 10 shows the example from both sides. Watch the marked points: the lowest
 | [Ridge](../../../ML/06-regression/ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#3-many-features), [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0), [Elastic Net](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) | yes | convex loss plus convex penalty |
 | [Logistic regression](../../../ML/07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#4-the-loss-in-matrix-form) | yes | log loss is softplus of a linear score |
 | [SVM](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss) (hard and soft margin) | yes | convex objective, linear constraints (a quadratic program) |
-| [K-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) | no | the result depends on the starting centroids |
+| [**K-means**](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | no | the result depends on the starting centroids |
 | Neural networks | no | many minima and saddle points (Goodfellow et al. §8.2) |
 
 In the first row, $X$ is the data matrix (one row per observation) and $X^{\mathsf T}$ its transpose. For the convex ones, the answer does not depend on the starting point or the solver, only on the data and the hyperparameters. The two best-known families of convex problems, linear and quadratic programs, are the topic of the [linear and quadratic programming](../MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#1-overview).
@@ -588,7 +588,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Second-order condition (G-1761) | A test of whether a function is bowl-shaped (convex) by its curvature: a twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere (with one input, when $f'' \ge 0$ everywhere). |
 | Convex optimisation problem (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
 | Slater's condition (G-1821) | There is at least one point that meets every inequality limit with room to spare (strictly). Together with convexity, this guarantees that the related helper (dual) problem gives the same best value as the original (strong duality). |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
+| [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
+| [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | [Union (A ∪ B)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
 | [Chord](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) (G-384) | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
@@ -604,7 +607,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
 | [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Positive semi-definite](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1532) | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
+| [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
 | [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | [KKT conditions](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
 | [Strong duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903) | The best lower bound given by a related helper problem (the dual problem) equals the true minimum of the original (primal) problem, so solving the dual solves the original; it holds for convex problems. |
+| [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |

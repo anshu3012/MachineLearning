@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/feature-s
 
 > **Key point:** Standardization rescales every feature so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.
 
-Feature scaling brings **features** (G-772) (input variables, one column each of the data table) that live on very different ranges, such as age and salary, onto a similar range. Feature scaling has two main techniques: standardization and normalization. This Note covers standardization; normalization comes in the next Note.
+Feature scaling brings [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each of the data table) that live on very different ranges, such as age and salary, onto a similar range. Feature scaling has two main techniques: standardization and normalization. This Note covers standardization; normalization comes in the next Note.
 
 Figure 1 shows the whole topic. Standardization is two moves done one after the other: shift the column so its mean is 0, then shrink or stretch it so its standard deviation is 1.
 
@@ -29,11 +29,11 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 > **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
-**Feature scaling** (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
+[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data (Section 6.1), where each user has an age and a salary.
 
 **The plain idea.** Algorithms such as KNN decide which users are alike by measuring the distance between them. A salary gap is in the thousands and an age gap is in the tens, so the salary gap decides the distance alone.
 
-**The standard term.** The distance used is the **Euclidean distance** (G-715): the straight-line distance between two points. For two users it is
+**The standard term.** The distance used is the [**Euclidean distance**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715): the straight-line distance between two points. For two users it is
 
 $$d = \sqrt{(\text{age gap})^2 + (\text{salary gap})^2}.$$
 
@@ -52,7 +52,7 @@ Figure 2 draws the squared distance to five users as bars, split into the age pa
 
 Two more points about feature scaling:
 
-- Only the features are scaled, never the **target** (G-1949) (the output we predict).
+- Only the features are scaled, never the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict).
 - Scaling is usually the last step of feature engineering: we first handle missing values, transform columns and deal with categories, then scale just before giving the data to the model.
 
 ## 3. Types of feature scaling
@@ -62,9 +62,9 @@ Two more points about feature scaling:
 There are two main types:
 
 1. **Standardization** (G-1874), the subject of this Note.
-2. **Normalization** (G-1349), which has several techniques of its own. The main one is **min-max scaling** (G-1217); another is the **robust scaler** (G-1699), which copes well with outliers. Both are covered in the next Note.
+2. [**Normalization**](../ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349), which has several techniques of its own. The main one is [**min-max scaling**](../ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217); another is the [**robust scaler**](../ML-024-normalization/ML-024-normalization.md#9-robust-scaling) (G-1699), which copes well with outliers. Both are covered in the next Note.
 
-Standardization is sometimes called **z-score normalization** (G-2140) in ML writing, because each scaled value is a **z-score** (G-2141). The two names mean the same technique.
+Standardization is sometimes called **z-score normalization** (G-2140) in ML writing, because each scaled value is a [**z-score**](../../04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141). The two names mean the same technique.
 
 ## 4. The standardization formula
 
@@ -74,7 +74,7 @@ Standardization is sometimes called **z-score normalization** (G-2140) in ML wri
 
 > **Key point:** A z-score answers one question about a value: how many standard deviations above or below the mean is it?
 
-The **mean** is the average of a column. The **standard deviation** is the typical distance of the values from that mean (both are taught in [count, mean, standard deviation, minimum and maximum](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum)). The **z-score** (G-2141) of a value is the number of standard deviations the value lies from the mean.
+The **mean** is the average of a column. The **standard deviation** is the typical distance of the values from that mean (both are taught in [count, mean, standard deviation, minimum and maximum](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum)). The [**z-score**](../../04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) of a value is the number of standard deviations the value lies from the mean.
 
 Figure 3 builds the z-scores of eight made-up ages, chosen so that the arithmetic is easy: the mean is 30 and the standard deviation is 4. Watch the numbers under the dots: the dots stay where they are, and only their numbers change, in two steps.
 
@@ -88,13 +88,13 @@ Figure 3 builds the z-scores of eight made-up ages, chosen so that the arithmeti
 | 34 | 4 | 1 | 1 standard deviation above |
 | 38 | 8 | 2 | 2 standard deviations above |
 
-Step 1 is **mean centring** (G-1195): subtracting the mean, so that the mean itself becomes 0. Step 2 changes the unit from years to standard deviations. Doing both steps to every value of a column is standardization.
+Step 1 is [**mean centring**](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195): subtracting the mean, so that the mean itself becomes 0. Step 2 changes the unit from years to standard deviations. Doing both steps to every value of a column is standardization.
 
 ### 4.2 The formula
 
 > **Key point:** $x' = (x - \bar{x}) / \sigma$, applied to every value of the column.
 
-Take a column `age` holding the ages of 500 customers (and the data has a salary column too). To standardize `age`, we compute a new value for every **observation** (G-1374) (one record, one row of the table), one by one.
+Take a column `age` holding the ages of 500 customers (and the data has a salary column too). To standardize `age`, we compute a new value for every [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table), one by one.
 
 **Standardization**, step by step:
 
@@ -276,7 +276,7 @@ The difference is on the axes. Before scaling, age runs from about 20 to 60 and 
 
 > **Key point:** Before scaling, the two density curves cannot be compared; after scaling, they sit on the same range.
 
-Figure 8 draws the **kernel density estimate (KDE)** (G-1005), a smooth curve of where the values lie, of both columns on one axis. Before scaling, age lives in a very small range (18 to 60), so its curve is a tall, thin spike near 0. Salary is spread over a huge range, so its curve is almost a flat line: its density is around 0.000003.
+Figure 8 draws the [**kernel density estimate (KDE)**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005), a smooth curve of where the values lie, of both columns on one axis. Before scaling, age lives in a very small range (18 to 60), so its curve is a tall, thin spike near 0. Salary is spread over a huge range, so its curve is almost a flat line: its density is around 0.000003.
 
 ![Density curves of age (blue) and salary (orange), before and after standardization](images/kde_before_after.png)
 
@@ -306,13 +306,13 @@ Think of judging two runners, one timed in seconds and one in milliseconds: unti
 
 For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too, as Figure 2 showed (scikit-learn examples, "Importance of Feature Scaling").
 
-Figure 10 shows the two KNN models on the same axes, in the original units. Each coloured area is a **decision region** (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the **decision boundary** (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After standardization, one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
+Figure 10 shows the two KNN models on the same axes, in the original units. Each coloured area is a [**decision region**](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After standardization, one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
 
 ![Where KNN (5 neighbours) predicts "bought" (orange) and "did not buy" (blue), trained on raw and on standardized data; dots are the 120 test users](images/knn_regions.png)
 
-For **logistic regression** (G-1120), scaling raised the accuracy from about 66% to about 87%. The Extra below shows the cause: training by small downhill steps barely moves on raw data.
+For [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120), scaling raised the accuracy from about 66% to about 87%. The Extra below shows the cause: training by small downhill steps barely moves on raw data.
 
-For a **decision tree** (G-561), scaling made no difference at all. A decision tree does not depend on the scale of the columns, for reasons that become clear in the Notes on decision trees.
+For a [**decision tree**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561), scaling made no difference at all. A decision tree does not depend on the scale of the columns, for reasons that become clear in the Notes on decision trees.
 
 > **Python:** The experiment for logistic regression.
 >
@@ -333,7 +333,7 @@ For a **decision tree** (G-561), scaling made no difference at all. A decision t
 >
 > For the decision tree, replace `LogisticRegression(solver="sag")` with `DecisionTreeClassifier()` from `sklearn.tree`.
 
-> **Extra:** Why `solver="sag"`? A **solver** (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
+> **Extra:** Why `solver="sag"`? A [**solver**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent (Section 10), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
 > The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. The 0.8-point gap between those two accuracies is one test user out of 120, so it is noise, not a sign that scaling hurt. Either way, unscaled data makes the training harder.
 
@@ -357,7 +357,7 @@ After adding them, we split, standardize and plot the data again. Two of the thr
 
 After scaling, the outliers are still outliers. They sit just as far from the main cloud as before; only the numbers on the axes changed.
 
-So whenever we standardize a column that has **outliers** (G-1420), we must deal with the outliers separately. Later Notes cover how to detect and handle them.
+So whenever we standardize a column that has [**outliers**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420), we must deal with the outliers separately. Later Notes cover how to detect and handle them.
 
 > **Python:** Adding rows to a DataFrame.
 >
@@ -379,9 +379,9 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 
 **Algorithms that need scaling:**
 
-- **K-means** (G-996) and **KNN** (k-nearest neighbours, G-998): both compute the Euclidean distance between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
-- **PCA** (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred. For example, an age column with a spread of 10 years has a variance of 100, while a salary column with a spread of 20,000 rupees has a variance of 400,000,000. PCA would find that salary "has all the spread" only because rupees are small units.
-- **Gradient descent** (G-862), and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
+- [**K-means**](../../09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) and **KNN** (k-nearest neighbours, G-998): both compute the Euclidean distance between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
+- [**PCA**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred. For example, an age column with a spread of 10 years has a variance of 100, while a salary column with a spread of 20,000 rupees has a variance of 400,000,000. PCA would find that salary "has all the spread" only because rupees are small units.
+- [**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862), and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
 
 Gradient descent (taught in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily. A reason in numbers: the step for a column's weight is proportional to the column's value (error times value). For a user aged 25 with a salary of 50,000, one error of 1 pushes the age weight by 25 units and the salary weight by 50,000, a ratio of 2,000 to 1. Scaled, both values are near 1 and the pushes are similar.
 

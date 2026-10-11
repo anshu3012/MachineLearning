@@ -127,7 +127,7 @@ The die of Section 3 follows the same rule (Figure 2, right):
 
 $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 
-[Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) uses this sum to split a probability into separate cases.
+[**Bayes' theorem**](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) uses this sum to split a probability into separate cases.
 
 ## 6. Summary
 
@@ -154,3 +154,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Addition rule (general addition rule) (G-173) | The rule for the probability that $A$ or $B$ (or both) happens: add their probabilities and subtract the overlap so it is not counted twice, $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events the overlap is 0. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |

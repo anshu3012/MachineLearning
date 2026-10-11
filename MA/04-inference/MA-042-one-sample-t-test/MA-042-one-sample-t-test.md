@@ -21,7 +21,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 
 ![Choosing a t-test](images/choose_t_test.png){height=32%}
 
-The [z-test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) needs the population standard deviation $\sigma$, which we almost never know. The **t-test** (G-1940) works without it. Because $\sigma$ is usually unknown, the t-test is the test we use most often.
+The [**z-test**](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#4-the-z-statistic-counting-standard-errors) (G-2143) needs the population standard deviation $\sigma$, which we almost never know. The **t-test** (G-1940) works without it. Because $\sigma$ is usually unknown, the t-test is the test we use most often.
 
 A t-test compares the means of two samples, or compares a sample mean with a known population mean. Figure 1 shows its three types. This Note covers:
 
@@ -37,8 +37,8 @@ A t-test compares the means of two samples, or compares a sample mean with a kno
 
 We already made this change for confidence intervals in [the t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#3-replacing-sigma-by-s), and reuse it unchanged:
 
-- with $s$ in place of $\sigma$, the standardized sample mean follows **Student's t-distribution** (G-1906), bell-shaped like the standard normal but with fatter tails;
-- its one parameter is the **degrees of freedom** (G-578), $df = n - 1$;
+- with $s$ in place of $\sigma$, the standardized sample mean follows [**Student's t-distribution**](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906), bell-shaped like the standard normal but with fatter tails;
+- its one parameter is the [**degrees of freedom**](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578), $df = n - 1$;
 - as $n$ grows, the t-distribution approaches the standard normal.
 
 ![400 samples of 5 values with H₀ true: z (true σ) piles under the standard normal, t (sample s) spreads wider and follows t with 4 degrees of freedom](images/s_for_sigma.gif){height=55%}
@@ -65,8 +65,8 @@ A rule of thumb also says the t-test suits small samples. The rule is a practica
 > **Key point:** One sample against a known mean; two independent groups against each other; or the same subjects measured twice.
 
 1. **One-sample t-test** (G-1382). Compares the mean of one sample with a known population mean. $H_0$: there is no difference between the population mean and the claimed value. The one-sample t-test is the z-test we already ran, but without $\sigma$.
-2. **Independent two-sample t-test** (G-936). Compares the means of two independent samples, for example the marks of section A and section B. "Independent" means the groups do not overlap: no student is in both sections. $H_0$: the two population means are equal.
-3. **Paired t-test** (G-1439) (dependent two-sample t-test). Compares two samples that are linked, such as the same students' marks in a test before and after a training program. $H_0$: the mean difference is zero.
+2. [**Independent two-sample t-test**](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) (G-936). Compares the means of two independent samples, for example the marks of section A and section B. "Independent" means the groups do not overlap: no student is in both sections. $H_0$: the two population means are equal.
+3. [**Paired t-test**](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test) (G-1439) (dependent two-sample t-test). Compares two samples that are linked, such as the same students' marks in a test before and after a training program. $H_0$: the mean difference is zero.
 
 The rest of this Note is about the first; the other two are covered in [the independent two-sample t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) and [the paired t-test](../MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#5-the-paired-t-test).
 
@@ -329,6 +329,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | 10% condition (G-2236) | When sampling without replacement, keep the sample at most 10% of the population so the observations are roughly independent. |
 | Shapiro-Wilk test (G-1788) | A statistical test of whether data follows a normal distribution: it takes the values and returns a statistic and a p-value, and a small p-value says the data is unlikely to be normal. |
 | `alternative` (scipy) (G-60) | The argument of scipy's tests that sets which direction of difference the test looks for (the direction of $H_1$): `"two-sided"`, `"less"` or `"greater"`. |
+| [Z-test (one-sample)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
 | [Student's t-distribution](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
 | [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
 | [Independent two-sample t-test](../../../MA/04-inference/MA-043-two-sample-and-paired-t-tests/MA-043-two-sample-and-paired-t-tests.md#2-the-independent-two-sample-t-test) (G-936) | A t-test comparing the means of two separate, non-overlapping groups. |

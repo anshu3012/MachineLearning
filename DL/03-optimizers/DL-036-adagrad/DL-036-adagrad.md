@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 
 > **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of sparse features) get large ones. The price: the sum only grows, so the steps keep shrinking.
 
-**AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the **learning rate** (G-1068) to the situation, separately for every parameter. Every optimizer so far, from **batch gradient descent** (G-264) to [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258; moves by a running average of past steps) and [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#5-the-update-rule) (G-1315; momentum that measures the slope after its jump), uses one learning rate for all parameters; AdaGrad is the first that does not.
+**AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) to the situation, separately for every parameter. Every optimizer so far, from [**batch gradient descent**](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) to [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258; moves by a running average of past steps) and [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#5-the-update-rule) (G-1315; momentum that measures the slope after its jump), uses one learning rate for all parameters; AdaGrad is the first that does not.
 
 ![Gradient descent, momentum and AdaGrad on a loss stretched by a sparse feature. Gradient descent first moves along $b$, then crawls along $m$; momentum also shoots along $b$ first, then swings in wide loops; AdaGrad heads for the minimum](images/adagrad_race.gif){width=80%}
 
@@ -27,7 +27,7 @@ Figure 1 shows where this matters: a loss shaped like a stretched bowl, produced
 ## 2. Prerequisites
 
 - The weak spot [one learning rate for every direction](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#53-one-learning-rate-for-every-direction).
-- [Momentum's update](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) and its [overshooting](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting).
+- [Momentum's update](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) and its [**overshooting**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430).
 - [The gradient of the squared error for a slope $m$ and an intercept $b$](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together).
 
 ## 3. When AdaGrad helps
@@ -159,12 +159,12 @@ With this rule, AdaGrad reaches the minimum of Figure 1 in 44 steps, against 61 
 
 > **Key point:** In text data most words are rare. On movie reviews, AdaGrad's learning rate for the rarest words ended 11 times larger than for the most common ones, and their weights 11 times larger than with SGD.
 
-The **IMDB dataset** (G-923) of movie reviews (Maas et al. 2011) is labelled positive or negative. The setup:
+The [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) of movie reviews (Maas et al. 2011) is labelled positive or negative. The setup:
 
 - **features:** each review becomes 5,000 features; feature $j$ is 1 if the review contains the $j$-th most common word, else 0;
 - **data:** 10,000 reviews for training and 10,000 for validation; 97.5% of all feature values are 0, and 63% of the words appear in fewer than 1% of the reviews (Notebook);
 - **model:** **logistic regression** (G-1120; a yes/no classifier), one **sigmoid** (G-1798; squashes the node's sum to a probability between 0 and 1) node;
-- **training:** 10 **epochs** (G-696) with **batch size** (G-267) 64 and learning rate 0.1, by **SGD** (G-1892) and by AdaGrad, 3 seeds each; AdaGrad's sums start at 0, as in the formula.
+- **training:** 10 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) with [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64 and learning rate 0.1, by [**SGD**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) and by AdaGrad, 3 seeds each; AdaGrad's sums start at 0, as in the formula.
 
 ![IMDB, 5,000 words. Left: AdaGrad's learning rate for each word after 10 epochs against the share of reviews containing the word; the rarer the word, the larger its learning rate. Right: mean size of the learned weights per frequency band; with SGD the rare words barely move](images/imdb_lr.png){width=100%}
 
@@ -195,7 +195,7 @@ In Figure 6 the left panel shows how each parameter's learning rate changes with
 
 Figure 6 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps AdaGrad is still 0.35 away from the minimum (Notebook).
 
-For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the **effective learning rate** (G-662; the learning rate after AdaGrad's division); AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in **RMSProp** (G-1697) and **Adam** (G-169), which fix the shrinking.
+For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the **effective learning rate** (G-662; the learning rate after AdaGrad's division); AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) and [**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169), which fix the shrinking.
 
 > **Extra:** On a convex problem (a **convex function**, G-476) such as linear regression, AdaGrad does come with convergence guarantees (Duchi et al. 2011; Goodfellow et al. 2016, §8.5.1), and with a large enough $\eta$ it converges quickly, as the $\eta = 2$ run shows. The trouble is that the right $\eta$ depends on how large the early gradients happen to be.
 
@@ -259,6 +259,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Batch gradient descent](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) | Gradient descent that uses all training rows for every update. |
 | [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
 | [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
+| [Overshooting](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430) | Moving past the minimum because of the built-up velocity, then swinging back. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Sparse data](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-1840) | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. |

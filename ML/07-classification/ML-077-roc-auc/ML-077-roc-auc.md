@@ -33,7 +33,7 @@ The **ROC curve** (G-1702) (receiver operating characteristic curve) is a standa
 
 Logistic regression (a model for yes-or-no targets) and most classifiers, such as decision trees or neural networks, do not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (see [sigmoid as a probability](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability)).
 
-A **threshold** (G-1970) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
+A [**threshold**](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#61-from-probabilities-to-classes) (G-1970) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
 
 ### 2.2 Why change it
 
@@ -47,7 +47,7 @@ So the threshold is a dial between the two kinds of mistake. The difficulty is k
 
 ![Predicted probabilities of the test patients, by true class](images/probabilities.png){height=40%}
 
-Figure 1 is a histogram: the horizontal axis is the predicted probability of diabetes, the height is the number of test patients, blue bars are patients without diabetes and red bars patients with it, and the dashed vertical lines mark the thresholds 0.3, 0.5 and 0.7. It shows the example used in this Note: logistic regression on the Pima diabetes data. The data has 768 women; each woman is one **observation** (G-1374) (one record, a row of the data table). Each has 8 **features** (G-772) (input variables, one column each), medical measurements such as glucose and blood pressure. The **target** (G-1949) (the output we predict) is diabetes: yes for 268 of them. The model is trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
+Figure 1 is a histogram: the horizontal axis is the predicted probability of diabetes, the height is the number of test patients, blue bars are patients without diabetes and red bars patients with it, and the dashed vertical lines mark the thresholds 0.3, 0.5 and 0.7. It shows the example used in this Note: logistic regression on the Pima diabetes data. The data has 768 women; each woman is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table). Each has 8 [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each), medical measurements such as glucose and blood pressure. The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is diabetes: yes for 268 of them. The model is trained on 80% and tested on 154 patients. Patients with diabetes (red) tend to get higher probabilities, but the two groups overlap. Each threshold line cuts the overlap in a different place.
 
 ## 3. Two rates: benefit and cost
 

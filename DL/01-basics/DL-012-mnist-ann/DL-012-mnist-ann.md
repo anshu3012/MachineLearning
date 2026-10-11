@@ -35,7 +35,7 @@ After training, section 9 opens the network up to see what it learned. The goal 
 
 > **Key point:** 70,000 images of handwritten digits, 28 × 28 pixels each, with values 0 to 255. Keras ships them already split: 60,000 for training, 10,000 for testing.
 
-**MNIST** (G-1249) is a set of 70,000 grey images of handwritten digits, each 28 × 28 = 784 pixels (see [pixels as columns](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) and [the MNIST data](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)). MNIST is so widely used that Keras includes it.
+[**MNIST**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) is a set of 70,000 grey images of handwritten digits, each 28 × 28 = 784 pixels (see [pixels as columns](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) and [the MNIST data](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)). MNIST is so widely used that Keras includes it.
 
 > **Python:** Loading MNIST from Keras.
 >
@@ -51,7 +51,7 @@ After training, section 9 opens the network up to see what it learned. The goal 
 >
 > `load_data()` downloads the data once and returns it already split into training and test sets, so no `train_test_split` is needed.
 
-`X_train` is a 3D array, a 3D [tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (a table of numbers with any number of axes; here 3 axes): 60,000 images, each a $28 \times 28$ grid of numbers. Each number is one pixel's brightness, from 0 (blank) to 255 (full ink), stored row by row. Each image is one **observation** (G-1374) (one record, one row of the data table), and each pixel is one **feature** (G-772) (an input variable, one column of the table): 784 features per image. `y_train` holds the **label** (G-1032) of each image, the **target** (G-1949) (the output we predict): the digit the image shows.
+`X_train` is a 3D array, a 3D [**tensor**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) (a table of numbers with any number of axes; here 3 axes): 60,000 images, each a $28 \times 28$ grid of numbers. Each number is one pixel's brightness, from 0 (blank) to 255 (full ink), stored row by row. Each image is one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the data table), and each pixel is one [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the table): 784 features per image. `y_train` holds the [**label**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) of each image, the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict): the digit the image shows.
 
 ![The first 10 training images and their labels](images/digits.png)
 
@@ -82,7 +82,7 @@ As with the churn data, a network trains faster when its inputs share a small ra
 
 ![The first training image, and the 8 × 8 patch in the red box as stored (0 to 255) and after dividing by 255 (0 to 1)](images/scaling.png){height=26%}
 
-In Figure 2, compare the two grids cell by cell: every number keeps its place and its shading, only the scale changes, so 255 becomes 1.00 and 126 becomes 0.49. Dividing by 255 is [min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) with a known minimum of 0 and maximum of 255.
+In Figure 2, compare the two grids cell by cell: every number keeps its place and its shading, only the scale changes, so 255 becomes 1.00 and 126 becomes 0.49. Dividing by 255 is [**min-max scaling**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1217) with a known minimum of 0 and maximum of 255.
 
 > **Python:** Scaling the pixels.
 >
@@ -175,7 +175,7 @@ The 784-128-10 network is the one previewed in the Extra box of that section. Ov
 
 > **Key point:** Both losses are categorical cross-entropy; "sparse" only means the labels stay as integers.
 
-With a softmax output, the loss is **categorical cross-entropy** (G-349): the average of $-\log$ of the probability the network gives the true class (see [one loss for all classes](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) and [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models)). For one image of a 5, the loss is small when P(5) is high and large when P(5) is low:
+With a softmax output, the loss is [**categorical cross-entropy**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349): the average of $-\log$ of the probability the network gives the true class (see [one loss for all classes](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) and [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models)). For one image of a 5, the loss is small when P(5) is high and large when P(5) is low:
 
 $$P(5) = 0.9:\ -\ln 0.9 = 0.105$$
 
@@ -200,13 +200,13 @@ Our labels are integers 0 to 9, so the sparse form saves a one-hot encoding step
 > keras.utils.to_categorical(5, 10)  # [0. 0. 0. 0. 0. 1. 0. 0. 0. 0.]
 > ```
 
-The optimizer is again Adam (see [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md#1-overview) among the optimizers).
+The optimizer is again Adam (see [**Adam**](../../03-optimizers/DL-038-adam/DL-038-adam.md#1-overview) (G-169) among the optimizers).
 
 ### 5.2 Training
 
 > **Key point:** 10 epochs with 20% of the training images held back for validation.
 
-An **epoch** (G-696) is one pass of the network over all its training images; a **batch** (G-263) is the small group of images used for one weight update ([fit and epochs](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)). Each update is done by **backpropagation**: the network predicts, measures the loss, then changes every weight and bias with gradient descent so that the loss gets smaller ([backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The **validation split** holds back part of the training data to measure the loss on images the network does not train on ([tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
+An [**epoch**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) is one pass of the network over all its training images; a [**batch**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) is the small group of images used for one weight update ([fit and epochs](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)). Each update is done by **backpropagation**: the network predicts, measures the loss, then changes every weight and bias with gradient descent so that the loss gets smaller ([**backpropagation**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) (G-247)). The **validation split** holds back part of the training data to measure the loss on images the network does not train on ([tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
 
 > **Python:** Training.
 >
@@ -262,7 +262,7 @@ Figure 6 draws the example: argmax ignores how much bigger the tallest bar is an
 
 The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in [KNN on all 784 features](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#3-knn-on-all-784-features), on a different split of MNIST. KNN compares each new image with every stored image (33,600 there), while the network only passes the image once through its two layers. A plain network with one hidden layer and no tuning already does better.
 
-> **Extra:** Image data is the home ground of the **convolutional neural network (CNN)** (G-484), which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in [what makes a network a CNN](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn).
+> **Extra:** Image data is the home ground of the [**convolutional neural network (CNN)**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484), which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in [what makes a network a CNN](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn).
 
 ## 7. A bigger network and its training curves
 
@@ -313,7 +313,7 @@ Figure 7 has two panels, both with the epoch on the horizontal axis. Left: the l
 - **Loss (left):** the training loss falls to about 0.01. The validation loss is lowest after epoch 3 (0.095), then rises, to 0.155 by epoch 25.
 - **Accuracy (right):** training accuracy climbs to 99.7%, validation accuracy stays around 97 to 97.6%.
 
-After epoch 3 the network keeps getting better on the images it trains on and worse on images it has not seen. The network is memorising the training set: **overfitting** (G-1429) (see [variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). A student who memorises last year's answer sheet scores full marks on that sheet and still fails a new paper; the validation images are the new paper. The churn network showed a small gap; here it is large. [Regularization, dropout and stopping training at the right epoch](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting) fix this.
+After epoch 3 the network keeps getting better on the images it trains on and worse on images it has not seen. The network is memorising the training set: [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) (see [**variance**](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073)). A student who memorises last year's answer sheet scores full marks on that sheet and still fails a new paper; the validation images are the new paper. The churn network showed a small gap; here it is large. [Regularization, dropout and stopping training at the right epoch](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting) fix this.
 
 > **Extra:** If an accuracy curve is requested but `metrics=["accuracy"]` was not given to `compile`, `history.history` has no `accuracy` key and the plot fails with a `KeyError`. The model must be compiled again with the metric and retrained.
 
@@ -428,15 +428,20 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Softmax output layer (G-1832) | An output layer with one node per class whose outputs are probabilities adding up to 1. |
 | Sparse categorical cross-entropy (G-1839) | The same loss as categorical cross-entropy, but it takes the labels as plain integers (such as the digits 0 to 9) instead of one-hot vectors, so the labels need no encoding. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
+| [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
 | [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [`to_categorical`](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#52-one-hot-targets) (G-151) | Keras function that turns integer class labels into 0/1 vectors with a single 1 at the label's position (one-hot encoding). |

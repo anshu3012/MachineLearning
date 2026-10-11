@@ -18,11 +18,11 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/lasso]
 
 > **Key point:** The Lasso penalty puts a sharp corner into the loss curve at slope 0, and a large enough λ makes that corner the lowest point. The Ridge penalty keeps the curve smooth, so its lowest point only moves towards 0.
 
-[One feature, the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) showed that **Lasso regression** (G-1047) sets coefficients to exactly 0, while **Ridge regression** (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called **sparse** (G-1846), so the effect is called **sparsity** (G-1849).
+[One feature, the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) showed that [**Lasso regression**](../ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) sets coefficients to exactly 0, while [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called [**sparse**](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#7-feature-maps-get-sparser-with-depth) (G-1846), so the effect is called **sparsity** (G-1849).
 
-Sparsity matters when many **features** (G-772) (input variables, one column of the data table each) are useless for the prediction. Lasso removes those features from the equation, which leaves a simpler model that is easier to read. Ridge keeps every feature, so it suits data in which most features are useful.
+Sparsity matters when many [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column of the data table each) are useless for the prediction. Lasso removes those features from the equation, which leaves a simpler model that is easier to read. Ridge keeps every feature, so it suits data in which most features are useful.
 
-"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on **regularisation** (G-1659). This Note answers it for one feature, in this order:
+"Why does Lasso create sparsity, and Ridge does not?" is one of the most common interview questions on [**regularisation**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659). This Note answers it for one feature, in this order:
 
 - the picture: the loss curve and its corner (section 2);
 - the formula for the Lasso slope, in cases (section 3);
@@ -36,7 +36,7 @@ Sparsity matters when many **features** (G-772) (input variables, one column of 
 
 ### 2.1 The best slope is the lowest point of a curve
 
-Take one feature $x$ and a **target** (G-1949) $y$ (the output we predict). Every **slope** (G-1823) $m$ gives a different line, and every line has a total squared error, the **residual sum of squares** (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
+Take one feature $x$ and a [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) $y$ (the output we predict). Every [**slope**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) $m$ gives a different line, and every line has a total squared error, the [**residual sum of squares**](../ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
 
 **A three-point toy set** shows each quantity with numbers. Here $n = 3$ is the number of observations, $x_i$ the feature of the $i$-th one and $y_i$ its target:
 
@@ -72,7 +72,7 @@ $$D = \sum_{i=1}^{n}(x_i - \bar{x})^2$$
 - $S$ measures how strongly $x$ and $y$ move together. $S$ is positive when $y$ tends to rise with $x$, and negative when it tends to fall.
 - $D$ measures how spread out $x$ is. $D$ is always positive.
 
-So the toy set has $S = 1$ and $D = 2$. With the best **intercept** (G-960) $b = \bar{y} - m\bar{x}$ put in, the error of a point for slope $m$ is $(y_i - \bar{y}) - m(x_i - \bar{x})$. Squaring one error, step by step (write $u = y_i - \bar{y}$ and $v = x_i - \bar{x}$):
+So the toy set has $S = 1$ and $D = 2$. With the best [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) $b = \bar{y} - m\bar{x}$ put in, the error of a point for slope $m$ is $(y_i - \bar{y}) - m(x_i - \bar{x})$. Squaring one error, step by step (write $u = y_i - \bar{y}$ and $v = x_i - \bar{x}$):
 
 $$(u - m v)^2 = u^2 - 2 m u v + m^2 v^2$$
 
@@ -108,7 +108,7 @@ The constant, $\sum (y_i - \bar{y})^2$, does not depend on $m$, so it moves the 
 
 ### 2.2 Adding a penalty moves the lowest point
 
-A **penalty term** (G-1476) is an extra cost for a large slope, added to the squared error. Its strength is $\lambda$.
+A [**penalty term**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) is an extra cost for a large slope, added to the squared error. Its strength is $\lambda$.
 
 | | Penalty | Loss curve (constant left out) |
 |---|---|---|
@@ -135,7 +135,7 @@ A slope of exactly 0 means the feature is no longer used in the prediction. The 
 
 > **Key point:** Because of the absolute value, the derivative is different for m > 0 and m < 0, so the formula comes in cases.
 
-Without a penalty, we set the **derivative** (G-595) of the curve of section 2.1 to zero (its slope is $2Dm - 2S$):
+Without a penalty, we set the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the curve of section 2.1 to zero (its slope is $2Dm - 2S$):
 
 $$2Dm - 2S = 0$$
 
@@ -159,7 +159,7 @@ The penalty does not contain $b$, so differentiating with respect to $b$ gives t
 
 > **Key point:** |m| has no derivative at m = 0, but on each side of 0 it is a simple line.
 
-The **absolute value** (G-159) $|m|$ has a sharp corner at $m = 0$: the corner of the Lasso curve in Figure 1. A curve has no single slope at a corner, so $|m|$ is not **differentiable** (G-606) at $m = 0$. On either side, though, it is simple:
+The [**absolute value**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-159) $|m|$ has a sharp corner at $m = 0$: the corner of the Lasso curve in Figure 1. A curve has no single slope at a corner, so $|m|$ is not [**differentiable**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-606) at $m = 0$. On either side, though, it is simple:
 
 - if $m > 0$, then $|m| = m$;
 - if $m < 0$, then $|m| = -m$.
@@ -345,12 +345,12 @@ Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of [fe
 
 > **Key point:** Lasso's feasible region is a diamond with corners on the axes; the loss rings around the least-squares answer usually touch it first at a corner, where one coefficient is exactly 0.
 
-The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and Lasso can each be written as "make the loss as small as possible while the coefficients stay inside a budget". The budget is a **constraint** (G-456), and the set of coefficients that meet it is the **feasible region** (G-759). With two coefficients and a budget $t$:
+The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and Lasso can each be written as "make the loss as small as possible while the coefficients stay inside a budget". The budget is a [**constraint**](../../07-classification/ML-087-svm-maths/ML-087-svm-maths.md#42-one-constraint-for-both-classes) (G-456), and the set of coefficients that meet it is the [**feasible region**](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759). With two coefficients and a budget $t$:
 
 - **Lasso:** $\lvert b_1\rvert + \lvert b_2\rvert \le t$, a diamond with its corners on the axes.
 - **Ridge:** $b_1^2 + b_2^2 \le t^2$, a circle.
 
-The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the **ordinary least squares** (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468; lines of equal loss, see [reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
+The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the [**ordinary least squares**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468; lines of equal loss, see [reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
 
 Figure 6 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
 
@@ -365,7 +365,7 @@ The corners stick out towards the rings, so the rings often meet a corner first.
 
 > **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
 
-For the example of the earlier Notes, with 100 **observations** (G-1374) (records, one row of the data table each), the computer adds the two sums of section 2.1 over the 100 pairs (input: the 100 values of $x$ and $y$; output: $S = 2416.73$ and $D = 86.85$). So the slope reaches 0 at $\lambda = 2416.73$. One row of the table by hand:
+For the example of the earlier Notes, with 100 [**observations**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each), the computer adds the two sums of section 2.1 over the 100 pairs (input: the 100 values of $x$ and $y$; output: $S = 2416.73$ and $D = 86.85$). So the slope reaches 0 at $\lambda = 2416.73$. One row of the table by hand:
 
 $$\frac{2416.73 - 500}{86.85} = \frac{1916.73}{86.85} = 22.07$$
 

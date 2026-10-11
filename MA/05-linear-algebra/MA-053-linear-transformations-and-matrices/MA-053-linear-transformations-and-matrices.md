@@ -21,7 +21,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-tran
 
 Figure 1 shows the idea of this Note. The whole plane moves: grid lines stay straight, parallel and evenly spaced, and the origin stays put. We only need to know where the two basis vectors land: $\hat{\imath} = [1, 0]$ (one step right) and $\hat{\jmath} = [0, 1]$ (one step up); those four numbers, written as the columns of a matrix, tell us where every other vector goes.
 
-The idea was met in one paragraph in [a matrix is a transformation](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation): a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. It uses the [basis vectors](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors), [linear combinations](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) and [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) taught earlier.
+The idea was met in one paragraph in [a matrix is a transformation](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation): a matrix as an action on the whole plane. This Note explains why it works and how to read any matrix that way. It uses the [basis vectors](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#4-coordinates-are-scalars-basis-vectors), [**linear combinations**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091) and [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) taught earlier.
 
 ## 2. Transformations: functions that move vectors
 
@@ -99,7 +99,7 @@ a formula for where every vector lands. So a 2D linear transformation is complet
 
 > **Key point:** Write where $\hat{\imath}$ lands as the first column and where $\hat{\jmath}$ lands as the second; that $2 \times 2$ grid of numbers is the matrix of the transformation.
 
-We package the four numbers into a $2 \times 2$ **matrix** (G-1180) whose columns are the landed basis vectors:
+We package the four numbers into a $2 \times 2$ [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) whose columns are the landed basis vectors:
 
 $$A = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix}$$
 
@@ -211,7 +211,7 @@ Once a matrix is a transformation, many ML steps become pictures of moving space
 
 > **Key point:** With the data points as the rows of $X$, the product $X A^{\mathsf T}$ applies $A$ to every row at once.
 
-A dataset is a stack of feature vectors, one per **observation** (G-1374) (one record, a row of the table). Each vector holds the values of the **features** (G-772) (the input variables, one column each). The stack is the **data matrix** (G-536) $X$ (the design matrix of [the model in matrix form](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
+A dataset is a stack of feature vectors, one per [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the table). Each vector holds the values of the [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (the input variables, one column each). The stack is the **data matrix** (G-536) $X$ (the design matrix of [the model in matrix form](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), without the column of ones). To transform every point we could loop over the rows and compute $A\mathbf{x}$ for each. NumPy does all of them in one product.
 
 1. **In words:** each row of the result is the transformed version of that row of $X$.
 2. **Formula:** for $n$ points with $d$ features ($X$ is $n \times d$),
@@ -235,7 +235,7 @@ A dataset is a stack of feature vectors, one per **observation** (G-1374) (one r
 
 > **Key point:** Dividing each feature by a number is a diagonal matrix: it stretches or squishes space along the axes only.
 
-Dividing a feature by its standard deviation, the second half of [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
+Dividing a feature by its standard deviation, the second half of [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
 
 $$\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$$
 
@@ -249,10 +249,10 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
 > **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors (directions a matrix stretches without turning, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
 
-- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an **activation function** (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a curve that squeezes a number into 0 to 1) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (a classic problem: the two classes sit at opposite corners of a square) (Goodfellow et al. §6.1).
+- **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an [**activation function**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a curve that squeezes a number into 0 to 1) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (a classic problem: the two classes sit at opposite corners of a square) (Goodfellow et al. §6.1).
 - **PCA** (principal component analysis, a method that rotates the data onto its main directions) projects each point with $Z = XW^{\mathsf T}$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)): a matrix applied to every row, exactly as in Section 7.1.
 
-**A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4 (both rescaled to lie between 0 and 1), so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the **weight** (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the **biases** (G-284):
+**A layer, step by step.** Take an iris flower with petal width 0.5 and sepal width 0.4 (both rescaled to lie between 0 and 1), so $\mathbf{x} = [0.5, 0.4]$, and a first layer with two neurons. Each row of the [**weight**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) matrix $W$ holds one neuron's weights, and $\mathbf{b}$ holds the [**biases**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284):
 
 1. **Transform:** the result is 0.5 times the first column of $W$ plus 0.4 times the second.
    $$W = \begin{bmatrix} -2.5 & 0.6 \cr-1.5 & 0.4 \end{bmatrix}$$
@@ -276,7 +276,7 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
    $$-1.01 + 1.6 = 0.59$$
    $$-0.59 + 0.7 = 0.11$$
-3. **Bend:** the **ReLU** (G-1668) keeps a positive number and turns a negative one into 0, so the output is $[0.59, 0.11]$.
+3. **Bend:** the [**ReLU**](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) keeps a positive number and turns a negative one into 0, so the output is $[0.59, 0.11]$.
 
 Only step 1 is a linear transformation. The weights here are illustrative numbers, not trained ones; a trained network learns them with backpropagation (the method that adjusts the weights to reduce the error; the layer itself is the one in [what one node computes](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)).
 
@@ -328,9 +328,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Linear transformation (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | Matrix (of a transformation) (G-1175) | The grid of numbers that records a linear transformation: its columns are where the basis vectors land, which is enough to find where every vector lands. |
 | Shear (G-1789) | A linear transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, so horizontal lines slide sideways, more the higher they are. |
+| [Linear combination](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091) | A sum of vectors each multiplied by a number, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$; changing the numbers reaches different vectors, and all the vectors it can reach form the span. |
+| [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
 | [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
 | [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |

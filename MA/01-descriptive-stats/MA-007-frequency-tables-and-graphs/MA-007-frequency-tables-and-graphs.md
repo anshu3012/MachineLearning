@@ -20,7 +20,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/frequency-
 
 ![A frequency table drawn three ways: frequency as a bar chart, relative frequency as a pie chart, cumulative frequency as a line chart](images/freq_charts.png)
 
-Summarising data and presenting it in a meaningful way is **descriptive statistics** (G-596). Figure 1 shows the three tables we can build from one categorical feature, each with the chart that suits it. A **feature** (G-772) is one variable of the data, one column of the table; an **observation** (G-1374) is one record, one row of the table.
+Summarising data and presenting it in a meaningful way is [**descriptive statistics**](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596). Figure 1 shows the three tables we can build from one categorical feature, each with the chart that suits it. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the table.
 
 This Note covers:
 
@@ -73,7 +73,7 @@ The **relative frequency** (G-1664) of a category is its proportion, or percenta
 
    That is 30 percent.
 
-The relative frequencies always add up to 1 (100%). Summing to 1 makes them the natural input for a **pie chart** (G-1495), whose slices show each category's share (Figure 1, middle).
+The relative frequencies always add up to 1 (100%). Summing to 1 makes them the natural input for a [**pie chart**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#5-pie-chart) (G-1495), whose slices show each category's share (Figure 1, middle).
 
 ### 2.3 Cumulative frequency
 
@@ -157,7 +157,7 @@ The tallest stack in Figure 4 holds the 67 bills between 15 and 20 dollars; only
 
 In general, a numerical feature such as a bill or an age has no categories to count. So we create them, in three steps:
 
-1. Cut the range into equal intervals, such as 0 to 10, 10 to 20, 20 to 30. Each interval is a **bin** (G-298), also called a bucket.
+1. Cut the range into equal intervals, such as 0 to 10, 10 to 20, 20 to 30. Each interval is a [**bin**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-298), also called a bucket.
 2. Put each person in the bin that holds their age.
 3. Count the people in each bin.
 
@@ -186,8 +186,8 @@ Figure 6 shows six typical shapes.
 ![Six shapes a histogram can take](images/hist_shapes.png)
 
 - **Symmetric:** most values in the middle, fewer and fewer towards both sides.
-- **Bimodal** (G-296): two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two groups mixed together, each with its own centre, such as the heights of children and adults (NIST Handbook §1.3.3.14.5).
-- **Right or left skew:** a long tail on one side; the shapes and the skewness number (how lopsided a distribution is) are taught in [skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness).
+- [**Bimodal**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296): two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two groups mixed together, each with its own centre, such as the heights of children and adults (NIST Handbook §1.3.3.14.5).
+- **Right or left skew:** a long tail on one side; the shapes and the skewness number (how lopsided a distribution is) are taught in [**skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817).
 - **Uniform:** every bin holds about the same number of values. Too few bins also make data look uniform.
 - **No pattern:** the bars jump up and down. Usually there are too many bins for the amount of data, here 30 bins for 60 values.
 
@@ -199,14 +199,14 @@ Named shapes such as the normal and uniform distributions come in the probabilit
 
 > **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
 
-Studying two features together is **bivariate analysis** (G-310); [four datasets for four kinds of plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#2-four-datasets-for-four-kinds-of-plots) maps each pair of feature types to its plots.
+Studying two features together is [**bivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310); [four datasets for four kinds of plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#2-four-datasets-for-four-kinds-of-plots) maps each pair of feature types to its plots.
 
 Figure 7 draws one example of each pair on the Titanic.
 
 ![Left: a contingency table of class against survival, drawn as grouped bars. Middle: three aggregates of age for each sex. Right: a contingency table of age band against sex.](images/two_features.png)
 
-- **Categorical + categorical:** a **contingency table** (G-464), also called a **crosstab** (G-511): the counts for every pair of categories (see [crosstab and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class (Figure 7, left). A side-by-side or stacked bar chart draws it.
-- **Numerical + numerical:** a scatter plot (one dot per observation, with one feature on each axis; see [total bill against tip](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip)). Its pattern can show a positive relation (one rises as the other rises), a negative one, or none, which [correlation](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) measures.
+- **Categorical + categorical:** a [**contingency table**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464), also called a [**crosstab**](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511): the counts for every pair of categories (see [crosstab and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class (Figure 7, left). A side-by-side or stacked bar chart draws it.
+- **Numerical + numerical:** a scatter plot (one dot per observation, with one feature on each axis; see [total bill against tip](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip)). Its pattern can show a positive relation (one rises as the other rises), a negative one, or none, which [**correlation**](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) measures.
 - **Categorical + numerical:** two options, below.
 
 ### 4.1 Categorical and numerical: any aggregate per category
@@ -249,13 +249,13 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 >
 > `pd.cut` puts each age in its band; a band such as (20, 30] includes 30 but not 20.
 
-> **Extra:** A crosstab only counts pairs of categories. A **pivot table** (G-1500) can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; [a pivot table and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) uses one.
+> **Extra:** A crosstab only counts pairs of categories. A [**pivot table**](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) (G-1500) can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; [a pivot table and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) uses one.
 
 ## 5. Graphs for more than two features
 
 > **Key point:** A 3D scatter plot, colour (hue), facet grids, pair plots and bubble charts each fit three or more features into one figure.
 
-Studying more than two features at once is **multivariate analysis** (G-1280). Most of its graphs are bivariate graphs with an extra feature added:
+Studying more than two features at once is [**multivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280). Most of its graphs are bivariate graphs with an extra feature added:
 
 - **Hue** (G-906): colour shows a categorical feature, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three features. See [adding more columns: colour, marker and size](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#32-adding-more-columns-colour-marker-and-size).
 - **Bubble chart:** a scatter plot whose dot size shows a third numerical feature, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section above).
@@ -345,8 +345,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bin](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-298) | One of the equal ranges a histogram splits the data into. |
 | [Histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
 | [Bimodal](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) | A distribution with two peaks. |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Bivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
 | [Contingency table](../../../MA/02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
 | [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
+| [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Pivot table](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) (G-1500) | A grid with one column's values as rows, another's as columns, and a third in the cells. |
 | [Multivariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280) | Studying more than two variables together. |

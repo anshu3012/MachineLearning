@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/features, area/models-2, step/features, st
 
 > **Key point:** dtreeviz draws a trained decision tree with the training data shown inside every node, so we can see why each split was chosen and where a prediction goes.
 
-**dtreeviz** (G-640) is a Python library for visualising **decision trees** (G-561; chains of yes/no questions about the features that end in a prediction, see [nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A **feature** (G-772) is an input variable, one column of the data table; an **observation** (G-1374) is one record, one row of the table.)
+**dtreeviz** (G-640) is a Python library for visualising **decision trees** (G-561; chains of yes/no questions about the features that end in a prediction, see [nested if-else](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) trained with scikit-learn (and with XGBoost, LightGBM, Spark MLlib and TensorFlow Decision Forests; dtreeviz README). Compared with scikit-learn's own tree drawing, dtreeviz adds the following. (A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table; an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the table.)
 
 - real feature and class names at every split;
 - the training data of every node, as histograms (classification) or scatter plots (regression);
@@ -32,7 +32,7 @@ dtreeviz itself draws with Graphviz and matplotlib. The figures below instead re
 
 > **Key point:** scikit-learn's drawing shows feature indexes like x[3] and raw lists of numbers; it is hard to read on a real dataset.
 
-scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or export it with `export_graphviz`. Both produce boxes like those in Figure 1, for a tree of depth 2 trained on the iris data (the iris flowers of [softmax regression](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)).
+scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or export it with `export_graphviz`. Both produce boxes like those in Figure 1, for a tree of depth 2 trained on the iris data (the iris flowers of [**softmax regression**](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts) (G-1833)).
 
 ![The default drawing of a depth-2 iris tree (scikit-learn's export)](images/plain_tree.png){height=32%}
 
@@ -87,12 +87,12 @@ Figure 2 shows the dtreeviz view of the same depth-2 iris tree, rebuilt with Plo
 
 ![The depth-2 iris tree drawn the dtreeviz way: data at every node](images/iris_viz.png){height=58%}
 
-**The root** (the **root node**, G-1706) splits on **petal width** at **0.80**, shown by the black triangle; 0.80 is the split's **threshold** (G-1971). The **histogram** (G-899) of all 150 flowers makes the reason obvious: every setosa flower (blue) has a petal width below 0.8, and every other flower is above it.
+**The root** (the **root node**, G-1706) splits on **petal width** at **0.80**, shown by the black triangle; 0.80 is the split's [**threshold**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#12-binarization) (G-1971). The [**histogram**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) of all 150 flowers makes the reason obvious: every setosa flower (blue) has a petal width below 0.8, and every other flower is above it.
 
 - Left of the threshold, **all 50 setosa** flowers go to a leaf (a **leaf node**, G-1060: a node that is not split further). The leaf's pie is entirely blue: a **pure leaf** (G-1591).
 - Right of it, the **other 100 flowers** go to the next node.
 
-**The second node**, a **decision node** (G-556) like the root, splits the remaining 100 flowers on petal width again, at **1.75**. Here the two colours overlap between about 1.4 and 1.9, so no threshold separates them perfectly. Because `max_depth=2`, the tree stops here and makes two leaves:
+**The second node**, a [**decision node**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#4-terminology) (G-556) like the root, splits the remaining 100 flowers on petal width again, at **1.75**. Here the two colours overlap between about 1.4 and 1.9, so no threshold separates them perfectly. Because `max_depth=2`, the tree stops here and makes two leaves:
 
 - left: **54 flowers**, mostly versicolor (49 versicolor, 5 virginica);
 - right: **46 flowers**, mostly virginica (1 versicolor, 45 virginica).
@@ -114,7 +114,7 @@ Leaves that small are a sign of **overfitting** (G-1429; the tree memorises its 
 
 > **Key point:** For a regression tree, each node shows a scatter plot of its split feature against the output, with the threshold and the mean of each side.
 
-Everything works the same for a **regression tree** (G-1654): we pass the `DecisionTreeRegressor` and give `target_name` (the name of the **target** (G-1949), the output we predict) instead of class names. The nodes then show **scatter plots** (G-1749) instead of histograms.
+Everything works the same for a [**regression tree**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654): we pass the `DecisionTreeRegressor` and give `target_name` (the name of the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict) instead of class names. The nodes then show [**scatter plots**](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) (G-1749) instead of histograms.
 
 Figure 3 shows a regression tree of depth 1 trained on all 506 districts of the Boston housing data (see [a regression tree on the Boston housing data](../ML-093-regression-trees/ML-093-regression-trees.md#7-a-regression-tree-on-the-boston-housing-data)).
 
@@ -198,7 +198,7 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 > **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The **feature importance** (G-764) of a feature (see [feature importance](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance)) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
+The [**feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of a feature (see [feature importance](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance)) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 
@@ -309,6 +309,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview) (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
 | [Gini impurity](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#82-the-formula) (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
 | [Root node](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#4-terminology) (G-1706) | The first node of a tree, holding all the training rows. |
 | [Threshold (binarization)](../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#12-binarization) (G-1971) | The value that separates 0 from 1 in binarization. |

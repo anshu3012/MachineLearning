@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/functional-api, c
 
 > **Key point:** Keras' `Sequential` model is a straight line of layers: one input, one output. The **functional API** connects layers like a graph: a model can have several inputs, several outputs, branches that split and join, and skip connections. Each layer is called on the output of the layer before it, and `keras.Model(inputs, outputs)` collects the graph into a model.
 
-Every network in the deep learning Notes so far, ANN or CNN, was built with Keras' `Sequential` class, a **Sequential model** (G-1776). A Sequential model is a list of layers: data enters the first layer, passes through each layer in turn, and leaves the last. The Keras documentation calls it "appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor" (Keras documentation, The Sequential model); Chollet describes it as "basically a Python list" and therefore "limited to simple stacks of layers" (Chollet and Watson 2025, ch. 7).
+Every network in the deep learning Notes so far, ANN or CNN, was built with Keras' `Sequential` class, a [**Sequential model**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1776). A Sequential model is a list of layers: data enters the first layer, passes through each layer in turn, and leaves the last. The Keras documentation calls it "appropriate for a plain stack of layers where each layer has exactly one input tensor and one output tensor" (Keras documentation, The Sequential model); Chollet describes it as "basically a Python list" and therefore "limited to simple stacks of layers" (Chollet and Watson 2025, ch. 7).
 
 Many useful networks are not straight lines (Figure 1). The pattern of connections between a network's layers is its **topology** (G-1991). This Note introduces the **functional API** (G-818), the Keras way of building them: "The functional API can handle models with non-linear topology, shared layers, and even multiple inputs or outputs" (Keras documentation, The Functional API).
 
@@ -92,7 +92,7 @@ The pattern is always the same: **create a layer, then call it on its input.** F
 
 ![Building the model of Figure 3, one line of code per frame. Each call adds a node (black border) and the edge from its input; the blue number is the layer's parameter count, and the running total reaches 8,898](images/graph_build.gif){height=62%}
 
-The age output uses a linear activation, because age is a number; the place output uses a **sigmoid** (G-1798), because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1); a sigmoid squashes any number into that range.
+The age output uses a linear activation, because age is a number; the place output uses a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798), because it is a probability between 0 and 1 (Delhi = 0, Mumbai = 1); a sigmoid squashes any number into that range.
 
 `model.summary()` shows a fourth column that a Sequential summary does not have: for each layer, the layer it is connected to. It reports 8,898 **parameters** (G-1065, learnable parameters; the weights and biases that training learns) in total (Notebook), the total that Figure 4 builds up. Each layer's count comes from the parameter count of a **dense layer** (G-583; every node connected to every input).
 
@@ -221,7 +221,7 @@ The model combines **transfer learning** (G-2005; [reusing a pretrained network]
 >
 > `conv_base.input` and `conv_base.output` connect the pretrained base into the new graph: the model's input is VGG16's input, and Flatten is called on VGG16's output. The names `"age"` and `"gender"` are used below to give each output its own loss.
 
-For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which a **flatten layer** (G-788) turns into 8,192 numbers. Each branch then has this many parameters:
+For a $128 \times 128$ photo the base outputs $4 \times 4 \times 512$, which a [**flatten layer**](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) turns into 8,192 numbers. Each branch then has this many parameters:
 
 $$(8{,}192 + 1) \times 256 + (256 + 1)$$
 
@@ -261,7 +261,7 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 
 ![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
 
-The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years ([mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error)). The gender output uses **binary cross-entropy** (G-303), the loss for a yes-or-no target with a sigmoid output.
+The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years ([mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error)). The gender output uses [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303), the loss for a yes-or-no target with a sigmoid output.
 
 > **Extra:** The base is frozen and the photos are not augmented, so the base turns each photo into the same 8,192 numbers in every epoch. The Notebook therefore runs every photo through the base once and trains only the two branches on the stored numbers. The model is the same; only the repeated work is skipped.
 

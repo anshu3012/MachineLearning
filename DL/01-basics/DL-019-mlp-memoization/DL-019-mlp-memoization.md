@@ -97,7 +97,7 @@ Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib
 > fib_memo(30, {0: 1, 1: 1})     # 1346269, in 59 calls
 > ```
 >
-> `d` is a **dictionary** (G-603): it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
+> `d` is a [**dictionary**](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#5-reading-the-reply) (G-603): it maps each `n` already computed to its answer. `n in d` checks whether the key is there.
 
 Figure 3 runs fib(5) both ways on the tree of Figure 2, call by call.
 
@@ -204,7 +204,7 @@ Every one of the 6 middle-layer weights follows the same pattern.
 
 Now take $W_{11}^{1}$. The weight changes $O_{11}$, but $O_{11}$ goes **forward along two paths** (Figure 4): into $O_{21}$ (path a) and into $O_{22}$ (path b). Both end at $\hat{y}$.
 
-When a variable affects a function through two intermediate variables, the **chain rule** (G-371) multiplies along each path and **adds the paths** (see [the chain rule with several variables](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables)). A small instance first: $f(x) = x^2$ and $g(x) = 3x$ feed $h(f, g) = f \cdot g$, and we want the slope at $x = 2$. The pieces at $x = 2$, one per line:
+When a variable affects a function through two intermediate variables, the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) multiplies along each path and **adds the paths** (see [the chain rule with several variables](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables)). A small instance first: $f(x) = x^2$ and $g(x) = 3x$ feed $h(f, g) = f \cdot g$, and we want the slope at $x = 2$. The pieces at $x = 2$, one per line:
 
 $$f = 2^2 = 4, \quad g = 3 \times 2 = 6$$
 
@@ -378,7 +378,7 @@ Backpropagation combines two ideas:
 - **The chain rule** (mathematics) says what each derivative is: a sum, over paths, of products of local derivatives.
 - **Memoization** (computer science) computes those derivatives efficiently: each shared piece is computed once, stored and reused, working backwards from the loss.
 
-On the **computation graph** (G-434; a diagram with one node per intermediate value, see [the preview of backpropagation](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation)), this is the **backward pass** (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole **gradient** (G-863) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
+On the **computation graph** (G-434; a diagram with one node per intermediate value, see [the preview of backpropagation](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation)), this is the [**backward pass**](../../04-cnn/DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#1-overview) (G-249): keep every intermediate value going forward, then go backward once, multiplying local derivatives and adding where paths meet. Libraries such as Keras and TensorFlow do this automatically, so the whole [**gradient**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) costs only a small multiple of one forward pass, typically 2 to 3 times (Baydin et al. 2018, §3).
 
 > **Extra:** Storing every activation is why training a network needs much more memory than using it to predict: prediction can throw each layer's outputs away as soon as the next layer is computed, while training must keep them for the backward pass (Chen et al. 2016).
 

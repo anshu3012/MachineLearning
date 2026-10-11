@@ -22,8 +22,8 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 This Note:
 
-- applies a **random forest** (G-1611) to a real dataset, heart disease, and compares it with other algorithms (sections 2 to 4);
-- tunes one **hyperparameter** (G-910), a setting chosen before training, by hand (section 5);
+- applies a [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) to a real dataset, heart disease, and compares it with other algorithms (sections 2 to 4);
+- tunes one [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), a setting chosen before training, by hand (section 5);
 - tunes several at once (the settings are described in [the forest-level hyperparameters](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#3-the-forest-level-hyperparameters)) with the two search methods of Figure 1: **grid search** (G-872, section 6) and randomized search (`RandomizedSearchCV`, G-1625, section 7).
 
 Both searches were introduced earlier: `GridSearchCV` in [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline), and `RandomizedSearchCV` in [tuning with GridSearchCV and RandomizedSearchCV](../ML-093-regression-trees/ML-093-regression-trees.md#72-tuning-with-gridsearchcv-and-randomizedsearchcv). Here we see what a random forest grid looks like, how long it takes, and one trap specific to forests.
@@ -44,7 +44,7 @@ Predicting a class in this way is a classification problem: from the 13 features
 
 ![Accuracy of five classifiers, all with default settings, on one test split and with 10-fold cross-validation](images/model_comparison.png){height=38%}
 
-We train four classifiers with their default settings and score each by its **accuracy** (G-162), the share of patients classified correctly, on the 61 observations of the **test set** (G-1962) (Figure 2, blue):
+We train four classifiers with their default settings and score each by its [**accuracy**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162), the share of patients classified correctly, on the 61 observations of the [**test set**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) (Figure 2, blue):
 
 | Model | Test split | 10-fold cross-validation |
 |---|---|---|
@@ -95,7 +95,7 @@ Figure 4 shows why. Watch the spread of the dots: one fold of about 30 patients 
 
 `max_samples` sets how many training observations each tree gets (see [the four settings](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#31-the-four-settings)). The default, `None`, gives each tree a bootstrap sample as large as the training set.
 
-**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their **correlation between base models** (G-488) is lower, and their mistakes cancel more often in the vote. [Tree-level against node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2).
+**The idea.** When every tree sees a large sample, the samples overlap a lot, so the trees learn much the same thing and make the same mistakes. Averaging copies of the same mistake does not cancel it. Smaller samples overlap less, so the trees differ more: their [**correlation between base models**](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#33-why-more-randomness-helps) (G-488) is lower, and their mistakes cancel more often in the vote. [Tree-level against node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling) gives the formula: the less alike the trees, the lower the forest's variance (ESL §15.2).
 
 **The result.** We change only `max_samples` and score each forest with 10-fold cross-validation, averaged over 20 runs:
 

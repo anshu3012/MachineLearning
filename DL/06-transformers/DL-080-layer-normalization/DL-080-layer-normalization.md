@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/layer-no
 
 > **Key point:** Layer normalisation standardises each observation on its own, across its features, instead of each feature across the batch. In a transformer every word vector is normalised by its own mean and standard deviation, so the padding added to short sentences cannot distort the statistics of real words, as it does with batch normalisation.
 
-The transformer has one component left before its full architecture: normalisation. It uses **layer normalisation** (G-1054; Ba, Kiros and Hinton 2016), not the **batch normalisation** (G-266) of [how batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training). Both standardise values to mean 0 and standard deviation 1 (a spread of about 1 around the mean) and then rescale them with learned numbers $\gamma$ (a multiplier) and $\beta$ (a shift). They differ in which numbers they average over (Figure 1).
+The transformer has one component left before its full architecture: normalisation. It uses **layer normalisation** (G-1054; Ba, Kiros and Hinton 2016), not the [**batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) of [how batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training). Both standardise values to mean 0 and standard deviation 1 (a spread of about 1 around the mean) and then rescale them with learned numbers $\gamma$ (a multiplier) and $\beta$ (a shift). They differ in which numbers they average over (Figure 1).
 
 ![The same batch of 5 observations and 3 nodes. Batch normalisation averages down each column (node); layer normalisation averages along each row (observation)](images/bn_vs_ln.png){width=85%}
 
@@ -34,13 +34,13 @@ The sections below:
 - [How batch normalisation works](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): normalising a node over the mini-batch (a small group of observations), $\gamma$ and $\beta$, moving averages.
 - [The standardization formula](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): $(x - \mu)/\sigma$ gives mean 0 and standard deviation 1.
 - [All words at once, with matrices](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#5-all-words-at-once-with-matrices): one contextual vector per word, of the same size as the embedding (the list of numbers that stands for a word).
-- [Cutting every review to 50 words](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#42-cutting-every-review-to-50-words) (padding reviews to a common length) and [word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings).
+- [Cutting every review to 50 words](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#42-cutting-every-review-to-50-words) (padding reviews to a common length) and [**word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127).
 
 ## 3. Normalisation in deep learning
 
 > **Key point:** We normalise the inputs and the hidden-layer activations so that their values stay in a fixed range. Training becomes more stable and faster.
 
-**Normalisation** (G-1348) transforms data so that it has chosen statistical properties, usually mean 0 and variance 1. **Standardisation** (G-1874; subtract the mean, divide by the standard deviation) is one form; **min-max scaling** (G-1217) into a fixed range is another.
+**Normalisation** (G-1348) transforms data so that it has chosen statistical properties, usually mean 0 and variance 1. **Standardisation** (G-1874; subtract the mean, divide by the standard deviation) is one form; [**min-max scaling**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) into a fixed range is another.
 
 In a neural network we can normalise two things (Figure 2):
 
@@ -88,7 +88,7 @@ The column means of $z_2$ and $z_3$ are 4.4 and 3.8. After batch normalisation e
 
 > **Key point:** Stacking the word vectors of a padded batch and normalising each column mixes the zeros of the padding into every column's statistics.
 
-In a transformer, the normalisation comes right after self-attention, which turns each word's embedding into a contextual vector of the same size. Self-attention can process several sentences at once as a batch, but every sentence in the batch must have the same number of words. Shorter sentences are filled up with **padding** (G-1436): extra positions holding zero vectors.
+In a transformer, the normalisation comes right after self-attention, which turns each word's embedding into a contextual vector of the same size. Self-attention can process several sentences at once as a batch, but every sentence in the batch must have the same number of words. Shorter sentences are filled up with [**padding**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436): extra positions holding zero vectors.
 
 Take a batch of two sentences with 3-number vectors: "hi rahul" (2 words) and "how are you today" (4 words). The first sentence gets two padding rows. The batch is one tensor of shape $(2, 4, 3)$: 2 sentences, 4 positions, 3 numbers per position. Batch normalisation treats each of the 3 numbers as a feature and stacks all 8 positions as rows (the Notebook's example vectors):
 
@@ -224,7 +224,7 @@ The Notebook sets $\beta = [0.1, 0.2, 0.3]$ and gets exactly $[0.1, 0.2, 0.3]$ f
 
 > **Key point:** Each sub-layer of the transformer, self-attention or feed-forward, is followed by "add and norm": LayerNorm(x + Sublayer(x)).
 
-Vaswani et al. (2017, §3.1) put a layer normalisation after each of the two sub-layers of an encoder block, the self-attention and the feed-forward network: "the output of each sub-layer is LayerNorm(x + Sublayer(x))". This step is called **add and norm** (G-172); Figure 7 shows both in one encoder block.
+Vaswani et al. (2017, §3.1) put a layer normalisation after each of the two sub-layers of an encoder block, the self-attention and the feed-forward network: "the output of each sub-layer is LayerNorm(x + Sublayer(x))". This step is called [**add and norm**](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172); Figure 7 shows both in one encoder block.
 
 ![One transformer encoder block. After self-attention and after the feed-forward network, the sub-layer's input is added back (residual connection) and the sum is layer-normalised, word vector by word vector](images/add_norm.png){width=75%}
 
@@ -232,7 +232,7 @@ The $x +$ part, a **residual connection** (G-1681; adding a layer's input back t
 
 With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 parameters: $\gamma$ and $\beta$ for each of the 512 features, all trainable. A `BatchNormalization` layer of the same size holds 2,048, of which 1,024 are the non-trainable moving means and variances (Notebook).
 
-> **Extra:** Two later variations are common. The most common transformer architecture today is the **prenorm** (G-1545) version, which applies the layer norm before the attention and feed-forward sub-layers; the original transformer is the **postnorm** version, with the norm after them (Jurafsky and Martin, SLP3 §7.2–7.3). Current models also often use **RMSNorm** (G-1696; Zhang and Sennrich 2019, §4, Eq. 4), which divides by the root mean square of the vector and skips subtracting the mean (SLP3 §7.2.2 and §7.8).
+> **Extra:** Two later variations are common. The most common transformer architecture today is the [**prenorm**](../DL-086-transformer-end-to-end/DL-086-transformer-end-to-end.md#73-the-optimizer-and-the-warm-up-learning-rate) (G-1545) version, which applies the layer norm before the attention and feed-forward sub-layers; the original transformer is the **postnorm** version, with the norm after them (Jurafsky and Martin, SLP3 §7.2–7.3). Current models also often use **RMSNorm** (G-1696; Zhang and Sennrich 2019, §4, Eq. 4), which divides by the root mean square of the vector and skips subtracting the mean (SLP3 §7.2.2 and §7.8).
 
 ## 8. Summary
 
@@ -277,6 +277,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | RMSNorm (G-1696) | A simpler version of layer normalisation that divides each vector by its root mean square and skips subtracting the mean; many current transformers use it. |
 | $\gamma$ (gain) and $\beta$ (shift) (G-10) | Two numbers per feature that layer normalisation learns in training: after the values are normalised, $\gamma$ rescales them and $\beta$ shifts them. |
 | [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

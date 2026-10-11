@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 > **Key point:** A regression tree asks if-else questions that cut the range of each input into parts, exactly like a classification tree, but each leaf predicts the **mean** of its training outputs, and splits are chosen to minimise the squared error.
 
-Decision trees are mostly used for classification (see [decision trees](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree** (G-1654). As before, the tree reads the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output, here a number).
+Decision trees are mostly used for classification (see [**decision trees**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561)), where the output is a category. The same algorithm also works when the output is a number: a **regression tree** (G-1654). As before, the tree reads the **features** (G-772; input variables, one column each of the data table) of each **observation** (G-1374; one record, one row of the table) and predicts the **target** (G-1949; the output, here a number).
 
 This Note covers:
 
@@ -55,7 +55,7 @@ Figure 1 (right) uses a different input: the hours studied on the day **before**
 - Students in the **3 to 6 hours** range scored high, around 88.
 - Students who studied **more than 6 hours** scored around 59: they were exhausted on exam day.
 
-A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. The line also misses the low group and the tired group. The line's $R^2$ (the share of the marks' variation the line explains, 1 is perfect; see [R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) on these 30 students is only 0.02.
+A straight line through this data is almost flat. For a student who studied 5 hours, it predicts about 65 marks, while every such student scored above 80. The line also misses the low group and the tired group. The line's $R^2$ (the share of the marks' variation the line explains, 1 is perfect; see [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)) on these 30 students is only 0.02.
 
 Whenever the relationship is non-linear like this, a regression tree usually does better than linear regression.
 
@@ -110,7 +110,7 @@ Plotted against the hours, the tree's prediction is a staircase: flat within eac
 
 > **Key point:** We can see the gaps at 3 and 6 by eye; the algorithm needs a rule.
 
-In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". With several inputs, such as hours, CGPA and attendance together, no single graph shows the pattern, so nobody can place the cuts by eye either. The algorithm needs a rule that scores every possible cut. Classification trees use information gain (a score for how much a split makes the groups purer; see [information gain](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain)); regression trees use the squared error.
+In Figure 1 the groups are separated by visible gaps, so we could place the cuts by eye. Real data is continuous, with no gaps, and an algorithm cannot "see". With several inputs, such as hours, CGPA and attendance together, no single graph shows the pattern, so nobody can place the cuts by eye either. The algorithm needs a rule that scores every possible cut. Classification trees use information gain (a score for how much a split makes the groups purer; see [**information gain**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain) (G-946)); regression trees use the squared error.
 
 ### 4.2 Scoring one threshold: the sum of squared errors
 
@@ -118,7 +118,7 @@ In Figure 1 the groups are separated by visible gaps, so we could place the cuts
 
 Take a threshold $t$ between two neighbouring points. The threshold splits the observations into a left group ($x \le t$) and a right group ($x > t$). Each group predicts its own mean. The gap between a point's actual mark and its group's mean is its **residual** (see [the best-fit line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)), its error.
 
-1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the **sum of squared errors (SSE)** (G-1684) of that threshold.
+1. **In words:** square every residual on the left, square every residual on the right, and add them all up. The result is the [**sum of squared errors (SSE)**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) of that threshold.
 2. **Formula:**
    $$\text{SSE}(t) = \sum_{x_i \le t} \left(y_i - \bar y_{\text{left}}\right)^2 + \sum_{x_i > t} \left(y_i - \bar y_{\text{right}}\right)^2$$
 3. **Example:** 5 students with hours 1, 2, 4, 5, 8 and marks 40, 46, 88, 90, 58. Try $t = 3$ (between 2 and 4):
@@ -161,7 +161,7 @@ After the first split, each side is searched again, in exactly the same way, to 
 
 If we never stop, the tree keeps splitting until every training point sits alone in a leaf. The tree then reproduces every training mark exactly but fails badly on new students: overfitting (see [overfitting and bias-variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#4-seeing-bias-and-variance)). We want to separate the groups, not every point.
 
-So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) in [min_samples_split](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split).
+So we set a stopping rule, for example: do not split a node with fewer than 4 observations. In practice a minimum of about 20 to 25 observations per node is a common starting point, depending on the dataset. Such a rule is the hyperparameter `min_samples_split` (or `min_samples_leaf`) in [**min_samples_split**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1221).
 
 ## 5. More than one input
 
@@ -193,9 +193,9 @@ Figure 6 shows the finished tree, grown one level further: each box is a leaf, s
 
 > **Key point:** The same hyperparameters as the classification tree; only the criterion changes, from Gini or entropy to squared or absolute error.
 
-`DecisionTreeRegressor` has exactly the hyperparameters of the classifier (see [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity (how mixed the classes in a node are, measured by Gini or entropy; see [entropy](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy)):
+`DecisionTreeRegressor` has exactly the hyperparameters of the classifier (see [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters)): `splitter`, `max_depth`, `min_samples_split`, `min_samples_leaf`, `max_leaf_nodes`, `min_impurity_decrease` and `max_features`, with the same effects. The difference is the **criterion**, which measures error instead of impurity (how mixed the classes in a node are, measured by Gini or entropy; see [**entropy**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#6-entropy) (G-691)):
 
-- `"squared_error"` (default): the mean squared error, MSE (see [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse)); leaves predict the mean.
+- `"squared_error"` (default): the mean squared error, MSE (see [**mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201)); leaves predict the mean.
 - `"absolute_error"`: the mean absolute error, MAE; leaves predict the **median**, so outliers pull less (ESL §10.6). The `absolute_error` criterion is slower to train: about 1.4 times slower than `squared_error` on the Boston data in the Notebook.
 - `"poisson"`: for counts, such as the number of visits (sklearn UG §1.10.7.2).
 
@@ -338,7 +338,7 @@ Figure 10 shows them for the tuned Boston tree of section 7.2:
 
 Feature importance is useful for **feature selection** (dropping columns to fight the curse of dimensionality; see [the solution: dimensionality reduction](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction)): if we must drop features, the ones with near-zero importance are the first candidates.
 
-> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in [min_impurity_decrease](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease)), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
+> **Extra:** The importance of a feature is computed by adding up, over every node that splits on it, the node's share of the training observations times its impurity decrease (the $\Delta$ of `min_impurity_decrease` in [**min_impurity_decrease**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease) (G-1219)), and then dividing by the total over all features. A single tree is unstable: a small change in the data can give very different splits (ESL §9.2.4), so its importances can change a lot from one training set to another. A random forest averages them over many trees and gives steadier values; in the Notebook, over 30 resampled training sets, the spread of RM's importance drops from 0.20 for one tree to 0.12 for a forest.
 
 ## 8. Summary
 
@@ -394,7 +394,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Feature importance (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
 | n_iter (G-1293) | RandomizedSearchCV's setting for how many hyperparameter combinations it draws at random and tries (default 10); trying a few instead of every combination makes the search much faster. |
 | Variance reduction (G-2077) | The drop in mean squared error from a node to its children; a regression tree uses it to compare splits, as a classification tree uses information gain. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Information gain](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition) (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
 | [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| [min_samples_split](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#44-min_samples_split) (G-1221) | The smallest number of rows a node must hold to be split. |
+| [Entropy](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#61-disorder-and-uncertainty) (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
+| [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
+| [min_impurity_decrease](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#48-min_impurity_decrease) (G-1219) | A tree setting: a split is made only if it makes the nodes purer by at least this much (the smallest weighted impurity decrease allowed). |

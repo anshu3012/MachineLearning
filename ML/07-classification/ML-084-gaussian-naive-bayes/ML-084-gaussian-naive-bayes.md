@@ -54,7 +54,7 @@ $$P(\text{male}) \times P(\text{height} = 185 \mid \text{male})$$
 
 $$\times P(\text{weight} = 170 \mid \text{male})$$
 
-and the same for female. The **prior** (G-1565), the share of each class in the data, is easy: 4 of 8 are male, so:
+and the same for female. The [**prior**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565), the share of each class in the data, is easy: 4 of 8 are male, so:
 
 $$P(\text{male}) = 1/2$$
 
@@ -72,13 +72,13 @@ In Figure 1, watch the gap at 185 cm: counting puts all its probability on the e
 
 > **Key point:** Assume each feature is normally distributed within each class. Estimate the mean and standard deviation, then read off the curve's height at the new value.
 
-Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) **distribution** (G-1343), the bell curve (see [what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
+Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) [**distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343), the bell curve (see [what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
 
 For each class and each feature, three steps:
 
 1. Fit the bell curve: find the **mean** (G-1203, the centre of the curve) and the **standard deviation** (G-1871, how wide it is) of that feature over that class's observations.
-2. Read the height of that class's curve at the new value. This height is the **probability density** (G-1569).
-3. Put the height in place of the counted probability in the Naive Bayes product. In this role the height is the **likelihood** (G-1086) of the value under that class.
+2. Read the height of that class's curve at the new value. This height is the [**probability density**](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569).
+3. Put the height in place of the counted probability in the Naive Bayes product. In this role the height is the [**likelihood**](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) of the value under that class.
 
 **Worked example: the male height curve.** The four male heights are 182.9, 180.4, 170.1 and 180.4 cm. The new person is $x = 185$ cm.
 
@@ -100,7 +100,7 @@ Step 1b, the standard deviation $\sigma$. Take each height's distance from the m
 | 180.4 | 1.95 | 3.80 |
 | Sum | | 97.13 |
 
-Then divide the sum by $n - 1 = 3$ (the [sample variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1) divides by $n - 1$ because the mean was computed from the same four heights) and take the square root:
+Then divide the sum by $n - 1 = 3$ (the [**sample variance**](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1) (G-2229) divides by $n - 1$ because the mean was computed from the same four heights) and take the square root:
 
 $$\sigma = \sqrt{\frac{97.13}{4 - 1}}$$
 
@@ -217,7 +217,7 @@ In Figure 4, watch the gap open: both classes start at 0.5, the height density p
 
 > **Key point:** Many small factors multiplied together can become too small for the computer to store. Taking the log of each factor and adding gives the same winner, with ordinary-sized numbers.
 
-The two scores are already small: $5.5 \times 10^{-4}$ and $1.1 \times 10^{-5}$, with only two features. Every extra feature multiplies in another small density. With hundreds of features the product falls below the smallest number the computer can store and becomes 0 for every class. This failure is **underflow** (G-2036), met before in [the problem with products](../ML-072-log-loss/ML-072-log-loss.md#41-the-problem-with-products).
+The two scores are already small: $5.5 \times 10^{-4}$ and $1.1 \times 10^{-5}$, with only two features. Every extra feature multiplies in another small density. With hundreds of features the product falls below the smallest number the computer can store and becomes 0 for every class. This failure is [**underflow**](../ML-072-log-loss/ML-072-log-loss.md#41-the-problem-with-products) (G-2036), met before in [the problem with products](../ML-072-log-loss/ML-072-log-loss.md#41-the-problem-with-products).
 
 The fix is to take the natural log (written $\ln$) of the score. The log of a product is the sum of the logs, so the multiplication becomes an addition:
 
@@ -259,7 +259,7 @@ Figure 5 keeps the weight at 170 lb and slides the height from 150 to 190 cm. On
 
 ![Sliding the height with the weight fixed at 170 lb. Left: the two height curves and the current height. Right: P(male) for each height. The curve crosses 50% at about 166 cm, the decision boundary](images/height_sweep.gif){height=45%}
 
-Watch the right-hand chart: for short heights the female curve is much higher and P(male) is near 0. Near 166 cm the two scores are equal and P(male) is 50%. Above that the male score wins. The point where the prediction switches is the **decision boundary** (G-555). It sits below the crossing point of the two height curves (about 172 cm) because the weight of 170 lb already favours male 6.4 times.
+Watch the right-hand chart: for short heights the female curve is much higher and P(male) is near 0. Near 166 cm the two scores are equal and P(male) is 50%. Above that the male score wins. The point where the prediction switches is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). It sits below the crossing point of the two height curves (about 172 cm) because the weight of 170 lb already favours male 6.4 times.
 
 ## 7. When the data is not normal
 
@@ -320,6 +320,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
 | [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [Sample variance $s^2$](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version) (G-2229) | The variance computed from a sample, $s^2$: the squared distances from the sample mean, summed and divided by $n - 1$; dividing by $n - 1$ instead of $n$ makes it right on average as an estimate of the population variance. |
 | [Underflow](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#41-the-problem-with-products) (G-2036) | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

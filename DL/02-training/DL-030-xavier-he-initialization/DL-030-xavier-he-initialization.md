@@ -27,8 +27,8 @@ So the spread must be in between.
 
 This Note gives the two standard answers:
 
-- **Xavier initialisation**, also called **Glorot initialisation** (G-850; Xavier Glorot is one person), for **tanh** (G-1947) and **sigmoid** (G-1798);
-- **He initialisation** (G-850), after Kaiming He, for ReLU and its variants.
+- **Xavier initialisation**, also called **Glorot initialisation** (G-850; Xavier Glorot is one person), for [**tanh**](../DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) and [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798);
+- [**He initialisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#63-initialise-the-weights-properly) (G-850), after Kaiming He, for ReLU and its variants.
 
 Each comes in a **normal** version (weights from a **normal distribution**, G-1343) and a **uniform** version (weights from a **uniform distribution**, G-2043), and Keras has all four built in.
 
@@ -42,7 +42,7 @@ The Xavier tanh line still drifts down, from 0.63 at layer 1 to 0.32 at layer 5 
 
 - [The four starts that fail](../DL-029-weight-initialization/DL-029-weight-initialization.md#4-do-not-start-every-weight-at-zero).
 - [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) and [standard deviation](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation): the average squared distance from the mean, and its square root.
-- [Tanh](../DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [ReLU](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu).
+- [Tanh](../DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668).
 
 ## 3. The spread must depend on the number of inputs
 
@@ -57,7 +57,7 @@ Take a hidden layer whose nodes each receive 250 inputs. The layer's 250 × 250 
 - `np.random.randn(250, 250) * 0.01`: weights around $\pm 0.01$. Multiplied by inputs around $\pm 1$ and summed, they give a small $z$, which the activation turns into almost 0.
 - `np.random.randn(250, 250) * 1`: weights mostly between $-3$ and 3. The sum of 250 such products can be anywhere from about $-250$ to 250, and the activation saturates.
 
-The trouble comes from the sum $z = \sum w_i x_i$: its size grows with the number of terms. So no fixed constant works; the scale has to depend on the network's **architecture** (G-209), through the number of inputs to each node.
+The trouble comes from the sum $z = \sum w_i x_i$: its size grows with the number of terms. So no fixed constant works; the scale has to depend on the network's [**architecture**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209), through the number of inputs to each node.
 
 ### 3.2 Fan-in and fan-out
 
@@ -76,7 +76,7 @@ For a Keras `Dense` layer with weight matrix of shape (inputs, nodes), fan-in is
 
 > **Key point:** Many inputs: smaller weights, so the sum stays moderate. Few inputs: larger weights, so the sum is not too small.
 
-The rule is to draw the weights with **variance** (G-2074) $1/n$, where $n$ is the fan-in. The **standard deviation** (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the **standard normal** (G-1873) numbers by.
+The rule is to draw the weights with [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) $1/n$, where $n$ is the fan-in. The [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the [**standard normal**](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) numbers by.
 
 1. **In words:** multiply standard normal numbers by $\sqrt{1/\text{fan-in}}$.
 2. **Formula:**
@@ -102,7 +102,7 @@ Watch the width of each histogram as $n$ grows:
 
 Only the scale that depends on the fan-in gives every layer size a weighted sum of the same size.
 
-> **Extra:** Why exactly $1/n$? Start with one product $w x$, where $w$ and $x$ are independent, each with mean 0. Its variance is the product of the two variances (see [variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable); $E[\cdot]$ is the expected value, the average):
+> **Extra:** Why exactly $1/n$? Start with one product $w x$, where $w$ and $x$ are independent, each with mean 0. Its variance is the product of the two variances (see [**variance of a random variable**](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076); $E[\cdot]$ is the expected value, the average):
 > $$\text{Var}(wx) = E[w^2x^2] - (E[wx])^2$$
 > $$E[w^2x^2] = E[w^2]\thinspace E[x^2]$$
 > $$= \text{Var}(w)\thinspace\text{Var}(x)$$
@@ -235,7 +235,7 @@ We reuse the network of [the weights do not move in Keras](../DL-029-weight-init
 
 - **data:** 300 standardised `make_moons` (G-111) **observations** (G-1374; records), each with two **features** (G-772; input variables) and a class as **target** (G-1949; the output we predict);
 - **network:** four hidden layers of 10 tanh nodes;
-- **training:** plain **SGD** (G-1892) with **learning rate** (G-1068) 0.1, 100 **epochs** (G-696).
+- **training:** plain [**SGD**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) with [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) 0.1, 100 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696).
 
 The 0.01-scale network, started from weights of $0.01 \times$ standard normal, never moved from a loss of 0.6934.
 
@@ -263,7 +263,7 @@ The biases start at 0.
 > model.set_weights(new)
 > ```
 
-The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 6 (left) shows the **decision boundary** (G-555), the line between the two predicted classes, following the moons.
+The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weights move: one first-layer weight goes from 0.58 to 2.04. Figure 6 (left) shows the [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line between the two predicted classes, following the moons.
 
 ### 6.2 With Keras' initialisers
 
@@ -351,10 +351,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Uniform distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
+| [Variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
 | [`make_moons`](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#34-dead-nodes-in-practice) (G-111) | scikit-learn function that generates two interleaving half-moon classes. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

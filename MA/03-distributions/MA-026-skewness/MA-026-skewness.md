@@ -23,9 +23,9 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/skewness]
 
 In Figure 1, each panel is a histogram: the bars count how many observations fall in each range of values, so a tall bar marks a common range. The **tail** is the long thin stretch of bars on one side of the peak. The left panel has a long tail to the left, the middle panel has no long tail, and the right panel has a long tail to the right; the vertical lines mark the mode, median and mean (section 4).
 
-Skewness was introduced in the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (section 10): 0 for a symmetric feature, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper:
+Skewness was introduced in the [**univariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-2050) (section 10): 0 for a symmetric feature, positive for a long right tail, negative for a long left tail, with the formula worked by hand. This Note goes deeper:
 
-- it links skewness to the [normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (section 2);
+- it links skewness to the [**normal distribution**](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) (section 2);
 - it explains why the tail matters (section 3);
 - it shows how the mean, median and mode separate, and why (section 4, Figures 1 and 3);
 - it gives the sample formula that pandas uses (section 5);
@@ -35,18 +35,18 @@ Skewness was introduced in the [univariate analysis](../../../ML/02-getting-data
 
 > **Key point:** A normal distribution is perfectly symmetric; skewness measures the asymmetry, so the larger it is, the less we can treat the data as normal.
 
-A normal distribution is a symmetric bell with a specific formula (see the [normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). **Skewness** (G-1817) is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
+A normal distribution is a symmetric bell with a specific formula (see the [normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). [**Skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
 
 - In a **symmetric** distribution with one peak, the mean, median and mode are equal, and the two tails are equally long.
 - In a **skewed** distribution the mean, median and mode differ, and one tail is longer than the other.
 
-So skewness is a warning light. The more it grows, the less the data looks like a normal distribution, and the less we can rely on the normal distribution's properties (such as the [68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule): about 68, 95 and 99.7 percent of the values lie within 1, 2 and 3 standard deviations of the mean) for that data.
+So skewness is a warning light. The more it grows, the less the data looks like a normal distribution, and the less we can rely on the normal distribution's properties (such as the [**68-95-99.7 rule**](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53): about 68, 95 and 99.7 percent of the values lie within 1, 2 and 3 standard deviations of the mean) for that data.
 
 ## 3. The tail and tail events
 
 > **Key point:** The skew is named after the long tail; a tail event has a very low probability but a very large effect.
 
-**Positive skew** (G-1533), or right skew, has a long right tail and **negative skew** (G-1312), or left skew, a long left tail, as the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
+[**Positive skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1533), or right skew, has a long right tail and [**negative skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1312), or left skew, a long left tail, as the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
 
 A **tail event** (G-1943) is an event with a very low probability of happening that has a huge impact when it does. Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost.
 
@@ -66,9 +66,9 @@ The Titanic fares show the same pattern on real data (Figure 2). Most passengers
 
 The three **measures of central tendency** (G-1205; see the [measures of central tendency](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means)) react differently to a tail:
 
-- the **mode** (G-1251) stays at the peak, where most values are;
+- the [**mode**](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) stays at the peak, where most values are;
 - the **median** moves a little towards the tail, since it only counts values;
-- the **mean** (G-1203) moves furthest, because every extreme value in the tail pulls it.
+- the [**mean**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) moves furthest, because every extreme value in the tail pulls it.
 
 Two pictures explain why the median and the mean part ways (Figure 3):
 
@@ -97,7 +97,7 @@ Figure 4 shows this as the skewness changes smoothly. Each shape keeps its peak 
 
 > **Key point:** Sample skewness is the third moment of the standardized values, with a small correction for sample size; pandas and Excel use this version.
 
-Skewness is the third **statistical moment** (G-1882): where the mean uses the values themselves and the variance their squared distances, skewness uses **cubed** distances (moments are explained in the [kurtosis and Q-Q plots](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments)). Cubing keeps the sign, so values far above the mean push the total up and values far below push it down.
+Skewness is the third [**statistical moment**](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882): where the mean uses the values themselves and the variance their squared distances, skewness uses **cubed** distances (moments are explained in the [kurtosis and Q-Q plots](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments)). Cubing keeps the sign, so values far above the mean push the total up and values far below push it down.
 
 We worked the population version, $g_1$, by hand in the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness). The version in pandas' `skew()` and Excel's `SKEW` is the **sample skewness** (G-1728):
 
@@ -165,7 +165,7 @@ Real data almost never has a skewness of exactly 0, so we need a scale (Figure 6
 
 Two Titanic features show the two ends of the scale:
 
-- **Age**, skewness 0.39: approximately symmetric. Together with its roughly bell-shaped histogram, we may treat it as normal for practical purposes, as the [standard normal distribution](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science) did.
+- **Age**, skewness 0.39: approximately symmetric. Together with its roughly bell-shaped histogram, we may treat it as normal for practical purposes, as the [**standard normal distribution**](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science) (G-1873) did.
 - **Fare**, skewness 4.79: highly skewed, far from normal. A feature like this is a candidate for a **log transform** (G-1112; see the [function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform)).
 
 These cut-offs are a rule of thumb, not a law; they come from Bulmer (1979).
@@ -231,7 +231,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Sample skewness $G_1$ (G-1728) | The skewness formula used on a sample, $G_1$: the average cubed standardized distance from the mean, with a small-sample correction; it measures how lopsided the data is, and it is what pandas' `skew()` returns. |
 | Pearson's skewness coefficient (G-1475) | A simple measure of skew: three times the gap between the mean and the median, divided by the standard deviation, $3(\bar{x} - \text{median})/s$; positive for right skew, negative for left. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
 | [Positive skew (right skew)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1533) | A long tail on the right: a few very large values. |
 | [Negative skew (left skew)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1312) | A long tail on the left: a few very small values. |
 | [Measure of central tendency](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#2-what-central-tendency-means) (G-1205) | A single number for the typical, central value of a column. |
@@ -239,6 +242,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Statistical moments](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882) | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. |
 | [Bessel's correction](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#61-the-sample-version) (G-279) | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. |
+| [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
 | [Log transform](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) (G-1112) | Replacing each value with its logarithm; pulls in a long right tail. |
 | [Uniform distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
 | [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |

@@ -37,7 +37,7 @@ Both are discrete distributions. The distributions of the last few Notes (normal
 
 > **Key point:** Any random experiment with exactly two outcomes, coded 1 (success) and 0 (failure), follows a Bernoulli distribution with one parameter $p$.
 
-Recap: the **Bernoulli distribution** (G-275) describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see [the Bernoulli distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution)). The distribution is named after the Swiss mathematician Jacob Bernoulli, whose book *Ars Conjectandi* (Bernoulli 1713) studied it.
+Recap: the [**Bernoulli distribution**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) describes one trial with two outcomes, 1 with probability $p$ and 0 with probability $1 - p$; its only parameter is $p$ (see [the Bernoulli distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution)). The distribution is named after the Swiss mathematician Jacob Bernoulli, whose book *Ars Conjectandi* (Bernoulli 1713) studied it.
 
 Three experiments with a binary outcome:
 
@@ -88,11 +88,11 @@ Many ML problems predict a yes/no outcome:
 - is an email spam or not;
 - does a patient have a certain disease or not.
 
-The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a **binary classifier** (G-302) such as **logistic regression** (G-1120) estimates its $p$ for every observation. The Bernoulli variant of **Naive Bayes** (G-1297) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
+The **target** (G-1949; the output we predict) of each **observation** (G-1374; one record, one row of the data table) is a Bernoulli variable, and a [**binary classifier**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#7-what-a-perceptron-does-geometrically) (G-302) such as [**logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) estimates its $p$ for every observation. The Bernoulli variant of [**Naive Bayes**](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) assumes that each **feature** (G-772; an input variable, one column of the data table) is a Bernoulli variable, such as "this word is present or not": each feature "is assumed to be a binary-valued (Bernoulli, boolean) variable" (scikit-learn §1.9.4; see also [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
 
 > **Extra:** Only a two-class target is Bernoulli. A target with three or more classes (Delhi, Mumbai, Chennai) follows the **categorical distribution** (G-352), the many-outcome version of Bernoulli (Murphy 2012, §2.3.2, which calls it the multinoulli distribution).
 
-> **Extra:** The mean of a Bernoulli variable is $p$ (the expected value $E[X]$, the long-run average; see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Its variance is $p(1 - p)$: by [the shortcut formula](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#43-the-shortcut-formula) $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is:
+> **Extra:** The mean of a Bernoulli variable is $p$ (the expected value $E[X]$, the long-run average; see [**expected value**](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725)). Its variance is $p(1 - p)$: by [the shortcut formula](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#43-the-shortcut-formula) $E[X^2] - (E[X])^2$, and since $X^2 = X$ for 0 and 1, the variance is:
 >
 > $$p - p^2 = p(1 - p)$$
 >
@@ -294,7 +294,7 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 - **Naive Bayes.** Its variants assume a distribution for the features: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
 - **Majority voting.** The number of correct models in a voting ensemble is binomial (see [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability)).
 - **Hypothesis testing.** Tests compute the probability of a number of successes in $n$ trials, assuming a claim (the **null hypothesis**, G-1361) is true.
-- **Logistic regression and A/B testing** (G-157). Logistic regression models the success probability of each observation; an A/B test compares the success counts of two versions of a page, such as two button colours.
+- [**Logistic regression and A/B testing**](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#102-ab-testing) (G-157). Logistic regression models the success probability of each observation; an A/B test compares the success counts of two versions of a page, such as two button colours.
 
 ## 9. Summary
 
@@ -348,6 +348,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Null hypothesis ($H_0$)](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
 | [A/B testing](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#102-ab-testing) (G-157) | Comparing an old and a new version, of a model or a web page, by showing each to a random half of the users at the same time, to see which one does better. |

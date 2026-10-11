@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/features, area/production, step/split, ste
 
 This Note walks through a complete ML project on a tiny, clean dataset. Real projects use much larger and messier data, and later Notes cover each step in depth. Here the aim is to see the whole process once, from data to website.
 
-**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. Each student is one **observation** (G-1374; one record, one row of the data table). CGPA and IQ are the **features** (G-772; the input variables, one column each). Placement is the **target** (G-1949; the output we want to predict). We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The target is a category, so the task is a **classification** (G-395) problem.
+**The task:** we have the CGPA, IQ and placement result (placed or not) of 100 students. Each student is one **observation** (G-1374; one record, one row of the data table). CGPA and IQ are the **features** (G-772; the input variables, one column each). Placement is the **target** (G-1949; the output we want to predict). We want a model that, given a new student's CGPA and IQ, predicts whether they will be placed. The target is a category, so the task is a [**classification**](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) problem.
 
 ## 2. The workflow
 
@@ -64,7 +64,7 @@ The data is a **CSV file** (G-513; comma-separated values): a plain text table, 
 >
 > **pandas** is the main Python library for tables. A table in pandas is called a **DataFrame** (G-1441), usually named `df`.
 
-The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no **missing values** (G-1234) to fix.
+The table has four columns: `Unnamed: 0`, `cgpa`, `iq` and `placement`. `df.info()` shows 100 non-missing values in every column, so there are no [**missing values**](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) to fix.
 
 The first column, `Unnamed: 0`, is just a row number (the crossed-out grey column of Figure 3, section 5) left over from how the file was saved. The column carries no information, so we drop it:
 
@@ -89,7 +89,7 @@ Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. A linear split (one straight line) makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
+The two groups could be separated, roughly, by a straight line. A linear split (one straight line) makes [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
 
 ## 5. Inputs and output
 
@@ -107,7 +107,7 @@ We separate the table into (Figure 3):
 > y = df.iloc[:, -1]    # the last column: placement
 > ```
 >
-> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,): in the language of [tensors](../ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices), X is a 2D tensor (a matrix, a table of numbers) and y a 1D tensor (a vector, a list of numbers).
+> `0:2` means positions 0 and 1 (the end, 2, is not included). `-1` means the last column. X has shape (100, 2) and y has shape (100,): in the language of [**tensors**](../ML-010-tensors/ML-010-tensors.md#31-scalars-vectors-and-matrices) (G-1957), X is a 2D tensor (a matrix, a table of numbers) and y a 1D tensor (a vector, a list of numbers).
 
 ![The first 5 of the 100 rows. The leftover row-number column is dropped (section 3); `cgpa` and `iq` form X, `placement` forms y](images/xy_split.png){width=85%}
 
@@ -151,7 +151,7 @@ So we **scale** the features: bring every feature to a similar range. A common m
 
 ![CGPA and IQ before and after scaling](images/scaling.png)
 
-Figure 5 draws each feature as dots, one per student, on top of a [box plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot): the box holds the middle half of the students, the line inside it is the median, and the whiskers reach out to the farthest students that are not unusually far from the box (the two dots past the right IQ whisker are such unusual values). On the left the CGPA box is squeezed into a thin stripe near 6 while the IQ box spans about 95 to 145; on the right both boxes sit around 0 with similar widths.
+Figure 5 draws each feature as dots, one per student, on top of a [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329): the box holds the middle half of the students, the line inside it is the median, and the whiskers reach out to the farthest students that are not unusually far from the box (the two dots past the right IQ whisker are such unusual values). On the left the CGPA box is squeezed into a thin stripe near 6 while the IQ box spans about 95 to 145; on the right both boxes sit around 0 with similar widths.
 
 Standardization on one student, step by step. On the 90 training students, the CGPA column has an average of 5.98 and a typical spread (the **standard deviation**, G-1871) of 1.10; the IQ column has an average of 121.99 and a spread of 38.91. Take the student with CGPA 5.2 and IQ 110. Each value loses its column's average and is then divided by the column's spread:
 
@@ -175,7 +175,7 @@ The student is now (−0.71, −0.31): both numbers are on the same scale, and b
 >
 > `fit` learns each column's mean and standard deviation; `transform` applies the scaling. The scaler learns only from the training set, then applies the same numbers to the test set.
 
-> **Extra:** Why fit the scaler on the training set only? If the scaler also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called **data leakage** (G-535) (scikit-learn User Guide, "Common pitfalls"; Kaufman et al. 2012).
+> **Extra:** Why fit the scaler on the training set only? If the scaler also learned from the test set, information about the test students would leak into training, and the test would no longer be a fair check on unseen data. This mistake is called [**data leakage**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) (scikit-learn User Guide, "Common pitfalls"; Kaufman et al. 2012).
 
 ## 8. Training the model
 
@@ -192,11 +192,11 @@ The student is now (−0.71, −0.31): both numbers are on the same scale, and b
 >
 > In scikit-learn, every model is trained the same way: create it, then call `fit(inputs, outputs)`. `clf` is a common name for a classifier.
 
-What does `fit` (G-84) do inside? First, what the model is. For each student, logistic regression forms one **score** from three numbers it learns, the **weights** (G-2106): one for CGPA, one for IQ, and a starting value $b$ (the bias). The score is
+What does `fit` (G-84) do inside? First, what the model is. For each student, logistic regression forms one **score** from three numbers it learns, the [**weights**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106): one for CGPA, one for IQ, and a starting value $b$ (the bias). The score is
 
 $$z = w_1 \times \text{scaled CGPA} + w_2 \times \text{scaled IQ} + b$$
 
-and the **probability** of *placed* is the [sigmoid function](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) of the score, an S-shaped curve:
+and the **probability** of *placed* is the [**sigmoid function**](../../07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) of the score, an S-shaped curve:
 
 $$\text{probability} = \frac{1}{1 + e^{-z}}$$
 
@@ -353,9 +353,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
 | [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Data preprocessing (preprocessing)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#51-why-raw-data-cannot-go-straight-into-a-model) (G-539) | Cleaning and preparing the data before training, so an algorithm can use it. |
 | [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |

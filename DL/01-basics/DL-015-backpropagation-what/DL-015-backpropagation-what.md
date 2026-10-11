@@ -35,7 +35,7 @@ Figure 1 runs the whole algorithm once, for one student. The rest of this Note b
 ## 2. Prerequisites
 
 - [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$ (each parameter $w$ moves against its derivative of the loss $L$, by the learning rate $\eta$).
-- [Forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how a network makes a prediction.
+- [**Forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) (G-797): how a network makes a prediction.
 - [Naming the weights, biases and outputs](../DL-008-mlp-notation/DL-008-mlp-notation.md#5-naming-weights): $W_{ij}^{k}$, $b_{kj}$, $O_{kj}$ (section 3 shows each with a value).
 - [The chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule).
 
@@ -188,7 +188,7 @@ The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradient
 
 A derivative $dy/dx$ measures how much $y$ changes when $x$ changes a little (see [the derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero)). The symbol $\partial$ marks a partial derivative: the others are held fixed. So $\partial L/\partial W_{11}^{2}$ asks: if we nudge $W_{11}^{2}$, how much does the loss move?
 
-$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The **chain rule** (G-371) handles exactly this: multiply the two rates (see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)):
+$W_{11}^{2}$ does not appear in $L$ directly. A change in $W_{11}^{2}$ changes $\hat{y}$, and the change in $\hat{y}$ changes $L$. The [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) handles exactly this: multiply the two rates (see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)):
 
 $$\frac{\partial L}{\partial W_{11}^{2}} = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial W_{11}^{2}}$$
 
@@ -258,7 +258,7 @@ Here $x_{i1}$ and $x_{i2}$ are the CGPA and profile score of the student $i$ bei
 
 Read all nine together:
 
-- The first factor, $-2(y - \hat{y})$, is the same in all of them. We compute it once, store it, and reuse it. Storing an answer so it is never computed twice is called **[memoization](../DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers)** (taught in full later).
+- The first factor, $-2(y - \hat{y})$, is the same in all of them. We compute it once, store it, and reuse it. Storing an answer so it is never computed twice is called **[**memoization**](../DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210)** (taught in full later).
 - The next factor depends on where the parameter sits: the hidden output it multiplies ($O_{11}$, $O_{12}$), or, one layer further back, the weight that carries its node's output forward ($W_{11}^{2}$, $W_{21}^{2}$).
 - The last factor is the input the weight multiplies ($x_{i1}$, $x_{i2}$, $O_{11}$, $O_{12}$), or 1 for a bias.
 
@@ -382,7 +382,7 @@ One student moved the weights a little. Training repeats the steps:
      b. compute the loss;
      c. compute the 9 derivatives and update all 9 parameters.
    - compute the average loss of the epoch.
-3. **Stop** after a fixed number of epochs, or at **convergence** (G-472): when the loss stops falling.
+3. **Stop** after a fixed number of epochs, or at [**convergence**](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472): when the loss stops falling.
 
 In the first epoch the four students give losses of 13.54, 21.29, 30.43 and 40.12, an average of 26.35. Each update helps the next prediction a little; the predictions rise from 0.32 to 0.67 over the four students. The losses still grow from student to student because each student's real package is larger (4 up to 7 LPA) while every prediction is still below 1. Running the outer loop 100 or 1,000 times brings the predictions close to the real packages, as [the regression code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#43-training) shows.
 
@@ -436,6 +436,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Gradient (of the loss) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
 | [Convergence (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472) | The point where the fills hardly change between two iterations. |
 | [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
 | [Linear activation](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node) (G-1089) | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |

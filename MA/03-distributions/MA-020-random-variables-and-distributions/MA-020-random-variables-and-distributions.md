@@ -51,7 +51,7 @@ Statistics and probability use a different kind of variable. A **random variable
 
 > **Key point:** A random experiment has an outcome we cannot predict; the random variable writes its outcomes as numbers.
 
-A **random experiment** (G-1610) is any experiment whose outcome is random: tossing a coin, rolling a die, picking a student and asking their CGPA. Figure 2 turns three such experiments into random variables.
+A [**random experiment**](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#21-random-experiment) (G-1610) is any experiment whose outcome is random: tossing a coin, rolling a die, picking a student and asking their CGPA. Figure 2 turns three such experiments into random variables.
 
 ![Three random experiments and their random variables](images/random_variable.png)
 
@@ -80,7 +80,7 @@ The difference decides which function describes the variable (Figure 1): a PMF f
 
 > **Key point:** A probability distribution lists every possible outcome of a random variable with its probability, like a frequency table with probabilities in place of counts.
 
-A **probability distribution** (G-1571) is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the [frequency distribution table](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table), with probabilities instead of counts.
+A **probability distribution** (G-1571) is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the [**frequency distribution table**](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table) (G-807), with probabilities instead of counts.
 
 **Coin toss.** Two outcomes, equally likely:
 
@@ -173,7 +173,7 @@ The unbroken curve is what a histogram turns into. Measure many students and sta
 - **Any range.** The curve gives the probability of a CGPA between 7.021 and 7.317 as easily as between 7 and 8; a histogram can answer only for whole bins.
 - **Little data is enough.** A curve needs only a few numbers, such as a mean (the average) and a standard deviation (how far values typically lie from the mean; see [standard deviation](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term)), which are the parameters of section 8, and those can be estimated from a small sample.
 
-The two graphs also differ in what the height means. For the die, the height is a probability. For the CGPA curve the y axis is labelled **probability density** (G-1569), which is not a probability; [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) explains why.
+The two graphs also differ in what the height means. For the die, the height is a probability. For the CGPA curve the y axis is labelled [**probability density**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), which is not a probability; [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) explains why.
 
 ### 5.1 PMF, PDF and CDF
 
@@ -181,9 +181,9 @@ The two graphs also differ in what the height means. For the die, the height is 
 
 The probability distribution function is the umbrella term for three functions (Figure 1):
 
-- **Probability mass function (PMF)** (G-1572): the probability distribution function of a **discrete** random variable, such as the die.
-- **Probability density function (PDF)** (G-1568): the probability distribution function of a **continuous** random variable, such as the CGPA.
-- **Cumulative distribution function (CDF)** (G-515): built from either of them; it gives the probability that the variable is **at most** $x$.
+- [**Probability mass function (PMF)**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572): the probability distribution function of a **discrete** random variable, such as the die.
+- [**Probability density function (PDF)**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568): the probability distribution function of a **continuous** random variable, such as the CGPA.
+- [**Cumulative distribution function (CDF)**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515): built from either of them; it gives the probability that the variable is **at most** $x$.
 
 "PDF" is ambiguous: both "probability **distribution** function" and "probability **density** function" shorten to it. In these Notes, **PDF always means the density function**; the distribution function is always written in full.
 
@@ -199,7 +199,7 @@ When people in many fields (science, medicine, engineering, economics) plotted t
 - **Continuous:** normal, uniform, log-normal, exponential.
 - **Others** we will meet later: beta, chi-square, Pareto.
 
-When we plot the distribution of a real **feature** (G-772; one variable of the data, one column of the table), there is a good chance it resembles one of these. The **normal distribution** (G-1343) is the most famous; the [68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) was already used to find outliers. The binomial distribution appeared in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability). Each named distribution gets its own Note later.
+When we plot the distribution of a real **feature** (G-772; one variable of the data, one column of the table), there is a good chance it resembles one of these. The [**normal distribution**](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) is the most famous; the [**68-95-99.7 rule**](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) was already used to find outliers. The binomial distribution appeared in [why voting works](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability). Each named distribution gets its own Note later.
 
 ## 7. Why distributions matter
 
@@ -230,7 +230,7 @@ Figure 7 turns the two knobs of the normal distribution:
 
 Different distributions have different sets of parameters. Whenever we study a distribution, we study what each of its parameters does.
 
-The word "parameter" is the same as in [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind [density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is).
+The word "parameter" is the same as in [parameters and statistics](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics), where a parameter is a number that describes the population. The two meanings meet: if a population is normal, its mean $\mu$ and standard deviation $\sigma$ are exactly the knobs of its normal curve. Estimating those knobs from a sample is the idea behind [**density estimation**](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586).
 
 ## 9. Summary
 
@@ -277,9 +277,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Parameters (of a distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
 | [Random experiment](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#21-random-experiment) (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
 | [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| [Frequency distribution table](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table) (G-807) | A table of each value or category with the number of times it occurs. |
 | [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
 | [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
 | [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586) | Working out, from observed data, how likely each value of a random variable is: estimating its probability density function (PDF). |

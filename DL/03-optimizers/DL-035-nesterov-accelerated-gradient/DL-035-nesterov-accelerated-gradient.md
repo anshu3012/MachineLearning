@@ -66,7 +66,7 @@ from $w = -10$ with **learning rate** (G-1068; the size of each step) 0.1.
 - **Settling is slow.** With $\beta = 0.9$ the weight shoots 6.04 past the minimum and keeps swinging until step 81, later than plain gradient descent (step 44).
 - **A smaller $\beta$ swings less.** With $\beta = 0.5$ there is no overshoot at all and the run settles by step 15.
 
-Lowering the **decay factor** (G-553) $\beta$ tames the swings, at the cost of some speed at the start (9 steps instead of 5 to get near). On the more complex, non-convex losses of neural networks (**non-convex functions**, G-1333) the **oscillations** (G-1410) cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
+Lowering the [**decay factor**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#7-the-role-of-beta) (G-553) $\beta$ tames the swings, at the cost of some speed at the start (9 steps instead of 5 to get near). On the more complex, non-convex losses of neural networks (**non-convex functions**, G-1333) the **oscillations** (G-1410) cost even more time. NAG offers another fix: keep the speed, and reduce the oscillations.
 
 ## 4. Two pushes at once, or one after the other
 
@@ -76,7 +76,7 @@ Write momentum's update in one line by putting $v_t$ into $w_{t+1} = w_t - v_t$:
 
 $$w_{t+1} = w_t - \beta\thinspace v_{t-1} - \eta\thinspace\nabla L(w_t)$$
 
-Each step has two parts: the push of the past **velocity** (G-2085), $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace\nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
+Each step has two parts: the push of the past [**velocity**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) (G-2085), $\beta v_{t-1}$, and the push of the current gradient, $\eta\thinspace\nabla L(w_t)$. Plain gradient descent has only the second. Momentum computes both at the current point $w_t$ and applies them together.
 
 NAG changes only **where the gradient is computed**. NAG first applies the momentum part alone, which takes it to a **look-ahead point** (G-1127). It computes the gradient there and then moves on, or back, according to that gradient (Goodfellow et al. 2016, §8.3.3).
 
@@ -152,13 +152,13 @@ Figure 5 (left) and Figure 1 measure the effect (Notebook):
 
 > **Key point:** The damping that removes overshooting also removes some of the extra push. Where momentum rolls out of a small local minimum, NAG can stay stuck in it.
 
-Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the **local minimum** (G-1110).
+Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110).
 
 Figure 5 (right) shows exactly this on the [curve with a small dip](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting):
 
 $$L(w) = \frac{(w^2 - 4)^2}{8} - 0.6w$$
 
-With the same settings, momentum ends in the **global minimum** (G-848) near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
+With the same settings, momentum ends in the [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) near $w = 2.14$ and NAG in the local one near $-1.83$. Over 12 settings (two starts, three learning rates, two values of $\beta$), momentum reached the global minimum in 8 and NAG in 4, and NAG never escaped where momentum did not (Notebook). On such losses another optimizer may do better.
 
 ## 8. NAG on real data: MNIST
 
@@ -168,7 +168,7 @@ We repeat the [momentum experiment on **MNIST**](../DL-034-sgd-with-momentum/DL-
 
 - **data:** 10,000 training images, each with 784 pixel **features** (G-772; input variables) and the digit as **target** (G-1949; the output we predict), and the 10,000 test images for validation (checking accuracy on images the network did not train on);
 - **network:** hidden layers of 128 and 64 **ReLU** (G-1668; each node outputs its input if positive, else 0) nodes and a softmax output (10 probabilities, one per digit);
-- **training:** learning rate 0.01, **batch size** (G-267) 64, 20 **epochs** (G-696), 3 seeds.
+- **training:** learning rate 0.01, [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64, 20 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), 3 seeds.
 
 Only `nesterov` changes, at $\beta = 0.9$ and at $\beta = 0.99$.
 

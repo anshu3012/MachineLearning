@@ -261,14 +261,14 @@ The matrix $X^{\mathsf T}X$ of [the normal equation](../../../ML/06-regression/M
 
 > **Key point:** The signs of the Hessian's eigenvalues give the shape near a flat point: all positive is a bowl (minimum), all negative a cap (maximum), mixed signs a saddle.
 
-**Why the shape matters.** Training a model means finding the lowest point of a loss. At the lowest point the tangent plane is flat: the gradient is zero. A point with zero gradient is a **stationary point** (G-1879). A flat tangent plane is not enough, though. The top of a hill is flat too, and so is the middle of a horse's saddle. The second derivatives tell the three apart.
+**Why the shape matters.** Training a model means finding the lowest point of a loss. At the lowest point the tangent plane is flat: the gradient is zero. A point with zero gradient is a [**stationary point**](../../07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) (G-1879). A flat tangent plane is not enough, though. The top of a hill is flat too, and so is the middle of a horse's saddle. The second derivatives tell the three apart.
 
 **Slices.** Cut the surface with a vertical plane through the point. The cut is a curve of one variable, and its second derivative says whether that slice bends up or down. Take $f = x^2 - y^2$ at the origin, where the gradient $[2x, -2y]$ is zero.
 
 - The slice along $x$ (keep $y = 0$) is $x^2$: it bends up, so from this side the point looks like a minimum.
 - The slice along $y$ (keep $x = 0$) is $-y^2$: it bends down, so from this side the point looks like a maximum.
 
-The two directions disagree. Such a point is a **saddle point** (G-1718): neither a minimum nor a maximum. A curve of one variable cannot do this, because it has only one direction. Figure 6 turns the slicing plane through every direction. Walk a distance $s$ from the origin in the direction at angle $\theta$ to the $x$-axis; the point reached is $x = s\cos\theta$, $y = s\sin\theta$. Along this slice, one step per line:
+The two directions disagree. Such a point is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718): neither a minimum nor a maximum. A curve of one variable cannot do this, because it has only one direction. Figure 6 turns the slicing plane through every direction. Walk a distance $s$ from the origin in the direction at angle $\theta$ to the $x$-axis; the point reached is $x = s\cos\theta$, $y = s\sin\theta$. Along this slice, one step per line:
 
 $$f = x^2 - y^2 = s^2\cos^2\theta - s^2\sin^2\theta$$
 

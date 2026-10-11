@@ -26,7 +26,7 @@ Figure 1 is a flow chart: start at the top box, answer each question, and follow
 
 > **Key point:** One typical value that summarises where a feature's values sit.
 
-A **measure of central tendency** (G-1205) is a statistical measure that represents a typical, central value of a dataset. A **feature** (G-772) is one variable of the data, one column of the table, and an **observation** (G-1374) is one record, one row. A measure of central tendency summarises a whole feature with the single value that best represents it.
+A **measure of central tendency** (G-1205) is a statistical measure that represents a typical, central value of a dataset. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table, and an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row. A measure of central tendency summarises a whole feature with the single value that best represents it.
 
 Take the `Age` feature of 1,000 passengers. Reading 1,000 ages tells us little. One number for where the ages are centred tells us a lot: "the average salary", "the average package", "a batsman's average" are all such numbers.
 
@@ -36,7 +36,7 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 > **Key point:** The mean is the sum of the values divided by how many there are; it uses every value, so one extreme value can drag it far away.
 
-Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the **mean** (G-1203). We find it in two steps, and [count, mean, standard deviation, minimum and maximum](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) in code covers it too.
+Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the [**mean**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203). We find it in two steps, and [count, mean, standard deviation, minimum and maximum](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) in code covers it too.
 
 Figure 2 draws the five scores as equal weights on a beam. The orange triangle marks the one place where the beam balances.
 
@@ -186,7 +186,7 @@ The mode is most useful for:
 
 For a continuous feature, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
 
-If two values tie for the highest count, both are modes. Data with two modes is **bimodal** (G-296) (two peaks, as in [how normal each feature is](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature)); with more, it is **multimodal** (G-1275).
+If two values tie for the highest count, both are modes. Data with two modes is [**bimodal**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) (two peaks, as in [how normal each feature is](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature)); with more, it is **multimodal** (G-1275).
 
 > **Python:** The mode.
 >
@@ -324,7 +324,7 @@ When there are no outliers, the mean is the better summary: it uses every value,
 >   The geometric mean factor, 1.2845, is an average growth of 28.45% a year. The ordinary mean, 30%, is wrong:
 >
 >   $$1.3 \times 1.3 = 1.69 \ne 1.65$$
-> - **Harmonic mean** (G-880) for rates such as speeds: $n$ divided by the sum of the reciprocals of the values.
+> - [**Harmonic mean**](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#42-why-the-harmonic-mean) (G-880) for rates such as speeds: $n$ divided by the sum of the reciprocals of the values.
 >
 >   $$\frac{n}{1/x_1 + \dots + 1/x_n}$$
 >

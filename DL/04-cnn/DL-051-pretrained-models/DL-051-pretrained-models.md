@@ -58,7 +58,7 @@ An everyday analogy: to get from one city to another we do not build our own car
 
 > **Key point:** Around 2006 most research went into new algorithms; Fei-Fei Li bet that a very large, well-labelled dataset was just as important.
 
-In the mid-2000s, most machine learning research focused on models and algorithms. The computer scientist Fei-Fei Li argued that the data mattered just as much: algorithms can only be compared, and improved, on a large and well-labelled dataset. Her group began building **ImageNet** (G-920), and the first ImageNet paper appeared in 2009 (Deng et al. 2009).
+In the mid-2000s, most machine learning research focused on models and algorithms. The computer scientist Fei-Fei Li argued that the data mattered just as much: algorithms can only be compared, and improved, on a large and well-labelled dataset. Her group began building [**ImageNet**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920), and the first ImageNet paper appeared in 2009 (Deng et al. 2009).
 
 ### 4.2 What it contains
 
@@ -134,13 +134,13 @@ The networks also grew deeper every year: 8 layers with weights in AlexNet, 16 a
 
 In 2012, Alex Krizhevsky, Ilya Sutskever and Geoffrey Hinton entered a deep CNN, later called **AlexNet** (G-187) (Krizhevsky et al. 2012). [The history of 2012](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) tells why this was a turning point. Three things made it work at that scale:
 
-- **GPUs** (G-856). The network was trained on two NVIDIA GTX 580 graphics cards, which do the matrix arithmetic of a CNN far faster than a CPU (Krizhevsky et al. 2012, §1).
-- **ReLU.** (G-1668) AlexNet used the ReLU activation, $\max(0, x)$, instead of tanh (an S-shaped activation function). On the CIFAR-10 dataset, a network with ReLU reached 25% training error six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1 and Figure 1). See [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh).
+- [**GPUs**](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856). The network was trained on two NVIDIA GTX 580 graphics cards, which do the matrix arithmetic of a CNN far faster than a CPU (Krizhevsky et al. 2012, §1).
+- [**ReLU.**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) AlexNet used the ReLU activation, $\max(0, x)$, instead of tanh (an S-shaped activation function). On the CIFAR-10 dataset, a network with ReLU reached 25% training error six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1 and Figure 1). See [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) and [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) (G-1947).
 - **Less overfitting.** AlexNet used **dropout** (G-639; [switching nodes off at random during training](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off)) and **data augmentation** (G-531; [making extra training photos by flipping, shifting or rotating the originals](../DL-050-data-augmentation/DL-050-data-augmentation.md#4-the-transformations)).
 
 ![AlexNet: five convolution layers (blue), three max-pooling layers (orange), two dense layers of 4,096 nodes (green) and a third dense layer, the 1,000-way softmax output (red; a layer giving one probability for each of the 1,000 classes). Under each layer: the size of its output](images/alexnet.png){width=100%}
 
-Figure 4 shows the layers from left to right, each as a box labelled with the size of its output (Krizhevsky et al. 2012, §3.5). Every size in it follows from the [output-size formula](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides). The first convolution and every max pooling use no padding, so the formula below drops $p$. The later convolutions are marked "same": they pad the input so the output keeps the input's height and width (27 stays 27, 13 stays 13).
+Figure 4 shows the layers from left to right, each as a box labelled with the size of its output (Krizhevsky et al. 2012, §3.5). Every size in it follows from the [**output-size formula**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides) (G-1427). The first convolution and every max pooling use no padding, so the formula below drops $p$. The later convolutions are marked "same": they pad the input so the output keeps the input's height and width (27 stays 27, 13 stays 13).
 
 1. **In words:** the output size is the input size, minus the filter size, divided by the stride, plus one (no padding).
 2. **Formula:** $\text{output} = \lfloor (n - f)/s \rfloor + 1$.
@@ -258,7 +258,7 @@ The model not only says "dog", it names the breed. Where it is less sure, the ru
 
 The tomato fails, and the reason is simple: "tomato" is not one of the 1,000 ILSVRC classes (the Notebook searches the class list). A model can only answer with a class it was trained on. It picked **hip**, the round red fruit of the rose, and strawberry: the closest red, round things it knows.
 
-A pretrained model is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is **transfer learning** (G-2005), the subject of [transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works).
+A pretrained model is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is [**transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005), the subject of [transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works).
 
 ## 8. Summary
 
@@ -315,7 +315,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
 | [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
+| [Output-size formula](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides) (G-1427) | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |
 | [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
 | [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1034) | Data that includes the output column. |

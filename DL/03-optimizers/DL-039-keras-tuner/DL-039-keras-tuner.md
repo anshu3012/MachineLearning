@@ -42,15 +42,15 @@ Then we test the result on a larger dataset, MNIST (section 10).
 
 > **Key point:** A network has many hyperparameters, and the right values depend on the data. Trying them by hand is slow trial and error; Keras Tuner turns it into a search.
 
-A **hyperparameter** (G-910) is a setting chosen before training that the network does not learn, as in [hyperparameter tuning with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline). For a network, the main ones are:
+A [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) is a setting chosen before training that the network does not learn, as in [hyperparameter tuning with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline). For a network, the main ones are:
 
 - number of hidden layers;
 - number of nodes in each hidden layer;
 - activation function of each layer;
 - optimizer (the rule that turns gradients into weight updates; [the optimizers ahead](../DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#6-the-optimizers-ahead));
-- batch size, the number of epochs and the **dropout** (G-639) rate (the share of nodes switched off at random in each training step).
+- batch size, the number of epochs and the [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) rate (the share of nodes switched off at random in each training step).
 
-Until now we picked these from intuition. **Hyperparameter tuning** (G-909) tries several values and keeps the ones that score best ([grid and random search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` ([grid search over a random forest](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest) and [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)). Keras Tuner does the same job for Keras networks.
+Until now we picked these from intuition. [**Hyperparameter tuning**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) tries several values and keeps the ones that score best ([grid and random search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)). For scikit-learn models we used `GridSearchCV` and `RandomizedSearchCV` ([grid search over a random forest](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest) and [randomized search](../../../ML/08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#7-randomized-search)). Keras Tuner does the same job for Keras networks.
 
 ## 4. The data and a hand-made baseline
 
@@ -60,7 +60,7 @@ Until now we picked these from intuition. **Hyperparameter tuning** (G-909) trie
 
 > **Key point:** A small, well-known binary classification dataset (two classes: diabetes or not); every feature is numeric.
 
-We use the Pima diabetes data, also used for [the ROC curve](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve) and [Optuna's workflow](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#5-the-optuna-workflow). Each **observation** (G-1374) (one record, a row of the table) is a woman. Each has 8 **features** (G-772) (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The **target** (G-1949) (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
+We use the Pima diabetes data, also used for [the ROC curve](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve) and [Optuna's workflow](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#5-the-optuna-workflow). Each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the table) is a woman. Each has 8 [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each), such as the number of pregnancies, glucose, blood pressure, insulin, BMI and age. The [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict) is `Outcome`: 1 for diabetes, 0 for none.
 
 The correlation of each feature with the target (how closely the two rise and fall together, from −1 to 1) shows that all of them carry some signal. Glucose is the strongest (0.47), then BMI (0.29) and age (0.24); blood pressure and skin thickness are the weakest (0.07 each). We keep all 8, since the goal here is tuning, not feature selection.
 
@@ -82,7 +82,7 @@ We split the 768 observations three ways, keeping the share of diabetes the same
 
 A standard scaler (it rescales each feature to mean 0 and spread 1) is fitted on the training set only and applied to all three ([why we scale after the split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)).
 
-Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (**data leakage**, G-535; [why the preprocessing must be inside](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage)). The **test set** (G-1962) has played no part in any choice, so its score is honest.
+Why three sets? The tuner picks the model with the highest validation score. After many trials, the winner's validation score is partly luck: it is the best of many noisy numbers. If we also reported that same set as the final score, information from it would have leaked into the choice of the model (**data leakage**, G-535; [why the preprocessing must be inside](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage)). The [**test set**](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) has played no part in any choice, so its score is honest.
 
 ### 4.3 The baseline network
 
@@ -111,7 +111,7 @@ The hidden layer uses **ReLU** (G-1668: each node outputs its input if positive,
 
 > **Key point:** `build_model(hp)` (G-68) builds and compiles one network. Wherever a value should be tuned, we ask `hp` for it instead of writing a number.
 
-Keras Tuner calls our function again and again, once per **trial** (G-2016) (one model built, trained and scored with one set of hyperparameter values). It passes in `hp`, a `HyperParameters` object. Calling `hp.Choice(name, values=[...])` (G-90) both declares a hyperparameter and returns the value to use in this trial (Keras Tuner guide).
+Keras Tuner calls our function again and again, once per [**trial**](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary) (G-2016) (one model built, trained and scored with one set of hyperparameter values). It passes in `hp`, a `HyperParameters` object. Calling `hp.Choice(name, values=[...])` (G-90) both declares a hyperparameter and returns the value to use in this trial (Keras Tuner guide).
 
 > **Python:** Only the optimizer is tuned; the rest is fixed.
 >
@@ -130,7 +130,7 @@ Keras Tuner calls our function again and again, once per **trial** (G-2016) (one
 >     return model
 > ```
 
-Every hyperparameter has a name, here `"optimizer"`; the results are reported under that name. The four optimizers are taught in their own Notes: SGD with [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) or without, [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) and [Adam](../DL-038-adam/DL-038-adam.md#4-the-update-rule); Adadelta is a relative of RMSProp (Ruder 2016, section 4.4).
+Every hyperparameter has a name, here `"optimizer"`; the results are reported under that name. The four optimizers are taught in their own Notes: SGD with [**momentum**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) or without, [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) (G-1697) and [**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169); Adadelta is a relative of RMSProp (Ruder 2016, section 4.4).
 
 ### 5.2 Step 2: the tuner object
 
@@ -197,7 +197,7 @@ We asked for 5 trials but got 4. The optimizer has only 4 values, so after 4 tri
 >           validation_data=(X_val, y_val))
 > ```
 
-Both methods return lists sorted from best to worst, hence the `[0]`. The returned model is not a fresh one: it holds the weights from the best **epoch** (G-696) of its trial (Keras Tuner guide). So we can continue training it rather than start again.
+Both methods return lists sorted from best to worst, hence the `[0]`. The returned model is not a fresh one: it holds the weights from the best [**epoch**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) of its trial (Keras Tuner guide). So we can continue training it rather than start again.
 
 `initial_epoch` tells `fit` where to continue the epoch count. Epochs are numbered from 0, so after 10 epochs (numbers 0 to 9) the next one is number 10, and `initial_epoch=10, epochs=100` runs the remaining 90. Setting `initial_epoch` to one more than the epochs already run would skip an epoch.
 
@@ -299,7 +299,7 @@ These are **conditional hyperparameters** (G-442): `units_3` exists only in tria
 >     return model
 > ```
 
-All the values the hyperparameters may take, together, form the **search space** (G-1756). Each added value multiplies the number of combinations in it ([why grid search is not enough](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)), and random search with 20 trials sees only a few of them. So the ranges are kept to values that suit a network this small: at most 4 layers and dropout rates up to 0.5. Every trial trains for the same 100 epochs as the baseline, so the scores can be compared with it.
+All the values the hyperparameters may take, together, form the [**search space**](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#21-the-problem-a-random-forest-for-placement) (G-1756). Each added value multiplies the number of combinations in it ([why grid search is not enough](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough)), and random search with 20 trials sees only a few of them. So the ranges are kept to values that suit a network this small: at most 4 layers and dropout rates up to 0.5. Every trial trains for the same 100 epochs as the baseline, so the scores can be compared with it.
 
 ### 8.2 The results
 
@@ -491,5 +491,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Trial (hyperparameter tuning)](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#4-optunas-vocabulary) (G-2016) | One run of a tuner (Optuna, Keras Tuner) with one set of hyperparameter values: one model built, trained and scored. |
+| [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
+| [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
+| [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Search space](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#21-the-problem-a-random-forest-for-placement) (G-1756) | The ranges or lists of values each hyperparameter may take during tuning; the tuner only tries values from it, and each added value multiplies the number of combinations. |

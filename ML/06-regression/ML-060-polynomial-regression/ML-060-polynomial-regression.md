@@ -21,9 +21,9 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/polynomial-f
 
 Linear regression fits a straight line (or flat plane). Real relationships are often curved: the output may first fall and then rise, or grow faster and faster. A straight line misses such patterns.
 
-A **feature** (G-772) is an input variable (one column of the data table), an **observation** (G-1374) is one record (one row), and the **target** (G-1949) is the output we predict.
+A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
-**Polynomial regression** (G-1515) handles curves without a new algorithm. Polynomial regression creates new features from powers of the existing ones and gives them to plain **linear regression** (G-1094), the way a straight ruler can trace a curve if we feed it bent graph paper. The **degree** (G-577) is the highest power used.
+**Polynomial regression** (G-1515) handles curves without a new algorithm. Polynomial regression creates new features from powers of the existing ones and gives them to plain [**linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094), the way a straight ruler can trace a curve if we feed it bent graph paper. The **degree** (G-577) is the highest power used.
 
 Figure 1 shows the trick on this Note's data. Each point is drawn against $x$ and against a new feature, $x^2$. In that space the points lie close to a flat plane, and fitting a flat plane is exactly what linear regression does. The black curve is where the data can sit on the plane: seen from the side, it is the U-shaped fit.
 
@@ -59,7 +59,7 @@ The fitted model is a curve in $x$, but it is still a linear combination of its 
 
 $$1 + 2 \times 2 + 3 \times 2^2 = 1 + 4 + 12 = 17$$
 
-and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS, ordinary least squares, or [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
+and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS, ordinary least squares, or [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
 
 Linearity in the coefficients is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
 
@@ -102,21 +102,21 @@ Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend
 
 | Degree | Training R² | Test R² | |
 |---|---|---|---|
-| 1 | 0.48 | 0.28 | **underfits** (G-2035): too simple to follow the curve |
+| 1 | 0.48 | 0.28 | [**underfits**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035): too simple to follow the curve |
 | 2 | 0.94 | 0.86 | right shape: matches how the data was made |
 | 6 | 0.97 | 0.81 | starting to fit noise |
 | 10 | 0.98 | 0.28 | overfits |
 | 15 | 0.99 | $-9.35$ | overfits badly: wild swings between and beyond the points |
 
-The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (this is **overfitting**, G-1429; see [variance](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance)).
+The right panel shows the pattern. **Training R²** rises with every extra degree. The maths guarantees it: a degree $(d+1)$ model contains every degree $d$ curve (set the new coefficient to 0), so its best training error can only be equal or smaller. **Test R²** peaks at degree 2 and then collapses: the high-degree curve has learned the noise of these 25 points, not the pattern (this is **overfitting**, G-1429; see [**variance**](../ML-061-bias-variance/ML-061-bias-variance.md#3-variance) (G-2073)).
 
 Figure 5 runs through all fifteen degrees one at a time. Watch the curve on the left: up to degree 8 it stays close to the U-shape, then it starts to wiggle between the training points and shoot off at the edges, and the orange test R² on the right falls away while the blue training R² stays near the top.
 
 ![Polynomial fits of degree 1 to 15 on the 25 training points, one degree per frame. Left: the fitted curve against the training points (blue) and 200 test points (grey). Right: training and test R² so far; test R² is clipped at −1.](images/degree_sweep.gif)
 
-The degree is a **hyperparameter** (G-910), chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
+The degree is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), chosen by comparing scores on data not used for training, as here, or with cross-validation (a later Note).
 
-> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The **condition number** (G-441) measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 4 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
+> **Extra:** A degree-15 polynomial has terms up to $x^{15}$; with $x = 3$ that is about 14 million. Columns on such different scales make the fit sensitive to rounding errors. The [**condition number**](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441) measures that sensitivity: the larger it is, the more small rounding errors can change the answer (Goodfellow §4.2). For the 25 training points it is $4.5 \times 10^8$ for the raw columns and $1.1 \times 10^6$ after `StandardScaler`, so Figure 4 uses a pipeline of `PolynomialFeatures`, `StandardScaler` and `LinearRegression`.
 
 ## 5. More than one feature
 
@@ -198,7 +198,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Condition number](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441) | A number that says how much a matrix can magnify small errors, such as rounding errors, when we solve with it; a large value means the answer is sensitive. It is the largest singular value over the smallest, $\sigma_1 / \sigma_n$. |

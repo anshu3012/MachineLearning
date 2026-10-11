@@ -16,9 +16,9 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/kernel-trick
 
 ## 1. Overview
 
-> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the **kernel** (G-1004) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
+> **Key point:** On data shaped as two circles, a linear SVM scores 55%. Switching the [**kernel**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-1004) to RBF, or to a degree-2 polynomial, scores 100%, using the same two input features.
 
-[The kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train. The ringed points are the **support vectors** (G-1923), the training points that fix the boundary; section 6 explains them.
+[The kernel trick](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) showed in pictures how a kernel lifts data into a higher dimension. This Note runs it in scikit-learn on a real non-linear dataset, then looks at why no new features are needed. Figure 1 shows the four models we train. The ringed points are the [**support vectors**](../ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923), the training points that fix the boundary; section 6 explains them.
 
 ![Decision regions of four SVMs on the circles data; ringed points are support vectors](images/kernels.png){height=58%}
 
@@ -74,7 +74,7 @@ We split the data into training and test sets, train an SVM with a linear kernel
 > accuracy_score(y_test, linear.predict(X_test))   # 0.55
 > ```
 
-The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the **decision boundary** (G-555), the line or curve where the model's prediction switches from one class to the other, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's decision regions (see [how the model predicts](../ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
+The accuracy is 0.55, little better than guessing, which was bound to happen with a linear classifier on non-linear data. To see the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line or curve where the model's prediction switches from one class to the other, a helper function predicts a fine grid of points and colours each by its prediction: these are the model's decision regions (see [how the model predicts](../ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)). Figure 1, top left, shows the result: one straight cut that leaves many blue ring points on the red side.
 
 ## 4. Lifting the data into 3D by hand
 
@@ -133,7 +133,7 @@ So SVM in effect places a bump on the data points themselves and adds the bumps 
 
 > **Key point:** SVC(kernel="rbf") reaches 100% test accuracy, with the same two features and no feature engineering.
 
-Now we let SVM do it. We train a new SVC with the **RBF kernel** (G-1639), `kernel="rbf"`, instead of `"linear"` and change nothing else.
+Now we let SVM do it. We train a new SVC with the [**RBF kernel**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#4-a-2d-example-concentric-circles) (G-1639), `kernel="rbf"`, instead of `"linear"` and change nothing else.
 
 > **Python:** The RBF kernel.
 >
@@ -145,13 +145,13 @@ Now we let SVM do it. We train a new SVC with the **RBF kernel** (G-1639), `kern
 
 The test accuracy is 1.0. Figure 1, top right, shows its decision boundary: a closed curve around the centre class.
 
-We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [polynomial regression](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features), where we had to add a new feature for every power of the inputs.
+We did not create any extra feature: only the original two features went into the model, and the kernel did the calculation internally. Compare this with [**polynomial regression**](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) (G-1515), where we had to add a new feature for every power of the inputs.
 
 ## 6. The polynomial kernel
 
 > **Key point:** kernel="poly" uses degree 3 by default and scores 45% here. With degree=2 it scores 100%. The degree is a hyperparameter.
 
-The **polynomial kernel** (G-1514) is chosen with `kernel="poly"`. The polynomial kernel has an extra setting, `degree`, the degree of the polynomial. The default degree is 3, and it is ignored by all other kernels.
+The [**polynomial kernel**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-1514) is chosen with `kernel="poly"`. The polynomial kernel has an extra setting, `degree`, the degree of the polynomial. The default degree is 3, and it is ignored by all other kernels.
 
 | Kernel | Test accuracy | Support vectors (of 80) |
 |---|---|---|
@@ -180,7 +180,7 @@ Figure 3 shows why the degree-2 terms are enough. Watch the circle on the left t
 
 ![Left: the circles data and the circle $x_1^2 + x_2^2 = 0.34$ between the classes. Right: the same points in the squared features, where that circle is the straight line $x_1^2 + x_2^2 = 0.34$](images/degree2_space.png)
 
-The table also shows the **support vectors** (G-1923). The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
+The table also shows the [**support vectors**](../ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923). The linear model needs almost every training point; the good kernels need only a few. The reason: every point that sits on the margin, inside it or on the wrong side of the boundary becomes a support vector (ESL §12.2.1). A straight line fits the circles badly, so most points end up inside its margin; a curved boundary that fits well leaves only a few points near it.
 
 > **Extra:** The Notebook checks the margin rule for the linear model. The linear model misclassifies 30 of the 80 training points, and exactly 76 points have $y \cdot f(x) < 1$ (inside the margin or on the wrong side): the same 76 as its support vectors.
 
@@ -218,7 +218,7 @@ Figure 4 draws the two routes side by side; watch both arrive at 25, while only 
 
 ![Two routes to $\phi(a) \cdot \phi(b)$ for $a = (1, 2)$ and $b = (3, 1)$. Top: build the three degree-2 features, then take a 3D dot product. Bottom: the kernel, a 2D dot product squared](images/kernel_routes.png)
 
-The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the **kernel trick** (G-1008).
+The kernel needed one 2D dot product and a square; the explicit route needed three new features per point. With more inputs and higher degrees the explicit features multiply quickly, while the kernel stays one dot product. For the RBF kernel the matching feature space is infinite-dimensional, so building it would be impossible, yet the kernel value is cheap (MML §12.4). Getting the dot product without building the features is exactly the [**kernel trick**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008).
 
 ## 8. Gamma: how far one point's influence reaches
 
@@ -256,7 +256,7 @@ Figure 5 draws the kernel value against the distance for the three gammas. Watch
 
 ![The RBF kernel value against the distance between two points, for gamma = 0.1, 1 and 10. The dots mark distance 1: 0.90, 0.37 and 0.00005](images/gamma_bumps.png){height=32%}
 
-A small gamma makes each bump wide, so many training points have a say at every location and the decision boundary is smooth (risk of underfitting). A large gamma makes each bump narrow, so only the nearest training points have a say and the boundary wraps around individual points (risk of overfitting). Gamma is a **hyperparameter** (G-910).
+A small gamma makes each bump wide, so many training points have a say at every location and the decision boundary is smooth (risk of underfitting). A large gamma makes each bump narrow, so only the nearest training points have a say and the boundary wraps around individual points (risk of overfitting). Gamma is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910).
 
 Figure 6 runs a gamma sweep on the moons data (two interleaved half-circles of points), from 0.01 to 1000, with C = 1 (the setting that trades a wide margin against training mistakes, see [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c)). Watch the decision boundary go from an almost straight cut to a curve that follows the moons, then break into small islands around single points. Training accuracy climbs to 1.00, while accuracy on 5,000 fresh points from the same generator peaks at 0.97 (gamma about 5) and falls to 0.68 at gamma 1000.
 
@@ -324,6 +324,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Support vectors](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#6-support-vectors) (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [RBF kernel](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#4-a-2d-example-concentric-circles) (G-1639) | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [Polynomial kernel](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#32-the-feature-map-and-the-kernel) (G-1514) | A function that gives the dot product of two points after their inputs are expanded into powers, such as $x^2$ (a kernel whose feature map is built from powers of the inputs); it lets an SVM draw curved boundaries. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |

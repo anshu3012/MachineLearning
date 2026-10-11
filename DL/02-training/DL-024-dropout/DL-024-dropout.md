@@ -46,16 +46,16 @@ Neural networks are prone to overfitting, for three reasons:
 
 - they have several layers, each with many nodes;
 - the layers are all fully connected (**dense layers**, G-583);
-- they are trained for many **epochs** (G-696).
+- they are trained for many [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696).
 
-Such a complex **architecture** (G-209) can capture tiny patterns that only exist in the training data.
+Such a complex [**architecture**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) can capture tiny patterns that only exist in the training data.
 
 The possible fixes:
 
 1. **Add more data.** The more varied data the network sees, the better it generalises (**generalisation**, G-838).
 2. **Reduce the complexity** of the network: for example 7 hidden layers instead of 10, or 64 nodes per layer instead of 128.
-3. **Early stopping** (G-656): stop training where overfitting starts (see [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#1-overview)).
-4. **Regularisation** (G-1659), L1 or L2, as in Ridge and Lasso (see the [penalty term](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term)).
+3. [**Early stopping**](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656): stop training where overfitting starts (see [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#1-overview)).
+4. [**Regularisation**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659), L1 or L2, as in Ridge and Lasso (see the [**penalty term**](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476)).
 5. **Dropout**, the subject of this Note.
 
 ## 4. How dropout works
@@ -68,11 +68,11 @@ The possible fixes:
 
 Take a binary classification problem with 5 **features** (G-772; input variables, one column of the data table each). The network (Figure 1, left) has:
 
-- an **input layer** (G-952) of 5 nodes;
-- two **hidden layers** (G-890) of 5 nodes each;
-- an **output layer** (G-1424) of 1 node.
+- an [**input layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) of 5 nodes;
+- two [**hidden layers**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) of 5 nodes each;
+- an [**output layer**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) of 1 node.
 
-With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and **backpropagation** (G-247) does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
+With **dropout**, before each training step we randomly switch off some nodes of the input layer and of the hidden layers. A switched-off node is cut from the network for that step: its weights and bias play no part in the prediction, and [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) does not update them. In Figure 1, step 1 drops 2 input nodes, 3 nodes of the first hidden layer and 2 of the second. Step 2 draws a new random set: some of the dropped nodes come back and others go.
 
 So each step trains a different network on the data. Every one of them is a smaller **sub-network** (G-1909) of the full network, using a subset of its nodes and the same shared weights.
 
@@ -82,7 +82,7 @@ The output layer is never switched off, because every sub-network must still mak
 
 In Figure 2, watch the crosses jump between steps: 4, 3, 1 and then 7 of the 15 droppable nodes are off, because every node is dropped independently (section 4.2). The last frame previews prediction time (section 6).
 
-> **Extra:** The random on/off pattern (the **mask**) is redrawn for every forward pass, which in Keras means for every **mini-batch** (G-263; and each **observation** (G-1374), one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on at least 1,000 different sub-networks (more, since each observation has its own mask), not 10.
+> **Extra:** The random on/off pattern (the **mask**) is redrawn for every forward pass, which in Keras means for every **mini-batch** (G-263; and each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374), one record, in the batch gets its own mask), not once per epoch (Keras docs, `Dropout`). With 10 epochs of 100 mini-batches, the network trains on at least 1,000 different sub-networks (more, since each observation has its own mask), not 10.
 
 ### 4.2 The dropout rate
 
@@ -118,7 +118,7 @@ A company analogy helps. Suppose every morning, a random half of the employees i
 
 > **Key point:** Dropout trains a huge number of sub-networks that share their weights; prediction combines them, as a random forest combines its trees.
 
-A **random forest** (G-1611) trains many **decision trees** (G-561), each on a random sample of the features (**column sampling**, G-413; see [random forest by hand](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#53-column-sampling-and-combined-sampling)), and lets them vote. The trees differ a little from each other, and the vote of the **ensemble** (G-690) overfits much less than any one tree.
+A [**random forest**](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) trains many [**decision trees**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561), each on a random sample of the features (**column sampling**, G-413; see [random forest by hand](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#53-column-sampling-and-combined-sampling)), and lets them vote. The trees differ a little from each other, and the vote of the [**ensemble**](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-690) overfits much less than any one tree.
 
 Dropout does the same with networks. Each training step trains a different sub-network on the data; at prediction time their knowledge is combined. And the number of possible sub-networks is enormous:
 
@@ -218,6 +218,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Generalisation (generalise)](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) | How well a model performs on new data it was not trained on. |
 | [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
 | [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
+| [Penalty term](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) | The extra term added to the cost to discourage large weights. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
 | [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |

@@ -20,9 +20,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 The five stages:
 
 1. The **encoder–decoder** (2014) turned one sequence into another but forgot long sentences.
-2. **Attention** (G-226) (2014–15) let it look back at every input word, but it was slow because it still read one word at a time.
+2. [**Attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) (2014–15) let it look back at every input word, but it was slow because it still read one word at a time.
 3. The **transformer** (G-2007) (2017) dropped the RNN and read all words in parallel, but it needed huge data.
-4. **Transfer learning** (G-2005) (2018) removed that need: pre-train once on unlabelled text, then fine-tune.
+4. [**Transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) (2018) removed that need: pre-train once on unlabelled text, then fine-tune.
 5. Combining transformers with transfer learning at a vast scale gave **LLMs** such as GPT-3.
 
 The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves each get their own Notes later:
@@ -46,8 +46,8 @@ The last block of the deep learning Notes works with **sequence-to-sequence** mo
 
 RNN tasks come in a few shapes:
 
-- **Sentiment analysis** (G-1769) reads a sequence and outputs one label (many inputs, one output).
-- **Image captioning** (G-918) takes one image and outputs a sentence (one input, many outputs).
+- [**Sentiment analysis**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) reads a sequence and outputs one label (many inputs, one output).
+- [**Image captioning**](../../05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#4-one-to-many) (G-918) takes one image and outputs a sentence (one input, many outputs).
 - **Tagging** each word of a sentence with its part of speech gives one output per input word, so the two sequences have the same length.
 
 The hardest shape has a sequence on both sides with lengths that do not match. Translating "I love India" into Hindi gives "main Bharat se pyaar karta hoon": 3 words in, 6 words out. Tasks of this shape are called **sequence-to-sequence** (seq2seq; G-1772) tasks.
@@ -56,7 +56,7 @@ The hardest shape has a sequence on both sides with lengths that do not match. T
 
 In Figure 2, follow "India": it becomes "Bharat", the second output word, so the model cannot simply emit one output word per input word. Examples of such tasks:
 
-- **Machine translation** (G-1141): a sentence in one language in, the same sentence in another language out.
+- [**Machine translation**](../../05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141): a sentence in one language in, the same sentence in another language out.
 - **Text summarization:** a long text in, a short summary out.
 - **Question answering:** a question in, an answer out.
 - **Chatbots:** a message in, a reply out.
@@ -71,7 +71,7 @@ In 2014 Ilya Sutskever, Oriol Vinyals and Quoc Le at Google published "Sequence 
 1. **Encoder** (G-682): an LSTM reads the input sentence one word per step. Its internal state is updated at every step, so after the last word the state is a summary of the whole sentence. This summary is the **context vector**.
 2. **Decoder** (G-564): a second LSTM starts from the context vector and produces the output sentence one word per step.
 
-A simple RNN or GRU cell would also work inside each part; the paper used the **LSTM** (G-1123).
+A simple RNN or GRU cell would also work inside each part; the paper used the [**LSTM**](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123).
 
 ![Top: the encoder (blue) squeezes the sentence into one context vector $c$, and the decoder (orange) sees only $c$. Bottom: with attention, the decoder can look back at every encoder state; the line widths show how much each input word counts for the current output word](images/encoder_decoder.png){width=88%}
 
@@ -103,7 +103,7 @@ The second cost turned out to be the real limit.
 
 > **Key point:** The transformer removes the RNN completely and uses attention alone. Every word of the input is processed at the same time, so training runs in parallel and is far faster.
 
-In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called **self-attention** (G-1763), where the words of one sentence attend to each other), plus three parts:
+In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called [**self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763), where the words of one sentence attend to each other), plus three parts:
 
 - **dense layers** (every node connected to every input, as in the [MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture));
 - **normalization layers** (they rescale each word's numbers to a standard range; see [normalisation in deep learning](../DL-080-layer-normalization/DL-080-layer-normalization.md#3-normalisation-in-deep-learning));
@@ -157,7 +157,7 @@ GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on
 - **decoder only** (GPT): reads the text left to right and writes the next word; see [from the transformer decoder to GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt);
 - **encoder only** (BERT): reads the whole sentence at once, both sides of every word, and writes no new text.
 
-OpenAI kept scaling GPT up. Each new version had many more **parameters** (G-1450) (weights) than the last (Figure 7): 117 million in GPT-1, 1.5 billion in GPT-2 (Radford et al. 2019) and 175 billion in GPT-3 (Brown et al. 2020). At this size people started to say **large** language model.
+OpenAI kept scaling GPT up. Each new version had many more [**parameters**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) (weights) than the last (Figure 7): 117 million in GPT-1, 1.5 billion in GPT-2 (Radford et al. 2019) and 175 billion in GPT-3 (Brown et al. 2020). At this size people started to say **large** language model.
 
 Figure 7 draws the counts on a **log scale** (an axis where each labelled step up is ten times the one below: 100M, 1B, 10B, 100B, 1T). On an ordinary axis GPT-1's bar would be less than a thousandth of GPT-3's and would not show; the log scale gives each model a visible bar. BERT-Large (orange) is not a GPT model and is shown for comparison.
 

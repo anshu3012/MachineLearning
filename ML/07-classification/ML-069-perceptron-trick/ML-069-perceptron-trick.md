@@ -35,7 +35,7 @@ Take a dataset of students. Each student is one **observation** (G-1374; one rec
 
 ![Linearly separable data and data that no straight line can split](images/separable.png){height=42%}
 
-In Figure 1 each dot is one observation. In the left panel the green dots (placed) and blue dots (not placed) sit in two groups, and the black line has one group on each side. In the right panel one class forms a ring around the other. Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a **hyperplane** (G-911). The divider between the two classes is the model's **decision boundary** (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
+In Figure 1 each dot is one observation. In the left panel the green dots (placed) and blue dots (not placed) sit in two groups, and the black line has one group on each side. In the right panel one class forms a ring around the other. Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a [**hyperplane**](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911). The divider between the two classes is the model's [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
 
 Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
@@ -174,7 +174,7 @@ The value is above 0: positive side (Figure 6, right).
 
 > **Key point:** Multiply the point by a learning rate such as 0.1 before adding or subtracting, so the line moves a little at a time.
 
-The full update above jumps the line a long way, which can undo what other points taught it. As in [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move), the step is scaled by a small **learning rate** (G-1068) $\eta$, usually around 0.1 or 0.01:
+The full update above jumps the line a long way, which can undo what other points taught it. As in [**gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move) (G-862), the step is scaled by a small [**learning rate**](../../01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta$, usually around 0.1 or 0.01:
 
 $$\text{new coefficients} = \text{old coefficients} - \eta \times (x, y, 1)$$
 
@@ -217,7 +217,7 @@ where $x^2 + y^2 + 1$ is the same $p \cdot p$.
 
 > **Key point:** Rename C, A, B as w₀, w₁, w₂ and add a column x₀ = 1.
 
-Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add an extra feature $x_0$ that is always 1 (a column of 1s in the data table), as in [multiple linear regression](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation):
+Write the line as $w_0 + w_1 x_1 + w_2 x_2 = 0$, so $w_0 = C$, $w_1 = A$ and $w_2 = B$. Then add an extra feature $x_0$ that is always 1 (a column of 1s in the data table), as in [**multiple linear regression**](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-1279):
 
 $$\sum_{i=0}^{2} w_i x_i = w_0 x_0 + w_1 x_1 + w_2 x_2 = 0$$
 
@@ -228,7 +228,7 @@ $$i = 1: \quad w_1 x_1 = 2 \times 2 = 4$$
 $$i = 2: \quad w_2 x_2 = 3 \times 1 = 3$$
 $$\sum_{i=0}^{2} w_i x_i = 5 + 4 + 3 = 12$$
 
-The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the **dot product** (G-634), written $w \cdot x$. Here the dot product is 12.
+The value 12 is the same as in Section 3.2. The same sum works for any number of features, just with more terms. Multiplying matching entries and adding them is called the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634), written $w \cdot x$. Here the dot product is 12.
 
 ### 7.2 Predicting
 
@@ -320,5 +320,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Converge](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469) | To settle at a minimum, with steps becoming negligible. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |

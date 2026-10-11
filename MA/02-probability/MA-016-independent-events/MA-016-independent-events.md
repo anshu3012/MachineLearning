@@ -18,7 +18,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 
 > **Key point:** Two events are independent when knowing one happened does not change the probability of the other: P(A | B) = P(A). Equivalently, P(A ∩ B) = P(A) × P(B).
 
-Notation used throughout: an **event** ([something that can happen, such as "a die shows 6"](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event)) is named by a capital letter such as $A$. $P(A)$ is the probability of $A$; for $A$ = "a fair die shows 6", it is one in six. $A \cap B$ means "both $A$ and $B$ happen", and $P(A \mid B)$ means "the probability of $A$ once we know $B$ happened" ([conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition)).
+Notation used throughout: an **event** ([something that can happen, such as "a die shows 6"](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event)) is named by a capital letter such as $A$. $P(A)$ is the probability of $A$; for $A$ = "a fair die shows 6", it is one in six. $A \cap B$ means "both $A$ and $B$ happen", and $P(A \mid B)$ means "the probability of $A$ once we know $B$ happened" ([**conditional probability**](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444)).
 
 This Note and [the next](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) cover two ideas that are often confused: **independent events** and **mutually exclusive events**. Naive Bayes relies on the first: its "naive" assumption is that the **features** (G-772; the input variables, one column each of the data table) are independent of each other within each class (for example, among spam emails only). Knowing exactly what independence means makes that assumption easy to understand.
 
@@ -164,5 +164,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Product rule for independent events (G-1576) | For independent events, the probability that both happen is the product of their separate probabilities: $P(A \cap B) = P(A) \times P(B)$. |
 | Gambler's fallacy (G-2213) | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory. |
 | Dependent events (G-590) | Events that are not independent: knowing one changes the probability of the other. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

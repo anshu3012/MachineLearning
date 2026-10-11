@@ -47,7 +47,7 @@ We build the idea in this order:
 
 **The question.** Rats that get no drug take **1.2 seconds** on average to respond to a stimulus. We inject **100 rats** with a new drug. Their mean response time is **1.05 seconds**, with a sample standard deviation of **0.5 seconds**. Does the drug change the response time?
 
-**The hypotheses.** The **null hypothesis** (G-1361) is the status quo: the drug has no effect, so the mean with the drug is still 1.2 s. The **alternative hypothesis** (G-193) is that the drug has an effect:
+**The hypotheses.** The [**null hypothesis**](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361) is the status quo: the drug has no effect, so the mean with the drug is still 1.2 s. The [**alternative hypothesis**](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#4-the-alternative-hypothesis) (G-193) is that the drug has an effect:
 
 $$H_0: \mu = 1.2$$
 
@@ -60,7 +60,7 @@ $$H_1: \mu \neq 1.2$$
 3. Ask how likely a sample mean as far from 1.2 s as ours would be.
 4. If that is very unlikely, $H_0$ is probably false: we reject it.
 
-Step 2 is a picture we already know. If we took many samples of 100 rats, their means would form the **sampling distribution of the sample mean** (G-1735). By the central limit theorem it is close to normal. Under $H_0$ its centre is 1.2 s. Its spread is the standard error, $\sigma/\sqrt{n}$.
+Step 2 is a picture we already know. If we took many samples of 100 rats, their means would form the [**sampling distribution of the sample mean**](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1735). By the central limit theorem it is close to normal. Under $H_0$ its centre is 1.2 s. Its spread is the standard error, $\sigma/\sqrt{n}$.
 
 We do not know $\sigma$, so we use the sample's $s = 0.5$ in its place. With 100 rats that is a close approximation (the next section says how close):
 
@@ -80,7 +80,7 @@ How far is 1.05 s from 1.2 s? In seconds the gap is 0.15. In standard errors it 
 
 $$\frac{1.05 - 1.2}{0.05} = \frac{-0.15}{0.05} = -3$$
 
-In Figure 2, the blue arrows lay three standard-error steps from 1.2 s down to 1.05 s. Our sample mean is **3 standard errors below** what $H_0$ predicts. This count is the **z statistic** (G-2137), a **test statistic** (G-1963): the one number a test computes from the sample to make its decision.
+In Figure 2, the blue arrows lay three standard-error steps from 1.2 s down to 1.05 s. Our sample mean is **3 standard errors below** what $H_0$ predicts. This count is the **z statistic** (G-2137), a [**test statistic**](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#6-the-eight-steps-of-a-hypothesis-test) (G-1963): the one number a test computes from the sample to make its decision.
 
 ### 4.2 The formula
 
@@ -119,7 +119,7 @@ If $\sigma$ is unknown, the exact test is the t-test (see [the one-sample t-test
 
 > $\alpha$ is the probability of rejecting the null hypothesis when it is actually true.
 
-With $\alpha = 0.05$, if we ran 100 tests in which $H_0$ was in fact true, about 5 would still reject it. This mistake is called a **Type I error** (G-2032) (see [Type I error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error)).
+With $\alpha = 0.05$, if we ran 100 tests in which $H_0$ was in fact true, about 5 would still reject it. This mistake is called a [**Type I error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) (see [Type I error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error)).
 
 Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive alarm (large $\alpha$) goes off for burnt toast as well as for real fires; a dull one (small $\alpha$) rarely gives false alarms but needs more smoke before it sounds.
 
@@ -144,7 +144,7 @@ In Figure 4, watch the red tails creep inward as $\alpha$ grows: nothing about t
 
 **The idea.** Instead of asking "how rare is our sample?" each time, we mark in advance the part of the curve where samples are rarer than $\alpha$ allows. If our z lands there, we reject $H_0$.
 
-**The terms.** The **rejection region** (also called the **critical region**) (G-1662) is the set of values of the test statistic for which we reject $H_0$. The rejection region lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$. The **critical value** (G-504) is the boundary of the rejection region:
+**The terms.** The **rejection region** (also called the **critical region**) (G-1662) is the set of values of the test statistic for which we reject $H_0$. The rejection region lies in the tail or tails that $H_1$ points to, and its area is $\alpha$. The rest of the curve is the region where we fail to reject $H_0$. The [**critical value**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#7-the-z-procedure-formula) (G-504) is the boundary of the rejection region:
 
 - **$H_1$ with $>$ (right-tailed):** all of $\alpha$ in the right tail. For $\alpha = 0.05$ we need the z with area 0.95 to its left. The z-table has 0.9495 at 1.64 and 0.9505 at 1.65, so the critical value lies between them: 1.645.
 - **$H_1$ with $<$ (left-tailed):** all of $\alpha$ in the left tail: $-1.645$.
@@ -174,7 +174,7 @@ Figure 5 finds both critical values by sliding a cutoff until the red area is 0.
 
 > **Key point:** $H_1$ with $\neq$ puts the rejection region in both tails; $H_1$ with $<$ or $>$ puts all of it in one tail.
 
-**The idea.** In the rat test, a very slow mean would also have counted against $H_0$: any effect, up or down, was of interest. So we looked at both tails. That is a **two-tailed test** (G-2028).
+**The idea.** In the rat test, a very slow mean would also have counted against $H_0$: any effect, up or down, was of interest. So we looked at both tails. That is a [**two-tailed test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-2028).
 
 Suppose instead that, before collecting data, we had reason to expect the drug to *lower* response time, and only a lowering mattered. Then
 
@@ -182,7 +182,7 @@ $$H_0: \mu = 1.2$$
 
 $$H_1: \mu < 1.2$$
 
-and only very low sample means count against $H_0$. All of $\alpha$ goes into the left tail. That is a **one-tailed test** (G-1385), here a left-tailed one (G-1693).
+and only very low sample means count against $H_0$. All of $\alpha$ goes into the left tail. That is a [**one-tailed test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-1385), here a left-tailed one (G-1693).
 
 **The same rats, one tail.** The critical value is now $-1.645$, and in seconds the cutoff is:
 $$1.2 - 1.645 \times 0.05 = 1.118 \text{ s}$$
@@ -305,7 +305,7 @@ A z of 15 is so unlikely under $H_0$ that it leaves almost no doubt, while a z o
 
 Figure 9 shows both problems. The left panel is the right tail of the standard normal curve, with the rejection region shaded. The right panel's vertical axis is a log scale: each gridline is $10^{10}$ times smaller than the one above it, so the tiny value at $z = 15$ still fits on the chart. Watch the right panel: the yes/no rule sees only that both points sit below the dashed 0.05 line.
 
-The fix is the number we already met for the rats in section 5: the tail area beyond our own sample, 0.27% two-tailed. That area is the **p-value** (G-1433). It measures the strength of the evidence against $H_0$. The p-value approach is the one used in practice, and the subject of [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition).
+The fix is the number we already met for the rats in section 5: the tail area beyond our own sample, 0.27% two-tailed. That area is the [**p-value**](../MA-041-p-values/MA-041-p-values.md#2-definition) (G-1433). It measures the strength of the evidence against $H_0$. The p-value approach is the one used in practice, and the subject of [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition).
 
 ## 12. Summary
 

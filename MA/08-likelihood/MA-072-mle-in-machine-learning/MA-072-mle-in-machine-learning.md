@@ -23,7 +23,7 @@ This Note follows *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong
 
 ![A line y = wx through four points, with the slope sweeping from 1.4 to 2.6. Each grey bell is the normal distribution of y around the line; the green bar is its height at the observed y. Bottom: the negative log-likelihood and the mean squared error against w, lowest at the same slope](images/gaussian_noise.gif)
 
-[Maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one row of the data table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
+[**Maximum likelihood estimation**](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#3-the-idea-slide-the-curve-keep-the-peak) (G-1191) fitted one distribution to a column of numbers. In ML we predict a **target** $y$ (the output we want) from **features** $x$ (the input variables, one column each of the data table). One record, the features of one case together with its target, is an **observation** (one row of the data table). The distribution of $y$ changes with $x$. Figure 1 shows the idea for regression: around the line sits a bell, and a good line puts every point near the top of its bell.
 
 Figure 2 is the map of this Note: read it from left to right, from a model of the target, through maximum likelihood, to a loss (or from a prior, through MAP, to a penalty). Each model of the target turns, through maximum likelihood, into a loss we already know; each prior on the parameters turns, through MAP estimation, into a penalty we already know.
 
@@ -76,7 +76,7 @@ Two choices define a model: how the prediction depends on $x$ (a line, a sigmoid
 
 > **Key point:** If $y$ is the prediction plus normal noise, the NLL is the sum of squared errors divided by $2\sigma^2$, plus a constant. Minimising it is least squares.
 
-First, the usual way to fit a line, from [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function). Measure each point's **residual** (G-705), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the **sum of squared errors** (G-1684). Turn the line a little and measure again. The line with the smallest total is the **ordinary least squares** (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
+First, the usual way to fit a line, from [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function). Measure each point's [**residual**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the vertical gap between the point and the line; square it, so that gaps above and below the line cannot cancel; add the squares up. The total is the [**sum of squared errors**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684). Turn the line a little and measure again. The line with the smallest total is the [**ordinary least squares**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) line. This section shows that maximum likelihood, with one assumption about the noise, picks exactly the same line.
 
 ### 3.1 The model
 
@@ -163,7 +163,7 @@ In Figure 3, watch the outlier line at a residual of 3: the parabola charges mor
 
 > **Key point:** On the log-odds axis every observation sits at $+\infty$ or $-\infty$, so every residual is infinite. Least squares has nothing to minimise; maximum likelihood does.
 
-We use 8 Iris flowers (the **Iris dataset**, G-973): 4 versicolor and 4 virginica, with petal widths 1.0, 1.3, 1.5, 1.7 cm (versicolor) and 1.5, 1.8, 2.0, 2.3 cm (virginica). The target is 1 for virginica and 0 for versicolor. Logistic regression draws a straight line, not on the probability axis, but on the **log-odds** (G-1116) axis, $\log\frac{p}{1 - p}$; the sigmoid turns it back into a probability (see [the sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)).
+We use 8 Iris flowers (the **Iris dataset**, G-973): 4 versicolor and 4 virginica, with petal widths 1.0, 1.3, 1.5, 1.7 cm (versicolor) and 1.5, 1.8, 2.0, 2.3 cm (virginica). The target is 1 for virginica and 0 for versicolor. Logistic regression draws a straight line, not on the probability axis, but on the [**log-odds**](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) axis, $\log\frac{p}{1 - p}$; the sigmoid turns it back into a probability (see [the sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)).
 
 The log-odds of a probability of 1 is plus infinity, and of a probability of 0 it is minus infinity:
 
@@ -228,7 +228,7 @@ So logistic regression is maximum likelihood estimation for a Bernoulli model wh
 
 > **Key point:** With several classes, the model gives each class a probability; the loss is minus the log of the probability it gave to the true class, and nothing else. That is the categorical cross entropy.
 
-**In plain words.** Suppose a flower can be one of three species. The model gives each species a probability, and the three add up to 1. If the flower really is species 1, we read off the probability the model gave to species 1 and ignore the others. The higher it is, the smaller the loss. A softmax output provides exactly such probabilities (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)). The distribution that gives probabilities to $K$ outcomes is the **categorical distribution** (G-352), the Bernoulli distribution extended from 2 outcomes to $K$.
+**In plain words.** Suppose a flower can be one of three species. The model gives each species a probability, and the three add up to 1. If the flower really is species 1, we read off the probability the model gave to species 1 and ignore the others. The higher it is, the smaller the loss. A softmax output provides exactly such probabilities (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)). The distribution that gives probabilities to $K$ outcomes is the [**categorical distribution**](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#23-bernoulli-in-machine-learning) (G-352), the Bernoulli distribution extended from 2 outcomes to $K$.
 
 **Worked example.** Three classes, softmax output $(0.7, 0.2, 0.1)$. The true class is the first. Write the true class as a **one-hot** list: 1 for the true class, 0 for the others, so $\mathbf{y} = (1, 0, 0)$. The model's probabilities are $\hat y = (\hat y_1, \hat y_2, \hat y_3) = (0.7, 0.2, 0.1)$.
 
@@ -321,7 +321,7 @@ Sections 3 to 5 in one table: each model of the target, its NLL for one observat
 
 > **Key point:** Maximum likelihood uses all the freedom a model has to match the training data, noise included. With many parameters and few observations, the training NLL keeps falling while the error on new data explodes.
 
-A model that is too flexible learns the noise of its training data and fails on new data: this is **overfitting** (see [overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) and [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). Maximum likelihood has no brake against overfitting. The method is told to make the observed data as likely as possible, and a model that passes through every point does that best.
+A model that is too flexible learns the noise of its training data and fails on new data: this is **overfitting** (see [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) and [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance)). Maximum likelihood has no brake against overfitting. The method is told to make the observed data as likely as possible, and a model that passes through every point does that best.
 
 Figure 8 repeats the experiment of MML §9.2.2, with our own random draw of the data (Notebook, Section 4). Ten points come from this function plus noise with $\sigma = 0.2$:
 
@@ -379,7 +379,7 @@ Check: the bracket is the "Total" column of the table. With a flat prior, the sa
 
 > **Key point:** With prior $\theta_j \sim N(0, b^2)$ and Gaussian noise $\sigma$, MAP minimises $\sum(y_i - \hat y_i)^2 + \lambda\sum_j\theta_j^2$ with $\lambda = \sigma^2/b^2$.
 
-First, the penalty itself, from [the idea: penalise large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. **Ridge regression** (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line has slope 1.5 and costs:
+First, the penalty itself, from [the idea: penalise large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients). With only two training points, the least squares line passes through both, with zero error, and its slope can be far too steep for new data. [**Ridge regression**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) adds $\lambda$ times the squared slope to the squared errors. With $\lambda = 1$ on the two points $(1, 2)$ and $(3, 5)$, the least squares line has slope 1.5 and costs:
 
 $$0 + 1.5^2 = 2.25$$
 
@@ -442,7 +442,7 @@ The squared penalty almost vanishes for a tiny weight, so it stops pushing; the 
 
    $$\propto\thickspace\sum_{i}(y_i - \hat y_i)^2 + \frac{2\sigma^2}{b}\sum_j\lvert\theta_j\rvert$$
 
-   The result is the loss of [lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0), with $\lambda = 2\sigma^2/b$.
+   The result is the loss of [**lasso regression**](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) (G-1047), with $\lambda = 2\sigma^2/b$.
 3. **Example:** with $\sigma = 1$ and $b = 0.5$:
 
    $$\lambda = 2/0.5 = 4$$
@@ -453,7 +453,7 @@ The squared penalty almost vanishes for a tiny weight, so it stops pushing; the 
 
 MML (§9.5) states this equivalence of the Laplace prior and the lasso. The term $\lvert\theta_j\rvert / b$ has a corner at 0, the same corner of $\lvert m\rvert$ that lets lasso coefficients reach exactly 0 ([why lasso reaches 0](../../../ML/06-regression/ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#41-why-lasso-reaches-0)).
 
-> **Extra:** MAP still returns a single **point estimate** (G-1507), one set of parameter values (MML §9.2.4). The book notes (Section 9.2.3, Example 9.6) that a prior can push back overfitting but is not a general cure, and continues in Section 9.3 with Bayesian linear regression, which keeps the whole posterior distribution and averages the predictions of all plausible parameter values.
+> **Extra:** MAP still returns a single [**point estimate**](../../04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#1-overview) (G-1507), one set of parameter values (MML §9.2.4). The book notes (Section 9.2.3, Example 9.6) that a prior can push back overfitting but is not a general cure, and continues in Section 9.3 with Bayesian linear regression, which keeps the whole posterior distribution and averages the predictions of all plausible parameter values.
 
 ## 8. Summary
 
@@ -503,11 +503,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Prior $p(\theta)$ (G-1564) | A distribution over the parameters expressing what we believe before seeing data. |
 | Posterior $p(\theta \mid \text{data})$ (G-1535) | The distribution over the parameters after seeing the data; proportional to likelihood × prior. |
 | Maximum a posteriori (MAP) estimation (G-1189) | Choosing the parameters with the largest posterior probability given the data, which weighs the likelihood by a prior belief about the parameters; in practice, minimise the negative log-likelihood minus the log prior. |
+| [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
 | [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
 | [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
 | [Iris dataset](../../../MA/03-distributions/MA-027-pdf-and-cdf-in-practice/MA-027-pdf-and-cdf-in-practice.md#21-the-iris-data) (G-973) | 150 iris flowers of three species, with four measurements each; a classic classification dataset. |
 | [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | [Categorical distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#23-bernoulli-in-machine-learning) (G-352) | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
+| [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Point estimate](../../../MA/04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#1-overview) (G-1507) | A single number computed from sample data as the best guess for an unknown population parameter. |

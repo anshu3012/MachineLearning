@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/gradient-boo
 
 ![Gradient boosting for classification: everything is added in log-odds; the sigmoid turns log-odds into probabilities for the residuals](images/stage_loop.png){height=36%}
 
-Gradient boosting for regression ([a mean and trees on the residuals](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward); a **residual** is the true value minus the prediction) is one general algorithm for any [differentiable loss (a loss with a slope everywhere)](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#4-the-ingredients-training-data-and-a-differentiable-loss). The **loss** is the number that says how wrong the predictions are, such as the squared error. For classification we only swap the loss, from squared error to log loss, and Figure 1 shows what changes. We work through it on eight students, then watch it separate two classes on a harder dataset.
+Gradient boosting for regression ([a mean and trees on the residuals](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward); a **residual** is the true value minus the prediction) is one general algorithm for any [**differentiable loss (a loss with a slope everywhere)**](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#4-the-ingredients-training-data-and-a-differentiable-loss) (G-605). The **loss** is the number that says how wrong the predictions are, such as the squared error. For classification we only swap the loss, from squared error to log loss, and Figure 1 shows what changes. We work through it on eight students, then watch it separate two classes on a harder dataset.
 
 ## 2. One algorithm, a different loss
 
@@ -34,13 +34,13 @@ For classification, the loss is the **log loss** (G-303; [the log loss](../../07
 - the residuals are computed from probabilities;
 - each leaf's value is computed with a new formula, so that it is in log-odds.
 
-The trees themselves are still [regression trees](../ML-093-regression-trees/ML-093-regression-trees.md#32-a-leaf-predicts-the-mean) (trees whose leaves predict a number): their targets, the residuals, are numbers.
+The trees themselves are still [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#32-a-leaf-predicts-the-mean) (G-1654) (trees whose leaves predict a number): their targets, the residuals, are numbers.
 
 ## 3. The toy data: eight students
 
 > **Key point:** Two features (CGPA, IQ) and a target class: placed (1) or not (0). Five students were placed, three were not.
 
-Each student is an **observation** (G-1374) (one record, one row of the table). CGPA and IQ are the **features** (G-772), the input variables. *Placed* is the **target** (G-1949), the class we predict.
+Each student is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). CGPA and IQ are the [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), the input variables. *Placed* is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the class we predict.
 
 | Student | CGPA | IQ | Placed |
 |---|---|---|---|
@@ -140,7 +140,7 @@ Figure 3 draws the residuals. Each dot is a student at the height of its true cl
 
 ![The eight students at stage 1: true class (dots), predicted probability 0.625 (dashed line) and the pseudo-residuals $y - p$ (red gaps). Drawing residuals as gaps to a probability line follows StatQuest, "Gradient Boost Part 3 (of 4): Classification"](images/residual_gaps.png){height=34%}
 
-Every placed student has residual 0.375, every student not placed $-0.625$. These are the **pseudo-residuals** (G-1589) of the log loss: the Extra in section 8 shows that $y - p$ is minus the gradient of the log loss.
+Every placed student has residual 0.375, every student not placed $-0.625$. These are the [**pseudo-residuals**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) of the log loss: the Extra in section 8 shows that $y - p$ is minus the gradient of the log loss.
 
 ## 7. Stage 2: a regression tree on the residuals
 
@@ -331,7 +331,7 @@ Figure 9 shows the two halves of the prediction. Watch the order: all adding hap
 
 ## 12. The geometric picture
 
-> **Key point:** Lift each point to height 0 or 1 by its class. The model is a surface between 0 and 1; each tree raises it over the 1s and lowers it over the 0s, and after many trees its 0.5 level traces a curved **decision boundary** (G-555), the line where the predicted class changes.
+> **Key point:** Lift each point to height 0 or 1 by its class. The model is a surface between 0 and 1; each tree raises it over the 1s and lowers it over the 0s, and after many trees its 0.5 level traces a curved [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line where the predicted class changes.
 
 To see what the stages do, we use a harder dataset of 1,500 points with two features, $x_1$ and $x_2$. Class 1 forms a ring around a disc of class 0, and next to it lies a small disc of class 1 inside a ring of class 0. No straight line separates them.
 
@@ -352,7 +352,7 @@ Figure 11 looks at the same surface from above, after more trees. Each panel is 
 | 30 | 0.95 | 0.90 |
 | 100 | 0.99 | 0.93 |
 
-Each tree splits on one feature at a time, an **axis-parallel split** (G-243), so it adds a few rectangles, and the decision boundary is made of straight segments parallel to the axes. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy shows the model starting to memorise. The Notebook trains on to 1,000 trees, averaged over 20 fresh datasets of the same kind, each tested on 15,000 new points: test accuracy peaks at 0.942 after about 120 trees and then slips to 0.937 by 1,000, while training accuracy sits at 1.000. Past the peak, extra trees only fit the training points more tightly, so the number of trees is tuned like the learning rate (ESL §10.12).
+Each tree splits on one feature at a time, an [**axis-parallel split**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#32-lines-planes-hyperplanes) (G-243), so it adds a few rectangles, and the decision boundary is made of straight segments parallel to the axes. After 100 trees it follows both circles: the centre disc becomes orange (class 0), the small disc on the right blue (class 1). Training accuracy nearly reaches 1, and the gap to the test accuracy shows the model starting to memorise. The Notebook trains on to 1,000 trees, averaged over 20 fresh datasets of the same kind, each tested on 15,000 new points: test accuracy peaks at 0.942 after about 120 trees and then slips to 0.937 by 1,000, while training accuracy sits at 1.000. Past the peak, extra trees only fit the training points more tightly, so the number of trees is tuned like the learning rate (ESL §10.12).
 
 ## 13. Summary
 
@@ -397,8 +397,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Log-odds (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | Leaf value in log-odds (G-1062) | The amount a leaf adds to the log-odds in gradient boosting for classification, converted from the leaf's residuals because a probability cannot be added to log-odds: $\sum r / \sum p(1-p)$ over the leaf's rows. |
 | Newton step (G-1320) | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. |
+| [Differentiable loss](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#42-the-loss-function) (G-605) | A loss function whose derivative exists at every point, so it can be minimised with derivatives. |
 | [Weak learner](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104) | A model whose accuracy is only a little better than random guessing. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

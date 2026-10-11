@@ -80,7 +80,7 @@ Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only
 >           for col in cols}
 > ```
 
-`pd.crosstab` (G-1470) builds a **crosstab** (G-511): a table that counts how often each value appears with each class. Dividing each class column by the class size turns the counts into probabilities.
+`pd.crosstab` (G-1470) builds a [**crosstab**](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511): a table that counts how often each value appears with each class. Dividing each class column by the class size turns the counts into probabilities.
 
 Figure 2 runs these two steps for the feature outlook:
 

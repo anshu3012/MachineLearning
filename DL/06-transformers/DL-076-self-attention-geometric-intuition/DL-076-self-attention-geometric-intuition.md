@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 > **Key point:** Drawn as arrows, self-attention does three things to a word's vector. Self-attention projects the embedding into a query, a key and a value vector; it measures how well the word's query points along every key; and it replaces the word by a weighted average of the value vectors. The new vector lies between the value vectors, pulled towards the words that got the most weight, so the same word lands in a different place in a different sentence.
 
-The [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once) and the [scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) gave the formula for self-attention:
+The [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once) and the [**scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745) gave the formula for self-attention:
 
 $$Y = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
@@ -40,9 +40,9 @@ All the numbers in this Note are hypothetical, chosen by hand so that the arrows
 
 > **Key point:** An embedding is a list of numbers, so it is a point, or an arrow from the origin, in a space with one axis per number. Words used in similar ways sit close together.
 
-A word **embedding** (G-677; the [RNN sentiment analysis](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings), section 6) gives every word a vector. With 2 numbers per word, the first number is the position along one axis and the second along the other. The [learned embeddings of IMDB words](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) are plotted as 2-number vectors: positive words and negative words end up on opposite sides. Embeddings with hundreds of numbers are often drawn the same way after a **dimensionality reduction** (G-611; replacing many numbers per word by 2 while keeping as much of the spread as possible) such as **PCA** (G-1469), and words with similar meanings form clusters.
+A word **embedding** (G-677; the [RNN sentiment analysis](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings), section 6) gives every word a vector. With 2 numbers per word, the first number is the position along one axis and the second along the other. The [learned embeddings of IMDB words](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) are plotted as 2-number vectors: positive words and negative words end up on opposite sides. Embeddings with hundreds of numbers are often drawn the same way after a **dimensionality reduction** (G-611; replacing many numbers per word by 2 while keeping as much of the spread as possible) such as [**PCA**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469), and words with similar meanings form clusters.
 
-Figure 2 does this for real word vectors. It takes 17 words from **GloVe** (G-851), a published table with 100 numbers per word (Pennington et al. 2014), and projects them onto their first 2 principal components (the two directions in which the 17 words vary most). Three things show:
+Figure 2 does this for real word vectors. It takes 17 words from [**GloVe**](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-851), a published table with 100 numbers per word (Pennington et al. 2014), and projects them onto their first 2 principal components (the two directions in which the 17 words vary most). Three things show:
 
 - **Similar words sit together.** The chemistry words (chloride, sodium, magnesium, oxide) form one group, the formal linking words another, the money words a third and the river words a fourth.
 - **The 2-D picture agrees with all 100 numbers.** The mean **cosine similarity** (G-491; how closely two vectors point the same way: 1 for the same direction, 0 for perpendicular) between two words of the same group is 0.70; between words of different groups it is 0.20 (Notebook).
@@ -66,7 +66,7 @@ They point in quite different directions (Figure 3, and the grey arrows in Figur
 
 > **Key point:** Multiplying an embedding by $W_Q$, $W_K$ and $W_V$ moves it to three new places: its query, key and value vectors. One arrow becomes three.
 
-Multiplying a vector by a matrix is a **linear transformation** (G-1097): it moves the vector somewhere else (the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation)). **Self-attention** (G-1763) applies three such transformations to each embedding: they give its **query**, **key** (G-1011) and **value** (G-2068) vectors. Our $2 \times 2$ matrices are
+Multiplying a vector by a matrix is a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097): it moves the vector somewhere else (the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation)). [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) applies three such transformations to each embedding: they give its **query**, [**key**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) and [**value**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) vectors. Our $2 \times 2$ matrices are
 
 $$W_Q = \begin{pmatrix} 0.2 & 0.1 \cr0.1 & 0.3 \end{pmatrix}$$
 
@@ -99,7 +99,7 @@ Two embeddings have become six vectors. The embeddings themselves are not used a
 
 > **Key point:** The dot product of bank's query with each key measures how closely the two arrows point the same way. Scaling and the softmax turn these scores into weights that sum to 1.
 
-We follow the word "bank"; "money" goes through exactly the same steps. Its new vector depends on how similar "bank" is to every word of the sentence, itself included. The similarity of two arrows is their **dot product** (G-634): large when they point the same way, small when the angle between them is wide (the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5).
+We follow the word "bank"; "money" goes through exactly the same steps. Its new vector depends on how similar "bank" is to every word of the sentence, itself included. The similarity of two arrows is their [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634): large when they point the same way, small when the angle between them is wide (the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5).
 
 1. **In words:** take the dot product of bank's query with every key, divide by $\sqrt{d_k}$, then apply the softmax.
 2. **Formula:** here $d_k = 2$, and $j$ runs over the two words, money and bank:
@@ -125,7 +125,7 @@ In Figure 1 (third frame), $q_{bank}$ points between the two keys, much closer t
 
 ## 6. Step 3: a weighted sum of the value vectors
 
-> **Key point:** Each value vector is shrunk by its weight, and the shrunk arrows are added tip to tail. The result $y_{bank}$ is the **contextual embedding** (G-462) of "bank".
+> **Key point:** Each value vector is shrunk by its weight, and the shrunk arrows are added tip to tail. The result $y_{bank}$ is the [**contextual embedding**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) of "bank".
 
 1. **In words:** form the **weighted sum** (G-2119): multiply each value vector by its weight (multiplying a vector by a number shrinks or stretches it without turning it), then add the results.
 2. **Formula:**
@@ -255,6 +255,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Convex hull (G-477) | The smallest region with straight edges that contains a set of points; every weighted average of the points lies inside it. |
 | Change $\Delta e$ (G-2272) | The amount attention adds to a word's vector: the attention output is added to the word's own vector (the residual connection), new vector $= e + \Delta e$, so it acts as an update to the word. |
 | Embedding vector (G-676) | The list of numbers that represents one word, drawn as an arrow from the origin; words used in similar ways get nearby arrows, so a model can compare words through their vectors. |
+| [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
 | [Embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
 | [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) | Reducing the number of input columns while keeping the information. |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |

@@ -39,7 +39,7 @@ The Note then states both definitions (Section 5) and shows why a likelihood is 
 
 > **Key point:** The coin follows a Bernoulli distribution with $p = 0.5$; plugging in the event "tails" gives its probability.
 
-Tossing a coin once has two outcomes, heads or tails, so it follows a **Bernoulli distribution** (G-275) with one parameter $p$, the probability of heads (see [the Bernoulli distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)). For a fair coin, $p = 0.5$.
+Tossing a coin once has two outcomes, heads or tails, so it follows a [**Bernoulli distribution**](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) with one parameter $p$, the probability of heads (see [the Bernoulli distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)). For a fair coin, $p = 0.5$.
 
 1. **In words:** the Bernoulli PMF gives the probability of each outcome $k$ (1 for heads, 0 for tails) once $p$ is known.
 2. **Formula:**
@@ -63,7 +63,7 @@ The pattern is what matters. We knew the distribution (Bernoulli) and its parame
 
 > **Key point:** We toss the coin five times and get five heads. The likelihood of "the coin is fair" given this data is $0.5^5 = 0.031$.
 
-Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see [independent events](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)).
+Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)).
 
 1. **In words:** the **likelihood** (G-1086) of a parameter value is the probability of the observed data computed with that value; the data stays fixed and we change the parameter.
 2. **Formula:**
@@ -217,7 +217,7 @@ All three examples follow one pattern:
 | Bag | $P(\text{red} \mid p = 2/5) = 0.6$ | $L(p = 2/5 \mid \text{5 green}) = 0.010$ |
 | Heights | $P(170 \le X \le 180 \mid 150, 10) = 0.021$ | $L(150, 10 \mid x = 100) = 1.5 \times 10^{-7}$ |
 
-- **Probability** (G-1574) measures the chance that a certain event will occur out of all possible events. A probability is a number from 0 to 1.
+- [**Probability**](../../02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) measures the chance that a certain event will occur out of all possible events. A probability is a number from 0 to 1.
 - **Likelihood** is a function that measures the **plausibility** (G-1505) of a particular parameter value: how believable it is, given some observed data. The likelihood says how well an observed outcome supports a parameter value.
 
 Figure 6 shows that both readings come from one table. Each cell holds the probability of $k$ heads in 5 tosses for a coin with heads-probability $p$. Reading along a row (orange, $p = 0.5$) fixes the parameter and runs over the events: that is probability. Reading down a column (green, $k = 5$) fixes the data and runs over the parameter values: that is likelihood, the values $p^5$ of Section 2.2.
@@ -284,5 +284,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Likelihood function $L(\theta \mid \text{data})$ (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
 | Plausibility (G-1505) | How believable a parameter value is in the light of the data; measured by its likelihood relative to other values. |
 | [Bernoulli distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
+| [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |

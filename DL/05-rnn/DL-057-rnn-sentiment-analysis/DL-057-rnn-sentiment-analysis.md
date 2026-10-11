@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, concept/text-vectoriza
 
 > **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the vocabulary) and a learned embedding (each word becomes a short, dense vector, a list of numbers, that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
 
-**Sentiment analysis** (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn), in Keras, on real movie reviews.
+[**Sentiment analysis**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn), in Keras, on real movie reviews.
 
 The aim is the workflow, not the best accuracy:
 
@@ -36,7 +36,7 @@ Figure 1 is the result of the whole Note. The horizontal axis is the epoch (one 
 - The [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#3-the-shape-of-the-input): input shape (time steps, input features), the recurrent layer, counting its parameters.
 - The [why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network): padding sequences to a common length, and its cost.
 - The [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#5-compiling-and-training): `compile`, `fit` and validation data in Keras.
-- The [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category): a category as a vector with a single 1.
+- The [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379): a category as a vector with a single 1.
 
 ## 3. Integer encoding
 
@@ -50,7 +50,7 @@ Each review is one **observation** (G-1374; one record of the data), and its lab
 
 ![Integer encoding of two sentences: build the vocabulary and number its words, replace every word by its number, then pad the shorter sequence with 0](images/integer_encoding.png){width=100%}
 
-1. **Vocabulary.** List the unique words of the whole document, the **vocabulary** (G-2092), and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
+1. **Vocabulary.** List the unique words of the whole document, the [**vocabulary**](../../06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092), and give each one an integer: hi is 1, there is 2, how is 3, are is 4, you is 5.
 2. **Replace.** Write every sentence as the integers of its words: "hi there" becomes $[1, 2]$ and "how are you" becomes $[3, 4, 5]$.
 3. **Pad.** The sequences have different lengths, so we use **padding** (G-1436): add zeros at the start or the end of the shorter ones until all have the same length: $[1, 2, 0]$ and $[3, 4, 5]$. The integer 0 is kept for padding, so no word gets it.
 
@@ -60,7 +60,7 @@ Figure 2 shows the three steps.
 
 > **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the vocabulary and replaces each word by its index, in one step.
 
-Splitting a text into words is **tokenization** (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
+Splitting a text into words is [**tokenization**](../../06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
 
 Take a document of 10 short cheering slogans, such as "go india", "india india" and "jeetega bhai jeetega india jeetega". `adapt` reads the document and builds the vocabulary, most frequent word first. The Notebook prints 19 entries:
 
@@ -160,13 +160,13 @@ The recurrent layer computes a hidden state at every time step (Figure 4). The a
 
 ![The SimpleRNN of section 5 unrolled over a review's 50 integers. Top: with `return_sequences=False` only $h_{50}$ goes on to the sigmoid output. Bottom: with `True` every hidden state leaves the layer, one per word](images/return_sequences.png){width=100%}
 
-Some tasks need an output at every word: **named entity recognition** (G-1300) labels each word (for example, is it a person's name?), and **machine translation** (G-1141) produces a sentence. Those use `return_sequences=True`. The [types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) covers these cases.
+Some tasks need an output at every word: [**named entity recognition**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) labels each word (for example, is it a person's name?), and [**machine translation**](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) produces a sentence. Those use `return_sequences=True`. The [types of RNN](../DL-058-types-of-rnn/DL-058-types-of-rnn.md#5-many-to-many) covers these cases.
 
 ### 5.4 Training
 
 > **Key point:** Binary cross-entropy, Adam, 5 epochs, the test reviews as validation data. Raw integers give a test accuracy near a coin toss.
 
-We compile with **binary cross-entropy** (G-303; the loss for two classes) loss and the **Adam** (G-169; the rule that updates the weights) optimizer, train for 5 **epochs** (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
+We compile with **binary cross-entropy** (G-303; the loss for two classes) loss and the **Adam** (G-169; the rule that updates the weights) optimizer, train for 5 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) and pass the test reviews as `validation_data`. Averaged over 3 runs, the model reaches 0.50 training accuracy and 0.50 test accuracy after 5 epochs (grey lines in Figure 1). With two balanced classes, guessing gives 0.50.
 
 Only 50 words per review and only 5 epochs make the task harder. But the embedding model of section 7 gets the same 50 words and the same 5 epochs and reaches 0.80. The main difference between the two models is how a word enters the RNN (the embedding model also keeps only the 10,000 most frequent words), so the representation of the words is what holds this model back.
 
@@ -200,7 +200,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
 `Embedding` takes two main arguments:
 
 - `input_dim`: the vocabulary size;
-- `output_dim`: the size of each word's vector, a **hyperparameter** (G-910) (2, 32, 200, ...) to tune.
+- `output_dim`: the size of each word's vector, a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) (2, 32, 200, ...) to tune.
 
 > **Extra:** Older code also passes `input_length`, the number of words per sequence. Keras 3 removed that argument; the sequence length comes from the input shape (`keras.Input(shape=(50,))`) instead (Keras documentation, `Embedding`).
 
@@ -216,7 +216,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
 
 ![The embedding layer as a lookup: the one-hot vector of "go" (index 16, drawn standing up to save space; in the product it is a row of 19 numbers) times $E$ keeps row 16 of $E$, which becomes the word's dense vector](images/embedding_lookup.png){width=80%}
 
-$E$ starts random and is trained with the rest of the network by **backpropagation** (G-247). Figure 5 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
+$E$ starts random and is trained with the rest of the network by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247). Figure 5 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
 
 Applied to a padded sequence of 5 integers, the layer returns 5 rows of 2 numbers, one per word (the padding index 0 also gets a row). For the 10 slogans, padded to 5 words, the output has shape $(10, 5, 2)$: 100 numbers.
 
@@ -257,7 +257,7 @@ Now each time step carries 2 numbers instead of 1, so the RNN's input is (50 tim
 | Training accuracy | 0.50 | 0.90 |
 | Test accuracy | 0.50 | 0.80 |
 
-The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is **overfitting** (G-1429). The [regularization](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting) and the [early stopping](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras) cover the remedies.
+The green lines of Figure 1 show the embedding model. Test accuracy levels off at about 0.80 from epoch 2 while training accuracy keeps rising to 0.90: the model is starting to memorise the training reviews, which is [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429). The [regularization](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting) and the [early stopping](../../02-training/DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras) cover the remedies.
 
 ### 7.3 What the embedding learned
 
@@ -287,7 +287,7 @@ In Figure 8, watch the column for "worst": the hidden state changes colour there
 
 > **Key point:** We can learn the embedding with the model, as here, or load pre-trained vectors such as Word2Vec or GloVe.
 
-A pre-trained embedding, like a **pretrained model** (G-1558), was learned on a large general text collection. An embedding learned with the model is fitted to our own data and task. Which works better depends on the data (Goodfellow §15.1.1):
+A pre-trained embedding, like a [**pretrained model**](../../04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#1-overview) (G-1558), was learned on a large general text collection. An embedding learned with the model is fitted to our own data and task. Which works better depends on the data (Goodfellow §15.1.1):
 
 - Pre-training helps most when the labelled observations are few, and when the text used for pre-training is very large.
 - Words are a case where pre-training is especially useful, because one-hot words carry no similarity information (section 6.1). In natural language processing, the vectors are often learned once on a huge text of billions of words, then used as they are or fine-tuned for the task.
@@ -341,6 +341,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `Embedding` layer (G-77) | The Keras layer that holds a table with one learned vector per word (the embedding matrix $E$) and looks up one row per word. |
 | Embedding (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
 | [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |

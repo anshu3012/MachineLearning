@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/hierarchical
 
 > **Key point:** Agglomerative clustering starts with every point as its own cluster and repeatedly merges the two closest clusters; the record of the merges, the dendrogram, lets us pick any number of clusters afterwards.
 
-**k-means** (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points. In each frame, the left panel shows the points and the clusters merged so far; the right panel is the dendrogram, a tree whose vertical axis is the distance at which two clusters merged.
+[**k-means**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points. In each frame, the left panel shows the points and the clusters merged so far; the right panel is the dendrogram, a tree whose vertical axis is the distance at which two clusters merged.
 
 ![Agglomerative clustering on 6 points: each merge (left) adds one link to the dendrogram (right); a cut through the tree gives the clusters](images/agglomerative.gif){height=45%}
 
@@ -43,7 +43,7 @@ k-means assigns every point to its nearest centroid ([the five steps of k-means]
 
 ![k-means (k = 2 or 3) on four datasets: one colour per cluster found](images/kmeans_fails.png){height=50%}
 
-k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers hierarchical clustering; density-based clustering, with its algorithm DBSCAN, is covered in [density-based clustering](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
+k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers hierarchical clustering; density-based clustering, with its algorithm DBSCAN, is covered in [**density-based clustering**](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering) (G-588). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
 
 ## 4. Two kinds of hierarchical clustering
 
@@ -115,7 +115,7 @@ To code agglomerative clustering, we need a **proximity matrix** (G-1585): a tab
    - merge the two closest clusters;
    - update the proximity matrix: remove the two old rows and columns, and add one row and column for the new cluster.
 
-Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$ and $P_5 = (6, 6)$. Their **Euclidean distances** (G-715) form the proximity matrix (Figure 4, left):
+Take five points: $P_1 = (1, 1)$, $P_2 = (2, 2)$, $P_3 = (5, 4)$, $P_4 = (6, 4)$ and $P_5 = (6, 6)$. Their [**Euclidean distances**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) form the proximity matrix (Figure 4, left):
 
 |  | P1 | P2 | P3 | P4 | P5 |
 |---|---|---|---|---|---|
@@ -208,7 +208,7 @@ The average lies between the minimum and the maximum, so average linkage is an i
    B is one point, its own centroid, so its sum is 0. Then
    $$\Delta = 3.33 - 0.5 - 0 = 2.83$$
 
-Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (within-cluster sum of squares, the total squared distance of points to their centroid; see [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are); scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
+Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (within-cluster sum of squares, the total squared distance of points to their centroid; see [**WCSS**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102); scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
 
 > **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$. Here:
 > $$\sqrt{2 \times 2.83} = 2.38$$
@@ -370,6 +370,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Cutting the dendrogram (G-527) | Drawing a horizontal line through the dendrogram; the lines it crosses are the clusters. |
 | distance_threshold (G-624) | Height at which `AgglomerativeClustering` stops merging, instead of a fixed number of clusters. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [Density-based clustering](../../../ML/09-clustering-and-more/ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering) (G-588) | Clustering that finds dense regions of points separated by sparse regions. |
 | [Dendrogram](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories) (G-582) | A tree showing which rows (or columns) were joined as similar, and in what order. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
+| [WCSS (inertia)](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102) | Within-cluster sum of squares: the sum of squared distances from each point to its own centroid; a smaller value means tighter clusters. |
 | [Minkowski distance](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1227) | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |

@@ -33,9 +33,9 @@ The Notebook (`ML-101-bagging-regressor.ipynb`) runs every experiment. The Dash 
 
 > **Key point:** Bootstrapping is unchanged; aggregation averages the predictions.
 
-In the **bootstrapping** step, each **base model** (G-260), one of the models being combined, is trained on its own **bootstrap sample** (G-319): observations drawn at random with replacement, as in the classifier. The other sampling types carry over too, so pasting, random subspaces and random patches are all available.
+In the **bootstrapping** step, each [**base model**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260), one of the models being combined, is trained on its own [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319): observations drawn at random with replacement, as in the classifier. The other sampling types carry over too, so pasting, random subspaces and random patches are all available.
 
-In the **aggregation** (G-183) step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
+In the [**aggregation**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
 
 ![Aggregation in a bagging regressor: at three inputs x, each of the 50 bagged trees of section 3 returns a number (grey dots); the bagging prediction is their mean (blue diamond)](images/aggregation_mean.png){height=30%}
 
@@ -53,7 +53,7 @@ The aggregation step, on the numbers of Figure 1:
 
    Over all $M = 50$ trees the mean is **0.44**, the blue diamond of Figure 1, and exactly what `predict` returns.
 
-A classifier replaces only this step: it counts the base models' classes and returns the **majority vote** (G-1146).
+A classifier replaces only this step: it counts the base models' classes and returns the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146).
 
 scikit-learn's `BaggingRegressor` (G-254) has exactly the same hyperparameters as `BaggingClassifier` (see [what works in practice](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#5-what-works-in-practice)): `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features` and `oob_score`.
 
@@ -67,16 +67,16 @@ The demo data has one **feature** (input variable, one column of the data table)
 
 Figure 2 compares a single decision tree with bagging (50 trees, 25 observations each, with replacement):
 
-- **(a) The single regression tree** (G-1654) tries to pass through every training point, outliers included. Such a model is **low bias, high variance** (G-1132): it can follow any pattern, but its prediction swings with the particular training points. Fitting the noise in this way is **overfitting** (G-1429). Test $R^2$: **0.92** (the **R² score** (G-1717): the share of the target's variation the model explains; 1 is perfect).
+- [**(a) The single regression tree**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) tries to pass through every training point, outliers included. Such a model is [**low bias, high variance**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132): it can follow any pattern, but its prediction swings with the particular training points. Fitting the noise in this way is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429). Test $R^2$: **0.92** (the [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717): the share of the target's variation the model explains; 1 is perfect).
 - **(b) The bagging regressor** gives a smooth curve. The curve does not touch every point; it follows the underlying pattern. Test $R^2$: **0.95**.
 
 Why the mean is smoother, step by step:
 
-1. A regression tree predicts one constant value per leaf, so its prediction is a **step function** (G-1889): flat inside each leaf, with a jump at every split.
+1. A regression tree predicts one constant value per leaf, so its prediction is a [**step function**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889): flat inside each leaf, with a jump at every split.
 2. Each bagged tree saw a different bootstrap sample, so it puts its jumps at different values of x (Figure 3, grey trees).
 3. The mean of 50 step functions with jumps in different places has many small steps instead of a few large ones, which looks like a smooth curve.
 
-In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its **variance** (G-2074), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
+In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
 
 Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77, below the 0.92 of Figure 2a because this tree saw only 25 of the 150 points) into a smooth curve (0.95 with 50 trees).
 
@@ -129,7 +129,7 @@ Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.8
 
 > **Key point:** A grid search over 144 combinations picks 50 bagged trees on full bootstrap samples; over the 100 splits these settings score 0.857, above the default's 0.841.
 
-Instead of trying **pasting** (G-1463), **random subspaces** (G-1618) and **random patches** (G-1614) by hand, we let `GridSearchCV`, a **grid search** (G-872), try them all (as in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k)):
+Instead of trying [**pasting**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463), [**random subspaces**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1618) and [**random patches**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1614) by hand, we let `GridSearchCV`, a [**grid search**](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872), try them all (as in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k)):
 
 > **Python:** Searching over the base model and the sampling settings.
 >
@@ -175,7 +175,7 @@ Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, thes
 
 > **Key point:** With `oob_score=True`, the regressor reports R² on the out-of-bag observations: 0.870 here.
 
-The **out-of-bag score** (G-1411) works for regression too (see [the out-of-bag score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score)). For a regressor, `oob_score_` is the $R^2$ on the observations each model never saw. With 50 trees on the first split, the OOB $R^2$ is **0.870**, close to the cross-validation score.
+The [**out-of-bag score**](../ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) works for regression too (see [the out-of-bag score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score)). For a regressor, `oob_score_` is the $R^2$ on the observations each model never saw. With 50 trees on the first split, the OOB $R^2$ is **0.870**, close to the cross-validation score.
 
 ## 5. Summary
 

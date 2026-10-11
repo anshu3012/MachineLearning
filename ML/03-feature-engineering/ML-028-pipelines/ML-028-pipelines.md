@@ -49,7 +49,7 @@ Done separately, these are three pieces of code. With a pipeline they become one
 
 > **Key point:** Every input the model ever sees needs exactly the same preprocessing, and a pipeline guarantees that.
 
-The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is **deployed** (G-592) to a server, for example behind a website, each new input arrives raw. A raw input may have missing values to fill and categories to encode before the model can use it.
+The training set, the test set and every future input must go through the same preprocessing. The future inputs are the important case: once a model is [**deployed**](../../01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#2-development-and-production) (G-592) to a server, for example behind a website, each new input arrives raw. A raw input may have missing values to fill and categories to encode before the model can use it.
 
 Without a pipeline, every preprocessing step must be written a second time in the website's code. With a pipeline, the steps travel with the model, so nothing has to be repeated.
 
@@ -59,7 +59,7 @@ To see the difference, we build the same small project twice: first without a pi
 
 > **Key point:** 891 passengers; we predict `Survived` (1 = survived, 0 = died) from seven features, two of which have missing values.
 
-The data is Kaggle's Titanic training file: one row per passenger on the Titanic, so each passenger is one **observation** (G-1374). We drop four columns that are not useful here: `PassengerId`, `Name`, `Ticket` and `Cabin`. Eight columns remain.
+The data is Kaggle's Titanic training file: one row per passenger on the Titanic, so each passenger is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374). We drop four columns that are not useful here: `PassengerId`, `Name`, `Ticket` and `Cabin`. Eight columns remain.
 
 | Survived | Pclass | Sex | Age | SibSp | Parch | Fare | Embarked |
 |---|---|---|---|---|---|---|---|
@@ -69,7 +69,7 @@ The data is Kaggle's Titanic training file: one row per passenger on the Titanic
 
 The columns mean:
 
-- **Survived:** the **target** (G-1949), the output we predict. 1 if the passenger survived, 0 if not.
+- **Survived:** the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict. 1 if the passenger survived, 0 if not.
 - **Pclass:** ticket class, 1, 2 or 3.
 - **Sex:** male or female.
 - **Age:** age in years.
@@ -78,7 +78,7 @@ The columns mean:
 - **Fare:** ticket price.
 - **Embarked:** port where the passenger boarded: C (Cherbourg), Q (Queenstown) or S (Southampton).
 
-The other seven columns are the **features** (G-772). The task is a model that takes a passenger's seven features and predicts whether that passenger survives.
+The other seven columns are the [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772). The task is a model that takes a passenger's seven features and predicts whether that passenger survives.
 
 ### 3.1 What the columns need
 
@@ -177,7 +177,7 @@ The four columns that needed nothing (Pclass, SibSp, Parch, Fare) are taken out 
 
 $$4 + 1 + 2 + 3 = 10$$
 
-A [decision tree](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (a model that predicts by a chain of yes/no questions) is trained on the result. On the test set it gets an **accuracy** (G-162; [the share of correct predictions](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)) of 79.3%.
+A [**decision tree**](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#1-overview) (G-561) (a model that predicts by a chain of yes/no questions) is trained on the result. On the test set it gets an **accuracy** (G-162; [the share of correct predictions](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)) of 79.3%.
 
 Figure 3 draws the whole manual route. Watch how many separate objects and arrays feed the one join at the end.
 
@@ -282,9 +282,9 @@ Repeating and re-ordering steps by hand is a poor way to write code, and the rea
 
 The pipeline has five steps, named `trf1` to `trf5`:
 
-1. **trf1, impute:** fill the missing Age and Embarked values, with a **column transformer** (G-415), the class that applies different transformations to different columns.
+1. **trf1, impute:** fill the missing Age and Embarked values, with a [**column transformer**](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415), the class that applies different transformations to different columns.
 2. **trf2, one-hot encode:** encode Sex and Embarked, with a second column transformer.
-3. **trf3, scale:** bring every column to the range 0 to 1 with `MinMaxScaler` ([min-max scaling](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling)), so all columns are on a similar scale.
+3. **trf3, scale:** bring every column to the range 0 to 1 with `MinMaxScaler` ([**min-max scaling**](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1217)), so all columns are on a similar scale.
 4. **trf4, feature selection:** keep only the 8 most useful of the 10 columns.
 5. **trf5, model:** a decision tree.
 
@@ -376,7 +376,7 @@ The columns are given as `slice(0, 10)`: positions 0 up to, but not including, 1
 
 > **Key point:** `SelectKBest` scores each column against the target and keeps the `k` best; it needs no column transformer because it looks at every column.
 
-[Feature selection](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) keeps only the most useful features. **`SelectKBest`** (G-1762) does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
+[**Feature selection**](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) keeps only the most useful features. **`SelectKBest`** (G-1762) does the job simply: it gives every column a score and keeps the `k` columns with the highest scores.
 
 The score here comes from `chi2`, the **chi-squared test** (G-382). The test measures how strongly each column is linked to the target; it only works on values of 0 or more (scikit-learn docs, `chi2`).
 
@@ -778,7 +778,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
 | [pickle](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#101-saving-the-model) (G-1494) | A Python module that saves objects to a file and loads them back. |
 | [Column transformer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
+| [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |

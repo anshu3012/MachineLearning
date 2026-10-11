@@ -24,7 +24,7 @@ Three words recur below. A **sequence** is an ordered list of values, such as th
 
 | Type | Input | Output | Example |
 |---|---|---|---|
-| Many-to-one | sequence | one value | **sentiment analysis** (G-1769), rating prediction |
+| Many-to-one | sequence | one value | [**sentiment analysis**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769), rating prediction |
 | One-to-many | one value (not a sequence) | sequence | image captioning, music generation |
 | Many-to-many, same length | sequence | sequence, one output per input | part-of-speech tagging, named entity recognition |
 | Many-to-many, different lengths | sequence | sequence of another length | machine translation |
@@ -49,7 +49,7 @@ The type also changes how backpropagation runs through the network, which the **
 A **many-to-one** RNN (G-1155) takes a sequence as input, such as a sentence, a string of characters or a time series, and gives a non-sequential output: one number, such as a class label 1 or 0.
 
 - **Sentiment analysis:** the input is a review, read word by word; the output is its sentiment, 1 (positive) or 0 (negative).
-- **Rating prediction:** the input is a review; the output is a star rating from 1 to 5. The output is still one value, so this is a **multi-class classification** (G-1266) problem on top of a many-to-one RNN.
+- **Rating prediction:** the input is a review; the output is a star rating from 1 to 5. The output is still one value, so this is a [**multi-class classification**](../DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) problem on top of a many-to-one RNN.
 
 ![Many-to-one, unrolled: one word enters at each time step, the hidden state passes to the next step (red arrows), and only the last step produces an output](images/many_to_one.png){width=70%}
 
@@ -123,8 +123,8 @@ In Figure 5 the network produces nothing while it reads the input. It starts pro
 
 The two parts have names.
 
-- The **encoder** (G-682) is the part that reads the input. It emits a summary of the input, usually a simple function of its last hidden state (Goodfellow §10.4).
-- The **decoder** (G-564) is the part that writes the output, starting from that summary.
+- The [**encoder**](../../06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-682) is the part that reads the input. It emits a summary of the input, usually a simple function of its last hidden state (Goodfellow §10.4).
+- The [**decoder**](../../06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) is the part that writes the output, starting from that summary.
 
 Together they form an **encoder-decoder** architecture. Its advance over the earlier patterns is that the input length and the output length can differ (Goodfellow §10.4). Speech recognition and question answering have the same need (Goodfellow §10.4).
 
@@ -158,7 +158,7 @@ Figure 7 follows the shape through each model, layer by layer. Watch the time-st
 
 ![The Notebook's models, layer by layer. Grey: the shape each layer hands on; bold: the model's output. The one-to-one model, two `Dense` layers from $(2, 8)$ to $(2, 1)$, is left out](images/keras_shapes.png){width=100%}
 
-A 3D output (batch, time steps, values) means one prediction per time step; a 2D output (batch, values) means one prediction per **observation** (G-1374).
+A 3D output (batch, time steps, values) means one prediction per time step; a 2D output (batch, values) means one prediction per [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374).
 
 ## 8. Summary
 

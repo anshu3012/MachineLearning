@@ -39,7 +39,7 @@ ML algorithms can be grouped in three different ways:
 
 Three words describe any data table:
 
-- a **feature** (G-772) is an input variable (one column of the table);
+- a [**feature**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the table);
 - the **target** (G-1949) is the output we want to predict (also a column);
 - an **observation** (G-1374) is one record (one row of the table).
 
@@ -79,7 +79,7 @@ Supervised learning has two sub-types. Which one we have depends only on the **t
 
 ![Regression vs classification](images/reg_vs_cls.png)
 
-In Figure 3, regression fits a line that gives a number for any input. Classification learns a **decision boundary** (G-555): the line or curve that separates the inputs assigned to one category from those assigned to another. If we colour every possible input by the category the model would predict there, we get a [decision surface](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces), and the decision boundary is the line where the colour changes.
+In Figure 3, regression fits a line that gives a number for any input. Classification learns a [**decision boundary**](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): the line or curve that separates the inputs assigned to one category from those assigned to another. If we colour every possible input by the category the model would predict there, we get a [**decision surface**](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces) (G-560), and the decision boundary is the line where the colour changes.
 
 | Problem | Output | Type |
 |---|---|---|
@@ -145,7 +145,7 @@ Each feature is a **dimension** (G-610). (A tensor's dimensions mean something e
 1. Algorithms become **slow**.
 2. After a point, extra features **stop improving** the results, because the same number of observations gets spread more and more thinly over the extra dimensions (the curse of dimensionality, see [why more dimensions cause trouble](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
 
-**Dimensionality reduction** (G-611) removes the extra features.
+[**Dimensionality reduction**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) removes the extra features.
 
 *Example: house prices.* Number of rooms and number of washrooms carry related information. We can combine them into one feature, area (Figure 7).
 
@@ -221,7 +221,7 @@ Labels are **expensive**. Collecting inputs is easy; for example, we can downloa
 
 One human label replaced hundreds.
 
-How does one label reach a whole group? Similar observations sit close together, so a label can hop from each observation to its **nearest neighbours** (G-1306), the observations closest to it. Figure 12 shows the hops on the 90 students of Figure 6.
+How does one label reach a whole group? Similar observations sit close together, so a label can hop from each observation to its [**nearest neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306), the observations closest to it. Figure 12 shows the hops on the 90 students of Figure 6.
 
 ![Label propagation on the 90 students of Figure 6. Stars: the three students labelled by hand. Grey links join each student to its 5 nearest neighbours; a white dot has no label yet.](images/label_spreading.gif)
 
@@ -232,7 +232,7 @@ How does one label reach a whole group? Similar observations sit close together,
 
 This method is called **label propagation** (G-2172) (Zhu and Ghahramani 2002). It works only when observations with the same label sit close together, as the three groups do here.
 
-A related idea needs no hand labels at all. In **self-supervised learning** (G-2279), the labels come from the data itself: in a sentence, the next word is the label for the words before it (Jurafsky and Martin, §7.7). Language models such as GPT are pre-trained this way; see [transfer learning for language](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018).
+A related idea needs no hand labels at all. In [**self-supervised learning**](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018) (G-2279), the labels come from the data itself: in a sentence, the next word is the label for the words before it (Jurafsky and Martin, §7.7). Language models such as GPT are pre-trained this way; see [transfer learning for language](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018).
 
 ## 5. Reinforcement learning
 
@@ -360,6 +360,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Input / output (G-948) | The columns we know / the column we want to predict. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#1-overview) (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
 | [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) | Reducing the number of input columns while keeping the information. |
 | [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |

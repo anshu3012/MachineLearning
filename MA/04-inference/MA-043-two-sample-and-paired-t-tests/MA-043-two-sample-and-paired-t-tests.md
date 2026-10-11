@@ -20,7 +20,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-test]
 
 ![Independent samples (two separate groups) against paired samples (the same people measured twice)](images/two_designs.png){height=30%}
 
-The [one-sample t-test](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test) compared one sample mean with a claimed value. Often we want to compare two samples instead. Figure 1 shows the two designs, and each has its own t-test.
+The [**one-sample t-test**](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#4-the-one-sample-t-test) (G-1382) compared one sample mean with a claimed value. Often we want to compare two samples instead. Figure 1 shows the two designs, and each has its own t-test.
 
 Words from earlier hypothesis-testing Notes appear throughout. Each, with its plain meaning:
 
@@ -28,10 +28,10 @@ Words from earlier hypothesis-testing Notes appear throughout. Each, with its pl
 - **p-value**: the probability of a result at least as extreme as ours if $H_0$ were true ([definition](../MA-041-p-values/MA-041-p-values.md#2-definition));
 - **significance level** $\alpha$: the cut-off for $p$ below which we reject $H_0$, here 0.05 ([how rare is too rare](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level));
 - **standard error**: how much a sample mean varies from sample to sample ([mean and variance of the sample means](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means));
-- **degrees of freedom** ($df$): the number that sets the width of the t-distribution, the bell-shaped curve that $t$ follows when $H_0$ is true ([degrees of freedom](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom));
+- **degrees of freedom** ($df$): the number that sets the width of the t-distribution, the bell-shaped curve that $t$ follows when $H_0$ is true ([**degrees of freedom**](../MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578));
 - **central limit theorem**: sample means are close to normal when samples are large enough ([the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem));
 - **Q-Q plot** and **Shapiro-Wilk test**: two ways to check whether data looks normal ([building a Q-Q plot](../../03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot));
-- **Type II error** and **power**: missing a real difference, and the chance of catching it ([power of a test](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test)).
+- **Type II error** and **power**: missing a real difference, and the chance of catching it ([**power of a test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test) (G-1539)).
 
 **Which t-test? Two questions decide it.**
 
@@ -62,7 +62,7 @@ $$H_0: \mu_1 - \mu_2 = 0$$
 
 $$H_1: \mu_1 - \mu_2 \neq 0$$
 
-A t-test compares exactly **two** groups. To compare all three Titanic classes at once, we use **ANOVA** (a test for the means of three or more groups, see [one-way ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview)) instead.
+A t-test compares exactly **two** groups. To compare all three Titanic classes at once, we use **ANOVA** (a test for the means of three or more groups, see [**one-way ANOVA**](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-1389)) instead.
 
 ### 2.1 Assumptions
 
@@ -249,7 +249,7 @@ Figure 4 shows why: the two clouds of ages are shifted, and the confidence inter
 
 All 284 known first-class ages have a mean of **39.16** years and all 501 third-class ages **24.82**: a real gap of about 14 years, as the test concluded. The conclusion does not hang on our one sample: repeating the test on 4000 random pairs of samples of 40, **99.98%** reject $H_0$.
 
-> **Extra:** A small gap needs a large sample. Men and women on the Titanic also differ in mean age, but only by 1.9 years (30.59 against 28.69), on ages with a standard deviation near 14. With samples of 25 men and 25 women, only **10%** of 4000 repeated tests reject $H_0$: the test has a power of about 0.10, and nine times out of ten it makes a Type II error (see [Type II error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error)). Failing to reject in such a test is not proof that the means are equal.
+> **Extra:** A small gap needs a large sample. Men and women on the Titanic also differ in mean age, but only by 1.9 years (30.59 against 28.69), on ages with a standard deviation near 14. With samples of 25 men and 25 women, only **10%** of 4000 repeated tests reject $H_0$: the test has a power of about 0.10, and nine times out of ten it makes a Type II error (see [**Type II error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error) (G-2033)). Failing to reject in such a test is not proof that the means are equal.
 
 ## 5. The paired t-test
 
@@ -464,4 +464,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | F-test (G-742) | A check of whether two groups have the same spread, made from the ratio of the two sample variances (a hypothesis test of equal population variances); an alternative to Levene's test. |
 | Paired observations (G-1438) | Two measurements that belong to the same subject or matched pair. |
 | Unpaired t-test (G-2054) | Another name for the independent two-sample t-test: a t-test that compares the means of two separate groups whose values are not paired. |
+| [One-sample t-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#3-the-three-types-of-t-test) (G-1382) | A test of whether a population's mean equals a claimed value, from one sample, when the population standard deviation $\sigma$ is unknown: $t = (\bar{x} - \mu_0)/(s/\sqrt{n})$. |
+| [Degrees of freedom](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#51-degrees-of-freedom) (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
+| [Power of a test](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test) (G-1539) | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |
+| [One-way ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-1389) | A test of whether three or more group means are equal, with the groups defined by one categorical column. |
+| [Type II error (false negative)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#22-type-ii-error) (G-2033) | A miss: the test finds no effect when there really is one (failing to reject $H_0$ when it is actually false); its probability is $\beta$. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |

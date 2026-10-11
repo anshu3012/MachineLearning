@@ -40,7 +40,7 @@ Each of these is taught in an earlier Note; here is the one-line version.
 
 - **Population and sample:** the population is the entire group we want to study; a sample is the part we measure, chosen at random and representative (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)).
 - **Parameter and statistic:** a number describing the population (Greek letters: $\mu$, $\sigma$) and the same number computed from a sample (Latin letters: $\bar{x}$, $s$). Parameters are usually unknown and must be estimated from statistics.
-- **Inferential statistics** (G-944): drawing conclusions about a population from a sample. Its tools include confidence intervals, hypothesis tests and regression, and it answers questions such as "can the sample mean tell us the population mean?".
+- [**Inferential statistics**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944): drawing conclusions about a population from a sample. Its tools include confidence intervals, hypothesis tests and regression, and it answers questions such as "can the sample mean tell us the population mean?".
 - **Central limit theorem:** the means of large samples are approximately normal around $\mu$ with standard error $\sigma/\sqrt{n}$ (the standard deviation of the sample means; see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 - **Point estimate:** a single number computed from sample data as the best guess for an unknown parameter (see [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#5-the-point-estimate)).
 
@@ -113,7 +113,7 @@ There are several ways to compute a confidence interval. For a mean, the two sta
 | Procedure | Use when | Spread used |
 |---|---|---|
 | **Z-procedure** (G-2138) ("sigma known") | the population standard deviation $\sigma$ is known | $\sigma$ |
-| **T-procedure** (G-1938) ("sigma unknown") | $\sigma$ is unknown | the sample standard deviation $s$ |
+| [**T-procedure**](../MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula) (G-1938) ("sigma unknown") | $\sigma$ is unknown | the sample standard deviation $s$ |
 
 Figure 4 shows the difference on 20 samples of 100 ages from the Notebook's population ($\mu = 28$, $\sigma = 15$). Watch the widths: with $\sigma$ known every z-interval is equally wide, while each t-interval takes its width from its own sample's $s$.
 
@@ -273,7 +273,7 @@ The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and 
 
 > **Key point:** Resample the one sample with replacement many times, compute the mean of each resample, and keep the middle 95% of those means: a confidence interval without $\sigma$, without a z-table and without a formula.
 
-The z-procedure needs $\sigma$ and a normal sampling distribution. The **bootstrap** (G-320) needs neither. It treats the sample as a small copy of the population and draws new samples from it. Figure 7 builds one on 12 random Titanic ages: 45, 51, 11, 21, 22, 28, 26, 32, 30, 18, 30, 32, with mean 28.83 years.
+The z-procedure needs $\sigma$ and a normal sampling distribution. The [**bootstrap**](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) needs neither. It treats the sample as a small copy of the population and draws new samples from it. Figure 7 builds one on 12 random Titanic ages: 45, 51, 11, 21, 22, 28, 26, 32, 30, 18, 30, 32, with mean 28.83 years.
 
 ![12 Titanic ages are resampled with replacement; each resample's mean drops into the histogram; after 10,000 resamples the middle 95% gives the interval 23.2 to 35.0, beside the t-interval 21.9 to 35.8 (idea after StatQuest, "Confidence Intervals, Clearly Explained!!!")](images/bootstrap_ci.gif)
 
