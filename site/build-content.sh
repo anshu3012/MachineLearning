@@ -1,12 +1,22 @@
 #!/usr/bin/env bash
 # Fill a Quartz checkout with the Notes and apply our config.
-# Usage: site/build-content.sh <quartz-dir>
+# Usage: [SITE=main|robotics] site/build-content.sh <quartz-dir>
+# Each site holds some Subjects (GitHub Pages caps a site at 1 GB); links to a Note on another site become full URLs.
 # Only copies: *.md, images/*.{png,gif,svg,jpg}, images/*.html (interactive figures, as .htm) and tools/plotly.min.js.
 # Copies are edited; repo files are never touched.
 set -euo pipefail
 repo=$(cd "$(dirname "$0")/.." && pwd)
 quartz=$(cd "$1" && pwd)
 content="$quartz/content"
+SITE=${SITE:-main}
+declare -A url=([MA]=anshu3012.github.io/MachineLearning [ML]=anshu3012.github.io/MachineLearning
+                [DL]=anshu3012.github.io/MachineLearning [RO]=anshu3012.github.io/Robotics)
+case $SITE in
+  main) subjects="MA ML DL" ;;
+  robotics) subjects="RO" ;;
+  *) echo "unknown SITE=$SITE" >&2; exit 1 ;;
+esac
+base=${url[${subjects%% *}]}
 rm -rf "$content" && mkdir -p "$content"
 
 # Edits applied to every copied Markdown file ($1 = root-absolute image dir, with trailing slash, or empty):
@@ -44,6 +54,20 @@ display_math() {
          }
        }
        { print }'
+}
+
+# A Note link fix_md made bare ("](MA-024-normal-distribution#sec)") whose Note is on another site -> full URL.
+# $offsite = "name<TAB>url" list, written below.
+cross_links() {
+  awk -v map="$offsite" '
+    BEGIN { while ((getline l < map) > 0) { split(l, a, "\t"); u[a[1]] = a[2] } }
+    { out = ""
+      while (match($0, /\]\([A-Z][A-Z]-[0-9][0-9][0-9]-[^)#]*/)) {
+        name = substr($0, RSTART + 2, RLENGTH - 2)
+        out = out substr($0, 1, RSTART + 1) ((name in u) ? u[name] : name)
+        $0 = substr($0, RSTART + RLENGTH)
+      }
+      print out $0 }'
 }
 
 # Quartz shows no caption for ![caption](path). After each standalone captioned image, add a paragraph
@@ -135,26 +159,37 @@ copy_images() {  # $1 = source images dir, $2 = destination dir, $3 = "name<TAB>
 }
 twins=$(mktemp); trap 'rm -f "$twins"' EXIT
 
-# Notes: XX/NN-chapter/XX-NNN-slug/XX-NNN-slug.md -> XX/NN-chapter/XX-NNN-slug.md (flat, so the Explorer shows
-# Subject > Chapter > Note); images stay in XX/NN-chapter/XX-NNN-slug/images/.
-for note in "$repo"/{MA,ML,DL}/*/[A-Z][A-Z]-[0-9][0-9][0-9]-*/; do
-  note=${note%/}
+# Every Note: a folder XX-NNN-slug/ holding XX-NNN-slug.md, at any depth (MA/05-x/..., RO/control/01-x/...).
+notes() { for s in "$@"; do find "$repo/$s" -name '[A-Z][A-Z]-[0-9][0-9][0-9]-*.md' | while read -r f; do
+  [ "$(basename "$f" .md)" = "$(basename "$(dirname "$f")")" ] && echo "$f"; done; done | sort; }
+offsite=$(mktemp); trap 'rm -f "$twins" "$offsite"' EXIT
+for s in "${!url[@]}"; do
+  [[ " $subjects " == *" $s "* ]] && continue
+  notes "$s" | while read -r f; do rel=${f#"$repo"/}; echo -e "$(basename "$f" .md)\thttps://${url[$s]}/$(dirname "$(dirname "$rel")")/$(basename "$f" .md)"; done
+done > "$offsite"
+
+# Notes: <chapter path>/XX-NNN-slug/XX-NNN-slug.md -> <chapter path>/XX-NNN-slug.md (flat, so the Explorer shows
+# Subject > Chapter > Note); images stay in <chapter path>/XX-NNN-slug/images/.
+notes $subjects | while read -r f; do
+  note=$(dirname "$f")
   name=$(basename "$note")
   rel=${note#"$repo"/}
   chapter=$(dirname "$rel")
   mkdir -p "$content/$chapter"
-  copy_images "$note/images" "$content/$rel/images" "$twins" "$note/$name.md"
-  fix_md "$rel/" < "$note/$name.md" | add_captions | embed_interactive "$rel/" "$twins" > "$content/$chapter/$name.md"
+  copy_images "$note/images" "$content/$rel/images" "$twins" "$f"
+  fix_md "$rel/" < "$f" | cross_links | add_captions | embed_interactive "$rel/" "$twins" > "$content/$chapter/$name.md"
 done
 
 # Chapter index Notes: XX/NN-chapter/NN-chapter.md -> XX/NN-chapter/index.md (Quartz's folder page).
 # Only the title and the intro line are kept; Quartz's own folder listing is the list of Notes.
-for idx in "$repo"/{MA,ML,DL}/*/[0-9][0-9]-*.md; do
+for s in $subjects; do find "$repo/$s" -name '[0-9][0-9]-*.md'; done | while read -r idx; do
+  [ "$(basename "$idx" .md)" = "$(basename "$(dirname "$idx")")" ] || continue
   chapter=${idx#"$repo"/}
   chapter=${chapter%/*}
-  h1_to_frontmatter < "$idx" | awk '/^- /{skip=1} !skip' | fix_md "" > "$content/$chapter/index.md"
+  h1_to_frontmatter < "$idx" | awk '/^- /{skip=1} !skip' | fix_md "" | cross_links > "$content/$chapter/index.md"
 done
 
+if [ "$SITE" = main ]; then
 # Course map -> home page (images under 00-course-map/, where the twins' "../../tools/plotly.min.js" resolves),
 # with the 3D concept map embedded at the end of its first section, after the concept playground (marker in the Note).
 copy_images "$repo/00-course-map/images" "$content/00-course-map/images" "$twins" "$repo/00-course-map/00-course-map.md"
@@ -162,17 +197,33 @@ h=$(copy_html "$repo/course_map/concept_map_3d.html" "$content/00-course-map/ima
 map="<iframe class=\"playground\" data-src=\"/00-course-map/images/concept_map_3d.htm\" title=\"3D concept map\" height=\"$(( ${h:-700} + 20 ))\" hidden></iframe><button type=\"button\" class=\"fig-toggle\" aria-pressed=\"false\">Open 3D concept map</button>"
 fix_md "00-course-map/" < "$repo/00-course-map/00-course-map.md" | add_captions | embed_interactive "00-course-map/" "$twins" |
   awk -v map="$map" '/^## / && ++n == 2 { print map "\n\nInteractive 3D concept map: tap Open, then drag to rotate and scroll to zoom.\n" } { print }' > "$content/index.md"
+else
+  # Other sites: a home page listing each chapter's Notes in order, with a link back to the main site.
+  last=; { printf -- '---\ntitle: "%s Notes"\n---\n\n' "${SITE^}"
+    echo "Maths, Machine Learning and Deep Learning Notes are on the [main site](https://${url[MA]}/)."
+    notes $subjects | while read -r f; do
+      ch=$(dirname "$(dirname "${f#"$repo"/}")")
+      [ "$ch" != "$last" ] && { t=${ch##*/}; t=${t#[0-9][0-9]-}; printf '\n## %s\n\n' "${t^}" | tr - ' '; last=$ch; }
+      n=$(basename "$f" .md); echo "- [${n%%-[a-z]*} $(sed -n 's/^title: "\(.*\)"$/\1/p' "$f" | head -1)]($n)"
+    done; } > "$content/index.md"
+fi
 mkdir -p "$content/tools" && cp "$repo/tools/plotly.min.js" "$content/tools/"
-h1_to_frontmatter < "$repo/glossary.md" | fix_md "" > "$content/glossary.md"
+h1_to_frontmatter < "$repo/glossary.md" | fix_md "" | cross_links > "$content/glossary.md"
 
 # Glossary codes in the text open their definition (site/glossary_terms.py; GlossaryTerms.tsx toggles the box).
 python3 "$repo/site/glossary_terms.py" "$repo" "$content"
 
 # Our config and theme over Quartz's defaults
 cp "$repo/site/quartz.config.ts" "$repo/site/quartz.layout.ts" "$quartz/"
+sed -i "s#baseUrl: \"[^\"]*\"#baseUrl: \"$base\"#" "$quartz/quartz.config.ts"
 cp "$repo/site/InteractiveFigures.tsx" "$repo/site/PdfLink.tsx" "$repo/site/GlossaryTerms.tsx" "$repo/site/BackPosition.tsx" \
    "$repo/site/CourseOrder.tsx" "$repo/course_map/course_order.json" "$quartz/quartz/components/"
 cp "$repo/site/custom.scss" "$quartz/quartz/styles/custom.scss"
+if [ "$SITE" != main ]; then   # the course order and the course-map PDF belong to the main site
+  sed -i "s#pageTitle: \"[^\"]*\"#pageTitle: \"${SITE^} Notes\"#" "$quartz/quartz.config.ts"
+  sed -i '/^ *CourseOrder(),/d' "$quartz/quartz.layout.ts"
+  sed -i 's/^const HOME_PDF = "[^"]*"/const HOME_PDF = ""/' "$quartz/quartz/components/PdfLink.tsx"
+fi
 # Quartz scrolls the Explorer to the current Note with scrollIntoView, which also scrolls the page itself and
 # pushes the title out of view on every Note. "nearest" scrolls only the Explorer list. No-op if the line changes.
 sed -i 's/activeElement.scrollIntoView({ behavior: "smooth" })/activeElement.scrollIntoView({ behavior: "smooth", block: "nearest" })/' \

@@ -6,10 +6,11 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 
 const REPO = "https://github.com/anshu3012/MachineLearning/blob/main/pdf/"
+const HOME_PDF = "00-course-map" // build-content.sh empties this on sites without the course map
 
 const PdfLink: QuartzComponent = ({ fileData }: QuartzComponentProps) => {
   const slug = fileData.slug ?? ""
-  const path = slug === "index" ? "00-course-map" : /(^|\/)[A-Z]{2}-\d{3}-[^/]+$/.test(slug) ? slug : null
+  const path = slug === "index" ? (HOME_PDF || null) : /(^|\/)[A-Z]{2}-\d{3}-[^/]+$/.test(slug) ? slug : null
   if (!path) return null
   return (
     <p class="pdf-link">
