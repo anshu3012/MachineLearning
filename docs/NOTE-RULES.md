@@ -266,3 +266,21 @@ A formula quoted from a book without its reason, a definition without its purpos
 - **Inside a Note.** The opening names the problem in concrete words with numbers (RO-017: the commands **drift**, 0.27 m off; the beacon **jumps**, 0.51 m off). Each main section's first line says which part of that problem it handles, in the same words. When a result fixes a part, the text says so with the opening's numbers. The Summary's first bullet answers the opening question with those numbers. An opening example that never comes back is tied in or replaced.
 - **Between Notes.** The Overview opens with what the robot (or model) can do so far, what still breaks, shown on the shared example, and what this Note adds. The Summary ends with one line: what is now possible and what is still missing, which is the next Note. When a Note changes its example world, it says why in one line ("a laser needs walls, so we move from the hallway to a room").
 - One or two linking lines per section; no new sections, no recap paragraphs.
+
+## 26. Answer first, and point only at what is there (user, 2026-10-11)
+The user, on RO-001 §6.2: "section 6.2 is so damn confusing. Like what are you trying to say?" The section asked "can the robot still reach everywhere?" and answered only at the end, after a train example, definitions and a proof.
+- **A question is answered right away, with the figure that shows the answer.** Names, definitions and comparisons come after.
+- **Never point at something that is not there:** no reference to cut content or to an example the reader has not seen ("like the train's" when the train's rule was removed).
+- **No proof above the beginner level when a figure already shows the answer.**
+- **Tables and summaries use only ideas the Note explains** (a "searching a space" row in a Note that never explains search is cut).
+
+## 27. The Note is one story (user, 2026-10-11)
+The user: no rule covers "tying things together", "threading the subtopics in the Note to each other", "making a story". §25 ties each section to the opening problem; this rule ties the sections to each other.
+- **Each section starts from where the last one stopped:** it opens with what the previous section left unsolved, in that section's words and numbers ("The velocity model gives a spread of end poses, but it needs v and ω, which a real robot never measures. Odometry measures the wheels directly."). It never opens cold.
+- **Each section ends by handing over:** its last line says what it solved and what is still missing, which is why the next section exists.
+- **One running example carries through** the sections; a new example gets one line of why.
+- **Later sections build on earlier ones:** a result reused from an earlier section is named and linked ("the Jacobian from §4.2"), not re-explained or presented as new.
+- **Every subtopic earns its place:** a section that neither needs the one before nor feeds the one after is linked in, moved to the Note that needs it, or cut.
+- **Test:** read only the first and last line of every section, in order; they tell the whole story without gaps.
+
+Every agent runs `docs/NOTE-CHECKLIST.md` on each Note it touches and reports it question by question.
