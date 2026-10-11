@@ -20,8 +20,8 @@ fig.add_annotation(x=kb, y=vk, text=f"lowest: k = {kb:.3f}, variance {vk:.3f}", 
                    font=dict(size=19, color=RED))
 fig.add_annotation(x=0, y=pb, text="k = 0: keep the prediction, 1.01", showarrow=False, xanchor="left", yanchor="bottom",
                    font=dict(size=18))
-fig.add_annotation(x=1, y=r, text="k = 1: take the reading, 0.16", showarrow=False, xanchor="right", yanchor="bottom",
-                   yshift=40, font=dict(size=18))
+fig.add_annotation(x=1, y=r, text="k = 1: take the reading, 0.16", showarrow=False, xanchor="right", yanchor="top",
+                   yshift=-14, font=dict(size=18))
 fig.update_layout(template="simple_white", font=FONT, width=950, height=520, showlegend=False,
                   margin=dict(l=90, r=30, t=40, b=70),
                   xaxis=dict(title="weight k given to the reading"),
