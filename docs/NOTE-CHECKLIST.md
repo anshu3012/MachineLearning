@@ -1,6 +1,6 @@
 # Note checklist: a Note passes only when every answer is yes
 
-Every agent that writes, edits or reviews a Note answers these 21 questions for each of its Notes. The detail is in `docs/NOTE-RULES.md` (§ numbers). Answer each with **yes**, **fixed** (what changed) or **no** (why it could not be fixed here). Any **no** means the Note does not pass.
+Every agent that writes, edits or reviews a Note answers these 22 questions for each of its Notes. The detail is in `docs/NOTE-RULES.md` (§ numbers). Answer each with **yes**, **fixed** (what changed) or **no** (why it could not be fixed here). Any **no** means the Note does not pass.
 
 1. **Tools clean?** `find_inline_calc.py` prints 0 found; every `find_puffery.py` hit is read; `section_links.py --check` shows 0 broken; `build.sh` prints Built when figures or maths changed (§6, §15, §17, §18).
 2. **One story?** Each section opens from the previous section's gap and ends by handing over to the next; one running example carries through; reading only each section's first and last line tells the whole story (§27).
@@ -23,6 +23,7 @@ Every agent that writes, edits or reviews a Note answers these 21 questions for 
 19. **Links right?** One owner per concept, others recap in one line and link; links go to a section anchor; link text is the idea, never the word "Note" (§2, §17).
 20. **Voice and Sources clean?** Textbook "we" voice; no video, teacher or course narration; no puffery or filler; lists for three or more items; full subject names; Sources start with **Built from**, then **Other references** (§2, §8, §9, §18).
 21. **Symbols listed?** Before the formula that first uses them in a section, each symbol has its own bullet with what it is, its unit and its value; a section or Key point that reuses a symbol from earlier says again what it is or links its list (§28).
+22. **Processes animated?** Everything that happens over time, in steps, in a loop or in a sequence (a beam travelling, a ray walking cells, an algorithm's rounds, a search, a build-up) is shown as an animation next to its text, not as a still (§29).
 
 ## Report format
 Per Note, 20 numbered lines: `6 fixed: 14 "bell" → "Gaussian"`, `10 no: Figure 3 image says "bell" (needs a figure rebuild)`. End with **PASS** or **NOT PASS**.

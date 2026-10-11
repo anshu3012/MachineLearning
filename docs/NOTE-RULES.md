@@ -289,4 +289,10 @@ The user, on RO-017: "The predicted variance is the old variance plus Q … what
 - **Every section that uses a symbol can be read alone.** A section or Key point that uses a symbol defined in an earlier section says again what it is, in a few words with its value ("the slip's variance $Q$, 0.01 m²"), or links the list that defines it.
 - **No symbol only in a source note or a figure.** A symbol named in a Key point, a caption or a heading is defined in words next to it.
 
+## 29. Anything that happens over time, in steps, in a loop or in a sequence is an animation (user, 2026-10-11)
+The user, on RO-010 (10 figures, 2 animations): "one of the most illustration and animation dependent sections barely has any animations? why?", then: "anything which happens over time, or in steps or in loop or a sequence deserve a animation".
+- **What counts:** a process the text walks through: a beam travelling out and stopping, a ray checked cell by cell, a scan sweeping a room, a loop of predict and update, an algorithm's rounds, a search towards a best value, a sum or product built up term by term, a picture built up layer by layer.
+- **A still is not enough** for these, even a good one; question 10 ("a figure or an animation") does not excuse it. A still stays for what does not change: a shape, a map, a comparison at one moment.
+- **The animation sits next to the text it shows** (§21), uses the Note's own numbers, and holds its last frame. Each GIF has a frames grid for the PDF (`images/gifkit.py`).
+
 Every agent runs `docs/NOTE-CHECKLIST.md` on each Note it touches and reports it question by question.
