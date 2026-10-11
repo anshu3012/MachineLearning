@@ -22,7 +22,7 @@ This Note adds the models that say how far off the robot ends, and in which dire
 
 ## 2. Motion as a distribution
 
-> **Key point:** Wheels slip and motors lag, so the same command ends in different poses. We describe the result as a distribution over end poses, $p(x_t \mid u_t, x_{t-1})$, whose value at a pose is a density, not a probability.
+> **Key point:** Wheels slip and motors lag, so the same command ends in different poses. We describe the result as a distribution over the end pose $x_t$, given the control $u_t$ and the start pose $x_{t-1}$: $p(x_t \mid u_t, x_{t-1})$. Its value at a pose is a density, not a probability.
 
 ### 2.1 Why one command gives many end poses
 
@@ -51,14 +51,14 @@ $$\text{probability} \approx 2.42 \times 0.02 = 0.048$$
 
 The exact area is 0.0484. A density can be larger than 1: at 1 m it is 3.99 per m. Some course slides call these density values "probabilities"; they are densities, and only their areas are probabilities.
 
-The same idea in full is the **motion model** (G-2319), also called the state transition probability (Freiburg slides):
+The same idea in full is the **motion model** (G-2319), also called the state transition probability (Freiburg slides). For the robot of Figure 1:
+
+- $x_{t-1}$ is the pose before the move, a list of three numbers (position x and y in m, heading θ), here (2 m, 1 m, 30°);
+- $u_t$ is the control, the command or the odometry reading for this move, here 0.5 m/s and 1 rad/s for 1 s;
+- $x_t$ is a possible pose after the move, the same three numbers, such as the kinematic model's (2.249 m, 1.409 m, 87.3°);
+- $p(x_t \mid u_t,\ x_{t-1})$ is the density of ending at $x_t$, given $u_t$ and $x_{t-1}$ (the bar reads "given"); in the one-dimensional example it is per m.
 
 $$p(x_t \mid u_t,\ x_{t-1})$$
-
-- $x_{t-1}$ is the pose before the move, such as (2 m, 1 m, 30°);
-- $u_t$ is the control: the command or the odometry reading for this move;
-- $x_t$ is a possible pose after the move;
-- the value is the density of ending at $x_t$.
 
 In the one-dimensional example:
 
@@ -81,7 +81,10 @@ The **motion model** (G-2319) needs a control $u_t$, the command or an odometry 
 
 Working out the robot's pose by adding up the wheel motion the encoders measure is **wheel odometry** (G-2321). It takes three steps. Our encoders give 1000 ticks per wheel turn; our wheels have radius $r = 0.05$ m and are $L = 0.2$ m apart (RO-001). In one step of 0.1 s the right encoder counts 191 ticks and the left 127.
 
-**Step 1: ticks to wheel distances.** A rolling wheel moves one circumference per turn, by [rolling without slipping](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#32-why-wheel-spin-gives-ground-speed-rolling-without-slipping) (G-2290). One tick is a thousandth of that:
+**Step 1: ticks to wheel distances.** A rolling wheel moves one circumference per turn, by [rolling without slipping](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#32-why-wheel-spin-gives-ground-speed-rolling-without-slipping) (G-2290). One tick is a thousandth of that, and each wheel's distance is its ticks times one tick. For this step:
+
+- $d_R$ is the distance the right wheel rolls, in mm, from 191 ticks;
+- $d_L$ is the distance the left wheel rolls, in mm, from 127 ticks.
 
 $$\text{tick} = \frac{2\pi \times 0.05}{1000}$$
 
@@ -91,7 +94,11 @@ $$d_R = 191 \times 0.314 = 60.0 \text{ mm}$$
 
 $$d_L = 127 \times 0.314 = 39.9 \text{ mm}$$
 
-**Step 2: wheel distances to the robot's move.** These are the [forward kinematics](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-linear-and-angular-velocity) (G-2294) of RO-001, used with distances instead of speeds. The time step cancels out, so the robot needs only the tick counts, not the wheel speeds:
+**Step 2: wheel distances to the robot's move.** These are the [forward kinematics](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-linear-and-angular-velocity) (G-2294) of RO-001, used with distances instead of speeds. The time step cancels out, so the robot needs only the tick counts, not the wheel speeds. For this step:
+
+- $\Delta s$ is the robot's forward move, the distance its midpoint travels, in mm;
+- $\Delta\theta$ is the robot's turn, the change in its heading, in rad;
+- $L$ is the wheel separation, 0.2 m.
 
 $$\Delta s = \frac{d_R + d_L}{2}$$
 
@@ -101,7 +108,11 @@ $$\Delta\theta = \frac{d_R - d_L}{L}$$
 
 $$= \frac{0.0600 - 0.0399}{0.2} = 0.1005 \text{ rad}$$
 
-**Step 3: the move in the world frame.** An [Euler step](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299) from the pose (2, 1, 0.5236):
+**Step 3: the move in the world frame.** An [Euler step](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299) from the pose (2, 1, 0.5236) moves the robot by its forward move $\Delta s$, 0.04995 m, along its heading of 30°, whose cosine is 0.866 and sine 0.5:
+
+- $x$ is the robot's position along the world x-axis after the step, in m (2 m before it);
+- $y$ is its position along the world y-axis after the step, in m (1 m before it);
+- $\theta$ is its heading after the step, in rad (0.5236 rad, or 30°, before it).
 
 $$x = 2 + 0.04995 \times 0.866 = 2.0433$$
 
@@ -118,7 +129,7 @@ The step repeats every 0.1 s, each one starting from the last result. The tick c
 - **Random errors**, different every time: wheel slip, bumps, the step-by-step approximation. When a wheel slips, the encoder still counts ticks but the robot does not move as far.
 - **Systematic errors**, the same every time: the model's wheel radius or wheel separation is slightly wrong. No two real robots are identical, even when built to the same drawing.
 
-Figure 4 shows how much a small systematic error costs. The model assumes both wheels have radius 0.05 m, but the right one is really 0.0505 m, 1 percent larger. Both encoders count the same ticks, so odometry believes the robot drove straight for 10 m. Really, the right wheel covered 10.1 m and the left 10 m, so the robot turned left:
+Figure 4 shows how much a small systematic error costs. The model assumes both wheels have radius 0.05 m, but the right one is really 0.0505 m, 1 percent larger. Both encoders count the same ticks, so odometry believes the robot drove straight for 10 m. Really, the right wheel covered 10.1 m and the left 10 m, so the robot turned left. Its turn $\Delta\theta$, the change in its heading, is the wheel-distance difference over the wheel separation, 0.2 m:
 
 $$\Delta\theta = \frac{10.1 - 10}{0.2} = 0.5 \text{ rad}$$
 
@@ -151,15 +162,18 @@ Odometry's pose estimate drifts from the truth over time, as [Section 3.2](#32-w
 
 Odometry reports that the robot went from one pose to another. Over our 1 s drive:
 
+- $\bar x_{t-1}$ is odometry's estimate of the pose before the move (the bar marks odometry's own estimate), three numbers: x and y in m, heading in rad;
+- $\bar x_t$ is odometry's estimate of the pose after the move, the same three numbers.
+
 $$\bar x_{t-1} = (2,\ 1,\ 0.524)$$
 
 $$\bar x_t = (2.249,\ 1.409,\ 1.524)$$
 
-The bars mark odometry's own estimates. Whatever path the robot took, any such change of pose can be done in three simple motions: turn on the spot to face the end point, drive straight to it, turn on the spot to the end heading (Figure 5). Three numbers describe the three motions, matching the three numbers of the pose change (Thrun et al. 2005 §5.4, as in the Freiburg slides):
+Whatever path the robot took, any such change of pose can be done in three simple motions: turn on the spot to face the end point, drive straight to it, turn on the spot to the end heading (Figure 5). Three numbers describe the three motions, matching the three numbers of the pose change (Thrun et al. 2005 §5.4, as in the Freiburg slides):
 
-- $\delta_{\text{rot1}}$: the first turn;
-- $\delta_{\text{trans}}$: the straight drive;
-- $\delta_{\text{rot2}}$: the second turn.
+- $\delta_{\text{rot1}}$ is the first turn, in rad;
+- $\delta_{\text{trans}}$ is the straight drive, in m;
+- $\delta_{\text{rot2}}$ is the second turn, in rad.
 
 ![Odometry from (2, 1) facing 30 degrees to (2.249, 1.409) facing 87.3 degrees, as turn, drive, turn: first turn 0.500 rad to face the end point, drive 0.479 m along the straight line, second turn 0.500 rad to the end heading. The robot really drove the dashed arc](images/odometry_model.png)
 
@@ -183,20 +197,21 @@ $$= 0.500 \text{ rad}$$
 
 ### 4.3 Noise on each of the three parts
 
-The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. [Section 5.2](#52-sampling-the-odometry-model) shows the shapes this gives. Each noise has a **standard deviation** (G-1870) that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
+The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. [Section 5.2](#52-sampling-the-odometry-model) shows the shapes this gives. Each noise has a **standard deviation** (G-1870) that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides). The three parts $\delta_{\text{rot1}}$, $\delta_{\text{trans}}$ and $\delta_{\text{rot2}}$ are those of [Section 4.2](#42-turn-drive-turn): 0.500 rad, 0.479 m and 0.500 rad. The bars in $\lvert\delta_{\text{rot1}}\rvert$ take the size of a turn and drop its sign, so a right turn counts like a left one. The four numbers $\alpha_1$ to $\alpha_4$ are set for each robot. For our robot:
+
+- $\sigma_{\text{rot1}}$ is the standard deviation of the first turn's noise, in rad;
+- $\sigma_{\text{trans}}$ is the standard deviation of the drive's noise, in m;
+- $\sigma_{\text{rot2}}$ is the standard deviation of the second turn's noise, in rad;
+- $\alpha_1$ is the turning error per radian turned, 0.1;
+- $\alpha_2$ is the turning error per metre driven, 0.1 rad per m;
+- $\alpha_3$ is the driving error per metre driven, 0.1;
+- $\alpha_4$ is the driving error per radian turned, 0.01 m per rad.
 
 $$\sigma_{\text{rot1}} = \alpha_1 \lvert\delta_{\text{rot1}}\rvert + \alpha_2\thinspace\delta_{\text{trans}}$$
 
 $$\sigma_{\text{trans}} = \alpha_3\thinspace\delta_{\text{trans}} + \alpha_4 (\lvert\delta_{\text{rot1}}\rvert + \lvert\delta_{\text{rot2}}\rvert)$$
 
 $$\sigma_{\text{rot2}} = \alpha_1 \lvert\delta_{\text{rot2}}\rvert + \alpha_2\thinspace\delta_{\text{trans}}$$
-
-The four numbers $\alpha_1$ to $\alpha_4$ are set for each robot:
-
-- $\alpha_1 = 0.1$: turning error per radian turned;
-- $\alpha_2 = 0.1$ rad per m: turning error per metre driven;
-- $\alpha_3 = 0.1$: driving error per metre driven;
-- $\alpha_4 = 0.01$ m per rad: driving error per radian turned.
 
 For our step:
 
@@ -216,9 +231,25 @@ So the first turn is 0.500 rad give or take about 0.1 rad (6°), and the drive 0
 
 The question a grid filter asks: how likely is it that the robot, starting at (2, 1, 0.524), really ended at the pose (2.27, 1.38, 1.50)? The odometry model answers in three steps (Freiburg slides, `motion_model_odometry`):
 
-1. Work out the turn, drive and turn that would take the start pose to this pose, with the formulas of [Section 4.2](#42-turn-drive-turn). We mark them with hats; for this pose they are $\hat\delta_{\text{rot1}} = 0.429$, $\hat\delta_{\text{trans}} = 0.466$ and $\hat\delta_{\text{rot2}} = 0.547$.
+1. Work out the turn, drive and turn that would take the start pose to this pose, with the formulas of [Section 4.2](#42-turn-drive-turn). We mark them with hats.
 2. Compare each with what odometry reported, using the normal density with the **standard deviations** (G-1870) of [Section 4.3](#43-noise-on-each-of-the-three-parts).
 3. Multiply the three densities, because the three noises are taken as [independent](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934).
+
+For this pose:
+
+- $\hat\delta_{\text{rot1}}$ is the first turn that would take the start pose to this pose, 0.429 rad (odometry reported 0.500 rad);
+- $\hat\delta_{\text{trans}}$ is the drive that would, 0.466 m (odometry reported 0.479 m);
+- $\hat\delta_{\text{rot2}}$ is the second turn that would, 0.547 rad (odometry reported 0.500 rad);
+- $a$ is the gap between odometry's value and the hatted value, in rad or m;
+- $\sigma$ is that part's standard deviation from [Section 4.3](#43-noise-on-each-of-the-three-parts), 0.098 rad for each turn and 0.058 m for the drive;
+- $\mathcal{N}(a;\ \sigma)$ is the normal density at a distance $a$ from the centre, with standard deviation $\sigma$;
+- $p_1$ is the density for the first turn, per rad;
+- $p_2$ is the density for the drive, per m;
+- $p_3$ is the density for the second turn, per rad.
+
+The normal density:
+
+$$\mathcal{N}(a;\ \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}}\thinspace e^{-a^2 / (2\sigma^2)}$$
 
 The three comparisons:
 
@@ -227,10 +258,6 @@ $$p_1 = \mathcal{N}(0.500 - 0.429;\ 0.098) = 3.14$$
 $$p_2 = \mathcal{N}(0.479 - 0.466;\ 0.058) = 6.72$$
 
 $$p_3 = \mathcal{N}(0.500 - 0.547;\ 0.098) = 3.63$$
-
-Here $\mathcal{N}(a;\ \sigma)$ is the normal density at a distance $a$ from the centre, with standard deviation $\sigma$:
-
-$$\mathcal{N}(a;\ \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}}\thinspace e^{-a^2 / (2\sigma^2)}$$
 
 The density of the pose is the product:
 
@@ -246,11 +273,23 @@ Scoring every pose on a fine grid around the start and shading each by its densi
 
 ### 5.1 Why sample instead of scoring
 
-The cloud of Figure 1 is a set of 300 sampled end poses; this section draws such a cloud. Scoring needs a grid over all poses, and a pose has three numbers, so the grid is large: 100 values each of $x$, $y$ and $\theta$ make a million cells to score after every move. A cloud of sample poses describes the same distribution where it matters: more samples where the density is high, few where it is low. To build the cloud we need to draw random numbers that follow a chosen distribution. Drawing a random value so that, over many draws, values come up as often as the distribution says is **sampling** (G-2326) from that distribution.
+The cloud of Figure 1 is a set of 300 sampled end poses; this section draws such a cloud. Scoring needs a grid over all poses, and a pose has three numbers, so the grid is large: 100 values each of the position $x$, $y$ and the heading $\theta$ make a million cells to score after every move. A cloud of sample poses describes the same distribution where it matters: more samples where the density is high, few where it is low. To build the cloud we need to draw random numbers that follow a chosen distribution. Drawing a random value so that, over many draws, values come up as often as the distribution says is **sampling** (G-2326) from that distribution.
 
 ### 5.2 Sampling the odometry model
 
-To draw one end pose (Freiburg slides, `sample_motion_model`):
+To draw one end pose (Freiburg slides, `sample_motion_model`), starting from the pose of Figure 1:
+
+- $x$ is the start position along the world x-axis, 2 m;
+- $y$ is the start position along the world y-axis, 1 m;
+- $\theta$ is the start heading, 0.524 rad;
+- $\hat\delta_{\text{rot1}}$ is the noisy first turn, in rad (here the hat marks a drawn, noisy value);
+- $\hat\delta_{\text{trans}}$ is the noisy drive, in m;
+- $\hat\delta_{\text{rot2}}$ is the noisy second turn, in rad;
+- $x'$ is the end position along the x-axis, in m;
+- $y'$ is the end position along the y-axis, in m;
+- $\theta'$ is the end heading, in rad.
+
+The steps:
 
 1. Draw a noisy first turn, drive and second turn: each odometry value plus a normal sample with the standard deviation of [Section 4.3](#43-noise-on-each-of-the-three-parts).
 2. Turn by the noisy first turn and drive the noisy distance:
@@ -299,13 +338,25 @@ Figure 6 draws 500 such samples for three noise settings. With the Note's noise 
 
 ### 6.1 The exact arc from the commanded speeds
 
-A robot without encoders knows only the command of Figure 1. The velocity model takes the control to be the commanded **linear velocity** (G-2291) $v$ (how fast the robot drives forward) and **angular velocity** (G-2292) $\omega$ (how fast its heading turns) (Freiburg slides):
+A robot without encoders knows only the command of Figure 1. The velocity model takes the control to be the two commanded speeds, held for one time step (Freiburg slides). For our command:
+
+- $v$ is the commanded **linear velocity** (G-2291), how fast the robot drives forward, 0.5 m/s;
+- $\omega$ is the commanded **angular velocity** (G-2292), how fast its heading turns, 1 rad/s;
+- $\Delta t$ is the time step the command is held, 1 s;
+- $u_t$ is the control, the pair of the two speeds.
 
 $$u_t = (v,\ \omega) = (0.5 \text{ m/s},\ 1 \text{ rad/s})$$
 
-held for a time step $\Delta t = 1$ s. RO-001 predicted the path with small [Euler steps](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299). With speeds held fixed we can do better and compute the end pose exactly, because the robot then drives an arc of a circle about one fixed point.
+RO-001 predicted the path with small [Euler steps](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299). With speeds held fixed we can do better and compute the end pose exactly, because the robot then drives an arc of a circle about one fixed point.
 
-**The centre of the arc.** A robot driving at $v$ while turning at $\omega$ circles one fixed point, the [**instantaneous centre of curvature**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2529) (ICC) (G-2529), at the [turning radius](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-linear-and-angular-velocity) (G-2293) on its left, square to its heading (RO-001):
+**The centre of the arc.** A robot driving at $v$ while turning at $\omega$ circles one fixed point, the [**instantaneous centre of curvature**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2529) (ICC) (G-2529), at the [turning radius](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-linear-and-angular-velocity) (G-2293) on its left, square to its heading (RO-001). For our robot:
+
+- $x$ is the start position along the world x-axis, 2 m;
+- $y$ is the start position along the world y-axis, 1 m;
+- $\theta$ is the start heading, 0.524 rad (30°);
+- $R$ is the turning radius, the robot's distance from the ICC, in m;
+- $x_c$ is the ICC's position along the world x-axis, in m;
+- $y_c$ is the ICC's position along the world y-axis, in m.
 
 $$R = \frac{v}{\omega} = \frac{0.5}{1} = 0.5 \text{ m}$$
 
@@ -321,7 +372,7 @@ $$x_c = 2 - 0.5 \times 0.5 = 1.750$$
 
 $$y_c = 1 + 0.5 \times 0.866 = 1.433$$
 
-**The end pose.** In $\Delta t$ the robot turns by $\omega\Delta t$ about the ICC, so its heading becomes $\theta + \omega\Delta t$, and it sits on the circle on the right of its new heading:
+**The end pose.** In $\Delta t$ the robot turns by $\omega\Delta t$ about the ICC, so its heading becomes $\theta + \omega\Delta t$, and it sits on the circle on the right of its new heading. Its end position is $x'$, $y'$ and its end heading $\theta'$:
 
 $$x' = x_c + R\sin(\theta + \omega\Delta t)$$
 
@@ -347,25 +398,37 @@ $$y' = y + v\Delta t\sin\theta$$
 
 ### 6.2 Noise, and why it needs a third number
 
-The noise goes on the two commanded speeds, again growing with their size (Freiburg slides):
+The noise goes on the two commanded speeds, again growing with their size (Freiburg slides). The commanded $v$, 0.5 m/s, and $\omega$, 1 rad/s, are those of [Section 6.1](#61-the-exact-arc-from-the-commanded-speeds); the four numbers $\alpha_1$ to $\alpha_4$ are this model's own, not those of [Section 4.3](#43-noise-on-each-of-the-three-parts). The bars again take the size and drop the sign. For our command:
+
+- $\hat v$ is the noisy forward speed, in m/s;
+- $\hat\omega$ is the noisy turning rate, in rad/s;
+- $\text{sample}(b)$ draws normal noise with **standard deviation** (G-1870) $b$;
+- $\alpha_1$ is the speed error per m/s of commanded speed, 0.1;
+- $\alpha_2$ is the speed error per rad/s of commanded turning, 0.02 m per rad;
+- $\alpha_3$ is the turning-rate error per m/s of commanded speed, 0.1 rad per m;
+- $\alpha_4$ is the turning-rate error per rad/s of commanded turning, 0.1.
 
 $$\hat v = v + \text{sample}(\alpha_1 \lvert v\rvert + \alpha_2 \lvert\omega\rvert)$$
 
 $$\hat\omega = \omega + \text{sample}(\alpha_3 \lvert v\rvert + \alpha_4 \lvert\omega\rvert)$$
 
-where $\text{sample}(b)$ draws normal noise with **standard deviation** (G-1870) $b$. With $\alpha_1 = 0.1$, $\alpha_2 = 0.02$, $\alpha_3 = 0.1$ and $\alpha_4 = 0.1$, the **linear velocity** (G-2291) varies by about 0.07 m/s and the angular velocity by about 0.15 rad/s.
+With these numbers, the **linear velocity** (G-2291) varies by about 0.07 m/s and the angular velocity by about 0.15 rad/s.
 
-These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 8, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, $\hat\gamma$, a small extra turn at the end (Freiburg slides):
+These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 8, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, a small extra turn at the end (Freiburg slides). The start heading $\theta$, the end heading $\theta'$, the noisy turning rate $\hat\omega$ and the time step $\Delta t$, 1 s, are as above; the new symbols:
+
+- $\hat\gamma$ is the extra turning rate, in rad/s, which over $\Delta t$ gives the extra end turn;
+- $\alpha_5$ is the extra turning rate per m/s of commanded speed, 0.02 rad per m;
+- $\alpha_6$ is the extra turning rate per rad/s of commanded turning, 0.02.
 
 $$\hat\gamma = \text{sample}(\alpha_5 \lvert v\rvert + \alpha_6 \lvert\omega\rvert)$$
 
 $$\theta' = \theta + \hat\omega\Delta t + \hat\gamma\Delta t$$
 
-![Left, without gamma: three arcs leave the start along its heading, and each end position has exactly one end heading. Right, with gamma: the same end position can be reached with several end headings](images/gamma.png)
+![Left, without gamma (the extra end turn): three arcs leave the start along its heading, and each end position has exactly one end heading. Right, with gamma: the same end position can be reached with several end headings](images/gamma.png)
 
 The notebook checks this with 2 million samples. Among the samples that end within 2 mm of (2.249, 1.409), the end headings have a standard deviation of only 0.24° without $\hat\gamma$, and of 1.71° with it ($\alpha_5 = \alpha_6 = 0.02$).
 
-**Worked sample.** Suppose the draws come out as $\hat v = 0.54$ m/s, $\hat\omega = 0.9$ rad/s and $\hat\gamma = 0.02$ rad/s:
+**Worked sample.** Suppose the draws come out as $\hat v = 0.54$ m/s, $\hat\omega = 0.9$ rad/s and $\hat\gamma = 0.02$ rad/s. The turning radius $R$, the ICC $x_c$, $y_c$ and the end pose follow as in [Section 6.1](#61-the-exact-arc-from-the-commanded-speeds), with the noisy speeds:
 
 $$R = 0.54 / 0.9 = 0.6 \text{ m}$$
 
@@ -389,18 +452,20 @@ A faster, gentler drive: the sample ends 4.4 cm further right and 2.2 cm higher 
 
 > **Key point:** A map tells the robot where it cannot be. For small steps we multiply the **motion model** (G-2319) by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
 
-The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 9, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
+The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 9, left, red). With a map of the free space we want the motion model that also knows the map. The end pose $x_t$, the control $u_t$ and the start pose $x_{t-1}$ are those of [Section 2.2](#22-the-motion-model-and-its-density); the new symbol:
+
+- $m$ is the map: which places are free and which are inside walls or other obstacles, such as the wall 8 cm thick of Figure 9.
 
 $$p(x_t \mid u_t,\ x_{t-1},\ m)$$
 
 Computing it exactly is hard, because it asks whether the robot could have reached $x_t$ without hitting anything along the way. For small steps there is an easy approximation (Freiburg slides, 2012 edition; Berry, Lecture 3-2b):
 
+- $\pi(x_t)$ is 1 if the pose $x_t$ is free in the map and 0 if it is inside an obstacle;
+- $\eta$ is a number that rescales the result so that it adds up to 1 again.
+
 $$p(x_t \mid u_t, x_{t-1}, m)$$
 
 $$\approx \eta\thinspace p(x_t \mid u_t, x_{t-1})\thinspace\pi(x_t)$$
-
-- $\pi(x_t)$ is 1 if the pose $x_t$ is free in the map and 0 if it is inside an obstacle;
-- $\eta$ is a number that rescales the result so that it adds up to 1 again.
 
 This is the **map-consistent motion model** (G-2329). When **sampling** (G-2326), it becomes a simple rule: draw a sample with the motion model; if it lies inside an obstacle, throw it away and draw again. Keeping only the draws that pass a test, and drawing again otherwise, is **rejection sampling** (G-2330) (Freiburg slides).
 
@@ -413,16 +478,16 @@ The approximation checks only where a sample ends, not the path to it. That is w
 | Model | Control $u_t$ | Noise on | Use when |
 |---|---|---|---|
 | Odometry model | odometry's pose change: turn, drive, turn | each of the three parts | encoders exist; filtering after the move |
-| Velocity model | commanded $v$, $\omega$ for $\Delta t$ | $v$, $\omega$ and an extra end turn $\gamma$ | no encoders, or predicting before the move (planning) |
+| Velocity model | commanded speeds $v$, $\omega$ for a time step $\Delta t$ | the speeds $v$, $\omega$ and an extra end turn $\gamma$ | no encoders, or predicting before the move (planning) |
 | Map-consistent model | either of the above, plus a map | as above; poses inside obstacles get 0 | a map is known and steps are small |
 
-- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a **motion model** (G-2319) $p(x_t \mid u_t, x_{t-1})$ describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
+- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a **motion model** (G-2319) $p(x_t \mid u_t, x_{t-1})$, the density of the end pose $x_t$ given the control $u_t$ and the start pose $x_{t-1}$, describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
 - **Wheel odometry** (G-2321) turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
 - The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one Gaussian on the end pose; its **standard deviations** (G-1870) grow with the motion, because bigger motions slip more.
 - Scoring a pose multiplies three normal densities (76.7 for a close pose, $8.7 \times 10^{-7}$ for a far one), so filters can compare poses on a grid.
-- **Sampling** (G-2326) draws noisy turn, drive, turn and moves the robot.
+- **Sampling** (G-2326) draws noisy turn, drive, turn and moves the robot, so a particle filter gets a cloud of end poses without scoring a grid of a million cells.
 - Rotation noise bends the cloud into a banana, because a wrong turn sends the robot the same distance in a wrong direction; with no readings the cloud keeps growing.
-- The velocity model drives an exact arc about the ICC, $R = v/\omega$ to the robot's left; it needs a third noise $\gamma$, because two noisy speeds alone tie the end heading to the end position.
+- The velocity model drives an exact arc about the ICC, at the turning radius $R = v/\omega$ (linear over angular velocity) to the robot's left; it needs a third noise $\gamma$, an extra end turn, because two noisy speeds alone tie the end heading to the end position.
 - A map rules out poses inside obstacles by rejecting samples there, which is safe only for small steps, because the check looks at where a sample ends, not at the path to it.
 
 The robot can now say how far a move blurs its pose, score any end pose and draw the cloud. Still missing: a reading only means something against a map of where things are, which is [maps and landmarks](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview).

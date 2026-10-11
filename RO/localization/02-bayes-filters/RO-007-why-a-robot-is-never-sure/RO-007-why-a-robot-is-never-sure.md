@@ -98,7 +98,10 @@ So no reading and no move can be taken at face value. [Section 3](#3-keep-a-dist
 
 ### 3.1 Why one reading fits many places
 
-Back to the hallway. For this section we make two simplifications: the moves are exact and the door sensor never errs. At the start the robot knows nothing, so each of the 10 cells has the same probability:
+Back to the hallway. For this section we make two simplifications: the moves are exact and the door sensor never errs. At the start the robot knows nothing, so each of the 10 cells has the same probability. We write:
+
+- $n$ is a cell number, 0 to 9;
+- $P(n)$ is the probability that the robot is in cell $n$, a number from 0 to 1; the ten cells' probabilities add up to 1.
 
 $$P(\text{each cell}) = \frac{1}{10} = 0.1$$
 
@@ -151,7 +154,7 @@ So with a noisy sensor the robot does not cross out; it **weights**. A reading o
 
 $$\frac{0.6}{0.2} = 3$$
 
-Three door cells and seven wall cells make 16 equal shares:
+Three door cells and seven wall cells make 16 equal shares, and the probability $P$ of a cell ([Section 3.1](#31-why-one-reading-fits-many-places)) is its shares out of 16:
 
 $$3 \times 3 + 7 \times 1 = 16$$
 
@@ -175,7 +178,10 @@ Figure 7 compares the two. The wall cells keep a small probability, so one wrong
 
 In the hallway the robot needs one number, its cell. A robot on a floor needs three, its [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280): position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°).
 
-The collection of quantities the robot keeps track of because they decide what happens next is its **state** (G-2314), written $x_t$ at time $t$. In the hallway run of [Section 3.2](#32-why-a-single-best-guess-gets-lost) the robot is in cell 3 at time 2:
+The collection of quantities the robot keeps track of because they decide what happens next is its **state** (G-2314). In the hallway run of [Section 3.2](#32-why-a-single-best-guess-gets-lost) the robot is in cell 3 at time 2:
+
+- $t$ is the time step, counted 0, 1, 2 and so on, here 2;
+- $x_t$ is the whole state at time $t$, not only the position $x$ of a pose; in the hallway it is the robot's cell number, here 3.
 
 $$x_2 = 3$$
 
@@ -244,7 +250,7 @@ The robot starts in some **state** (G-2314) $x_0$. Then each time step has two p
 
 Figure 9 draws this chain with the hallway run below it. Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280) in a known map (Thrun 2000).
 
-How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) is the first; the [**measurement model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) is the second. Before those models, Section 6 shows what each stream does to the hallway robot's distribution.
+How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) is the first; the [**measurement model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) is the second. Before those models, [Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) shows what each stream does to the hallway robot's distribution.
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
@@ -256,7 +262,7 @@ Now we drop both simplifications: the moves are the noisy moves of [Section 2.1]
 
 **Control $u_3$ spreads the distribution.** From cell 3 the robot ends in cell 4, 5 or 6 with the move probabilities of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning): 0.1, 0.8 and 0.1.
 
-**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip **independently** (G-934). Ending in cell 7, four cells on, happens in three ways:
+**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip **independently** (G-934). Ending in cell 7, four cells on, happens in three ways, and the probability $P(7)$ of ending in cell 7 is their sum:
 
 $$\text{2 then 2}: 0.8 \times 0.8 = 0.64$$
 
@@ -287,6 +293,8 @@ $$0.396 + 2 \times 0.032 + 2 \times 0.002$$
 $$= 0.464$$
 
 Dividing each by that sum gives the probability of each cell given the reading, a [conditional probability](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444):
+
+- $P(n \mid \text{door})$ is the probability that the robot is in cell $n$, given that it read "door" (the bar reads "given"), a number from 0 to 1.
 
 $$P(7 \mid \text{door}) = \frac{0.396}{0.464} = 0.853$$
 
