@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron]
 
 ## 1. Overview
 
-> **Key point:** A perceptron multiplies each input by a weight, adds a bias, and passes the sum through an activation function. With a step activation it defines one hyperplane (a straight line for two inputs) and puts each class on one side.
+> **Key point:** A perceptron multiplies each input by a weight, adds a bias, and passes the sum through an **activation function** (G-165). With a step activation it defines one hyperplane (a straight line for two inputs) and puts each class on one side.
 
 ![A perceptron with two inputs](images/perceptron.png)
 
@@ -35,13 +35,13 @@ How the perceptron learns its weights starts with the [perceptron trick](../DL-0
 
 ## 2. Prerequisites
 
-- The general form of a line, its positive and negative sides, and the step function: the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides) (G-1485), sections 3 and 7.
-- Lines, planes and hyperplanes: the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703).
+- The general form of a line, its positive and negative sides, and the **step function** (G-1889): the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides) (G-1485), sections 3 and 7.
+- Lines, **planes** (G-1502) and hyperplanes: the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703).
 - The dot product: the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634).
 
 ## 3. The parts of a perceptron
 
-> **Key point:** Inputs, weights, a bias, a summation block that computes z, and an activation function that turns z into the output.
+> **Key point:** Inputs, weights, a bias, a summation block that computes z, and an **activation function** (G-165) that turns z into the output.
 
 ### 3.1 Inputs, weights and bias
 
@@ -50,13 +50,13 @@ How the perceptron learns its weights starts with the [perceptron trick](../DL-0
 In Figure 1, the data enters on the left. Each **feature** (G-772; an input variable, one column of the data table) gets one input node: $x_1$ and $x_2$.
 
 - The connection from each input carries a **weight** (G-2106; $w_1$, $w_2$; see [the parts of a neural network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network)). The weight says how strongly that input counts.
-- One extra input is always 1. Its connection carries the **bias** (G-284) $b$. The bias sets how easily the perceptron outputs 1, and it lets the line sit anywhere, not only through the origin (section 3.4).
+- One extra input is always 1. Its connection carries the **bias** (G-284) $b$. The bias sets how easily the **perceptron** (G-1486) outputs 1, and it lets the line sit anywhere, not only through the origin (section 3.4).
 
 The weights and the bias are the numbers the perceptron learns. Together they are its [parameters](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#4-model-based-learning) (G-1448): the numbers a trained model is described by.
 
 ### 3.2 The summation
 
-> **Key point:** z is the dot product of the weights with the inputs, plus the bias.
+> **Key point:** z is the dot product of the weights with the inputs, plus the **bias** (G-284).
 
 The orange block computes the **summation** (G-1915), a [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) of the inputs:
 
@@ -73,7 +73,7 @@ The sum $w_1x_1 + w_2x_2$ is the [**dot product**](../../../MA/05-linear-algebra
 
 ### 3.3 The activation function
 
-> **Key point:** The activation function maps z, which can be any number, into a fixed range. The perceptron uses the step function: 1 if z ≥ 0, else 0.
+> **Key point:** The activation function maps z, which can be any number, into a fixed range. The **perceptron** (G-1486) uses the step function: 1 if z ≥ 0, else 0.
 
 $z$ can be any number, large or small, positive or negative. The green block in Figure 1 is the **activation function** (G-165): a function that brings $z$ into a fixed range.
 
@@ -81,14 +81,14 @@ The classic perceptron uses the [step function](../../../ML/07-classification/ML
 
 ### 3.4 The bias as a threshold
 
-> **Key point:** The perceptron outputs 1 when the weighted sum of the inputs is at least −b. So the bias sets how large the weighted sum must be before the output switches to 1.
+> **Key point:** The **perceptron** (G-1486) outputs 1 when the weighted sum of the inputs is at least −b. So the bias sets how large the weighted sum must be before the output switches to 1.
 
-In plain words, the bias decides how easily the perceptron says 1. A large positive bias makes it say 1 for almost any input; a large negative bias makes it hard to convince.
+In plain words, the **bias** (G-284) decides how easily the perceptron says 1. A large positive bias makes it say 1 for almost any input; a large negative bias makes it hard to convince.
 
 The standard term for this switching point is the **threshold** (G-2261). The steps:
 
-1. The step function outputs 1 when $z \geq 0$.
-2. $z$ is the weighted sum plus the bias: $z = (w_1x_1 + w_2x_2) + b$.
+1. The **step function** (G-1889) outputs 1 when $z \geq 0$.
+2. $z$ is the **weighted sum** (G-2119) plus the bias: $z = (w_1x_1 + w_2x_2) + b$.
 3. So the output is 1 exactly when $w_1x_1 + w_2x_2 \geq -b$. The threshold is $-b$.
 
 For example, with $b = -10$ the perceptron outputs 1 only when the weighted sum reaches 10.
@@ -112,14 +112,14 @@ The weights stay as they are and only $b$ changes.
 
 ## 4. Training and prediction
 
-> **Key point:** Training finds the weights and bias from labelled data. Prediction puts a new **observation** (G-1374; one record, one row of the data table) through the perceptron with those fixed numbers.
+> **Key point:** Training finds the weights and **bias** (G-284) from labelled data. Prediction puts a new **observation** (G-1374; one record, one row of the data table) through the **perceptron** (G-1486) with those fixed numbers.
 
 Take 1,000 students. Each student is one observation, with two features, IQ and CGPA, and a **target** (G-1949; the output we predict): placed (1) or not (0). One student might be IQ 78, CGPA 7.8, placed 1; another IQ 69, CGPA 5.1, placed 0. We want a model that predicts placement for a new student.
 
 Like any ML algorithm, the perceptron works in two stages:
 
 1. **Training:** feed the students one by one ($x_1$ = IQ, $x_2$ = CGPA), compare the output with the true label, and adjust $w_1$, $w_2$ and $b$. The goal of training is only these three numbers.
-2. **Prediction:** with the learned numbers fixed, compute $z$ for a new student and pass it through the step function.
+2. **Prediction:** with the learned numbers fixed, compute $z$ for a new student and pass it through the **step function** (G-1889).
 
 Suppose training gave $w_1 = 1$, $w_2 = 2$ and $b = 3$. A new student has IQ 100 and CGPA 5.1. [Section 3.2](#32-the-summation) already computed $z = 113.2$. Since $z \geq 0$, the step function outputs 1: we predict this student will be placed.
 
@@ -137,11 +137,11 @@ If we also know each student's state (encoded as a number, see the [**one-hot en
 
 $$z = w_1x_1 + w_2x_2 + w_3x_3 + b$$
 
-With $n$ inputs, $z$ is the sum of $n$ products plus the bias. The summation and the activation stay as they are.
+With $n$ inputs, $z$ is the sum of $n$ products plus the bias. The **summation** (G-1915) and the activation stay as they are.
 
 ## 5. Perceptron and biological neuron
 
-> **Key point:** The perceptron is loosely inspired by a brain cell, but it is far simpler and is not a copy of it.
+> **Key point:** The **perceptron** (G-1486) is loosely inspired by a brain cell, but it is far simpler and is not a copy of it.
 
 ![A biological neuron and a perceptron, part by part](images/neuron_vs_perceptron.png)
 
@@ -157,10 +157,10 @@ Neurons connect to each other to form the nervous system; perceptrons connect to
 
 ### 5.1 Three differences
 
-> **Key point:** A neuron is complex, its processing is not understood, and its connections change over time. A perceptron is simple, its processing is two known operations, and its connections are fixed once trained.
+> **Key point:** A neuron is complex, its processing is not understood, and its connections change over time. A **perceptron** (G-1486) is simple, its processing is two known operations, and its connections are fixed once trained.
 
 1. **Complexity:** a neuron takes a very large number of inputs and is wired to many other neurons. A perceptron has a handful of inputs and one output.
-2. **Processing:** inside a neuron, electrochemical reactions decide the output, and scientists still do not fully understand them. Inside a perceptron there are exactly two operations: a weighted sum and a step.
+2. **Processing:** inside a neuron, electrochemical reactions decide the output, and scientists still do not fully understand them. Inside a perceptron there are exactly two operations: a **weighted sum** (G-2119) and a step.
 3. **Neuroplasticity** (G-1319): the connections between neurons get stronger or weaker over time, disappear, or form anew; this is how we learn new skills. A trained perceptron's connections (its weights) do not change.
 
 ![Neuroplasticity: connections between neurons get stronger, get weaker, vanish and appear over time; the weights of a trained perceptron stay fixed](images/neuroplasticity.png){width=90%}
@@ -175,9 +175,9 @@ So the perceptron is weakly inspired by the neuron. Calling it a model of the br
 
 Suppose training on the placement data gave $w_1 = 2$ for IQ, $w_2 = 4$ for CGPA and $b = 1$. The weight of CGPA is twice the weight of IQ. So, for this model, CGPA matters about twice as much as IQ in deciding placement. The box below gives another way to see it.
 
-In this way the weights tell us the [**feature importance**](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of each input. The bias does not belong to any input; its role is to shift the line ([Section 7](#7-what-a-perceptron-does-geometrically)).
+In this way the weights tell us the [**feature importance**](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of each input. The **bias** (G-284) does not belong to any input; its role is to shift the line ([Section 7](#7-what-a-perceptron-does-geometrically)).
 
-Figure 6 shows what a weight does to the decision. It takes the trained perceptron of section 8, on standardized CGPA ($x_1$) and resume score ($x_2$):
+Figure 6 shows what a weight does to the decision. It takes the trained **perceptron** (G-1486) of section 8, on standardized CGPA ($x_1$) and resume score ($x_2$):
 
 $$z = 5.82\thinspace x_1 + 1.48\thinspace x_2 + 1$$
 
@@ -195,9 +195,9 @@ The bigger a weight compared with the others, the more the line turns to follow 
 
 ## 7. What a perceptron does geometrically
 
-> **Key point:** z = 0 is a line (a plane in 3D, a hyperplane beyond). The perceptron predicts 1 on one side and 0 on the other: it is a binary classifier with one straight decision boundary.
+> **Key point:** z = 0 is a line (a plane in 3D, a hyperplane beyond). The **perceptron** (G-1486) predicts 1 on one side and 0 on the other: it is a binary classifier with one straight decision boundary.
 
-Rename the weights, the bias and the inputs, one at a time:
+Rename the weights, the **bias** (G-284) and the inputs, one at a time:
 
 $$w_1 \to A, \qquad w_2 \to B, \qquad b \to C$$
 $$x_1 \to x, \qquad x_2 \to y$$
@@ -217,21 +217,21 @@ Figure 7 shows where this line comes from, for the same trained perceptron. It i
 
 1. **z is a plane.** For every point of the input plane, the score $z$ gives a height. Together the heights form a tilted plane: high above the placed students, below zero under the others.
 2. **The plane crosses zero along a line.** Where the height is exactly 0, we get the line $z = 0$, the blue line.
-3. **The step flattens it.** The step function replaces every positive height by 1 and every negative height by 0, so the tilted plane becomes two flat terraces that meet at the blue line.
+3. **The step flattens it.** The **step function** (G-1889) replaces every positive height by 1 and every negative height by 0, so the tilted plane becomes two flat terraces that meet at the blue line.
 
-So a trained perceptron is nothing more than a line that splits the plane into two [**decision regions**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557), one per class. This line is the perceptron's decision boundary. One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
+So a trained perceptron is nothing more than a line that splits the plane into two [**decision regions**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557), one per class. This line is the perceptron's **decision boundary** (G-555). One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
 
 With three inputs the points live in 3D and $z = 0$ is a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), like a sheet held across a room. With four or more inputs it is a **hyperplane** (G-911; see the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703)). In every case there are two regions.
 
 ### 7.1 The big limitation
 
-> **Key point:** A perceptron only works on data that a straight decision boundary can (roughly) separate.
+> **Key point:** A **perceptron** (G-1486) only works on data that a straight decision boundary can (roughly) separate.
 
 A perceptron can only classify [linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) data, or data that is almost so: a few points on the wrong side only lower the accuracy. If one class surrounds the other, no line can split them and the perceptron fails, whatever we do. The [problem with the perceptron](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor) shows this in code.
 
 ## 8. A perceptron in scikit-learn
 
-> **Key point:** scikit-learn's Perceptron learns w₁, w₂ and b with fit; coef_ holds the weights and intercept_ the bias.
+> **Key point:** scikit-learn's **Perceptron** (G-1486) learns w₁, w₂ and b with fit; coef_ holds the weights and intercept_ the bias.
 
 The data has 100 students with two inputs, CGPA and a resume score (both from 0 to 10), and the output `placed`. Fifty were placed and fifty not.
 
@@ -261,11 +261,11 @@ Here $x_1$ is CGPA and $x_2$ is resume score.
 
 ![The perceptron's line and its two regions, before and after standardizing the inputs](images/decision_regions.png)
 
-Figure 8 (left) colours each region by the class the perceptron predicts there: green where it predicts placed, red where it predicts not placed. The grey line is the decision boundary, where the prediction switches from one class to the other. These regions are not a loss surface and need no contour reading. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
+Figure 8 (left) colours each region by the class the perceptron predicts there: green where it predicts placed, red where it predicts not placed. The grey line is the **decision boundary** (G-555), where the prediction switches from one class to the other. These regions are not a loss surface and need no contour reading. The line divides the data, but badly: the training accuracy is only 75%. The weight on resume score is even negative, which would mean a better resume lowers the chance of placement.
 
-The fix is to standardize the inputs first (Figure 8, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as feature importance: CGPA counts about four times as much as the resume score.
+The fix is to standardize the inputs first (Figure 8, right). Training accuracy rises to 97%, and the weights become 5.82 for CGPA and 1.48 for resume score. On scaled inputs the weights also make sense as **feature importance** (G-764): CGPA counts about four times as much as the resume score.
 
-Why raw inputs hurt here: each training step moves the weights by about 7 (the size of a CGPA or a resume score) but the bias by only 1, because the bias's input is the constant 1. This data needs a large bias, so the bias is like a walker taking baby steps beside two runners: training ends before the bias gets where it needs to be.
+Why raw inputs hurt here: each training step moves the weights by about 7 (the size of a CGPA or a resume score) but the **bias** (G-284) by only 1, because the bias's input is the constant 1. This data needs a large bias, so the bias is like a walker taking baby steps beside two runners: training ends before the bias gets where it needs to be.
 
 > **Extra:** The evidence, from the Notebook, changing one thing at a time.
 >
@@ -288,12 +288,12 @@ Why raw inputs hurt here: each training step moves the weights by about 7 (the s
 | Summation | $z = w_1x_1 + w_2x_2 + b$ | one number per student | the sign of this one number decides the output |
 | Activation (step) | 1 if $z \geq 0$, else 0 | placed or not | it turns a score of any size into a class |
 
-- A perceptron is a weighted sum plus a bias, followed by an activation function, so a trained perceptron is fully described by its weights and bias.
-- The bias is a threshold: the output is 1 when the weighted sum is at least $-b$. Changing the bias moves the line without turning it.
+- A **perceptron** (G-1486) is a weighted sum plus a bias, followed by an activation function, so a trained perceptron is fully described by its weights and bias.
+- The bias is a threshold: the output is 1 when the **weighted sum** (G-2119) is at least $-b$. Changing the **bias** (G-284) moves the line without turning it.
 - Training finds the weights and bias; prediction applies them to a new observation, so after training these few numbers are all the perceptron needs.
 - It is loosely inspired by a neuron (dendrites, nucleus, axon) but far simpler, and its weights are fixed once trained, so calling it a model of the brain would be wrong.
 - On standardized inputs, larger weights mean more important inputs, because on raw inputs a weight on a large-scale feature (IQ up to about 150) multiplies much bigger numbers than one on CGPA.
-- Geometrically it is a line, plane or hyperplane: a binary classifier for linearly separable data only, because one straight boundary gives exactly two regions, and no line can split a class that surrounds another.
+- Geometrically it is a line, plane or hyperplane: a binary classifier for **linearly separable** (G-1103) data only, because one straight boundary gives exactly two regions, and no line can split a class that surrounds another.
 - So a perceptron weighs the inputs, adds a bias and steps the result, which draws one straight boundary with each class on its own side.
 
 ## 10. Sources
@@ -313,11 +313,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Activation function (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | Perceptron (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | Weight (in a network) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
 | Bias (of a perceptron) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
 | Summation ($z$) (G-1915) | The weighted sum $w_1x_1 + w_2x_2 + \dots + b$ inside a perceptron. |
-| Activation function (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | Threshold (of a perceptron) (G-2261) | The value the weighted sum must reach for the output to be 1; it equals $-b$. |
 | Neuron (biological) (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on. |
 | Neuroplasticity (G-1319) | The brain's connections strengthening, weakening, vanishing or forming over time. |
@@ -326,13 +326,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Feature importance (weights) (G-763) | Reading the size of a weight as how much its input matters, fair only on scaled inputs. |
 | [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
 | [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
+| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
+| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
-| [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
@@ -340,7 +341,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |
 | [Decision region](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557) | The part of the input space in which a model predicts a given class. |
-| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
 | [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |

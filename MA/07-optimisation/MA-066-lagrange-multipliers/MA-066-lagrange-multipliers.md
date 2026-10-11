@@ -15,7 +15,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/lagrange]
 
 ## 1. Overview
 
-> **Key point:** To minimise a function while a constraint must hold, we look for the point where a level curve of the function just touches the constraint; there the two gradients are parallel, and the Lagrange multiplier is the factor between them.
+> **Key point:** To minimise a function while a constraint must hold, we look for the point where a level curve of the function just touches the constraint; there the two gradients are parallel, and the **Lagrange multiplier** (G-1036) is the factor between them.
 
 This Note follows Chapter 7 (Section 7.2) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
@@ -41,7 +41,7 @@ The **gradient** $\nabla f$ of $f$ at a point is the list of its slopes in the $
 
 - the problem (section 2);
 - the geometry with one equality constraint (section 3);
-- the Lagrangian (section 4);
+- the **Lagrangian** (G-1037) (section 4);
 - inequality constraints (section 5);
 - duality (section 6);
 - two ML examples (section 7).
@@ -145,7 +145,7 @@ Figure 4 makes the argument visible, on the same contour map of $f$ as Figure 3 
 
 ## 4. The Lagrangian
 
-> **Key point:** We add the constraints to the objective, each multiplied by its own Lagrange multiplier; setting all partial derivatives of this Lagrangian to zero gives the tangency condition and the constraint together.
+> **Key point:** We add the constraints to the objective, each multiplied by its own **Lagrange multiplier** (G-1036); setting all partial derivatives of this Lagrangian to zero gives the tangency condition and the constraint together.
 
 ### 4.1 One function holds all the conditions
 
@@ -249,7 +249,7 @@ Most constraints in ML are inequalities: a margin of at least 1, a weight length
 - **Active** (an **active constraint**, G-166): the unconstrained minimum is not feasible, so the answer lies on the boundary $g = 0$. The constraint then behaves like an equality constraint. For $x + y \ge 3$, written $g = 3 - x - y \le 0$, the answer is again $(2, 1)$ with $\lambda = 4$.
 - **Inactive** (an **inactive constraint**, G-928): the unconstrained minimum is already feasible, so the constraint plays no part and $\lambda = 0$. For $x + y \ge -1$, the point $(0, 0)$ satisfies $0 \ge -1$, and it is the answer.
 
-Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f = -\lambda \nabla g$. The gradient $\nabla g$ points out of the feasible region, towards larger $g$. With $\lambda \ge 0$, $\nabla f$ points into the region: $f$ increases as we move inside, so the boundary point is indeed lowest. A negative $\lambda$ would mean $f$ decreases inside, and the true answer would lie inside.
+Why must $\lambda \ge 0$ for an inequality? At an active constraint, $\nabla f = -\lambda \nabla g$. The gradient $\nabla g$ points out of the **feasible region** (G-759), towards larger $g$. With $\lambda \ge 0$, $\nabla f$ points into the region: $f$ increases as we move inside, so the boundary point is indeed lowest. A negative $\lambda$ would mean $f$ decreases inside, and the true answer would lie inside.
 
 In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\lambda = 0$ (inactive) or $g = 0$ (active). For an equality constraint, the multiplier can have either sign.
 
@@ -274,7 +274,7 @@ In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\
 
 ### 5.1 From a wall to a price
 
-> **Key point:** A hard constraint is an infinite penalty outside the feasible region; the Lagrangian replaces that wall with a linear penalty $\lambda g$.
+> **Key point:** A hard constraint is an infinite penalty outside the feasible region; the **Lagrangian** (G-1037) replaces that wall with a linear penalty $\lambda g$.
 
 Think of the fence round the valley. A **hard** fence is an electric wall: any step outside costs infinitely much, any step inside costs nothing. A **soft** fence is a fine: every unit of rule-breaking costs a fixed number of rupees, and being well inside even earns a small credit. The soft fence is easier to work with, and with the right fine it keeps the hiker in the same place.
 
@@ -298,11 +298,11 @@ Minimising $J$ gives the same answer as the constrained problem, but a function 
 
 ## 6. Lagrangian duality
 
-> **Key point:** Minimising the Lagrangian over $\mathbf{x}$ for a fixed $\boldsymbol{\lambda}$ gives the dual function $D(\boldsymbol{\lambda})$; every value of it is a lower bound on the true minimum, and the best lower bound is the dual problem.
+> **Key point:** Minimising the **Lagrangian** (G-1037) over $\mathbf{x}$ for a fixed $\boldsymbol{\lambda}$ gives the dual function $D(\boldsymbol{\lambda})$; every value of it is a lower bound on the true minimum, and the best lower bound is the **dual problem** (G-642).
 
 ### 6.1 The dual function and the dual problem
 
-> **Key point:** For every price $\lambda \ge 0$ on the constraint, the lowest value of the Lagrangian is a guaranteed floor under the true answer; the dual problem looks for the highest floor.
+> **Key point:** For every price $\lambda \ge 0$ on the constraint, the lowest value of the **Lagrangian** (G-1037) is a guaranteed floor under the true answer; the dual problem looks for the highest floor.
 
 **Why anyone wants a lower bound.** Solving the constrained problem directly can be hard. A floor is a cheap guarantee: "the best value is at least this". If we also find a feasible point whose value equals the floor, we know it is the best, with no search over the rest. So we raise the floor as high as we can.
 
@@ -362,7 +362,7 @@ Figure 9 shows two facts, with the floors of the table in [Section 6.1](#61-the-
 - **Weak duality** (G-2103): every $D(\lambda)$ is at most the primal minimum. At $\lambda = 2$ the floor is 4.5, which is at most 6.
 - **Strong duality** (G-1903): here the best lower bound reaches the minimum: $D(4) = 6$, the primal answer. Strong duality holds for convex problems such as this one (see the [convex sets and functions](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)), under a mild extra condition that this problem meets: some point must satisfy every inequality strictly (Slater's condition; Boyd and Vandenberghe §5.2.3). For non-convex problems a gap can remain.
 
-Weak duality always holds. In plain words: the floor is below the Lagrangian at every allowed point, and the Lagrangian at an allowed point is below the objective there, because the fine is zero or a credit. Take the allowed point $(3, 1)$ and the price $\lambda = 2$:
+Weak duality always holds. In plain words: the floor is below the **Lagrangian** (G-1037) at every allowed point, and the Lagrangian at an allowed point is below the objective there, because the fine is zero or a credit. Take the allowed point $(3, 1)$ and the price $\lambda = 2$:
 
 $$f(3, 1) = 3^2 + 2 \times 1^2 = 11$$
 
@@ -376,7 +376,7 @@ So $4.5 \le 9 \le 11$: the floor is below the Lagrangian, which is below the obj
 2. The minimum over all $\mathbf{x}$ is lower still, so $D(\boldsymbol{\lambda}) \le \mathcal{L}(\mathbf{x}, \boldsymbol{\lambda})$.
 3. Together, $D(\boldsymbol{\lambda}) \le f(\mathbf{x})$ for every feasible $\mathbf{x}$, including the best one.
 
-The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The primal problem is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of [Section 5.1](#51-from-a-wall-to-a-price)). The dual swaps the order.
+The same argument in general form is the **minimax inequality** (G-1225): for any function $\varphi(\mathbf{x}, \mathbf{y})$, $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$. The **primal problem** (G-1559) is $\min_{\mathbf{x}} \max_{\boldsymbol{\lambda} \ge 0} \mathcal{L}$, because the inner maximum is $f$ at feasible points and infinite elsewhere ($J$ of [Section 5.1](#51-from-a-wall-to-a-price)). The dual swaps the order.
 
 Two further properties make the dual useful:
 
@@ -401,7 +401,7 @@ so a budget $t = 25$ allows $(3, 4)$ and a budget $t = 10$ does not. $\mathbf{y}
 
 $$\min_{\mathbf{w}} \lVert \mathbf{y} - X\mathbf{w} \rVert^2 \quad \text{subject to} \quad \lVert \mathbf{w} \rVert^2 - t \le 0$$
 
-Its Lagrangian is
+Its **Lagrangian** (G-1037) is
 
 $$\mathcal{L}(\mathbf{w}, \lambda) = \lVert \mathbf{y} - X\mathbf{w} \rVert^2 + \lambda \lVert \mathbf{w} \rVert^2 - \lambda t$$
 
@@ -421,8 +421,8 @@ Lasso is the same with $|w_1| + |w_2| + \dots \le t$: a diamond instead of a cir
 
 The hard-margin SVM minimises $\tfrac12 \lVert \mathbf{w} \rVert^2$ subject to $y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$ for every point (see the [SVM soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#3-from-maximising-to-minimising), Section 3). Each point gives one constraint $g_i = 1 - y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \le 0$ and one multiplier $\alpha_i \ge 0$.
 
-1. **In words:** set the derivatives of the Lagrangian in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
-2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and setting the slope in $b$ to zero gives $\sum_i \alpha_i y_i = 0$. The dual problem is (MML §12.3)
+1. **In words:** set the derivatives of the **Lagrangian** (G-1037) in $\mathbf{w}$ and $b$ to zero and put the results back; what is left is a problem in the multipliers alone.
+2. **Formula:** $\nabla_{\mathbf{w}} \mathcal{L} = \mathbf{0}$ gives $\mathbf{w} = \sum_i \alpha_i y_i \mathbf x_i$, and setting the slope in $b$ to zero gives $\sum_i \alpha_i y_i = 0$. The **dual problem** (G-642) is (MML §12.3)
    $$\max_{\boldsymbol{\alpha} \ge 0} \ \sum_i \alpha_i$$
    $$- \frac12 \sum_i \sum_j \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j$$
    subject to
@@ -462,7 +462,7 @@ Two things are new here:
 - **Complementary slackness picks the support vectors.** A point strictly outside the margin has an inactive constraint, so $\alpha_i = 0$ and it does not appear in $\mathbf{w}$. Only points on the margin, the support vectors, have $\alpha_i > 0$.
 - **Only dot products appear.** The data enters the dual only as $\mathbf x_i^{\mathsf T}\mathbf x_j$. Replacing each dot product by a kernel function is the [**kernel trick**](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) (G-1008).
 
-Figure 11 shows complementary slackness on real data: 100 Iris flowers, setosa against versicolor, described by petal length and width. Of the 100 multipliers of the hard-margin SVM, only 2 are not zero: the two flowers on the margin, each with $\alpha = 1.18$. The other 98 flowers could be removed without changing $\mathbf{w}$.
+Figure 11 shows **complementary slackness** (G-424) on real data: 100 Iris flowers, setosa against versicolor, described by petal length and width. Of the 100 multipliers of the hard-margin SVM, only 2 are not zero: the two flowers on the margin, each with $\alpha = 1.18$. The other 98 flowers could be removed without changing $\mathbf{w}$.
 
 How to read Figure 11: each dot is one flower, placed by its petal length (across) and petal width (up); blue dots are setosa and orange dots are versicolor. The solid line is the [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) the SVM learns: it splits the two species. The dashed lines are the **margin**, the two lines parallel to the boundary at the closest allowed distance; no flower may lie between them. The green rings mark the flowers that sit exactly on a dashed line. Those are the flowers whose constraint is active, so they alone have a multiplier above 0.
 
@@ -500,8 +500,8 @@ How to read Figure 11: each dot is one flower, placed by its petal length (acros
 | Dual | $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$, a lower bound; maximise it | $D(\lambda) = 3\lambda - 3\lambda^2/8$, maximum 6 | every value is a guaranteed floor under the true minimum |
 
 - Tangent level curves mean parallel gradients: $\nabla f = -\lambda \nabla h$, because any part of $\nabla f$ along the constraint would let us slide along it and lower $f$.
-- The Lagrangian turns a constrained problem into equations for $\mathbf{x}$ and $\boldsymbol{\lambda}$ together, because its slope in $\mathbf{x}$ gives the tangency condition and its slope in $\boldsymbol{\lambda}$ gives back the constraint.
-- Weak duality always holds, because at allowed points the fine $\lambda g$ is zero or a credit; strong duality holds for convex problems, so there the dual gives the true minimum.
+- The **Lagrangian** (G-1037) turns a constrained problem into equations for $\mathbf{x}$ and $\boldsymbol{\lambda}$ together, because its slope in $\mathbf{x}$ gives the tangency condition and its slope in $\boldsymbol{\lambda}$ gives back the constraint.
+- **Weak duality** (G-2103) always holds, because at allowed points the fine $\lambda g$ is zero or a credit; **strong duality** (G-1903) holds for convex problems, so there the dual gives the true minimum.
 - Ridge and Lasso are constrained least squares; the SVM dual has one multiplier per point, nonzero only for support vectors, so the Ridge penalty strength is the multiplier of a cap on the weights, and only the points on the margin shape the SVM.
 - So to minimise under a constraint, look for the point where a level curve of $f$ just touches the constraint: there the gradients are parallel, and the multiplier is the factor between them.
 
@@ -527,16 +527,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Feasible region (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | Lagrange multiplier (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | Lagrangian (G-1037) | One function that packs an objective and its constraints together: the objective plus each constraint times its multiplier, $f + \sum_i \lambda_i g_i$; setting its gradient to zero gives the conditions for the constrained minimum. |
+| Feasible region (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | Shadow price (G-1784) | The Lagrange multiplier read in economic terms: how much the best value would improve per extra unit of a limited resource, so it tells how much loosening a constraint is worth. |
 | Active constraint (G-166) | An inequality constraint that the answer sits right on (it holds with equality), because the unconstrained minimum breaks it; it then acts like an equality constraint, and its multiplier can be positive. |
 | Inactive constraint (G-928) | An inequality constraint that the unconstrained minimum already satisfies, so it plays no part in the answer; its Lagrange multiplier is 0. |
 | KKT conditions (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
 | Complementary slackness (G-424) | A rule the best answer must obey when there are inequality constraints: for each constraint, its multiplier or the constraint value is 0, $\lambda_i g_i(\mathbf{x}) = 0$, so a constraint that plays no part at the answer gets multiplier 0. It is one of the KKT conditions. |
-| Primal problem (G-1559) | The original constrained optimisation problem, in its own variables $\mathbf{x}$; it is called primal to tell it apart from the dual problem built from it with Lagrange multipliers. |
 | Dual problem (G-642) | A second problem that looks for the highest guaranteed floor under a constrained minimum. Each price $\boldsymbol{\lambda} \ge 0$ on the constraints gives a floor, the lowest value of the Lagrangian, $D(\boldsymbol{\lambda}) = \min_{\mathbf{x}} \mathcal{L}$; the dual problem maximises $D$, and a feasible point that reaches the floor is the best. |
+| Primal problem (G-1559) | The original constrained optimisation problem, in its own variables $\mathbf{x}$; it is called primal to tell it apart from the dual problem built from it with Lagrange multipliers. |
 | Weak duality (G-2103) | Every value of the related helper (dual) function is at most the true minimum of the original (primal) problem, so any dual value is a floor (lower bound) on the best answer. |
 | Strong duality (G-1903) | The best lower bound given by a related helper problem (the dual problem) equals the true minimum of the original (primal) problem, so solving the dual solves the original; it holds for convex problems. |
 | Minimax inequality (G-1225) | Taking the smallest value over one argument and then the largest over the other never gives more than doing it in the other order: $\max_{\mathbf{y}} \min_{\mathbf{x}} \varphi \le \min_{\mathbf{x}} \max_{\mathbf{y}} \varphi$ for any function of two arguments. It is why the dual problem's answer is never above the primal's (weak duality). |

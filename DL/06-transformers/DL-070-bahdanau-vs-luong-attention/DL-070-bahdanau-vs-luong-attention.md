@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/bahdanau
 
 ## 1. Overview
 
-> **Key point:** Both attentions build the context vector as a weighted mix of the encoder states. **Bahdanau** scores with a small neural network and feeds the context *into* the decoder's LSTM step; **Luong** scores with a dot product and joins the context to the LSTM's *output*.
+> **Key point:** Both attentions build the context vector as a weighted mix of the encoder states. **Bahdanau** scores with a small neural network and feeds the context *into* the decoder's LSTM step; **Luong** scores with a **dot product** (G-634) and joins the context to the LSTM's *output*.
 
 In more detail, the two differ in two things:
 
@@ -29,9 +29,9 @@ In more detail, the two differ in two things:
 
 ## 2. Prerequisites
 
-- [**Attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) (G-226): context vectors, alignment scores, softmax over the input positions.
+- [**Attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) (G-226): context vectors, **alignment scores** (G-190), softmax over the input positions.
 - [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): encoder, decoder, teacher forcing.
-- [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#53-the-angle-between-two-vectors): the dot product as a measure of similarity.
+- [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#53-the-angle-between-two-vectors): the **dot product** (G-634) as a measure of similarity.
 - [**Forward propagation**](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797): a dense layer as a matrix product.
 
 ## 3. Recap: what both must compute
@@ -108,7 +108,7 @@ At step 2 the same network runs again with $s_1$ in place of $s_0$. In the $4 \t
 
    The Notebook, using unrounded values, gives $e_1 = -0.099$.
 
-   The four scores are $(-0.099, -0.011, 0.449, -0.116)$, and softmax turns them into the weights $(0.208, 0.227, 0.360, 0.205)$. The score function has 27 learned numbers:
+   The four scores are $(-0.099, -0.011, 0.449, -0.116)$, and softmax turns them into the weights $(0.208, 0.227, 0.360, 0.205)$. The **score function** (G-1752) has 27 learned numbers:
 
    $$8 \times 3 + 3 = 27$$
 
@@ -180,11 +180,11 @@ Figure 4 builds the same step in both designs, one operation at a time, from the
 > logits = out(Wc(tf.concat([ctx, S], -1)))              # Wc: Dense(256, "tanh")
 > ```
 
-> **Extra:** Luong et al. (2015, section 3.3) also propose **input feeding** (G-949): $\tilde h_{i-1}$ is joined to the next input, so that the model remembers its past alignment choices. With input feeding the LSTM again needs the previous step's attention before it can run. The Notebook leaves it out, as in Luong's basic global model of section 3.1.
+> **Extra:** Luong et al. (2015, section 3.3) also propose **input feeding** (G-949): $\tilde h_{i-1}$ is joined to the next input, so that the model remembers its past alignment choices. With input feeding the LSTM again needs the previous step's **attention** (G-226) before it can run. The Notebook leaves it out, as in Luong's basic global model of section 3.1.
 
 ## 6. The two compared
 
-> **Key point:** On the same data, Luong's dot attention translated best: test BLEU 31.6 against 25.1 for Bahdanau's additive attention, with a third fewer parameters and less than half the time per epoch. Luong's general score did worst (17.7): its model learned to put all its weight on the final full stop.
+> **Key point:** On the same data, Luong's dot **attention** (G-226) translated best: test BLEU 31.6 against 25.1 for Bahdanau's additive attention, with a third fewer parameters and less than half the time per epoch. Luong's general score did worst (17.7): its model learned to put all its weight on the final full stop.
 
 ### 6.1 Summary of the differences
 
@@ -198,13 +198,13 @@ Figure 4 builds the same step in both designs, one operation at a time, from the
 | Learned parameters in the score | $W_a$, $U_a$, $v$ | none (dot) or $W_a$ (general) |
 | Where $c_i$ goes | input of the LSTM step | joined to $s_i$ after the step: $\tilde h_i = \tanh(W_c[c_i; s_i])$ |
 
-Luong et al. (2015, section 3.1) describe their path $s_i \to \alpha_i \to c_i \to \tilde h_i$ as "simpler" than Bahdanau's. Vaswani et al. (2017, section 3.2.1) add that the two are similar in theoretical complexity, but dot-product attention "is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code".
+Luong et al. (2015, section 3.1) describe their path $s_i \to \alpha_i \to c_i \to \tilde h_i$ as "simpler" than Bahdanau's. Vaswani et al. (2017, section 3.2.1) add that the two are similar in theoretical complexity, but dot-product **attention** (G-226) "is much faster and more space-efficient in practice, since it can be implemented using highly optimized matrix multiplication code".
 
 ### 6.2 The experiment
 
-> **Key point:** Three attention models on the same 60,000 sentence pairs, 3 runs each.
+> **Key point:** Three **attention** (G-226) models on the same 60,000 sentence pairs, 3 runs each.
 
-The Notebook trains the Bahdanau attention model of [letting a neural network find the function](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#62-let-a-neural-network-find-the-function) and two Luong models (dot and general) on the same English–French data, with the same bidirectional encoder (it reads the sentence in both directions) and the same decoder LSTM of 256 units, for 12 epochs, 3 runs each. Translation quality is measured by the [**BLEU score**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315): how many word sequences of a translation match a human reference. The Luong models follow equations 5–7 of Luong et al. (2015) without input feeding.
+The Notebook trains the Bahdanau attention model of [letting a neural network find the function](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#62-let-a-neural-network-find-the-function) and two Luong models (dot and general) on the same English–French data, with the same bidirectional encoder (it reads the sentence in both directions) and the same decoder LSTM of 256 units, for 12 epochs, 3 runs each. Translation quality is measured by the [**BLEU score**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315): how many word sequences of a translation match a human reference. The Luong models follow equations 5–7 of Luong et al. (2015) without **input feeding** (G-949).
 
 | | Bahdanau (concat) | Luong dot | Luong general |
 |---|---|---|---|
@@ -228,7 +228,7 @@ The Bahdanau numbers differ slightly from those of [attention against no attenti
 
 ![Attention weights of the three trained models on the same real test sentence. Bahdanau and Luong dot both translate it exactly; Luong general puts all its weight on the final full stop](images/attention_three.png){width=100%}
 
-Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"). Attention weights need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system (see [seeing the alignment](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#8-seeing-the-alignment)). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
+Figure 6 shows why the general model did badly. On the test sentence "she advised him to talk about his life in america .", the dot model's weights form a clean diagonal: "elle" looks at "she", "lui" at "him", "conseillé" at "advised", "parler" at "talk", "vie" at "life", "amérique" at "america". Bahdanau's model also forms a band, but it often sits to the right of the matching word ("parler" looks at "about"). **Attention weights** (G-224) need not match a word alignment, and the same off-by-one attention has been reported in a trained Bahdanau-type system (see [seeing the alignment](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#8-seeing-the-alignment)). The general model puts a weight of 1 on the final "." at every step. Its context vector is then the same at every step: the state of the last word, whose forward half has read the whole sentence. The model has turned itself back into a plain encoder–decoder with one fixed summary, and its translation of this sentence goes wrong at the end ("elle lui conseilla de parler en vie de sa vie .").
 
 ## 7. Summary
 
@@ -240,10 +240,10 @@ Figure 6 shows why the general model did badly. On the test sentence "she advise
 | In the Notebook | BLEU 25.1, 51 s per epoch | dot: BLEU 31.6, 22 s per epoch |
 
 - The last row is why Luong dot won in the Notebook: fewer parameters, less than half the time per epoch, and higher BLEU on the same data.
-- Both compute weights $\alpha_{ij}$ by a softmax over scores and a context vector $c_i = \sum_j \alpha_{ij} h_j$, so the only real choices are the score function and where the context goes.
-- Bahdanau scores the previous decoder state with a one-hidden-layer network; the context is an input of the next LSTM step, so each step must wait for its own attention and the decoder runs as a loop.
-- Luong scores the current decoder state with a dot product (or a bilinear form), because a dot product is large when two vectors point the same way and so already measures similarity; it joins the context to the state after the LSTM step, so the LSTM never waits for the attention.
-- The dot product needs no parameters and, without input feeding, lets attention for all decoder steps be computed with matrix products, which is why each epoch took less than half the time.
+- Both compute weights $\alpha_{ij}$ by a softmax over scores and a context vector $c_i = \sum_j \alpha_{ij} h_j$, so the only real choices are the **score function** (G-1752) and where the context goes.
+- Bahdanau scores the previous decoder state with a one-hidden-layer network; the context is an input of the next LSTM step, so each step must wait for its own **attention** (G-226) and the decoder runs as a loop.
+- Luong scores the current decoder state with a **dot product** (G-634) (or a bilinear form), because a dot product is large when two vectors point the same way and so already measures similarity; it joins the context to the state after the LSTM step, so the LSTM never waits for the attention.
+- The dot product needs no parameters and, without **input feeding** (G-949), lets attention for all decoder steps be computed with matrix products, which is why each epoch took less than half the time.
 - A learned score can also go wrong: the general model put all its weight on the final full stop, so it fell back to one fixed summary (BLEU 17.7).
 - The dot-product score is the one the transformer's self-attention builds on, so this is the difference to remember: a learned network score against a plain dot-product score, and context fed in before the step against joined after it.
 
@@ -275,6 +275,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Concat score (G-435) | A score for how useful an encoder state is now: join the decoder state and the encoder state into one vector and pass it through a tanh layer and one output unit to get one number, $v_a^\top \tanh(W_a[s_i; h_j])$. It is Luong's name for the additive (Bahdanau) attention score. |
 | Dot score (G-635) | Luong's simplest attention score: the dot product of the decoder state and an encoder state, $s_i^\top h_j$, large when the two point the same way. It needs no learned parameters, but both states must have the same size. |
 | General score (G-837) | A way to score how well a decoder state $s_i$ matches an encoder state $h_j$ through a learned matrix, $s_i^\top W_a h_j$ (Luong's general score). It lets the two states have different sizes and lets the model learn which directions of similarity matter. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Attention](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |
 | [Context vector $c_i$](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#52-what-c_i-is) (G-460) | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
 | [Attention weight $\alpha_{ij}$](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) (G-224) | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1. |
@@ -283,6 +284,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
 | [Alignment model](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#62-let-a-neural-network-find-the-function) (G-189) | The small feed-forward network that scores how well encoder state $h_j$ fits the previous decoder state $s_{i-1}$, giving the alignment score $e_{ij}$. |
-| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [BLEU score](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
 | [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |

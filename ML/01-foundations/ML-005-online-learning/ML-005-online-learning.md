@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/foundations, area/production, step/foundat
 
 ## 1. Overview
 
-> **Key point:** In online learning, the model keeps learning after deployment. New data arrives in small mini-batches, and the model updates itself on the server after each one.
+> **Key point:** In **online learning** (G-1391), the model keeps learning after deployment. New data arrives in small mini-batches, and the model updates itself on the server after each one.
 
 
 When a company says "the more you use our product, the better it gets", it is usually describing online learning. The model is not frozen after deployment: it trains on new data while it is live.
@@ -67,11 +67,11 @@ As new data arrives, the model's performance keeps improving to match it.
 
 Figure 3 shows the pattern the three share: using the product produces new data, and the deployed model learns from that data at once.
 
-Many companies still use batch learning, but the industry is moving towards online learning.
+Many companies still use batch learning, but the industry is moving towards **online learning** (G-1391).
 
 ## 3. When to use online learning
 
-> **Key point:** Use online learning when the problem keeps changing, when the data is huge, or when results are needed fast.
+> **Key point:** Use **online learning** (G-1391) when the problem keeps changing, when the data is huge, or when results are needed fast.
 
 1. **The problem changes over time.** Some problems keep shifting: stock prices, or an e-commerce site where trends and customer behaviour change constantly. This drifting of the problem is **concept drift** (see [models go stale](../ML-004-batch-learning/ML-004-batch-learning.md#41-models-go-stale)). A model trained on the old data then slowly gets worse as the world moves away from it; this decline is **[model drift](../ML-009-mldlc/ML-009-mldlc.md#112-model-drift-and-retraining)** (taught in full later). Here the model must keep adapting, which is exactly what online learning does.
 2. **Cost.** Retraining a batch model on a very large dataset is expensive. Online learning works with small mini-batches, so each step costs little.
@@ -96,7 +96,7 @@ For problems that do not change, batch learning is still simpler and works well.
 
 > **Key point:** `fit` starts from scratch on all the data; `partial_fit` continues from where the model left off.
 
-Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around batch learning, so only some of its models offer `partial_fit`.
+Most scikit-learn models are trained with `fit`, which uses all the data at once. Some models also have **`partial_fit`** (G-1458), which trains on the data given and keeps what the model already learned. Calling it again with new data continues the training. scikit-learn is designed around **batch learning** (G-265), so only some of its models offer `partial_fit`.
 
 One such model is **`SGDRegressor`** (G-1783). `SGDRegressor` does the same job as **linear regression** (G-1094; fitting a straight line to the data, taught in [a line through the data](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)), but learns step by step with **[**stochastic gradient descent**](../../06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892)** (SGD, taught in full later): it picks one observation, measures that observation's error, and nudges every coefficient a little to shrink it, then moves to the next. This is what makes `partial_fit` possible.
 
@@ -123,7 +123,7 @@ $$0.67 \times 3 + 0.25 = 2.26$$
 
 The true pattern in the data, $y = 2x$, has slope 2 and intercept 0, so at $x = 3$ the right answer is 6. A line with slope 0.67 is "far too flat".
 
-What does each call change? Figure 5 runs `partial_fit` on a stream of mini-batches of 10 observations, from data whose true pattern is $y = 2x$ plus noise (the Notebook's data).
+What does each call change? Figure 5 runs `partial_fit` on a stream of mini-batches of 10 observations, from data whose true pattern is $y = 2x$ plus **noise** (G-1326) (the Notebook's data).
 
 ![An SGDRegressor learning from a stream with partial_fit. Orange: the mini-batch of this call. Grey: earlier mini-batches, which the model has already used and does not keep. Blue: the model's line after the call.](images/partial_fit_stream.gif)
 
@@ -135,7 +135,7 @@ The model never goes back to old observations. Each call moves the [**parameters
 
 ### 4.2 Dedicated libraries
 
-> **Key point:** River and Vowpal Wabbit are built specifically for online learning.
+> **Key point:** River and Vowpal Wabbit are built specifically for **online learning** (G-1391).
 
 - **River:** a Python library for online machine learning on streaming data. River was formed by merging two earlier libraries, creme and scikit-multiflow (Montiel et al. 2021).
 - **Vowpal Wabbit:** a fast library for online and interactive learning, including reinforcement learning (Vowpal Wabbit docs).
@@ -179,13 +179,13 @@ The true value jumps from 20 to 60 at step 120. In Figure 6 the three rates beha
 - with 0.7, the model reacts to every noisy point;
 - with 0.1, the model follows the change quickly and stays steady.
 
-The learning rate is one of the most important settings in online learning. If the rate is wrong, the model either forgets too fast or adapts too slowly.
+The learning rate is one of the most important settings in **online learning** (G-1391). If the rate is wrong, the model either forgets too fast or adapts too slowly.
 
 ## 6. Out-of-core learning
 
 > **Key point:** When data is too big to fit in memory, we split it into chunks and train on them one at a time.
 
-Sometimes a dataset is too large to load at once. For example, a 50 GB dataset cannot be loaded on a machine with 8 GB of RAM, so it cannot be trained with batch learning.
+Sometimes a dataset is too large to load at once. For example, a 50 GB dataset cannot be loaded on a machine with 8 GB of RAM, so it cannot be trained with **batch learning** (G-265).
 
 **Out-of-core learning** (G-1413) solves this with the online-learning technique (scikit-learn User Guide, Strategies to scale computationally):
 
@@ -195,20 +195,20 @@ Sometimes a dataset is too large to load at once. For example, a 50 GB dataset c
 2. Feed the chunks to the model one at a time, training incrementally.
 3. Deploy the trained model.
 
-All of this happens offline, on our own machine. So out-of-core learning is not online learning, even though it uses the same incremental technique.
+All of this happens offline, on our own machine. So out-of-core learning is not **online learning** (G-1391), even though it uses the same incremental technique.
 
 ## 7. Risks of online learning
 
-> **Key point:** Online learning is hard to run reliably, and bad incoming data can damage the model. Monitor it and be ready to roll back.
+> **Key point:** **Online learning** (G-1391) is hard to run reliably, and bad incoming data can damage the model. Monitor it and be ready to roll back.
 
 ### 7.1 Hard to run reliably
 
 > **Key point:** Training a model is easy; keeping it learning correctly on a live server is not.
 
-Running online learning in production means doing three things at once:
+Running **online learning** (G-1391) in production means doing three things at once:
 
 - handling a constant stream of data;
-- choosing the right learning rate;
+- choosing the right **learning rate** (G-1068);
 - keeping everything working.
 
 The job is hardest when data arrives in real time.
@@ -265,10 +265,10 @@ The Notebook for this Note (`ML-005-online-learning.ipynb`) trains a model one r
 | Weak spots | Hard to run, young tools, vulnerable to bad data |
 | Examples | Chatbots, smart keyboards, video feeds |
 
-- Online learning = incremental training on mini-batches, while the model is live. Each step is small and cheap, so the model can train on the server and keep up with a changing problem (Electricity data: 71.7 percent against 68.0 for a frozen batch model).
+- **Online learning** (G-1391) = incremental training on mini-batches, while the model is live. Each step is small and cheap, so the model can train on the server and keep up with a changing problem (Electricity data: 71.7 percent against 68.0 for a frozen batch model).
 - In scikit-learn, models with `partial_fit` can learn this way, because `partial_fit` continues from where the model left off instead of starting from scratch.
-- The learning rate balances learning new patterns against remembering old ones, so a wrong rate makes the model either chase noise or adapt too slowly.
-- Out-of-core learning uses the same technique offline, for data too big for memory, so a 50 GB dataset can be trained on a machine with 8 GB of RAM.
+- The **learning rate** (G-1068) balances learning new patterns against remembering old ones, so a wrong rate makes the model either chase noise or adapt too slowly.
+- **Out-of-core learning** (G-1413) uses the same technique offline, for data too big for memory, so a 50 GB dataset can be trained on a machine with 8 GB of RAM.
 - Protect an online model with monitoring, anomaly detection and rollback, because it learns from whatever arrives, bad data included.
 
 ## 10. Sources
@@ -309,6 +309,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
 | [Noise ($\varepsilon$)](../../../MA/08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#31-the-model) (G-1326) | The random part of a target that the model's prediction does not explain. |
+| [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |
 | [Anomaly detection](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) | Finding rows that do not fit the pattern of the rest. |

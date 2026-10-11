@@ -26,7 +26,7 @@ The Keras workflow is unchanged: [build, compile, fit, predict](../DL-011-custom
 
 1. **Input:** an image, not a row of a table; a **Flatten** layer turns it into one row.
 2. **Output layer:** 10 nodes with the **softmax** activation (a function that turns 10 scores into 10 probabilities that add up to 1; section 4.2).
-3. **Loss:** sparse categorical cross-entropy (the loss for many classes, with labels kept as plain digits; section 5.1).
+3. **Loss:** sparse categorical cross-entropy (the loss for many classes, with **labels** (G-1032) kept as plain digits; section 5.1).
 4. **Prediction:** the digit with the highest probability, found with **argmax** (G-212).
 
 After training, section 9 opens the network up to see what it learned. The goal is to see how a network handles more than two classes, not to reach the best accuracy. The Notebook (`DL-012-mnist-ann.ipynb`) runs every step.
@@ -93,7 +93,7 @@ In Figure 2, compare the two grids cell by cell: every number keeps its place an
 
 ## 4. The network
 
-> **Key point:** Flatten (784 inputs), a hidden layer of 128 ReLU nodes, an output layer of 10 softmax nodes: 101,770 trainable parameters.
+> **Key point:** Flatten (784 inputs), a hidden layer of 128 **ReLU** (G-1668) nodes, an output layer of 10 softmax nodes: 101,770 trainable parameters.
 
 ### 4.1 Flatten: from an image to a row
 
@@ -169,11 +169,11 @@ The 784-128-10 network is the one previewed in the Extra box of that section. Ov
 
 ## 5. Compiling and training
 
-> **Key point:** Sparse categorical cross-entropy takes the labels as plain digits 0 to 9; categorical cross-entropy needs them one-hot encoded. Otherwise they are the same loss.
+> **Key point:** Sparse categorical cross-entropy takes the **labels** (G-1032) as plain digits 0 to 9; categorical cross-entropy needs them one-hot encoded. Otherwise they are the same loss.
 
 ### 5.1 The loss for many classes
 
-> **Key point:** Both losses are categorical cross-entropy; "sparse" only means the labels stay as integers.
+> **Key point:** Both losses are categorical cross-entropy; "sparse" only means the **labels** (G-1032) stay as integers.
 
 With a softmax output, the loss is [**categorical cross-entropy**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349): the average of $-\log$ of the probability the network gives the true class (see [one loss for all classes](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) and [one perceptron, many models](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models)). For one image of a 5, the loss is small when P(5) is high and large when P(5) is low:
 
@@ -225,7 +225,7 @@ $$60{,}000 \times 0.2 = 12{,}000 \text{ validation}$$
 
 $$48{,}000 / 32 = 1{,}500$$
 
-The output shows this as `1500/1500`. The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 4 (0.088) and has risen to 0.099 by epoch 10: a first sign of overfitting.
+The output shows this as `1500/1500`. The training loss falls from 0.280 after the first epoch to 0.014 after the tenth. The validation loss is lowest after epoch 4 (0.088) and has risen to 0.099 by epoch 10: a first sign of **overfitting** (G-1429).
 
 ![Training and validation loss of the first network over its 10 epochs](images/curves1.png){height=28%}
 
@@ -246,7 +246,7 @@ To turn the 10 probabilities into one digit we take the position of the largest:
 
 ![The worked example as a bar chart: one probability per digit, and argmax picks the position of the tallest bar](images/argmax.png){height=26%}
 
-Figure 6 draws the example: argmax ignores how much bigger the tallest bar is and returns only its position, 2.
+Figure 6 draws the example: **argmax** (G-212) ignores how much bigger the tallest bar is and returns only its position, 2.
 
 > **Python:** From probabilities to digits.
 >
@@ -260,19 +260,19 @@ Figure 6 draws the example: argmax ignores how much bigger the tallest bar is an
 >
 > `axis=1` takes the argmax across each row, one answer per image.
 
-The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in [KNN on all 784 features](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#3-knn-on-all-784-features), on a different split of MNIST. KNN compares each new image with every stored image (33,600 there), while the network only passes the image once through its two layers. A plain network with one hidden layer and no tuning already does better.
+The first network gets **97.69%** of the 10,000 test images right. For comparison, KNN on all 784 pixels reached 96.8% in [KNN on all 784 features](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#3-knn-on-all-784-features), on a different split of **MNIST** (G-1249). KNN compares each new image with every stored image (33,600 there), while the network only passes the image once through its two layers. A plain network with one hidden layer and no tuning already does better.
 
 > **Extra:** Image data is the home ground of the [**convolutional neural network (CNN)**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484), which looks at small patches of pixels instead of treating every pixel as a separate input. CNNs reach over 99% on MNIST: LeNet-5 had a test error of 0.95% (LeCun et al. 1998). CNNs are taught in [what makes a network a CNN](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn).
 
 ## 7. A bigger network and its training curves
 
-> **Key point:** An extra hidden layer and 25 epochs make the training accuracy reach 99.7%, but the test accuracy barely moves (97.72%): the network overfits.
+> **Key point:** An extra hidden layer and 25 **epochs** (G-696) make the training accuracy reach 99.7%, but the test accuracy barely moves (97.72%): the network overfits.
 
 ### 7.1 The second network
 
 > **Key point:** 784-128-32-10, with accuracy tracked: 104,938 parameters.
 
-To try to improve, we add a second hidden layer of 32 ReLU nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see [tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
+To try to improve, we add a second hidden layer of 32 **ReLU** (G-1668) nodes, train for 25 epochs and track accuracy with `metrics=["accuracy"]` (see [tracking accuracy and a validation set](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set)).
 
 Parameters per layer (inputs times nodes, plus one bias per node):
 
@@ -300,11 +300,11 @@ $$100{,}480 + 4{,}128 + 330 = 104{,}938$$
 >                      validation_split=0.2)
 > ```
 
-The test accuracy is **97.72%**, almost the same as the first network's 97.69%. More capacity and more epochs did not help.
+The test accuracy is **97.72%**, almost the same as the first network's 97.69%. More capacity and more **epochs** (G-696) did not help.
 
 ### 7.2 Reading the curves
 
-> **Key point:** The training loss keeps falling while the validation loss climbs after epoch 3: a clear case of overfitting.
+> **Key point:** The training loss keeps falling while the validation loss climbs after **epoch** (G-696) 3: a clear case of overfitting.
 
 ![Training curves of the second network. The circle marks the lowest validation loss, after epoch 3.](images/curves.png)
 
@@ -371,9 +371,9 @@ So a high test accuracy shows that the network separates the 10 digits well. It 
 
 ## 10. Predicting a single image
 
-> **Key point:** `predict` expects a batch of images, so one image is reshaped from (28, 28) to (1, 28, 28) first.
+> **Key point:** `predict` expects a **batch** (G-263) of images, so one image is reshaped from (28, 28) to (1, 28, 28) first.
 
-Keras models always predict a batch of observations. A single image has shape (28, 28); `reshape(1, 28, 28)` turns it into a batch of one.
+Keras models always predict a batch of **observations** (G-1374). A single image has shape (28, 28); `reshape(1, 28, 28)` turns it into a batch of one.
 
 > **Python:** Predicting one test image.
 >
@@ -394,14 +394,14 @@ The first two test images, a 7 and a 2, are both predicted correctly, each with 
 | Prediction | probability > 0.5 | argmax of 10 probabilities |
 | Test accuracy | 86.45% | 97.69% (first), 97.72% (second) |
 
-- MNIST: 60,000 training and 10,000 test images of 28 × 28 pixels, loaded with `keras.datasets.mnist.load_data()`, so the test score comes from 10,000 images the network never trained on.
+- **MNIST** (G-1249): 60,000 training and 10,000 test images of 28 × 28 pixels, loaded with `keras.datasets.mnist.load_data()`, so the test score comes from 10,000 images the network never trained on.
 - Divide pixels by 255, because a network trains faster when its inputs share a small range; a Flatten layer turns each image into 784 inputs, because a Dense layer takes a flat list of numbers.
 - Multi-class output: one softmax node per class; predict with `argmax(axis=1)`, because softmax gives one probability per digit and the position of the largest is the digit.
-- Sparse categorical cross-entropy for integer labels, categorical cross-entropy for one-hot labels, so labels kept as plain digits 0 to 9 need no one-hot encoding.
-- A bigger network trained longer overfitted: training loss down, validation loss up after epoch 3, so watch the validation loss, not only the training loss.
+- Sparse categorical cross-entropy for integer **labels** (G-1032), categorical cross-entropy for one-hot labels, so labels kept as plain digits 0 to 9 need no one-hot encoding.
+- A bigger network trained longer overfitted: training loss down, validation loss up after **epoch** (G-696) 3, so watch the validation loss, not only the training loss.
 - The hidden nodes' weights show no clear strokes, and random noise gets a confident answer (a 3 with probability 0.997): accuracy alone does not show what a network learned.
 
-So a network handles 10 classes with the same Keras steps as churn; only the input (Flatten), the output layer (10 softmax nodes), the loss and the prediction (argmax) change.
+So a network handles 10 classes with the same Keras steps as churn; only the input (Flatten), the output layer (10 softmax nodes), the loss and the prediction (**argmax** (G-212)) change.
 
 ## 12. Sources
 
@@ -427,21 +427,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Flatten layer (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
 | Softmax output layer (G-1832) | An output layer with one node per class whose outputs are probabilities adding up to 1. |
 | Sparse categorical cross-entropy (G-1839) | The same loss as categorical cross-entropy, but it takes the labels as plain integers (such as the digits 0 to 9) instead of one-hot vectors, so the labels need no encoding. |
+| [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
-| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
-| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [`to_categorical`](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#52-one-hot-targets) (G-151) | Keras function that turns integer class labels into 0/1 vectors with a single 1 at the label's position (one-hot encoding). |

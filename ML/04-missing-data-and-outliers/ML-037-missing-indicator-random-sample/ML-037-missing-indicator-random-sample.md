@@ -23,7 +23,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/missing-indicato
 
 - random sample imputation (Sections [2](#2-random-sample-imputation) to [5](#5-random-sample-imputation-on-categorical-columns));
 - the missing indicator ([Section 6](#6-missing-indicator));
-- a way to let the computer pick the best technique for us, grid search ([Section 7](#7-choosing-the-imputer-automatically-with-grid-search)).
+- a way to let the computer pick the best technique for us, **grid search** (G-872) ([Section 7](#7-choosing-the-imputer-automatically-with-grid-search)).
 
 Figure 1 shows the two techniques on a small `Age` column with two gaps:
 
@@ -70,13 +70,13 @@ Because every range gets its fair share of the filled values, two things stay al
 
 ### 2.3 Advantages
 
-> **Key point:** Random sample imputation is easy to apply and keeps the distribution and variance intact, which suits linear models.
+> **Key point:** **Random sample imputation** (G-1616) is easy to apply and keeps the distribution and variance intact, which suits linear models.
 
 1. **Easy to apply.** One line of pandas per column.
 2. **Keeps the distribution and the variance**, as [Section 2.2](#22-why-the-distribution-stays-the-same) explains.
-3. **Good for linear models**, such as linear and logistic regression. Filling every gap with one value, such as the mean, shrinks the variance and weakens the links between columns, and this biases almost every estimate except the mean (van Buuren, FIMD §1.3.3). A linear model's coefficients are such estimates. Random sample imputation keeps the variance: [Section 3.2](#32-distribution-variance-and-outliers) shows 200.03 against the original 204.35, while mean imputation gives 161.81.
+3. **Good for linear models**, such as linear and **logistic regression** (G-1120). Filling every gap with one value, such as the mean, shrinks the variance and weakens the links between columns, and this biases almost every estimate except the mean (van Buuren, FIMD §1.3.3). A linear model's coefficients are such estimates. Random sample imputation keeps the variance: [Section 3.2](#32-distribution-variance-and-outliers) shows 200.03 against the original 204.35, while **mean imputation** (G-1197) gives 161.81.
 
-**Tree-based algorithms** (G-2013), such as decision trees, gain less from it: the random values add noise to the data. The intuition: a tree splits on the order of the values, so keeping the exact shape of the distribution matters less to it.
+**Tree-based algorithms** (G-2013), such as decision trees, gain less from it: the random values add noise to the data. The intuition: a tree splits on the order of the values, so keeping the exact shape of the **distribution** (G-626) matters less to it.
 
 > **Python:** scikit-learn has no random sample imputer, so we write it in pandas.
 >
@@ -91,9 +91,9 @@ Because every range gets its fair share of the filled values, two things stay al
 
 ### 2.4 Disadvantages
 
-> **Key point:** Random sample imputation weakens the feature's relationships with other features, adds randomness, and needs the training data at prediction time.
+> **Key point:** **Random sample imputation** (G-1616) weakens the feature's relationships with other features, adds randomness, and needs the training data at prediction time.
 
-1. **The covariance with other features changes.** The [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) measures how two features move together: positive when they rise together. Each filled value is drawn without looking at the rest of the observation, so the feature's link to other features weakens.
+1. **The covariance with other features changes.** The [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) measures how two features move together: positive when they rise together. Each filled value is drawn without looking at the rest of the **observation** (G-1374), so the feature's link to other features weakens.
 2. **The fill is random.** Run the code twice without a fixed [**random seed**](../../08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617), the number that fixes a random draw, and the filled values differ.
 3. **Production needs memory.** A gap in new data must be filled from the training values, so the deployed model has to keep the whole training column on the server. For a large training set, the stored column takes a lot of memory.
 
@@ -101,13 +101,13 @@ Random sample imputation keeps the shape however many values are missing. [Secti
 
 ## 3. Random sample imputation on Titanic ages
 
-> **Key point:** On the Titanic data, random sample imputation of `Age` keeps the density curve and the variance almost unchanged, but the covariance with `Fare` drops.
+> **Key point:** On the Titanic data, **random sample imputation** (G-1616) of `Age` keeps the density curve and the **variance** (G-2074) almost unchanged, but the covariance with `Fare` drops.
 
 ### 3.1 The data and the fill
 
 > **Key point:** We split first, and draw the fill values for both sets from the known training ages.
 
-The data is Kaggle's Titanic training file, 891 passengers. We use `Age` and `Fare` as inputs and `Survived` as the target. `Age` has 177 missing values (19.9%); `Fare` has none.
+The data is Kaggle's Titanic training file, 891 passengers. We use `Age` and `Fare` as inputs and `Survived` as the **target** (G-1949). `Age` has 177 missing values (19.9%); `Fare` has none.
 
 After an 80/20 split, the training set has 712 rows, 148 of them with no age (20.8%). The test set has 179 rows, 29 of them with no age.
 
@@ -132,7 +132,7 @@ Both sets are filled from the same bag: the 564 known training ages. Drawing tes
 
 ### 3.2 Distribution, variance and outliers
 
-> **Key point:** The density curve and the box barely move, and the variance changes from 204.35 to 200.03.
+> **Key point:** The density curve and the box barely move, and the **variance** (G-2074) changes from 204.35 to 200.03.
 
 Figure 3 compares the original `Age` (blue) with the random sample imputed one (orange). For contrast, it also shows mean imputation (green dashed; [**mean imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197)).
 
@@ -149,7 +149,7 @@ The orange curve lies almost on top of the blue one. The box plots agree (a box 
 
 ### 3.3 Covariance with other columns
 
-> **Key point:** The covariance of `Age` with `Fare` falls from 71.51 to 53.26, because the drawn ages ignore the fare.
+> **Key point:** The **covariance** (G-496) of `Age` with `Fare` falls from 71.51 to 53.26, because the drawn ages ignore the fare.
 
 | Covariance with `Fare` | Value |
 |---|---|
@@ -172,7 +172,7 @@ The user presses the button again with the same input. This time the draw gives 
 
 ### 4.2 The fix: one seed per row
 
-> **Key point:** Use a value from the row, such as its fare, as the random seed.
+> **Key point:** Use a value from the row, such as its fare, as the **random seed** (G-1617).
 
 A random draw with a fixed seed always gives the same result. So we take the seed from the row: here, the fare as a whole number. A seed taken from the row's own values is a **per-row seed** (G-1479). The same fare always gives the same seed, so the same draw, so the same age.
 
@@ -197,13 +197,13 @@ A random draw with a fixed seed always gives the same result. So we take the see
 
 ## 5. Random sample imputation on categorical columns
 
-> **Key point:** On two house-quality columns, the category shares stay the same after random sample imputation, but in `FireplaceQu` the sale price per category changes a lot.
+> **Key point:** On two house-quality columns, the category shares stay the same after **random sample imputation** (G-1616), but in `FireplaceQu` the sale price per category changes a lot.
 
 ### 5.1 The data
 
 > **Key point:** The same two columns as in the house price data: `GarageQual` with 5.5% missing and `FireplaceQu` with 47.3% missing.
 
-The data is the house price file of [imputing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#4-the-house-price-data): `GarageQual`, `FireplaceQu` and the target `SalePrice` for 1,460 houses. The full Kaggle file has 81 columns; `data/house_prices.csv` keeps these three.
+The data is the house price file of [imputing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#4-the-house-price-data): `GarageQual`, `FireplaceQu` and the **target** (G-1949) `SalePrice` for 1,460 houses. The full Kaggle file has 81 columns; `data/house_prices.csv` keeps these three.
 
 We split 80/20 with the same seed as before. The training set has 1,168 houses: 65 with no `GarageQual` (5.6%) and 557 with no `FireplaceQu` (47.7%). Each column is filled from its own known training values.
 
@@ -229,7 +229,7 @@ The equal shares are the categorical version of [Section 2.2](#22-why-the-distri
 
 > **Key point:** In `FireplaceQu`, cheap houses were spread into every category, so Gd and Ex houses now look much cheaper; this is a red flag.
 
-The shares only tell part of the story. A second check compares the target, `SalePrice`, for each category before and after (Figure 6).
+The shares only tell part of the story. A second check compares the **target** (G-1949), `SalePrice`, for each category before and after (Figure 6).
 
 ![Sale price density per FireplaceQu category, before and after random sample imputation: the curves of Ex, Gd and TA shift left](images/fireplace_price.png){width=100%}
 
@@ -243,37 +243,37 @@ The 557 houses with no `FireplaceQu` sold for a mean of 141,182 dollars, far bel
 | Fa | 168,994 | 161,279 |
 | Po | 135,112 | 139,591 |
 
-Before imputation, a better fireplace meant a pricier house. After, Gd, TA and Fa houses look much more alike, so the link between fireplace quality and price is weaker in the imputed data. Such a change in the distribution is a bigger problem for linear models.
+Before imputation, a better fireplace meant a pricier house. After, Gd, TA and Fa houses look much more alike, so the link between fireplace quality and price is weaker in the imputed data. Such a change in the **distribution** (G-626) is a bigger problem for linear models.
 
-For `GarageQual`, only 65 values were drawn, and the TA mean moves only from 186,766 to 182,093 dollars. So random sample imputation is fine for `GarageQual`, but not for `FireplaceQu`: too many values are missing there.
+For `GarageQual`, only 65 values were drawn, and the TA mean moves only from 186,766 to 182,093 dollars. So **random sample imputation** (G-1616) is fine for `GarageQual`, but not for `FireplaceQu`: too many values are missing there.
 
-> **Extra:** As [the house price data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#4-the-house-price-data) showed, a gap in `FireplaceQu` means "no fireplace": all 690 such houses have zero fireplaces. Drawing Gd or TA for them invents fireplaces, which explains the price shift. For gaps with a meaning, a "Missing" category or a missing indicator fits better.
+> **Extra:** As [the house price data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#4-the-house-price-data) showed, a gap in `FireplaceQu` means "no fireplace": all 690 such houses have zero fireplaces. Drawing Gd or TA for them invents fireplaces, which explains the price shift. For gaps with a meaning, a "Missing" category or a **missing indicator** (G-1233) fits better.
 
 ## 6. Missing indicator
 
-> **Key point:** A missing indicator adds a True/False column for each feature with gaps, so the model can learn whether "missing" itself matters.
+> **Key point:** A **missing indicator** (G-1233) adds a True/False column for each feature with gaps, so the model can learn whether "missing" itself matters.
 
 ### 6.1 The idea
 
 > **Key point:** True where the value was missing, False where it was present.
 
-A missing indicator (G-1233) is a new column added for each feature that has gaps. The indicator holds True where that feature's value is missing and False where it is present. For `Age`, the new column `Age_NA` is True for the 148 passengers with no age (Figure 1).
+A missing indicator (G-1233) is a new column added for each **feature** (G-772) that has gaps. The indicator holds True where that feature's value is missing and False where it is present. For `Age`, the new column `Age_NA` is True for the 148 passengers with no age (Figure 1).
 
 The indicator does not fill the gaps. The original column is still imputed in the usual way, for example with the mean. The indicator is added next to it.
 
 ### 6.2 Why it can help
 
-> **Key point:** The model can learn that observations with gaps behave differently from observations without.
+> **Key point:** The model can learn that **observations** (G-1374) with gaps behave differently from observations without.
 
 The model gets a way to tell observations with a gap apart from observations without one. A doctor's form works the same way: a blank "smoker?" box can itself be a clue, so we note that it was left blank instead of guessing an answer. If the two groups behave differently, the model can use that difference.
 
-On the Titanic training set, they do. Of the passengers with no recorded age, 28.4% survived; of those with an age, 39.2% survived (Figure 7). Mean imputation alone hides this: a filled age of 29.79 looks like any other age.
+On the Titanic training set, they do. Of the passengers with no recorded age, 28.4% survived; of those with an age, 39.2% survived (Figure 7). **Mean imputation** (G-1197) alone hides this: a filled age of 29.79 looks like any other age.
 
 ![Survival in the Titanic training set for passengers with and without a recorded age: the gap the indicator lets the model see](images/indicator_survival.png){height=30%}
 
-The technique became popular through machine learning competitions, where adding indicators helped winning models. The indicator does not always help, but it is cheap to try when a model needs a few more points of accuracy.
+The technique became popular through machine learning competitions, where adding indicators helped winning models. The indicator does not always help, but it is cheap to try when a model needs a few more points of **accuracy** (G-162).
 
-> **Extra:** A missing indicator is most useful when the data is not missing completely at random: [**MAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158), where the gaps depend on another recorded feature, or MNAR, where they depend on the missing value itself ([MCAR, MAR and MNAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#5-why-data-goes-missing-mcar-mar-and-mnar)). When gaps are pure chance, the indicator carries no information, and the model should give it a weight near zero.
+> **Extra:** A **missing indicator** (G-1233) is most useful when the data is not missing completely at random: [**MAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158), where the gaps depend on another recorded **feature** (G-772), or MNAR, where they depend on the missing value itself ([MCAR, MAR and MNAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#5-why-data-goes-missing-mcar-mar-and-mnar)). When gaps are pure chance, the indicator carries no information, and the model should give it a weight near zero.
 
 ### 6.3 On the Titanic data
 
@@ -314,7 +314,7 @@ Figure 9 shows the model learning that coefficient. Training starts with every c
 
 ![The model of Section 6.3 during training: the curves for Age_NA = 0 and Age_NA = 1 start as one and separate as the coefficient of Age_NA moves from 0 to -0.30](images/indicator_training.gif)
 
-> **Extra:** One test set of 179 passengers is a small sample, so the Notebook also averages over 100 different splits of all 891 passengers (5-fold cross-validation, repeated 20 times). The mean accuracy is 65.7% without the indicator and 66.3% with it. The gain is small because the model has only two features, but it holds on average.
+> **Extra:** One test set of 179 passengers is a small **sample** (G-140), so the Notebook also averages over 100 different splits of all 891 passengers (5-fold cross-validation, repeated 20 times). The mean accuracy is 65.7% without the indicator and 66.3% with it. The gain is small because the model has only two features, but it holds on average.
 
 > **Python:** scikit-learn's **`MissingIndicator`** (G-119).
 >
@@ -334,7 +334,7 @@ Figure 9 shows the model learning that coefficient. Training starts with every c
 
 > **Key point:** `SimpleImputer(add_indicator=True)` imputes and adds the indicator columns in one step.
 
-The missing indicator is common enough that `SimpleImputer` has a parameter for it ([the parameters of SimpleImputer](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#41-the-main-parameters) list it). With **`add_indicator=True`** (G-58), the imputer fills the gaps and appends one indicator column for each column that had gaps.
+The **missing indicator** (G-1233) is common enough that `SimpleImputer` has a parameter for it ([the parameters of SimpleImputer](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#41-the-main-parameters) list it). With **`add_indicator=True`** (G-58), the imputer fills the gaps and appends one indicator column for each column that had gaps.
 
 > **Python:** Imputation and indicator in one object.
 >
@@ -346,13 +346,13 @@ The missing indicator is common enough that `SimpleImputer` has a parameter for 
 > # ['Age', 'Fare', 'missingindicator_Age']
 > ```
 >
-> The result is the same three columns, and logistic regression again reaches 63.1%. `add_indicator=True` is the easier route: no separate object, and no joining of columns by hand.
+> The result is the same three columns, and **logistic regression** (G-1120) again reaches 63.1%. `add_indicator=True` is the easier route: no separate object, and no joining of columns by hand.
 
-Use the `MissingIndicator` class with an imputer that has no such parameter, such as the random sample imputation of [Section 2](#2-random-sample-imputation). Otherwise, `add_indicator=True` is simpler.
+Use the `MissingIndicator` class with an imputer that has no such parameter, such as the **random sample imputation** (G-1616) of [Section 2](#2-random-sample-imputation). Otherwise, `add_indicator=True` is simpler.
 
 ## 7. Choosing the imputer automatically with grid search
 
-> **Key point:** Put the imputers inside a pipeline, and let `GridSearchCV` try every strategy and keep the one with the best cross-validated score.
+> **Key point:** Put the imputers inside a **pipeline** (G-1499), and let `GridSearchCV` try every strategy and keep the one with the best cross-validated score.
 
 ### 7.1 The idea
 
@@ -364,11 +364,11 @@ Should `Age` get the mean or the median? Should a categorical gap get the mode o
 
 ### 7.2 The pipeline
 
-> **Key point:** Numerical columns are imputed and scaled, categorical columns are imputed and one-hot encoded, then logistic regression is trained.
+> **Key point:** Numerical columns are imputed and scaled, categorical columns are imputed and one-hot encoded, then **logistic regression** (G-1120) is trained.
 
 We use the Titanic file again, dropping `PassengerId`, `Name`, `Ticket` and `Cabin`. In the training set, `Age` has 148 gaps and `Embarked`, the port where the passenger boarded, has 2.
 
-Figure 10 shows the pipeline. Each step has a name, shown in typewriter font.
+Figure 10 shows the **pipeline** (G-1499). Each step has a name, shown in typewriter font.
 
 ![The nested pipeline; a setting's full name joins the step names with double underscores](images/pipeline_names.png){width=100%}
 
@@ -395,7 +395,7 @@ Figure 10 shows the pipeline. Each step has a name, shown in typewriter font.
 
 ### 7.3 Naming the settings
 
-> **Key point:** A setting deep inside a pipeline is named by its path: step names joined by two underscores, then the parameter name.
+> **Key point:** A setting deep inside a **pipeline** (G-1499) is named by its path: step names joined by two underscores, then the parameter name.
 
 A setting inside a pipeline is named `step__parameter` (see [hyperparameter tuning with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)). In a nested pipeline the name is the whole path from the outer pipeline down, joined by `__`. Figure 10 shows `preprocessor__num__imputer__strategy`: the `strategy` of the `imputer` in `num`, inside `preprocessor`.
 
@@ -407,10 +407,10 @@ The grid lists the values to try for each name:
 | `preprocessor__cat__imputer__strategy` | `"most_frequent"`, `"constant"` |
 | `classifier__C` | 0.1, 1, 10, 100 |
 
-`C` controls how strongly logistic regression is held back from fitting the training data too closely ([the strength C](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#22-the-strength-c)). The grid has 16 combinations:
+`C` controls how strongly **logistic regression** (G-1120) is held back from fitting the training data too closely ([the strength C](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#22-the-strength-c)). The grid has 16 combinations:
 $$2 \times 2 \times 4 = 16$$
 
-> **Python:** The grid search.
+> **Python:** The **grid search** (G-872).
 >
 > ```python
 > param_grid = {
@@ -428,9 +428,9 @@ $$2 \times 2 \times 4 = 16$$
 
 ### 7.4 The result where the fill matters: house prices
 
-> **Key point:** When the feature with gaps drives the target, grid search finds a clear winner: on house prices, the "Missing" category cuts the average error from 53,400 to 46,400 dollars.
+> **Key point:** When the feature with gaps drives the **target** (G-1949), grid search finds a clear winner: on house prices, the "Missing" category cuts the average error from 53,400 to 46,400 dollars.
 
-Grid search can only tell two imputers apart if the feature they fill matters for the target. Think of two ways to fill a blank on a form: the choice matters only if someone reads that line. The house data of [Section 5](#5-random-sample-imputation-on-categorical-columns) meets that condition. `FireplaceQu` has 47.7% gaps in the training set, and those gaps mark cheaper houses ([Section 5.3](#53-check-2-the-target-per-category)). We predict `SalePrice` from `GarageQual` and `FireplaceQu` with a three-step pipeline: impute, one-hot encode ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), then linear regression ([fitting a line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)). The grid tries the two categorical strategies.
+Grid search can only tell two imputers apart if the **feature** (G-772) they fill matters for the target. Think of two ways to fill a blank on a form: the choice matters only if someone reads that line. The house data of [Section 5](#5-random-sample-imputation-on-categorical-columns) meets that condition. `FireplaceQu` has 47.7% gaps in the training set, and those gaps mark cheaper houses ([Section 5.3](#53-check-2-the-target-per-category)). We predict `SalePrice` from `GarageQual` and `FireplaceQu` with a three-step **pipeline** (G-1499): impute, one-hot encode ([one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)), then linear regression ([fitting a line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data)). The grid tries the two categorical strategies.
 
 The score is the [**mean absolute error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194): the average size of the gap between the predicted and the real price, in dollars. Lower is better.
 
@@ -441,7 +441,7 @@ The score is the [**mean absolute error**](../../06-regression/ML-051-regression
 
 **`best_params_`** (G-66) picks `"constant"`, and the refitted pipeline's error on the test set is 47,272 dollars. The reason is the price shift of [Section 5.3](#53-check-2-the-target-per-category), seen from the other side. Mode imputation turns the 557 cheap houses with no fireplace into Gd houses, so the model can no longer tell them apart from real Gd houses. A category of their own keeps them as a separate group with its own, lower price. The scikit-learn example on imputing before an estimator makes the same point: the choice of imputer changes the model's score, so it is worth comparing (scikit-learn docs, Imputing missing values before building an estimator).
 
-> **Python:** The grid search on the house data.
+> **Python:** The **grid search** (G-872) on the house data.
 >
 > ```python
 > house_pipe = Pipeline(steps=[
@@ -457,13 +457,13 @@ The score is the [**mean absolute error**](../../06-regression/ML-051-regression
 >
 > **`scoring="neg_mean_absolute_error"`** scores each setting by minus its mean absolute error, because grid search always keeps the highest score. With strings, `"constant"` fills the gaps with the word `"missing_value"` by default.
 
-> **Extra:** Averaged over 100 splits of all 1,460 houses (10-fold cross-validation, repeated 10 times), the error is 54,015 dollars with the mode and 46,863 dollars with the constant category.
+> **Extra:** Averaged over 100 splits of all 1,460 houses (10-fold **cross-validation** (G-510), repeated 10 times), the error is 54,015 dollars with the mode and 46,863 dollars with the constant category.
 
 ### 7.5 When every imputer ties: the Titanic pipeline
 
-> **Key point:** On the Titanic data, all four imputer combinations tie at 78.8%, because the feature with gaps, `Age`, barely affects the predictions.
+> **Key point:** On the Titanic data, all four imputer combinations tie at 78.8%, because the **feature** (G-772) with gaps, `Age`, barely affects the predictions.
 
-The Titanic pipeline of [Section 7.2](#72-the-pipeline) shows the other side of the condition.
+The Titanic **pipeline** (G-1499) of [Section 7.2](#72-the-pipeline) shows the other side of the condition.
 
 `best_params_` reports `C = 1`, `"most_frequent"` for the categorical features and `"mean"` for the numerical ones, with a cross-validated accuracy of 78.8%. The full table, **`cv_results_`** (G-73), shows that only `C` changes the score:
 
@@ -476,7 +476,7 @@ Figure 11 puts both searches side by side. Watch the left panel, where the fill 
 
 ![Grid search results: on house prices the "Missing" category clearly wins; on the Titanic pipeline all four imputer combinations tie and only C matters](images/grid_results.png){width=100%}
 
-The four imputer combinations score exactly the same, so grid search reports the first of the tied combinations. The categorical fills touch only the 2 observations with no `Embarked`, and `Age` hardly matters (next Extra).
+The four imputer combinations score exactly the same, so grid search reports the first of the tied combinations. The categorical fills touch only the 2 **observations** (G-1374) with no `Embarked`, and `Age` hardly matters (next Extra).
 
 > **Extra:** The experiment behind the tie (with `C = 1`, the same 10 folds; the last cell of the Notebook).
 >
@@ -489,7 +489,7 @@ The four imputer combinations score exactly the same, so grid search reports the
 >
 > Removing `Age` entirely gives the same score, fold for fold, so no fill of `Age` can change it; only the extreme fill of 99 flips a few predictions.
 
-> **Extra:** Grid search fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. The test score is the number to report, not the 78.8% from cross-validation, because the settings were chosen to maximise that one, which makes it too optimistic (Cawley and Talbot 2010).
+> **Extra:** **Grid search** (G-872) fits only on the training set; the test set stays unseen. After the search, `grid_search` refits the best pipeline on the whole training set, and we score it on the test set once: `grid_search.score(X_test, y_test)` gives 76.0%. The test score is the number to report, not the 78.8% from **cross-validation** (G-510), because the settings were chosen to maximise that one, which makes it too optimistic (Cawley and Talbot 2010).
 
 ## 8. Summary
 
@@ -502,13 +502,13 @@ The four imputer combinations score exactly the same, so grid search reports the
 | In scikit-learn | no; done in pandas with `sample` | `MissingIndicator`, or `SimpleImputer(add_indicator=True)` | `GridSearchCV` over a `Pipeline` |
 | On this data | `Age`: variance 204.35 to 200.03 | accuracy 61.5% to 63.1% | house prices: "Missing" beats mode, error 46,400 vs 53,400 dollars |
 
-- Random sample imputation draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models, because filling with one value shrinks the variance and biases the coefficients a linear model learns, while random draws keep the variance.
-- Random sample imputation weakens the feature's covariance with others (`Age` with `Fare`: 71.51 to 53.26), because each drawn value ignores the rest of the row, and needs the training values at prediction time, because gaps in new data are filled from the training column.
+- **Random sample imputation** (G-1616) draws each fill value from the feature's own known values, so the shape and variance stay almost the same. The technique suits linear models, because filling with one value shrinks the variance and biases the coefficients a linear model learns, while random draws keep the variance.
+- Random sample imputation weakens the feature's **covariance** (G-496) with others (`Age` with `Fare`: 71.51 to 53.26), because each drawn value ignores the rest of the row, and needs the training values at prediction time, because gaps in new data are filled from the training column.
 - In production, seed each draw with a value from the row, so the same input always gets the same fill and the same prediction, and the user does not get two answers to one question.
-- On categorical data, check the category shares and the target per category. In `FireplaceQu` the shares held, but the prices per category shifted badly: too many values were missing.
-- A missing indicator lets the model learn whether a missing value is informative: on the Titanic data, 28.4% of passengers with no age survived against 39.2% with one, which mean imputation alone hides. The indicator is added next to any imputation.
-- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the pipeline. Settings are named by their path, joined with `__`. On the house prices, grid search picked the "Missing" category, which cut the average error from 53,400 to 46,400 dollars, because a category of their own keeps the cheap houses with no fireplace apart from real Gd houses. On the Titanic data every imputer tied, because `Age` barely affects the predictions.
-- So random sample imputation keeps a column's shape, a missing indicator keeps the fact that a value was missing, and grid search picks the imputer for us when the choice matters.
+- On categorical data, check the category shares and the **target** (G-1949) per category. In `FireplaceQu` the shares held, but the prices per category shifted badly: too many values were missing.
+- A missing indicator lets the model learn whether a missing value is informative: on the Titanic data, 28.4% of passengers with no age survived against 39.2% with one, which **mean imputation** (G-1197) alone hides. The indicator is added next to any imputation.
+- Grid search can tune the imputation strategy along with the model, if the imputers sit inside the **pipeline** (G-1499). Settings are named by their path, joined with `__`. On the house prices, **grid search** (G-872) picked the "Missing" category, which cut the average error from 53,400 to 46,400 dollars, because a category of their own keeps the cheap houses with no fireplace apart from real Gd houses. On the Titanic data every imputer tied, because `Age` barely affects the predictions.
+- So random sample imputation keeps a column's shape, a **missing indicator** (G-1233) keeps the fact that a value was missing, and grid search picks the imputer for us when the choice matters.
 
 ## 9. Sources
 
@@ -528,6 +528,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Grid search (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
 | Random sample imputation (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
 | Missing indicator (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | Tree-based algorithm (G-2013) | An algorithm that splits the data with simple conditions; hardly affected by outliers. |
@@ -536,7 +537,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Per-row seed (G-1479) | A seed taken from a row's own values, so the same input always gets the same random fill. |
 | `MissingIndicator` (G-119) | The scikit-learn class that builds columns marking which values were missing (missing indicators); `features_` lists the columns with gaps. |
 | `add_indicator=True` (G-58) | The `SimpleImputer` setting that fills the gaps and also adds columns marking which values were missing (missing indicators), in one step. |
-| Grid search (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
 | `best_params_` (G-66) | The best combination of settings found by `GridSearchCV`. |
 | `cv_results_` (G-73) | The scores of every combination tried by `GridSearchCV`. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
@@ -546,17 +546,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Distribution](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-626) | How a column's values spread over their range. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Mean imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197) | Filling every gap with the mean of the column's known values. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
 | [Random seed](../../../ML/08-trees-and-ensembles/ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#6-normalising-and-drawing-the-next-dataset) (G-1617) | A number that fixes a random number generator so that a run can be repeated exactly. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
-| [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
-| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |
 | [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [`GridSearchCV`](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-89) | The scikit-learn class that tries every combination of settings in a grid, scores each by cross-validation, and keeps the best. |
-| [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |

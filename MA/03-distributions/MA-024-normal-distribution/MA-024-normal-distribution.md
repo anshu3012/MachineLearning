@@ -17,13 +17,13 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/normal-di
 
 ## 1. Overview
 
-> **Key point:** The normal distribution is the symmetric, bell-shaped continuous distribution set by two parameters, the mean $\mu$ and the standard deviation $\sigma$; most values sit near the mean and fewer and fewer lie far from it.
+> **Key point:** The **normal distribution** (G-1343) is the symmetric, bell-shaped continuous distribution set by two parameters, the mean $\mu$ and the standard deviation $\sigma$; most values sit near the mean and fewer and fewer lie far from it.
 
 ![The normal curve of adult men's heights: mean 68 inches, standard deviation 3 inches](images/bell_anatomy.png)
 
 Figure 1 shows the most famous probability distribution: the heights of adult men in a population, with mean 68 inches and standard deviation 3 inches. The normal distribution was met briefly in earlier Notes:
 
-- its 68-95-99.7 rule, in [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule);
+- its **68-95-99.7 rule** (G-53), in [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule);
 - its formula, in [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions);
 - its parameters, in [parameters of a distribution](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution).
 
@@ -51,7 +51,7 @@ The shape point is the whole summary of the normal distribution. The y axis is p
 
 ## 3. Parameters and notation
 
-> **Key point:** Two numbers describe a normal distribution completely: the mean $\mu$ (its centre) and the standard deviation $\sigma$ (its spread); we write $X \sim N(\mu, \sigma^2)$.
+> **Key point:** Two numbers describe a **normal distribution** (G-1343) completely: the mean $\mu$ (its centre) and the standard deviation $\sigma$ (its spread); we write $X \sim N(\mu, \sigma^2)$.
 
 A normal distribution has two parameters:
 
@@ -88,7 +88,7 @@ $$\text{peak height} = \frac{1}{\sigma\sqrt{2\pi}}$$
 
 $$\text{newborn peak} \div \text{adult peak} = 3 \div 0.75 = 4$$
 
-The recipe for drawing any normal curve is therefore: put the centre at the mean, and let the standard deviation set the width; the width then sets the height (idea after StatQuest, "The Normal Distribution, Clearly Explained!!!").
+The recipe for drawing any normal curve is therefore: put the centre at the mean, and let the standard deviation set the width; the width then sets the height (idea after StatQuest, "The **Normal Distribution** (G-1343), Clearly Explained!!!").
 
 ## 4. Why the normal distribution matters
 
@@ -103,7 +103,7 @@ The name says it: the shape is **normal**, meaning common. Many natural phenomen
 
 For many years, people in many fields collected data and drew its PDF, and this same bell kept appearing. There is a reason for it, the [**central limit theorem**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364): a sum or average of many independent random effects comes out roughly normal, whatever the shape of each effect (see [the central limit theorem](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 
-So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the normal distribution then applies to it. Its uses in data science are listed in [where the normal distribution is used](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science).
+So it was studied in great depth, and today its mathematics is completely worked out. Because of this complete theory, given new data, we are pleased when it turns out to be roughly normal: everything known about the **normal distribution** (G-1343) then applies to it. Its uses in data science are listed in [where the normal distribution is used](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#7-where-the-normal-distribution-is-used-in-data-science).
 
 ## 5. The PDF of the normal distribution
 
@@ -116,7 +116,7 @@ Figure 4 builds the curve one change at a time. Each step is a plain change to t
 1. **$y = e^{x}$** is exponential growth: it climbs faster and faster.
 2. **$y = e^{-x}$** puts a minus sign in front: exponential decay.
 3. **$y = e^{-|x|}$** uses the distance from 0, so it decays on both sides. But it has a sharp point at 0, where its slope jumps from up to down.
-4. **$y = e^{-x^2}$** squares $x$ instead. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0, and it is smooth at the top: a bell. The bell $e^{-x^2}$ is the heart of the normal distribution. However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
+4. **$y = e^{-x^2}$** squares $x$ instead. Now $x = 2$ and $x = -2$ give the same value, so the curve decays on **both** sides of 0, and it is smooth at the top: a bell. The bell $e^{-x^2}$ is the heart of the **normal distribution** (G-1343). However far $x$ moves from 0, in either direction, $y$ gets smaller but never reaches 0.
 5. **$y = e^{-(x - \mu)^2}$** moves the bell so that its peak sits at $\mu$ instead of 0. The shift lets the formula describe a normal distribution centred anywhere: at 68 inches, at $-2$, anywhere.
 6. **Divide the exponent by $2\sigma^2$,** giving this curve:
    $$y = e^{-(x - \mu)^2/(2\sigma^2)}$$
@@ -213,7 +213,7 @@ Stretching again by $\sigma$ gives the area $\sigma\sqrt{2\pi}$ of step 7. The N
 
 > **Key point:** Symmetric around the mean; mean, median and mode are equal; 68%, 95% and 99.7% of values lie within 1, 2 and 3 standard deviations; total area 1.
 
-Four properties make the normal distribution so convenient. Figure 6 shows all four on the heights; watch the two red tails, which hold the same 2.3% on each side.
+Four properties make the **normal distribution** (G-1343) so convenient. Figure 6 shows all four on the heights; watch the two red tails, which hold the same 2.3% on each side.
 
 ![Properties of N(68, 3²): one centre for mean, median and mode, 68.3%, 95.4% and 99.7% within 1, 2 and 3 standard deviations, equal tails, total area 1](images/properties.png)
 
@@ -226,7 +226,7 @@ Four properties make the normal distribution so convenient. Figure 6 shows all f
 
 > **Key point:** The normal CDF is an S-shaped curve that passes 0.5 at the mean; the smaller $\sigma$, the steeper the S.
 
-Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable)). Figure 7 shows the PDFs of four normal distributions (top) and their CDFs (bottom).
+Every PDF has a CDF, $F(x) = P(X \le x)$: the area under the PDF from the far left up to $x$ (see [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable)). Figure 7 shows the PDFs of four **normal distributions** (G-1343) (top) and their CDFs (bottom).
 
 ![Normal PDFs (top) and their CDFs (bottom)](images/normal_cdf.png){height=55%}
 
@@ -266,11 +266,11 @@ The symbol $\int$ means "add up the area of the thin strips". The check: the for
 | CDF | area under the PDF up to $x$ | $F(72) = 0.909$ | answers "what share lies at or below $x$": about 91% of men are 72 inches or shorter |
 | Centre | mean = median = mode | 68 | because the curve is symmetric, one number marks the peak, the middle and the average |
 
-- Other names: Gaussian distribution, bell curve, so all three names point to the same curve.
+- Other names: **Gaussian distribution** (G-827), bell curve, so all three names point to the same curve.
 - The tails approach the x axis but never touch it, so any value, however extreme, has some tiny density.
 - The formula is a bell $e^{-x^2}$, shifted by $\mu$, widened by $\sigma$, scaled to area 1, because every PDF must have total area 1.
 - The CDF is an S-curve through 0.5 at the mean, because by symmetry half the area lies left of the mean.
-- Together these answer the opening question: the normal distribution is the bell set by $\mu$ and $\sigma$, with most values near the mean and fewer far from it.
+- Together these answer the opening question: the **normal distribution** (G-1343) is the bell set by $\mu$ and $\sigma$, with most values near the mean and fewer far from it.
 
 ## 9. Sources
 
@@ -299,6 +299,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Asymptotic (G-221) | Coming ever closer to a line without touching it, like the normal curve's tails and the x axis. |
 | Inflection point (G-945) | A point where a curve switches between bending down and bending up; for the normal curve, at $\mu \pm \sigma$. |
 | $N(\mu, \sigma^2)$ (G-32) | Notation for a normal distribution, the symmetric bell curve, with mean $\mu$ (its centre) and variance $\sigma^2$ (its spread squared); $X \sim N(68, 3^2)$ reads: $X$ is normal with mean 68 and standard deviation 3. |
-| [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
 | [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
+| [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
 | [Tail (of a distribution)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#31-reading-the-two-tails) (G-1942) | The part of the curve far from the centre, where values are rare. |

@@ -95,7 +95,7 @@ So, as a shortcut: **a filter of a CNN works like a node of an ANN**. In an ANN 
 
 > **Key point:** Change the image to 1080 × 1080 × 3 and the answer is still 1,400.
 
-Now take a much bigger image, 1080 × 1080 × 3, with the same 50 filters of 3 × 3 × 3. The number of learnable parameters is still 1,400: the weights and biases belong to the filters, and the filters do not depend on the size of the input. A bigger image only means more positions for the same filters to slide over.
+Now take a much bigger image, 1080 × 1080 × 3, with the same 50 filters of 3 × 3 × 3. The number of **learnable parameters** (G-1065) is still 1,400: the weights and biases belong to the filters, and the filters do not depend on the size of the input. A bigger image only means more positions for the same filters to slide over.
 
 ![The image grows from 28 × 28 × 3 to 1080 × 1080 × 3. Blue: parameters of a Conv2D layer of 50 filters of 3 × 3. Red: parameters of a Dense layer of 100 nodes on the flattened image. Log scale.](images/param_growth.gif){height=45%}
 
@@ -114,7 +114,7 @@ An ANN behaves very differently. Flattening gives $224 \times 224 \times 3$ inpu
 
 This independence from the image size answers two of the three problems of an ANN on images. Weights that do not grow with the image keep the network small ([problem 1](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#42-problem-1-too-many-weights)), and fewer weights leave less room to **overfit** (G-1429; [fitting the training data too closely](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)) ([problem 2](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#43-problem-2-overfitting)). The [third problem](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#44-problem-3-the-spatial-arrangement-is-lost), the lost spatial arrangement, is answered by the sliding window itself: a filter always sees neighbouring pixels together, so it captures 2D patterns.
 
-The fully connected part of a CNN does depend on the image size, since Flatten's output grows with the image. The growing Flatten output is why most of LeNet-5's 61,706 parameters (48,120) sit in its first Dense layer (see [counting the parameters of LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#5-counting-the-parameters)), and why [**pooling**](../DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed) (G-1521), which shrinks the maps before Flatten, matters.
+The fully connected part of a CNN does depend on the image size, since Flatten's output grows with the image. The growing Flatten output is why most of **LeNet-5** (G-1080)'s 61,706 parameters (48,120) sit in its first Dense layer (see [counting the parameters of LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#5-counting-the-parameters)), and why [**pooling**](../DL-044-pooling/DL-044-pooling.md#3-why-pooling-is-needed) (G-1521), which shrinks the maps before Flatten, matters.
 
 ## 6. The comparison on real data
 
@@ -154,7 +154,7 @@ On both datasets every CNN run beats every ANN run (Notebook). The CNN also has 
 | On MNIST / Fashion-MNIST (Notebook) | 97.80% / 88.22% with 101,770 parameters | 98.82% / 89.08% with 12,810 parameters |
 
 - A filter is to a CNN what a node is to an ANN: dot product, bias, activation, so the backpropagation learned for ANNs carries over to CNNs.
-- A convolution layer's parameters depend on the number and size of its filters, not on the image size, because the same filter weights are reused at every position (parameter sharing).
+- A convolution layer's parameters depend on the number and size of its filters, not on the image size, because the same filter weights are reused at every position (**parameter sharing** (G-1447)).
 - So CNNs need fewer parameters, overfit less and use the 2D structure of images, which is why a small CNN beat a larger ANN on both datasets.
 
 ## 8. Sources

@@ -15,7 +15,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/matrix-mult
 
 ## 1. Overview
 
-> **Key point:** Multiplying two matrices gives the matrix of "apply one transformation, then the other"; we read the product from right to left.
+> **Key point:** Multiplying two matrices gives the matrix of "apply one transformation, then the other"; we read the **product** (G-1179) from right to left.
 
 ![Rotating the plane by 90° and then shearing it is one single transformation; its matrix is the product of the two matrices](images/composition.gif)
 
@@ -25,11 +25,11 @@ This Note builds on [the matrix of a transformation](../MA-053-linear-transforma
 
 ## 2. Composition: one transformation after another
 
-> **Key point:** Applying one linear transformation and then another is again a linear transformation, called their composition; following $\hat{\imath}$ and $\hat{\jmath}$ gives its matrix.
+> **Key point:** Applying one linear transformation and then another is again a linear transformation, called their **composition** (G-431); following $\hat{\imath}$ and $\hat{\jmath}$ gives its matrix.
 
 ### 2.1 Turning a stage twice
 
-> **Key point:** Two turns of a stage, one after the other, are the same as one combined turn; the matrix of that combined turn is the product of the two turn matrices.
+> **Key point:** Two turns of a stage, one after the other, are the same as one combined turn; the matrix of that combined turn is the **product** (G-1179) of the two turn matrices.
 
 Picture a concert stage with $x$ and $y$ axes centred on it. A seat sits at $(2, 1)$. Now the stage turns, and every seat turns with it (Figure 2):
 
@@ -116,7 +116,7 @@ This one matrix does in a single step what the rotation and the shear do in two.
 
 > **Key point:** In $S R \mathbf{x}$, the matrix next to the vector acts first: $R$ is applied first, then $S$.
 
-Applying the rotation and then the shear to a vector $\mathbf{x}$ the long way means two multiplications: first $R\mathbf{x}$, then $S$ times that result, $S(R\mathbf{x})$. The composition matrix must give the same answer for every $\mathbf{x}$, since it describes the same overall movement. So it is natural to call it the **product** (G-1179) $SR$:
+Applying the rotation and then the shear to a vector $\mathbf{x}$ the long way means two multiplications: first $R\mathbf{x}$, then $S$ times that result, $S(R\mathbf{x})$. The **composition** (G-431) matrix must give the same answer for every $\mathbf{x}$, since it describes the same overall movement. So it is natural to call it the **product** (G-1179) $SR$:
 
 $$S(R\mathbf{x}) = (SR)\thinspace\mathbf{x}$$
 
@@ -130,7 +130,7 @@ In Figure 3, follow $[1, 1]$: $R$ turns it into $[-1, 1]$, $S$ then gives $[0, 1
 
 > **Key point:** The first column of $M_2 M_1$ is $M_2$ times the first column of $M_1$; the second column is $M_2$ times the second column of $M_1$.
 
-We can find the product without watching any animation, from the numbers alone. Take
+We can find the **product** (G-1179) without watching any animation, from the numbers alone. Take
 
 $$M_1 = \begin{bmatrix} 1 & -2 \cr1 & 0 \end{bmatrix}$$
 
@@ -256,7 +256,7 @@ This property is called **associativity** (G-219). Proving it by expanding all t
 
 ## 7. Where ML multiplies matrices
 
-> **Key point:** A product needs matching inner sizes; stacked linear layers collapse into one matrix, which is why neural networks need activation functions between them.
+> **Key point:** A **product** (G-1179) needs matching inner sizes; stacked linear layers collapse into one matrix, which is why neural networks need activation functions between them.
 
 ### 7.1 The shape rule
 
@@ -267,13 +267,13 @@ So far all matrices were $2 \times 2$. In ML the matrices are rectangular, and t
 1. **In words:** the number of columns of the left matrix must equal the number of rows of the right matrix; the result takes the rows of the left and the columns of the right.
 2. **Formula:**
    $$(m \times n)\thinspace(n \times p) = (m \times p)$$
-3. **Example:** the data matrix $X$ with 3 points and 2 [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each) times $A^{\mathsf T}$ (the transpose of $A$, see section 7.2) in [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) gives three transformed points:
+3. **Example:** the data matrix $X$ with 3 points and 2 [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each) times $A^{\mathsf T}$ (the **transpose** (G-2012) of $A$, see section 7.2) in [one matrix for the whole dataset](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) gives three transformed points:
    $$(3 \times 2)(2 \times 2) = 3 \times 2$$
    PCA's $XW^{\mathsf T}$ with 40 points, 3 features and 2 components gives:
    $$(40 \times 3)(3 \times 2) = 40 \times 2$$
    (see [the projection step of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)).
 
-A product with mismatched inner sizes does not exist. The turn matrix $T_1$ of [Section 2.1](#21-turning-a-stage-twice) times the seat written as a row fails:
+A **product** (G-1179) with mismatched inner sizes does not exist. The turn matrix $T_1$ of [Section 2.1](#21-turning-a-stage-twice) times the seat written as a row fails:
 
 $$(2 \times 2)(1 \times 2)$$
 
@@ -297,7 +297,7 @@ This Note writes a point as a column and puts the matrix on its left, $W\mathbf{
    The seat lands on $[-1 \ \ 2]$, as before.
 3. **Formula:** the two forms are transposes of each other,
    $$(T_2T_1\mathbf{x})^{\mathsf T} = \mathbf{x}^{\mathsf T}\thinspace T_1^{\mathsf T}\thinspace T_2^{\mathsf T}$$
-   In row form the matrix applied first, $T_1^{\mathsf T}$, stands next to the point on the left, and the product reads left to right.
+   In row form the matrix applied first, $T_1^{\mathsf T}$, stands next to the point on the left, and the **product** (G-1179) reads left to right.
 
 PyTorch's linear layer uses the row form: `torch.nn.Linear` computes $y = xA^{\mathsf T} + b$, with the input $x$ as a row and the weights $A$ stored one neuron per row (PyTorch docs, `torch.nn.Linear`). Both forms give the same numbers; only the bookkeeping differs.
 
@@ -324,7 +324,7 @@ $$M_1[1, 1] = [-1, 1]$$
 
 $$M_2[-1, 1] = [2, -1]$$
 
-In one step, with the product matrix:
+In one step, with the **product** (G-1179) matrix:
 
 $$(M_2M_1)[1, 1] = [2, -1]$$
 
@@ -334,9 +334,9 @@ However many linear layers we stack, the result is still one matrix, one linear 
 
 In Figure 6, compare the two panels at the end: the same parallelogram, and $[1, 1]$ at $[2, -1]$ in both.
 
-The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function). The activation bends the space between layers, so the composition can no longer be squeezed into a single matrix. The classic example is XOR (the output is 1 only when exactly one of the two inputs is 1): no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
+The collapse is why the hidden layers of a network end with a non-linear activation such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function). The activation bends the space between layers, so the **composition** (G-431) can no longer be squeezed into a single matrix. The classic example is XOR (the output is 1 only when exactly one of the two inputs is 1): no linear model can fit it, while a network with one hidden layer and a non-linear activation can (Goodfellow et al. §6.1).
 
-> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a linear combination of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see [**polynomial regression**](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515)) help precisely because squaring is not linear.
+> **Extra:** The same collapse shows in linear regression with engineered features. If every new feature is a **linear combination** (G-1091) of the old ones, the model can learn nothing new: the combined effect is still a linear combination of the original features. Polynomial features (see [**polynomial regression**](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515)) help precisely because squaring is not linear.
 
 ## 8. Summary
 
@@ -351,7 +351,7 @@ The collapse is why the hidden layers of a network end with a non-linear activat
 | Row form | points as rows, multiplied by $W^{\mathsf T}$ on the right | $\mathbf{x}^{\mathsf T}W^{\mathsf T}$: the matrix applied first sits on the left | data tables and PyTorch's linear layer store points this way |
 | Shape rule | $(m \times n)(n \times p) = m \times p$ | $(40 \times 3)(3 \times 2) = 40 \times 2$ | a product with mismatched inner sizes does not exist |
 
-- A matrix product is a composition of transformations, read from right to left, because the matrix next to the vector acts first, as $g$ does in $f(g(x))$.
+- A **matrix product** (G-1179) is a composition of transformations, read from right to left, because the matrix next to the vector acts first, as $g$ does in $f(g(x))$.
 - Follow $\hat{\imath}$ and $\hat{\jmath}$ through both steps to get the columns of the product, because the columns of any matrix are where the basis vectors land.
 - Order matters, because shearing then rotating is a different movement from rotating then shearing; grouping does not, because both groupings apply the same steps in the same order.
 - Stacked linear layers collapse into one matrix; activation functions prevent that, so a network can fit patterns such as XOR that no linear model can.
@@ -375,8 +375,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Composition (G-431) | Applying one transformation and then another, seen as one overall transformation. |
 | Matrix product (G-1179) | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
+| Composition (G-431) | Applying one transformation and then another, seen as one overall transformation. |
 | Not commutative (G-1352) | The order of the factors matters: $AB \neq BA$ in general. |
 | Associativity (G-219) | A property of matrix multiplication: in a product of three matrices, which pair is multiplied first does not change the result, because both groupings mean apply $C$, then $B$, then $A$; written $(AB)C = A(BC)$. |
 | Row form (G-2245) | Writing points as rows and multiplying $\mathbf{x}^{\mathsf T}W^{\mathsf T}$; the matrix applied first is on the left. |

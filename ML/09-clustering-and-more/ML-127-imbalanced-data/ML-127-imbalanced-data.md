@@ -22,9 +22,9 @@ tags: [subject/machine-learning, area/data, area/features, area/models-1, step/u
 
 [**Imbalanced data**](../../01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) was defined in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data): data in which one class is much rarer than another. This Note shows what goes wrong when we train on it and teaches the five techniques of Figure 1:
 
-- **Change the data** (resampling): random undersampling, random oversampling, SMOTE.
-- **Change the ensemble:** the balanced random forest.
-- **Change the learning** (cost-sensitive learning): class weights and a custom loss function.
+- **Change the data** (resampling): random undersampling, **random oversampling** (G-1613), SMOTE.
+- **Change the ensemble:** the **balanced random forest** (G-256).
+- **Change the learning** (**cost-sensitive learning** (G-493)): class weights and a custom loss function.
 
 The Notebook (`ML-127-imbalanced-data.ipynb`) runs every technique on the same dataset.
 
@@ -60,7 +60,7 @@ To see the effects, we use a synthetic dataset made with scikit-learn's `make_cl
 
 ## 3. Two problems with imbalanced data
 
-> **Key point:** The model becomes biased towards the majority class, and accuracy hides it.
+> **Key point:** The model becomes biased towards the **majority class** (G-1145), and accuracy hides it.
 
 ### 3.1 Bias towards the majority class
 
@@ -88,7 +88,7 @@ The accuracy, 92.5%, looks excellent. The recall of class 0 is 0.14: of the 7 mi
 
 ![Confusion matrices on the 80 test observations. Left: logistic regression finds 1 of the 7 minority observations (red row). Right: a model that always answers class 1 finds none, and still scores 91.25%](images/confusion.png){width=100%}
 
-A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). So on imbalanced data we judge models by the minority class's precision (the share of flagged observations that are really minority), recall (the share of minority observations found) and F1 (their balance), see [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) and [**recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641), and by ROC AUC (how well the model ranks minority above majority, see [the ROC curve](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve)).
+A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here, the same trap as in [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data). So on imbalanced data we judge models by the **minority class** (G-1229)'s precision (the share of flagged observations that are really minority), recall (the share of minority observations found) and F1 (their balance), see [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) and [**recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641), and by ROC AUC (how well the model ranks minority above majority, see [the ROC curve](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#4-the-roc-curve)).
 
 > **Python:** The classification report.
 >
@@ -113,7 +113,7 @@ A "dumb" model that always answers class 1 already scores 73 / 80 = 91.25% here,
 | Consumer internet | churn prediction | users who will leave the platform next month |
 | Environmental science | earthquake or volcano prediction | days with an eruption or quake |
 
-In every row of the table, predicting the minority class correctly is the whole point. A model that is biased towards the majority, like the one in Figure 3, fails exactly where it matters.
+In every row of the table, predicting the **minority class** (G-1229) correctly is the whole point. A model that is biased towards the majority, like the one in Figure 3, fails exactly where it matters.
 
 ## 5. Random undersampling
 
@@ -139,13 +139,13 @@ With 900 majority and 100 minority observations, we keep 100 random majority obs
 
 ![The training data after random undersampling, random oversampling and SMOTE. Solid line: logistic regression trained on the resampled data; dashed line: trained on the original data](images/resampling.png){width=100%}
 
-Figure 5, left, shows the 42 observations and the new boundary. Logistic regression now treats both classes as equally important, and the line moves up through the middle of the data. The minority recall on the test set rises from 0.14 to **1.00** (all 7 found), while the minority precision falls from 1.00 to 0.33: the model now also flags many majority observations as class 0.
+Figure 5, left, shows the 42 observations and the new boundary. Logistic regression now treats both classes as equally important, and the line moves up through the middle of the data. The minority **recall** (G-1641) on the test set rises from 0.14 to **1.00** (all 7 found), while the minority **precision** (G-1547) falls from 1.00 to 0.33: the model now also flags many majority observations as class 0.
 
 > **Extra:** A straight line cannot separate this data well, because each class has two blobs. Undersampling fixes the bias, not the shape of the boundary; an algorithm that draws curved boundaries, such as a random forest, may do better.
 
 **Advantages:**
 
-- Undersampling removes the bias towards the majority class.
+- Undersampling removes the bias towards the **majority class** (G-1145).
 - The data gets smaller, so training is faster. With 10 lakh majority and 1 lakh minority observations, we train on 2 lakh observations instead of 11 lakh.
 
 **Disadvantages:**
@@ -175,9 +175,9 @@ Each of the 21 minority observations now appears between 9 and 21 times. In a sc
 > np.bincount(y_over)     # [299, 299]
 > ```
 
-The boundary moves up much as with undersampling (Figure 5, middle). The minority recall rises to **0.86** (6 of 7) and the precision falls to 0.32.
+The boundary moves up much as with undersampling (Figure 5, middle). The minority **recall** (G-1641) rises to **0.86** (6 of 7) and the **precision** (G-1547) falls to 0.32.
 
-**Advantage:** random oversampling removes the bias towards the majority class without throwing any data away.
+**Advantage:** random oversampling removes the bias towards the **majority class** (G-1145) without throwing any data away.
 
 **Disadvantages:**
 
@@ -188,7 +188,7 @@ The boundary moves up much as with undersampling (Figure 5, middle). The minorit
 
 > **Key point:** Instead of copying minority observations, create new ones on the line between a minority observation and one of its minority neighbours.
 
-**SMOTE** (G-1825; Synthetic Minority Over-sampling Technique) is the most popular technique for imbalanced data. SMOTE is an oversampling technique: it grows the minority class until the classes are equal. The difference is that it makes new observations instead of copies, so the model does not see the same point again and again.
+**SMOTE** (G-1825; Synthetic Minority Over-sampling Technique) is the most popular technique for imbalanced data. SMOTE is an oversampling technique: it grows the **minority class** (G-1229) until the classes are equal. The difference is that it makes new observations instead of copies, so the model does not see the same point again and again.
 
 ### 7.1 Interpolation
 
@@ -228,7 +228,7 @@ Figure 7 shows the steps:
 2. Pick a minority point at random.
 3. Pick one of its $k$ neighbours at random.
 4. Draw a random $\lambda$ between 0 and 1 and create the new point $x + \lambda\thinspace(n - x)$.
-5. Repeat steps 2 to 4 until the minority class is as large as the majority.
+5. Repeat steps 2 to 4 until the **minority class** (G-1229) is as large as the majority.
 
 > **Python:** SMOTE written by hand in a few lines of NumPy, to see every step.
 >
@@ -266,7 +266,7 @@ Figure 7 shows the steps:
 >
 > imbalanced-learn builds each new point exactly as our function does (imbalanced-learn source, `_smote/base.py`): a random minority point, one of its `k_neighbors` nearest minority neighbours, and a random factor between 0 and 1. `fit_resample` returns the original observations first and the synthetic observations after them.
 
-On our data, SMOTE creates 278 new observations: 320 observations become 598 (299 + 299). Figure 5, right, shows them in orange, lying on segments between red points. The boundary moves up again; the minority recall rises to **0.71** (5 of 7) and the precision falls to 0.29.
+On our data, SMOTE creates 278 new observations: 320 observations become 598 (299 + 299). Figure 5, right, shows them in orange, lying on segments between red points. The boundary moves up again; the minority **recall** (G-1641) rises to **0.71** (5 of 7) and the **precision** (G-1547) falls to 0.29.
 
 ### 7.3 Advantages and disadvantages
 
@@ -274,8 +274,8 @@ On our data, SMOTE creates 278 new observations: 320 observations become 598 (29
 
 **Advantages:**
 
-- SMOTE reduces the bias towards the majority class.
-- There are no duplicates, so there is less risk of overfitting than with random oversampling (section 10 tests this on real data).
+- SMOTE reduces the bias towards the **majority class** (G-1145).
+- There are no duplicates, so there is less risk of **overfitting** (G-1429) than with random oversampling (section 10 tests this on real data).
 
 SMOTE is popular, but whether to use it is much debated, because of five disadvantages:
 
@@ -332,13 +332,13 @@ The leaky setup reports more than twice the honest score, and almost all of the 
 
 > **Key point:** A balanced random forest trains every tree on a balanced sample: the minority observations (or a bootstrap sample of them) plus the same number of random majority observations.
 
-Ensemble methods (many models whose answers are combined, see [how an ensemble predicts](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)) such as bagging and random forests can be changed to handle imbalanced data. A random forest ([how a random forest works](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** (G-256) changes only how each sample is drawn: every sample is balanced, even though the data is not.
+Ensemble methods (many models whose answers are combined, see [how an ensemble predicts](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)) such as bagging and random forests can be changed to handle **imbalanced data** (G-921). A random forest ([how a random forest works](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) trains many decision trees, each on a random sample of the observations, and combines their votes. A **balanced random forest** (G-256) changes only how each sample is drawn: every sample is balanced, even though the data is not.
 
 ![A balanced random forest: every tree is trained on a balanced sample, then the trees vote](images/balanced_rf.png){height=42%}
 
 In Figure 10, the training data has 900 majority and 300 minority observations. Each sample takes 300 minority observations and 300 majority observations drawn at random, 600 observations in all, and one tree is trained on it. To predict, every tree votes and the majority vote wins: here 1, 0 and 1 give 1.
 
-Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the majority class. On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with the probability below (each of the 100 trees draws 21 observations, 2,100 draws in all, and each draw misses a given observation with probability $1 - 1/299$):
+Undersampling (section 5) threw most majority observations away for good. Here each tree throws different observations away, so together the trees still see most of the **majority class** (G-1145). On our data, 100 trees each draw 21 of the 299 majority observations, so a given observation is missed by every tree with the probability below (each of the 100 trees draws 21 observations, 2,100 draws in all, and each draw misses a given observation with probability $1 - 1/299$):
 
 $$(1 - 1/299)^{2100} \approx 0.001$$
 
@@ -355,19 +355,19 @@ $$(1 - 1/299)^{2100} \approx 0.001$$
 >
 > The balanced forest is used like any scikit-learn classifier. By default (`sampling_strategy="all"`, `replacement=True`), every tree gets 21 observations of each class, drawn with replacement: a bootstrap sample of the minority and an equally small random sample of the majority.
 
-On our data, the balanced forest finds 5 of the 7 minority test observations (recall **0.71**, precision 0.28). An ordinary random forest finds 3 (recall 0.43, precision 0.50).
+On our data, the balanced forest finds 5 of the 7 minority test observations (**recall** (G-1641) **0.71**, **precision** (G-1547) 0.28). An ordinary random forest finds 3 (recall 0.43, precision 0.50).
 
-> **Extra:** imbalanced-learn has other balanced ensembles (imbalanced-learn API reference): `BalancedBaggingClassifier` (bagging with a resampler on every sample), `EasyEnsembleClassifier` (boosted models on balanced samples) and `RUSBoostClassifier` (boosting with random undersampling at every round).
+> **Extra:** imbalanced-learn has other balanced ensembles (imbalanced-learn API reference): `BalancedBaggingClassifier` (bagging with a resampler on every sample), `EasyEnsembleClassifier` (boosted models on balanced samples) and `RUSBoostClassifier` (boosting with **random undersampling** (G-1619) at every round).
 
 ## 9. Cost-sensitive learning
 
-> **Key point:** Leave the data alone and change the learning itself, so that mistakes on the minority class cost more.
+> **Key point:** Leave the data alone and change the learning itself, so that mistakes on the **minority class** (G-1229) cost more.
 
-**Cost-sensitive learning** (G-493) changes how the algorithm learns, so that it handles imbalanced data better. There are two ways: class weights, and a custom loss function.
+**Cost-sensitive learning** (G-493) changes how the algorithm learns, so that it handles **imbalanced data** (G-921) better. There are two ways: class weights, and a custom loss function.
 
 ### 9.1 Class weights
 
-> **Key point:** Give the minority class a bigger weight; each of its mistakes then adds more to the loss, and the model works harder to avoid them.
+> **Key point:** Give the **minority class** (G-1229) a bigger weight; each of its mistakes then adds more to the loss, and the model works harder to avoid them.
 
 `class_weight` was introduced in [**class_weight**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#51-class_weight) (G-391): it multiplies each observation's loss by a weight for its class. Here we set the weights by hand.
 
@@ -400,7 +400,7 @@ $$\text{class 1: } 299 \times 0.54 = 160$$
 
 ![The line logistic regression learns as the weight of class 0 grows from 1 to 50](images/class_weight.png){width=90%}
 
-Figure 11 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the majority class. The bigger the weight, the more pressure on the model to classify the minority correctly:
+Figure 11 shows the effect. With weight 1 (no weighting), the line sits below the red points; at 5, 25 and 50 it moves further up into the **majority class** (G-1145). The bigger the weight, the more pressure on the model to classify the minority correctly:
 
 | Weight of class 0 | Accuracy | Precision (0) | Recall (0) |
 |---|---|---|---|
@@ -409,7 +409,7 @@ Figure 11 shows the effect. With weight 1 (no weighting), the line sits below th
 | 25 | 0.788 | 0.29 | 1.00 |
 | 50 | 0.700 | 0.23 | 1.00 |
 
-The weight is a dial: raise it and recall rises while precision falls. We pick the value that gives the best result for the problem, for example by cross-validation.
+The weight is a dial: raise it and recall rises while **precision** (G-1547) falls. We pick the value that gives the best result for the problem, for example by cross-validation.
 
 Most scikit-learn classifiers that minimise a loss accept `class_weight`: `LogisticRegression`, `SVC` (a support vector machine, see [the margin](../../07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin)), `DecisionTreeClassifier`, `RandomForestClassifier` (see [the forest-level hyperparameters](../../08-trees-and-ensembles/ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#3-the-forest-level-hyperparameters)). KNN and Naive Bayes do not, because they do not learn by minimising a loss.
 
@@ -484,17 +484,17 @@ $$\frac{\partial^2 L_i}{\partial z_i^2} = 0.9 \times 0.1 \times (0 + 3.5) = 0.31
 >
 > A `DMatrix` is XGBoost's own table format. `obj=` replaces XGBoost's built-in loss: at every round it calls our function with the current raw scores `z` and asks for the **gradient** (G-863; first derivative) and **Hessian** (G-887; second derivative) of each observation's loss. With a custom loss, XGBoost does not know how to turn raw scores into probabilities (XGBoost docs, Custom Objective), so we ask for the raw scores (`output_margin=True`) and apply the sigmoid ourselves.
 
-With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (recall **0.43**, precision 0.38). [Section 10](#10-comparing-the-techniques) repeats the comparison on real data, where the effect is clear.
+With $b = 1$ (the ordinary log loss), XGBoost finds 2 of the 7 minority test observations. With $b = 3.5$ it finds 3 (**recall** (G-1641) **0.43**, **precision** (G-1547) 0.38). [Section 10](#10-comparing-the-techniques) repeats the comparison on real data, where the effect is clear.
 
 > **Extra:** For logistic regression, this weighted log loss is exactly what `class_weight={0: b, 1: a}` does: scikit-learn multiplies each observation's loss by the weight of its class (scikit-learn source, `_logistic.py`). A custom loss is needed when the cost is not one number per class, for example the focal loss (Lin et al. 2017), which down-weights observations the model already gets right, or in a library without a `class_weight` setting.
 
 ## 10. Comparing the techniques
 
-> **Key point:** On real data, every technique raises the minority recall far above the plain model's, at the cost of precision; which trade is best depends on the problem.
+> **Key point:** On real data, every technique raises the minority recall far above the plain model's, at the cost of **precision** (G-1547); which trade is best depends on the problem.
 
-The toy test set has only 7 minority observations, so one observation found or missed moves the recall by $1/7 \approx 0.14$. Seven observations are enough for pictures, but too few to compare techniques. For the comparison we use real data, in conditions where the differences show:
+The toy test set has only 7 minority observations, so one observation found or missed moves the **recall** (G-1641) by $1/7 \approx 0.14$. Seven observations are enough for pictures, but too few to compare techniques. For the comparison we use real data, in conditions where the differences show:
 
-- **Data:** the mammography dataset (Woods et al. 1993), the same data the SMOTE paper tests on (Chawla et al. 2002, §4.2). It has 11,183 observations and 6 features computed from mammogram images. The target says whether a region shows a calcification: only 260 observations (2.3%) do, so the minority class is class 1 here.
+- **Data:** the mammography dataset (Woods et al. 1993), the same data the SMOTE paper tests on (Chawla et al. 2002, §4.2). It has 11,183 observations and 6 features computed from mammogram images. The target says whether a region shows a calcification: only 260 observations (2.3%) do, so the **minority class** (G-1229) is class 1 here.
 - **Testing:** 5-fold stratified cross-validation, repeated 3 times with different shuffles: 15 test folds of 52 minority observations each. Resampling happens inside each training fold (section 7.4). Each number below is the average over the 15 folds.
 
 | Technique | Precision (1) | Recall (1) | F1 (1) | ROC AUC |
@@ -517,7 +517,7 @@ Figure 12 draws the table's first two columns. Three things stand out:
 - **Precision falls.** The models now flag many more majority observations as class 1. A screening test works the same way: sending more patients for a second look catches more real cases, and also more healthy people. Whether that trade is worth it depends on the cost of each mistake.
 - **ROC AUC barely moves.** ROC AUC does not depend on the threshold (see [probabilities and thresholds](../../07-classification/ML-077-roc-auc/ML-077-roc-auc.md#2-probabilities-and-thresholds)). Its stability says the models rank the observations almost as before; what changes is where they draw the line. For logistic regression, the four fixes land on almost the same point (the table's four logistic regression rows).
 
-> **Extra:** Copies against SMOTE for a decision tree. [Section 6](#6-random-oversampling) warned that a tree overfits to copied observations. Chawla et al. (2002, §4.1 and §4.2) explain why: copies make the tree carve smaller and more specific regions around the minority points, while SMOTE's new points make the regions larger and more general, so the tree generalises better. The same 15 folds show it:
+> **Extra:** Copies against SMOTE for a decision tree. [Section 6](#6-random-oversampling) warned that a tree **overfits** (G-1429) to copied observations. Chawla et al. (2002, §4.1 and §4.2) explain why: copies make the tree carve smaller and more specific regions around the minority points, while SMOTE's new points make the regions larger and more general, so the tree generalises better. The same 15 folds show it:
 >
 > | Decision tree | Precision (1) | Recall (1) | F1 (1) | ROC AUC |
 > |---|---|---|---|---|
@@ -549,12 +549,12 @@ The techniques here are the most common. imbalanced-learn has many more, grouped
 | Class weights | minority mistakes cost more | one setting, no new data | weight must be tuned |
 | Custom loss | any cost we can write | full control | needs derivatives, only some libraries |
 
-- Imbalanced data biases a model towards the majority class, and accuracy hides it, because a model that always answers the majority class already scores high: judge by the minority's precision, recall, F1 and ROC AUC.
+- Imbalanced data biases a model towards the **majority class** (G-1145), and accuracy hides it, because a model that always answers the majority class already scores high: judge by the minority's precision, recall, F1 and ROC AUC.
 - Many real problems (fraud, credit risk, rare disease, churn) are imbalanced, and the rare class is the one that matters, so a model biased towards the majority fails exactly where it is needed.
-- Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss; on real data each raises the minority recall far above the plain model's, at the cost of precision, so the choice depends on the cost of each kind of mistake.
-- SMOTE creates $x + \lambda\thinspace(n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours, so the new points are not copies, and a decision tree overfits them less than copies.
+- Resampling changes the data, balanced ensembles change each model's sample, and cost-sensitive learning changes the loss; on real data each raises the minority recall far above the plain model's, at the cost of **precision** (G-1547), so the choice depends on the cost of each kind of mistake.
+- SMOTE creates $x + \lambda\thinspace(n - x)$, a point between a minority observation and one of its $k$ nearest minority neighbours, so the new points are not copies, and a decision tree **overfits** (G-1429) them less than copies.
 - Resample only the training data, and inside each cross-validation fold, because resampling first leaks information and makes the scores look far better than they are.
-- So the rare class is learnt properly only when we change the data, the ensemble or the cost of mistakes, and judge the result on the minority class.
+- So the rare class is learnt properly only when we change the data, the ensemble or the cost of mistakes, and judge the result on the **minority class** (G-1229).
 
 ## 12. Sources
 
@@ -579,15 +579,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Random oversampling (G-1613) | Copying randomly chosen minority rows until the classes are equal. |
+| Balanced random forest (G-256) | A random forest for imbalanced data: every tree is trained on a balanced sample, the minority observations plus the same number of random majority observations, and the trees then vote. |
+| Cost-sensitive learning (G-493) | Changing the learning so that mistakes on some classes cost more. |
 | Majority class (G-1145) | The class with the most rows in imbalanced data. |
 | Minority class (G-1229) | The rare class in imbalanced data, usually the one we need to find. |
 | Random undersampling (G-1619) | Dropping randomly chosen majority rows until the classes are equal. |
 | imbalanced-learn (G-922) | A Python library (`imblearn`) of tools that rebalance the classes by adding or removing rows (resampling techniques), plus balanced ensembles, with a `fit_resample` method. |
-| Random oversampling (G-1613) | Copying randomly chosen minority rows until the classes are equal. |
 | SMOTE (G-1825) | Synthetic Minority Over-sampling Technique: it grows the minority class until the classes are equal by making new rows on the line between a minority row and one of its minority neighbours. |
 | Interpolation (G-964) | Placing a new point on the segment between two existing points. |
-| Balanced random forest (G-256) | A random forest for imbalanced data: every tree is trained on a balanced sample, the minority observations plus the same number of random majority observations, and the trees then vote. |
-| Cost-sensitive learning (G-493) | Changing the learning so that mistakes on some classes cost more. |
 | Custom loss function (G-523) | A loss written by the user, passed to libraries such as XGBoost with its gradient and Hessian. |
 | Resampling (G-1676) | Changing the number of rows per class to balance the data. |
 | Synthetic data (G-1934) | Rows created by an algorithm rather than collected. |

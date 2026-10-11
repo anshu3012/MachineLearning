@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/simple-imputatio
 
 [Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the ways of handling missing data. This Note covers univariate imputation of numerical features. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). In univariate imputation, each gap in a feature is filled using only the other values of that same feature.
 
-Figure 1 shows the three techniques on a small `Age` column with two gaps (the gaps are the missing values, marked `NaN`, "not a number"). Read each column after the first as the same `Age` column after one technique (the second column covers both mean and median imputation):
+Figure 1 shows the three techniques on a small `Age` column with two gaps (the gaps are the missing values, marked `NaN`, "not a number"). Read each column after the first as the same `Age` column after one technique (the second column covers both mean and **median imputation** (G-1208)):
 
 - **Mean or median imputation** fills each gap with a typical value from the centre of the column.
 - **Arbitrary value imputation** (G-208) fills each gap with a value that never occurs, such as 99 or $-1$.
@@ -31,7 +31,7 @@ Figure 1 shows the three techniques on a small `Age` column with two gaps (the g
 
 A fourth univariate technique, [**random sample imputation**](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#2-random-sample-imputation) (G-1616), has its own section, together with [a way to pick the best technique automatically](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#7-choosing-the-imputer-automatically-with-grid-search). scikit-learn's `SimpleImputer` does all three techniques of this Note.
 
-After every imputation we check what it did to the column. We compare four things before and after: the variance, the distribution, the covariance and correlation with other columns, and the outliers.
+After every imputation we check what it did to the column. We compare four things before and after: the **variance** (G-2074), the distribution, the covariance and correlation with other columns, and the outliers.
 
 ## 2. Mean and median imputation
 
@@ -55,26 +55,26 @@ Figure 3 then shows both cases on all of the Titanic training data of [Section 3
 
 ### 2.2 Advantages
 
-> **Key point:** Mean or median imputation is simple to compute and simple to repeat on new data in production.
+> **Key point:** Mean or **median imputation** (G-1208) is simple to compute and simple to repeat on new data in production.
 
 1. **Simple.** We compute one number per column and put it into every gap.
-2. **Easy to use in production.** The deployed model receives new observations that may have gaps. We store the mean or median from training and fill the new gaps with it.
+2. **Easy to use in production.** The deployed model receives new **observations** (G-1374) that may have gaps. We store the mean or median from training and fill the new gaps with it.
 
-Mean or median imputation gives reasonable results when few values are missing, under about 5% of the feature. With more missing values the method becomes less reliable.
+Mean or median imputation gives reasonable results when few values are missing, under about 5% of the **feature** (G-772). With more missing values the method becomes less reliable.
 
 ### 2.3 Disadvantages
 
-> **Key point:** Mean or median imputation piles values at the centre, which changes the distribution's shape, creates outliers, and weakens the feature's relationships with other features.
+> **Key point:** Mean or **median imputation** (G-1208) piles values at the centre, which changes the distribution's shape, creates outliers, and weakens the feature's relationships with other features.
 
 1. **The shape of the distribution changes.** Every gap gets the same value, so a tall spike appears at the centre.
 2. **Outliers appear.** With many values at the centre, the middle half of the data becomes narrower. Values that were normal before now fall outside the whiskers of a box plot and count as outliers.
-3. **The covariance and correlation with other features change.** The filled values ignore the other features, so the feature's relationship with them weakens.
+3. **The covariance and correlation with other features change.** The filled values ignore the other **features** (G-772), so the feature's relationship with them weakens.
 
 All three are bad for a model. [Section 3](#3-mean-and-median-imputation-on-real-data) shows each of them on real data.
 
 ### 2.4 When to use it
 
-> **Key point:** Use mean or median imputation when the data is missing completely at random and each column is missing under about 5% of its values.
+> **Key point:** Use mean or **median imputation** (G-1208) when the data is missing completely at random and each column is missing under about 5% of its values.
 
 The two conditions are the same as for [**complete case analysis**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#6-when-to-use-complete-case-analysis) (G-425):
 
@@ -87,13 +87,13 @@ Mean and median imputation is used widely because it is so simple. Better techni
 
 ## 3. Mean and median imputation on real data
 
-> **Key point:** On the Titanic data, mean or median imputation leaves `Fare` (5% missing) almost unchanged but distorts `Age` (21% missing).
+> **Key point:** On the Titanic data, mean or **median imputation** (G-1208) leaves `Fare` (5% missing) almost unchanged but distorts `Age` (21% missing).
 
 ### 3.1 The data and the split
 
 > **Key point:** We split into training and test sets first, and compute every fill value from the training set only.
 
-The data has 891 Titanic passengers, one observation each, and four numerical columns: three features, `Age`, `Fare` and `Family`, and the target `Survived`. `Family` is the number of siblings, spouses, parents and children aboard.
+The data has 891 Titanic passengers, one **observation** (G-1374) each, and four numerical columns: three features, `Age`, `Fare` and `Family`, and the **target** (G-1949) `Survived`. `Family` is the number of siblings, spouses, parents and children aboard.
 
 `Age` has 177 missing values (19.9%). `Fare` originally had none; 45 values (5.1%) were deleted at random so that it has some. `Family` and `Survived` are complete.
 
@@ -119,7 +119,7 @@ The same is done for `Fare`, with median 14.46 and mean 32.62. The test set is f
 
 ### 3.2 Variance shrinks
 
-> **Key point:** Mean or median imputation always lowers the variance, and the more values are missing, the more it drops.
+> **Key point:** Mean or **median imputation** (G-1208) always lowers the variance, and the more values are missing, the more it drops.
 
 The [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) measures the average squared distance from the mean. Every filled value sits at or near the mean, so it adds almost nothing to that distance, and the variance falls. An everyday picture: fill every blank in a class's height list with the average height, and the class suddenly looks more alike than it really is. Figure 4 shows it on the training ages: the 148 filled values form one tall bar at the mean, and the band of one standard deviation narrows.
 
@@ -132,7 +132,7 @@ The [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046
 
 `Age` lost about a fifth of its variance; `Fare` lost only about 5%. A small change is acceptable; a large one is a warning sign.
 
-> **Extra:** For mean imputation we can predict the new variance exactly.
+> **Extra:** For **mean imputation** (G-1197) we can predict the new variance exactly.
 >
 > 1. **In words:** the filled values add no squared distance, so the same sum of squared distances is now divided by the larger count.
 > 2. **Formula:** with $k$ known values out of $n$ rows,
@@ -153,7 +153,7 @@ For `Age`, the peak grows from about 0.03 to about 0.05, and the curve becomes n
 
 ### 3.4 Covariance and correlation change
 
-> **Key point:** A filled value ignores the other features, so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
+> **Key point:** A filled value ignores the other **features** (G-772), so imputing `Age` weakens its link with them: its correlation with `Family` falls by about a fifth.
 
 [**Covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) measures how two features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units, so it has no fixed limits. [**Correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) is the covariance rescaled to lie between $-1$ and $1$. A worked case with three passengers: ages 20, 30, 40 (mean 30) and family sizes 3, 1, 2 (mean 2).
 
@@ -212,7 +212,7 @@ For `Fare`, the box hardly moves. The count of outliers goes from 93 to 94 (medi
 
 ### 3.6 The verdict
 
-> **Key point:** Mean imputation is fine for `Fare`; for `Age`, we should look for a better technique.
+> **Key point:** **Mean imputation** (G-1197) is fine for `Fare`; for `Age`, we should look for a better technique.
 
 | Check | `Age` | `Fare` |
 |---|---|---|
@@ -241,7 +241,7 @@ pandas `fillna` is easy, but scikit-learn's `SimpleImputer` is the better tool f
 | `add_indicator` | also add a 0/1 column marking each gap | `False` |
 | `keep_empty_features` | keep a column that is missing everywhere | `False` |
 
-`"most_frequent"` fills with the mode, used mainly for categorical columns ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). `"constant"` is used for arbitrary value and end of distribution imputation (Sections [5](#5-arbitrary-value-imputation) and [6](#6-end-of-distribution-imputation)).
+`"most_frequent"` fills with the mode, used mainly for categorical columns ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). `"constant"` is used for arbitrary value and **end of distribution imputation** (G-686) (Sections [5](#5-arbitrary-value-imputation) and [6](#6-end-of-distribution-imputation)).
 
 > **Extra:** `add_indicator=True` adds the **missing indicator** (G-1233; a 0/1 column that marks each gap), covered in [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator).
 
@@ -283,23 +283,23 @@ These two numbers are the training median of `Age` and the training mean of `Far
 
 **Arbitrary value imputation** replaces every missing value with one fixed value chosen by us, such as 99, 999 or $-1$. The value must not occur in the real data. For `Age`, no passenger is 99 or $-1$ years old.
 
-The aim is the opposite of mean imputation. Instead of hiding the gaps, we mark them, so the model can learn whether "missing" itself carries information.
+The aim is the opposite of **mean imputation** (G-1197). Instead of hiding the gaps, we mark them, so the model can learn whether "missing" itself carries information.
 
-The technique is used mostly for categorical features, where gaps become a new category such as "Missing" ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). Arbitrary value imputation works the same way for numbers.
+The technique is used mostly for categorical **features** (G-772), where gaps become a new category such as "Missing" ([missing categorical data](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview)). **Arbitrary value imputation** (G-208) works the same way for numbers.
 
 ### 5.1 Advantages, disadvantages and when to use it
 
-> **Key point:** Arbitrary value imputation is easy, but it distorts the distribution, variance and covariance; use it when the data is not missing at random.
+> **Key point:** Arbitrary value imputation is easy, but it distorts the distribution, **variance** (G-2074) and covariance; use it when the data is not missing at random.
 
 - **Advantage:** very easy to apply.
-- **Disadvantages:** the same three as mean imputation, usually worse. A spike appears at the arbitrary value, so the distribution (its density curve, or PDF) changes; the variance changes, often grows a lot; the covariance and correlation with other features change.
+- **Disadvantages:** the same three as **mean imputation** (G-1197), usually worse. A spike appears at the arbitrary value, so the distribution (its density curve, or PDF) changes; the variance changes, often grows a lot; the covariance and correlation with other features change.
 - **When to use it:** when the data is *not* missing completely at random. Then the fact that a value is missing may itself tell the model something.
 
 The distortion is accepted on purpose: it is what makes the missing rows stand out. In practice the technique is not used much, because better ones exist.
 
 ### 5.2 On real data
 
-> **Key point:** Filling `Age` with 99 multiplies its variance by 4.7; filling `Fare` with 999 multiplies it by 19.
+> **Key point:** Filling `Age` with 99 multiplies its **variance** (G-2074) by 4.7; filling `Fare` with 999 multiplies it by 19.
 
 We fill `Age` with 99 and with $-1$, and `Fare` with 999 and with $-1$, each into a new column.
 
@@ -312,9 +312,9 @@ Figure 9 shows the distributions. For `Age`, each fill value creates a second hu
 
 ![Density of Age and Fare after arbitrary value imputation: a new hump appears at 99 or at -1](images/arbitrary_kde.png){width=100%}
 
-The relationships change too. The covariance of `Age` with `Fare` goes from 70.72 to $-101.67$ with 99, and to 125.56 with $-1$. The correlation of `Fare` with `Family` falls from 0.208 to 0.032 with 999.
+The relationships change too. The **covariance** (G-496) of `Age` with `Fare` goes from 70.72 to $-101.67$ with 99, and to 125.56 with $-1$. The **correlation** (G-490) of `Fare` with `Family` falls from 0.208 to 0.032 with 999.
 
-> **Python:** Arbitrary value imputation with `SimpleImputer`.
+> **Python:** **Arbitrary value imputation** (G-208) with `SimpleImputer`.
 >
 > ```python
 > trf = ColumnTransformer([
@@ -331,7 +331,7 @@ The relationships change too. The covariance of `Age` with `Fare` goes from 70.7
 
 > **Key point:** Instead of guessing an arbitrary value, take one from the far end of the column's own distribution.
 
-Choosing a good arbitrary value is hard: it must be outside the data, but how far? **End of distribution imputation** answers this by filling the gaps with a value at the end of the column's distribution. The technique is an extension of arbitrary value imputation, and the two share the same aim: mark the missing rows for the model.
+Choosing a good arbitrary value is hard: it must be outside the data, but how far? **End of distribution imputation** answers this by filling the gaps with a value at the end of the column's distribution. The technique is an extension of **arbitrary value imputation** (G-208), and the two share the same aim: mark the missing rows for the model.
 
 How we find the end depends on the shape of the column.
 
@@ -380,7 +380,7 @@ The fill value, step by step:
 
 ### 6.3 On real data
 
-> **Key point:** The end values create a hump at the edge of the distribution and change the variance, just as arbitrary values do.
+> **Key point:** The end values create a hump at the edge of the distribution and change the **variance** (G-2074), just as arbitrary values do.
 
 Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values land at the far right, creating a second hump there, and the variance rises from 204.35 to 465.07. For `Fare`, the 36 filled values make only a small bump, and the variance moves from 2,448.20 to 2,378.92.
 
@@ -395,10 +395,10 @@ Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values la
 
 ### 6.4 Advantages, disadvantages and when to use it
 
-> **Key point:** The same as arbitrary value imputation: easy, but it changes the distribution, variance and covariance; use it when the data is not missing at random.
+> **Key point:** The same as arbitrary value imputation: easy, but it changes the distribution, **variance** (G-2074) and covariance; use it when the data is not missing at random.
 
 - **Advantage:** easy to apply, and the value comes from the data instead of a guess.
-- **Disadvantages:** the distribution changes, the covariance changes, and the variance can grow.
+- **Disadvantages:** the distribution changes, the **covariance** (G-496) changes, and the variance can grow.
 - **When to use it:** when the data is not missing completely at random, to show the model that a value was missing.
 
 ## 7. Summary
@@ -411,10 +411,10 @@ Figure 10 fills `Age` with 72.67 and `Fare` with 66.34. For `Age`, 148 values la
 | End of distribution | $\mu + 3\sigma$, or $Q_3 + 1.5\thinspace\text{IQR}$ | `"constant"`, fill the end value | not MCAR, and no obvious arbitrary value |
 
 - Univariate imputation fills a column's gaps using only that column, so it is one stored number per column and easy to repeat on new data in production.
-- Mean and median imputation hide the gaps at the centre; arbitrary value and end of distribution imputation mark them at the edges, so the model can learn whether "missing" itself carries information. The median suits a skewed column, because one huge value drags the mean but not the median.
-- Every technique here changes the column. After imputing, compare the variance, the distribution (KDE), the covariance and correlation, and the outliers (box plot), before and after, because a large change in any of them is bad for a model.
-- On the Titanic data, mean imputation was fine for `Fare` (5% missing) but distorted `Age` (21% missing): variance down a fifth, outliers from 7 to 69, because 148 filled ages all sit at one value and squeeze the middle half of the data.
-- Always compute the fill value on the training set with `fit`, then `transform` both the training and the test set, because a fill value computed with the test rows is data leakage.
+- Mean and **median imputation** (G-1208) hide the gaps at the centre; arbitrary value and end of distribution imputation mark them at the edges, so the model can learn whether "missing" itself carries information. The median suits a skewed column, because one huge value drags the mean but not the median.
+- Every technique here changes the column. After imputing, compare the **variance** (G-2074), the distribution (KDE), the covariance and correlation, and the outliers (box plot), before and after, because a large change in any of them is bad for a model.
+- On the Titanic data, **mean imputation** (G-1197) was fine for `Fare` (5% missing) but distorted `Age` (21% missing): variance down a fifth, outliers from 7 to 69, because 148 filled ages all sit at one value and squeeze the middle half of the data.
+- Always compute the fill value on the training set with `fit`, then `transform` both the training and the test set, because a fill value computed with the test rows is **data leakage** (G-535).
 - `ColumnTransformer` lets each column use its own imputer (here the median for `Age` and the mean for `Fare`). Its `set_output` method can make the result a DataFrame, so the columns keep their names.
 - So each gap in a numerical column gets one number from that column, from its centre to hide the gap or from its edge to mark it, and the before-and-after checks show whether the column survived.
 
@@ -437,10 +437,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Median imputation (G-1208) | Filling every gap with the median of the column's known values; better for skewed columns. |
 | Arbitrary value imputation (G-208) | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. |
 | End of distribution imputation (G-686) | Filling every gap in a numerical column with a value at the far edge of its distribution, $\mu \pm 3\sigma$ for a normal column or $Q_3 + 1.5\thinspace\text{IQR}$ for a skewed one, so the model can tell which rows were missing. |
 | Mean imputation (G-1197) | Filling every gap with the mean of the column's known values. |
-| Median imputation (G-1208) | Filling every gap with the median of the column's known values; better for skewed columns. |
 | `fillna` (G-82) | The pandas method that replaces every `NaN` with a given value. |
 | `statistics_` (G-145) | The fill values a fitted `SimpleImputer` has learned, one per column. |
 | `fill_value` (G-81) | The value `SimpleImputer` uses with `strategy="constant"`. |
@@ -449,10 +449,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Complete case analysis (CCA)](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
 | [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |
-| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |

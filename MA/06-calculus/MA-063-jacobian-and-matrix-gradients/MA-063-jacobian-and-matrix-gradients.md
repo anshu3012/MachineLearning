@@ -15,20 +15,20 @@ tags: [subject/maths, area/calculus, step/foundations, concept/jacobian]
 
 ## 1. Overview
 
-> **Key point:** For a function with several outputs, such as the polar map $\mathbf{f}(r, \theta) = (r\cos\theta,\ r\sin\theta)$, the derivative is a matrix, the Jacobian: one row per output, one column per input. Near a point, the function acts like the linear map of that matrix.
+> **Key point:** For a function with several outputs, such as the polar map $\mathbf{f}(r, \theta) = (r\cos\theta,\ r\sin\theta)$, the derivative is a matrix, the **Jacobian** (G-980): one row per output, one column per input. Near a point, the function acts like the linear map of that matrix.
 
 ![Polar coordinates bend a straight grid (left) into circles and rays (right). A small orange cell lands on a curved cell that is almost the green parallelogram given by the Jacobian](images/jacobian_local.png)
 
-Figure 1 shows the main idea. A function with several outputs, such as the polar map, moves points of the plane, like the linear transformations of the [linear transformations and matrices](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#2-transformations-functions-that-move-vectors). But it bends the grid. Zoom in on one small cell, though, and the bending almost disappears: the cell lands on something very close to a parallelogram. That parallelogram is drawn by a matrix, the Jacobian.
+Figure 1 shows the main idea. A function with several outputs, such as the polar map, moves points of the plane, like the **linear transformations** (G-1097) of the [linear transformations and matrices](../../05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#2-transformations-functions-that-move-vectors). But it bends the grid. Zoom in on one small cell, though, and the bending almost disappears: the cell lands on something very close to a parallelogram. That parallelogram is drawn by a matrix, the Jacobian.
 
 [The gradient](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) handled functions with one output. In this Note we:
 
 - watch a function with several outputs bend a grid, and zoom in until it looks linear (Sections [2](#2-functions-that-bend-the-grid) and [3](#3-zoom-in-the-function-looks-linear));
 - build the matrix of that linear look, the Jacobian, from two tiny steps ([Section 4](#4-the-jacobian));
-- read its determinant as an area factor ([Section 5](#5-the-jacobian-determinant-how-areas-scale)) and chain Jacobians together ([Section 6](#6-the-chain-rule-with-jacobians));
+- read its **determinant** (G-598) as an area factor ([Section 5](#5-the-jacobian-determinant-how-areas-scale)) and chain Jacobians together ([Section 6](#6-the-chain-rule-with-jacobians));
 - apply this to the least-squares loss ([Section 7](#7-example-the-gradient-of-the-least-squares-loss));
 - take a short look at derivatives with respect to matrices (Sections [8](#8-gradients-of-matrices) and [9](#9-useful-identities));
-- preview how deep learning libraries compute gradients ([Section 10](#10-preview-backpropagation-and-automatic-differentiation)).
+- preview how deep learning libraries compute **gradients** (G-863) ([Section 10](#10-preview-backpropagation-and-automatic-differentiation)).
 
 ## 2. Functions that bend the grid
 
@@ -83,11 +83,11 @@ $$f_i: \mathbb{R}^n \to \mathbb{R}$$
 
 Like a matrix, $\mathbf{f}$ moves every point of a grid. Unlike a matrix, it bends the grid: in Figure 1 the straight lines of constant $\theta$ become rays, and the straight lines of constant $r$ become arcs of circles. So $\mathbf{f}$ is not linear, and no single $2 \times 2$ matrix describes it everywhere.
 
-ML is full of such functions: a neural network layer turns a vector of inputs into a vector of outputs, and so does a prediction for all [**observations**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each) of a dataset at once.
+ML is full of such functions: a neural network layer turns a **vector** (G-2081) of inputs into a vector of outputs, and so does a prediction for all [**observations**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each) of a dataset at once.
 
 ## 3. Zoom in: the function looks linear
 
-> **Key point:** Around any one point, a smooth function looks more and more like a linear transformation the further we zoom in. That linear transformation is its **local linear map** (G-1108).
+> **Key point:** Around any one point, a smooth function looks more and more like a **linear transformation** (G-1097) the further we zoom in. That linear transformation is its **local linear map** (G-1108).
 
 Follow one point while $\mathbf{f}$ moves the grid, and zoom in on a small cell around it. The rays and arcs are still curved, but over a tiny region they are almost straight, almost parallel and almost evenly spaced: the three signs of a linear transformation from [Section 2.1](#21-recap-a-matrix-moves-a-grid). The smaller the region, the better the match. A function that behaves like this is called **locally linear** (G-2250).
 
@@ -97,7 +97,7 @@ In Figure 2, watch the gap between the orange and green outlines: at full size t
 
 ## 4. The Jacobian
 
-> **Key point:** The Jacobian is the $m \times n$ matrix of all first partial derivatives: column $j$ is where a tiny step along input $j$ lands, divided by the step's size; row $i$ is the gradient of output $f_i$.
+> **Key point:** The **Jacobian** (G-980) is the $m \times n$ matrix of all first partial derivatives: column $j$ is where a tiny step along input $j$ lands, divided by the step's size; row $i$ is the **gradient** (G-863) of output $f_i$.
 
 ### 4.1 Two tiny steps give the two columns
 
@@ -145,7 +145,7 @@ Each column of [Section 4.1](#41-two-tiny-steps-give-the-two-columns) holds the 
    $$J = \frac{d\mathbf{f}}{d\mathbf{x}}$$
    $$J = \begin{bmatrix} \dfrac{\partial f_1}{\partial x_1} & \cdots & \dfrac{\partial f_1}{\partial x_n} \cr\vdots & & \vdots \cr\dfrac{\partial f_m}{\partial x_1} & \cdots & \dfrac{\partial f_m}{\partial x_n} \end{bmatrix} \in \mathbb{R}^{m \times n}$$
    $$J_{ij} = \frac{\partial f_i}{\partial x_j}$$
-3. **Example:** for polar coordinates, differentiate each output with respect to $r$ and to $\theta$, one entry at a time:
+3. **Example:** for **polar coordinates** (G-1511), differentiate each output with respect to $r$ and to $\theta$, one entry at a time:
    $$\frac{\partial f_1}{\partial r} = \cos\theta$$
    $$\frac{\partial f_1}{\partial \theta} = -r\sin\theta$$
    $$\frac{\partial f_2}{\partial r} = \sin\theta$$
@@ -161,7 +161,7 @@ This arrangement, outputs as rows and inputs as columns, is the **numerator layo
 
 > **Key point:** A derivative has one row per output and one column per input. So a function's numbers of inputs and outputs fix the derivative's shape before we compute anything.
 
-So far we have met three kinds of derivative: the [slope of a tangent line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent), the [gradient](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) and now the Jacobian. They are one idea.
+So far we have met three kinds of derivative: the [slope of a tangent line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent), the [gradient](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient) and now the **Jacobian** (G-980). They are one idea.
 
 Two words help here. One number on its own, such as 13, is a [**scalar**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743). A list of numbers, such as $(2, 3)$, is a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081). Every case below talks about two different objects, and the two must not be mixed up:
 
@@ -182,7 +182,7 @@ So counting the function's inputs and outputs fixes the shape of its derivative.
   $$f'(3) = 6$$
   As a table it has 1 row (one output) and 1 column (one input): shape $1 \times 1$.
 
-In the panel the derivative is the slope of the orange tangent line at the black dot.
+In the panel the derivative is the slope of the orange **tangent line** (G-1945) at the black dot.
 
 **Case 2: vector in, scalar out** (top right).
 
@@ -192,7 +192,7 @@ In the panel the derivative is the slope of the orange tangent line at the black
 - **Its derivative** is not one number. It has one partial derivative per input:
   $$\frac{\partial f}{\partial x} = 2x = 4$$
   $$\frac{\partial f}{\partial y} = 2y = 6$$
-  Side by side they form the gradient $\nabla f$ (read "nabla f"), a [**row vector**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-1714; a vector written as one row) of two numbers:
+  Side by side they form the **gradient** (G-863) $\nabla f$ (read "nabla f"), a [**row vector**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-1714; a vector written as one row) of two numbers:
   $$\nabla f(2, 3) = \begin{bmatrix} 4 & 6 \end{bmatrix}$$
   As a table it has 1 row (one output) and 2 columns (two inputs): shape $1 \times 2$.
 
@@ -244,11 +244,11 @@ $$\boldsymbol{\delta} = (0.1,\ 0.05)$$
 
 that is, the radius grows by 0.1 and the angle by 0.05.
 
-1. **In words:** start from the output at $\mathbf x_0$ and add the Jacobian times the step.
+1. **In words:** start from the output at $\mathbf x_0$ and add the **Jacobian** (G-980) times the step.
 2. **Formula:**
    $$\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta})$$
    $$\approx \mathbf{f}(\mathbf x_0) + J(\mathbf x_0)\thinspace\boldsymbol{\delta}$$
-3. **Example:** polar coordinates at $(2, \pi/6)$, step $\boldsymbol{\delta} = (0.1, 0.05)$:
+3. **Example:** **polar coordinates** (G-1511) at $(2, \pi/6)$, step $\boldsymbol{\delta} = (0.1, 0.05)$:
    $$\mathbf{f}(\mathbf x_0) = \begin{bmatrix} 1.732 \cr1 \end{bmatrix}$$
    $$J\thinspace\boldsymbol{\delta} =$$
    $$\begin{bmatrix} 0.866 & -1 \cr0.5 & 1.732 \end{bmatrix} \begin{bmatrix} 0.1 \cr0.05 \end{bmatrix}$$
@@ -269,7 +269,7 @@ This [**linearisation**](../MA-061-derivatives-of-one-variable/MA-061-derivative
 
 ### 4.5 For a linear function, the Jacobian is its matrix
 
-> **Key point:** The Jacobian of $\mathbf{f}(\mathbf{x}) = A\mathbf{x}$ is $A$ itself, at every point.
+> **Key point:** The **Jacobian** (G-980) of $\mathbf{f}(\mathbf{x}) = A\mathbf{x}$ is $A$ itself, at every point.
 
 1. **In words:** output $i$ multiplies each input by one number from row $i$ of $A$ and adds them up:
    $$f_i = A_{i1}x_1 + \dots + A_{in}x_n$$
@@ -282,7 +282,7 @@ This [**linearisation**](../MA-061-derivatives-of-one-variable/MA-061-derivative
    Row by row, the partial derivatives are 1 and 3 for $f_1$, and $-2$ and 0 for $f_2$, so
    $$J = \begin{bmatrix} 1 & 3 \cr-2 & 0 \end{bmatrix} = A$$
 
-A linear map needs no approximation: the "best local linear map" is the map itself. The statement is the matrix version of "the derivative of $ax$ is $a$".
+A linear map needs no approximation: the "best **local linear map** (G-1108)" is the map itself. The statement is the matrix version of "the derivative of $ax$ is $a$".
 
 ## 5. The Jacobian determinant: how areas scale
 
@@ -290,7 +290,7 @@ A linear map needs no approximation: the "best local linear map" is the map itse
 
 ### 5.1 Recap: the determinant is an area factor
 
-The [**determinant**](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) was introduced with [eigenvectors and eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero): the factor by which a linear transformation scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** (G-2251) makes the determinant negative.
+The [**determinant**](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) was introduced with [eigenvectors and eigenvalues](../../05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero): the factor by which a **linear transformation** (G-1097) scales every area. A unit square becomes a parallelogram, and the parallelogram's area is $|\det|$. If $\hat{\jmath}$ ends up on the other side of $\hat{\imath}$, the plane has been flipped over like a sheet of paper; this reversed **orientation** (G-2251) makes the determinant negative.
 
 ![The unit square under $A$ (rows $[1, 3]$, $[-2, 0]$) becomes a parallelogram of area 6. Then, back on the unit square, $\hat{\imath}$ swings towards $\hat{\jmath}$: the area shrinks to 0 when they line up, and past that point the square flips over and the determinant turns negative (red). Idea after 3Blue1Brown, "The determinant | Chapter 6, Essence of linear algebra"](images/det_sign.gif)
 
@@ -304,10 +304,10 @@ so every area grows 6 times.
 
 ### 5.2 det J: how a function scales small areas
 
-Since the Jacobian is the local linear map, its determinant tells how much $\mathbf{f}$ scales small areas near a point.
+Since the Jacobian is the **local linear map** (G-1108), its determinant tells how much $\mathbf{f}$ scales small areas near a point.
 
 1. **In words:** a tiny region of area $\Delta A$ around $\mathbf x_0$ lands on a region of area about $|\det J(\mathbf x_0)|\thinspace\Delta A$.
-2. **Formula:** the **Jacobian determinant** (G-979) of a $2 \times 2$ matrix is (top-left times bottom-right) minus (top-right times bottom-left). For polar coordinates, one step per line:
+2. **Formula:** the **Jacobian determinant** (G-979) of a $2 \times 2$ matrix is (top-left times bottom-right) minus (top-right times bottom-left). For **polar coordinates** (G-1511), one step per line:
    $$\det J = \cos\theta \cdot r\cos\theta - (-r\sin\theta) \cdot \sin\theta$$
    $$= r\cos^2\theta + r\sin^2\theta$$
    $$= r\thinspace(\cos^2\theta + \sin^2\theta)$$
@@ -348,11 +348,11 @@ $$\det J = 1 - \cos x\cos y$$
 
 In Figure 8, watch the two insets while the grid bends: the orange square ends slightly larger than its dashed outline, the purple one clearly smaller, and the area readouts stop at the two values of $\det J$.
 
-> **Extra:** The Jacobian determinant is how probability densities change under a change of variables. If $\mathbf{y} = \mathbf{f}(\mathbf{x})$, probability in a small region must be kept, so the density of $\mathbf{y}$ is the density of $\mathbf{x}$ divided by $|\det J|$: where $\mathbf{f}$ stretches area, the same probability is spread thinner (MML §6.7). Its one-dimensional form, "density is a derivative", appears in the [PDF and continuous CDF](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means). Generative models called normalizing flows are built on exactly this rule (Rezende and Mohamed 2015).
+> **Extra:** The **Jacobian determinant** (G-979) is how probability densities change under a change of variables. If $\mathbf{y} = \mathbf{f}(\mathbf{x})$, probability in a small region must be kept, so the density of $\mathbf{y}$ is the density of $\mathbf{x}$ divided by $|\det J|$: where $\mathbf{f}$ stretches area, the same probability is spread thinner (MML §6.7). Its one-dimensional form, "density is a derivative", appears in the [PDF and continuous CDF](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means). Generative models called normalizing flows are built on exactly this rule (Rezende and Mohamed 2015).
 
 ## 6. The chain rule with Jacobians
 
-> **Key point:** When one function feeds another, the derivative of the whole chain is the Jacobian of the outer function times the Jacobian of the inner one, in the same order as the functions.
+> **Key point:** When one function feeds another, the derivative of the whole chain is the **Jacobian** (G-980) of the outer function times the Jacobian of the inner one, in the same order as the functions.
 
 ### 6.1 A point moving through a landscape
 
@@ -368,7 +368,7 @@ The path: the point's position at time $t$ is
 $$x(t) = 2t$$
 $$y(t) = t + 1$$
 
-Held together as one vector, the path is $\mathbf{v}(t) = (x(t),\ y(t))$. At $t = 1$:
+Held together as one **vector** (G-2081), the path is $\mathbf{v}(t) = (x(t),\ y(t))$. At $t = 1$:
 
 $$x(1) = 2 \times 1 = 2$$
 
@@ -422,7 +422,7 @@ $$\frac{\partial f}{\partial y} \times \frac{dy}{dt} = 8 \times 1 = 8$$
 
 $$\frac{df}{dt} = 8 + 8 = 16$$
 
-At $t = 1$, the value of $f$ grows 16 times as fast as $t$. In Figure 10 this is the slope of the green tangent line on the right.
+At $t = 1$, the value of $f$ grows 16 times as fast as $t$. In Figure 10 this is the slope of the green **tangent line** (G-1945) on the right.
 
 **Check by the long way.** Put the path into $f$ first, so that $f$ becomes a function of $t$ alone:
 
@@ -446,7 +446,7 @@ $$= 4 \times 2 + 8 \times 1$$
 
 $$= 8 + 8 = 16$$
 
-The first list is the gradient of $f$ at the point, $\nabla f(2, 2) = [4, 8]$. The second is the path's velocity, $\mathbf{v}'(1) = [2, 1]^{\mathsf T}$, how fast each coordinate moves.
+The first list is the **gradient** (G-863) of $f$ at the point, $\nabla f(2, 2) = [4, 8]$. The second is the path's velocity, $\mathbf{v}'(1) = [2, 1]^{\mathsf T}$, how fast each coordinate moves.
 
 **Step 6: the general formula.** The same steps work at any $t$, for any $f$ and any path:
 
@@ -462,7 +462,7 @@ It has the shape of the one-variable [**chain rule**](../../../ML/07-classificat
 
 ### 6.2 The same product as Jacobians
 
-Write the two pieces with the shapes of [Section 4.3](#43-the-four-shapes-of-a-derivative). The gradient $[4, 8]$ is the Jacobian of $f$: 1 output, 2 inputs, a $1 \times 2$ row. The velocity is the Jacobian of the path: 2 outputs ($x$ and $y$), 1 input ($t$), a $2 \times 1$ column. Their matrix product is exactly the dot product of Step 5:
+Write the two pieces with the shapes of [Section 4.3](#43-the-four-shapes-of-a-derivative). The **gradient** (G-863) $[4, 8]$ is the **Jacobian** (G-980) of $f$: 1 output, 2 inputs, a $1 \times 2$ row. The velocity is the Jacobian of the path: 2 outputs ($x$ and $y$), 1 input ($t$), a $2 \times 1$ column. Their matrix product is exactly the **dot product** (G-634) of Step 5:
 
 $$\underset{1 \times 2}{\begin{bmatrix} 4 & 8 \end{bmatrix}} \underset{2 \times 1}{\begin{bmatrix} 2 \cr1 \end{bmatrix}}$$
 
@@ -470,7 +470,7 @@ $$= 4 \times 2 + 8 \times 1$$
 
 $$= 16$$
 
-So the chain rule already is a product of Jacobians. The rule holds for any shapes.
+So the **chain rule** (G-371) already is a product of Jacobians. The rule holds for any shapes.
 
 **Formal version:** the **chain rule with Jacobians** (G-370). Multiply the Jacobian of the outer function (at the inner output) by the Jacobian of the inner function; the inner sizes must match, like any matrix product. Take an inner function $\mathbf{g}: \mathbb{R}^n \to \mathbb{R}^k$ ($n$ numbers in, $k$ numbers in the middle) and an outer function $\mathbf{f}: \mathbb{R}^k \to \mathbb{R}^m$ ($k$ numbers in, $m$ out). In [Section 6.1](#61-a-point-moving-through-a-landscape), $\mathbf{g}$ is the path ($n = 1$ input $t$, $k = 2$ middle numbers $x$ and $y$) and $f$ has $m = 1$ output. The chain of the two, "first $\mathbf{g}$, then $\mathbf{f}$", is written $\mathbf{f} \circ \mathbf{g}$. Its Jacobian is
 $$\underset{m \times n}{\underbrace{\frac{d\thinspace\mathbf{f}(\mathbf{g}(\mathbf{x}))}{d\mathbf{x}}}}$$
@@ -482,11 +482,11 @@ The Jacobian chain rule is the [matrix multiplication as composition](../../05-l
 
 ## 7. Example: the gradient of the least-squares loss
 
-> **Key point:** Write the squared error as two functions in a chain, the errors and then their squared length. The chain rule gives its gradient as one row times one matrix.
+> **Key point:** Write the squared error as two functions in a chain, the errors and then their squared length. The **chain rule** (G-371) gives its gradient as one row times one matrix.
 
 [Setting the derivative to zero](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#5-setting-the-derivative-to-zero) in multiple linear regression differentiated the squared error by expanding it and applying two rules of [**matrix calculus**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) (G-1176). The chain rule gives the same result in three short steps, and the steps scale to models that are too deep to expand.
 
-**The data and the model, with numbers first.** Three observations, the same three points as the gradient checking example of the [checking a gradient numerically](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#7-checking-a-gradient-numerically): inputs 1, 2, 3 and targets 2, 4, 5. A straight line predicts each target as intercept $b$ plus slope $m$ times the input. (Here $m$ is the slope of the line, as in the regression Notes, not a number of outputs.) The parameters are held in one vector $\boldsymbol{\theta}$ (theta); we take
+**The data and the model, with numbers first.** Three **observations** (G-1374), the same three points as the gradient checking example of the [checking a gradient numerically](../MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#7-checking-a-gradient-numerically): inputs 1, 2, 3 and targets 2, 4, 5. A straight line predicts each target as intercept $b$ plus slope $m$ times the input. (Here $m$ is the slope of the line, as in the regression Notes, not a number of outputs.) The parameters are held in one **vector** (G-2081) $\boldsymbol{\theta}$ (theta); we take
 
 $$\boldsymbol{\theta} = [b,\ m] = [0,\ 1]$$
 
@@ -525,7 +525,7 @@ Sizes, in letters: $N$ (capital) counts the observations, here $N = 3$; $n$ (sma
 1. **In words:** first find the shapes, then the two pieces, then multiply.
    - $\partial L/\partial \boldsymbol{\theta}$ will be $1 \times n$ (one output, $n$ inputs).
    - $\partial L/\partial \mathbf{e} = 2\mathbf{e}^{\mathsf T}$, a $1 \times N$ row: the derivative of $e_1^2 + \dots + e_N^2$ with respect to each $e_i$ is $2e_i$.
-   - $\partial \mathbf{e}/\partial \boldsymbol{\theta} = -\Phi$, an $N \times n$ matrix: the Jacobian of a linear function ([Section 4.5](#45-for-a-linear-function-the-jacobian-is-its-matrix)), with a minus sign.
+   - $\partial \mathbf{e}/\partial \boldsymbol{\theta} = -\Phi$, an $N \times n$ matrix: the **Jacobian** (G-980) of a linear function ([Section 4.5](#45-for-a-linear-function-the-jacobian-is-its-matrix)), with a minus sign.
 2. **Formula:**
    $$\frac{\partial L}{\partial \boldsymbol{\theta}}$$
    $$= \underset{1 \times N}{\underbrace{\frac{\partial L}{\partial \mathbf{e}}}}\ \underset{N \times n}{\underbrace{\frac{\partial \mathbf{e}}{\partial \boldsymbol{\theta}}}}$$
@@ -541,7 +541,7 @@ Sizes, in letters: $N$ (capital) counts the observations, here $N = 3$; $n$ (sma
 
 ![The least-squares gradient as one row times one matrix: a $1 \times 3$ row times a $3 \times 2$ matrix gives a $1 \times 2$ row](images/lsq_chain.png){height=30%}
 
-In Figure 11, watch the shapes: the number of observations, $N = 3$, sits on the inside of the product and disappears, so the gradient has one entry per parameter whatever the size of the data.
+In Figure 11, watch the shapes: the number of observations, $N = 3$, sits on the inside of the product and disappears, so the **gradient** (G-863) has one entry per parameter whatever the size of the data.
 
 Turning the row into a column (transposing it) gives the same gradient written as a column, one line per step:
 
@@ -570,7 +570,7 @@ This is the column form of [the gradient](../../../ML/06-regression/ML-053-multi
 
 ## 8. Gradients of matrices
 
-> **Key point:** A derivative of a matrix, or with respect to a matrix, has more than two indices: a tensor. In practice we flatten the matrices into long vectors so the Jacobian stays an ordinary matrix.
+> **Key point:** A derivative of a matrix, or with respect to a matrix, has more than two indices: a tensor. In practice we flatten the matrices into long **vectors** (G-2081) so the Jacobian stays an ordinary matrix.
 
 Some models need derivatives with respect to a whole weight matrix, such as a neural network layer's $W$. Counting indices shows the shape:
 
@@ -582,7 +582,7 @@ Arrays with more than two indices are [**tensors**](../../../ML/01-foundations/M
 There are two equivalent ways to handle them:
 
 - **Collect partial derivatives into a tensor.** Each partial derivative is a matrix; stack them along a new axis.
-- **Flatten first.** Reshape each matrix into one long vector (an $m \times n$ matrix becomes a vector of $mn$ numbers), compute an ordinary $mn \times pq$ Jacobian, and reshape back if needed. The chain rule is then plain matrix multiplication.
+- **Flatten first.** Reshape each matrix into one long vector (an $m \times n$ matrix becomes a vector of $mn$ numbers), compute an ordinary $mn \times pq$ Jacobian, and reshape back if needed. The **chain rule** (G-371) is then plain matrix multiplication.
 
 A small example: $\mathbf{f} = A\mathbf{x}$ with $A$ of size $2 \times 3$ and $\mathbf{x} = [1, 2, 3]$, differentiated with respect to $A$. Since $f_1 = A_{11}x_1 + A_{12}x_2 + A_{13}x_3$, the derivative of $f_1$ with respect to the entries of $A$ is $\mathbf{x}$ in the first row and zeros elsewhere:
 
@@ -594,13 +594,13 @@ Stacked, these form a $2 \times 2 \times 3$ tensor. Figure 12 shows both ways of
 
 ![The derivative of $A\mathbf x$ with respect to $A$: two $2 \times 3$ slices (a tensor), or, after flattening $A$ into 6 numbers, one ordinary $2 \times 6$ Jacobian](images/matrix_gradient_flatten.png){height=28%}
 
-In Figure 12, the flattened Jacobian holds the same twelve numbers as the two slices, only laid out in one row each. Each output depends only on its own row of $A$; this is why the gradient of a layer's weights is built from its inputs $\mathbf{x}$.
+In Figure 12, the flattened **Jacobian** (G-980) holds the same twelve numbers as the two slices, only laid out in one row each. Each output depends only on its own row of $A$; this is why the **gradient** (G-863) of a layer's weights is built from its inputs $\mathbf{x}$.
 
 ## 9. Useful identities
 
-> **Key point:** A handful of ready-made gradients cover most ML derivations, the same way a table of basic derivatives covers one-variable calculus.
+> **Key point:** A handful of ready-made **gradients** (G-863) cover most ML derivations, the same way a table of basic derivatives covers one-variable calculus.
 
-Gradients in the row (numerator) layout, for a variable vector $\mathbf{x}$, a variable matrix $X$, and fixed $\mathbf{a}$, $\mathbf{b}$, $B$:
+Gradients in the row (numerator) layout, for a variable **vector** (G-2081) $\mathbf{x}$, a variable matrix $X$, and fixed $\mathbf{a}$, $\mathbf{b}$, $B$:
 
 | Expression | Gradient | One-variable analogue |
 |---|---|---|
@@ -643,7 +643,7 @@ $$= [2x_1 + x_2,\ \ x_1 + 4x_2]$$
 
 At $\mathbf{x} = (1, 1)$ that is $[3, 5]$, the gradient of the bowl at $(1, 1)$. The [three rules of matrix calculus](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#51-three-rules-of-matrix-calculus-each-checked-on-numbers) holds the same rules written as columns.
 
-> **Extra:** Reference tables also list rules for traces, determinants and inverses of matrices that depend on $X$, for example
+> **Extra:** Reference tables also list rules for traces, **determinants** (G-598) and inverses of matrices that depend on $X$, for example
 >
 > $$\frac{\partial}{\partial X}\det(X) = \det(X)\thinspace(X^{-1})^{\mathsf T}$$
 >
@@ -655,11 +655,11 @@ At $\mathbf{x} = (1, 1)$ that is $[3, 5]$, the gradient of the bowl at $(1, 1)$.
 
 ## 10. Preview: backpropagation and automatic differentiation
 
-> **Key point:** A deep network is a long chain of functions, so its gradient is a long product of Jacobians; backpropagation computes that product from the loss backwards, reusing every intermediate result.
+> **Key point:** A deep network is a long chain of functions, so its **gradient** (G-863) is a long product of Jacobians; backpropagation computes that product from the loss backwards, reusing every intermediate result.
 
-A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By [Section 6](#6-the-chain-rule-with-jacobians), the gradient of the loss with respect to the weights of an early layer is a product of the Jacobians of all later layers. Writing that product as one formula quickly becomes enormous.
+A neural network computes its output as a composition of layers, $\mathbf f_K(\cdots \mathbf f_2(\mathbf f_1(\mathbf{x})))$, each layer with its own weights. By [Section 6](#6-the-chain-rule-with-jacobians), the gradient of the loss with respect to the weights of an early layer is a product of the **Jacobians** (G-980) of all later layers. Writing that product as one formula quickly becomes enormous.
 
-The practical method breaks the function into elementary steps, a **computation graph** (G-434), and applies the chain rule one step at a time. Figure 13 does this for $f(x) = x^2 + e^{x^2}$. How to read it:
+The practical method breaks the function into elementary steps, a **computation graph** (G-434), and applies the **chain rule** (G-371) one step at a time. Figure 13 does this for $f(x) = x^2 + e^{x^2}$. How to read it:
 
 - each box is one elementary step and the value it computes: first $a = x^2$, then $b = e^a$, then $f = a + b$;
 - a grey arrow means "this value is fed into the next box" (the forward pass);
@@ -699,12 +699,12 @@ The backward pass has one step per forward step, each a multiplication by a loca
 | Least-squares gradient | $1 \times n$ | $-2\mathbf{e}^{\mathsf T}\Phi = [-10, -22]$ | a derivation that still works for models too deep to expand |
 | Gradient with respect to a matrix | tensor | flatten to keep it a matrix | the chain rule stays plain matrix multiplication |
 
-- A vector-valued function is a stack of ordinary functions; its Jacobian stacks their gradients as rows, so the numbers of outputs and inputs fix its shape before we compute anything.
+- A **vector-valued function** (G-2082) is a stack of ordinary functions; its Jacobian stacks their gradients as rows, so the numbers of outputs and inputs fix its shape before we compute anything.
 - Near a point, the function acts like the linear map $J$: $\mathbf{f}(\mathbf x_0 + \boldsymbol{\delta}) \approx \mathbf{f}(\mathbf x_0) + J\boldsymbol{\delta}$, so one matrix product predicts where a small step lands.
-- $|\det J|$ is the local area (volume) scaling factor, because $J$ is the local linear map and a determinant is the area factor of a linear map.
-- The chain rule multiplies Jacobians, because near a point each function is a linear map and one linear map after another multiplies their matrices; checking shapes first prevents most mistakes.
-- Backpropagation applies this chain rule backward through a computation graph, so the gradient costs work of the same order as computing the function itself.
-- So the derivative of a function with several outputs is the Jacobian matrix, and near a point the function acts like that matrix.
+- $|\det J|$ is the local area (volume) scaling factor, because $J$ is the **local linear map** (G-1108) and a determinant is the area factor of a linear map.
+- The **chain rule** (G-371) multiplies Jacobians, because near a point each function is a linear map and one linear map after another multiplies their matrices; checking shapes first prevents most mistakes.
+- **Backpropagation** (G-247) applies this chain rule backward through a computation graph, so the gradient costs work of the same order as computing the function itself.
+- So the derivative of a function with several outputs is the **Jacobian** (G-980) matrix, and near a point the function acts like that matrix.
 
 ## 12. Sources
 
@@ -733,11 +733,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Jacobian (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
 | Polar coordinates (G-1511) | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$. |
 | Vector-valued function (G-2082) | A function that takes several numbers in and gives several numbers out, $\mathbf{f}: \mathbb{R}^n \to \mathbb{R}^m$; we read it as a stack of $m$ ordinary functions. |
 | Local linear map (G-1108) | The linear transformation a smooth function behaves like near a point; its matrix is the Jacobian. |
 | Locally linear (G-2250) | Said of a function that looks more and more like a linear transformation as we zoom in on any point. |
-| Jacobian (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
 | Numerator layout (G-1366) | Writing derivatives with outputs as rows and inputs as columns. |
 | Orientation (G-2251) | Which side of $\hat{\imath}$ the vector $\hat{\jmath}$ lies on; a transformation that swaps the sides flips the plane over and has a negative determinant. |
 | Jacobian determinant (G-979) | The factor by which a function stretches or shrinks small areas or volumes near a point: the determinant of its Jacobian, $\det J$. |
@@ -747,17 +747,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Flattening (G-789) | Reshaping a matrix into one long vector so that derivatives stay matrices. |
 | Least-squares loss (G-1076) | The total squared gap between the targets and a model's predictions, $\lVert \mathbf{y} - \Phi\boldsymbol{\theta} \rVert^2$; fitting picks the parameters $\boldsymbol{\theta}$ that make it smallest. Its gradient is $-2(\mathbf{y} - \Phi\boldsymbol{\theta})^{\mathsf T}\Phi$. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
-| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
-| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | [Row vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-1714) | A vector written as one row, shape $1 \times n$. |
 | [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
 | [Column vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#5-row-vectors-and-column-vectors) (G-416) | A vector written as one column, shape $n \times 1$; the default meaning of "vector". |
 | [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Linearisation](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
-| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
-| [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Multivariate chain rule](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#6-the-chain-rule-with-several-variables) (G-1281) | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

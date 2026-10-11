@@ -17,7 +17,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 
 ## 1. Overview
 
-> **Key point:** A hypothesis test turns an idea into two opposite statements, the null and the alternative hypothesis, and asks whether a sample gives strong enough evidence against the null.
+> **Key point:** A hypothesis test turns an idea into two opposite statements, the null and the **alternative hypothesis** (G-193), and asks whether a sample gives strong enough evidence against the null.
 
 ![The idea behind every hypothesis test](images/hypothesis_overview.png){height=40%}
 
@@ -26,15 +26,15 @@ tags: [subject/statistics, area/inference, step/foundations, concept/hypothesis-
 This Note covers:
 
 - the problem hypothesis testing solves;
-- the null hypothesis and the alternative hypothesis, and how to write them;
+- the **null hypothesis** (G-1361) and the alternative hypothesis, and how to write them;
 - three rules for using them, with the courtroom analogy;
 - the eight steps of a hypothesis test.
 
-The next Notes run these steps on real numbers: [the logic of a test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#3-the-logic-of-a-test) with a z-test, and [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition) with the method used in practice.
+The next Notes run these steps on real numbers: [the logic of a test](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#3-the-logic-of-a-test) with a **z-test** (G-2143), and [the definition of a p-value](../MA-041-p-values/MA-041-p-values.md#2-definition) with the method used in practice.
 
 ## 2. The problem hypothesis testing solves
 
-> **Key point:** One result, or a few, can be good or bad by chance; hypothesis testing tells us whether a sample is strong enough evidence for a claim about the whole population.
+> **Key point:** One result, or a few, can be good or bad by chance; **hypothesis testing** (G-913) tells us whether a sample is strong enough evidence for a claim about the whole population.
 
 ### 2.1 An online channel tries a new style
 
@@ -58,11 +58,11 @@ Figure 2 shows the five lessons against the old average. The spread is the probl
 
 A chips company sells a green packet and launches a purple one. Before replacing green with purple everywhere, it wants to know whether the purple packet really sells better. It can ask customers for feedback, but then: how many customers, and how good must the feedback be before we believe it?
 
-A small channel can afford to try and see. A company such as Amazon or Flipkart, where one wrong decision costs a lot of money, needs a method. That method is hypothesis testing.
+A small channel can afford to try and see. A company such as Amazon or Flipkart, where one wrong decision costs a lot of money, needs a method. That method is **hypothesis testing** (G-913).
 
 ### 2.3 Definition
 
-A **statistical hypothesis test** (G-1881) is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. Hypothesis testing lets us make probabilistic statements about population parameters.
+A **statistical hypothesis test** (G-1881) is a method of statistical inference used to decide whether the data at hand sufficiently supports a particular hypothesis. **Hypothesis testing** (G-913) lets us make probabilistic statements about population parameters.
 
 In the channel example the population parameter is $\mu$, the mean view duration of all lessons the channel could record in the new style. The new lessons are a sample. Hypothesis testing tells us what the sample can say about $\mu$.
 
@@ -74,7 +74,7 @@ Hypothesis testing is [**inferential statistics**](../../01-descriptive-stats/MA
 
 Every hypothesis test starts with two statements. The first is the **null hypothesis** (G-1361), written $H_0$:
 
-> a statement that assumes there is no significant effect or relationship between the variables being studied. It is the starting point of the test and stands for the status quo, "no effect until proven otherwise".
+> a statement that assumes there is no significant effect or relationship between the variables being studied. It is the starting point of the test and stands for the **status quo** (G-1887), "no effect until proven otherwise".
 
 Two examples:
 
@@ -95,7 +95,7 @@ $H_0$ does not claim that every new lesson scores exactly 6. It claims that the 
 
 The second statement is the **alternative hypothesis** (G-193), written $H_1$ or $H_a$:
 
-> a statement that contradicts the null hypothesis and claims there is a significant effect or relationship between the variables being studied.
+> a statement that contradicts the **null hypothesis** (G-1361) and claims there is a significant effect or relationship between the variables being studied.
 
 The two statements are [**mutually exclusive**](../../02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286): they cannot both be true, and the test ends by siding with one of them. They need not cover every case: for the channel, a mean below 6 fits neither statement (the grey part of the line in Figure 4). For our examples:
 
@@ -239,23 +239,23 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Hypothesis testing (G-913) | Checking a claim about a population parameter with a sample. |
-| Statistical hypothesis test (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
-| Null hypothesis ($H_0$) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
 | Alternative hypothesis ($H_1$, $H_a$) (G-193) | The claim of an effect, difference or relationship: the statement that contradicts the null hypothesis $H_0$. |
+| Hypothesis testing (G-913) | Checking a claim about a population parameter with a sample. |
+| Null hypothesis ($H_0$) (G-1361) | The statement of no effect, no difference or no relationship; assumed true until the data gives strong evidence against it. |
+| Statistical hypothesis test (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | Status quo (G-1887) | Another name for the null hypothesis $H_0$: the current state of things, which the test keeps unless the data gives strong evidence against it. |
 | Research hypothesis (G-1677) | Another name for the alternative hypothesis: the idea that came out of research. |
 | P-value approach (G-1431) | Carrying out a test by computing a p-value, which also measures the strength of the evidence. |
 | Test statistic (G-1963) | The number a test computes from the sample to make its decision, such as $z$ or $t$. |
 | Fail to reject $H_0$ (G-746) | The decision that the evidence against the null hypothesis $H_0$ is not strong enough to drop it; it does not prove $H_0$. |
 | Reject $H_0$ (G-1661) | The decision that the data gives strong enough evidence against $H_0$. |
+| [Z-test (one-sample)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
 | [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
 | [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
 | [One-tailed test (one-sided test)](../../../MA/04-inference/MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#5-one-tailed-and-two-tailed-tests) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
 | [Rejection region approach](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#6-the-rejection-region-and-the-critical-value) (G-1663) | Carrying out a test by checking whether the test statistic falls beyond a fixed boundary. |
 | [Significance level ($\alpha$)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#5-how-rare-is-too-rare-the-significance-level) (G-1801) | The chance, fixed before the test, of wrongly declaring an effect when there is none (rejecting $H_0$ when it is actually true); usually 0.05. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Z-test (one-sample)](../../../MA/04-inference/MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#1-overview) (G-2143) | A test of whether a population's mean equals a claimed value $\mu_0$, used when the population spread $\sigma$ is known and $\bar{X}$ is normal: $z = (\bar{x} - \mu_0)/(\sigma/\sqrt{n})$. |
 | [T-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview) (G-1940) | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. |
 | [Chi-square test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
 | [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |

@@ -61,13 +61,13 @@ The Titanic columns are the same as in [the Titanic dataset of the first look at
 
 ## 3. Scatter plot: two numerical columns
 
-> **Key point:** A scatter plot draws one dot per observation, with one numerical column on each axis; the cloud of dots shows how the two are related.
+> **Key point:** A scatter plot draws one dot per **observation** (G-1374), with one numerical column on each axis; the cloud of dots shows how the two are related.
 
 ### 3.1 Total bill against tip
 
 > **Key point:** Bigger bills get bigger tips: the dots rise from left to right.
 
-A **scatter plot** (G-1749) puts one numerical column on the x-axis and another on the y-axis, and draws one dot per observation (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
+A **scatter plot** (G-1749) puts one numerical column on the x-axis and another on the y-axis, and draws one dot per **observation** (G-1374) (one row). In the tips data, each dot is one bill: its total on x, its tip on y.
 
 The first frame of Figure 2 shows the result. The dots rise from left to right: as the total bill grows, the tip grows too. The pattern is a roughly [**linear relationship**](../../06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095), one that follows a straight line.
 
@@ -77,7 +77,7 @@ The tips themselves explain the line: they are close to a fixed share of the bil
 
 ### 3.2 Adding more columns: colour, marker and size
 
-> **Key point:** Colour, marker shape and dot size can each show one more column, so one scatter plot can hold five columns.
+> **Key point:** Colour, marker shape and dot size can each show one more column, so one **scatter plot** (G-1749) can hold five columns.
 
 A scatter plot has room for more information than its two axes. Three settings each tie a visual property to one more column:
 
@@ -138,7 +138,7 @@ The hue setting splits each bar by a further column. Figure 3 splits each class 
 
 ## 5. Box plot: spread of a numerical column across categories
 
-> **Key point:** Side-by-side box plots compare the whole spread of a numerical column across categories, not only its mean.
+> **Key point:** Side-by-side box plots compare the whole spread of a numerical column across categories, not only its **mean** (G-1203).
 
 A [**box plot**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) summarises a numerical column by its median, its quartiles and its outliers (see [the box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) for how to read one). Drawn once per category, side by side, it compares whole distributions, not only averages.
 
@@ -194,7 +194,7 @@ Such a pattern is invisible in the raw table of 891 rows. A plot of two columns 
 
 ## 7. Heatmap: two categorical columns
 
-> **Key point:** A crosstab counts the rows for every pair of categories; a heatmap colours that table so the largest counts stand out at once.
+> **Key point:** A crosstab counts the rows for every pair of categories; a **heatmap** (G-886) colours that table so the largest counts stand out at once.
 
 ### 7.1 Crosstab and heatmap
 
@@ -232,7 +232,7 @@ The darkest cell is third class, died: 372 passengers. The next darkest is first
 
 Counts have a weakness. Third class had the most deaths, but it also carried the most passengers (491, against 216 in first class). To compare classes fairly, we need the share of each class that survived.
 
-`Survived` holds only 0s and 1s, so its mean within a group is the share of 1s. Multiplied by 100, it becomes the survival percentage.
+`Survived` holds only 0s and 1s, so its **mean** (G-1203) within a group is the share of 1s. Multiplied by 100, it becomes the survival percentage.
 
 > **Python:** Survival percentage per group.
 >
@@ -258,7 +258,7 @@ The ports raise a new question: why would the boarding port matter? A plot rarel
 
 ## 8. Clustermap: grouping similar categories
 
-> **Key point:** A clustermap is a heatmap whose rows and columns are reordered so that similar ones sit together, with a tree showing which ones were joined.
+> **Key point:** A clustermap is a **heatmap** (G-886) whose rows and columns are reordered so that similar ones sit together, with a tree showing which ones were joined.
 
 A **clustermap** (G-402) starts from the same table as a heatmap. The clustermap then moves the rows so that rows with similar values sit next to each other, and does the same for the columns.
 
@@ -307,7 +307,7 @@ The same works for `SibSp` (siblings or spouses aboard). Those with 1 or 2 sibli
 
 ## 9. Pair plot: every numerical pair at once
 
-> **Key point:** A pair plot draws a scatter plot for every pair of numerical columns in one grid, and a histogram ([bars that count the values in each range](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)) of each column on the diagonal.
+> **Key point:** A pair plot draws a **scatter plot** (G-1749) for every pair of numerical columns in one grid, and a histogram ([bars that count the values in each range](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)) of each column on the diagonal.
 
 With many numerical columns, drawing a scatter plot for every pair by hand is slow: 4 columns already give 6 pairs. A **pair plot** (G-1437) finds all the numerical columns and draws every pair in one grid.
 
@@ -331,11 +331,11 @@ Colouring by species (hue) makes the pair plot multivariate, and shows which mea
 >
 > Here `cols` is the list of the four measurement names.
 
-> **Extra:** The grid grows fast: 10 numerical columns give 100 cells. For wide datasets, we pick a few columns first, for example those with the strongest correlation to the target.
+> **Extra:** The grid grows fast: 10 numerical columns give 100 cells. For wide datasets, we pick a few columns first, for example those with the strongest correlation to the **target** (G-1949).
 
 ## 10. Line plot: a number over time
 
-> **Key point:** A line plot is a scatter plot with the dots joined in order; we use it when the x-axis is time.
+> **Key point:** A line plot is a **scatter plot** (G-1749) with the dots joined in order; we use it when the x-axis is time.
 
 A **line plot** (G-1088) joins the dots of a scatter plot from left to right. Joining is only meaningful when the x values have a natural order, such as years, months or dates: the line then shows how the number moves over time. Stock prices and daily case counts are usual examples.
 
@@ -358,7 +358,7 @@ Figure 10 shows a steady rise: from 1,520 thousand passengers in 1949 to 5,714 t
 
 ## 11. Pivot table, heatmap and clustermap
 
-> **Key point:** A pivot table lays out a number by two categories (month and year); as a heatmap it shows two patterns at once, and as a clustermap it groups similar months and years.
+> **Key point:** A **pivot table** (G-1500) lays out a number by two categories (month and year); as a heatmap it shows two patterns at once, and as a clustermap it groups similar months and years.
 
 ### 11.1 Pivot table and heatmap
 
@@ -377,7 +377,7 @@ A **pivot table** (G-1500) reshapes long data into a grid: one column's values b
 
 > **Extra:** The month names are text, so a CSV file loses their calendar order and the table comes out alphabetical (Apr, Aug, Dec...). `table.reindex(["Jan", "Feb", ..., "Dec"])` puts them back in order. The copy that seaborn downloads keeps the calendar order.
 
-As a heatmap (Figure 11), a 12 by 12 table of numbers becomes easy to read:
+As a **heatmap** (G-886) (Figure 11), a 12 by 12 table of numbers becomes easy to read:
 
 - **Left to right:** every row gets darker. Traffic grew year on year.
 - **Top to bottom:** in every year, the summer months, July and August, are the darkest. Most people flew in summer.
@@ -388,7 +388,7 @@ Neither pattern is easy to see in 144 plain numbers.
 
 ### 11.2 Clustermap of the flights
 
-> **Key point:** The clustermap groups months with similar traffic (the summer months, the winter months) and years with similar traffic.
+> **Key point:** The **clustermap** (G-402) groups months with similar traffic (the summer months, the winter months) and years with similar traffic.
 
 Figure 12 is the clustermap of the same table. Its row tree groups the months by traffic:
 
@@ -440,8 +440,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Scatter plot (G-1749) | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
 | Bar plot (G-258) | A plot for comparing a numerical column across categories: one bar per category, its height the mean of the numerical column for that category. |
-| Crosstab (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
 | Heatmap (G-886) | A table drawn as coloured cells, darker for larger values. |
+| Crosstab (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |
 | Clustermap (G-402) | A heatmap with rows and columns reordered so similar ones sit together. |
 | Dendrogram (G-582) | A tree showing which rows (or columns) were joined as similar, and in what order. |
 | Pair plot (G-1437) | A grid of scatter plots of every pair of numerical columns, with histograms on the diagonal. |

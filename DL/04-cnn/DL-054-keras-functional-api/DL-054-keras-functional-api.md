@@ -40,7 +40,7 @@ This Note covers:
 
 > **Key point:** Sequential assumes one input, one output and layers in a single line. Problems with several outputs or several kinds of input break that assumption.
 
-A Sequential model rests on three assumptions:
+A **Sequential model** (G-1776) rests on three assumptions:
 
 1. it has exactly **one input**;
 2. it has exactly **one output**;
@@ -56,7 +56,7 @@ Two examples break them.
 
 In Figure 2b, each network guesses a price from one kind of input alone, and the average only mixes three separate guesses. In Figure 1c, the layers after `concatenate` see all three inputs at once, so they can learn how the inputs work together.
 
-Neither network is a single line, so neither can be built with `Sequential`. The Keras guide lists exactly these cases: a Sequential model is not appropriate when the model has multiple inputs or multiple outputs, or when we want a non-linear topology, "e.g. a residual connection, a multi-branch model" (Keras documentation, The Sequential model). "The functional API makes it easy to manipulate multiple inputs and outputs. This cannot be handled with the Sequential API" (Keras documentation, The Functional API).
+Neither network is a single line, so neither can be built with `Sequential`. The Keras guide lists exactly these cases: a Sequential model is not appropriate when the model has multiple inputs or multiple outputs, or when we want a non-linear **topology** (G-1991), "e.g. a residual connection, a multi-branch model" (Keras documentation, The Sequential model). "The functional API makes it easy to manipulate multiple inputs and outputs. This cannot be handled with the Sequential API" (Keras documentation, The Functional API).
 
 ## 4. Building a functional model
 
@@ -112,7 +112,7 @@ The age output uses a linear activation, because age is a number; the place outp
 > keras.utils.plot_model(model, "model.png", show_shapes=True)
 > ```
 >
-> The option `show_shapes=True` adds each layer's input and output shapes (Keras documentation, The Functional API). The function needs the `pydot` package and the Graphviz program installed. The figures of this Note are drawn separately.
+> The option `show_shapes=True` adds each layer's input and output shapes (Keras documentation, The **Functional API** (G-818)). The function needs the `pydot` package and the Graphviz program installed. The figures of this Note are drawn separately.
 
 ### 4.2 Two inputs, one output
 
@@ -157,7 +157,7 @@ The model has 10,789 parameters (Notebook). To predict, we pass both inputs toge
 
 ### 4.3 A skip connection
 
-> **Key point:** A skip connection adds a block's input to the block's output. The functional API expresses it with an `Add` layer that receives two tensors.
+> **Key point:** A skip connection adds a block's input to the block's output. The **functional API** (G-818) expresses it with an `Add` layer that receives two tensors.
 
 A **skip connection** (G-1681; also called a **residual connection**, G-1681) lets the input of a block jump over the block's layers and be added to their output (Figure 5b). The ResNet networks of [the ILSVRC winners](../DL-051-pretrained-models/DL-051-pretrained-models.md#52-the-results-year-by-year) are built from such blocks, and [residual networks](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#65-residual-networks) explain why they help very deep networks train. "A common use case for this is residual connections" of models that are "not connected sequentially, which the Sequential API cannot handle" (Keras documentation, The Functional API).
 
@@ -182,7 +182,7 @@ $$2 \times 2{,}320 = 4{,}640$$
 
 ## 5. A real model: age and gender from one face photo
 
-> **Key point:** One frozen VGG16 base reads the face; two dense branches predict age (mean absolute error) and gender (binary cross-entropy). It predicts age to within 9.2 years on average and gender with 86.3% accuracy, about as well as two separate models, while each photo passes through the 14.7-million-parameter base only once.
+> **Key point:** One frozen VGG16 base reads the face; two dense branches predict age (mean absolute error) and gender (**binary cross-entropy** (G-303)). It predicts age to within 9.2 years on average and gender with 86.3% accuracy, about as well as two separate models, while each photo passes through the 14.7-million-parameter base only once.
 
 ### 5.1 The data
 
@@ -196,7 +196,7 @@ The task has two **targets**: age, a number (regression), and gender, one of two
 
 ### 5.2 The model
 
-> **Key point:** VGG16's frozen convolutional base, Flatten, then two branches of 256 nodes, one ending in a linear age output and one in a sigmoid gender output.
+> **Key point:** VGG16's frozen convolutional base, Flatten, then two branches of 256 nodes, one ending in a linear age output and one in a **sigmoid** (G-1798) gender output.
 
 The model combines **transfer learning** (G-2005; [reusing a pretrained network](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works)) with section 4: **VGG16**'s (G-2088) convolutional base, frozen, reads the photo, and the network then branches into two heads (Figure 7).
 
@@ -235,7 +235,7 @@ The whole model has 18,910,018 parameters, of which 4,195,330 (the two branches)
 
 > **Key point:** Each output gets its own loss: mean absolute error for age, binary cross-entropy for gender. Training minimises their weighted sum.
 
-A model with two outputs needs two losses, one per output. Keras lets us pass them as a dictionary keyed by the output names, together with **loss weights** (G-1131) that "modulate their contribution to the total training loss" (Keras documentation, The Functional API).
+A model with two outputs needs two losses, one per output. Keras lets us pass them as a dictionary keyed by the output names, together with **loss weights** (G-1131) that "modulate their contribution to the total training loss" (Keras documentation, The **Functional API** (G-818)).
 
 > **Python:** Compiling and training the two-output model.
 >
@@ -261,7 +261,7 @@ A model with two outputs needs two losses, one per output. Keras lets us pass th
 
 ![The worked example as bars. Without weights, the age part (9.0) is 30 times the gender part (0.3), so training would mostly reduce the age error. With a weight of 0.1 on age, the two parts are 0.9 and 0.3](images/loss_weights.png){width=95%}
 
-The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years ([mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error)). The gender output uses [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303), the loss for a yes-or-no target with a sigmoid output.
+The **mean absolute error** (G-1194; MAE) is the average distance between predicted and true age, in years ([mean absolute error](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#6-mean-absolute-error)). The gender output uses [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303), the loss for a yes-or-no target with a **sigmoid** (G-1798) output.
 
 > **Extra:** The base is frozen and the photos are not augmented, so the base turns each photo into the same 8,192 numbers in every epoch. The Notebook therefore runs every photo through the base once and trains only the two branches on the stored numbers. The model is the same; only the repeated work is skipped.
 
@@ -299,8 +299,8 @@ The one model has 18,910,018.
 | Several inputs | several `Input`s joined by `Concatenate` | two inputs of 32 and 128 numbers |
 | A skip connection | `Add` of a block's input and output | two convolutions with the input added back |
 
-- The functional API builds a model as a graph: create a layer, call it on its input, then `Model(inputs, outputs)`, so it can build several inputs, several outputs, branches and skip connections, which a `Sequential` line of layers cannot.
-- Multi-output models take one loss per output, combined with loss weights, because age and gender need different losses, and a small weight on age keeps its large errors in years from swamping the gender loss.
+- The **functional API** (G-818) builds a model as a graph: create a layer, call it on its input, then `Model(inputs, outputs)`, so it can build several inputs, several outputs, branches and skip connections, which a `Sequential` line of layers cannot.
+- Multi-output models take one loss per output, combined with **loss weights** (G-1131), because age and gender need different losses, and a small weight on age keeps its large errors in years from swamping the gender loss.
 - On 23,705 face photos, one VGG16-based model predicted age (mean error 9.2 years) and gender (86.3%) as well as two separate models, with one pass through the base, so one model saves a second copy of the 14.7-million-parameter base.
 
 ## 7. Sources
@@ -343,8 +343,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
 | [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
 | [VGG16](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#4-the-network-vgg16) (G-2088) | An image-recognition network (a CNN) of 13 convolution layers (all 3 × 3) in 5 blocks plus 3 dense layers, trained on ImageNet. |
 | [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
 | [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |
-| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |

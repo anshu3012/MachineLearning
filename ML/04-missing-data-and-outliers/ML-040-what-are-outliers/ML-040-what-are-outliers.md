@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/capping, concept
 
 ## 1. Overview
 
-> **Key point:** An outlier is a value far away from the rest of the data; handling outliers means three steps: decide whether to keep them, detect them, then treat them.
+> **Key point:** An **outlier** (G-1420) is a value far away from the rest of the data; handling outliers means three steps: decide whether to keep them, detect them, then treat them.
 
 Outliers came up briefly in [the box plot's whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (the dots beyond a box plot's fences) and in [detecting and removing outliers](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers) (a few points pulling a regression line). This Note opens a group of four Notes on them. Here we learn what outliers are, why they cause trouble, when to keep them, and which techniques the next Notes use.
 
@@ -56,11 +56,11 @@ Figure 2 draws the numbers worked out in the box below: watch the mean fly off w
 >    $$(18{,}000 + 19{,}000)/2 = 18{,}500$$
 >    That is 18,500 rupees, against 18,000 for the nine, so the median barely moves.
 
-One extreme value can quietly spoil a whole analysis in this way. In ML, outliers are therefore handled with care: removed, or changed, or kept on purpose.
+One extreme value can quietly spoil a whole analysis in this way. In ML, **outliers** (G-1420) are therefore handled with care: removed, or changed, or kept on purpose.
 
 ## 3. How outliers spoil a model
 
-> **Key point:** Linear regression draws its line close to every point, so a few outliers pull the line away from the pattern of all the others.
+> **Key point:** Linear regression draws its line close to every point, so a few **outliers** (G-1420) pull the line away from the pattern of all the others.
 
 A regression line pulled by outliers is drawn in [detecting and removing outliers](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#64-detecting-and-removing-outliers). Here we keep one example in mind: students' weekly study hours against their marks, where more hours bring more marks.
 
@@ -72,7 +72,7 @@ Figure 3 puts numbers on it with example data for 20 students. The line through 
 
 ## 4. When to remove and when to keep outliers
 
-> **Key point:** Remove an outlier when it is an error; keep it when it is real and is exactly what the problem is about.
+> **Key point:** Remove an **outlier** (G-1420) when it is an error; keep it when it is real and is exactly what the problem is about.
 
 Outliers are not always harmful. Deciding whether an outlier is dangerous or a genuine part of the data is an important skill.
 
@@ -90,7 +90,7 @@ Since the true value cannot be recovered, the best choice is to remove it (or tr
 
 ### 4.2 Keep: when outliers are the point
 
-> **Key point:** In anomaly detection, such as spotting credit card fraud, the outliers are exactly what we are looking for.
+> **Key point:** In anomaly detection, such as spotting credit card fraud, the **outliers** (G-1420) are exactly what we are looking for.
 
 Some problems are about finding unusual cases. [**Anomaly detection**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) algorithms search for data points that do not behave like the rest. A common example is fraud detection: finding the few credit card transactions that look wrong among millions of normal ones.
 
@@ -98,15 +98,15 @@ There, the fraudulent transactions are the outliers. If we removed the outliers,
 
 ### 4.3 Explain: outliers can point to a missing feature
 
-> **Key point:** Sometimes an outlier is real and makes sense once we add a feature that explains it.
+> **Key point:** Sometimes an **outlier** (G-1420) is real and makes sense once we add a feature that explains it.
 
-Go back to the two students of [Section 3](#3-how-outliers-spoil-a-model), with few hours and top marks. They are real students, not errors. Instead of deleting them, we could add a feature such as `IQ`.
+Go back to the two students of [Section 3](#3-how-outliers-spoil-a-model), with few hours and top marks. They are real students, not errors. Instead of deleting them, we could add a **feature** (G-772) such as `IQ`.
 
 With that feature, the model may learn why these two scored high with few hours, and they stop looking like outliers. An outlier can tell us that our data is missing something.
 
 ### 4.4 The hard part: deciding what to do
 
-> **Key point:** Finding an outlier is easy; deciding whether to keep, remove or change it takes thought about the problem.
+> **Key point:** Finding an **outlier** (G-1420) is easy; deciding whether to keep, remove or change it takes thought about the problem.
 
 Spotting outliers is usually simple; the rules in [Section 8](#8-ways-to-detect-outliers) do it. The hard part is the decision, and it depends on:
 
@@ -117,7 +117,7 @@ Spotting outliers is usually simple; the rules in [Section 8](#8-ways-to-detect-
 
 > **Key point:** Algorithms that learn weights (linear and logistic regression, AdaBoost, deep learning) are strongly affected; tree-based algorithms hardly are.
 
-Not every algorithm reacts to outliers. A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by linear regression, and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
+Not every algorithm reacts to **outliers** (G-1420). A simple rule of thumb: if the algorithm computes **weights** (coefficients, G-407; one number per feature, learned from all the points), outliers affect it. Squared-error loss, used by **linear regression** (G-1094), and the exponential loss of AdaBoost both give the largest errors the most say (ESL §10.6), and neural networks rate poorly on robustness to outliers in the inputs (ESL Table 10.1). A tug-of-war is the picture: every point pulls on the line, and a point far away pulls hardest.
 
 A small example with numbers:
 
@@ -143,15 +143,15 @@ In practice we usually try several algorithms on one problem, including weight-b
 > **Extra:** A few more cases.
 >
 > - **Also affected:** k-means, because squaring the distances gives the largest distances the most say (ESL §14.3.10); SVMs (ESL Table 10.1); and PCA, which is built from the mean and covariance of the data (Hubert et al. 2005). Scaling with the mean and standard deviation (standardization, see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) is pulled too, since one extreme value moves the mean (Section 2.1; scikit-learn docs, Compare the effect of different scalers).
-> - **Trees are not fully immune:** an outlier in the *target* still shifts the average that a regression tree predicts in its leaf. Gradient boosting with the usual squared-error loss is pulled by such outputs; using the absolute error or the Huber loss instead makes it robust (ESL §10.6, §10.9). In scikit-learn this is `GradientBoostingRegressor(loss="huber")`.
+> - **Trees are not fully immune:** an outlier in the ***target** (G-1949)* still shifts the average that a regression tree predicts in its leaf. Gradient boosting with the usual squared-error loss is pulled by such outputs; using the absolute error or the Huber loss instead makes it robust (ESL §10.6, §10.9). In scikit-learn this is `GradientBoostingRegressor(loss="huber")`.
 
 ## 6. Handling outliers: detect, then treat
 
-> **Key point:** We first set limits that separate normal values from outliers, then deal with the values outside the limits.
+> **Key point:** We first set limits that separate normal values from **outliers** (G-1420), then deal with the values outside the limits.
 
 Once we decide to handle outliers, the work has two parts (Figure 1):
 
-1. **Detection:** compute a lower and an upper limit for the feature. Values outside them are outliers.
+1. **Detection:** compute a lower and an upper limit for the **feature** (G-772). Values outside them are outliers.
 2. **Treatment:** remove or change those values.
 
 [Section 7](#7-ways-to-treat-outliers) maps the treatments, Section 8 the detection rules. Notes ML-041 to ML-043 then put each rule to work ([**z-score**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2141), [IQR](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview), [percentiles](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview)).
@@ -170,28 +170,28 @@ $$\text{lower} = 20.125 - 26.81 = -6.69$$
 
 $$\text{upper} = 38 + 26.81 = 64.81$$
 
-No age is below the lower fence, and 11 ages are above the upper one. Capping (section 7.2) then moves those 11 ages onto the fence and keeps every row.
+No age is below the lower fence, and 11 ages are above the upper one. **Capping** (G-345) (section 7.2) then moves those 11 ages onto the fence and keeps every row.
 
 ![The 714 known Titanic ages: detect (IQR fences, dashed), mark the 11 outliers above 64.81 (red), then treat them by capping onto the fence (green).](images/detect_treat.gif){height=30%}
 
 ## 7. Ways to treat outliers
 
-> **Key point:** Trimming removes the outliers, capping pulls them back to the limit; treating them as missing values and discretizing them are used less often.
+> **Key point:** Trimming removes the **outliers** (G-1420), capping pulls them back to the limit; treating them as missing values and discretizing them are used less often.
 
 ### 7.1 Trimming
 
-> **Key point:** Trimming deletes the observations that hold outliers; it is fast, but too much trimming shrinks the data.
+> **Key point:** Trimming deletes the **observations** (G-1374) that hold outliers; it is fast, but too much trimming shrinks the data.
 
 **Trimming** (G-2019) removes every observation whose value lies outside the limits. In [Section 3](#3-how-outliers-spoil-a-model) we would simply delete the two students.
 
 - **Advantage:** very fast and simple.
-- **Disadvantage:** if there are many outliers, we delete many observations, and the data gets thin.
+- **Disadvantage:** if there are many **outliers** (G-1420), we delete many observations, and the data gets thin.
 
 ### 7.2 Capping
 
-> **Key point:** Capping keeps the observations but replaces every value beyond a limit with the limit itself.
+> **Key point:** Capping keeps the **observations** (G-1374) but replaces every value beyond a limit with the limit itself.
 
-Outliers always sit at an end of the data, either too high or too low. **Capping** (G-345) sets the two limits and moves every value beyond them back onto the limit. Figure 7 compares it with trimming, with limits 20 and 90.
+**Outliers** (G-1420) always sit at an end of the data, either too high or too low. **Capping** (G-345) sets the two limits and moves every value beyond them back onto the limit. Figure 7 compares it with **trimming** (G-2019), with limits 20 and 90.
 
 ![Trimming deletes the four outliers; capping keeps all 20 rows and moves the outliers onto the limits](images/trim_cap.png)
 
@@ -203,16 +203,16 @@ Capping with limits set by percentiles is called [**winsorization**](../ML-043-o
 
 ### 7.3 Two less common treatments
 
-> **Key point:** An outlier can also be treated as a missing value, or hidden inside a range by discretization.
+> **Key point:** An **outlier** (G-1420) can also be treated as a missing value, or hidden inside a range by discretization.
 
 - **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique, from [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) to [iterative imputation](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview).
 - [**Discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [**discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization) (G-619)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
 
-Trimming and capping are used far more, and they are what Notes ML-041 to ML-043 focus on.
+**Trimming** (G-2019) and capping are used far more, and they are what Notes ML-041 to ML-043 focus on.
 
 ## 8. Ways to detect outliers
 
-> **Key point:** The feature's shape decides the rule: mean ± 3 standard deviations for a normal feature, the IQR fences for a skewed one, percentiles for any feature.
+> **Key point:** The **feature** (G-772)'s shape decides the rule: mean ± 3 standard deviations for a normal feature, the IQR fences for a skewed one, percentiles for any feature.
 
 Many detection methods exist; these three are the most important. Figure 8 applies each to example data, with the limits as dashed lines and the flagged values in red.
 
@@ -220,23 +220,23 @@ Many detection methods exist; these three are the most important. Figure 8 appli
 
 ### 8.1 Normal feature: mean ± 3 standard deviations
 
-> **Key point:** In a normal feature, a value more than 3 standard deviations from the mean is an outlier.
+> **Key point:** In a normal feature, a value more than 3 standard deviations from the mean is an **outlier** (G-1420).
 
-About 99.7% of a normal feature's values lie within 3 standard deviations of the mean, so a value outside that range is rare enough to call an outlier. [The 68-95-99.7 rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) explains the rule and its limits.
+About 99.7% of a normal **feature** (G-772)'s values lie within 3 standard deviations of the mean, so a value outside that range is rare enough to call an outlier. [The 68-95-99.7 rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) explains the rule and its limits.
 
 ### 8.2 Skewed feature: the IQR fences
 
-> **Key point:** For a skewed feature, the box-plot fences, 1.5 IQR beyond the box, set the limits.
+> **Key point:** For a skewed **feature** (G-772), the box-plot fences, 1.5 IQR beyond the box, set the limits.
 
 The box-plot fences, 1.5 IQR (the width of the middle half of the data) below Q1 and above Q3, as computed for the Titanic ages in [Section 6](#6-handling-outliers-detect-then-treat) ([whiskers and outliers](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers)) serve as the limits for a skewed feature; [the fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) puts them to work.
 
 ### 8.3 Any feature: percentiles
 
-> **Key point:** The percentile rule calls everything below a low percentile or above a high percentile an outlier; it works for any shape.
+> **Key point:** The percentile rule calls everything below a low percentile or above a high percentile an **outlier** (G-1420); it works for any shape.
 
-The third rule works whatever the shape of the feature. We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
+The third rule works whatever the shape of the **feature** (G-772). We pick two percentiles, for example the 1st and the 99th, and every value below the first or above the second is an outlier.
 
-The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 8, right). [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers this rule together with winsorization.
+The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, or 5 and 95. With 1 and 99, about 2% of the values are always flagged (40 of 2,000 in Figure 8, right). [The percentile rule](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) covers this rule together with **winsorization** (G-2123).
 
 ## 9. The outlier Notes, in order
 
@@ -256,13 +256,13 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 | Detect | mean ± 3 std (normal), IQR fences (skewed), percentiles (any) | ML-041, ML-042, ML-043 |
 | Treat | trimming, capping (winsorization); less often: as missing, discretization | ML-041 to ML-043 |
 
-- An outlier is a data point very different from the rest; it lies at the high or low end, never in the middle, which is why the detection rules set a lower and an upper limit.
+- An **outlier** (G-1420) is a data point very different from the rest; it lies at the high or low end, never in the middle, which is why the detection rules set a lower and an upper limit.
 - One outlier can move the mean far from every real value (one 10-crore salary lifts the class mean to about 1 crore); the median barely moves, because it only looks at the middle values.
-- A few outliers can pull a linear regression line away from the pattern of all other points, because the line keeps the total squared distance small and far points pull hardest: two outliers almost doubled the line's typical miss on 20 students.
+- A few outliers can pull a **linear regression** (G-1094) line away from the pattern of all other points, because the line keeps the total squared distance small and far points pull hardest: two outliers almost doubled the line's typical miss on 20 students.
 - Remove outliers that are errors, because their true value cannot be recovered; keep them when they are the point, as in fraud detection, because removing them removes what the model must find.
 - Weight-based algorithms (linear and logistic regression, AdaBoost, deep learning) are sensitive to outliers, because their losses give the largest errors the most say; tree-based ones hardly are, because a split such as "hours < 5" depends only on the order of the values.
-- Trimming deletes outlier observations (fast, but loses data); capping moves outliers onto the limits (keeps every observation), so capping avoids the thin data that heavy trimming leaves.
-- So handling outliers means deciding whether they are errors or the point of the problem, then detecting them with limits, then trimming or capping the values beyond those limits.
+- Trimming deletes outlier **observations** (G-1374) (fast, but loses data); capping moves outliers onto the limits (keeps every observation), so capping avoids the thin data that heavy trimming leaves.
+- So handling outliers means deciding whether they are errors or the point of the problem, then detecting them with limits, then **trimming** (G-2019) or capping the values beyond those limits.
 
 ## 11. Sources
 
@@ -282,8 +282,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Trimming (G-2019) | Removing the rows that hold outliers. |
 | Capping (G-345) | Replacing every value beyond a limit with the limit itself. |
+| Trimming (G-2019) | Removing the rows that hold outliers. |
 | Fraud detection (G-804) | Spotting dishonest transactions; here the outliers are what we want to find. |
 | Outlier detection (G-1419) | Finding the values that lie far from the rest of a feature: compute a lower and an upper limit, and flag every value outside them as an outlier, ready to be removed or changed. |
 | Weight-based algorithm (G-2112) | An algorithm that learns one number per input column from all the points; sensitive to outliers. |

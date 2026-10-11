@@ -22,7 +22,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 A random forest (many decision trees, each trained on a random part of the data, that vote; see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) is a very flexible algorithm with many [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): settings we choose before training, as opposed to what the trees learn from the data. Its trees learn from **observations** (records, one row of the data table each); each observation has **features** (input variables, one column each) and a **target** (the output we predict). Figure 1 sorts them into three groups. `RandomForestClassifier` and `RandomForestRegressor` have nearly the same settings, so learning the classifier's covers the regressor too (section 6).
 
-The Notebook (`ML-105-random-forest-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the decision surface with its test accuracy.
+The Notebook (`ML-105-random-forest-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for each of the four forest-level settings and redraws the **decision surface** (G-560) with its test accuracy.
 
 <!-- playground: images/forest_playground.html -->
 
@@ -126,7 +126,7 @@ Figure 3 grows the forest. Watch the decision surface lose its narrow strips whi
 
 > **Key point:** Every tree in the forest takes the usual decision tree settings; they work exactly as for a single tree.
 
-These settings are applied to each tree in the forest. Each is explained, with its effect on overfitting, in [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters):
+These settings are applied to each tree in the forest. Each is explained, with its effect on **overfitting** (G-1429), in [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters):
 
 | Setting | Default | What it controls |
 |---|---|---|
@@ -197,7 +197,7 @@ Figure 5 shows what the second `fit` does. Watch the blue trees: they are the sa
 
 ## 6. The random forest regressor
 
-> **Key point:** Same hyperparameters, except the criterion options and the max_features default.
+> **Key point:** Same **hyperparameters** (G-910), except the criterion options and the max_features default.
 
 `RandomForestRegressor` has the same settings as the classifier, with two differences:
 
@@ -219,8 +219,8 @@ The regressor has no `class_weight`, since there are no classes.
 | Each tree | `criterion`, `max_depth`, `min_samples_split`, ... | defaults: fully grown trees |
 | General | `n_jobs=-1`, `random_state`, `oob_score`, `warm_start`, `class_weight` | as needed |
 
-- The tree-level settings are usually left at their defaults, because the trees are meant to be fully grown (low bias) and the forest removes their variance; pruning them never helped on the demo data.
-- On the demo data, accuracy rose from 0.846 (1 tree) to 0.888 (10 trees), then stayed flat, because more trees smooth the boundary but do not cause overfitting; past that point extra trees only add training time.
+- The tree-level settings are usually left at their defaults, because the trees are meant to be fully grown (low bias) and the forest removes their variance; **pruning** (G-1587) them never helped on the demo data.
+- On the demo data, accuracy rose from 0.846 (1 tree) to 0.888 (10 trees), then stayed flat, because more trees smooth the boundary but do not cause **overfitting** (G-1429); past that point extra trees only add training time.
 - 25 observations per tree scored only 0.827; from 100 observations on, about 0.89, because a tree grown on 25 points has too little data to find the rings, and averaging weak trees cannot fix that.
 - `bootstrap=False` means every tree gets all the observations; `max_samples` then cannot be set, and the trees are more alike, so the average removes less variance.
 - The regressor differs only in its criteria and its `max_features` default, so learning the classifier's settings covers both.
@@ -250,11 +250,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | set_params (G-1781) | Method that changes a model's settings after it is created. |
 | monotonic_cst (G-1259) | Setting that forces predictions to only rise or only fall as a column grows. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [n_estimators](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-1291) | The number of base models in an ensemble. |
 | [max_features](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features) (G-1185) | The number of randomly chosen columns a tree considers at each split. |
 | [max_samples](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#32-bagging) (G-1187) | The number or share of rows each base model gets. |
 | [Node-level feature sampling (node-level column sampling)](../../../ML/08-trees-and-ensembles/ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325) | Drawing a new random set of features before every split (random forest). |
-| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |

@@ -16,34 +16,34 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/roc]
 
 ## 1. Overview
 
-> **Key point:** A classifier outputs a probability, and a threshold turns it into 0 or 1. The ROC curve shows the true positive rate (the share of real positives caught) against the false positive rate (the share of real negatives wrongly flagged) for every threshold. The curve helps pick the threshold, and the area under it (AUC) compares models.
+> **Key point:** A classifier outputs a probability, and a **threshold** (G-1970) turns it into 0 or 1. The ROC curve shows the true positive rate (the share of real positives caught) against the false positive rate (the share of real negatives wrongly flagged) for every threshold. The curve helps pick the threshold, and the area under it (AUC) compares models.
 
 The **ROC curve** (G-1702) (receiver operating characteristic curve) is a standard tool for judging **binary** classifiers (classifiers with two classes, such as diabetes yes or no) (Fawcett 2006, §1). The ROC curve has two uses:
 
 1. **Choosing a threshold**: the cut-off that turns probabilities into yes or no.
-2. **Comparing models**: through the area under the curve, AUC.
+2. **Comparing models**: through the area under the curve, **AUC** (G-229).
 
 ## 2. Probabilities and thresholds
 
-> **Key point:** Models such as logistic regression predict a probability. A threshold, 0.5 by default, decides which probabilities count as "yes".
+> **Key point:** Models such as logistic regression predict a probability. A **threshold** (G-1970), 0.5 by default, decides which probabilities count as "yes".
 
 ### 2.1 From probability to prediction
 
 > **Key point:** Probability at or above the threshold: predict 1. Below: predict 0.
 
-Logistic regression (a model for yes-or-no targets) and most classifiers, such as decision trees or neural networks, do not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (see [sigmoid as a probability](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability)).
+Logistic regression (a model for yes-or-no **targets** (G-1949)) and most classifiers, such as decision trees or neural networks, do not directly output 0 or 1. The model outputs a probability, for example "this patient has a 45% chance of diabetes" (see [sigmoid as a probability](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#5-sigmoid-as-a-probability)).
 
 A [**threshold**](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#61-from-probabilities-to-classes) (G-1970) turns this into a decision. With the usual threshold of 0.5, a probability of 0.45 becomes 0 (no diabetes) and 0.62 becomes 1.
 
 ### 2.2 Why change it
 
-> **Key point:** Raising or lowering the threshold trades one kind of mistake for the other.
+> **Key point:** Raising or lowering the **threshold** (G-1970) trades one kind of mistake for the other.
 
 A spam filter that wrongly binned a job offer is worse than one that lets an advert through (see [a spam filter](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#21-a-spam-filter)). Raising its threshold to 0.75 means an email is called spam only when the model is quite sure. The higher threshold cuts the dangerous mistakes, the **false positives** (emails flagged as spam that are not spam; section 3.1 defines them), at the cost of more spam getting through.
 
 The dial also turns the other way. When missing a positive is the worse mistake, as in screening for a dangerous infectious disease, the threshold is lowered, to 0.1 for example: nearly every infected person is caught, at the price of more healthy people flagged.
 
-So the threshold is a dial between the two kinds of mistake. The difficulty is knowing where to set it: 0.3? 0.5? 0.75? The ROC curve shows the consequences of every setting at once.
+So the threshold is a dial between the two kinds of mistake. The difficulty is knowing where to set it: 0.3? 0.5? 0.75? The **ROC curve** (G-1702) shows the consequences of every setting at once.
 
 ![Predicted probabilities of the test patients, by true class](images/probabilities.png){height=40%}
 
@@ -51,7 +51,7 @@ Figure 1 is a histogram: the horizontal axis is the predicted probability of dia
 
 ## 3. Two rates: benefit and cost
 
-> **Key point:** True positive rate (benefit): the share of real positives caught. False positive rate (cost): the share of real negatives wrongly flagged.
+> **Key point:** **True positive rate** (G-2022) (benefit): the share of real positives caught. False positive rate (cost): the share of real negatives wrongly flagged.
 
 ### 3.1 True positive rate
 
@@ -79,13 +79,13 @@ FPR and specificity always add up to 1:
 
 $$\text{FPR} = 1 - \text{specificity}$$
 
-An ROC curve is therefore often described as sensitivity against 1 − specificity: the same two axes under other names.
+An **ROC curve** (G-1702) is therefore often described as sensitivity against 1 − specificity: the same two axes under other names.
 
 **The cost in rupees.** A telecom company predicts which customers are about to leave and sends each flagged customer a discount of 100 rupees. Every false positive is a customer who was never going to leave: 10 false positives mean 1,000 rupees given away for nothing. The FPR measures how often that happens.
 
 ### 3.3 How the threshold moves them
 
-> **Key point:** A low threshold flags almost everyone: both rates high. A high threshold flags almost no one: both rates low.
+> **Key point:** A low **threshold** (G-1970) flags almost everyone: both rates high. A high threshold flags almost no one: both rates low.
 
 | Threshold | TP | FN | FP | TN | TPR (benefit) | FPR (cost) |
 |---|---|---|---|---|---|---|
@@ -106,11 +106,11 @@ In Figure 2, watch both dark bars shrink together as the threshold rises: the be
 
 ## 4. The ROC curve
 
-> **Key point:** Plot FPR on the x-axis and TPR on the y-axis for every threshold. The curve runs from (0, 0) to (1, 1); the closer it bends towards the top-left corner, the better.
+> **Key point:** Plot FPR on the x-axis and TPR on the y-axis for every **threshold** (G-1970). The curve runs from (0, 0) to (1, 1); the closer it bends towards the top-left corner, the better.
 
 ### 4.1 Building it
 
-> **Key point:** Sweep the threshold from 1 down to 0 and mark (FPR, TPR) each time.
+> **Key point:** Sweep the **threshold** (G-1970) from 1 down to 0 and mark (FPR, TPR) each time.
 
 For each threshold:
 
@@ -150,7 +150,7 @@ In Figure 4, the left panel places each of the 154 test patients at its predicte
 
 > **Key point:** The curve rises steeply at first, because the first patients flagged are mostly real positives.
 
-The curve is not a straight line (Figure 5, left). The reason follows from the up-and-right rule of [Section 4.1](#41-building-it). Follow the threshold line in Figure 4 as it moves left:
+The curve is not a straight line (Figure 5, left). The reason follows from the up-and-right rule of [Section 4.1](#41-building-it). Follow the **threshold** (G-1970) line in Figure 4 as it moves left:
 
 1. **High thresholds (right end of the strip).** The patients flagged first are those with very high probabilities. In the [Section 3.3](#33-how-the-threshold-moves-them) table, the 28 patients at or above 0.7 are 20 diabetic and 8 healthy. Mostly diabetic patients means mostly "up" moves: TPR jumps while FPR barely moves, so the curve climbs steeply.
 2. **Middle thresholds.** The two groups overlap here, so "up" and "right" moves mix and the curve bends.
@@ -160,7 +160,7 @@ A good model gives high probabilities to the positives, so its "up" moves come f
 
 ### 4.3 Choosing the threshold
 
-> **Key point:** A common choice is the point closest to the ideal corner (0, 1). Here that is threshold 0.297.
+> **Key point:** A common choice is the point closest to the ideal corner (0, 1). Here that is **threshold** (G-1970) 0.297.
 
 ![The ROC curve with five thresholds marked, and two models compared](images/roc.png){height=58%}
 
@@ -172,7 +172,7 @@ $$\text{TPR} = 45/54 = 0.833$$
 
 The default 0.5 would find only 52% of the diabetic patients. For a screening test, where missing a patient is the worse mistake, the lower threshold is the better choice. If false alarms were the expensive mistake instead, a point further down-left would be chosen.
 
-> **Python:** The ROC curve in scikit-learn.
+> **Python:** The **ROC curve** (G-1702) in scikit-learn.
 >
 > ```python
 > from sklearn.metrics import roc_curve
@@ -199,7 +199,7 @@ The default 0.5 would find only 52% of the diabetic patients. For a screening te
 
 > **Key point:** AUC measures the whole curve with one number: 1 is perfect, 0.5 is random guessing. The model with the higher AUC separates the classes better.
 
-The **area under the ROC curve (AUC)** (G-229) summarises performance over all thresholds at once.
+The **area under the ROC curve (AUC)** (G-229) summarises performance over all **thresholds** (G-1970) at once.
 
 | AUC | Meaning |
 |---|---|
@@ -217,7 +217,7 @@ On the diabetes test set (Figure 5, right):
 | Logistic regression | 0.823 |
 | Decision tree (depth 3) | 0.788 |
 
-Logistic regression's curve lies above the tree's for most false positive rates (the tree's curve is higher only between FPR of about 0.15 and 0.29), so it separates diabetic from healthy patients better overall.
+Logistic regression's curve lies above the tree's for most **false positive rates** (G-749) (the tree's curve is higher only between FPR of about 0.15 and 0.29), so it separates diabetic from healthy patients better overall.
 
 The tree's curve is a few straight segments rather than a staircase. A depth-3 tree has at most 8 leaves, and every patient in a leaf gets the same probability, so the tree gives only 5 distinct probabilities on this test set. Each threshold between two of them gives one point, and `roc_curve` joins those few points with straight lines.
 
@@ -229,7 +229,7 @@ Figure 6 draws both curves from left to right and fills in the area under each. 
 
 ![All 5,400 pairs of one diabetic and one healthy test patient. A cell is green when the diabetic patient gets the higher predicted probability, pink when the healthy one does.](images/pairs.png){height=45%}
 
-In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the pink corner holds the pairs where low-scored diabetic patients meet high-scored healthy ones, and its staircase edge is the ROC curve turned half a turn (upside down and mirrored left to right). The reason: in Figure 7 the healthy patients run from the lowest probability to the highest, left to right, while the ROC curve's FPR grows as the highest-scored healthy patients are flagged first; and the diabetic patients run from highest to lowest downwards, while the ROC curve's TPR grows upwards.
+In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the pink corner holds the pairs where low-scored diabetic patients meet high-scored healthy ones, and its staircase edge is the **ROC curve** (G-1702) turned half a turn (upside down and mirrored left to right). The reason: in Figure 7 the healthy patients run from the lowest probability to the highest, left to right, while the ROC curve's FPR grows as the highest-scored healthy patients are flagged first; and the diabetic patients run from highest to lowest downwards, while the ROC curve's TPR grows upwards.
 
 > **Python:** AUC in scikit-learn.
 >
@@ -251,9 +251,9 @@ In Figure 7, the green share of the grid is the AUC, 4,444 of 5,400 pairs; the p
 | ROC curve | TPR against FPR | one point per threshold |
 | AUC | area under the curve | 1 perfect, 0.5 random |
 
-- Lowering the threshold raises both TPR and FPR; raising it lowers both, because flagging more patients catches more real positives and also more healthy ones. So benefit and cost cannot be moved one at a time.
-- Choose the threshold from the ROC curve, for example the point closest to (0, 1), or according to which mistake costs more, because the curve shows the consequences of every threshold at once (on the diabetes data, 0.297 finds 83% of diabetic patients where the default 0.5 finds 52%).
-- Compare models by AUC: higher is better, because AUC sums up the whole curve over all thresholds; it is also the chance that a random positive gets a higher probability than a random negative.
+- Lowering the **threshold** (G-1970) raises both TPR and FPR; raising it lowers both, because flagging more patients catches more real positives and also more healthy ones. So benefit and cost cannot be moved one at a time.
+- Choose the threshold from the **ROC curve** (G-1702), for example the point closest to (0, 1), or according to which mistake costs more, because the curve shows the consequences of every threshold at once (on the diabetes data, 0.297 finds 83% of diabetic patients where the default 0.5 finds 52%).
+- Compare models by **AUC** (G-229): higher is better, because AUC sums up the whole curve over all thresholds; it is also the chance that a random positive gets a higher probability than a random negative.
 - So the ROC curve answers both questions of the Overview: where to set the threshold, and which model separates the classes better.
 
 ## 7. Sources
@@ -276,13 +276,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | ROC curve (G-1702) | A plot of the true positive rate against the false positive rate as the classification threshold moves; it shows a binary classifier's trade-off at every threshold, and a curve nearer the top-left corner is better. |
+| AUC (G-229) | A single score for a classifier from 0.5 (random) to 1 (perfect): the area under its ROC curve. |
 | True positive rate (TPR) (G-2022) | The fraction of real positives the model flags; the same as recall. |
 | False positive rate (FPR) (G-749) | The fraction of real negatives the model wrongly flags. |
 | predict_proba (G-1549) | scikit-learn method that returns predicted probabilities instead of classes. |
-| AUC (G-229) | A single score for a classifier from 0.5 (random) to 1 (perfect): the area under its ROC curve. |
 | [Threshold (classification)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#61-from-probabilities-to-classes) (G-1970) | The probability above which a prediction counts as class 1. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
 | [Specificity](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#32-the-formula) (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP). |

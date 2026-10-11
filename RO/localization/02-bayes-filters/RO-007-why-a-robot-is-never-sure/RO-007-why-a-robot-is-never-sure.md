@@ -11,7 +11,7 @@ tags: [subject/robotics, area/localization, concept/uncertainty, concept/state, 
 
 So far the [**kinematic model**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2297) predicts where wheel commands take a robot: wheels at 12 and 8 rad/s drive it round a circle of radius 0.5 m. That prediction assumes wheels that never slip. Real wheels slip, so a command "move 2" can end 1, 2 or 3 cells on, and a robot that only counts such moves soon does not know where it is. This Note adds the answer: keep a probability for every place. We leave the floor for a hallway of cells, because one number per place keeps the counting small ([Section 4.1](#41-state-from-one-number-to-many) returns to the floor).
 
-A delivery robot drives along the hallway of Figure 1, the hallway the belief and grid-filter Notes of this chapter return to. It has a map: 10 cells of 1 m each, numbered 0 to 9, with doors at cells 1, 3 and 7. The hallway is a loop, so one step to the right of cell 9 is cell 0. The robot has a sensor that says "door" or "wall" for the cell beside it. Its sensor now says "door". Where is it?
+A delivery robot drives along the hallway of Figure 1, the hallway the belief and grid-filter Notes of this chapter return to. It has a **map** (G-2331): 10 cells of 1 m each, numbered 0 to 9, with doors at cells 1, 3 and 7. The hallway is a loop, so one step to the right of cell 9 is cell 0. The robot has a sensor that says "door" or "wall" for the cell beside it. Its sensor now says "door". Where is it?
 
 There is no single answer. Three cells fit that reading, and the robot has no reason to prefer one of them. A robot that picks one cell and forgets the rest is wrong two times out of three. A robot that keeps all three, each with probability 1/3, still has the true cell among them.
 
@@ -19,8 +19,8 @@ This Note builds that idea step by step:
 
 - why a robot can never be sure: five sources of uncertainty, and how errors pile up when the robot only counts its moves ([Section 2](#2-why-a-robot-is-never-sure));
 - why the robot keeps a probability for every place instead of one best guess ([Section 3](#3-keep-a-distribution-not-one-best-guess));
-- what the robot must keep track of, its state, and when a state is complete ([Section 4](#4-the-state-what-the-robot-keeps-track-of));
-- the two streams of data it receives, controls and measurements, and their order in time ([Section 5](#5-controls-and-measurements-two-streams-of-data));
+- what the robot must keep track of, its **state** (G-2314), and when a state is complete ([Section 4](#4-the-state-what-the-robot-keeps-track-of));
+- the two streams of data it receives, controls and **measurements** (G-2317), and their order in time ([Section 5](#5-controls-and-measurements-two-streams-of-data));
 - why moving makes the robot less sure and sensing makes it more sure ([Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure)).
 
 ## 2. Why a robot is never sure
@@ -64,7 +64,7 @@ $$0.1 \times (3 - 2)^2 = 0.1$$
 
 $$\text{variance} = 0.1 + 0 + 0.1 = 0.2$$
 
-The moves slip independently, and for independent moves the [variances add](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). After 8 moves:
+The moves slip **independently** (G-934), and for independent moves the [variances add](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). After 8 moves:
 
 $$\text{variance} = 8 \times 0.2 = 1.6$$
 
@@ -76,7 +76,7 @@ The standard deviation keeps growing, more slowly than the number of moves but w
 
 ### 2.2 Five sources of uncertainty
 
-Slipping wheels are only one cause. The textbook on probabilistic robotics lists five (Thrun et al. 2005 ch.1, as given in Khamis L5), shown in Figure 3:
+Slipping wheels are only one cause. The textbook on **probabilistic robotics** (G-2313) lists five (Thrun et al. 2005 ch.1, as given in Khamis L5), shown in Figure 3:
 
 ![Five sources of uncertainty around a robot: the environment, the sensors, the robot's actuation, the models and the computation, each with an example](images/five_sources.png)
 
@@ -106,7 +106,7 @@ The sensor says "door". Three cells have a door (1, 3 and 7) and nothing favours
 
 $$P(1) = P(3) = P(7) = \frac{1}{3} = 0.33$$
 
-The other seven get 0, as Figure 1 shows. The same thing happens in two dimensions. A robot in a room whose laser scan shows "a flat wall 1 m straight ahead" could stand 1 m from any straight stretch of any wall, facing it (Figure 5). The reading rules out spots near a corner or facing the door, where the scan would look different, but it leaves many poses.
+The other seven get 0, as Figure 1 shows. The same thing happens in two dimensions. A robot in a room whose laser scan shows "a flat wall 1 m straight ahead" could stand 1 m from any straight stretch of any wall, facing it (Figure 5). The reading rules out spots near a corner or facing the door, where the scan would look different, but it leaves many **poses** (G-2280).
 
 ![A room 7 m by 4 m with a door. The scan shows a flat wall 1 m ahead; every pose 1 m from a straight stretch of wall, facing it, fits the reading, so candidate poses line all four walls](images/room_wall.png)
 
@@ -126,7 +126,7 @@ Step by step:
 
 The best-guess robot expected a wall at cell 9 and read "door". It now knows its guess was wrong, but it threw the other candidates away at step 1, so it has nothing to fall back on: it is lost. The robot that kept the whole distribution found its place, because it remembered every place the readings allowed (Labbe ch.2).
 
-This is the central idea of **probabilistic robotics** (G-2313): the robot computes a probability distribution over what might be the case, instead of a single best guess, so it can handle ambiguous readings and recover from errors (Thrun 2000). The probability distribution a robot keeps over where it might be is its [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), defined later in this chapter.
+This is the central idea of **probabilistic robotics** (G-2313): the robot computes a **probability distribution** (G-1571) over what might be the case, instead of a single best guess, so it can handle ambiguous readings and recover from errors (Thrun 2000). The probability distribution a robot keeps over where it might be is its [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), defined later in this chapter.
 
 ### 3.3 Why noisy sensors forbid crossing places out
 
@@ -169,7 +169,7 @@ Figure 7 compares the two. The wall cells keep a small probability, so one wrong
 
 ## 4. The state: what the robot keeps track of
 
-> **Key point:** "Where is it?" asks for the robot's state: in the hallway one number, its cell. In general the state is every quantity the robot needs to predict what happens next: its pose, often its speeds, and the things around it that can change. A state is complete when knowing it now makes the past useless for predicting the future.
+> **Key point:** "Where is it?" asks for the robot's state: in the hallway one number, its cell. In general the state is every quantity the robot needs to predict what happens next: its **pose** (G-2280), often its speeds, and the things around it that can change. A state is complete when knowing it now makes the past useless for predicting the future.
 
 ### 4.1 State: from one number to many
 
@@ -198,22 +198,22 @@ One second later:
 | A | 2 m | 0 m/s | 2 m |
 | B | 2 m | 0.5 m/s | 2.5 m |
 
-Their positions now are the same, but their futures differ. If the state were the position alone, we could not predict where each robot goes, while their positions one second ago (2 m and 1.5 m) would tell us. The past would carry information the state lacks. With the speed added, the state $(2 \text{ m}, 0.5 \text{ m/s})$ predicts robot B's next position by itself, and the past adds nothing.
+Their positions now are the same, but their futures differ. If the **state** (G-2314) were the position alone, we could not predict where each robot goes, while their positions one second ago (2 m and 1.5 m) would tell us. The past would carry information the state lacks. With the speed added, the state $(2 \text{ m}, 0.5 \text{ m/s})$ predicts robot B's next position by itself, and the past adds nothing.
 
 ### 4.3 Complete state and the Markov property
 
-That test gives the definition. A state is a **complete state** (G-2315) if knowing it now, the earlier states, controls and measurements tell us nothing more about the future (Thrun et al. 2005 §2.3.1). For robot B:
+That test gives the definition. A **state** (G-2314) is a **complete state** (G-2315) if knowing it now, the earlier states, controls and **measurements** (G-2317) tell us nothing more about the future (Thrun et al. 2005 §2.3.1). For robot B:
 
 - position only: not complete, because the position one second ago improves the prediction;
 - position and speed: complete, because nothing from the past improves it.
 
-A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its belief, it needs only the latest state, not every reading since it was switched on. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) (G-2446) is built on it.
+A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its **belief** (G-2433), it needs only the latest state, not every reading since it was switched on. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) (G-2446) is built on it.
 
 In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000). The robot never sees its state directly; [Section 5](#5-controls-and-measurements-two-streams-of-data) names the two kinds of data it does receive.
 
 ## 5. Controls and measurements: two streams of data
 
-> **Key point:** The robot answers "where is it?" from two kinds of data. Controls, such as "move 2", change its state; measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
+> **Key point:** The robot answers "where is it?" from two kinds of data. Controls, such as "move 2", change its **state** (G-2314); measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
 
 ### 5.1 Measurements and controls
 
@@ -225,7 +225,7 @@ The data that reaches a robot comes in two kinds (Thrun 2000; Khamis L5):
   z_1 = \text{door}
   $$
 
-- A **control** is information about how the state changed: the command "move 2", or a count of how far the wheels turned. We write it $u_t$, the same symbol as the [control input](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2298) of a robot model. In the hallway at time 2:
+- A **control** is information about how the **state** (G-2314) changed: the command "move 2", or a count of how far the wheels turned. We write it $u_t$, the same symbol as the [control input](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2298) of a robot model. In the hallway at time 2:
 
   $$
   u_2 = \text{move 2}
@@ -235,20 +235,20 @@ We keep them apart because they do opposite things to the robot's knowledge ([Se
 
 ### 5.2 The order in time
 
-The robot starts in some state $x_0$. Then each time step has two parts:
+The robot starts in some **state** (G-2314) $x_0$. Then each time step has two parts:
 
 1. a control $u_t$ moves the robot from $x_{t-1}$ to $x_t$;
-2. the robot takes a measurement $z_t$ in the new state $x_t$.
+2. the robot takes a **measurement** (G-2317) $z_t$ in the new state $x_t$.
 
 ![The order of events: from the start state x0, control u1 moves the robot to x1, where measurement z1 is taken; control u2 moves it to x2, where z2 is taken; and so on. Below, the hallway run: from x0 = cell 1, u1 stay gives x1 = cell 1 with z1 door; u2 move 2 gives x2 = cell 3 with z2 door; u3 move 2 gives x3 = cell 5 with z3 wall](images/timeline.png)
 
-Figure 9 draws this chain with the hallway run below it. Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's pose in a known map (Thrun 2000).
+Figure 9 draws this chain with the hallway run below it. Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280) in a known map (Thrun 2000).
 
 How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) is the first; the [**measurement model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) is the second. Before those models, Section 6 shows what each stream does to the hallway robot's distribution.
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
-> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its standard deviation grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
+> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its **standard deviation** (G-1870) grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
 
 Now we drop both simplifications: the moves are the noisy moves of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning), and the sensor is the noisy sensor of [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out). Take a robot that knows it is in cell 3, as after [Section 3.2](#32-why-a-single-best-guess-gets-lost). It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
@@ -256,7 +256,7 @@ Now we drop both simplifications: the moves are the noisy moves of [Section 2.1]
 
 **Control $u_3$ spreads the distribution.** From cell 3 the robot ends in cell 4, 5 or 6 with the move probabilities of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning): 0.1, 0.8 and 0.1.
 
-**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip independently. Ending in cell 7, four cells on, happens in three ways:
+**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip **independently** (G-934). Ending in cell 7, four cells on, happens in three ways:
 
 $$\text{2 then 2}: 0.8 \times 0.8 = 0.64$$
 
@@ -321,13 +321,13 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 | Control $u_t$, measurement $z_t$ | data that changes the state, data that reports on it | controls spread the distribution, measurements narrow it |
 
 - "Where is it?" after the reading "door" has no single answer: cells 1, 3 and 7 each get 0.33, because a single guess is right only one time in three. A move and a second "door" then leave only cell 3; with slipping moves and the noisy sensor, two moves and a "door" give cell 7 probability 0.853.
-- Dead reckoning drifts: after 8 noisy moves the robot is where it thinks with probability 0.33, because independent errors add up (variances add).
+- **Dead reckoning** (G-2311) drifts: after 8 noisy moves the robot is where it thinks with probability 0.33, because independent errors add up (variances add).
 - Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than hope for perfect ones.
 - A single best guess, once contradicted, has nothing left, so the robot keeps every candidate.
 - With a noisy sensor the robot weights places instead of crossing them out, because crossing out would delete the true place whenever a reading is wrong (64 percent of the time over two readings at two doors, with a sensor that sees a door 60 percent of the time).
-- The state holds what decides the future: pose, speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
-- A control comes first and changes the state; a measurement follows and reports on it, so each step of a filter is "move, then look".
-- Moves widen the distribution (standard deviation 0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
+- The state holds what decides the future: **pose** (G-2280), speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
+- A control comes first and changes the **state** (G-2314); a measurement follows and reports on it, so each step of a filter is "move, then look".
+- Moves widen the distribution (**standard deviation** (G-1870) 0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
 
 The robot can now say where it might be as a probability for every cell, and why moves spread it and readings narrow it. Still missing: by how much a move blurs the pose, which the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#1-overview) (G-2319) gives.
 
@@ -353,23 +353,23 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Dead reckoning (G-2311) | Working out a robot's position from a known start by adding up its own moves, without looking at its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
-| Sensor noise (G-2312) | Small random errors in a sensor's readings, so the same quantity measured twice gives slightly different numbers (a wall 2 m away reads 1.92 to 2.07 m); it is one reason a robot cannot take a reading at face value. |
-| Probabilistic robotics (G-2313) | The approach in which a robot keeps a probability distribution over what might be the case (such as where it is) instead of one best guess, so it can handle ambiguous readings and recover from errors. |
 | State $x_t$ (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
+| Measurement $z_t$ (G-2317) | What a robot's sensors report about the world at time $t$, such as "door", a laser scan or a camera image; it does not change the state but tells the robot something about it, which narrows its distribution. |
+| Dead reckoning (G-2311) | Working out a robot's position from a known start by adding up its own moves, without looking at its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
+| Probabilistic robotics (G-2313) | The approach in which a robot keeps a probability distribution over what might be the case (such as where it is) instead of one best guess, so it can handle ambiguous readings and recover from errors. |
+| Sensor noise (G-2312) | Small random errors in a sensor's readings, so the same quantity measured twice gives slightly different numbers (a wall 2 m away reads 1.92 to 2.07 m); it is one reason a robot cannot take a reading at face value. |
 | Complete state (G-2315) | A state that, once known, makes earlier states, controls and measurements useless for predicting the future (position plus speed for a coasting robot, not position alone); it lets the robot keep only its latest estimate. |
 | Markov property (G-2316) | The property of a sequence of states that the future depends on the past only through the present state; it lets a filter forget the history and work from the latest state alone. |
-| Measurement $z_t$ (G-2317) | What a robot's sensors report about the world at time $t$, such as "door", a laser scan or a camera image; it does not change the state but tells the robot something about it, which narrows its distribution. |
 | Localization (G-2318) | Working out a robot's pose in a known map from the controls it sent and the measurements it received; needed because the pose itself cannot be measured directly. |
 | [Kinematic model](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297) | Equations that give how a robot's configuration changes from its speed inputs alone, ignoring masses and forces, such as $\dot{x} = v\cos\theta$, $\dot{y} = v\sin\theta$, $\dot{\theta} = \omega$; used to predict motion at low speed. |
+| [Map](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331) | A robot's list of the objects in its surroundings that matter, with their positions and properties, such as the pink pole at (1, 3); readings only give positions relative to the robot, and the map turns them into a pose. |
 | [Standard deviation of a random variable](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
+| [Independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
+| [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
 | [Probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | [Multimodal](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
 | [Point estimate](../../../../MA/04-inference/MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#1-overview) (G-1507) | A single number computed from sample data as the best guess for an unknown population parameter. |
 | [Belief](../../../../RO/localization/02-bayes-filters/RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
-| [Independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
-| [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
-| [Map](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331) | A robot's list of the objects in its surroundings that matter, with their positions and properties, such as the pink pole at (1, 3); readings only give positions relative to the robot, and the map turns them into a pose. |
 | [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) | The algorithm that keeps a robot's belief up to date one step at a time: a prediction step after each command and a correction step after each reading; it gives the exact belief without storing the history, under the Markov assumption. |
 | [Control input $u$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2298) | The numbers we choose to drive a robot, such as $u = (v, \omega)$; the model turns them into motion. |
 | [Motion model $p(x_t \mid u_t, x_{t-1})$](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |

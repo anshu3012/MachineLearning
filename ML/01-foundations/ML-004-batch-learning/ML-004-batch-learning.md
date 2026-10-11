@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/foundations, area/production, step/foundat
 
 ## 1. Overview
 
-> **Key point:** In batch learning, we train the model on all the data at once, on our own machine, and then deploy it. The deployed model never learns anything new until we retrain it.
+> **Key point:** In batch learning, we train the model on all the data at once, on our own machine, and then deploy it. The deployed model never learns anything new until we **retrain** (G-1689) it.
 
 
 This Note groups ML algorithms in a second way: **by how a model is trained once it is in production**. There are two types:
@@ -38,19 +38,19 @@ Figure 1 shows the two places a model lives:
 - **Development environment** (G-599): our own machine, where we write code and train the model.
 - **Production environment** (G-1579): the server, where the model answers users' requests.
 
-Moving a model from development to production is called **deploying** (G-592) it. How the model keeps learning after deployment is what separates batch learning from online learning.
+Moving a model from development to production is called **deploying** (G-592) it. How the model keeps learning after deployment is what separates batch learning from **online learning** (G-1391).
 
 ## 3. Batch learning
 
-> **Key point:** Batch learning trains on the whole dataset in one go, offline, and deploys the finished model.
+> **Key point:** **Batch learning** (G-265) trains on the whole dataset in one go, offline, and deploys the finished model.
 
 ### 3.1 How batch learning works
 
-> **Key point:** All the data $\rightarrow$ train $\rightarrow$ test $\rightarrow$ deploy. Training happens once, before deployment.
+> **Key point:** All the data $\rightarrow$ train $\rightarrow$ test $\rightarrow$ deploy. Training happens once, before **deployment** (G-592).
 
 **Batch learning** (G-265) is the conventional way to train an ML model: we use **the whole dataset at once**. Batch learning is not **incremental** (G-931): we do not feed the data in small groups of observations (**mini-batches**, G-263) over time.
 
-Training on a large dataset is slow and expensive, so it is rarely done on the production server. Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. Training offline is why batch learning is also called **offline learning** (G-1377).
+Training on a large dataset is slow and expensive, so it is rarely done on the production **server** (G-1779). Instead, a data scientist or ML engineer trains the model **offline**, on their own machine. Training offline is why batch learning is also called **offline learning** (G-1377).
 
 ![The batch learning pipeline](images/batch_pipeline.png)
 
@@ -66,10 +66,10 @@ Figure 2 shows the steps:
 
 > **Key point:** A recommender trained this way keeps suggesting movies from the data it was trained on.
 
-Suppose we work at Netflix and build a **recommendation engine** (G-1644) that suggests movies to users. With batch learning:
+Suppose we work at Netflix and build a **recommendation engine** (G-1644) that suggests movies to users. With **batch learning** (G-265):
 
 1. We train the recommender on our machine, using all the data we have.
-2. We deploy it to Netflix's servers.
+2. We deploy it to Netflix's **servers** (G-1779).
 3. The recommender automatically suggests movies to every user.
 
 ## 4. Keeping a batch model up to date
@@ -87,7 +87,7 @@ Once deployed, a batch model is **static** (a **static model**, G-1878): it keep
 
 ![A batch model gets stale between retrains](images/staleness.png)
 
-Figure 3 sketches the effect (an illustration, not measured data). Performance slowly drops after each deployment and jumps back up each time we retrain.
+Figure 3 sketches the effect (an illustration, not measured data). Performance slowly drops after each deployment and jumps back up each time we **retrain** (G-1689).
 
 Figure 4 measures the same effect on real data: the Electricity dataset, 45,312 half-hour records of the New South Wales electricity market from May 1996 to December 1998 (Harries 1999; OpenML dataset 151).
 
@@ -141,13 +141,13 @@ The first retrains buy a lot of accuracy, and each later retrain buys less, whil
 
 ## 5. Problems with batch learning
 
-> **Key point:** Batch learning struggles with very large data, with models we cannot reach, and with situations that change fast.
+> **Key point:** **Batch learning** (G-265) struggles with very large data, with models we cannot reach, and with situations that change fast.
 
 Batch learning is the usual choice, and most deployed models are trained this way. It causes problems only in a few specific situations.
 
 ### 5.1 Too much data
 
-> **Key point:** Batch learning must process all the data at once, and data keeps growing.
+> **Key point:** **Batch learning** (G-265) must process all the data at once, and data keeps growing.
 
 Data keeps growing. A social network, for example, adds huge amounts of new data every month.
 
@@ -165,9 +165,9 @@ Retraining means bringing the model back, training it on new data and uploading 
 
 ![Retraining needs a path to the deployed model](images/no_connection.png)
 
-Figure 6 shows the difference. A retrained model reaches a server over the network at any time. The other three devices have no working link, so the new model cannot be uploaded and the old one stays in use.
+Figure 6 shows the difference. A retrained model reaches a **server** (G-1779) over the network at any time. The other three devices have no working link, so the new model cannot be uploaded and the old one stays in use.
 
-In these cases, we cannot update the model frequently, so batch learning is a poor fit.
+In these cases, we cannot update the model frequently, so **batch learning** (G-265) is a poor fit.
 
 ### 5.3 Slow to react
 
@@ -181,10 +181,10 @@ Now a big story breaks, such as the 2016 demonetisation announcement in India. E
 
 Figure 7 shows the problem:
 
-- Users want the news **now**, but the model learns about the new interest only at the next retrain, up to 24 hours later.
+- Users want the news **now**, but the model learns about the new interest only at the next **retrain** (G-1689), up to 24 hours later.
 - When it does update, the feed fills up with news that is already a day old.
 
-Batch learning cannot handle situations that change this quickly. For these, a different approach is used: [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391), the topic of [what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
+**Batch learning** (G-265) cannot handle situations that change this quickly. For these, a different approach is used: [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391), the topic of [what online learning is](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is).
 
 ## 6. Summary
 
@@ -197,11 +197,11 @@ Batch learning cannot handle situations that change this quickly. For these, a d
 | Weak spots | Very large data, no connection to the model, fast-changing situations |
 | Example | A movie recommender retrained every week |
 
-- **Development** = our machine. **Production** = the server users reach. **Deploying** moves a model from one to the other, because a model is only useful once other people can reach it.
+- **Development** = our machine. **Production** = the **server** (G-1779) users reach. **Deploying** moves a model from one to the other, because a model is only useful once other people can reach it.
 - Batch models go stale because the world changes; regular retraining fixes this.
 - Retraining is from scratch on all the data, so it gets slower as data grows, and the schedule is a trade-off between accuracy and training cost.
-- The weak spots come from the same design: batch learning must process all the data at once, needs a connection to the deployed model to retrain it, and learns only at each retrain.
-- For fast-changing situations, use online learning instead, because a batch model reacts to anything new only at its next retrain (up to 24 hours late on a daily schedule).
+- The weak spots come from the same design: batch learning must process all the data at once, needs a connection to the deployed model to **retrain** (G-1689) it, and learns only at each retrain.
+- For fast-changing situations, use **online learning** (G-1391) instead, because a batch model reacts to anything new only at its next retrain (up to 24 hours late on a daily schedule).
 
 The Notebook for this Note (`ML-004-batch-learning.ipynb`) has a slider for the retraining schedule, showing how stale the model gets between retrains.
 
@@ -222,6 +222,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Retrain (G-1689) | Train a model again, here from scratch on old + new data. |
 | Server (G-1779) | A computer that is always on and that users reach over the internet; a model runs on one so that other people can use it. |
 | Development environment (G-599) | Our own machine, where we build and train a model. |
 | Production environment (G-1579) | The server where a model serves real users. |
@@ -232,9 +233,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Recommendation engine (recommender system) (G-1644) | A model that suggests items, such as movies, that a user is likely to like. |
 | Static model (G-1878) | A model that learns nothing new after deployment. |
 | Model drift / concept drift (G-1253) | A model's accuracy dropping as the real world changes; sometimes called model rot. |
-| Retrain (G-1689) | Train a model again, here from scratch on old + new data. |
+| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Online learning](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391) | Training incrementally on mini-batches while the model is live in production. |

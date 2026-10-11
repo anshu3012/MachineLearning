@@ -16,19 +16,19 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt, concep
 
 ## 1. Overview
 
-> **Key point:** Take many samples of the same size, compute each sample's mean, and the means form approximately a normal distribution centred on the population mean, whatever the shape of the population, provided the samples are large enough and the population has a finite variance.
+> **Key point:** Take many samples of the same size, compute each sample's mean, and the means form approximately a normal distribution centred on the population mean, whatever the shape of the **population** (G-1525), provided the samples are large enough and the population has a finite variance.
 
 ![From a population of any shape, through many samples, to the sampling distribution of the mean](images/sampling_distribution.png)
 
-Figure 1 shows the process this Note is built on. We draw many samples of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution** (G-1736).
+Figure 1 shows the process this Note is built on. We draw many **samples** (G-1731) of size $n$ from a population, compute one number per sample (here the mean), and look at the distribution of those numbers. That distribution is a **sampling distribution** (G-1736).
 
-The **central limit theorem (CLT)** (G-364) says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. Here $n$ is the number of values in one sample (50 people, in the salary example below), $\mu$ is the population mean, and $\sigma^2$ is the population variance, the average squared distance of a value from $\mu$. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, confidence intervals and hypothesis testing.
+The **central limit theorem (CLT)** (G-364) says what this distribution looks like for the mean: a normal curve with the population's mean and a spread that shrinks as $n$ grows. Here $n$ is the number of values in one sample (50 people, in the salary example below), $\mu$ is the population mean, and $\sigma^2$ is the population variance, the average squared distance of a value from $\mu$. The CLT holds for skewed, flat and even discrete populations, and it is the base of the next topics, **confidence intervals** (G-446) and hypothesis testing.
 
 This Note covers:
 
-- the sampling distribution of a statistic;
+- the sampling distribution of a **statistic** (G-1880);
 - the statement of the CLT and its conditions;
-- the mean $\mu$ and variance $\sigma^2/n$ of the sample means, and the standard error;
+- the mean $\mu$ and variance $\sigma^2/n$ of the sample means, and the **standard error** (G-1872);
 - simulations from five non-normal populations;
 - why the CLT matters.
 
@@ -42,20 +42,20 @@ Our running example is the average monthly salary in India. The population is th
 
 ## 3. Sampling distributions
 
-> **Key point:** A sampling distribution is the distribution of a statistic (a mean, a variance, a proportion) computed from many independent samples of the same size from one population.
+> **Key point:** A sampling distribution is the distribution of a statistic (a mean, a variance, a proportion) computed from many independent samples of the same size from one **population** (G-1525).
 
 The salaries of the whole population are a set of numbers, so they follow some distribution. Most likely a skewed one: many people earn little and a few earn a lot, like the orange curve of Figure 1. We do not know its exact shape.
 
-Now we build a sampling distribution in four steps:
+Now we build a **sampling distribution** (G-1736) in four steps:
 
 1. Choose a **sample size** (G-1727), say $n = 50$ people.
-2. Draw 50 people at random and record their salaries: sample 1.
+2. Draw 50 people at random and record their salaries: **sample** (G-1731) 1.
 3. Repeat, drawing a new random sample of 50 each time, until we have, say, 100 samples: 100 sets of 50 numbers.
 4. Compute the mean of every sample: $\bar x_1, \bar x_2, \dots, \bar x_{100}$.
 
 These 100 sample means form the **sampling distribution of the sample mean**. Two sizes must not be confused: the sample size is $n = 50$ (people per sample); the number of samples is 100.
 
-The statistic need not be the mean. If we compute the variance of each of the 100 samples instead, the 100 sample variances form the **sampling distribution of the sample variance**. The same works for the standard deviation, the coefficient of variation or a proportion.
+The **statistic** (G-1880) need not be the mean. If we compute the variance of each of the 100 samples instead, the 100 sample variances form the **sampling distribution of the sample variance**. The same works for the standard deviation, the coefficient of variation or a proportion.
 
 A small case with three samples of size $n = 3$ shows the idea in numbers. Each sample gets one mean:
 
@@ -83,25 +83,25 @@ Figure 2 draws this example. Watch each orange mark: it sits at the balance poin
 
 ### 3.1 Why sampling distributions matter
 
-> **Key point:** A sampling distribution shows how much a statistic varies from sample to sample, and that variability is what inference needs.
+> **Key point:** A sampling distribution shows how much a statistic varies from **sample** (G-1731) to sample, and that variability is what inference needs.
 
-Every sample of 50 people gives a slightly different mean. The sampling distribution measures exactly how different: it shows the **variability of a sample statistic**. Knowing that variability lets us:
+Every sample of 50 people gives a slightly different mean. The **sampling distribution** (G-1736) measures exactly how different: it shows the **variability of a sample statistic**. Knowing that variability lets us:
 
-- compute confidence intervals for a population parameter;
+- compute confidence intervals for a population **parameter** (G-1448);
 - perform hypothesis tests;
-- predict a population parameter, such as the mean, from sample data.
+- predict a **population** (G-1525) parameter, such as the mean, from sample data.
 
 The first two are taught in [**confidence intervals**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) and [the problem hypothesis testing solves](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves). The third is the subject of this Note and of [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#3-a-sampling-distribution-of-the-mean-fare).
 
 ## 4. The central limit theorem
 
-> **Key point:** The sample means of large independent samples follow approximately a normal distribution, regardless of the distribution of the population, as long as its variance is finite.
+> **Key point:** The sample means of large independent samples follow approximately a normal distribution, regardless of the distribution of the **population** (G-1525), as long as its variance is finite.
 
 The idea in plain words, on dice. One die is flat: every face from 1 to 6 is equally likely, and the mean of one die is 3.5. Now roll 30 dice and take the average. The average almost never lands near 1 or 6, because that needs nearly every die to be low, or nearly every die to be high. Most averages land near 3.5, and the further from 3.5, the rarer they get: a bell. Figure 4, further down, tests this with four very different dice.
 
-This is the **central limit theorem** (CLT, G-364). In plain words: the distribution of the sample means of many independent and identically distributed values (each value drawn on its own, all from the same population; section 4.1) approaches a normal distribution, regardless of the distribution of the values themselves.
+This is the **central limit theorem** (CLT, G-364). In plain words: the distribution of the **sample** (G-1731) means of many independent and identically distributed values (each value drawn on its own, all from the same population; section 4.1) approaches a normal distribution, regardless of the distribution of the values themselves.
 
-A worked case on a skewed population. An exponential population (most values near 0, a few large) has mean 1 and variance 1. The variance of the sample means is the population variance divided by the sample size, $\sigma^2/n$ (section 4.2 shows why). For samples of $n = 30$:
+A worked case on a skewed population. An exponential population (most values near 0, a few large) has mean 1 and variance 1. The variance of the sample means is the population variance divided by the **sample size** (G-1727), $\sigma^2/n$ (section 4.2 shows why). For samples of $n = 30$:
 
 $$\text{variance of the sample means} = \frac{\sigma^2}{n}$$
 
@@ -147,7 +147,7 @@ The CLT makes no claim about the shape of the population or of a single sample. 
 
 ### 4.1 Conditions
 
-> **Key point:** The CLT needs a large enough sample (usually $n \ge 30$), a population with finite variance, and independent, identically distributed values.
+> **Key point:** The CLT needs a large enough **sample** (G-1731) (usually $n \ge 30$), a **population** (G-1525) with finite variance, and independent, identically distributed values.
 
 1. **Large enough sample size.** The usual rule is $n \ge 30$, a rule of thumb rather than a sharp limit. How many values are enough depends on the population's shape: a symmetric population gives bell-shaped means already at small $n$, while a very skewed one (lopsided, with a long tail on one side) needs more (see the Extra box on how fast the means become normal, and section 5.1).
 2. **Finite variance.** The population must have a finite variance. Every finite population has one; a theoretical infinite population, such as a Pareto distribution with a small $\alpha$, may not (see the Extra box on infinite variance below).
@@ -175,11 +175,11 @@ The CLT makes no claim about the shape of the population or of a single sample. 
 
 ### 4.2 Mean and variance of the sample means
 
-> **Key point:** The sample means are centred on the population mean $\mu$, and their variance is $\sigma^2/n$; their standard deviation, $\sigma/\sqrt{n}$, is the standard error.
+> **Key point:** The **sample** (G-1731) means are centred on the population mean $\mu$, and their variance is $\sigma^2/n$; their standard deviation, $\sigma/\sqrt{n}$, is the standard error.
 
-The CLT gives more than the shape. If the population has mean $\mu$ and variance $\sigma^2$:
+The CLT gives more than the shape. If the **population** (G-1525) has mean $\mu$ and variance $\sigma^2$:
 
-- the mean of the sampling distribution is exactly $\mu$;
+- the mean of the **sampling distribution** (G-1736) is exactly $\mu$;
 - its variance is $\sigma^2/n$, where $n$ is the **sample size** (not the number of samples).
 
 The standard deviation of the sampling distribution has its own name, the **standard error** (G-1872) of the mean.
@@ -214,7 +214,7 @@ $$3.5 - 2 \times 0.171 = 3.16$$
 
 $$3.5 + 2 \times 0.171 = 3.84$$
 
-A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5 in about 95 percent of tries. A larger sample gives a smaller standard error: four times the sample size halves it. So sample means from big samples cluster tightly around $\mu$.
+A single die wanders over the whole range 1 to 6; the average of 100 dice stays within about 0.34 of 3.5 in about 95 percent of tries. A larger sample gives a smaller standard error: four times the **sample size** (G-1727) halves it. So sample means from big samples cluster tightly around $\mu$.
 
 **Why the square root.** When we add $n$ independent values, the **variances add**, not the standard deviations (Grinstead and Snell 1997, Theorem 6.8). The variance is an average of squared distances, and squaring the distance of a sum gives each value's own square plus cross terms, one value's distance times another's. For independent values, one value's distance says nothing about the other's, so the cross terms average out to 0, and only the separate variances are left. So the sum has variance $n\sigma^2$ and standard deviation $\sqrt{n}\thinspace\sigma$: the spread of a sum grows, but only as $\sqrt{n}$. Dividing the sum by $n$ to get the mean divides that spread by $n$:
 
@@ -252,11 +252,11 @@ The population standard deviation is divided by the square root of the sample si
 
 ## 5. Simulating the CLT
 
-> **Key point:** Simulations from uniform, exponential, Poisson, gamma and binomial populations all give bell-shaped sample means with the mean and spread the CLT predicts.
+> **Key point:** Simulations from uniform, exponential, Poisson, gamma and binomial **populations** (G-1525) all give bell-shaped sample means with the mean and spread the CLT predicts.
 
-We test the theorem by simulation. We pretend a known distribution is the population, draw many samples from it, and plot the sample means.
+We test the theorem by simulation. We pretend a known distribution is the population, draw many **samples** (G-1731) from it, and plot the sample means.
 
-> **Python:** A sampling distribution in three lines.
+> **Python:** A **sampling distribution** (G-1736) in three lines.
 >
 > ```python
 > import numpy as np
@@ -296,11 +296,11 @@ The skewness drops from up to 2.00 in the populations to at most 0.26 in the sam
 
 ### 5.1 The effect of the sample size
 
-> **Key point:** As $n$ grows, the sampling distribution becomes more normal and narrower; its standard deviation follows $\sigma/\sqrt{n}$.
+> **Key point:** As $n$ grows, the **sampling distribution** (G-1736) becomes more normal and narrower; its standard deviation follows $\sigma/\sqrt{n}$.
 
 ![Sample means of an exponential population for n = 1, 2, 5 and 30 (10,000 samples each), with the curve N(1, 1/n)](images/sample_size_effect.png)
 
-Figure 6 uses the exponential population, the most skewed one:
+Figure 6 uses the exponential **population** (G-1525), the most skewed one:
 
 | $n$ | Std of sample means | $\sigma/\sqrt{n}$ | Skewness of means |
 |---|---|---|---|
@@ -313,7 +313,7 @@ With $n = 1$, each "mean" is a single value, so the histogram is the population 
 
 ## 6. Checking the mean and variance
 
-> **Key point:** For a gamma population with $\mu = 2$ and $\sigma^2 = 2$, 10,000 sample means of size 50 have mean 1.997 and variance 0.0405, against the predicted 2 and 0.04.
+> **Key point:** For a gamma **population** (G-1525) with $\mu = 2$ and $\sigma^2 = 2$, 10,000 **sample** (G-1731) means of size 50 have mean 1.997 and variance 0.0405, against the predicted 2 and 0.04.
 
 To check the second part of the CLT, we use a population whose mean and variance we know exactly: gamma with shape 2 and scale 1, so $\mu = 2$ and $\sigma^2 = 2$. We draw 10,000 samples of size 50.
 
@@ -343,9 +343,9 @@ Figure 7 replays the check as the samples come in. Watch both curves: after a fe
 
 ## 7. Why the CLT matters
 
-> **Key point:** The CLT lets us infer a population mean from samples without knowing the population's distribution, and it justifies confidence intervals, hypothesis tests and the tests of linear regression.
+> **Key point:** The CLT lets us infer a population mean from samples without knowing the **population** (G-1525)'s distribution, and it justifies confidence intervals, hypothesis tests and the tests of linear regression.
 
-The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that sample means are normal around the true mean $\mu$, with standard error $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ probably lies: a range that catches $\mu$ in, say, 95 percent of samples, called a **confidence interval** (see [the standard normal distribution](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) and [**confidence intervals**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446)). In principle, the variance of the sample means also reveals the population variance:
+The two parts of the theorem turn into a method. We do not know the salary distribution of 140 crore people, but we know that **sample** (G-1731) means are normal around the true mean $\mu$, with **standard error** (G-1872) $\sigma/\sqrt{n}$. So a normal curve built from sample data tells us where $\mu$ probably lies: a range that catches $\mu$ in, say, 95 percent of samples, called a **confidence interval** (see [the standard normal distribution](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) and [**confidence intervals**](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446)). In principle, the variance of the sample means also reveals the population variance:
 
 $$\sigma^2 = n \times \operatorname{Var}(\bar{X})$$
 
@@ -353,11 +353,11 @@ The same works anywhere. A t-shirt company that does not know the heights of all
 
 The CLT also justifies many standard techniques:
 
-- **confidence intervals**: a range for a population parameter;
+- **confidence intervals**: a range for a population **parameter** (G-1448);
 - **hypothesis tests**, such as the [**t-test**](../MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#2-from-the-z-test-to-the-t-test) (G-1940) (does a sample mean differ from a claimed value?) and [**ANOVA**](../MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) (do the means of several groups differ?);
 - **linear regression**: its tests on the coefficients rely on normality, which the CLT provides for large samples (Wooldridge, ch. 5).
 
-The CLT has one big condition hidden in the word "random": the samples must be random and representative (see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)). Salaries collected only in cities give a sampling distribution centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
+The CLT has one big condition hidden in the word "random": the samples must be random and representative (see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)). Salaries collected only in cities give a **sampling distribution** (G-1736) centred on the average city salary, not on India's average. The CLT cannot fix a biased sample.
 
 ## 8. Summary
 
@@ -369,9 +369,9 @@ The CLT has one big condition hidden in the word "random": the samples must be r
 | Variance of the sample means | $\sigma^2/n$ | $2/50 = 0.04$; simulated 0.0405 | larger samples give means closer to $\mu$ |
 | Standard error | $\sigma/\sqrt{n}$ | $1.414/\sqrt{50} = 0.2$ | the typical distance of a sample mean from $\mu$, the width used by confidence intervals and tests |
 
-- A sampling distribution comes from many samples of the **same size**; do not confuse the sample size $n$ with the number of samples, because the spread $\sigma/\sqrt{n}$ depends on $n$, not on how many samples are drawn.
-- The CLT holds for any population with finite variance, given i.i.d. values and a large enough $n$ (usually $n \ge 30$), so a very skewed population needs a larger $n$ than a symmetric one.
-- Larger samples give narrower, more normal sampling distributions, because the standard deviation of the means is $\sigma/\sqrt{n}$.
+- A sampling distribution comes from many **samples** (G-1731) of the **same size**; do not confuse the **sample size** (G-1727) $n$ with the number of samples, because the spread $\sigma/\sqrt{n}$ depends on $n$, not on how many samples are drawn.
+- The CLT holds for any **population** (G-1525) with finite variance, given i.i.d. values and a large enough $n$ (usually $n \ge 30$), so a very skewed population needs a larger $n$ than a symmetric one.
+- Larger samples give narrower, more normal **sampling distributions** (G-1736), because the standard deviation of the means is $\sigma/\sqrt{n}$.
 - The CLT does not fix biased samples: they must be random and representative, because city-only salaries centre the means on the city average, not on India's.
 - This answers the opening question: means of large samples form approximately a normal curve centred on $\mu$ whatever the population's shape, so we can infer $\mu$ without knowing that shape.
 
@@ -400,16 +400,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Sampling distribution (G-1736) | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
 | Central limit theorem (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
-| Sample size ($n$) (G-1727) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
 | Standard error (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
+| Sample size ($n$) (G-1727) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
 | Gamma distribution (G-822) | A family of right-skewed continuous distributions with a shape and a scale parameter. |
 | Independent and identically distributed (i.i.d.) (G-933) | Values that do not affect each other and all come from the same distribution. |
 | Sampling distribution of the sample mean (G-1735) | The distribution of the means of many samples of size $n$; by the central limit theorem it is close to normal, centred on the population mean, with spread $\sigma/\sqrt{n}$. |
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
-| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
-| [Statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
 | [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
+| [Statistic](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#42-parameters-and-statistics) (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
+| [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
 | [T-test](../../../MA/04-inference/MA-042-one-sample-t-test/MA-042-one-sample-t-test.md#1-overview) (G-1940) | A hypothesis test about means that uses the sample standard deviation and Student's t-distribution. |
 | [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |

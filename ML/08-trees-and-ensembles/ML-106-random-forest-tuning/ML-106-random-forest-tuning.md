@@ -40,7 +40,7 @@ Predicting a class in this way is a classification problem: from the 13 features
 
 ## 3. A random forest out of the box
 
-> **Key point:** With no tuning at all, the random forest scores 0.836 on the test split and 0.832 with cross-validation, the best cross-validated score of the four algorithms.
+> **Key point:** With no tuning at all, the **random forest** (G-1611) scores 0.836 on the test split and 0.832 with cross-validation, the best cross-validated score of the four algorithms.
 
 ![Accuracy of five classifiers, all with default settings, on one test split and with 10-fold cross-validation](images/model_comparison.png){height=38%}
 
@@ -65,9 +65,9 @@ The random forest does not always win. But a large study of 179 classifiers on 1
 
 > **Key point:** 61 test observations give a noisy score; 10-fold cross-validation trains and tests 10 times and averages, a more reliable number.
 
-A single split of 61 observations can be lucky or unlucky: which 61 patients should be the test set? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), and the blocks are called **folds** (G-2227).
+A single split of 61 observations can be lucky or unlucky: which 61 patients should be the **test set** (G-1962)? Instead of choosing, we use every part of the data as the test set once. Cut the data into blocks, train on all the blocks but one, test on the block left out, then rotate so that every block is tested once, and average the scores. This procedure is **cross-validation** (G-510; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), and the blocks are called **folds** (G-2227).
 
-Figure 3 runs it on the heart data with the default random forest. Watch the orange test block move one place per round. With 4 folds the four accuracies are 0.76, 0.80, 0.91 and 0.83, mean 0.825. With 10 folds, the common choice, each fold is scored by a model trained on the other 9, and the mean is 0.832.
+Figure 3 runs it on the heart data with the default **random forest** (G-1611). Watch the orange test block move one place per round. With 4 folds the four accuracies are 0.76, 0.80, 0.91 and 0.83, mean 0.825. With 10 folds, the common choice, each fold is scored by a model trained on the other 9, and the mean is 0.832.
 
 ![Cross-validation as rotating blocks on the heart data: each round trains the default random forest on the blue blocks and tests it on the orange one; first 4 folds, then 10. Idea after StatQuest, "Machine Learning Fundamentals: Cross Validation"](images/cv_rotate.gif)
 
@@ -103,29 +103,29 @@ Figure 4 shows why. Watch the spread of the dots: one fold of about 30 patients 
 |---|---|---|---|---|---|
 | Mean cross-validated accuracy | 0.826 | 0.825 | 0.829 | 0.833 | **0.834** |
 
-Smaller samples score higher, and on the same folds 20% of the observations beats all of them in 16 of the 20 runs. The trees really do become less alike: the average correlation between two trees' predictions drops from 0.44 to 0.34.
+Smaller samples score higher, and on the same **folds** (G-2227) 20% of the observations beats all of them in 16 of the 20 runs. The trees really do become less alike: the average correlation between two trees' predictions drops from 0.44 to 0.34.
 
 ![(a) Mean 10-fold cross-validated accuracy against the observations per tree (`max_samples`), 500 trees; each grey dot is one of 20 runs with new folds and a new forest. (b) Average correlation between two trees' predicted probabilities on the 61 test patients](images/max_samples_curve.png){height=36%}
 
 Figure 5 shows both halves of the argument. Watch the blue line creep up by less than 0.01 while the grey runs scatter over about 0.03: the gain is real on average but small next to the noise of one run, and panel (b) shows the trees growing less alike.
 
-> **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few observations hurt again, because each tree becomes too weak: the [demo dataset](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#33-trying-the-settings-on-a-demo-dataset) shows a forest with 25 observations per tree losing accuracy. The best share depends on the data: on that demo data the score is flat from about a quarter of the observations, on the heart data about 20% is best.
+> **Extra:** The gain is small, about 2 or 3 of 303 patients, while a single cross-validation run moves by about 0.01 when only the seed changes. Because of this noise, the Notebook averages 20 runs, each with new folds and a new forest, and uses 500 trees so the forest's own randomness stays small. Too few observations hurt again, because each tree becomes too weak: the [demo dataset](../ML-105-random-forest-hyperparameters/ML-105-random-forest-hyperparameters.md#33-trying-the-settings-on-a-demo-dataset) shows a forest with 25 observations per tree losing **accuracy** (G-162). The best share depends on the data: on that demo data the score is flat from about a quarter of the observations, on the heart data about 20% is best.
 
-Cross-validation scores a setting without a separate test split: each observation is tested by a model that did not train on it. The runs above cross-validate all 303 patients, the 61 test patients included, so they only compare settings. The searches below cross-validate the 242 training observations only, so the test set stays untouched until the end.
+Cross-validation scores a setting without a separate test split: each observation is tested by a model that did not train on it. The runs above cross-validate all 303 patients, the 61 test patients included, so they only compare settings. The searches below cross-validate the 242 training observations only, so the **test set** (G-1962) stays untouched until the end.
 
-So a setting can matter, and the problem is scale: a random forest has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
+So a setting can matter, and the problem is scale: a **random forest** (G-1611) has about 20 hyperparameters, and guessing a good value for each by hand is hopeless. We need a systematic search.
 
 ## 6. Grid search over a random forest
 
-> **Key point:** Four hyperparameters with 4, 3, 3 and 3 values make 108 forests; 5-fold cross-validation trains each 5 times, 540 fits in all, 13 to 22 seconds here.
+> **Key point:** Four **hyperparameters** (G-910) with 4, 3, 3 and 3 values make 108 forests; 5-fold cross-validation trains each 5 times, 540 fits in all, 13 to 22 seconds here.
 
 ### 6.1 The grid
 
-> **Key point:** List the values to try for each hyperparameter; the search trains a forest for every combination.
+> **Key point:** List the values to try for each **hyperparameter** (G-910); the search trains a forest for every combination.
 
 We choose values for the four settings that matter most:
 
-> **Python:** The grid for a random forest.
+> **Python:** The grid for a **random forest** (G-1611).
 >
 > ```python
 > param_grid = {
@@ -146,7 +146,7 @@ With 4 hyperparameters, the combinations form a 4-dimensional table (Figure 1 sh
 
 ### 6.2 Running the search
 
-> **Key point:** GridSearchCV takes the model, the grid, the number of folds, and optionally verbose and n_jobs.
+> **Key point:** GridSearchCV takes the model, the grid, the number of **folds** (G-2227), and optionally verbose and n_jobs.
 
 > **Python:** Grid search with 5-fold cross-validation.
 >
@@ -189,13 +189,13 @@ The table lists the top five, from `rf_grid.cv_results_` (the table of every com
 
 > **Key point:** Judged fairly, no: the tuned forest scores 0.814 and the default forest 0.819. The grid's own 0.843 is the luckiest of 108 scores.
 
-The grid's 0.843 is the best of 108 scores measured on the same 5 folds, and picking the best makes it optimistic:
+The grid's 0.843 is the best of 108 scores measured on the same 5 **folds** (G-2227), and picking the best makes it optimistic:
 
-1. Each of the 108 scores is the forest's true accuracy plus some noise from the particular folds.
+1. Each of the 108 scores is the forest's true **accuracy** (G-162) plus some noise from the particular folds.
 2. The search picks the largest score, so it also picks the forest whose noise happened to be most positive.
 3. So the winner's score overstates its true accuracy, like the tallest of 108 people picked at random overstates the average height.
 
-This optimism is **selection bias** (G-2157; see [the best score of a grid is a little lucky](../ML-093-regression-trees/ML-093-regression-trees.md#74-the-best-score-of-a-grid-is-a-little-lucky); Cawley and Talbot 2010). The 0.869 on the test set comes from only 61 patients, one of which moves the score by 0.016.
+This optimism is **selection bias** (G-2157; see [the best score of a grid is a little lucky](../ML-093-regression-trees/ML-093-regression-trees.md#74-the-best-score-of-a-grid-is-a-little-lucky); Cawley and Talbot 2010). The 0.869 on the **test set** (G-1962) comes from only 61 patients, one of which moves the score by 0.016.
 
 A fair test is **nested cross-validation** (G-2158), shown fold by fold in Figure 6. An outer cross-validation splits the data; inside each outer training part, the whole grid search runs and picks a winner; the winner is then scored on the outer test part, which the search never saw. With 5 outer folds repeated 4 times (20 outer folds):
 
@@ -211,7 +211,7 @@ Figure 6 shows every outer fold. Watch the red crosses: they sit to the right of
 
 The tuned forest beats the default on only 5 of the 20 folds and ties on 5. The grid's own score, 0.845, overstates the tuned forest by about 0.03.
 
-The result matches a large study: across 38 datasets, the random forest was the least tunable of six common algorithms, its defaults already close to the best settings (Probst et al. 2019). Tuning pays off more for models such as SVMs, the most tunable in that study; the search tools are the same.
+The result matches a large study: across 38 datasets, the **random forest** (G-1611) was the least tunable of six common algorithms, its defaults already close to the best settings (Probst et al. 2019). Tuning pays off more for models such as SVMs, the most tunable in that study; the search tools are the same.
 
 ## 7. Randomized search
 
@@ -219,7 +219,7 @@ The result matches a large study: across 38 datasets, the random forest was the 
 
 ### 7.1 A bigger grid
 
-> **Key point:** Three more hyperparameters turn 108 combinations into 864; randomized search tries 10 of them, 50 fits.
+> **Key point:** Three more **hyperparameters** (G-910) turn 108 combinations into 864; randomized search tries 10 of them, 50 fits.
 
 We add `bootstrap`, `min_samples_split` and `min_samples_leaf`, with two values each. The bigger grid has 864 combinations, or 4,320 fits in a grid search:
 
@@ -283,13 +283,13 @@ The two searches also work well one after the other, a plan called "coarse to fi
 | Best cross-validated accuracy (optimistic) | 0.843 | 0.826 |
 | Use when | small data, few hyperparameters | large data, many hyperparameters |
 
-- Out of the box, the random forest had the best cross-validated score of four algorithms (0.832), so an untuned forest is a strong first model.
+- Out of the box, the **random forest** (G-1611) had the best cross-validated score of four algorithms (0.832), so an untuned forest is a strong first model.
 - Judge models by cross-validation, not one small test split: logistic regression fell from 0.885 to 0.818, because one split of 61 patients can be lucky, while cross-validation tests every observation once and averages.
 - Fewer observations per tree made the trees less alike and the forest more accurate: 0.826 to 0.834 with 20% of the observations, because smaller samples overlap less, so the trees' mistakes cancel more often in the vote.
-- A grid over 4 hyperparameters needed 108 forests and 540 fits; its best score, 0.843, is optimistic, because picking the largest of 108 noisy scores also picks the luckiest noise.
-- Nested cross-validation is the fair test: tuned 0.814 against default 0.819, because each winner is scored on data its search never saw. A random forest's defaults are hard to beat, so tuning a forest gains little, while models such as SVMs gain more.
+- A grid over 4 **hyperparameters** (G-910) needed 108 forests and 540 fits; its best score, 0.843, is optimistic, because picking the largest of 108 noisy scores also picks the luckiest noise.
+- **Nested cross-validation** (G-2158) is the fair test: tuned 0.814 against default 0.819, because each winner is scored on data its search never saw. A random forest's defaults are hard to beat, so tuning a forest gains little, while models such as SVMs gain more.
 - The two searches combine well (coarse to fine): a randomized search over a wide grid first, then a grid search over a small grid around its best values, so the cheap search decides where the thorough one looks.
-- `bootstrap=False` cannot be combined with `max_samples`: use a list of grids, because otherwise those combinations fail with no score (5 of 10 in our run) and the search silently tries fewer forests.
+- `bootstrap=False` cannot be combined with `max_samples`: use a **list of grids** (G-1105), because otherwise those combinations fail with no score (5 of 10 in our run) and the search silently tries fewer forests.
 - So a search tunes a forest systematically, but on a small dataset like this one the tuned forest does no better than the default.
 
 ## 9. Sources

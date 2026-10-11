@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/lstm]
 
 ## 1. Overview
 
-> **Key point:** A long short-term memory network (LSTM) is an RNN with two memory paths instead of one: a long-term memory (the cell state) and a short-term memory (the hidden state), plus a cell that decides what moves between them.
+> **Key point:** A long short-term memory network (LSTM) is an RNN with two memory paths instead of one: a long-term memory (the **cell state** (G-361)) and a short-term memory (the hidden state), plus a cell that decides what moves between them.
 
 A simple RNN (a network that reads a sequence one step at a time, see [the hidden state carries the sequence forward](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#63-the-hidden-state-carries-the-sequence-forward)) carries everything it remembers along one path, its **hidden state** (a vector, a list of numbers, that sums up what it has read so far), and over long sequences the early inputs fade. A **long short-term memory network** (LSTM; G-1123; Hochreiter and Schmidhuber 1997) adds a second path that is built to keep information for a long time. Information placed on that path stays there until the network decides to remove it.
 
@@ -75,13 +75,13 @@ When asked "good or bad?", we answer from the long-term context, not from the la
 
 ![The story read one event at a time, with the rows of the table above. The lower lane holds what is happening now; the input gate copies what matters up to the long-term lane, and the forget gate removes what stopped mattering. The long-term lane follows Olah (2015), who draws the cell state as a line running along the top of the chain, with gates that add or remove information](images/two_memories.gif){width=100%}
 
-In Figure 3, watch the upper lane: "old story" and "Pratapgarh" enter at the start and are still there at the end, while Vikram and Vikram Junior enter and leave again. The gates named in the figure are the subject of section 8.
+In Figure 3, watch the upper lane: "old story" and "Pratapgarh" enter at the start and are still there at the end, while Vikram and Vikram Junior enter and leave again. The **gates** (G-825) named in the figure are the subject of section 8.
 
 ## 5. Why one path is not enough
 
-> **Key point:** A simple RNN has a single path, the hidden state, for both the long-term and the short-term context. On that one path, the short-term context wins.
+> **Key point:** A simple RNN has a single path, the hidden state, for both the long-term and the **short-term context** (G-1793). On that one path, the short-term context wins.
 
-In a simple RNN the only way to remember the past is the hidden-state line from one time step to the next. That single line must hold the long-term context and the short-term context at once. Because early contributions fade along the chain (section 3), the recent, short-term content dominates. The network keeps the latest episodes and loses the fact that Vikram was the grandfather.
+In a simple RNN the only way to remember the past is the hidden-state line from one time step to the next. That single line must hold the **long-term context** (G-1124) and the short-term context at once. Because early contributions fade along the chain (section 3), the recent, short-term content dominates. The network keeps the latest episodes and loses the fact that Vikram was the grandfather.
 
 ## 6. The core idea: a second path for long-term memory
 
@@ -96,7 +96,7 @@ If something important appears at the first time step and is never removed from 
 
 Why does the upper line keep things when the lower one does not? On the lower line, every time step pushes the memory through a layer of weights, and many such steps in a row make early information fade (section 3). On the upper line, no weights act on the memory directly. A step can only do two things to it: scale it down to remove something, and add something new. If a step does neither, the memory passes through exactly as it was.
 
-An example with pronouns. A text says "Ankita is a great girl." The next sentence needs a pronoun: "\_\_\_\_ is a state topper." To choose "she", the network must remember that the subject is a girl. So when "Ankita is a great girl" arrives, the short-term memory passes "Ankita, girl" to the long-term memory. Later the text says "Rahul is a cricketer. \_\_\_\_ has scored three centuries this season." Now the long-term memory drops Ankita and girl and stores Rahul and boy, and the pronoun becomes "he". Olah (2015) uses the same picture: the cell state may hold the gender of the current subject, so that the right pronoun can be used, and forgets it when a new subject appears.
+An example with pronouns. A text says "Ankita is a great girl." The next sentence needs a pronoun: "\_\_\_\_ is a state topper." To choose "she", the network must remember that the subject is a girl. So when "Ankita is a great girl" arrives, the short-term memory passes "Ankita, girl" to the long-term memory. Later the text says "Rahul is a cricketer. \_\_\_\_ has scored three centuries this season." Now the long-term memory drops Ankita and girl and stores Rahul and boy, and the pronoun becomes "he". Olah (2015) uses the same picture: the **cell state** (G-361) may hold the gender of the current subject, so that the right pronoun can be used, and forgets it when a new subject appears.
 
 ![The pronoun example on two lanes. The short-term memory (red) reads one sentence per step; it adds "Ankita, girl" to the long-term memory (green), which carries it to the blank and gives "She". When Rahul arrives, the long-term memory drops Ankita and stores "Rahul, boy", which gives "He"](images/two_lanes.png){width=100%}
 
@@ -141,7 +141,7 @@ A computer takes input, processes it and gives output. The LSTM cell at time ste
 
 Figure 6 shows the cell as a box.
 
-- **Inputs (3):** the previous cell state $c_{t-1}$ (long-term memory), the previous hidden state $h_{t-1}$ (short-term memory), and the current input $x_t$, for example the current word.
+- **Inputs (3):** the previous **cell state** (G-361) $c_{t-1}$ (long-term memory), the previous hidden state $h_{t-1}$ (short-term memory), and the current input $x_t$, for example the current word.
 - **Processing (2 jobs):**
   1. update the long-term memory: remove old information and add new information, turning $c_{t-1}$ into $c_t$;
   2. compute the new short-term memory $h_t$.
@@ -149,7 +149,7 @@ Figure 6 shows the cell as a box.
 
 ## 10. The two paths at work
 
-> **Key point:** An LSTM keeps an early input in its cell state across later time steps, first in a toy test with two sales series (section 10.1), then on real movie reviews (section 10.2).
+> **Key point:** An LSTM keeps an early input in its **cell state** (G-361) across later time steps, first in a toy test with two sales series (section 10.1), then on real movie reviews (section 10.2).
 
 ### 10.1 A small test with numbers
 
@@ -157,7 +157,7 @@ Figure 6 shows the cell as a box.
 
 Two shops report their daily sales, scaled to lie between 0 and 1. On days 2, 3 and 4 both report the same values: 0.6, 0.3, 0.9. They differ only on day 1: shop A sold 0, shop B sold 1. Day 5 repeats day 1: 0 for A, 1 for B. So the last three inputs say nothing about the answer; a network can only get day 5 right if it still remembers day 1.
 
-We train the smallest possible LSTM on these two sequences, a single unit, so the cell state and the hidden state are one number each. Figure 7 shows them day by day.
+We train the smallest possible LSTM on these two sequences, a single unit, so the **cell state** (G-361) and the hidden state are one number each. Figure 7 shows them day by day.
 
 ![A one-unit LSTM reads the two sales series (left). Its long-term memory (middle) and short-term memory (right) after each day; the last short-term memory is the prediction for day 5. Idea after StatQuest, "Long Short-Term Memory (LSTM), Clearly Explained", with our own data and trained model](images/two_series.gif){width=100%}
 
@@ -200,10 +200,10 @@ An LSTM is not guaranteed to learn: with the gap, one of its ten runs stopped at
 | Inside the cell | one tanh layer | three gates (forget, input, output) |
 | Inputs, outputs per step | $x_t$, $h_{t-1}$ in; $h_t$ out | $x_t$, $h_{t-1}$, $c_{t-1}$ in; $h_t$, $c_t$ out |
 
-- A simple RNN forgets early inputs in long sequences because one path must carry both short-term and long-term context.
-- An LSTM adds a second path, the cell state, for long-term memory; the hidden state remains the short-term memory. The cell state keeps things because no weights act on it directly: a step can only scale it down or add to it.
+- A simple RNN forgets early inputs in long sequences because one path must carry both short-term and **long-term context** (G-1124).
+- An LSTM adds a second path, the **cell state** (G-361), for long-term memory; the hidden state remains the short-term memory. The cell state keeps things because no weights act on it directly: a step can only scale it down or add to it.
 - Information on the cell state stays until the network removes it, so it can reach the end of a long sequence.
-- The forget gate removes from the cell state, the input gate adds to it, the output gate produces the output and the next hidden state, so the short-term memory can tell the long-term memory what to add and what to remove.
+- The forget gate removes from the cell state, the input gate adds to it, the **output gate** (G-1422) produces the output and the next hidden state, so the short-term memory can tell the long-term memory what to add and what to remove.
 
 ## 12. Sources
 
@@ -225,10 +225,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Cell state ($c_t$) (G-361) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
 | Long short-term memory (LSTM) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | Short-term context (G-1793) | What is happening in the sequence right now; an LSTM keeps it apart from the long-term context, which holds what matters for the whole sequence. |
 | Long-term context (G-1124) | What matters for the sequence as a whole, kept from earlier steps. |
-| Cell state ($c_t$) (G-361) | The LSTM's long-term memory: a vector passed from step to step beside the hidden state; the gates add to it and remove from it, so information can be kept over many steps. |
 | Gate (G-825) | A part of the LSTM cell that controls what moves into, out of, or along the cell state. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Forget gate ($f_t$)](../../../DL/05-rnn/DL-062-lstm-architecture/DL-062-lstm-architecture.md#3-what-the-cell-must-do) (G-793) | The LSTM gate that decides what to erase from the memory (cell state): a sigmoid layer whose outputs, between 0 and 1, scale each entry of the previous cell state $c_{t-1}$. |

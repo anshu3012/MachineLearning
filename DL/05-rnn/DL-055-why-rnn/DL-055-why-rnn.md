@@ -33,7 +33,7 @@ The RNN's [architecture and formulas](../DL-056-rnn-forward-propagation/DL-056-r
 ## 2. Prerequisites
 
 - [Combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons): layers of nodes, weights and biases.
-- [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how many weights a fully connected layer has.
+- [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes): how many weights a **fully connected layer** (G-583) has.
 - [**One-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379): turning a category into a vector (a list of numbers) of 0s with a single 1.
 - [**Bag of words**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250): counting how often each word occurs.
 
@@ -47,7 +47,7 @@ A sentence is different. "Dog bites man" and "man bites dog" use the same three 
 
 ![Order of features in a table carries no meaning; order of words in a sentence does](images/order_matters.png){width=100%}
 
-Sequential data is everywhere:
+**Sequential data** (G-1774) is everywhere:
 
 - **Text:** words follow each other, and grammar depends on the order.
 - **Time series:** a company's share price day by day; where it goes next depends on where it has been.
@@ -236,7 +236,7 @@ The RNN family is built up step by step:
 | Longer text at prediction | words beyond the padded length are cut | reads to the end |
 | Each position learned separately | separate weights per position | the same weights at every step |
 
-- Sequential data is data where order carries meaning: text, time series, speech, DNA, so a model for it must keep track of the order.
+- **Sequential data** (G-1774) is data where order carries meaning: text, time series, speech, DNA, so a model for it must keep track of the order.
 - An ANN needs one fixed-length input, because its input layer's size is chosen when the network is built, so text must be one-hot encoded, stacked and padded.
 - The cost: IMDB reviews run from 11 to 2,494 words; padding to the longest makes 90% of the input zeros, so most of the weights only ever multiply zeros.
 - An RNN reads one item at a time, shares its weights across steps and carries a memory forward, so its size does not depend on the length of the sequence and it recognises a pattern wherever it appears.
@@ -277,11 +277,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
+| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
 | [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
 | [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
-| [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [IMDB dataset](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
 | [Integer encoding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
 | [Padding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) | Adding zeros to sequences so that all have the same length. |

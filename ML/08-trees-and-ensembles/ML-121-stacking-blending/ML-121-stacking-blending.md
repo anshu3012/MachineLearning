@@ -16,20 +16,20 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/stacking]
 
 ## 1. Overview
 
-> **Key point:** **Stacking** (G-1866) trains several different models, turns their predictions into the input columns of a new dataset, and trains one more model, the meta-model, on it. To keep the meta-model honest, it must learn from predictions on observations (records) the base models never saw: a hold-out set (blending) or K-fold out-of-fold predictions (stacking).
+> **Key point:** **Stacking** (G-1866) trains several different models, turns their predictions into the input columns of a new dataset, and trains one more model, the meta-model, on it. To keep the meta-model honest, it must learn from predictions on observations (records) the base models never saw: a hold-out set (blending) or K-fold **out-of-fold predictions** (G-1415) (stacking).
 
 ![Stacking: three base models predict, their predictions form a new row, and the meta-model turns that row into the final prediction](images/architecture.png){height=30%}
 
 Stacking was previewed in [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking) as voting plus one more model on top. Figure 1 shows the full picture. This Note covers:
 
 - how the new dataset for the meta-model is built;
-- why predicting on the training observations ruins it, and the two fixes, blending and K-fold stacking;
+- why predicting on the training observations ruins it, and the two fixes, **blending** (G-314) and K-fold stacking;
 - stacking in several layers;
 - `StackingClassifier` in scikit-learn, on real heart-disease data.
 
 ## 2. From voting to stacking
 
-> **Key point:** Voting combines the base models with a fixed rule (majority or mean); stacking replaces the rule with a model that learns how to combine them.
+> **Key point:** Voting combines the base models with a fixed rule (majority or mean); **stacking** (G-1866) replaces the rule with a model that learns how to combine them.
 
 In a **voting ensemble** (G-2096; see [the core idea of voting](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea) and [the voting regressor](../ML-098-voting-regressor/ML-098-voting-regressor.md#2-the-core-idea)) we train different algorithms on the same data and combine their outputs by a fixed rule. For a regression problem, three models predicting 3.5, 4.1 and 2.7 lakh rupees for one student give their mean, 3.43.
 
@@ -63,7 +63,7 @@ Classification works the same way. The base models output classes (1 or 0) or pr
 
 ## 4. Stacking compared with bagging and boosting
 
-> **Key point:** Stacking mixes different algorithms, and it combines them with a trained model instead of a vote, a mean or a weighted sum.
+> **Key point:** **Stacking** (G-1866) mixes different algorithms, and it combines them with a trained model instead of a vote, a mean or a weighted sum.
 
 | | Bagging and boosting | Stacking |
 |---|---|---|
@@ -91,7 +91,7 @@ There are two ways out. Both make sure the meta-model only learns from predictio
 - **blending** (G-314): a **hold-out set** (G-901);
 - **stacking** in the strict sense: K-fold cross-validation.
 
-Many people call both of them stacking.
+Many people call both of them **stacking** (G-1866).
 
 ## 6. Blending: a hold-out set
 
@@ -115,7 +115,7 @@ The base models never saw the validation observations, so their predictions ther
 
 ![K-fold stacking with K = 4: each fit trains on three folds and predicts the fourth; the four predicted folds together fill one column of 800 out-of-fold predictions](images/kfold.png){height=34%}
 
-Stacking in the strict sense uses the idea of K-fold cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
+**Stacking** (G-1866) in the strict sense uses the idea of K-fold cross-validation (see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)). We keep the 800 observations of D_train and the 200 test observations of section 6, and take K = 4 (5 or 10 are more common), so each fold has 200 rows.
 
 Why a larger K is usually preferred: each copy of a base model trains on K-1 of the K folds, so 600 of the 800 observations with K = 4 and 720 with K = 10. A model trained on more of the data behaves more like the final base model trained on all of D_train, which is the one the meta-model will actually receive predictions from. The price is more fits; 5 or 10 folds are the usual compromise (ESL §7.10.1, Figure 7.8).
 
@@ -123,7 +123,7 @@ Why a larger K is usually preferred: each copy of a base model trains on K-1 of 
 2. **Repeat for the other base models.** The same four fits for the decision tree give `DT_pred`, and for KNN give `KNN_pred`. The three base models need 12 fits in all, and each base algorithm was trained 4 times.
 3. **Train the meta-model** on the new dataset: 800 rows, the three prediction columns plus the true package.
 4. **Retrain the base models on all of D_train.** Which of the 4 linear regressions do we keep? None of them. We train linear regression, the decision tree and KNN once more on all 800 observations, and these are the base models used for prediction.
-5. **Evaluate** the stack on the 200 test observations, as in blending.
+5. **Evaluate** the stack on the 200 test observations, as in **blending** (G-314).
 
 Figure 6 plays steps 1 to 3, one fit per frame. Watch the orange fold: the fold being predicted is never among the grey folds the model was trained on, and its 200 predictions fill one cell of that model's column. After 12 fits the three columns are full.
 
@@ -133,11 +133,11 @@ Note the order: the meta-model is trained first (step 3), the final base models 
 
 Compared with blending, nothing is thrown away: every observation of D_train trains the final base models, and every observation also gives the meta-model one example. The price is K times more training. scikit-learn's `StackingClassifier` implements this approach (scikit-learn docs), and it is the one described in the textbooks: the meta-model learns from cross-validated predictions (ESL §8.8; Wolpert 1992).
 
-The intuition: blending is like a student who keeps 20 of 100 practice questions locked away for a mock test, while K-fold stacking lets every question serve both for practice and for a mock test, just at different times. When data is scarce, K-fold cross-validation makes better use of it than one hold-out set (ESL §7.10.1). [Section 9.3](#93-comparing-the-options) shows the gain on the heart data.
+The intuition: blending is like a student who keeps 20 of 100 practice questions locked away for a mock test, while K-fold stacking lets every question serve both for practice and for a mock test, just at different times. When data is scarce, K-fold cross-validation makes better use of it than one **hold-out set** (G-901) (ESL §7.10.1). [Section 9.3](#93-comparing-the-options) shows the gain on the heart data.
 
 ## 8. Stacking in several layers
 
-> **Key point:** The meta-model's inputs can themselves come from a second layer of models. With blending, every extra layer needs its own hold-out set.
+> **Key point:** The meta-model's inputs can themselves come from a second layer of models. With **blending** (G-314), every extra layer needs its own hold-out set.
 
 ![Two layers of base models and a meta-model, trained with blending on three hold-out sets of 300 observations](images/multilayer.png){height=40%}
 
@@ -149,13 +149,13 @@ With blending, 1,000 students are split into 900 for training and 100 for testin
 2. **Layer 2.** Train M4, M5 and M6 on that dataset. To build their predictions on new observations, DT3 first goes through layer 1, then layer 2, giving another 300 rows with 3 columns and the package.
 3. **Meta-model.** Train M7 on that last dataset.
 
-Each layer needs fresh observations that the layer below has not seen, so every extra layer costs one more hold-out set. With K-fold stacking, scikit-learn builds extra layers by passing another `StackingClassifier` or `StackingRegressor` as the `final_estimator` (scikit-learn User Guide, Stacked generalization).
+Each layer needs fresh observations that the layer below has not seen, so every extra layer costs one more hold-out set. With K-fold **stacking** (G-1866), scikit-learn builds extra layers by passing another `StackingClassifier` or `StackingRegressor` as the `final_estimator` (scikit-learn User Guide, Stacked generalization).
 
 Combining different models is common among winning solutions of Kaggle competitions: of the 2015 winning solutions that used XGBoost, most combined it with neural nets in ensembles (Chen and Guestrin 2016, §1).
 
 ## 9. StackingClassifier in scikit-learn
 
-> **Key point:** `StackingClassifier(estimators, final_estimator, cv)` does K-fold stacking for us: out-of-fold predictions, the meta-model, and base models refitted on all the training data.
+> **Key point:** `StackingClassifier(estimators, final_estimator, cv)` does K-fold stacking for us: **out-of-fold predictions** (G-1415), the meta-model, and base models refitted on all the training data.
 
 scikit-learn has `StackingClassifier` and `StackingRegressor` (since version 0.22) in `sklearn.ensemble`. Their main parameters:
 
@@ -205,7 +205,7 @@ The data has 303 patients; each patient is one observation. Each patient has 13 
 > clf.score(X_test, y_test)          # 0.869
 > ```
 >
-> The base models are listed as (name, model) pairs; `fit` runs the 10-fold out-of-fold predictions, trains the logistic regression on them and refits the three base models on all 242 patients. `score` returns the accuracy.
+> The base models are listed as (name, model) pairs; `fit` runs the 10-fold **out-of-fold predictions** (G-1415), trains the logistic regression on them and refits the three base models on all 242 patients. `score` returns the accuracy.
 
 Alone, the three base models reach 0.787 (random forest), 0.639 (KNN) and 0.852 (gradient boosting) on the 61 test patients. The stack reaches **0.869**.
 
@@ -227,9 +227,9 @@ Figure 8 compares, with the scaled KNN:
 - **StackingClassifier** (10 folds): 0.869;
 - **StackingClassifier with `passthrough=True`** (16 inputs to the meta-model): 0.852.
 
-On a test set this small, one split cannot rank the methods: soft voting beating stacking by one patient says little. The blending versus stacking question needs many splits, which section 9.4 runs.
+On a test set this small, one split cannot rank the methods: soft voting beating **stacking** (G-1866) by one patient says little. The blending versus stacking question needs many splits, which section 9.4 runs.
 
-> **Python:** Out-of-fold predictions by hand.
+> **Python:** **Out-of-fold predictions** (G-1415) by hand.
 >
 > ```python
 > from sklearn.model_selection import KFold, cross_val_predict
@@ -247,15 +247,15 @@ On a test set this small, one split cannot rank the methods: soft voting beating
 
 ### 9.4 Stacking beats blending when data is limited
 
-> **Key point:** Averaged over 100 random splits, K-fold stacking beats blending on the heart data, and the gain is largest when we have the fewest patients: 3.5 points of accuracy with 60 training patients.
+> **Key point:** Averaged over 100 random splits, K-fold **stacking** (G-1866) beats blending on the heart data, and the gain is largest when we have the fewest patients: 3.5 points of accuracy with 60 training patients.
 
-Blending gives up data twice: its base models train on only 80% of the training observations, and its meta-model learns from only the other 20%. K-fold stacking uses every observation for both. The less data we have, the more those lost observations hurt.
+**Blending** (G-314) gives up data twice: its base models train on only 80% of the training observations, and its meta-model learns from only the other 20%. K-fold stacking uses every observation for both. The less data we have, the more those lost observations hurt.
 
 To see it, we change only the training size: 60, 120 or 242 patients for training, the rest for testing. Both methods use the same three base models (with scaled KNN) and the same logistic regression meta-model; stacking uses 5 folds. We repeat each size on 100 random splits and average the test accuracy (Notebook, section 8).
 
 ![Mean test accuracy of blending and K-fold stacking on the heart data, for 60, 120 and 242 training patients, averaged over 100 random splits](images/blend_vs_stack.png){height=40%}
 
-Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single hold-out set when data is scarce (ESL §7.10.1).
+Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and blending 0.753, a gain of 3.5 points. With 120 patients the gain is 1.2 points (0.814 against 0.801). With all 242 patients both methods are close (0.815 against 0.812): with more data, the 20% that blending holds out matters less. The result matches the textbook advice: use cross-validation instead of a single **hold-out set** (G-901) when data is scarce (ESL §7.10.1).
 
 > **Extra:** The gain is an average, not a guarantee on every split. With 60 training patients, stacking scores higher on 74 of the 100 splits, ties on 5 and loses on 21; the standard error of the mean gain is 0.6 points. With 242 patients the mean gain, 0.3 points, is no larger than its standard error (0.3 points), so on this data the two methods are level once the training set is that big.
 
@@ -270,12 +270,12 @@ Figure 9 shows the result. With 60 training patients, stacking reaches 0.787 and
 | Heart data, test accuracy (one split) | 0.852 | 0.820 | 0.869 |
 | Heart data, 60 training patients (mean of 100 splits) | | 0.753 | 0.787 |
 
-- Stacking feeds the base models' predictions to a meta-model, which learns how to combine them, so it learns from data how much to believe each base model.
+- **Stacking** (G-1866) feeds the base models' predictions to a meta-model, which learns how to combine them, so it learns from data how much to believe each base model.
 - Unlike bagging and boosting, the base models are different algorithms, and the combiner is trained, not a fixed rule such as a vote, a mean or a weighted sum.
-- Predicting the training observations passes the base models' overfitting to the meta-model, because an overfit model's predictions on its own training data look almost perfect and the meta-model learns to trust it; a hold-out set (blending) or K-fold out-of-fold predictions (stacking) fix this.
+- Predicting the training observations passes the base models' overfitting to the meta-model, because an overfit model's predictions on its own training data look almost perfect and the meta-model learns to trust it; a hold-out set (blending) or K-fold **out-of-fold predictions** (G-1415) (stacking) fix this.
 - In K-fold stacking the meta-model is trained first, then the base models are refitted on all of D_train, so the final base models learn from every observation while the meta-model has only seen honest predictions.
-- K-fold stacking uses the data better than blending, because blending trains its base models on only part of the training data and its meta-model on the rest; on the heart data it beats blending by 3.5 points with 60 training patients, and the gain shrinks as data grows.
-- Stacks can have several layers; with blending, each layer needs its own hold-out set, because each layer must learn from observations the layer below has not seen.
+- K-fold stacking uses the data better than **blending** (G-314), because blending trains its base models on only part of the training data and its meta-model on the rest; on the heart data it beats blending by 3.5 points with 60 training patients, and the gain shrinks as data grows.
+- Stacks can have several layers; with blending, each layer needs its own **hold-out set** (G-901), because each layer must learn from observations the layer below has not seen.
 - `StackingClassifier` and `StackingRegressor` take `estimators`, `final_estimator`, `cv`, `stack_method` (classifier) and `passthrough`, so one `fit` call does the out-of-fold predictions, trains the meta-model and refits the base models.
 - So stacking works only when the meta-model learns from predictions on observations the base models never saw; blending and K-fold stacking are the two ways to give it that.
 
@@ -299,9 +299,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Stacking (G-1866) | An ensemble in which the base models' predictions become the input columns of a new dataset, and a final meta-model learns how best to combine them. |
+| Out-of-fold prediction (G-1415) | A prediction for a row made by a model trained on the other folds, never on that row. |
 | Blending (G-314) | A form of stacking in which the final model (the meta-model) is trained on the base models' predictions for a hold-out validation set. |
 | Hold-out set (G-901) | Rows set aside before training, used only to produce honest predictions or scores. |
-| Out-of-fold prediction (G-1415) | A prediction for a row made by a model trained on the other folds, never on that row. |
 | Multi-layer stacking (G-1271) | Stacking with more than one layer of base models below the meta-model. |
 | Passthrough (stacking) (G-1461) | In stacking, giving the final model that combines the base models (the meta-model) the original input columns as well as the base models' predictions. |
 | Validation set (blending) (G-2066) | In blending, a part of the training data set aside before the base models are trained; the base models predict on it, and the meta-model is trained on those predictions. |

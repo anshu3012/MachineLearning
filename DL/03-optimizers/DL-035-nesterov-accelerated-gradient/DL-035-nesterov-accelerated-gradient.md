@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/nag]
 
 ## 1. Overview
 
-> **Key point:** NAG is momentum with one change: it first takes the momentum jump, then measures the gradient at the point where that jump lands (the look-ahead point), and corrects from there. Seeing the slope ahead lets it brake before the minimum, so it overshoots less than momentum.
+> **Key point:** NAG is momentum with one change: it first takes the momentum jump, then measures the gradient at the point where that jump lands (the **look-ahead point** (G-1127)), and corrects from there. Seeing the slope ahead lets it brake before the minimum, so it overshoots less than momentum.
 
 **Nesterov accelerated gradient** (G-1315; NAG; Nesterov 1983, adapted to deep learning by Sutskever et al. 2013) is a small upgrade of [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258: gradient descent that keeps a running average of past steps, its velocity, and moves by it). Momentum's speed is its strength, but near the minimum the same speed makes it overshoot and swing (**overshooting**, G-1430). NAG damps those swings.
 
@@ -38,14 +38,14 @@ Figure 1 shows the difference. On this valley momentum needs 59 steps to bring t
 
 ## 2. Prerequisites
 
-- [Momentum's update rule](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule): the velocity, and [**overshooting**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430).
-- [The exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula): the decay factor $\beta$, the share of the old average kept at each step.
+- [Momentum's update rule](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule): the **velocity** (G-2085), and [**overshooting**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430).
+- [The exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula): the **decay factor** (G-553) $\beta$, the share of the old average kept at each step.
 
 ## 3. Momentum's problem: oscillations
 
 > **Key point:** Momentum reaches the neighbourhood of the minimum fast, then wastes many steps swinging past it. A smaller $\beta$ reduces the swings, but also the speed.
 
-Momentum covers the early part of the road quickly: in the valley of Figure 1 it is close to the minimum within about 20 steps. Then it crosses the minimum, comes back, crosses again, and only settles once its velocity has died away.
+Momentum covers the early part of the road quickly: in the valley of Figure 1 it is close to the minimum within about 20 steps. Then it crosses the minimum, comes back, crosses again, and only settles once its **velocity** (G-2085) has died away.
 
 Figure 2 shows the swings on the simplest loss, the bowl
 
@@ -86,9 +86,9 @@ Figure 3 shows one step near the minimum. Hinton's lecture slides put the differ
 
 ## 5. The update rule
 
-> **Key point:** NAG uses momentum's two lines unchanged, and adds one line before them: the look-ahead point. Only the point where the gradient is taken changes.
+> **Key point:** NAG uses momentum's two lines unchanged, and adds one line before them: the **look-ahead point** (G-1127). Only the point where the gradient is taken changes.
 
-1. **In words:** find where the momentum jump alone would take us. Take the gradient there. Build the velocity from the old velocity and that gradient, and move from the current point.
+1. **In words:** find where the momentum jump alone would take us. Take the gradient there. Build the **velocity** (G-2085) from the old velocity and that gradient, and move from the current point.
 2. **Formula:**
    $$w_{\text{la}} = w_t - \beta\thinspace v_{t-1}$$
    $$v_t = \beta\thinspace v_{t-1} + \eta\thinspace\nabla L(w_{\text{la}})$$
@@ -126,7 +126,7 @@ Figure 4 applies the rule on the valley of Figure 1. Watch step 2: momentum meas
 
 ## 6. Why NAG overshoots less
 
-> **Key point:** When momentum is about to carry the weights past the minimum, the slope at the look-ahead point already points back. NAG feels that and brakes one step earlier.
+> **Key point:** When momentum is about to carry the weights past the minimum, the slope at the **look-ahead point** (G-1127) already points back. NAG feels that and brakes one step earlier.
 
 Follow a ball rolling down towards the minimum on a curve.
 
@@ -134,7 +134,7 @@ Follow a ball rolling down towards the minimum on a curve.
 
 **NAG.** Near the minimum, the momentum jump alone already lands past the minimum. The slope there points back, so the gradient step pulls the ball back towards the minimum, and it stops much nearer to it. NAG makes smaller U-turns and settles sooner. NAG has a sense of where it is going, so it slows down before the hill slopes up again (Ruder 2016, §4.2).
 
-If the momentum jump is a poor move that increases the loss, the gradient at the look-ahead point points back towards $w_t$ more strongly than the gradient at $w_t$ itself, which gives a larger and more timely correction to the velocity. On an oblong bowl, momentum swings strongly across the steep direction while NAG avoids these swings almost entirely (Sutskever et al. 2013, §2.1).
+If the momentum jump is a poor move that increases the loss, the gradient at the look-ahead point points back towards $w_t$ more strongly than the gradient at $w_t$ itself, which gives a larger and more timely correction to the **velocity** (G-2085). On an oblong bowl, momentum swings strongly across the steep direction while NAG avoids these swings almost entirely (Sutskever et al. 2013, §2.1).
 
 ![The weight over the steps. Left: the bowl $L = w^2/2$ from $w = -10$, $\eta = 0.1$, $\beta = 0.9$; NAG (purple) swings less far past the minimum and settles sooner than momentum (orange). Right: a curve with a local minimum from $w = -3$, $\eta = 0.05$, $\beta = 0.9$; momentum rolls on to the global minimum, NAG stays in the local one](images/overshoot.png){width=100%}
 
@@ -150,9 +150,9 @@ Figure 5 (left) and Figure 1 measure the effect (Notebook):
 
 ## 7. The weakness: less momentum to escape a dip
 
-> **Key point:** The damping that removes overshooting also removes some of the extra push. Where momentum rolls out of a small local minimum, NAG can stay stuck in it.
+> **Key point:** The damping that removes **overshooting** (G-1430) also removes some of the extra push. Where momentum rolls out of a small local minimum, NAG can stay stuck in it.
 
-Damping the oscillations has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110).
+Damping the **oscillations** (G-1410) has a possible downside. On a loss with a small dip on the way to a deeper one, momentum may build up enough speed to roll over the bump and out of the dip; NAG brakes earlier, so it may not gain that speed and can settle in the [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110).
 
 Figure 5 (right) shows exactly this on the [curve with a small dip](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting):
 
@@ -185,7 +185,7 @@ Figure 6 and the Notebook give, as means over the 3 seeds:
 | Validation accuracy, epoch 20 | 0.950 | 0.949 | 0.944 | 0.946 |
 | Epochs where the loss went up | 0 | 0 | 4 | 1 |
 
-With $\beta = 0.9$ the two are practically the same: the gradient at the look-ahead point is almost the gradient at the current point. With $\beta = 0.99$ momentum's velocity is ten times longer-lived, its training loss went up from one epoch to the next in 4 epochs, against 1 for NAG, and NAG ends with a slightly lower loss and slightly higher validation accuracy. The differences are small and vary from seed to seed: in one of the three seeds momentum ended lower (Notebook).
+With $\beta = 0.9$ the two are practically the same: the gradient at the **look-ahead point** (G-1127) is almost the gradient at the current point. With $\beta = 0.99$ momentum's **velocity** (G-2085) is ten times longer-lived, its training loss went up from one epoch to the next in 4 epochs, against 1 for NAG, and NAG ends with a slightly lower loss and slightly higher validation accuracy. The differences are small and vary from seed to seed: in one of the three seeds momentum ended lower (Notebook).
 
 Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity in a quicker and more responsive way, which lets it behave more stably than momentum in many situations, especially for higher values of $\beta$.
 
@@ -203,9 +203,9 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 >                            nesterov=True)
 > ```
 
-`momentum` is the decay factor $\beta$, usually 0.9 or 0.5; `nesterov` switches the look-ahead on.
+`momentum` is the **decay factor** (G-553) $\beta$, usually 0.9 or 0.5; `nesterov` switches the look-ahead on.
 
-> **Extra:** Keras never computes the gradient at a separate look-ahead point. Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$, so $w_t = u_t + \beta v_{t-1}$. One step per line:
+> **Extra:** Keras never computes the gradient at a separate **look-ahead point** (G-1127). Its weights are the look-ahead point itself: write $u_t = w_t - \beta v_{t-1}$, so $w_t = u_t + \beta v_{t-1}$. One step per line:
 > $$u_{t+1} = w_{t+1} - \beta v_t$$
 >
 > Since $w_{t+1} = w_t - v_t$:
@@ -216,7 +216,7 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 >
 > $$= u_t + \beta v_{t-1} - v_t - \beta v_t$$
 >
-> Put in the velocity, whose gradient is taken at the look-ahead point $u_t$:
+> Put in the **velocity** (G-2085), whose gradient is taken at the look-ahead point $u_t$:
 >
 > $$v_t = \beta v_{t-1} + \eta\thinspace\nabla L(u_t)$$
 >
@@ -242,9 +242,9 @@ Sutskever et al. (2013, §2.1) found the same pattern: NAG changes the velocity 
 | Small local dip | more push to roll out | can stay stuck |
 | Keras | `SGD(momentum=0.9)` | `SGD(momentum=0.9, nesterov=True)` |
 
-- NAG is momentum with the gradient measured after the momentum jump, at the look-ahead point.
-- Seeing the slope ahead lets NAG correct the velocity before it overshoots, so it oscillates less and often converges faster.
-- The same damping can leave it in a small local minimum that momentum would roll out of.
+- NAG is momentum with the gradient measured after the momentum jump, at the **look-ahead point** (G-1127).
+- Seeing the slope ahead lets NAG correct the **velocity** (G-2085) before it overshoots, so it oscillates less and often converges faster.
+- The same damping can leave it in a small **local minimum** (G-1110) that momentum would roll out of.
 - On MNIST it matches momentum at $\beta = 0.9$ and is slightly steadier at $\beta = 0.99$.
 
 ## 11. Sources
@@ -268,16 +268,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Look-ahead point (G-1127) | The point that the momentum step alone would take the weights to, $w_t - \beta v_{t-1}$; Nesterov momentum measures the gradient there instead of at the current weights, so it corrects sooner and overshoots less. |
 | Nesterov accelerated gradient (NAG) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
 | Oscillation (G-1410) | Swinging back and forth past the minimum before settling. |
-| Look-ahead point (G-1127) | The point that the momentum step alone would take the weights to, $w_t - \beta v_{t-1}$; Nesterov momentum measures the gradient there instead of at the current weights, so it corrects sooner and overshoots less. |
 | Damping (G-528) | Making an optimiser's back-and-forth swings (oscillations) smaller: NAG brakes before it overshoots, so its path settles faster than momentum's, though it can then stay in a small dip. |
 | [Momentum (optimizer)](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
 | [Overshooting](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430) | Moving past the minimum because of the built-up velocity, then swinging back. |
-| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
-| [Decay factor $\beta$](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#7-the-role-of-beta) (G-553) | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
-| [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | [Velocity $v$](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) (G-2085) | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$. |
+| [Decay factor $\beta$](../../../DL/03-optimizers/DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#7-the-role-of-beta) (G-553) | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |

@@ -47,11 +47,11 @@ The uniform distribution comes in two kinds, one for each kind of random variabl
 
 The idea in plain words: a machine takes anywhere between 5 and 6 hours to make one product, and every time in that range is equally likely. Only two numbers describe it: the shortest time, 5, and the longest time, 6.
 
-Those two numbers are the **parameters** of the continuous uniform distribution. The short way to write the machine's time $X$ is:
+Those two numbers are the **parameters** of the **continuous uniform distribution** (G-467). The short way to write the machine's time $X$ is:
 
 $$X \sim U(5, 6)$$
 
-The symbol $\sim$ reads "follows the distribution", and $U(5, 6)$ is the uniform distribution from 5 to 6. In general we write:
+The symbol $\sim$ reads "follows the distribution", and $U(5, 6)$ is the **uniform distribution** (G-2043) from 5 to 6. In general we write:
 
 $$X \sim U(a, b)$$
 
@@ -77,7 +77,7 @@ $$\text{width} = 5.5 - 5.2 = 0.3$$
 
 $$P(5.2 \le X \le 5.5) = 0.3 \times 1 = 0.3$$
 
-Figure 2 (left) shades exactly this rectangle; Figure 2 (right) shows the CDF (the share of products finished by each time). The same steps for any range give the **PDF** of the continuous uniform. The rectangle is $b - a$ wide, so its height must be $1/(b - a)$:
+Figure 2 (left) shades exactly this rectangle; Figure 2 (right) shows the CDF (the share of products finished by each time). The same steps for any range give the **PDF** of the **continuous uniform** (G-467). The rectangle is $b - a$ wide, so its height must be $1/(b - a)$:
 
 $$f(x) = \begin{cases} \dfrac{1}{b - a} & \text{if } a \le x \le b \cr0 & \text{otherwise} \end{cases}$$
 
@@ -117,14 +117,14 @@ The continuous uniform distribution is **symmetric**, like the normal distributi
 
 ### 2.3 Where the continuous uniform appears
 
-> **Key point:** The continuous uniform appears when a quantity is equally likely anywhere in a fixed range, and it works behind the scenes in many ML techniques.
+> **Key point:** The **continuous uniform** (G-467) appears when a quantity is equally likely anywhere in a fixed range, and it works behind the scenes in many ML techniques.
 
 Everyday examples are quantities that are equally likely anywhere within fixed limits:
 
 - the time a machine takes to produce a product, when it ranges evenly from 5 to 6 hours;
 - the waiting time for a bus that comes exactly every 10 minutes, for someone arriving at a random moment: anywhere from 0 to 10 minutes.
 
-In machine learning, the uniform distribution mostly works behind the scenes:
+In machine learning, the **uniform distribution** (G-2043) mostly works behind the scenes:
 
 - **Random initialization** (G-1612). Neural networks and k-means clustering (see [**k-means**](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-996)) start from random parameter values and improve them step by step. The start strongly affects the final result. Drawing the start from a uniform distribution gives every value in the range the same chance.
 - **Sampling.** Splitting data into training and test sets, or drawing a random subset, picks each **observation** (G-1374; one record, one row of the data table) with equal probability ([the train-test split](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)).
@@ -253,7 +253,7 @@ The resemblance is only in the formulas. The log-normal variable itself is skewe
 
 > **Key point:** Log-normal data is common in internet applications: comment lengths, time spent on articles, and many human behaviours.
 
-The log-normal distribution appears in biology, medicine, chemistry, hydrology and economics, and it is especially common in internet applications:
+The **log-normal distribution** (G-1115) appears in biology, medicine, chemistry, hydrology and economics, and it is especially common in internet applications:
 
 - **Length of comments** in online discussion forums: most comments are a few words; a few are very long.
 - **Time spent reading online articles:** many readers leave quickly; a few stay to the end and read the other comments too.
@@ -304,8 +304,8 @@ The same check shows the payoff of knowing a **feature** (G-772; one variable of
 | scipy | `uniform(loc=a, scale=b-a)` | `lognorm(s=σ, scale=exp(μ))` |
 
 - Read the table's scipy row with care, because scipy takes the width $b - a$ (not $b$) for the uniform and $e^{\mu}$ for the log-normal, so `uniform(5, 6)` means $U(5, 11)$.
-- Non-Gaussian simply means not normal, so the normal distribution's rules do not carry over to it.
-- The uniform distribution works behind the scenes in ML: initialization, sampling, augmentation, random search, because each needs every value in a range, or every row, to have the same chance.
+- **Non-Gaussian** (G-1334) simply means not normal, so the normal distribution's rules do not carry over to it.
+- The **uniform distribution** (G-2043) works behind the scenes in ML: initialization, sampling, augmentation, random search, because each needs every value in a range, or every row, to have the same chance.
 - A right-skewed feature is log-normal only if its logs are normal, so check with a Q-Q plot of the logs, not the skew alone.
 - Log-normal data becomes normal with a log transform, so everything that works on normal data then applies to it.
 - This answers the opening question for two of the three common non-normal distributions: the uniform is flat, the log-normal is right-skewed with normal logs.

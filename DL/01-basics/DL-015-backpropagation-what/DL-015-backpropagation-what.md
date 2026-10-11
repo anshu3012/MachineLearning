@@ -77,7 +77,7 @@ In Figure 2, every blue label on an edge and every green bias is one of the 9 nu
 
 ## 4. The steps of backpropagation
 
-> **Key point:** Step 0: initialise. Then, for each student: forward propagation, loss, update all 9 parameters with gradient descent.
+> **Key point:** Step 0: initialise. Then, for each student: **forward propagation** (G-797), loss, update all 9 parameters with gradient descent.
 
 ![The steps of backpropagation as a loop, with student 1's numbers](images/steps.png){height=24%}
 
@@ -87,7 +87,7 @@ Figure 3 is the map for this section: step 0 runs once, then steps 1 to 4 go rou
 
 > **Key point:** We set every weight to 0.1 and every bias to 0.
 
-Training needs starting values. Common choices are random numbers, or all weights 1 and all biases 0; how well backpropagation works depends on this choice ([why the starting weights matter](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)). To keep the arithmetic easy, we set **every weight to 0.1 and every bias to 0**.
+Training needs starting values. Common choices are random numbers, or all weights 1 and all biases 0; how well **backpropagation** (G-247) works depends on this choice ([why the starting weights matter](../../02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter)). To keep the arithmetic easy, we set **every weight to 0.1 and every bias to 0**.
 
 ### 4.2 Steps 1 to 3: one student forward, one loss
 
@@ -130,7 +130,7 @@ $$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old
 
 $$b_{\text{new}} = b_{\text{old}} - \eta \frac{\partial L}{\partial b_{\text{old}}}$$
 
-For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of backpropagation, and it is exactly the definition of [Section 1](#1-overview): the gradient of the loss with respect to the network's weights.
+For $W_{11}^{2}$ this reads $W_{11}^{2} \leftarrow W_{11}^{2} - \eta\thinspace\partial L/\partial W_{11}^{2}$, and the same for the other 8. The old value (0.1 or 0) and the learning rate $\eta$ are known. What we still need are the **9 derivatives**: how much the loss changes when only that one parameter changes a little (the symbol $\partial L/\partial W$ is explained in section 6.1). Computing them is the heart of **backpropagation** (G-247), and it is exactly the definition of [Section 1](#1-overview): the gradient of the loss with respect to the network's weights.
 
 ## 5. Why the error goes backwards
 
@@ -176,7 +176,7 @@ In Figure 5, watch the arrows appear from right to left:
 
    The inputs themselves are data and cannot change, so the passing back stops here.
 
-The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. [Section 6](#6-the-nine-derivatives) now derives the same numbers with the chain rule.
+The arrow sizes 11.78, 7.36, 5.89 and 0.74 are exactly the sizes of the gradients computed in section 7.1. The gradients there are negative: a negative gradient means "raising this parameter lowers the loss", which is the wish of Figure 5. [Section 6](#6-the-nine-derivatives) now derives the same numbers with the **chain rule** (G-371).
 
 ## 6. The nine derivatives
 
@@ -262,7 +262,7 @@ Read all nine together:
 - The next factor depends on where the parameter sits: the hidden output it multiplies ($O_{11}$, $O_{12}$), or, one layer further back, the weight that carries its node's output forward ($W_{11}^{2}$, $W_{21}^{2}$).
 - The last factor is the input the weight multiplies ($x_{i1}$, $x_{i2}$, $O_{11}$, $O_{12}$), or 1 for a bias.
 
-After forward propagation we know $y$, $\hat{y}$, $O_{11}$, $O_{12}$, every weight and both inputs. So all nine derivatives are plain arithmetic, and step 4 can run.
+After **forward propagation** (G-797) we know $y$, $\hat{y}$, $O_{11}$, $O_{12}$, every weight and both inputs. So all nine derivatives are plain arithmetic, and step 4 can run.
 
 ![The dependency tree of Figure 4 grown from the loss backwards, with student 1's numbers. The red number on an edge says how much the upper box changes per unit change of the lower box. Multiplying the numbers along the path from L down to a parameter gives that parameter's gradient](images/paths.gif){height=42%}
 
@@ -378,7 +378,7 @@ One student moved the weights a little. Training repeats the steps:
 1. **Initialise** all weights and biases (here 0.1 and 0).
 2. **For each epoch** (one pass over all the data):
    - for each observation of the data (4 here):
-     a. forward propagation: predict $\hat{y}$;
+     a. **forward propagation** (G-797): predict $\hat{y}$;
      b. compute the loss;
      c. compute the 9 derivatives and update all 9 parameters.
    - compute the average loss of the epoch.
@@ -405,9 +405,9 @@ Updating after every single observation, as here, is **stochastic gradient desce
 | 4a | Derivatives by the chain rule | $\partial L/\partial \hat{y} = -7.36$, $\partial L/\partial W_{11}^{2} = -11.78$, $\partial L/\partial W_{11}^{1} = -5.89$ |
 | 4b | Gradient descent update, $\eta = 0.001$ | $W_{11}^{2} = 0.1118$, $W_{11}^{1} = 0.1059$; loss 13.06 |
 
-- Backpropagation trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
+- **Backpropagation** (G-247) trains a network: it finds the derivative of the loss with respect to every weight and bias, and gradient descent uses them.
 - Only $\hat{y}$ can change the loss, and $\hat{y}$ depends on earlier layers, so we work backwards from the output.
-- Each derivative is a chain rule product; the factor $\partial L/\partial \hat{y}$ is shared by all of them, so it is computed once and reused for all nine.
+- Each derivative is a **chain rule** (G-371) product; the factor $\partial L/\partial \hat{y}$ is shared by all of them, so it is computed once and reused for all nine.
 - Within one layer, a parameter that is multiplied by a larger number (a hidden output, an input) gets a larger gradient. Across layers the chain adds factors: the hidden weights multiply an input of 8 but get $-5.89$, because their chain also passes through a weight of 0.1.
 - All the numbers needed come from the forward pass, so the backward pass only multiplies numbers already computed.
 - Observations go one at a time; the whole data is repeated for many epochs, because one update moves the loss only a little (13.54 to 13.06 for student 1).

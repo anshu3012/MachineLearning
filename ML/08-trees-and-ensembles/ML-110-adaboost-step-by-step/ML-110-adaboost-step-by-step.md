@@ -263,7 +263,7 @@ We repeat this for as many stumps as we want, $T$. At the end we have $\alpha_1,
 
 $$H(x) = \operatorname{sign}\big(\alpha_1 h_1(x) + \alpha_2 h_2(x) + \dots + \alpha_T h_T(x)\big)$$
 
-Figure 6 runs three real stages on our 5 observations. Here the stumps are fitted by scikit-learn, so their mistakes differ from the assumed example of section 4, and the weights go straight to each stump as sample weights instead of through upsampling (the Extra in section 9). Watch observation 3 swell to half of all the weight after stump 1 misses it, the next stumps cut around it, and the weighted vote of 3 stumps get all 5 observations right, even though no single stump can.
+Figure 6 runs three real stages on our 5 observations. Here the stumps are fitted by scikit-learn, so their mistakes differ from the assumed example of section 4, and the weights go straight to each stump as **sample weights** (G-1730) instead of through upsampling (the Extra in section 9). Watch observation 3 swell to half of all the weight after stump 1 misses it, the next stumps cut around it, and the weighted vote of 3 stumps get all 5 observations right, even though no single stump can.
 
 ![Three AdaBoost stages on the toy data. Dot size and label: the observation's weight. Line and shading: the stump's cut and the class on each side; red rings: its mistakes. Right: each stump's alpha. Last frame: the sign of the weighted vote.](images/adaboost_stages.gif)
 
@@ -279,7 +279,7 @@ Figure 6 runs three real stages on our 5 observations. Here the stumps are fitte
 | 6 | divide by the sum | 0.25 and 0.1667 |
 | 7 | draw $n$ observations by weight | observations 1, 3, 3, 3, 4 |
 
-- The error is a weighted error: the total weight of the misclassified observations, so in later stages a mistake on a heavy observation costs more than a mistake on a light one.
+- The error is a **weighted error** (G-2114): the total weight of the misclassified observations, so in later stages a mistake on a heavy observation costs more than a mistake on a light one.
 - Alpha is large for a small error, 0 at error 0.5, negative above 0.5, because a model that is right half the time tells us nothing, while one that is always wrong can be trusted by flipping its vote.
 - The weights of the mistakes grow, the others shrink, and all are rescaled to add up to 1, so the mistakes carry half of the total weight and the old stump, judged on the new weights, would earn no say.
 - Upsampling turns weights into a new dataset in which heavy observations appear more often, so the next stump pays most attention to the observations the last one got wrong.

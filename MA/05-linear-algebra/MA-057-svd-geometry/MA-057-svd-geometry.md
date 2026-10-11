@@ -16,7 +16,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 
 ## 1. Overview
 
-> **Key point:** Every matrix, square or not, can be written as $A = U\Sigma V^{\mathsf T}$: a rotation, then a stretch along the axes, then another rotation. The stretch factors are the singular values.
+> **Key point:** Every matrix, square or not, can be written as $A = U\Sigma V^{\mathsf T}$: a **rotation** (G-1709), then a stretch along the axes, then another rotation. The stretch factors are the singular values.
 
 ![The SVD of $A$ with rows $[3, 0]$ and $[4, 5]$ applied to the unit circle one factor at a time: $V^{\mathsf T}$ rotates, $\Sigma$ stretches, $U$ rotates](images/rotate_stretch_rotate.gif)
 
@@ -27,8 +27,8 @@ This Note builds it from the picture first:
 - the matrices that only rotate or flip, called orthogonal matrices ([Section 2](#2-orthogonal-matrices-moves-that-only-rotate-or-flip));
 - every matrix turns the unit circle into an ellipse ([Section 3](#3-every-matrix-turns-a-circle-into-an-ellipse));
 - $A = U\Sigma V^{\mathsf T}$ as rotate, stretch, rotate ([Section 4](#4-rotate-stretch-rotate-a--usigma-vmathsf-t) and Figure 1);
-- singular values and singular vectors ([Section 5](#5-singular-values-and-singular-vectors));
-- matrices that are not square, and the thin SVD ([Section 6](#6-matrices-that-are-not-square));
+- **singular values** (G-1812) and singular vectors ([Section 5](#5-singular-values-and-singular-vectors));
+- matrices that are not square, and the **thin SVD** (G-1969) ([Section 6](#6-matrices-that-are-not-square));
 - how the SVD differs from the eigen-decomposition ([Section 7](#7-svd-and-eigen-decomposition-compared)).
 
 How to compute the factors by hand comes later in [computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear).
@@ -41,7 +41,7 @@ Read as a transformation (as in [the matrix of a transformation](../MA-053-linea
 
 ## 2. Orthogonal matrices: moves that only rotate or flip
 
-> **Key point:** A square matrix whose columns are perpendicular unit vectors is an orthogonal matrix. It only rotates or flips space, keeps every length and angle, and its inverse is its transpose.
+> **Key point:** A square matrix whose columns are perpendicular unit vectors is an **orthogonal matrix** (G-1407). It only rotates or flips space, keeps every length and angle, and its inverse is its transpose.
 
 ### 2.1 Recap: a matrix moves the grid
 
@@ -81,7 +81,7 @@ $$-0.5 + 0.5 = 0$$
 
 > **Key point:** Its columns are where $\hat{\imath}$ and $\hat{\jmath}$ land; they stay perpendicular unit vectors, so the grid is only turned or mirrored.
 
-Reading the columns as landing spots of $\hat{\imath}$ and $\hat{\jmath}$, an orthogonal matrix moves the two basis vectors to two other perpendicular unit vectors. The grid squares stay squares of the same size. So nothing is stretched or slanted; space is only rotated, or rotated and mirrored.
+Reading the columns as landing spots of $\hat{\imath}$ and $\hat{\jmath}$, an **orthogonal matrix** (G-1407) moves the two basis vectors to two other perpendicular unit vectors. The grid squares stay squares of the same size. So nothing is stretched or slanted; space is only rotated, or rotated and mirrored.
 
 - $V$ sends $\hat{\imath}$ to $[0.707, 0.707]$: a **rotation** (G-1709) by 45° counterclockwise.
 - $U$ of [Section 3](#3-every-matrix-turns-a-circle-into-an-ellipse) sends $\hat{\imath}$ to $[0.316, 0.949]$: a rotation by 71.6°, since $\tan 71.6^\circ = 3$.
@@ -93,7 +93,7 @@ In Figure 3, watch the grid squares: each one stays a unit square, so lengths an
 
 ### 2.5 Why lengths and angles survive: the inverse is the transpose
 
-> **Key point:** For an orthogonal matrix $Q$, $Q^{\mathsf T}Q = I$. That one fact keeps every length and angle, and makes undoing $Q$ free: $Q^{-1} = Q^{\mathsf T}$.
+> **Key point:** For an **orthogonal matrix** (G-1407) $Q$, $Q^{\mathsf T}Q = I$. That one fact keeps every length and angle, and makes undoing $Q$ free: $Q^{-1} = Q^{\mathsf T}$.
 
 1. **In words:** entry $(i, j)$ of $Q^{\mathsf T}Q$ is the dot product of column $i$ with column $j$. The dot product is 1 when $i = j$ (unit length) and 0 otherwise (perpendicular), so the product is the [**identity matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915).
 2. **Formula:**
@@ -104,7 +104,7 @@ In Figure 3, watch the grid squares: each one stays a unit square, so lengths an
    $$\qquad\times \begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
    $$V^{\mathsf T}V = \frac{1}{2}\begin{bmatrix} 2 & 0 \cr0 & 2 \end{bmatrix}$$
    $$V^{\mathsf T}V = I$$
-   So $V^{\mathsf T}$ is the rotation by $-45^\circ$, the move that undoes $V$.
+   So $V^{\mathsf T}$ is the **rotation** (G-1709) by $-45^\circ$, the move that undoes $V$.
 4. **Why lengths survive:** a squared length is a vector's dot product with itself, $\lVert\mathbf x\rVert^2 = \mathbf x^{\mathsf T}\mathbf x$. So
    $$\lVert Q\mathbf x\rVert^2 = (Q\mathbf x)^{\mathsf T}(Q\mathbf x)$$
    $$= \mathbf x^{\mathsf T}Q^{\mathsf T}Q\thinspace\mathbf x$$
@@ -168,7 +168,7 @@ $$\sqrt{10/2} = \sqrt 5 \approx 2.24$$
 
 > **Key point:** The unit circle becomes an ellipse whose long axis is $A\mathbf v_1$ and whose short axis is $A\mathbf v_2$.
 
-The **unit circle** is the set of all points at distance 1 from the origin, so every point of it is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a linear transformation that curve is always an ellipse (Figure 5, right). Its two axes are perpendicular, and they are exactly $A\mathbf v_1$ and $A\mathbf v_2$.
+The **unit circle** is the set of all points at distance 1 from the origin, so every point of it is a unit vector $\mathbf{x}$. Applying $A$ to all of them gives a closed curve, and for a **linear transformation** (G-1097) that curve is always an ellipse (Figure 5, right). Its two axes are perpendicular, and they are exactly $A\mathbf v_1$ and $A\mathbf v_2$.
 
 ![Eigenvectors keep their line; singular vectors are the perpendicular pair that stays perpendicular](images/eigen_vs_singular.png){width=90%}
 
@@ -186,7 +186,7 @@ $$\mathbf u_2 \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
 
 ### 3.4 The singular value equation
 
-> **Key point:** $A\mathbf v_i = \sigma_i \mathbf u_i$: each input direction lands on its output direction, stretched by its singular value. This is the **singular value equation** (G-1814).
+> **Key point:** $A\mathbf v_i = \sigma_i \mathbf u_i$: each input direction lands on its output direction, stretched by its **singular value** (G-1812). This is the **singular value equation** (G-1814).
 
 1. **In words:** $A$ takes the unit vector $\mathbf v_i$ to the unit vector $\mathbf u_i$, stretched by $\sigma_i$. The $\mathbf{v}$'s are perpendicular, and so are the $\mathbf{u}$'s.
 2. **Formula:**
@@ -200,7 +200,7 @@ $$\mathbf u_2 \approx \begin{bmatrix} -0.949 \cr0.316 \end{bmatrix}$$
 
 The singular value equation looks like the eigenvector equation $A\mathbf{v} = \lambda\mathbf{v}$, with one difference: the vector on the right is a different vector, $\mathbf u_i$ instead of $\mathbf v_i$. Allowing the output direction to differ from the input direction is what makes this work for every matrix.
 
-The $\mathbf v$'s are orthonormal, and so are the $\mathbf u$'s. Placed side by side as columns, the $\mathbf v$'s form the rotation $V$ of [Section 2](#2-orthogonal-matrices-moves-that-only-rotate-or-flip), and the $\mathbf u$'s form a second orthogonal matrix, the rotation by 71.6°:
+The $\mathbf v$'s are **orthonormal** (G-1409), and so are the $\mathbf u$'s. Placed side by side as columns, the $\mathbf v$'s form the **rotation** (G-1709) $V$ of [Section 2](#2-orthogonal-matrices-moves-that-only-rotate-or-flip), and the $\mathbf u$'s form a second **orthogonal matrix** (G-1407), the rotation by 71.6°:
 
 $$V = \frac{1}{\sqrt 2}\begin{bmatrix} 1 & -1 \cr1 & 1 \end{bmatrix}$$
 
@@ -208,7 +208,7 @@ $$U = \frac{1}{\sqrt{10}}\begin{bmatrix} 1 & -3 \cr3 & 1 \end{bmatrix}$$
 
 ## 4. Rotate, stretch, rotate: $A = U\Sigma V^{\mathsf T}$
 
-> **Key point:** $V^{\mathsf T}$ rotates $\mathbf v_1, \mathbf v_2$ onto the axes, $\Sigma$ stretches the axes by the singular values, and $U$ rotates the axes onto $\mathbf u_1, \mathbf u_2$.
+> **Key point:** $V^{\mathsf T}$ rotates $\mathbf v_1, \mathbf v_2$ onto the axes, $\Sigma$ stretches the axes by the **singular values** (G-1812), and $U$ rotates the axes onto $\mathbf u_1, \mathbf u_2$.
 
 ### 4.1 From the singular value equation to the factorisation
 
@@ -230,10 +230,10 @@ $$AV = U\Sigma$$
 
 Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$, the $V$ disappears from the left.
 
-1. **In words:** every matrix is an orthogonal matrix, times a diagonal matrix of non-negative numbers, times another orthogonal matrix.
+1. **In words:** every matrix is an **orthogonal matrix** (G-1407), times a diagonal matrix of non-negative numbers, times another orthogonal matrix.
 2. **Formula:**
    $$A = U\Sigma V^{\mathsf T}$$
-   The columns of $U$ are the **left singular vectors** (G-1079) $\mathbf u_i$, the columns of $V$ are the **right singular vectors** (G-1692) $\mathbf v_i$, and the diagonal of $\Sigma$ holds the singular values $\sigma_i$.
+   The columns of $U$ are the **left singular vectors** (G-1079) $\mathbf u_i$, the columns of $V$ are the **right singular vectors** (G-1692) $\mathbf v_i$, and the diagonal of $\Sigma$ holds the **singular values** (G-1812) $\sigma_i$.
 3. **Example:**
    $$A = \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix}$$
    The three factors:
@@ -251,11 +251,11 @@ Multiply both sides on the right by $V^{\mathsf T}$. Since $VV^{\mathsf T} = I$,
 
 > **Key point:** Read $U\Sigma V^{\mathsf T}\mathbf{x}$ from right to left: rotate, stretch, rotate.
 
-A product of matrices is one transformation after another, applied from right to left (see [why the product is written right to left](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left)). [Changing to an eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) reads $PDP^{-1}$ this way: translate into the coordinates of the eigenbasis with the [**change of basis matrix**](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) (G-374), scale each coordinate, translate back. $U\Sigma V^{\mathsf T}$ has the same "translate, transform, translate back" shape, with one difference: it uses two bases. $V^{\mathsf T}$ translates $\mathbf x$ into coordinates along $\mathbf v_1, \mathbf v_2$; $\Sigma$ scales each coordinate; $U$ translates the result out along $\mathbf u_1, \mathbf u_2$. Because both bases are orthonormal, both translations are rotations (or flips).
+A product of matrices is one transformation after another, applied from right to left (see [why the product is written right to left](../MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left)). [Changing to an eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) reads $PDP^{-1}$ this way: translate into the coordinates of the **eigenbasis** (G-664) with the [**change of basis matrix**](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) (G-374), scale each coordinate, translate back. $U\Sigma V^{\mathsf T}$ has the same "translate, transform, translate back" shape, with one difference: it uses two bases. $V^{\mathsf T}$ translates $\mathbf x$ into coordinates along $\mathbf v_1, \mathbf v_2$; $\Sigma$ scales each coordinate; $U$ translates the result out along $\mathbf u_1, \mathbf u_2$. Because both bases are **orthonormal** (G-1409), both translations are rotations (or flips).
 
 Figure 1 follows the unit circle through the three moves:
 
-1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the rotation by $-45^\circ$. It carries $\mathbf v_1$ onto $\hat{\imath}$ (written $\mathbf e_1$ in the figure) and $\mathbf v_2$ onto $\hat{\jmath}$ ($\mathbf e_2$). The circle looks the same, since a rotated circle is still a circle.
+1. **$V^{\mathsf T}$ rotates.** $V^{\mathsf T}$ is the **rotation** (G-1709) by $-45^\circ$. It carries $\mathbf v_1$ onto $\hat{\imath}$ (written $\mathbf e_1$ in the figure) and $\mathbf v_2$ onto $\hat{\jmath}$ ($\mathbf e_2$). The circle looks the same, since a rotated circle is still a circle.
 2. **$\Sigma$ stretches.** $\Sigma$ is a diagonal matrix, so it stretches along the axes only (as feature scaling did in [feature scaling is a stretch along the axes](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes)): by 6.71 along x and 2.24 along y. The circle becomes an ellipse lying along the axes.
 3. **$U$ rotates.** $U$ is the rotation by 71.6°. The rotation turns the ellipse so that its axes point along $\mathbf u_1$ and $\mathbf u_2$.
 
@@ -263,12 +263,12 @@ The final ellipse is exactly the one $A$ makes in one step (the dashed red curve
 
 ![Area of the unit circle after each factor: the two rotations keep it at $\pi$, the stretch $\Sigma$ multiplies it by $\sigma_1\sigma_2 = 15$](images/area_through_svd.png){height=24%}
 
-Figure 6 tracks the area through the three moves: only the middle step changes it, which is the area check in the Extra box below. Every linear transformation of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
+Figure 6 tracks the area through the three moves: only the middle step changes it, which is the area check in the Extra box below. Every **linear transformation** (G-1097) of the plane is this simple underneath: a rotation, a stretch along two perpendicular directions, and another rotation. Either rotation may also include a flip.
 
 > **Extra:** Each rotation preserves area, so all the area change happens in $\Sigma$. The area rule gives a check: $\lvert\det A\rvert = \sigma_1\sigma_2$, where the **determinant** $\det A$ (G-598) is the factor by which $A$ scales areas. Here the determinant of $A$ is:
 > $$\det A = 3 \times 5 - 0 \times 4 = 15$$
 >
-> The product of the singular values is the same:
+> The product of the **singular values** (G-1812) is the same:
 >
 > $$\sigma_1\sigma_2 = 3\sqrt5 \times \sqrt5 = 15$$
 >
@@ -276,19 +276,19 @@ Figure 6 tracks the area through the three moves: only the middle step changes i
 
 ## 5. Singular values and singular vectors
 
-> **Key point:** Singular values are never negative and are listed largest first; the number of non-zero ones is the rank; the largest is the most any unit vector can be stretched.
+> **Key point:** Singular values are never negative and are listed largest first; the number of non-zero ones is the **rank** (G-1627); the largest is the most any unit vector can be stretched.
 
 ### 5.1 Ordering and sign
 
 > **Key point:** We sort $\sigma_1 \ge \sigma_2 \ge \dots \ge 0$; a sign flip of a matching $\mathbf u_i$ and $\mathbf v_i$ gives an equally valid SVD.
 
-- **Never negative.** A singular value is a length (of $A\mathbf v_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf u_i$ instead.
+- **Never negative.** A **singular value** (G-1812) is a length (of $A\mathbf v_i$), so $\sigma_i \ge 0$. If a stretch would need a negative number, we flip the sign of $\mathbf u_i$ instead.
 - **Largest first.** By convention $\sigma_1 \ge \sigma_2 \ge \dots$. Then $\Sigma$ is unique for every matrix (MML Thm 4.22).
 - **Signs of the vectors.** Changing both $\mathbf u_i$ and $\mathbf v_i$ to $-\mathbf u_i$ and $-\mathbf v_i$ keeps $A\mathbf v_i = \sigma_i\mathbf u_i$ true. So libraries may return vectors with signs opposite to ours, as NumPy does below. Flipping only one of the pair is wrong; [computing the SVD](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#2-making-one-orthogonal-matrix-disappear) shows what goes wrong.
 
 ### 5.2 Rank and the largest stretch
 
-> **Key point:** The rank is the number of non-zero singular values; $\sigma_1$ is the longest $A\mathbf{x}$ can be for a unit vector $\mathbf{x}$.
+> **Key point:** The rank is the number of non-zero **singular values** (G-1812); $\sigma_1$ is the longest $A\mathbf{x}$ can be for a unit vector $\mathbf{x}$.
 
 - **Rank.** Each non-zero $\sigma_i$ gives one independent output direction $\mathbf u_i$; a zero $\sigma_i$ squishes its direction to nothing. So the [**rank**](../MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) of the matrix (see [rank](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence)) is the number of non-zero singular values. $A$ has two, so its rank is 2.
 - **Largest stretch.** Every unit vector lands somewhere on the ellipse, and the farthest points of the ellipse are the ends of its long axis. So $\lVert A\mathbf{x}\rVert \le \sigma_1$ for every unit $\mathbf{x}$, and $\sigma_1$ is reached at $\mathbf{x} = \mathbf v_1$. In the same way, $\sigma_2$ is the smallest stretch of a $2 \times 2$ matrix.
@@ -316,17 +316,17 @@ In Figure 7, watch the top and bottom of the curve: the top is $\sigma_1 = 6.71$
 
 ## 6. Matrices that are not square
 
-> **Key point:** For an $m \times n$ matrix, $U$ is $m \times m$, $\Sigma$ is $m \times n$ with zeros below (or beside) its diagonal, and $V$ is $n \times n$. The thin SVD drops the parts that only multiply zeros.
+> **Key point:** For an $m \times n$ matrix, $U$ is $m \times m$, $\Sigma$ is $m \times n$ with zeros below (or beside) its diagonal, and $V$ is $n \times n$. The **thin SVD** (G-1969) drops the parts that only multiply zeros.
 
 ### 6.1 The full SVD
 
-> **Key point:** $\Sigma$ has the same shape as $A$; its singular values sit on the diagonal, padded with zeros.
+> **Key point:** $\Sigma$ has the same shape as $A$; its **singular values** (G-1812) sit on the diagonal, padded with zeros.
 
 A matrix that is not square moves vectors between spaces of different dimensions. Its columns are still the landing spots of the basis vectors. A $3 \times 2$ matrix has two columns, so the input has two basis vectors (2D), and each landing spot has three coordinates, so the output is 3D: the whole input plane lands on a flat plane through the origin of 3D space, its [**column space**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414). A $2 \times 3$ matrix does the reverse and squashes 3D space onto a plane.
 
 A data matrix is rarely square: it has many more rows ([**observations**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374), one per record) than columns ([**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), one per input variable). The SVD still exists. For an $m \times n$ matrix $A$:
 
-- $V$ is $n \times n$: an orthonormal basis of the input space $\mathbb{R}^n$ ($\mathbb{R}^n$ means all lists of $n$ numbers, such as $(2, 3)$ in $\mathbb{R}^2$);
+- $V$ is $n \times n$: an **orthonormal** (G-1409) basis of the input space $\mathbb{R}^n$ ($\mathbb{R}^n$ means all lists of $n$ numbers, such as $(2, 3)$ in $\mathbb{R}^2$);
 - $U$ is $m \times m$: an orthonormal basis of the output space $\mathbb{R}^m$;
 - $\Sigma$ is $m \times n$, the same shape as $A$, with $\sigma_1, \sigma_2, \dots$ on its diagonal and zeros everywhere else.
 
@@ -344,7 +344,7 @@ Geometrically the picture is the same as in 2D, with one more dimension in the o
 
 ![The SVD of the $3 \times 2$ matrix $B$ in 3D. The unit circle lies on the floor (third coordinate 0) with $\mathbf v_1$ (orange) and $\mathbf v_2$ (purple). $V^{\mathsf T}$ turns it on the floor, $\Sigma$ stretches it into an ellipse of axes 1.73 and 1, still on the floor, and $U$ tilts it up onto the plane of $B$'s outputs (red). The dashed curve is $B$ applied in one step. 2D-to-3D picture after 3Blue1Brown, "Nonsquare matrices as transformations between dimensions"](images/nonsquare_svd.gif)
 
-In Figure 8, watch the floor: the first two moves never leave it, and only $U$, the $3 \times 3$ rotation, lifts the ellipse into 3D. It lands exactly on the dashed curve, and the red plane is everything $B$ can output.
+In Figure 8, watch the floor: the first two moves never leave it, and only $U$, the $3 \times 3$ **rotation** (G-1709), lifts the ellipse into 3D. It lands exactly on the dashed curve, and the red plane is everything $B$ can output.
 
 ![Shapes of the factors in the full and in the thin SVD of a tall matrix](images/svd_shapes.png){width=85%}
 
@@ -352,7 +352,7 @@ In Figure 8, watch the floor: the first two moves never leave it, and only $U$, 
 
 > **Key point:** Keep only the first $n$ columns of $U$ and the square top of $\Sigma$; the product is unchanged.
 
-In the full SVD, the zero rows of $\Sigma$ multiply the last $m - n$ columns of $U$ by zero. Those columns never affect $A$, so we can drop them. The result is the **thin SVD** (G-1969), also called the **reduced SVD** (MML §4.5; Figure 9, bottom):
+In the **full SVD** (G-810), the zero rows of $\Sigma$ multiply the last $m - n$ columns of $U$ by zero. Those columns never affect $A$, so we can drop them. The result is the **thin SVD** (G-1969), also called the **reduced SVD** (MML §4.5; Figure 9, bottom):
 
 $$A = U_n \Sigma_n V^{\mathsf T}$$
 
@@ -364,7 +364,7 @@ with these shapes:
 
 Now $\Sigma_n$ is a square diagonal matrix, as in an eigen-decomposition. For data with 10,000 rows and 5 columns, the full $U$ would be $10{,}000 \times 10{,}000$ (100 million numbers), while the thin $U_n$ is $10{,}000 \times 5$. The thin SVD is what we use in practice.
 
-> **Extra:** For a wide matrix ($m < n$) everything mirrors: $\Sigma$ gets zero columns on the right, and the thin SVD keeps the first $m$ columns of $V$. Some books go one step further and keep only the $r$ columns that belong to non-zero singular values, where $r$ is the rank; all three versions describe the same factorisation.
+> **Extra:** For a wide matrix ($m < n$) everything mirrors: $\Sigma$ gets zero columns on the right, and the thin SVD keeps the first $m$ columns of $V$. Some books go one step further and keep only the $r$ columns that belong to non-zero **singular values** (G-1812), where $r$ is the **rank** (G-1627); all three versions describe the same factorisation.
 
 > **Python:** `full_matrices=False` gives the thin SVD.
 >
@@ -379,7 +379,7 @@ Now $\Sigma_n$ is a square diagonal matrix, as in an eigen-decomposition. For da
 
 ## 7. SVD and eigen-decomposition compared
 
-> **Key point:** The eigen-decomposition uses one basis that need not be perpendicular and exists only for some square matrices; the SVD uses two orthonormal bases and exists for every matrix.
+> **Key point:** The eigen-decomposition uses one basis that need not be perpendicular and exists only for some square matrices; the SVD uses two **orthonormal** (G-1409) bases and exists for every matrix.
 
 Both factorisations have the same three-step shape: change of basis, scale each new axis, change basis again. Figure 5 shows the difference on $A$. Its eigenvectors, $[1, -2]$ (eigenvalue 3) and $[0, 1]$ (eigenvalue 5), each stay on their own line, but the two lines are not perpendicular. Its singular vectors are perpendicular and land on perpendicular vectors, but each one turns.
 
@@ -392,7 +392,7 @@ Both factorisations have the same three-step shape: change of basis, scale each 
 | Diagonal entries | eigenvalues: any sign, can be complex | singular values: real, $\ge 0$ |
 | For $A$ | 3 and 5 | 6.71 and 2.24 |
 
-The two agree for one important family. A **symmetric matrix** (G-1932) equals its own transpose. When it is also **positive semi-definite** (G-1532) (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)), so for it the eigenvalues and the singular values are the same numbers (MML §4.6).
+The two agree for one important family. A **symmetric matrix** (G-1932) equals its own **transpose** (G-2012). When it is also **positive semi-definite** (G-1532) (all its eigenvalues are 0 or positive), its eigenvectors are orthonormal and its eigenvalues are non-negative, so $P$ is orthogonal and $A = PDP^{\mathsf T}$ is already an SVD, with $U = V = P$. A covariance matrix is exactly such a matrix (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)), so for it the eigenvalues and the **singular values** (G-1812) are the same numbers (MML §4.6).
 
 > **Extra:** Even for a symmetric matrix the two can differ when an eigenvalue is negative. The matrix with rows $[0, 1]$ and $[1, 0]$ swaps x and y: its eigenvalues are 1 and $-1$, but its singular values are 1 and 1, because singular values ignore the flip and report only the stretch.
 
@@ -406,12 +406,12 @@ The two agree for one important family. A **symmetric matrix** (G-1932) equals i
 | $V^{\mathsf T}$, $\Sigma$, $U$ | rotate, stretch, rotate | $-45^\circ$; $\times 6.71$ and $\times 2.24$; $+71.6^\circ$ |
 
 - Every matrix sends the unit circle to an ellipse; $A\mathbf v_i = \sigma_i\mathbf u_i$ names its axes, so the longest and shortest stretch of any unit vector can be read off the ellipse.
-- An orthogonal matrix has orthonormal columns, only rotates or flips, and has $Q^{-1} = Q^{\mathsf T}$, because $Q^{\mathsf T}Q = I$; so undoing it costs nothing, and it keeps every length and angle.
+- An **orthogonal matrix** (G-1407) has orthonormal columns, only rotates or flips, and has $Q^{-1} = Q^{\mathsf T}$, because $Q^{\mathsf T}Q = I$; so undoing it costs nothing, and it keeps every length and angle.
 - $A = U\Sigma V^{\mathsf T}$ for every matrix: rotate, stretch along the axes, rotate, because the output direction $\mathbf u_i$ is allowed to differ from the input direction $\mathbf v_i$, unlike an eigenvector.
-- Singular values are $\ge 0$, because each is a length; their count above zero is the rank, because a zero $\sigma_i$ squishes its direction to nothing; $\sigma_1$ is the largest stretch.
-- For tall data, the thin SVD keeps only the first $n$ columns of $U$, because the other columns only multiply zeros of $\Sigma$; it saves memory and is what we use in practice.
-- For a covariance matrix, the SVD and the eigen-decomposition coincide, because it is symmetric with eigenvalues 0 or above, so its eigenvectors are already orthonormal.
-- So every matrix, square or not, is a rotation, a stretch by its singular values, and another rotation.
+- **Singular values** (G-1812) are $\ge 0$, because each is a length; their count above zero is the **rank** (G-1627), because a zero $\sigma_i$ squishes its direction to nothing; $\sigma_1$ is the largest stretch.
+- For tall data, the **thin SVD** (G-1969) keeps only the first $n$ columns of $U$, because the other columns only multiply zeros of $\Sigma$; it saves memory and is what we use in practice.
+- For a covariance matrix, the SVD and the eigen-decomposition coincide, because it is symmetric with eigenvalues 0 or above, so its eigenvectors are already **orthonormal** (G-1409).
+- So every matrix, square or not, is a **rotation** (G-1709), a stretch by its singular values, and another rotation.
 
 ## 9. Sources
 
@@ -433,17 +433,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Singular value decomposition (SVD) (G-1813) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
-| Orthonormal (G-1409) | Vectors of length 1 that are all perpendicular to each other. |
-| Orthogonal matrix (G-1407) | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
 | Rotation (G-1709) | A transformation that turns space without stretching or flipping it (an orthogonal matrix with determinant $+1$). |
-| Reflection (G-1651) | A transformation that mirrors space, without stretching it (an orthogonal transformation with determinant $-1$). |
+| Singular value decomposition (SVD) (G-1813) | A way to write any matrix, square or not, as three simple steps: turn, stretch by the singular values, turn ($A = U\Sigma V^{\mathsf T}$: orthogonal, diagonal, orthogonal; a factorisation). ML uses it for PCA and to compress data. |
 | Singular value ($\sigma_i$) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
+| Thin (reduced) SVD (G-1969) | A smaller form of the SVD that drops the columns of $U$ multiplied by the zero rows of $\Sigma$; those columns never affect the matrix, so it gives the same $A$ from smaller matrices. |
+| Orthogonal matrix (G-1407) | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
+| Orthonormal (G-1409) | Vectors of length 1 that are all perpendicular to each other. |
+| Reflection (G-1651) | A transformation that mirrors space, without stretching it (an orthogonal transformation with determinant $-1$). |
 | Singular value equation (G-1814) | The equation $A\mathbf v_i = \sigma_i\mathbf u_i$: the matrix sends each input direction $\mathbf v_i$ to its output direction $\mathbf u_i$, stretched by the singular value $\sigma_i$; it is used to compute each $\mathbf u_i$. |
 | Left singular vector ($\mathbf u_i$) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
 | Right singular vector ($\mathbf v_i$) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
 | Full SVD (G-810) | The version of the SVD that keeps every column of $U$ and $V$, so both are square and $\Sigma$ has the same shape as $A$, with the singular values on its diagonal padded with zeros. It gives complete orthonormal bases for both the input and the output space. |
-| Thin (reduced) SVD (G-1969) | A smaller form of the SVD that drops the columns of $U$ multiplied by the zero rows of $\Sigma$; those columns never affect the matrix, so it gives the same $A$ from smaller matrices. |
 | Symmetric matrix (G-1932) | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
 | Positive semi-definite (G-1532) | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
 | [Eigenbasis](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#62-changing-to-an-eigenbasis) (G-664) | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |

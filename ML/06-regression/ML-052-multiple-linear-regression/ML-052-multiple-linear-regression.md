@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/multiple-lr]
 
 ## 1. Overview
 
-> **Key point:** Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a plane; with more, a hyperplane.
+> **Key point:** Multiple linear regression is simple linear regression with more than one feature. With two inputs it fits a **plane** (G-1502); with more, a hyperplane.
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Figure 1 marks all three on the first rows of this Note's example data.
 
@@ -29,7 +29,7 @@ Nothing new has to be learned for multiple linear regression: everything from si
 
 ## 2. From a line to a hyperplane
 
-> **Key point:** One input: a line in 2D. Two inputs: a plane in 3D. n inputs: a hyperplane in n + 1 dimensions.
+> **Key point:** One input: a line in 2D. Two inputs: a **plane** (G-1502) in 3D. n inputs: a hyperplane in n + 1 dimensions.
 
 ### 2.1 Two inputs: a plane
 
@@ -39,7 +39,7 @@ Take two inputs, CGPA ($x_1$) and IQ ($x_2$), and the package ($y$) as output. E
 
 In 2D we drew the line that passes closest to all points. In 3D we draw a flat **plane** (G-1502) that cuts through the cloud of points: some points lie above it, some below, and the plane keeps as close as possible to all of them (Figure 2).
 
-Figure 2 and the figures after it use this Note's example data of Figure 1: 100 made-up observations with two features, feature1 and feature2, standing in for CGPA and IQ (section 4 shows how the data is made).
+Figure 2 and the figures after it use this Note's example data of Figure 1: 100 made-up **observations** (G-1374) with two features, feature1 and feature2, standing in for CGPA and IQ (section 4 shows how the data is made).
 
 ![100 observations in 3D, then the fitted plane, then each observation's error as a stick to the plane (green above, red below), while the view circles once](images/plane_orbit.gif){height=50%}
 
@@ -49,7 +49,7 @@ Watch the sticks as the view turns: about half the points sit above the plane (5
 
 > **Key point:** Beyond three dimensions we cannot draw the picture, but the equation keeps the same form.
 
-With three inputs the data is 4-dimensional, and the model is the 4D version of a plane. A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3). A small case with three inputs and made-up numbers:
+With three inputs the data is 4-dimensional, and the model is the 4D version of a **plane** (G-1502). A flat surface in more than three dimensions is called a **hyperplane** (G-911). We cannot draw it, but the mathematics works exactly the same (Figure 3). A small case with three inputs and made-up numbers:
 
 $$\hat{y} = 2 + 3x_1 + 1x_2 - 0.5x_3$$
 
@@ -71,13 +71,13 @@ The steps are the same as for two inputs; only one more term is added.
 >
 > $$\hat{y} = \beta_0 + \beta_1 x_1 + \dots + \beta_n x_n$$
 
-For simple linear regression we wrote $y = mx + b$. With more inputs, letters run out, so we rename the numbers with the Greek letter beta: $\beta_0$ for the intercept and $\beta_1, \beta_2, \dots$ for the slopes.
+For **simple linear regression** (G-1808) we wrote $y = mx + b$. With more inputs, letters run out, so we rename the numbers with the Greek letter beta: $\beta_0$ for the intercept and $\beta_1, \beta_2, \dots$ for the slopes.
 
 In words: start from the intercept, then add each input multiplied by its own coefficient.
 
 $$\hat{y} = \beta_0 + \beta_1 x_1 + \beta_2 x_2 + \dots + \beta_n x_n$$
 
-The symbols: $\hat{y}$ ("y hat") is the predicted target; $x_1, x_2, \dots, x_n$ are the $n$ inputs, where the small number labels which input (for the placement data, $x_1$ could be CGPA and $x_2$ IQ); and $\beta_0, \beta_1, \dots, \beta_n$ are the $n + 1$ numbers that the model learns.
+The symbols: $\hat{y}$ ("y hat") is the predicted **target** (G-1949); $x_1, x_2, \dots, x_n$ are the $n$ inputs, where the small number labels which input (for the placement data, $x_1$ could be CGPA and $x_2$ IQ); and $\beta_0, \beta_1, \dots, \beta_n$ are the $n + 1$ numbers that the model learns.
 
 With numbers, from the model in Figure 2:
 
@@ -88,7 +88,7 @@ For a point with $x_1 = 1$ and $x_2 = 0.5$:
 $$\hat{y} = -1.9 + 58.6 \times 1 + 29.1 \times 0.5$$
 $$\hat{y} = -1.9 + 58.6 + 14.6 = 71.3$$
 
-Figure 4 builds this prediction one term at a time: start at the intercept, then let each feature add its own share.
+Figure 4 builds this prediction one term at a time: start at the intercept, then let each **feature** (G-772) add its own share.
 
 ![One prediction built term by term: the intercept −1.9, plus 58.6 × 1, plus 29.1 × 0.5, gives 71.3.](images/prediction_steps.gif)
 
@@ -96,29 +96,29 @@ With $n$ features there are $n + 1$ numbers to find: one **coefficient** (G-407)
 
 ### 3.1 What the coefficients mean
 
-> **Key point:** Each coefficient is the change in the output when its feature rises by 1 and the other features stay the same: the feature's weight.
+> **Key point:** Each **coefficient** (G-407) is the change in the output when its feature rises by 1 and the other features stay the same: the feature's weight.
 
-The meaning carries over from [the slope](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#52-the-slope-m-how-much-the-output-depends-on-the-input) $m$ of simple linear regression:
+The meaning carries over from [the slope](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#52-the-slope-m-how-much-the-output-depends-on-the-input) $m$ of **simple linear regression** (G-1808):
 
 - $\beta_1$: how much the prediction changes when $x_1$ rises by 1 and every other input stays fixed.
 - $\beta_2$: the same for $x_2$, and so on.
 - $\beta_0$: the prediction when every input is 0.
 
-Figure 5 slices the plane of Figure 2 at three fixed values of feature2. Each slice is a line with slope 58.6, and the slices sit 29.1 apart: one coefficient per direction.
+Figure 5 slices the **plane** (G-1502) of Figure 2 at three fixed values of feature2. Each slice is a line with slope 58.6, and the slices sit 29.1 apart: one coefficient per direction.
 
 ![Slices of the fitted plane at feature2 = −1, 0 and 1. One step along feature1 adds 58.6 (orange); one step in feature2 lifts the whole line by 29.1 (red)](images/coef_slices.png){height=40%}
 
-So the coefficients act as [**weights**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#6-weighted-mean) (G-2111): in Figure 2, the target depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that feature.
+So the coefficients act as [**weights**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#6-weighted-mean) (G-2111): in Figure 2, the **target** (G-1949) depends about twice as strongly on feature 1 (58.6 per unit) as on feature 2 (29.1 per unit). In the placement example, $\beta_1$ would say how much the package depends on CGPA and $\beta_2$ how much on IQ. A coefficient near 0 means the target hardly depends on that **feature** (G-772).
 
 > **Extra:** Comparing coefficients only makes sense when the inputs are on similar scales. A coefficient of 58.6 per unit of CGPA and 0.05 per IQ point says nothing about which matters more, because one IQ point is a much smaller step than one CGPA point. [**Standardising**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) the inputs first puts all coefficients on the same footing (Gelman 2008). In Figure 2 the comparison is fair: both inputs from `make_regression` already have a standard deviation (typical distance from the mean) of about 1.
 
 ## 4. Multiple linear regression in scikit-learn
 
-> **Key point:** The code is exactly the same as for one feature; LinearRegression simply returns one coefficient per feature.
+> **Key point:** The code is exactly the same as for one feature; LinearRegression simply returns one **coefficient** (G-407) per feature.
 
-The example data has 100 observations, 2 features and some noise, made with scikit-learn's `make_regression`.
+The example data has 100 **observations** (G-1374), 2 features and some noise, made with scikit-learn's `make_regression`.
 
-> **Python:** Training on two features.
+> **Python:** Training on two **features** (G-772).
 >
 > ```python
 > from sklearn.datasets import make_regression
@@ -137,7 +137,7 @@ The example data has 100 observations, 2 features and some noise, made with scik
 >
 > `make_regression` (G-1153) invents data that follows a linear pattern plus random noise (`noise=50` sets how big the random scatter is); `random_state` fixes it so the numbers repeat.
 
-The metrics ([MAE](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae), the average size of the miss; [MSE](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse), the average squared miss; [$R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score), the share of the target's spread that the model explains) are computed exactly as before: the errors are now gaps to the plane instead of gaps to the line. With several features, [adjusted $R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#7-adjusted-r²) is the fairer score, because it charges a penalty for each feature.
+The metrics ([MAE](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae), the average size of the miss; [MSE](../ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse), the average squared miss; [$R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score), the share of the target's spread that the model explains) are computed exactly as before: the errors are now gaps to the **plane** (G-1502) instead of gaps to the line. With several features, [adjusted $R^2$](../ML-051-regression-metrics/ML-051-regression-metrics.md#7-adjusted-r²) is the fairer score, because it charges a penalty for each feature.
 
 On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise added to the data limits how good any plane can be: with less noise the same code scores higher, and with no noise it fits perfectly ($R^2$ of 0.85 at `noise=25`, 1.0 at `noise=0`; see the Notebook). Figure 6 shows the test predictions for all three: as the noise falls, the points close in on the diagonal of perfect predictions.
 
@@ -155,12 +155,12 @@ On the 20 test observations: MAE 40.1, MSE 2614.9 and $R^2 = 0.61$. The noise ad
 | Numbers to find | 2 | $n + 1$ |
 | scikit-learn | `LinearRegression` | the same `LinearRegression` |
 
-- The two columns differ only in the number of inputs, so everything learned for simple linear regression (least squares, the metrics, the code) carries over unchanged.
+- The two columns differ only in the number of inputs, so everything learned for **simple linear regression** (G-1808) (least squares, the metrics, the code) carries over unchanged.
 
-- Real data almost always has several inputs, so multiple linear regression is the version used in practice.
-- Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight, so the coefficients show which input the target depends on most (58.6 against 29.1 here), but only when the inputs are on similar scales.
-- The intercept $\beta_0$ is the prediction when every input is 0, so it sets the height of the plane.
-- Together these answer the opening question: multiple linear regression is simple linear regression with more inputs, fitting a plane or hyperplane instead of a line.
+- Real data almost always has several inputs, so **multiple linear regression** (G-1279) is the version used in practice.
+- Each coefficient is the change in the output per unit of its input, with the other inputs fixed: a weight, so the coefficients show which input the **target** (G-1949) depends on most (58.6 against 29.1 here), but only when the inputs are on similar scales.
+- The **intercept** (G-960) $\beta_0$ is the prediction when every input is 0, so it sets the height of the **plane** (G-1502).
+- Together these answer the opening question: multiple linear regression is simple linear regression with more inputs, fitting a plane or **hyperplane** (G-911) instead of a line.
 
 ## 6. Sources
 
@@ -179,8 +179,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Multiple linear regression (G-1279) | Linear regression with several input columns. |
 | Plane (G-1502) | A flat surface in 3D; the model for two input columns. |
+| Multiple linear regression (G-1279) | Linear regression with several input columns. |
 | Hyperplane (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | Coefficient ($\beta_i$) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
 | make_regression (G-1153) | scikit-learn function that generates data following a linear pattern plus noise. |

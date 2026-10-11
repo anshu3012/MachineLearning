@@ -30,7 +30,7 @@ This Note covers:
 - EM in two dimensions, on Old Faithful ([Section 5](#5-em-in-two-dimensions));
 - why the log-likelihood never decreases ([Section 6](#6-why-the-log-likelihood-never-decreases));
 - local maxima and starting points ([Section 7](#7-local-maxima-and-starting-points));
-- k-means as a "hard" version of EM ([Section 8](#8-k-means-as-hard-em));
+- **k-means** (G-996) as a "hard" version of EM ([Section 8](#8-k-means-as-hard-em));
 - EM as one member of the MM family ([Section 9](#9-em-is-a-minorizemaximize-mm-algorithm), Extra).
 
 ## 2. Guess, score, update, repeat
@@ -51,7 +51,7 @@ The two starting curves are A (centre 2) and B (centre 4), both with variance 4 
 
 > **Key point:** The new curves give new scores, and the new scores give new curves. The points get more decided and the curves narrow.
 
-Now take the new curves and score the points again. Point 3, which was half and half, now gives A 0.56 and B 0.44, because A has moved towards it; the points 6, 7 and 8 give B about 0.85, 0.93 and 0.97. Update again, and again. Figure 1 shows each round as two frames: the points change colour (E-step), then the curves move (M-step). Watch three things: the colours sharpen from mixed to pure; the curves narrow around their groups; the log-likelihood curve on the right climbs and then flattens.
+Now take the new curves and score the points again. Point 3, which was half and half, now gives A 0.56 and B 0.44, because A has moved towards it; the points 6, 7 and 8 give B about 0.85, 0.93 and 0.97. Update again, and again. Figure 1 shows each round as two frames: the points change colour (E-step), then the curves move (**M-step** (G-1139)). Watch three things: the colours sharpen from mixed to pure; the curves narrow around their groups; the log-likelihood curve on the right climbs and then flattens.
 
 | Round | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |---|---|---|---|---|---|---|---|---|
@@ -72,11 +72,11 @@ The group $\lbrace6, 7, 8\rbrace$ has mean 7 and the same variance. EM found the
 
 > **Key point:** Each point has a hidden label, the curve that produced it. If we knew the labels the fit would be easy; EM guesses them with probabilities instead of guessing one answer.
 
-If the table of data had one more column, "which curve produced this point", the problem would be easy: fit one normal to the points of each label, as in the [MLE for common distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#4-the-normal-distribution). The column is missing: it is the **latent variable** (a hidden quantity we never observe), introduced in [the latent variable](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#52-the-latent-variable). The E-step fills the missing column with probabilities instead of a single guess, and the M-step fits each curve to the points in proportion to those probabilities. Guessing one label and being wrong would spoil the fit; guessing probabilities keeps the uncertainty in the calculation.
+If the table of data had one more column, "which curve produced this point", the problem would be easy: fit one normal to the points of each label, as in the [MLE for common distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#4-the-normal-distribution). The column is missing: it is the **latent variable** (a hidden quantity we never observe), introduced in [the latent variable](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#52-the-latent-variable). The E-step fills the missing column with probabilities instead of a single guess, and the **M-step** (G-1139) fits each curve to the points in proportion to those probabilities. Guessing one label and being wrong would spoil the fit; guessing probabilities keeps the uncertainty in the calculation.
 
 ## 3. The two steps and the algorithm
 
-> **Key point:** E-step: with the parameters fixed, compute responsibilities. M-step: with the responsibilities fixed, compute the parameters. Each step is easy when the other side is held still. The algorithm: initialise, then repeat E-step and M-step until the log-likelihood stops changing.
+> **Key point:** E-step: with the parameters fixed, compute responsibilities. **M-step** (G-1139): with the responsibilities fixed, compute the parameters. Each step is easy when the other side is held still. The algorithm: initialise, then repeat E-step and M-step until the log-likelihood stops changing.
 
 ### 3.1 The two steps
 
@@ -114,7 +114,7 @@ Written for $N$ observations $\mathbf x_1, \dots, \mathbf x_N$ (each a vector wh
 
 Figure 2 draws the four steps as a loop. Watch the arrow back from the check: EM never stops after one round unless the log-likelihood has settled.
 
-**Check on the six points:** the E-step formula gave the shares of round 1 ([Section 2.1](#21-one-round-recalled)). The M-step formulas give the numbers computed by hand:
+**Check on the six points:** the **E-step** (G-654) formula gave the shares of round 1 ([Section 2.1](#21-one-round-recalled)). The **M-step** (G-1139) formulas give the numbers computed by hand:
 
 $$\mu_A = 6.01/2.23 = 2.69$$
 $$\sigma_A^2 = 8.78/2.23 = 3.94$$
@@ -122,7 +122,7 @@ $$\pi_A = 2.23/6 = 0.37$$
 
 In one dimension, $\boldsymbol\Sigma_k$ is just the variance $\sigma_k^2$, and $(\mathbf x_n - \boldsymbol\mu_k)(\mathbf x_n - \boldsymbol\mu_k)^{\mathsf T}$ is just $(x_n - \mu_k)^2$.
 
-The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). scikit-learn's `GaussianMixture` runs this loop and stops when the gain of a lower bound on the average log-likelihood falls below `tol` (default $10^{-3}$, from its documentation; [Section 6](#6-why-the-log-likelihood-never-decreases) explains the lower bound).
+The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). scikit-learn's `GaussianMixture` runs this loop and stops when the gain of a **lower bound** (G-1134) on the average log-likelihood falls below `tol` (default $10^{-3}$, from its documentation; [Section 6](#6-why-the-log-likelihood-never-decreases) explains the lower bound).
 
 ## 4. One iteration by hand
 
@@ -130,7 +130,7 @@ The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). sc
 
 ### 4.1 The start and the E-step
 
-> **Key point:** The E-step at the start gives the [responsibility table](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) of the earlier example.
+> **Key point:** The **E-step** (G-654) at the start gives the [responsibility table](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) of the earlier example.
 
 We use the running example of MML §11.2: seven observations $-3, -2.5, -1, 0, 2, 4, 5$, three components starting at $N(-4, 1)$, $N(0, 0.2)$ and $N(8, 3)$ (the second number is the variance), weights $1/3$ each, and log-likelihood $\ell = -28.33$.
 
@@ -223,13 +223,13 @@ Figure 5 starts EM deliberately badly: two round-ish components centred at (2 mi
 |---|---|---|---|---|
 | Log-likelihood | $-2111$ | $-1270$ | $-1182$ | $-1130$ |
 
-- **Iteration 1:** the first M-step pulls both means into the data, but both ellipses are long and cover parts of both groups.
+- **Iteration 1:** the first **M-step** (G-1139) pulls both means into the data, but both ellipses are long and cover parts of both groups.
 - **Iterations 2 to 9:** the components trade eruptions. Orange shrinks onto the short eruptions, blue onto the long ones.
 - **From iteration 10:** the parameters stop changing. The final components have weights 0.36 and 0.64 and means (2.04 minutes, 54.5 minutes) and (4.29, 80.0): short eruptions after a wait of about 55 minutes, long eruptions after about 80. The waiting times match the two bumps of the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#2-one-normal-curve-is-not-enough) (G-829) (Section 2). scikit-learn's `GaussianMixture` reaches the same log-likelihood, $-1130.3$ (Notebook, Section 2).
 
 ## 6. Why the log-likelihood never decreases
 
-> **Key point:** The E-step builds a lower bound on the log-likelihood that touches the log-likelihood at the current parameters. The M-step climbs to the top of that bound. The log-likelihood, always above the bound, must go up at least as much.
+> **Key point:** The E-step builds a **lower bound** (G-1134) on the log-likelihood that touches the log-likelihood at the current parameters. The M-step climbs to the top of that bound. The log-likelihood, always above the bound, must go up at least as much.
 
 ### 6.1 What we see
 
@@ -256,7 +256,7 @@ The log is a concave function: every chord lies below its curve (the [convex set
 
 > **Key point:** Writing each observation's mixture density as an average over the responsibilities and applying Jensen gives a lower bound $B$ that equals $\ell$ when the responsibilities are the current ones.
 
-The plain idea first. The log-likelihood is hard to maximise directly, because each observation's term is the log of a **sum** over components. Jensen's inequality lets us swap "log of a sum" for "sum of logs", which is easy to maximise, at the price of getting a number that is never above the true log-likelihood: a floor under it. The trick is to build the floor so that it touches the log-likelihood at the current parameters.
+The plain idea first. The log-likelihood is hard to maximise directly, because each observation's term is the log of a **sum** over components. **Jensen's inequality** (G-981) lets us swap "log of a sum" for "sum of logs", which is easy to maximise, at the price of getting a number that is never above the true log-likelihood: a floor under it. The trick is to build the floor so that it touches the log-likelihood at the current parameters.
 
 For one observation, multiply and divide each term of the mixture by any numbers $q_{nk} > 0$ with $\sum_k q_{nk} = 1$. Then Jensen applies:
 
@@ -286,7 +286,7 @@ For the seven observations at the start, the Notebook ([Section 3](#3-the-two-st
 
 ### 6.4 The ascent argument
 
-> **Key point:** E-step: make the bound touch at $\theta_t$. M-step: maximise the bound. Then $\ell(\theta_{t+1}) \ge B(\theta_{t+1}) \ge B(\theta_t) = \ell(\theta_t)$.
+> **Key point:** **E-step** (G-654): make the bound touch at $\theta_t$. **M-step** (G-1139): maximise the bound. Then $\ell(\theta_{t+1}) \ge B(\theta_{t+1}) \ge B(\theta_t) = \ell(\theta_t)$.
 
 1. **E-step:** set $q = r(\theta_t)$. Now $B(\theta_t; q) = \ell(\theta_t)$ ([Section 6.3](#63-the-lower-bound)).
 2. **M-step:** choose $\theta_{t+1}$ to maximise $B(\theta; q)$ with $q$ held fixed. Then $B(\theta_{t+1}; q) \ge B(\theta_t; q)$, because $\theta_t$ was one of the options.
@@ -330,15 +330,15 @@ In Figure 7, watch the blue dots: every one is a hilltop EM cannot leave, and th
 
 An analogy: a hiker who always walks uphill in fog reaches a summit, but which summit depends on where the hiker started.
 
-Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the best of the 20 runs recovers the top answer, the fit with ARI 0.90. The same problem appeared for k-means in the [k-means from scratch](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#9-bad-random-starts) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
+Each of the eleven lower runs stopped on a hilltop and stayed there. Keeping the best of the 20 runs recovers the top answer, the fit with ARI 0.90. The same problem appeared for **k-means** (G-996) in the [k-means from scratch](../../../ML/09-clustering-and-more/ML-124-kmeans-from-scratch/ML-124-kmeans-from-scratch.md#9-bad-random-starts) (Section 9, bad random starts), with the same fix. scikit-learn's `GaussianMixture` starts from a k-means solution by default (`init_params="kmeans"`) and keeps the best of `n_init` starts (default 1), per its documentation.
 
 ## 8. K-means as "hard" EM
 
-> **Key point:** Give every component the same weight and the same small round variance. As the variance shrinks, each responsibility becomes 0 or 1, the E-step becomes "assign to the nearest centre" and the M-step becomes "move the centre to the mean": k-means.
+> **Key point:** Give every component the same weight and the same small round variance. As the variance shrinks, each responsibility becomes 0 or 1, the E-step becomes "assign to the nearest centre" and the **M-step** (G-1139) becomes "move the centre to the mean": k-means.
 
 First, a one-paragraph recap of [**k-means**](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) from the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means). Choose the number of clusters $k$ and pick $k$ observations at random as the starting [**centroids**](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367), the cluster centres. Then repeat two steps until nothing changes: assign each observation to its nearest centroid, measured by straight-line (Euclidean) distance; then move each centroid to the mean of the observations assigned to it. Because a bad start can give a poor answer, k-means is usually run from several random starts, keeping the result with the smallest total spread within the clusters (the same fix as [Section 7](#7-local-maxima-and-starting-points)).
 
-Those two repeated steps look like an E-step and an M-step. MML (§11.5) relates the two: ignore the covariances (set them to the identity), treat the means as cluster centres, and the result is k-means, which makes a **hard assignment** (G-877) where the GMM makes a soft one. The derivation below shows how the hard assignment arises.
+Those two repeated steps look like an **E-step** (G-654) and an M-step. MML (§11.5) relates the two: ignore the covariances (set them to the identity), treat the means as cluster centres, and the result is k-means, which makes a **hard assignment** (G-877) where the GMM makes a soft one. The derivation below shows how the hard assignment arises.
 
 1. **In words:** with equal weights $1/K$ and the same round covariance $\sigma^2\mathbf{I}$ for every component, the responsibilities depend only on the distances $d_{nk} = \lVert\mathbf x_n - \boldsymbol\mu_k\rVert$ from the observation to each centre.
 2. **Formula:** the factors $1/K$ and $(2\pi\sigma^2)^{-D/2}$ are the same in every term, so they cancel:
@@ -371,14 +371,14 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [*
 
 > **Key point:** EM is one case of a general recipe: replace a hard function by a simpler one that lies below it and touches it at the current point, maximise the simpler one, repeat.
 
-> **Extra:** The steps of [Section 6.4](#64-the-ascent-argument) never used anything special about mixtures except the lower bound. Any method built the same way is an **MM algorithm** (G-1247): *minorize–maximize* when the goal is to maximise, *majorize–minimize* when the goal is to minimise. Hunter and Lange (2004, abstract) state that every EM algorithm is a special case of the MM class, which usually builds its surrogates from convexity rather than from missing data. Nguyen (2016, Section 3) gives the two conditions in the minimising form:
+> **Extra:** The steps of [Section 6.4](#64-the-ascent-argument) never used anything special about mixtures except the **lower bound** (G-1134). Any method built the same way is an **MM algorithm** (G-1247): *minorize–maximize* when the goal is to maximise, *majorize–minimize* when the goal is to minimise. Hunter and Lange (2004, abstract) state that every **EM algorithm** (G-675) is a special case of the MM class, which usually builds its surrogates from convexity rather than from missing data. Nguyen (2016, Section 3) gives the two conditions in the minimising form:
 >
 > - the **majorizer** $M(\theta; \upsilon)$ lies on or above the objective $O(\theta)$ for every $\theta$;
 > - it touches the objective at the current point: $M(\upsilon; \upsilon) = O(\upsilon)$.
 >
 > Minimising $M$ then cannot raise $O$ (Nguyen's Proposition 1): $O(\theta_{t+1}) \le M(\theta_{t+1}; \theta_t) \le M(\theta_t; \theta_t) = O(\theta_t)$. The inequality chain is the chain of [Section 6.4](#64-the-ascent-argument) turned upside down.
 >
-> For EM the two names describe the same steps. Maximising the log-likelihood $\ell$ with the bound $B$ below it (a **minorizer**, G-1230) is minorize–maximize. Minimising the negative log-likelihood $-\ell$ with $-B$ above it (a majorizer) is majorize–minimize. "Expectation maximization" is the name of this particular way of building the bound, through the expected complete-data log-likelihood.
+> For EM the two names describe the same steps. Maximising the log-likelihood $\ell$ with the bound $B$ below it (a **minorizer**, G-1230) is minorize–maximize. Minimising the negative log-likelihood $-\ell$ with $-B$ above it (a majorizer) is majorize–minimize. "Expectation maximization" is the name of this particular way of building the bound, through the **expected complete-data log-likelihood** (G-722).
 
 ## 10. Summary
 
@@ -392,9 +392,9 @@ A GMM keeps the soft curve and also learns each cluster's shape and size; the [*
 | Check | log-likelihood | $-14.41$; converges to $-13.97$ |
 
 - EM alternates two easy steps: responsibilities from parameters, parameters from responsibilities. Each step is easy when the other side is held still, so taking turns breaks the circular dependence that blocks a closed form.
-- The E-step builds a lower bound that touches the log-likelihood; the M-step maximises the bound; so the log-likelihood never decreases.
-- EM can stop at a local maximum, because it only ever climbs and which hilltop it reaches depends on the start (on Iris, 11 of 20 starts stopped lower); several starting points and keeping the best guard against this.
-- With equal weights and a shrinking round variance, responsibilities become 0 or 1 and EM becomes k-means. So k-means is EM with hard assignments, and a GMM adds soft shares and cluster shapes.
+- The E-step builds a **lower bound** (G-1134) that touches the log-likelihood; the M-step maximises the bound; so the log-likelihood never decreases.
+- EM can stop at a **local maximum** (G-1109), because it only ever climbs and which hilltop it reaches depends on the start (on Iris, 11 of 20 starts stopped lower); several starting points and keeping the best guard against this.
+- With equal weights and a shrinking round variance, responsibilities become 0 or 1 and EM becomes k-means. So k-means is EM with **hard assignments** (G-877), and a GMM adds soft shares and cluster shapes.
 - EM is a special case of MM (minorize–maximize / majorize–minimize) algorithms, because its climbing guarantee uses nothing about mixtures except the lower bound.
 
 ## 11. Sources
@@ -424,14 +424,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | EM algorithm (expectation maximization) (G-675) | A method for finding the maximum likelihood when some variables are hidden (latent): it repeats two steps, an E-step and an M-step, until the fit settles. |
 | E-step (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | M-step (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
-| Jensen's inequality (for the log) (G-981) | The log of a weighted average is at least the weighted average of the logs. |
 | Lower bound $B(\theta; q)$ (G-1134) | A simpler function that always sits at or below the log-likelihood and touches it when $q$ are the current responsibilities. EM's M-step climbs this bound, which pushes the log-likelihood up at least as much. |
+| Jensen's inequality (for the log) (G-981) | The log of a weighted average is at least the weighted average of the logs. |
 | Expected complete-data log-likelihood $Q$ (G-722) | A score for how well the model explains the data if we also knew which group made each point: the log-likelihood of the observations together with their hidden labels, averaged over the labels with the responsibilities, written $Q$. The M-step of EM maximises it, which never lowers the real log-likelihood. |
 | Local maximum (G-1109) | A point higher than everything near it but not the highest overall. |
 | Hard assignment (G-877) | Giving each observation wholly to one cluster (responsibility 0 or 1). |
 | MM algorithm (G-1247) | A way to optimise a hard function by repeatedly optimising a simpler one (a surrogate) that lies on one side of it and touches it at the current point; the name stands for minorize–maximize (or majorize–minimize). |
 | Minorizer / majorizer (G-1230) | A simpler function that lies below (minorizer) or above (majorizer) the function being optimised (the objective) and touches it at the current point; maximising a minorizer (or minimising a majorizer) moves the objective the same way, which is how EM makes progress. |
 | [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-829) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
-| [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
+| [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | [Centroid](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#42-step-2-pick-the-starting-centroids) (G-367) | The centre point of one cluster in k-means, the mean of the points in it; every point is assigned to its nearest centroid. |

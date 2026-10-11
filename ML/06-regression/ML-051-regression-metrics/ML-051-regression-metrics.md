@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/regress
 
 ## 1. Overview
 
-> **Key point:** A regression metric turns all the errors on the test set into one number. Five are common: MAE, MSE, RMSE, R² and adjusted R².
+> **Key point:** A regression metric turns all the errors on the test set into one number. Five are common: MAE, MSE, RMSE, R² and **adjusted R²** (G-177).
 
 After training a regression model, we need to know how good it is. A **regression metric** (G-1652) compares the model's predictions with the true values on the test set and summarises the errors as one number, like a report card that sums up a term's work in one grade.
 
@@ -70,7 +70,7 @@ The sign is dropped because some points lie above the line and some below; witho
 **Advantages:**
 
 - **Same units as the target.** The model is off by about 0.29 lakh rupees per year on average, a statement anyone can understand.
-- **Robust to outliers.** An [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is an observation far from the rest. One very wrong prediction raises MAE only in proportion to its size ([Section 5](#5-mae-versus-rmse-with-an-outlier)).
+- **Robust to outliers.** An [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) is an **observation** (G-1374) far from the rest. One very wrong prediction raises MAE only in proportion to its size ([Section 5](#5-mae-versus-rmse-with-an-outlier)).
 
 **Disadvantage:** the absolute value has a sharp corner at 0, so it has no single slope there and cannot be differentiated there. The corner makes MAE awkward to use as the function that training minimises ([the error at one point](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#31-the-error-at-one-point) chose squares for exactly this reason).
 
@@ -101,7 +101,7 @@ The 5 largest errors make up 28% of the absolute total but 46% of the squared to
 
 ## 4. Root mean squared error (RMSE)
 
-> **Key point:** RMSE is the square root of MSE: back in the target's units, but still punishing large errors. On the placement data it is 0.35 LPA.
+> **Key point:** RMSE is the square root of MSE: back in the **target** (G-1949)'s units, but still punishing large errors. On the placement data it is 0.35 LPA.
 
 In words: compute the MSE, then take its square root. The result is the **root mean squared error (RMSE)** (G-1705).
 
@@ -157,7 +157,7 @@ With one prediction made 6 LPA worse, MAE rises from 0.29 to 0.43, while RMSE ri
 So the choice depends on the problem:
 
 - If occasional large errors are what matters most (for example, a badly wrong price estimate is very costly), use RMSE: it makes them visible.
-- If the data contains outliers that should not dominate the assessment, use MAE.
+- If the data contains **outliers** (G-1420) that should not dominate the assessment, use MAE.
 
 ## 6. R² score
 
@@ -167,9 +167,9 @@ So the choice depends on the problem:
 
 > **Key point:** R² measures how much of the error of "guessing the average" the model removes.
 
-MAE, MSE and RMSE have a weakness: their size depends on the units. An RMSE of 0.35 is small for packages in LPA but would be huge for a target measured in thousands. We need a comparison point.
+MAE, MSE and RMSE have a weakness: their size depends on the units. An RMSE of 0.35 is small for packages in LPA but would be huge for a **target** (G-1949) measured in thousands. We need a comparison point.
 
-The simplest model of all ignores the feature and predicts the average package, 2.96 LPA, for every test student: the flat line in the first frame of Figure 6. Each error is drawn as a square, so the total orange area is the sum of squared errors: 22.13. Watch the line turn into the regression line: the squares shrink until their total is only 4.85, and the R² bar fills.
+The simplest model of all ignores the **feature** (G-772) and predicts the average package, 2.96 LPA, for every test student: the flat line in the first frame of Figure 6. Each error is drawn as a square, so the total orange area is the sum of squared errors: 22.13. Watch the line turn into the regression line: the squares shrink until their total is only 4.85, and the R² bar fills.
 
 ![The average line turns into the regression line. Each square's side is one student's error; the bars show the total squared error and R². Comparing the error around the average line with the error around the regression line follows StatQuest's "R-squared, Clearly Explained!!!" (Starmer).](images/r2_sweep.gif)
 
@@ -199,7 +199,7 @@ That is the 4.85 above up to rounding. Likewise the average squared distance of 
 
 $$22.13 / 40 = 0.553$$
 
-> **Python:** R² score.
+> **Python:** **R² score** (G-1717).
 >
 > ```python
 > from sklearn.metrics import r2_score
@@ -217,27 +217,27 @@ $$22.13 / 40 = 0.553$$
 Whether R² can be negative depends on which data it is computed on:
 
 - **On the training data** of a least-squares line, R² is always between 0 and 1. The flat average line is itself one of the candidate lines, and least squares picks the line with the smallest squared error, so the fitted line can never do worse than the average line: $SS_{res} \le SS_{tot}$.
-- **On test data** nothing guarantees this. The line was fitted to other observations, so it can miss the test observations by more than their own average does. Then $SS_{res} > SS_{tot}$ and R² is negative (scikit-learn `r2_score` docs).
+- **On test data** nothing guarantees this. The line was fitted to other **observations** (G-1374), so it can miss the test observations by more than their own average does. Then $SS_{res} > SS_{tot}$ and R² is negative (scikit-learn `r2_score` docs).
 
 Here, $R^2 = 0.78$: CGPA explains about 78% of the variation in packages; the remaining 22% comes from things not in the data, such as interviews (the random part of the data; see [why real data is not on a line](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#33-why-real-data-is-not-on-a-line)).
 
 R² is also called the **coefficient of determination** (G-1717).
 
-The name R² is no accident. For simple linear regression, R² on the training data equals the square of the correlation coefficient $r$ between the feature and the target (see [another way to see the slope: correlation](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#51-another-way-to-see-the-slope-correlation); $r$ runs from $-1$ to $1$, [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)). For CGPA and package on the 160 training students, $r = 0.879$, so
+The name R² is no accident. For simple linear regression, R² on the training data equals the square of the correlation coefficient $r$ between the feature and the **target** (G-1949) (see [another way to see the slope: correlation](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#51-another-way-to-see-the-slope-correlation); $r$ runs from $-1$ to $1$, [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)). For CGPA and package on the 160 training students, $r = 0.879$, so
 
 $$r^2 = 0.879^2 = 0.773$$
 
 exactly the training R² in the table of [Section 7.1](#71-the-problem-with-r²).
 
-Squaring makes correlations easier to compare. A correlation of 0.7 gives $R^2 = 0.49$ and a correlation of 0.5 gives $R^2 = 0.25$: the first feature explains about twice as much of the variation as the second, which the raw values 0.7 and 0.5 do not show.
+Squaring makes correlations easier to compare. A correlation of 0.7 gives $R^2 = 0.49$ and a correlation of 0.5 gives $R^2 = 0.25$: the first **feature** (G-772) explains about twice as much of the variation as the second, which the raw values 0.7 and 0.5 do not show.
 
 ## 7. Adjusted R²
 
-> **Key point:** Adding features can push R² up even when the new features are useless. Adjusted R² subtracts a penalty for each feature, so it only rises when a feature truly helps.
+> **Key point:** Adding features can push R² up even when the new features are useless. **Adjusted R²** (G-177) subtracts a penalty for each feature, so it only rises when a feature truly helps.
 
 ### 7.1 The problem with R²
 
-> **Key point:** On the training data, R² never goes down when a feature is added, even a feature of random numbers.
+> **Key point:** On the training data, R² never goes down when a **feature** (G-772) is added, even a feature of random numbers.
 
 Suppose we add a feature of random numbers to the placement data, one that has nothing to do with packages. On the training data, R² still creeps up. The new feature gives the model one more number to tune, and setting that number to 0 gives back the old model, so the fit on the training data can never get worse. A random feature almost always matches the leftover errors a little by chance, so R² usually rises.
 
@@ -252,15 +252,15 @@ Figure 7 adds 0 to 20 features of random numbers next to CGPA. The split is the 
 | R², test | 0.781 | 0.779 | 0.775 | 0.769 | 0.755 |
 | Adjusted R², test | 0.775 | 0.767 | 0.734 | 0.678 | 0.468 |
 
-The training R² rises from 0.773 to 0.802, which looks like progress. The test R² shows the truth: it falls from 0.781 to 0.755, because the extra features are noise. Adjusted R² on the training data stays at 0.772, so it reports the true story without needing a test set.
+The training R² rises from 0.773 to 0.802, which looks like progress. The test R² shows the truth: it falls from 0.781 to 0.755, because the extra features are noise. **Adjusted R²** (G-177) on the training data stays at 0.772, so it reports the true story without needing a test set.
 
 With no random features, the test R² (0.781) is a little above the training R² (0.773). This is luck of the split, not a better fit on unseen data: the test set has only 40 students, and over 200 different splits the test R² ranges from 0.66 to 0.84 (5th to 95th percentile) and lands above the training R² in 44 percent of them (Notebook). What matters in the table is the direction as features are added.
 
 ### 7.2 The formula
 
-> **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of features $k$.
+> **Key point:** Adjusted R² scales the unexplained part by $(n-1)/(n-1-k)$, which grows with the number of **features** (G-772) $k$.
 
-In words: **adjusted R²** (G-177) takes the part R² leaves unexplained, $1 - R^2$, makes it larger according to how many features $k$ the model uses compared with the number of observations $n$, and subtracts that from 1 (ISLR §6.1.3).
+In words: **adjusted R²** (G-177) takes the part R² leaves unexplained, $1 - R^2$, makes it larger according to how many features $k$ the model uses compared with the number of **observations** (G-1374) $n$, and subtracts that from 1 (ISLR §6.1.3).
 
 $$R_{adj}^2 = 1 - \frac{(1 - R^2)(n - 1)}{n - 1 - k}$$
 
@@ -291,11 +291,11 @@ In Figure 7, adjusted R² on the training data stays flat at 0.772 however many 
 | R² | $1 - SS_{res}/SS_{tot}$ | 0.781 | none | sensitive | no units, so it shows how much better than the average guess |
 | Adjusted R² | $1 - (1 - R^2)\frac{n-1}{n-1-k}$ | 0.775 | none | sensitive | it is not fooled by useless features |
 
-- MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors, so pick RMSE when big misses are costly and MAE when outliers should not dominate (one bad prediction moved RMSE from 0.35 to 0.98, MAE only to 0.43).
+- MAE and RMSE are in the target's units; RMSE is always at least as large as MAE and reacts more to large errors, so pick RMSE when big misses are costly and MAE when **outliers** (G-1420) should not dominate (one bad prediction moved RMSE from 0.35 to 0.98, MAE only to 0.43).
 - MSE is the usual loss for training, because it can be differentiated.
-- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse (possible on test data, never on the training data of a least-squares line), so it gives a score that does not depend on the units of the target.
-- For one feature, training R² is the squared correlation $r^2$, because the slope of the best line is built from the same correlation.
-- R² never falls on the training data when features are added; adjusted R² penalises each feature and so detects useless ones, so compare models with different numbers of features by adjusted R².
+- R² compares the model with always predicting the average: 1 is perfect, 0 is no better, below 0 is worse (possible on test data, never on the training data of a least-squares line), so it gives a score that does not depend on the units of the **target** (G-1949).
+- For one **feature** (G-772), training R² is the squared correlation $r^2$, because the slope of the best line is built from the same correlation.
+- R² never falls on the training data when features are added; **adjusted R²** (G-177) penalises each feature and so detects useless ones, so compare models with different numbers of features by adjusted R².
 - Together these answer the opening question: each metric turns the test errors into one number, and which one to report depends on units, outliers and the number of features.
 
 
@@ -318,6 +318,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Adjusted R² (G-177) | A version of R² with a penalty for each feature the model uses, so it rises only when a new feature truly helps; plain R² can creep up even when the new feature is useless. |
 | Regression metric (G-1652) | A number that summarises how close a regression model's predictions are to the true values. |
 | Mean absolute error (MAE) (G-1194) | The average absolute difference between actual and predicted values. |
 | Mean squared error (MSE) (G-1201) | The average squared difference between actual and predicted values. |
@@ -325,7 +326,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Residual sum of squares (sum of squared errors, SSE) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
 | Total sum of squares (G-1993) | The total squared error of always predicting the mean $\bar{y}$; R² compares the model's error with this baseline. |
 | R² score (coefficient of determination) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |
-| Adjusted R² (G-177) | A version of R² with a penalty for each feature the model uses, so it rises only when a new feature truly helps; plain R² can creep up even when the new feature is useless. |
 | Target leakage (G-1948) | Building an input column from the answer itself, so the model sees information it would not have in real use. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

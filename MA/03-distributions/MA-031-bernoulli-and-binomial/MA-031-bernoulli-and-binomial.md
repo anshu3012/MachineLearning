@@ -21,13 +21,13 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/binomial-
 
 ![One Bernoulli trial, repeated n times, gives a binomial count](images/bernoulli_to_binomial.png)
 
-Figure 1 shows the whole idea, read from left to right: one trial, then $n = 5$ of them in a row (each box holds a 1 or a 0), then their count. One yes/no experiment, such as one coin toss, is a **Bernoulli trial** (G-276). Repeat it $n$ times under the same conditions and count the 1s: that count follows a binomial distribution.
+Figure 1 shows the whole idea, read from left to right: one trial, then $n = 5$ of them in a row (each box holds a 1 or a 0), then their count. One yes/no experiment, such as one coin toss, is a **Bernoulli trial** (G-276). Repeat it $n$ times under the same conditions and count the 1s: that count follows a **binomial distribution** (G-308).
 
 Both distributions were defined in [two famous discrete distributions](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#7-two-famous-discrete-distributions). A **PMF** (probability mass function) gives the probability of each possible value of a discrete variable. This Note adds what is new:
 
 - the Bernoulli PMF as one formula;
 - the binomial formula built from a tree of outcomes;
-- the four conditions a binomial experiment must meet;
+- the four conditions a **binomial experiment** (G-309) must meet;
 - how the success probability $p$ moves the shape;
 - where both distributions appear in machine learning.
 
@@ -68,7 +68,7 @@ Three experiments with a binary outcome:
    $$P(X = 0) = (1/6)^0 (5/6)^1$$
    $$P(X = 0) = 5/6 \approx 0.833$$
 
-The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ is the core of the binomial formula, and of the log loss of logistic regression (see [one formula for both classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)).
+The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ is the core of the binomial formula, and of the log loss of **logistic regression** (G-1120) (see [one formula for both classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)).
 
 ### 2.2 The graph of a Bernoulli PMF
 
@@ -76,7 +76,7 @@ The one-line form matters later: the same pattern of powers of $p$ and $1 - p$ i
 
 ![Three Bernoulli PMFs](images/bernoulli_pmf.png)
 
-Figure 2 shows three Bernoulli distributions. With $p = 0.2$ the bar at 0 is 0.8 and the bar at 1 is 0.2; with $p = 0.8$ the bars swap. Whatever $p$ is, the picture never has more than these two bars.
+Figure 2 shows three **Bernoulli distributions** (G-275). With $p = 0.2$ the bar at 0 is 0.8 and the bar at 1 is 0.2; with $p = 0.8$ the bars swap. Whatever $p$ is, the picture never has more than these two bars.
 
 ### 2.3 Bernoulli in machine learning
 
@@ -106,7 +106,7 @@ The **target** (G-1949; the output we predict) of each **observation** (G-1374; 
 
 ## 3. The binomial distribution
 
-> **Key point:** The binomial distribution counts the successes in $n$ independent Bernoulli trials with the same $p$; its parameters are $n$ and $p$, and with $n = 1$ it is the Bernoulli distribution.
+> **Key point:** The binomial distribution counts the successes in $n$ independent **Bernoulli trials** (G-276) with the same $p$; its parameters are $n$ and $p$, and with $n = 1$ it is the **Bernoulli distribution** (G-275).
 
 Recap: the **binomial distribution** (G-308) is the distribution of the number of successes in $n$ independent trials with the same success probability (see [the binomial distribution](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#72-binomial-distribution)). The step from Bernoulli to binomial is only "do it $n$ times":
 
@@ -126,7 +126,7 @@ The trials must be independent (**independent events**, G-934): the result of on
 
 > **Key point:** For a few trials we can list every outcome, count those with $k$ successes, and divide by the total.
 
-The binomial distribution answers questions such as this one. Every viewer of an online post presses "like" with probability 0.5. If 3 people watch it, what is the probability that none of them likes it? That one does? Two? All three?
+The **binomial distribution** (G-308) answers questions such as this one. Every viewer of an online post presses "like" with probability 0.5. If 3 people watch it, what is the probability that none of them likes it? That one does? Two? All three?
 
 Each viewer either likes (L) or does not (N). Three viewers give this many equally likely outcomes, the branches of the tree in Figure 4:
 
@@ -274,7 +274,7 @@ Figure 9 repeats the simulation for three coins. The bars are the share of the 1
 
 The simulated bars sit close to the exact dots, and they get closer with more runs. The Notebook measures the largest gap between a bar and its dot: for $p = 0.5$ it is 0.095 with 100 runs, 0.015 with 1000 runs and 0.0015 with 100,000 runs (the other two coins behave the same way).
 
-> **Extra:** The centre of a binomial distribution is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page:
+> **Extra:** The centre of a **binomial distribution** (G-308) is $np$ and its variance is $np(1 - p)$: the Bernoulli mean and variance, added over $n$ independent trials. For $n = 10$, $p = 0.5$: mean 5, variance 2.5; the simulation gave 4.97 and 2.58. For the product page:
 >
 > $$\text{mean} = 1000 \times 0.1 = 100 \text{ purchases}$$
 >
@@ -288,7 +288,7 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 
 ## 8. Where the binomial distribution is used
 
-> **Key point:** Binary classification, Naive Bayes, majority voting, hypothesis tests, logistic regression and A/B tests all use the binomial distribution.
+> **Key point:** Binary classification, Naive Bayes, majority voting, hypothesis tests, **logistic regression** (G-1120) and A/B tests all use the binomial distribution.
 
 - **Binary classification.** The number of positive cases among $n$ independent observations is binomial; for example, the number of spam emails among the next 100.
 - **Naive Bayes.** Its variants assume a distribution for the features: Bernoulli, multinomial (the many-category version of binomial) or Gaussian (see [the assumption of normal distributions](../../../ML/07-classification/ML-084-gaussian-naive-bayes/ML-084-gaussian-naive-bayes.md#3-the-assumption-normal-distributions)).
@@ -307,7 +307,7 @@ The simulated bars sit close to the exact dots, and they get closer with more ru
 | Mean, variance | $p$, $p(1 - p)$ | $np$, $np(1 - p)$ |
 | Example | one coin: $P(\text{head}) = 1/2$ | 2 likes out of 3: $3/8$ |
 
-- The table matters for ML because the target of a binary classifier is a Bernoulli variable, and counts of yes/no outcomes (buyers among page views, likes) are binomial.
+- The table matters for ML because the target of a **binary classifier** (G-302) is a Bernoulli variable, and counts of yes/no outcomes (buyers among page views, likes) are binomial.
 - Binomial with $n = 1$ is Bernoulli, because one trial can give only 0 or 1 successes.
 - The binomial formula needs a fixed $n$, two outcomes, a constant $p$ and independent trials, so check all four before using it: linked answers pile up at 0 and 10, far from the formula.
 - $\binom{n}{x}$ counts the paths in the outcome tree; $p^x (1 - p)^{n - x}$ is the probability of one path, so their product gives the answer when listing outcomes is impossible (10,000 viewers).
@@ -337,15 +337,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Bernoulli trial (G-276) | One random experiment with exactly two outcomes, success (1) and failure (0). |
-| Categorical distribution (G-352) | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. |
 | Binomial distribution (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
-| Survival function (G-1928) | The probability of a value above $x$: one minus the CDF; `sf` in scipy. |
 | Binomial experiment (G-309) | A fixed number $n$ of independent Bernoulli trials with the same success probability $p$. |
+| Categorical distribution (G-352) | The distribution of one trial with more than two outcomes; Bernoulli is its two-outcome case. |
+| Survival function (G-1928) | The probability of a value above $x$: one minus the CDF; `sf` in scipy. |
 | [Bernoulli distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Binary classifier](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#7-what-a-perceptron-does-geometrically) (G-302) | A model that separates exactly two classes. |
-| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |

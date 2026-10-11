@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 
 ## 1. Overview
 
-> **Key point:** The Deep Learning Notes move through four families of neural networks: ANNs, CNNs, RNNs and transformers. Before starting, we need Python, the basics of ML, some linear algebra and derivatives.
+> **Key point:** The Deep Learning Notes move through four families of neural networks: ANNs, CNNs, RNNs and transformers. Before starting, we need Python, the basics of ML, some **linear algebra** (G-1090) and derivatives.
 
 ![The four families of networks in the Deep Learning Notes, the data each one suits, and what to know first](images/roadmap.png)
 
@@ -24,17 +24,17 @@ Figure 1 shows the plan. Each box is one family of networks, with its topics ins
 
 ## 2. The four families of networks
 
-> **Key point:** ANNs come first and take the largest share of the Notes (39 of the 90, close to half); CNNs, RNNs and transformers each reuse the ANN machinery for one kind of data.
+> **Key point:** ANNs come first and take the largest share of the Notes (39 of the 90, close to half); CNNs, RNNs and **transformers** (G-2007) each reuse the ANN machinery for one kind of data.
 
 ![One picture from each family, taken from the Notes ahead: the perceptron (Note DL-004), learned convolution filters (Note DL-042), a recurrent layer (Note DL-056) and an attention map (Note DL-069)](images/family_thumbs.png){width=90%}
 
 Figure 2 previews one picture from each family; each is explained in its own Note. The numbers 1 to 4 match the order of Figure 1. We do not need to read these pictures yet; the point is that each family looks different:
 
-- Panel 1 shows one neuron, with inputs on the left and one prediction on the right.
+- Panel 1 shows one **neuron** (G-1318), with inputs on the left and one prediction on the right.
 
 - Panel 2 shows small grids of numbers (filters) that are slid over an image.
 
-- Panel 3 shows a layer that feeds its own output back to itself, so it can read a sequence.
+- Panel 3 shows a **layer** (G-1056) that feeds its own output back to itself, so it can read a sequence.
 
 - Panel 4 shows a table whose dark cells mark which input word each output word reads.
 
@@ -56,14 +56,14 @@ The ANN part runs in this order:
 > **Key point:** CNNs for images, RNNs for sequences, transformers for language.
 
 - [**Convolutional neural networks (CNNs)**](../../04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) work best on images: convolution, pooling, pretrained models and transfer learning. An image is a grid of pixels whose useful details, such as edges, are small and can appear anywhere, so a CNN looks at a small patch at a time and reuses the same small filter at every position (Goodfellow, Bengio and Courville, *Deep Learning*, ch. 9 and §9.2; see [convolutional neural network](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#22-convolutional-neural-network-cnn)).
-- [**Recurrent neural networks (RNNs)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs. A sequence arrives one step at a time, and each step makes sense only with the steps before it, so an RNN reuses the same weights at every step and carries a memory forward, which lets it read sequences of any length (*Deep Learning*, ch. 10; see [**recurrent neural network**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647)).
+- [**Recurrent neural networks (RNNs)**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) work on sequences such as text, speech and time series: RNNs, LSTMs and GRUs. A sequence arrives one step at a time, and each step makes sense only with the steps before it, so an RNN reuses the same **weights** (G-2106) at every step and carries a memory forward, which lets it read sequences of any length (*Deep Learning*, ch. 10; see [**recurrent neural network**](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647)).
 - [**Transformers**](../../06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) replace recurrence with **attention** (G-226; Vaswani et al. 2017) and are the basis of language models such as GPT-3 (Brown et al. 2020): attention, self-attention and the full encoder-decoder transformer.
 
 > **Extra:** Generative networks (GANs, autoencoders), object detection and image segmentation are not covered in these Notes. GANs and autoencoders each get a short paragraph in [types of neural networks](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#2-types-of-neural-networks).
 
 ### 2.3 The software
 
-> **Key point:** Code uses TensorFlow with Keras, the pair most used in industry; PyTorch is the common choice in research.
+> **Key point:** Code uses TensorFlow with **Keras** (G-1003), the pair most used in industry; PyTorch is the common choice in research.
 
 Most deep learning code in these Notes uses **TensorFlow** (G-1959) with **Keras**, its built-in high-level interface. The other major library, **PyTorch** (G-1595), is used more in research than in industry. Where a Note has code, its Notebook rebuilds it for current library versions.
 
@@ -71,7 +71,7 @@ Most deep learning code in these Notes uses **TensorFlow** (G-1959) with **Keras
 
 > **Key point:** Four things: basic Python, the overall flow of an ML project, vectors and matrices, and derivatives.
 
-To see why these four are needed, we work through what one neuron computes, with small numbers. A neuron takes two input numbers, multiplies each by its own weight, adds them, adds a shift, and squashes the result into the range 0 to 1.
+To see why these four are needed, we work through what one **neuron** (G-1318) computes, with small numbers. A neuron takes two input numbers, multiplies each by its own weight, adds them, adds a shift, and squashes the result into the range 0 to 1.
 
 | Quantity | Name | Value in our example |
 |---|---|---|
@@ -96,7 +96,7 @@ $$\sigma(8.5) = \frac{1}{1 + e^{-8.5}} \approx 0.9998$$
 
 Writing the dot product as $\mathbf{w}^{\mathsf T}\mathbf{x}$ means: vectors are stored as columns (standing up), so turn the column $\mathbf{w}$ on its side (the [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012), written $\mathsf T$), then multiply entry by entry and add. So the whole neuron is $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, and the check is the five lines above: 0.9998.
 
-A layer holds several neurons that read the same inputs. Stack their weight lists as the rows of a table $W$ (a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180)). Take a second neuron with weights $(-1, 1)$ and bias $-1$:
+A **layer** (G-1056) holds several neurons that read the same inputs. Stack their weight lists as the rows of a table $W$ (a [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180)). Take a second neuron with **weights** (G-2106) $(-1, 1)$ and bias $-1$:
 
 $$W = \begin{pmatrix} 1 & 2 \cr-1 & 1 \end{pmatrix}$$
 
@@ -119,7 +119,7 @@ The first row reproduces the single neuron above. Figure 3 shows where each prer
 In Figure 3, each arrow points from a prerequisite to the part of the formula it supplies. The four prerequisites are:
 
 - [**linear algebra**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) builds $W\mathbf{x} + \mathbf{b}$;
-- ML basics (logistic regression) supply the sigmoid;
+- ML basics (**logistic regression** (G-1120)) supply the sigmoid;
 - derivatives train the weights;
 - Python runs the code.
 
@@ -140,23 +140,23 @@ Every Notebook is written in Python, so we need to read loops, functions and Num
 
 A few ML Notes come back again and again in the Deep Learning Notes, so they are worth reading first:
 
-- [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120): the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485), the [**sigmoid function**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) and the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function). A single neuron with a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) activation computes $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, the same formula as logistic regression.
+- [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120): the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485), the [**sigmoid function**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) and the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function). A single **neuron** (G-1318) with a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) activation computes $\sigma(\mathbf{w}^{\mathsf T}\mathbf{x} + b)$, the same formula as logistic regression.
 - **Gradient descent:** the [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) and its [**stochastic**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1893) variant. Every network is trained this way.
-- [**Tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957): the [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957). TensorFlow stores inputs, weights and outputs as tensors (TensorFlow guide, Tensors).
+- [**Tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957): the [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957). **TensorFlow** (G-1959) stores inputs, weights and outputs as tensors (TensorFlow guide, Tensors).
 
 ### 3.2 Linear algebra
 
-> **Key point:** A layer of a network is a matrix multiplication plus a shift (the bias), so matrices and the dot product are the core of every prediction.
+> **Key point:** A **layer** (G-1056) of a network is a matrix multiplication plus a shift (the bias), so matrices and the dot product are the core of every prediction.
 
-A neural network spends almost all its time multiplying matrices; deep learning libraries are built on linear algebra. One neuron computes a [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of its inputs and weights. A whole layer computes a [**matrix product**](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left) (G-1179) $W\mathbf{x}$ and then adds the bias vector $\mathbf{b}$, as previewed in [neural network layers as matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#73-neural-network-layers-and-pca).
+A neural network spends almost all its time multiplying matrices; deep learning libraries are built on **linear algebra** (G-1090). One neuron computes a [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of its inputs and **weights** (G-2106). A whole layer computes a [**matrix product**](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left) (G-1179) $W\mathbf{x}$ and then adds the bias vector $\mathbf{b}$, as previewed in [neural network layers as matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#73-neural-network-layers-and-pca).
 
 ### 3.3 Derivatives
 
-> **Key point:** Training adjusts every weight against the slope of the loss, and the chain rule carries that slope back through the layers.
+> **Key point:** Training adjusts every weight against the slope of the loss, and the chain rule carries that slope back through the **layers** (G-1056).
 
-Training is like walking downhill in fog: we cannot see the valley, but we can feel which way the ground slopes under our feet and step that way. The slope is a [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595), one per weight. The [**derivatives**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (G-595) and the [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives) teach everything we need.
+Training is like walking downhill in fog: we cannot see the valley, but we can feel which way the ground slopes under our feet and step that way. The slope is a [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595), one per **weight** (G-2106). The [**derivatives**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (G-595) and the [partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives) teach everything we need.
 
-> **Extra:** Training a network is calculus. Backpropagation applies the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) layer by layer; section 10 of the [**Jacobian**](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation) (G-980) previews it.
+> **Extra:** Training a network is calculus. **Backpropagation** (G-247) applies the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) layer by layer; section 10 of the [**Jacobian**](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation) (G-980) previews it.
 
 ## 4. Summary
 
@@ -167,12 +167,12 @@ Training is like walking downhill in fog: we cannot see the valley, but we can f
 | RNN | text, speech, time series | a memory passed from step to step |
 | Transformer | text (language models) | attention between all positions at once |
 
-- CNNs suit images because the useful details are small and can sit anywhere, so one small filter slides over the whole image; RNNs suit sequences because they reuse the same weights at every step and carry a memory of the earlier steps.
+- CNNs suit images because the useful details are small and can sit anywhere, so one small filter slides over the whole image; RNNs suit sequences because they reuse the same **weights** (G-2106) at every step and carry a memory of the earlier steps.
 - The ANN part comes first and is the longest; the later families reuse it.
-- Code uses TensorFlow with Keras, the pair most used in industry, so the code matches common practice; PyTorch is the research favourite.
-- Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives, because one layer of a network uses all four: linear algebra builds the weighted sums, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs the code.
-- Read the logistic regression and gradient descent Notes first: a sigmoid neuron computes the same formula as logistic regression, and every network is trained with gradient descent.
-- So the path runs ANN, CNN, RNN, transformer, each family building on the ANN, and these four prerequisites are what the first step needs.
+- Code uses TensorFlow with **Keras** (G-1003), the pair most used in industry, so the code matches common practice; PyTorch is the research favourite.
+- Before starting: Python, the flow of an ML project, vectors and matrices, and derivatives, because one **layer** (G-1056) of a network uses all four: linear algebra builds the weighted sums, logistic regression supplies the sigmoid, derivatives train the weights, and Python runs the code.
+- Read the **logistic regression** (G-1120) and gradient descent Notes first: a sigmoid neuron computes the same formula as logistic regression, and every network is trained with gradient descent.
+- So the path runs ANN, CNN, RNN, **transformer** (G-2007), each family building on the ANN, and these four prerequisites are what the first step needs.
 
 ## 5. Sources
 
@@ -196,11 +196,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | TensorFlow (G-1959) | Google's deep learning library for building and training neural networks; most code in these Notes uses it with Keras, its built-in high-level interface. |
 | PyTorch (G-1595) | Meta's deep learning library, most used in research. |
+| [Linear algebra](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
 | [Artificial neural network (ANN)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-216) | The simplest neural network: neurons in layers, each layer connected to the next by weights. |
-| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
 | [Neuron (biological)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#5-perceptron-and-biological-neuron) (G-1318) | A brain cell: dendrites take signals in, the nucleus processes them, the axon sends the result on. |
-| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
 | [Layer](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Multi-layer perceptron (MLP)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#21-multi-layer-perceptron-mlp) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
 | [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
@@ -209,17 +211,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Keras](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1003) | The high-level interface built into TensorFlow for defining and training networks. |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
-| [Transformer](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#1-overview) (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
 | [Attention](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |
 | [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
-| [Linear algebra](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
+| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Vector (geometric view)](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-2079) | A point in a coordinate system, drawn as an arrow from the origin. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
-| [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
 | [Stochastic](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1893) | Involving randomness, as in stochastic gradient descent, which picks rows at random. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |

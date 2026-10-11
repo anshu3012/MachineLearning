@@ -17,7 +17,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/confidence-
 
 ## 1. Overview
 
-> **Key point:** A confidence interval replaces a single guess with a range: point estimate $\pm$ margin of error, together with a confidence level such as 95%.
+> **Key point:** A **confidence interval** (G-446) replaces a single guess with a range: point estimate $\pm$ **margin of error** (G-1162), together with a confidence level such as 95%.
 
 ![A 95% confidence interval for a mean age: the point estimate in the middle, the margin of error on each side](images/ci_anatomy.png)
 
@@ -26,9 +26,9 @@ A sample mean is almost never exactly the population mean. A **confidence interv
 This Note covers:
 
 - why a point estimate alone is not reliable;
-- what a confidence interval and a confidence level are;
-- the **z-procedure**, used when the population standard deviation $\sigma$ is known: its assumptions, its formula, where the formula comes from, and how to find the critical value $z_{\alpha/2}$;
-- the bootstrap interval, built without any formula (section 10).
+- what a confidence interval and a **confidence level** (G-447) are;
+- the **z-procedure**, used when the population standard deviation $\sigma$ is known: its assumptions, its formula, where the formula comes from, and how to find the **critical value** (G-504) $z_{\alpha/2}$;
+- the **bootstrap** (G-320) interval, built without any formula (section 10).
 
 [What "95% confident" means](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#2-what-95-confident-means) and [what makes an interval wide or narrow](../MA-036-interpreting-confidence-intervals/MA-036-interpreting-confidence-intervals.md#4-what-sets-the-width-of-an-interval) are in the next Note. [The t-procedure](../MA-037-t-procedure/MA-037-t-procedure.md#3-replacing-sigma-by-s) handles the usual case where $\sigma$ is unknown.
 
@@ -40,7 +40,7 @@ Each of these is taught in an earlier Note; here is the one-line version.
 
 - **Population and sample:** the population is the entire group we want to study; a sample is the part we measure, chosen at random and representative (see [population and sample](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample)).
 - **Parameter and statistic:** a number describing the population (Greek letters: $\mu$, $\sigma$) and the same number computed from a sample (Latin letters: $\bar{x}$, $s$). Parameters are usually unknown and must be estimated from statistics.
-- [**Inferential statistics**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944): drawing conclusions about a population from a sample. Its tools include confidence intervals, hypothesis tests and regression, and it answers questions such as "can the sample mean tell us the population mean?".
+- [**Inferential statistics**](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944): drawing conclusions about a population from a sample. Its tools include **confidence intervals** (G-446), hypothesis tests and regression, and it answers questions such as "can the sample mean tell us the population mean?".
 - **Central limit theorem:** the means of large samples are approximately normal around $\mu$ with standard error $\sigma/\sqrt{n}$ (the standard deviation of the sample means; see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
 - **Point estimate:** a single number computed from sample data as the best guess for an unknown parameter (see [estimating a mean with the CLT](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#5-the-point-estimate)).
 
@@ -92,7 +92,7 @@ A confidence interval is always about a **parameter** of the population (here $\
 
 ### 4.1 Confidence intervals in practice
 
-> **Key point:** Business forecasts and the error bars that seaborn draws on a bar chart are confidence intervals.
+> **Key point:** Business forecasts and the error bars that seaborn draws on a bar chart are **confidence intervals** (G-446).
 
 Companies, finance and economics rarely report a single projection. A sales forecast is a range: "between 4.2 and 4.8 crore rupees next quarter".
 
@@ -102,13 +102,13 @@ We have also drawn confidence intervals already without naming them. Figure 3 pl
 
 The bars show the sample means; the lines show where the population means of passengers like these probably lie. First class has 216 passengers whose fares are very spread out (standard deviation about 78 pounds), and its interval is wide (about 74 to 95 pounds). Third class has 491 passengers with similar fares (standard deviation about 12 pounds), and its interval is narrow (about 12.6 to 14.7 pounds). Both match the standard error $s/\sqrt{n}$ of section 7: a larger spread or a smaller sample gives a wider interval.
 
-> **Extra:** Seaborn builds these intervals by bootstrapping (see [bootstrap sampling in bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)): it resamples the data with replacement many times (1,000 by default in `seaborn.barplot`), recomputes the mean each time, and keeps the middle 95% of those means (Waskom 2021; seaborn docs v0.13). Figure 3 repeats this with 10,000 resamples, and section 10 builds such an interval step by step. In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (bootstrap: 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (bootstrap: 12.7 to 14.8).
+> **Extra:** Seaborn builds these intervals by bootstrapping (see [bootstrap sampling in bagging](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)): it resamples the data with replacement many times (1,000 by default in `seaborn.barplot`), recomputes the mean each time, and keeps the middle 95% of those means (Waskom 2021; seaborn docs v0.13). Figure 3 repeats this with 10,000 resamples, and section 10 builds such an interval step by step. In the notebook, the formula of this Note with $s$ in place of $\sigma$ gives almost the same ranges: 73.7 to 94.6 pounds for first class (**bootstrap** (G-320): 74.3 to 95.2) and 12.6 to 14.7 pounds for third class (bootstrap: 12.7 to 14.8).
 
 ## 5. Two ways to compute a confidence interval for a mean
 
 > **Key point:** The z-procedure needs the population standard deviation $\sigma$; the t-procedure works with the sample standard deviation $s$.
 
-There are several ways to compute a confidence interval. For a mean, the two standard ones are:
+There are several ways to compute a **confidence interval** (G-446). For a mean, the two standard ones are:
 
 | Procedure | Use when | Spread used |
 |---|---|---|
@@ -125,7 +125,7 @@ In practice $\sigma$ is almost never known: if we do not know the mean age of 77
 
 > **Key point:** A random sample, a known $\sigma$, and a normal population or a sample large enough for the central limit theorem.
 
-The z-procedure gives correct intervals only when three assumptions hold:
+The **z-procedure** (G-2138) gives correct intervals only when three assumptions hold:
 
 1. **Random sample.** The sample is drawn at random and is representative. A sample of only Indian subscribers says little about a channel with subscribers in many countries.
 2. **Known population standard deviation.** We know $\sigma$, here the standard deviation of the ages of all subscribers. We assume $\sigma = 15$ years.
@@ -135,11 +135,11 @@ The third assumption is therefore mild. A population of ages with three peaks, a
 
 ## 7. The z-procedure formula
 
-> **Key point:** $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, where $1 - \alpha$ is the confidence level and $z_{\alpha/2}$ is read from the standard normal curve.
+> **Key point:** $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$, where $1 - \alpha$ is the **confidence level** (G-447) and $z_{\alpha/2}$ is read from the standard normal curve.
 
-The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years, the population standard deviation is $\sigma = 15$ years, and we want a 95% confidence interval for $\mu$.
+The problem: a sample of $n = 100$ subscribers has mean age $\bar{x} = 28$ years, the population standard deviation is $\sigma = 15$ years, and we want a 95% **confidence interval** (G-446) for $\mu$.
 
-1. **In words:** go from the sample mean $z_{\alpha/2}$ standard errors down and up. The standard error is $\sigma/\sqrt{n}$, and the margin of error is $z_{\alpha/2}$ times it.
+1. **In words:** go from the sample mean $z_{\alpha/2}$ standard errors down and up. The standard error is $\sigma/\sqrt{n}$, and the **margin of error** (G-1162) is $z_{\alpha/2}$ times it.
 2. **Formula:**
    $$\bar{x} \pm z_{\alpha/2}\thinspace\frac{\sigma}{\sqrt{n}}$$
    - $\bar{x}$: the sample mean, our point estimate.
@@ -205,7 +205,7 @@ $$\bar{X} - z_{\alpha/2}\frac{\sigma}{\sqrt{n}} < \mu < \bar{X} + z_{\alpha/2}\f
 
 and this event still has probability $1 - \alpha$.
 
-The two ends are exactly the confidence interval $\bar{X} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$.
+The two ends are exactly the **confidence interval** (G-446) $\bar{X} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$.
 
 **Step 5: what the probability belongs to.** The last line looks like the claim that $\mu$ lies in this range with probability 95%, but $\mu$ is a fixed number: the true mean age of the subscribers does not vary. What varies is $\bar{X}$: the next online event brings different people and a different mean. The probability belongs to the random interval, not to $\mu$.
 
@@ -230,11 +230,11 @@ A z-table gives the area to the **left** of $z$, written $\Phi(z)$ (see [the z-t
    $$\Phi(z_{0.025}) = 0.95 + 0.025 = 0.975$$
    The z-table has 0.9750 in row 1.9, column 0.06, so $z_{0.025} = 1.96$. By symmetry the lower cut-off is $-1.96$.
 
-For a 75% confidence level, $\alpha = 0.25$ and each tail holds 0.125. The area to the left is:
+For a 75% **confidence level** (G-447), $\alpha = 0.25$ and each tail holds 0.125. The area to the left is:
 
 $$0.75 + 0.125 = 0.875$$
 
-The z-table places this area at $z = 1.15$ (Figure 6, right). The margin of error for the subscribers is:
+The z-table places this area at $z = 1.15$ (Figure 6, right). The **margin of error** (G-1162) for the subscribers is:
 
 $$1.15 \times 1.5 = 1.73$$
 
@@ -255,7 +255,7 @@ That is 26.27 to 29.73 years, narrower than the 95% interval.
 | 95% | 0.025 | 0.975 | 1.960 |
 | 99% | 0.005 | 0.995 | 2.576 |
 
-The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and the critical value for the chosen confidence level, the interval follows from one formula. 95% is the usual level; the next Note shows why.
+The critical value completes the **z-procedure** (G-2138): with $\bar{x}$, $\sigma$, $n$ and the **critical value** (G-504) for the chosen confidence level, the interval follows from one formula. 95% is the usual level; the next Note shows why.
 
 > **Python:** Critical values with scipy.
 >
@@ -271,9 +271,9 @@ The critical value completes the z-procedure: with $\bar{x}$, $\sigma$, $n$ and 
 
 ## 10. Another way: the bootstrap interval
 
-> **Key point:** Resample the one sample with replacement many times, compute the mean of each resample, and keep the middle 95% of those means: a confidence interval without $\sigma$, without a z-table and without a formula.
+> **Key point:** Resample the one sample with replacement many times, compute the mean of each resample, and keep the middle 95% of those means: a **confidence interval** (G-446) without $\sigma$, without a z-table and without a formula.
 
-The z-procedure needs $\sigma$ and a normal sampling distribution. The [**bootstrap**](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) needs neither. It treats the sample as a small copy of the population and draws new samples from it. Figure 7 builds one on 12 random Titanic ages: 45, 51, 11, 21, 22, 28, 26, 32, 30, 18, 30, 32, with mean 28.83 years.
+The **z-procedure** (G-2138) needs $\sigma$ and a normal sampling distribution. The [**bootstrap**](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) needs neither. It treats the sample as a small copy of the population and draws new samples from it. Figure 7 builds one on 12 random Titanic ages: 45, 51, 11, 21, 22, 28, 26, 32, 30, 18, 30, 32, with mean 28.83 years.
 
 ![12 Titanic ages are resampled with replacement; each resample's mean drops into the histogram; after 10,000 resamples the middle 95% gives the interval 23.2 to 35.0, beside the t-interval 21.9 to 35.8 (idea after StatQuest, "Confidence Intervals, Clearly Explained!!!")](images/bootstrap_ci.gif)
 
@@ -298,10 +298,10 @@ The formula route with this sample uses $s$ in place of the unknown $\sigma$, wh
 | Z-interval | $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ | 25.06 to 30.94 years | the range of plausible values for the mean age $\mu$ |
 
 - A point estimate is almost never exactly right; an interval states the uncertainty, so report a range, as with the bet on a range of runs rather than the exact score.
-- A confidence interval is about a population parameter, built from sample statistics, because the statistic $\bar{x}$ is already known exactly; only $\mu$ is unknown.
-- The z-procedure needs a random sample, a known $\sigma$, and a normal population or $n > 30$, because only then is the sample mean approximately normal with a known spread; when $\sigma$ is unknown, use the t-procedure.
+- A **confidence interval** (G-446) is about a population parameter, built from sample statistics, because the statistic $\bar{x}$ is already known exactly; only $\mu$ is unknown.
+- The **z-procedure** (G-2138) needs a random sample, a known $\sigma$, and a normal population or $n > 30$, because only then is the sample mean approximately normal with a known spread; when $\sigma$ is unknown, use the **t-procedure** (G-1938).
 - The probability of 95% belongs to the method (the random interval), not to the fixed $\mu$, because $\mu$ does not vary while $\bar{X}$ changes from sample to sample; so say "95% confident".
-- This answers the opening question: instead of a single guess, report point estimate $\pm$ margin of error, with a confidence level such as 95%.
+- This answers the opening question: instead of a single guess, report point estimate $\pm$ **margin of error** (G-1162), with a confidence level such as 95%.
 
 ## 12. Sources
 
@@ -323,13 +323,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Confidence interval (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
-| Confidence level (G-447) | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. |
 | Margin of error (G-1162) | The distance from the point estimate to either end of a confidence interval. |
+| Confidence level (G-447) | The share of intervals built by the method that contain the parameter, such as 95%; written $1 - \alpha$. |
+| Critical value (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
 | Z-procedure (G-2138) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is known: $\bar{x} \pm z_{\alpha/2}\thinspace\sigma/\sqrt{n}$. |
 | $\alpha$ (G-3) | The share of confidence intervals that miss the true value they are meant to catch (the parameter). It equals one minus the confidence level. |
-| Critical value (G-504) | The cut-off on a z (or t) curve that leaves $\alpha/2$ in each tail; a confidence interval reaches this many standard errors either side of the estimate. It is 1.96 for 95% on the standard normal curve. |
 | Percentile bootstrap interval (G-2234) | A range for a population value built by resampling: draw many resamples with replacement from one sample, compute each one's mean, and keep the middle 95% (2.5th to 97.5th percentile); it works for any statistic, even with no formula. |
 | Lower and upper limit (of a confidence interval) (G-1133) | The two ends of a confidence interval: the point estimate minus and plus the margin of error, the range in which the parameter is estimated to lie. |
+| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
 | [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
 | [T-procedure](../../../MA/04-inference/MA-037-t-procedure/MA-037-t-procedure.md#6-the-t-procedure-formula) (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
-| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |

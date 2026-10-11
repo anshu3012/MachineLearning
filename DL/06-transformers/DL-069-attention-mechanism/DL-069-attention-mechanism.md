@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/attentio
 
 > **Key point:** With **attention** (G-226), the decoder no longer sees one fixed summary of the input: at every step it gets a fresh mix of all the encoder's hidden states, weighted towards the input words that the current output word needs.
 
-[The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture) built a translator from two LSTMs joined by a single context vector. This Note explains why that single vector fails on long sentences, and how Bahdanau, Cho and Bengio (2015) fixed it. The fix, attention, is also the central idea of the transformer.
+[The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture) built a translator from two LSTMs joined by a single **context vector** (G-461). This Note explains why that single vector fails on long sentences, and how Bahdanau, Cho and Bengio (2015) fixed it. The fix, attention, is also the central idea of the transformer.
 
 ![Attention weights of a trained model translating a real English sentence into French. Row $i$ shows how much each English word counted when the model wrote French word $i$](images/attention_heatmap.png){width=95%}
 
@@ -26,10 +26,10 @@ Figure 1 is a **heat map**: a table of numbers in which each number's cell is al
 
 ## 2. Prerequisites
 
-- [The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture), [**teacher forcing**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) and [**greedy decoding**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870): the plain model that attention improves.
+- [The encoder and decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture), [**teacher forcing**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) and [**greedy decoding**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870): the plain model that **attention** (G-226) improves.
 - [The LSTM cell](../../05-rnn/DL-061-lstm/DL-061-lstm.md#9-the-lstm-cell-as-a-small-computer): hidden states $h_t$ (the vector an LSTM holds after reading word $t$).
 - [The softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function): turns scores into probabilities.
-- [A hidden layer](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#41-more-nodes-in-a-hidden-layer): a small feed-forward network (data flows one way, input to output) with a hidden layer.
+- [A hidden layer](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#41-more-nodes-in-a-hidden-layer): a small **feed-forward network** (G-775) (data flows one way, input to output) with a hidden layer.
 
 ## 3. The problem with one context vector
 
@@ -45,7 +45,7 @@ Read a sentence of 50 words once, close your eyes, and translate it. Few people 
 
 > **Key point:** Each output word depends on a few input words, but the decoder always receives the whole sentence as one static summary.
 
-Translate "turn off the lights" into Hindi, "light band karo". To write "light", only "lights" is needed. To write "band" (off), only "turn off" is needed. At no step does the decoder need the whole sentence; it needs a particular word or group of words. Yet the plain decoder receives the same context vector at every step and must work out by itself which part of it matters now. The representation is **static** (Figure 2). A better design would let the decoder look at the useful part of the input at each step.
+Translate "turn off the lights" into Hindi, "light band karo". To write "light", only "lights" is needed. To write "band" (off), only "turn off" is needed. At no step does the decoder need the whole sentence; it needs a particular word or group of words. Yet the plain decoder receives the same **context vector** (G-461) at every step and must work out by itself which part of it matters now. The representation is **static** (Figure 2). A better design would let the decoder look at the useful part of the input at each step.
 
 ![The plain encoder–decoder on "turn off the lights". The encoder's final state $c$ goes, unchanged, to every decoder step](images/static_context.png){width=95%}
 
@@ -53,7 +53,7 @@ Translate "turn off the lights" into Hindi, "light band karo". To write "light",
 
 > **Key point:** Keep all the encoder's hidden states, and at each decoder step give the decoder a weighted mix of them, with high weights on the input words that matter for the word being written.
 
-People translate a long text piece by piece. While reading, our eyes and mind keep a small region of focus: the words around the current position are sharp, the rest is blurry, and the focus moves along as we go. Attention brings this into the network. When the decoder writes "light", it should be told that encoder step 4 ("lights") matters most; when it writes "band", that steps 1 and 2 ("turn off") matter most. This information must be computed anew at every decoder step. Figure 3 draws the idea next to Figure 2: each decoder step now has its own context vector, mixed from all four encoder states.
+People translate a long text piece by piece. While reading, our eyes and mind keep a small region of focus: the words around the current position are sharp, the rest is blurry, and the focus moves along as we go. **Attention** (G-226) brings this into the network. When the decoder writes "light", it should be told that encoder step 4 ("lights") matters most; when it writes "band", that steps 1 and 2 ("turn off") matter most. This information must be computed anew at every decoder step. Figure 3 draws the idea next to Figure 2: each decoder step now has its own context vector, mixed from all four encoder states.
 
 ![The same sentence with attention. Each decoder step gets its own context vector $c_i$, a mix of all encoder states $h_j$; the line width shows how much each $h_j$ counts. The widths are drawn by hand to show the idea of section 3.2, not taken from a trained model (Figure 1 shows trained weights)](images/dynamic_context.png){width=95%}
 
@@ -69,10 +69,10 @@ Following Bahdanau et al. (2015):
 
 - $h_1, \dots, h_n$ are the encoder's hidden states, one per input word ($n$ words). Each is a vector.
 - $s_0, s_1, \dots$ are the decoder's hidden states.
-- $y_{i-1}$ is the decoder's input at step $i$: the previous word (the gold word under teacher forcing).
+- $y_{i-1}$ is the decoder's input at step $i$: the previous word (the gold word under **teacher forcing** (G-1955)).
 - $c_i$ is the new [**context vector**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) for decoder step $i$.
 
-Without attention, decoder step $i$ uses two inputs: $y_{i-1}$ and $s_{i-1}$. With attention it uses three: $y_{i-1}$, $s_{i-1}$ and $c_i$. Bahdanau et al. (2015, section 3.1) write the new decoder state as
+Without **attention** (G-226), decoder step $i$ uses two inputs: $y_{i-1}$ and $s_{i-1}$. With attention it uses three: $y_{i-1}$, $s_{i-1}$ and $c_i$. Bahdanau et al. (2015, section 3.1) write the new decoder state as
 
 $$s_i = f(s_{i-1}, y_{i-1}, c_i)$$
 
@@ -112,15 +112,15 @@ $$4 \times 4 = 16$$
 
 The weight $\alpha_{21}$, for example, says how much "turn" ($h_1$) counts when the decoder writes its second word, "band". The weights $\alpha_{ij}$ are the [**attention weights**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225). They are also called **alignment scores** (G-190): they say which input word each output word lines up with.
 
-> **Another way to see it:** In the original paper the name alignment score belongs to the raw numbers $e_{ij}$ of section 6.1, before the softmax of section 6.2 turns them into the weights $\alpha_{ij}$. Both names are in use, and both point at the same idea: how strongly an output word lines up with an input word.
+> **Another way to see it:** In the original paper the name alignment score belongs to the raw numbers $e_{ij}$ of section 6.1, before the **softmax** (G-1830) of section 6.2 turns them into the weights $\alpha_{ij}$. Both names are in use, and both point at the same idea: how strongly an output word lines up with an input word.
 
 ![The trained attention model writing one French word per frame. Left: the weight grid filling row by row (current row outlined in red). Right: the current word's weights over the English words, and the context vector they build](images/attention_fill.gif){height=60%}
 
-Figure 4 shows the weights being used, one decoder step per frame, in the trained model of section 7 on a real test sentence. Watch the right panel: each French word gets its own weights, so its own context vector, and the large weight moves along the English sentence as the translation goes on.
+Figure 4 shows the weights being used, one decoder step per frame, in the trained model of section 7 on a real test sentence. Watch the right panel: each French word gets its own weights, so its own **context vector** (G-461), and the large weight moves along the English sentence as the translation goes on.
 
 ## 6. Computing the weights
 
-> **Key point:** $\alpha_{ij}$ depends on the encoder state $h_j$ and on the decoder's previous state $s_{i-1}$. A small feed-forward network scores each pair, and softmax turns the scores into weights.
+> **Key point:** $\alpha_{ij}$ depends on the encoder state $h_j$ and on the decoder's previous state $s_{i-1}$. A small feed-forward network scores each pair, and **softmax** (G-1830) turns the scores into weights.
 
 ### 6.1 What the weight depends on
 
@@ -167,7 +167,7 @@ The full step, for decoder step 2 of "turn off the lights" (Figure 6):
 
 ![One decoder step with attention. The same small network scores every pair $(s_1, h_j)$; softmax turns the scores into weights; the weighted sum $c_2$ joins the decoder's input](images/attention_step.png){width=100%}
 
-> **Python:** One decoder step with attention, from the Notebook's model. `hs`: all encoder states, shape (batch, $n$, 256); `h, c`: the decoder's previous states; `Uh = U(hs)` is computed once per sentence.
+> **Python:** One decoder step with **attention** (G-226), from the Notebook's model. `hs`: all encoder states, shape (batch, $n$, 256); `h, c`: the decoder's previous states; `Uh = U(hs)` is computed once per sentence.
 >
 > ```python
 > e = tf.squeeze(v(tf.tanh(W(h)[:, None, :] + Uh)), -1)   # scores e_ij, (batch, n)
@@ -179,13 +179,13 @@ The full step, for decoder step 2 of "turn off the lights" (Figure 6):
 
 The exact form of the alignment model, Bahdanau's additive score, and the alternative proposed by Luong et al. (2015) are the subject of [the two attention scores compared](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared).
 
-> **Extra:** Bahdanau et al. (2015, section 3.1) read $\alpha_{ij}$ as a probability: the probability that output word $i$ is aligned to, or translated from, input word $j$. The context vector $c_i$ is then the expected encoder state under that distribution. Because the weights are a smooth function of the scores, the whole model stays differentiable and is trained with ordinary backpropagation.
+> **Extra:** Bahdanau et al. (2015, section 3.1) read $\alpha_{ij}$ as a probability: the probability that output word $i$ is aligned to, or translated from, input word $j$. The **context vector** (G-461) $c_i$ is then the expected encoder state under that distribution. Because the weights are a smooth function of the scores, the whole model stays differentiable and is trained with ordinary backpropagation.
 
 ## 7. Attention against no attention, by sentence length
 
-> **Key point:** On the same data, attention raised the test BLEU (a score from 0 to 100 for how close a translation is to a reference translation) from 9.8 to 25.7, and its advantage was largest on the longest sentences.
+> **Key point:** On the same data, **attention** (G-226) raised the test BLEU (a score from 0 to 100 for how close a translation is to a reference translation) from 9.8 to 25.7, and its advantage was largest on the longest sentences.
 
-The Notebook trains two encoder–decoders on the same 60,000 English–French pairs (the corpus of [the training data](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data)), now with English sentences of up to 16 words. Long sentences are rare in the corpus, so every pair with 9 or more English words is kept (39,070 of the 60,000). Both models have the same encoder, a bidirectional LSTM (one LSTM reads the sentence forwards, a second reads it backwards; section 9) like Bahdanau et al.'s, and the same decoder LSTM of 256 units; the only difference is attention. Each is trained 3 times for 12 epochs with teacher forcing. The test set has 200 unseen English sentences in each length group, and the score is the BLEU of greedy translations ([BLEU and greedy decoding](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction)).
+The Notebook trains two encoder–decoders on the same 60,000 English–French pairs (the corpus of [the training data](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data)), now with English sentences of up to 16 words. Long sentences are rare in the corpus, so every pair with 9 or more English words is kept (39,070 of the 60,000). Both models have the same encoder, a bidirectional LSTM (one LSTM reads the sentence forwards, a second reads it backwards; section 9) like Bahdanau et al.'s, and the same decoder LSTM of 256 units; the only difference is attention. Each is trained 3 times for 12 epochs with **teacher forcing** (G-1955). The test set has 200 unseen English sentences in each length group, and the score is the BLEU of greedy translations ([BLEU and greedy decoding](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction)).
 
 ![Test BLEU by English sentence length, mean of 3 runs, with the lowest and highest run as bars](images/bleu_by_length.png){width=95%}
 
@@ -200,7 +200,7 @@ In Figure 7, the horizontal axis groups the test sentences by English length and
 Three things stand out:
 
 1. **Attention helps at every length.** Even on 1–4-word sentences, the decoder does better when it can look at each source word directly than when it works from one summary.
-2. **Without attention, quality falls with length.** From 14.3 on the shortest sentences, BLEU falls to 5.9 on the longest: the fixed-size context vector must hold more and more. Attention keeps more of its score; the longest group's score as a share of the shortest group's:
+2. **Without attention, quality falls with length.** From 14.3 on the shortest sentences, BLEU falls to 5.9 on the longest: the fixed-size **context vector** (G-461) must hold more and more. Attention keeps more of its score; the longest group's score as a share of the shortest group's:
 
    $$\text{without: } 5.9 / 14.3 = 0.41$$
 
@@ -217,15 +217,15 @@ Attention has a cost in parameters and time. The attention model has 8.4 million
 
 > **Key point:** The weights can be drawn as a grid, the **alignment grid** (G-188), output words against input words. In a trained model they form a band from top left to bottom right: the decoder moves through the input as it writes the output.
 
-Each row of the weight grid is one decoder step and sums to 1; each column is one input word. Bahdanau et al. (2015, section 5.2.1 and Figure 3) drew such grids and found that the weights line up English and French words in a sensible way. Figure 1 shows the grid of the Notebook's attention model for a test sentence it translated exactly:
+Each row of the weight grid is one decoder step and sums to 1; each column is one input word. Bahdanau et al. (2015, section 5.2.1 and Figure 3) drew such grids and found that the weights line up English and French words in a sensible way. Figure 1 shows the grid of the Notebook's **attention** (G-226) model for a test sentence it translated exactly:
 
 - "she advised him to talk about his life in america ." → "elle lui conseilla de parler de sa vie en amérique ."
 
-The weights form a clear diagonal band: as the decoder writes the French sentence from left to right, its attention moves through the English sentence from left to right, with each step concentrated on one or two words (0.88 or more in most rows). The band sits on the matching word or one to two words to its right: writing "parler" (talk), the model looks mostly at the state of "about"; writing "vie" (life), at the state of "in". Attention weights are not a word alignment: each $h_j$ comes from a bidirectional RNN and is informed by the whole sentence (section 9), and Koehn and Knowles (2017, §3.5) report the same off-by-one-position attention in a trained system of this type whose translations were still of high quality. Here too the translation is exact, because the forward half of the state of "about" has already read "talk". All 132 weights of this pair (12 French words, 11 English words) are recomputed for every sentence; nothing in the grid is fixed in advance.
+The weights form a clear diagonal band: as the decoder writes the French sentence from left to right, its attention moves through the English sentence from left to right, with each step concentrated on one or two words (0.88 or more in most rows). The band sits on the matching word or one to two words to its right: writing "parler" (talk), the model looks mostly at the state of "about"; writing "vie" (life), at the state of "in". **Attention weights** (G-225) are not a word alignment: each $h_j$ comes from a bidirectional RNN and is informed by the whole sentence (section 9), and Koehn and Knowles (2017, §3.5) report the same off-by-one-position attention in a trained system of this type whose translations were still of high quality. Here too the translation is exact, because the forward half of the state of "about" has already read "talk". All 132 weights of this pair (12 French words, 11 English words) are recomputed for every sentence; nothing in the grid is fixed in advance.
 
 ## 9. Notes on the original model
 
-> **Key point:** Bahdanau et al. used a bidirectional encoder, so each $h_j$ also knows the words after position $j$. The attention part is unchanged.
+> **Key point:** Bahdanau et al. used a bidirectional encoder, so each $h_j$ also knows the words after position $j$. The **attention** (G-226) part is unchanged.
 
 Two details of Bahdanau et al. (2015) differ from the simple picture above:
 
@@ -246,12 +246,12 @@ The model was trained on English–French translation, with a vocabulary of the 
 | Extra cost | none | $m \times n$ weights per sentence pair |
 | Test BLEU in the Notebook | 9.8 | 25.7 |
 
-- The extra cost buys the BLEU gain in the last row, and the gain is largest on the longest sentences (ratio 2.3 on 1–4 words, 3.0 on 14–16), so attention matters most where the plain model fails.
-- One fixed context vector is a bottleneck for long sentences, because a long sentence must fit in the same fixed size, and it is the same at every decoder step, although each output word needs only a few input words.
+- The extra cost buys the BLEU gain in the last row, and the gain is largest on the longest sentences (ratio 2.3 on 1–4 words, 3.0 on 14–16), so **attention** (G-226) matters most where the plain model fails.
+- One fixed context vector is a **bottleneck** (G-326) for long sentences, because a long sentence must fit in the same fixed size, and it is the same at every decoder step, although each output word needs only a few input words.
 - Attention keeps all encoder hidden states and gives each decoder step its own weighted sum of them, so no input word has to pass through one fixed vector.
-- The weights come from scores $e_{ij} = a(s_{i-1}, h_j)$, made positive and summing to 1 by a softmax; they depend on $s_{i-1}$ because the input word needed next depends on what has been translated so far.
-- The scoring function $a$ is a small feed-forward network, the alignment model, trained with the rest, so no one has to choose a formula for it by hand.
-- The weights can be plotted as an alignment grid between output and input words, so you can see which input words each output word used (in a trained model, a band from top left to bottom right).
+- The weights come from scores $e_{ij} = a(s_{i-1}, h_j)$, made positive and summing to 1 by a **softmax** (G-1830); they depend on $s_{i-1}$ because the input word needed next depends on what has been translated so far.
+- The scoring function $a$ is a small feed-forward network, the **alignment model** (G-189), trained with the rest, so no one has to choose a formula for it by hand.
+- The weights can be plotted as an **alignment grid** (G-188) between output and input words, so you can see which input words each output word used (in a trained model, a band from top left to bottom right).
 - This answers the opening question: the decoder gets a fresh mix of all encoder states at every step instead of one fixed summary.
 
 ## 11. Sources
@@ -283,11 +283,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Alignment (G-191) | Which input words each output word relates to; read from the cross-attention weights. |
 | Attention weight $\alpha_{ij}$ (G-224) | How much encoder state $j$ counts at decoder step $i$; the weights of one step are non-negative and sum to 1. |
 | Context vector $c_i$ (G-460) | The summary of the input made fresh for each decoder step $i$ under attention: a weighted sum of all the encoder's hidden states, where the weights decide how much each input word counts for the word being written now. |
+| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
 | [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
 | [Greedy decoding](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#6-prediction) (G-870) | Predicting by choosing the most likely token at each step and feeding it back. |
-| [Context vector](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
-| [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Attention weight](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-225) | How much one word draws on another word when building its new vector: an attention score after the softmax, so the weights of one word are non-negative and sum to 1. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | [Bidirectional encoder](../../../DL/05-rnn/DL-066-bidirectional-rnn/DL-066-bidirectional-rnn.md#4-how-a-bidirectional-rnn-works) (G-291) | An encoder with one RNN reading forwards and one backwards, whose states are joined at each position. |
 | [Gated recurrent unit (GRU)](../../../DL/05-rnn/DL-064-gru/DL-064-gru.md#1-overview) (G-826) | An RNN architecture with one memory (the hidden state) and two gates, reset and update. |

@@ -25,14 +25,14 @@ Figure 1 is the plan for this Note (a tree: one column at the top splits into ca
 
 ![Which graphs to draw for one column, by its type](images/plot_chooser.png)
 
-- **Categorical column:** a count plot and a pie chart.
-- **Numerical column:** a histogram, a density plot, a box plot, and a few summary numbers such as the skewness.
+- **Categorical column:** a count plot and a **pie chart** (G-1495).
+- **Numerical column:** a histogram, a density plot, a box plot, and a few summary numbers such as the **skewness** (G-1817).
 
 The Notebook (`ML-019-univariate-analysis.ipynb`) draws every graph as an interactive Plotly chart.
 
 ## 2. Univariate, bivariate and multivariate analysis
 
-> **Key point:** Studying one column is univariate analysis, two columns together is **bivariate analysis** (G-310), and more than two is **multivariate analysis** (G-1280).
+> **Key point:** Studying one column is **univariate analysis** (G-2050), two columns together is **bivariate analysis** (G-310), and more than two is **multivariate analysis** (G-1280).
 
 Each column of a dataset is called a **variable** (G-2071). In ML, an input variable is called a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), and the variable we want to predict is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949). Each row, one record, is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374). EDA has three levels, named by how many variables we look at together (Figure 2):
 
@@ -77,7 +77,7 @@ Some columns need a word of explanation:
 
 - **PassengerId:** an ID does not cause survival. In an earthquake, nobody dies because of their roll number, and the same logic applies here.
 - **Pclass:** first class was the most expensive and carried the richest passengers; third was the cheapest. The three classes are like the AC, sleeper and general coaches of an Indian train.
-- **SibSp and Parch:** both hold numbers, but with only a few possible values (0, 1, 2, ...), so we can also treat each value as a category.
+- **SibSp and Parch:** both hold numbers, but with only a few possible values (0, 1, 2, ...), so we can also treat each value as a **category** (G-356).
 - **Embarked:** the ship picked up passengers at three ports: S for Southampton, C for Cherbourg and Q for Queenstown.
 
 > **Extra:** Recorded cabins are mostly first-class: of the 204 passengers with a recorded cabin, 176 travelled first class, 16 second class and 12 third. So a missing `Cabin` hints at a cheaper ticket, which is itself useful information.
@@ -94,7 +94,7 @@ Some columns need a word of explanation:
 
 ## 4. Count plot
 
-> **Key point:** A count plot draws one bar per category, as tall as the number of rows in that category; it is the first graph for any categorical column.
+> **Key point:** A count plot draws one bar per **category** (G-356), as tall as the number of rows in that category; it is the first graph for any categorical column.
 
 A **count plot** (G-494) answers the most basic question about a categorical column: how often does each category occur? It counts the rows in each category, its **frequency** (G-808), and draws one bar per category.
 
@@ -130,9 +130,9 @@ The `Pclass` result raises a question: why did more people travel first class th
 
 ## 5. Pie chart
 
-> **Key point:** A pie chart shows the same counts as shares of a circle, so we read each category's percentage directly.
+> **Key point:** A pie chart shows the same counts as shares of a circle, so we read each **category** (G-356)'s percentage directly.
 
-A **pie chart** (G-1495) divides a circle into slices, one per category, each sized by its share of the rows. A pie chart holds the same information as a count plot, given as percentages instead of counts.
+A **pie chart** (G-1495) divides a circle into slices, one per category, each sized by its share of the rows. A pie chart holds the same information as a **count plot** (G-494), given as percentages instead of counts.
 
 Figure 4 shows pie charts of three columns:
 
@@ -173,13 +173,13 @@ Suppose we mark every passenger's age as a dot on a line. With 714 known ages th
 
 ![The 714 Titanic ages turned into a histogram: dots on a line, 5-year bins, one stack of dots per bin, one bar per stack](images/hist_build.gif)
 
-The finished graph is a **histogram** (G-899), and the equal intervals are called **bins** (G-298). The histogram counts the values in each bin and draws one bar per bin. In effect, the bins turn the numerical column into a categorical one for a moment, so that we can count it as in a count plot. In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
+The finished graph is a **histogram** (G-899), and the equal intervals are called **bins** (G-298). The histogram counts the values in each bin and draws one bar per bin. In effect, the bins turn the numerical column into a categorical one for a moment, so that we can count it as in a **count plot** (G-494). In Figure 5 the tallest bar, ages 20 to 25, holds 114 passengers.
 
 The result shows the **distribution** (G-626) of the data: how the values spread out, where most of them sit, and where few do. Whenever we meet a numerical column, a histogram is the first graph to try.
 
 ### 6.1 Choosing the number of bins
 
-> **Key point:** Too few bins hide the shape of the data; too many make it noisy. We try a few and keep the one that shows the shape best.
+> **Key point:** Too few **bins** (G-298) hide the shape of the data; too many make it noisy. We try a few and keep the one that shows the shape best.
 
 The number of bins changes the picture (Figure 6):
 
@@ -193,7 +193,7 @@ The library picks a number of bins by default. If the picture is not clear, we c
 
 With 16 bins, the shape of `Age` is clear. Few passengers were very young or very old, and most were between about 20 and 40. A small group of young children forms a second, smaller hump on the left.
 
-> **Python:** A histogram.
+> **Python:** A **histogram** (G-899).
 >
 > ```python
 > px.histogram(df, x="Age", nbins=5)
@@ -203,7 +203,7 @@ With 16 bins, the shape of `Age` is clear. Few passengers were very young or ver
 
 ## 7. Density plot
 
-> **Key point:** A density plot draws a smooth curve over the histogram; the curve, called the KDE, estimates the probability density function of the column.
+> **Key point:** A density plot draws a smooth curve over the **histogram** (G-899); the curve, called the KDE, estimates the probability density function of the column.
 
 A **density plot** (G-587) is a histogram with a smooth curve drawn along the tops of its bars (Figure 7). The curve is a **kernel density estimate (KDE)** (G-1005): a smoothed version of the histogram, so the shape is easier to see.
 
@@ -226,7 +226,7 @@ So the two graphs answer slightly different questions:
 - **Histogram:** how many passengers fall in each range.
 - **PDF curve:** how likely each value is, compared with the others.
 
-The PDF matters again in bivariate and multivariate analysis, where we compare such curves for different groups.
+The PDF matters again in bivariate and **multivariate analysis** (G-1280), where we compare such curves for different groups.
 
 > **Extra:** The height of the curve is a density, not a probability. At age 40 it is about 0.016, which only means "more likely than at 70". A probability is the area under the curve over a range. For example, the area from age 20 to 40 is about 0.52: roughly half of the passengers were in their twenties or thirties.
 
@@ -236,7 +236,7 @@ The PDF matters again in bivariate and multivariate analysis, where we compare s
 
 ## 8. Box plot
 
-> **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible outliers.
+> **Key point:** A box plot draws the five-number summary of a column and marks the values that lie far outside it as possible **outliers** (G-1420).
 
 A **box plot** (G-329) draws a column's **five-number summary** (G-787; Figure 9). The summary is built from the median (the middle value) and the percentiles (the value below which a given share of the data lies), see [**percentiles**](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483).
 
@@ -256,7 +256,7 @@ The box holds the middle half of the data. Its width, Q3 - Q1, is the **interqua
 
 > **Key point:** The whiskers stop at the last value within 1.5 IQR of the box; any value further out is drawn as a dot and flagged as a possible outlier.
 
-The simplest box plot runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule, the **IQR rule** (G-972). It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
+The simplest **box plot** (G-329) runs its whiskers all the way to the minimum and the maximum. A single extreme value would then stretch a whisker across the page. So the box plot that plotting libraries draw, and the one used in this Note, adds a rule, the **IQR rule** (G-972). It sets two calculated limits, called **fences**, 1.5 IQR beyond the edges of the box (Tukey 1977, Ch. 2). Each **whisker** (G-2181) stops at the last real value inside its fence. A value outside the fences is drawn as a separate dot and is a possible **outlier** (G-1420): a value that does not follow the pattern of the rest of the data.
 
 The fences are often loosely called the "minimum" and "maximum" of the box plot. They are calculated limits (-6.69 and 64.81 below), not values of the column; the whisker ends at the last real value inside them, and when no value lies beyond a fence it ends at the true minimum or maximum, as the left whisker of Figure 9 does at 0.42.
 
@@ -286,7 +286,7 @@ Spotting outliers is the main use of a box plot: it shows them at a glance. When
 
 ### 8.2 The fare box plot
 
-> **Key point:** The box plot of `Fare` is squeezed to the left, with a long trail of outliers up to 512.
+> **Key point:** The **box plot** (G-329) of `Fare` is squeezed to the left, with a long trail of **outliers** (G-1420) up to 512.
 
 Figure 11 shows the box plot of `Fare`. The box sits far to the left: half of all fares are below 14.45, and three quarters below 31. To the right trail 116 outliers, the most extreme being three tickets at 512.33, many times what most passengers paid.
 
@@ -302,7 +302,7 @@ Extreme values like these can mislead an ML algorithm trained on the column: lin
 >
 > Hovering over the box in the Notebook shows the five numbers. `df["Age"].quantile([0.25, 0.5, 0.75])` computes Q1, the median and Q3 directly.
 
-> **Extra:** Other graphs for one numerical column exist, such as the violin plot (a box plot and a density curve combined) and the rug plot (a tick for every value). The histogram, density plot and box plot cover most needs.
+> **Extra:** Other graphs for one numerical column exist, such as the violin plot (a box plot and a **density** (G-1569) curve combined) and the rug plot (a tick for every value). The histogram, density plot and box plot cover most needs.
 
 ## 9. Summary numbers
 
@@ -320,9 +320,9 @@ Graphs show the shape; numbers pin down the details. For `Age`:
 
 ## 10. Skewness
 
-> **Key point:** Skewness measures how lopsided a distribution is: 0 means symmetric, positive means a long tail to the right, negative a long tail to the left.
+> **Key point:** Skewness measures how lopsided a **distribution** (G-626) is: 0 means symmetric, positive means a long tail to the right, negative a long tail to the left.
 
-The density curve also tells us whether the data is symmetric. Figure 12 shows the three cases.
+The **density** (G-1569) curve also tells us whether the data is symmetric. Figure 12 shows the three cases.
 
 ![Three shapes of distribution, with the mean and median of each](images/skew_shapes.png)
 
@@ -332,7 +332,7 @@ The density curve also tells us whether the data is symmetric. Figure 12 shows t
 
 **Skewness** (G-1817) turns this shape into one number. A value of 0 means perfectly symmetric, a positive value means skewed to the right, and a negative value means skewed to the left. The further from 0, the more lopsided the data.
 
-For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fare` has 4.79, heavily skewed to the right, which matches its long trail of outliers in Figure 11.
+For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fare` has 4.79, heavily skewed to the right, which matches its long trail of **outliers** (G-1420) in Figure 11.
 
 > **Python:** Skewness.
 >
@@ -369,12 +369,12 @@ For the Titanic, `Age` has a skewness of 0.39, slightly skewed to the right. `Fa
 | Numerical | Box plot | Five-number summary and outliers | 11 age outliers above 64.81 | Shows outliers at a glance, so they can be checked |
 | Numerical | Skewness | How lopsided the distribution is | Age 0.39, Fare 4.79 | Turns the shape into one number to compare columns |
 
-- Univariate analysis studies one column at a time; bivariate and multivariate analysis study two or more together. Starting with one column means we learn as much as we can about each column before mixing them.
-- First decide whether a column is numerical or categorical, because the type decides the graphs: categories are counted, numbers need graphs of how they spread.
-- For categorical columns: `value_counts`, a count plot and a pie chart, so we see both the count and the share of each category.
-- For numerical columns: a histogram (try a few bin counts, because too few bins hide the shape and too many make it noisy), a density plot, a box plot, and the summary numbers.
-- A box plot flags values beyond 1.5 IQR from the box as possible outliers, so extreme values such as the 512.33 fares are noted before they mislead a model. The fences are calculated limits, not the minimum and maximum of the data.
-- Skewness of 0 means symmetric; positive means a long right tail, negative a long left tail. A skewed column pulls its mean towards the tail, so its median describes a typical value better.
+- Univariate analysis studies one column at a time; bivariate and **multivariate analysis** (G-1280) study two or more together. Starting with one column means we learn as much as we can about each column before mixing them.
+- First decide whether a column is numerical or categorical, because the type decides the graphs: **categories** (G-356) are counted, numbers need graphs of how they spread.
+- For categorical columns: `value_counts`, a count plot and a **pie chart** (G-1495), so we see both the count and the share of each category.
+- For numerical columns: a histogram (try a few **bin** (G-298) counts, because too few bins hide the shape and too many make it noisy), a density plot, a box plot, and the summary numbers.
+- A box plot flags values beyond 1.5 IQR from the box as possible **outliers** (G-1420), so extreme values such as the 512.33 fares are noted before they mislead a model. The fences are calculated limits, not the minimum and maximum of the data.
+- **Skewness** (G-1817) of 0 means symmetric; positive means a long right tail, negative a long left tail. A skewed column pulls its mean towards the tail, so its median describes a typical value better.
 - Every graph should lead to a finding, and every finding to its likely reason: that is how studying one column at a time, with the graphs its type calls for, turns a table of numbers into an understanding of the data.
 
 ## 12. Sources
@@ -400,28 +400,28 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Univariate analysis (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
+| Pie chart (G-1495) | A circle split into slices sized by each category's share. |
+| Skewness (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | Bivariate analysis (G-310) | Studying two columns together to see how they are related, for example with a scatter plot or a bar plot. |
 | Multivariate analysis (G-1280) | Studying more than two variables together. |
 | Variable (G-2071) | One column of a dataset. |
 | Category (G-356) | One of the fixed groups of a categorical column. |
 | Count plot (G-494) | A bar chart with one bar per category, as tall as its frequency. |
 | Frequency (G-808) | How many times a value or category occurs. |
-| Pie chart (G-1495) | A circle split into slices sized by each category's share. |
 | Histogram (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
 | Bin (G-298) | One of the equal ranges a histogram splits the data into. |
 | Distribution (G-626) | How a column's values spread over their range. |
 | Density plot (G-587) | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |
 | Kernel density estimate (KDE) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
 | Kernel (KDE) (G-2273) | A small symmetric bump with area 1, placed on each point to build a KDE curve. |
+| Outlier (G-1420) | A value far from the rest of the data. |
 | Box plot (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | Five-number summary (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
 | Interquartile range (IQR) (G-966) | The width of the middle half of the data: Q3 - Q1. |
 | IQR method (IQR rule, IQR proximity rule) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. |
 | Whisker (G-2181) | The line in a box plot from the box to the last value inside the fence; it shows how far the ordinary values reach, and values beyond it are drawn as separate dots. |
-| Outlier (G-1420) | A value far from the rest of the data. |
 | Positive skew (right skew) (G-1533) | A long tail on the right: a few very large values. |
 | Negative skew (left skew) (G-1312) | A long tail on the left: a few very small values. |
-| Skewness (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | Fence (fences) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

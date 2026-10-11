@@ -32,7 +32,7 @@ The Notebook (`ML-100-bagging-classifier.ipynb`) runs every experiment. The Dash
 
 ## 2. Seeing bagging on decision surfaces
 
-> **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the decision boundary and reaches 0.912.
+> **Key point:** On the moons data, one fully grown tree overfits (test accuracy 0.856); bagging 100 trees smooths the **decision boundary** (G-555) and reaches 0.912.
 
 The demo data is the two-moons toy dataset: 500 **observations** (points; each is one row of the data table), 375 for training, with two **features** (input variables, the columns $x_1$ and $x_2$) and a class label as the **target** (the output we predict). It is the same data as in [the main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) of decision trees. The app asks for six settings, the main hyperparameters of `BaggingClassifier`:
 
@@ -64,7 +64,7 @@ Figure 2 builds the same bagging classifier one tree at a time. Watch the left p
 
 Any classifier can be bagged, but the gain depends on how **unstable** the model is (an **unstable model**, G-2156): how much its fit changes when the training data changes a little. Breiman (1996, sections 1 and 6.3) found that bagging helps unstable models such as trees, and can slightly degrade stable ones such as nearest-neighbour methods. Think of asking one calm friend the same question ten times: averaging the answers adds nothing new. The moons data shows the same:
 
-- **KNN:** a single KNN (k = 5) already gives a smooth decision boundary and scores 0.912. Bagged, its decision boundary is a little smoother still (Figure 1, bottom right), with the same 0.912.
+- **KNN:** a single KNN (k = 5) already gives a smooth **decision boundary** (G-555) and scores 0.912. Bagged, its decision boundary is a little smoother still (Figure 1, bottom right), with the same 0.912.
 - **SVM:** a single SVM scores 0.896, but 100 bagged SVMs score only 0.872. The SVM behaves like a stable model here: bagging does not help it.
 
 Instability is the reason decision trees are by far the usual base model for bagging.
@@ -197,9 +197,9 @@ The OOB score, **0.943**, is close to the real test accuracy, **0.945**. [How th
 
 Four rules of thumb, each with what our data says:
 
-1. **Bagging and pasting trade bias for variance.** Drawing with replacement makes the samples more varied, so the trees are less alike and the ensemble's variance is lower, at the cost of a little more bias. Which effect wins depends on the data: here the two score almost the same (0.945 against 0.946, and 0.912 against 0.904 on the moons). Since it is only `bootstrap=True` or `False`, try both.
+1. **Bagging and pasting trade bias for variance.** Drawing with replacement makes the samples more varied, so the trees are less alike and the ensemble's **variance** (G-2073) is lower, at the cost of a little more bias. Which effect wins depends on the data: here the two score almost the same (0.945 against 0.946, and 0.912 against 0.904 on the moons). Since it is only `bootstrap=True` or `False`, try both.
 
-   The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of [how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance): changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared bias a little higher (0.0019 against 0.0013).
+   The variance part follows from theory: the variance of an average falls as the models become less correlated (ESL §15.2), and the Notebook's last cell confirms it on the sine data of [how bagging lowers variance](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#32-how-bagging-lowers-variance): changing only `bootstrap`, bagging's trees are less correlated (0.82 against 0.84), its variance lower (0.041 against 0.055) and its squared **bias** (G-287) a little higher (0.0019 against 0.0013).
 
    ![Bagging against pasting on 100 noisy sine datasets, changing only `bootstrap`: tree correlation, ensemble variance and squared bias](images/bag_vs_paste.png){height=28%}
 
@@ -252,7 +252,7 @@ Here pasting wins by a hair: the rules are a starting point; the search decides.
 - On 10,000 observations, bagging lifts one tree from 0.927 to 0.945; a grid search finds 0.952, so tuning the bagging settings is worth the extra training time.
 - The OOB score (0.943) estimates test accuracy (0.945) without a test set, because each observation is predicted only by the trees that never saw it.
 - Try bagging and pasting, start `max_samples` at 0.25 to 0.5, sample features only when there are many, and tune with a grid search, because which setting wins depends on the data (here pasting won by a hair).
-- So `BaggingClassifier` is one class whose settings pick the bagging type, and its majority vote turns an overfitting tree into a smoother, more accurate classifier.
+- So `BaggingClassifier` is one class whose settings pick the bagging type, and its majority vote turns an **overfitting** (G-1429) tree into a smoother, more accurate classifier.
 
 ## 7. Sources
 
@@ -287,11 +287,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | max_samples (G-1187) | The number or share of rows each base model gets. |
 | n_estimators (G-1291) | The number of base models in an ensemble. |
 | verbose (G-2087) | scikit-learn setting that prints progress messages during training. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
 | [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
-| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Out-of-bag observations (out-of-bag rows)](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#2-out-of-bag-observations) (G-1412) | The observations a base model never saw because its bootstrap sample missed them (about 37%). |

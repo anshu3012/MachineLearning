@@ -17,9 +17,9 @@ tags: [subject/machine-learning, area/features, step/features, concept/column-tr
 
 ## 1. Overview
 
-> **Key point:** A column transformer sends each column to its own transformer and joins all the outputs into one array, in a single step.
+> **Key point:** A **column transformer** (G-415) sends each column to its own transformer and joins all the outputs into one array, in a single step.
 
-Real datasets mix feature types. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table. One feature has missing values, another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
+Real datasets mix feature types. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table. One feature has **missing values** (G-1234), another is ordinal, a third is nominal, and a fourth needs nothing at all. Each one needs a different transformation.
 
 Figure 1 shows the whole topic. Every column goes to the transformer that fixes its problem, and scikit-learn's **`ColumnTransformer`** (G-417) runs all of them at once and joins their outputs into one array of numbers.
 
@@ -29,7 +29,7 @@ Figure 1 shows the whole topic. Every column goes to the transformer that fixes 
 
 > **Key point:** When columns need different transformations, doing them one by one means many separate arrays that we must glue back together.
 
-Take customer data with four features:
+Take customer data with four **features** (G-772):
 
 - **age:** numerical, but some values are [**missing values**](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234). Age needs [**imputation**](../ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) (G-927) to fill them.
 - **city:** nominal categories. City needs one-hot encoding.
@@ -42,9 +42,9 @@ Gluing arrays by hand is a lot of manual work, and the work grows with every fea
 
 ## 3. The COVID toy data
 
-> **Key point:** 100 made-up patients; fever has missing values, cough is ordinal, gender and city are nominal, and age is ready as it is.
+> **Key point:** 100 made-up patients; fever has **missing values** (G-1234), cough is ordinal, gender and city are nominal, and age is ready as it is.
 
-The data is a small made-up dataset of 100 patients. Each patient is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). There are six columns: the features age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
+The data is a small made-up dataset of 100 patients. Each patient is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table). There are six columns: the **features** (G-772) age, gender, fever (body temperature in degrees Fahrenheit at the doctor's visit), cough and city, and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) `has_covid` (Yes or No), the output we would predict. The dataset is a toy for practising the technique, not real medical data.
 
 | age | gender | fever | cough | city | has_covid |
 |---|---|---|---|---|---|
@@ -75,7 +75,7 @@ A few quick counts describe the columns (Figure 2):
 
 ### 3.1 What each column needs
 
-> **Key point:** Four features need a transformation; age needs none.
+> **Key point:** Four **features** (G-772) need a transformation; age needs none.
 
 | Column | Type | Problem | Transformation |
 |---|---|---|---|
@@ -85,13 +85,13 @@ A few quick counts describe the columns (Figure 2):
 | gender | nominal | text | one-hot encoding (`OneHotEncoder`) |
 | city | nominal | text | one-hot encoding (`OneHotEncoder`) |
 
-The target `has_covid` is categorical too, so it would need label encoding. We leave it out here: the focus is the features.
+The **target** (G-1949) `has_covid` is categorical too, so it would need label encoding. We leave it out here: the focus is the features.
 
 ### 3.2 Split before transforming
 
 > **Key point:** As always, we split first; every transformer learns from the training set only.
 
-We split the data into a training set (80 rows) and a test set (20 rows) before any transformation, so that no number learned by a transformer (such as the mean fever) comes from the test rows; see [split before scaling](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling). The features are every column except `has_covid`.
+We split the data into a training set (80 rows) and a test set (20 rows) before any transformation, so that no number learned by a transformer (such as the mean fever) comes from the test rows; see [split before scaling](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling). The **features** (G-772) are every column except `has_covid`.
 
 > **Python:** Splitting the data.
 >
@@ -107,7 +107,7 @@ We split the data into a training set (80 rows) and a test set (20 rows) before 
 
 ## 4. The hard way: one transformer at a time
 
-> **Key point:** Without a column transformer, we transform each column separately, get one array per step, and glue the arrays together with `np.concatenate`.
+> **Key point:** Without a **column transformer** (G-415), we transform each column separately, get one array per step, and glue the arrays together with `np.concatenate`.
 
 Figure 3 shows the plan. Four separate steps each give an array of 80 rows, and a fifth step joins them into one array of 80 rows and 7 columns.
 
@@ -117,7 +117,7 @@ Figure 3 shows the plan. Four separate steps each give an array of 80 rows, and 
 
 > **Key point:** `SimpleImputer` replaces each missing fever with the mean fever of the training set.
 
-**`SimpleImputer`** (G-1809), with its default setting, fills every missing value with the column's mean. This is **simple imputation**: each gap gets one value computed from the known values of the column, such as their mean or median ([mean and median imputation](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), taught in full later). We pick only the `fever` column, fit the imputer on the training set and transform both sets.
+**`SimpleImputer`** (G-1809), with its default setting, fills every **missing value** (G-1234) with the column's mean. This is **simple imputation**: each gap gets one value computed from the known values of the column, such as their mean or median ([mean and median imputation](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), taught in full later). We pick only the `fever` column, fit the imputer on the training set and transform both sets.
 
 > **Python:** Imputing fever.
 >
@@ -160,7 +160,7 @@ Cough has an order, Mild < Strong, so we use `OrdinalEncoder` and give it that o
 
 > **Key point:** Gender (2 categories) and city (4 categories) become 1 + 3 = 4 columns once the first category of each is dropped.
 
-Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per feature to avoid **multicollinearity** (one input column being exactly predictable from the others; see [**multicollinearity**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273)).
+Both columns are nominal, so one `OneHotEncoder` handles the two together. With `drop="first"` it removes one column per **feature** (G-772) to avoid **multicollinearity** (one input column being exactly predictable from the others; see [**multicollinearity**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273)).
 
 The column count works out as follows:
 
@@ -209,7 +209,7 @@ $$1 + 1 + 4 + 1 = 7 \text{ columns}$$
 > # (80, 7) and (20, 7)
 > ```
 
-The hand-made way works, but it is hectic for only four features. With 50 columns, it would take a very long time, and every step has to be written twice: once for the training set and once for the test set.
+The hand-made way works, but it is hectic for only four **features** (G-772). With 50 columns, it would take a very long time, and every step has to be written twice: once for the training set and once for the test set.
 
 ## 5. The easy way: ColumnTransformer
 
@@ -294,7 +294,7 @@ After it, they are three rows of 7 numbers. The table below is turned on its sid
 
 Bangalore is the first city alphabetically, so it was the dropped category: a Bangalore row has 0 in all three city columns.
 
-The column transformer combines naturally with another scikit-learn tool, the **pipeline** (G-1499; a chain of steps run in order, [what a pipeline is](../ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)). Used together, they make preprocessing much simpler.
+The **column transformer** (G-415) combines naturally with another scikit-learn tool, the **pipeline** (G-1499; a chain of steps run in order, [what a pipeline is](../ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)). Used together, they make preprocessing much simpler.
 
 > **Extra:** The output columns come in the order of the `transformers` list, and the `remainder` columns go last. So the column transformer puts age at the end, while our hand-made array had it first. Both arrays hold the same 7 columns, only in a different order.
 
@@ -324,7 +324,7 @@ The result of `fit_transform` is a NumPy array without column names, so it is ea
 
 ### 6.2 A DataFrame instead of an array
 
-> **Key point:** After `set_output(transform="pandas")`, the column transformer returns a DataFrame.
+> **Key point:** After `set_output(transform="pandas")`, the **column transformer** (G-415) returns a DataFrame.
 
 Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fit_transform` and `transform` return a pandas DataFrame, with the names above as its columns. Figure 6 shows the result for the first three training patients; the header colours mark which transformer made each column.
 
@@ -353,13 +353,13 @@ Calling **`set_output(transform="pandas")`** (G-1780) once makes every later `fi
 | Test set | every step written again | one `transform` call |
 | Result for this data | 80 × 7 (age first) | 80 × 7 (age last) |
 
-- Different columns often need different transformations: imputation, ordinal encoding, one-hot encoding, or none, because each column has its own problem (gaps, ordered text, unordered text).
-- Done by hand, each transformation gives its own array, and we must join them with `np.concatenate`, for both sets, so the work grows with every feature and every step is written twice.
+- Different columns often need different transformations: **imputation** (G-927), ordinal encoding, one-hot encoding, or none, because each column has its own problem (gaps, ordered text, unordered text).
+- Done by hand, each transformation gives its own array, and we must join them with `np.concatenate`, for both sets, so the work grows with every **feature** (G-772) and every step is written twice.
 - `ColumnTransformer` takes a list of (name, transformer, columns) tuples and does every step in one call, so each transformation is written once and the test set needs only one `transform`.
 - `remainder="drop"` (default) removes untouched columns; `remainder="passthrough"` keeps them, at the end. Forgetting it silently loses a ready column such as age (6 columns instead of 7).
 - Split first; `fit_transform` on the training set, `transform` on the test set, so every transformer learns from the training set only (the missing fevers of both sets get the training mean, 100.92).
 - `get_feature_names_out` and `set_output(transform="pandas")` tell us which output column is which, because the plain output is an array without column names.
-- So one column transformer replaces all the hand-made steps: each column goes to its own transformer, and the outputs come back as one array.
+- So one **column transformer** (G-415) replaces all the hand-made steps: each column goes to its own transformer, and the outputs come back as one array.
 
 ## 8. Sources
 
@@ -373,8 +373,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| ColumnTransformer (G-417) | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. |
 | Column transformer (G-415) | A scikit-learn class that applies different transformations to different columns at once and joins the results. |
+| ColumnTransformer (G-417) | The scikit-learn class (in `sklearn.compose`) that implements the column transformer. |
 | SimpleImputer (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |
 | np.concatenate (G-1355) | NumPy function that joins arrays; with `axis=1` it puts them side by side. |
 | remainder (G-1669) | The `ColumnTransformer` parameter for untouched columns: `"drop"` (default) or `"passthrough"`. |

@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/naive-bayes]
 
 ## 1. Overview
 
-> **Key point:** Training Naive Bayes means building a lookup table of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
+> **Key point:** Training Naive Bayes means building a **lookup table** (G-1128) of probabilities by counting. Predicting means looking up one probability per feature and multiplying.
 
 [The intuition](../ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture) and [the formula](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#6-the-formula-and-the-map-rule) of Naive Bayes (a classifier that scores each class by multiplying one probability per feature) are applied here to a classic toy dataset, **Play Tennis**, in Python: first by hand with pandas, then with scikit-learn.
 
@@ -26,7 +26,7 @@ This Note covers:
 - training: building the lookup table by counting (section 4);
 - testing: looking up and multiplying (section 5);
 - a practical problem, the **zero-frequency problem** (G-2149) (section 6);
-- its standard fix, Laplace smoothing, and scikit-learn's `CategoricalNB` (section 7).
+- its standard fix, **Laplace smoothing** (G-1045), and scikit-learn's `CategoricalNB` (section 7).
 
 ## 2. The data
 
@@ -70,7 +70,7 @@ Figure 1 shows the two phases side by side. Watch the dashed arrow: testing only
 
 > **Key point:** pd.crosstab counts each value per class; dividing by the class sizes gives P(value | class).
 
-> **Python:** Building the lookup table.
+> **Python:** Building the **lookup table** (G-1128).
 >
 > ```python
 > cols = ["outlook", "temperature", "humidity", "wind"]
@@ -166,7 +166,7 @@ The model is 100% sure tennis will be played, purely because one value never hap
 
 > **Key point:** Add 1 to every count before dividing. No probability is ever exactly 0, and common values are barely affected.
 
-**Laplace smoothing** (G-1045) (or **add-one smoothing**) adds a small count, usually 1, to every cell of each crosstab before turning it into probabilities (Manning et al. §13.2):
+**Laplace smoothing** (G-1045) (or **add-one smoothing**) adds a small count, usually 1, to every cell of each **crosstab** (G-511) before turning it into probabilities (Manning et al. §13.2):
 
 $$P(\text{value} \mid \text{class}) = \frac{n_{\text{value}} + 1}{n_{\text{class}} + k}$$
 
@@ -214,10 +214,10 @@ Figure 6 puts the overcast day before and after smoothing side by side. Watch th
 
 ## 8. Summary
 
-- Training: count with `pd.crosstab`, divide by the class sizes, store the lookup table (22 numbers here), so the data is read only once and every probability the formula could need is ready.
+- Training: count with `pd.crosstab`, divide by the class sizes, store the **lookup table** (G-1128) (22 numbers here), so the data is read only once and every probability the formula could need is ready.
 - Testing: multiply the prior by one looked-up probability per feature; the largest score wins, so prediction needs no recomputation.
 - Sunny, hot, high, weak gives no (0.0274 against 0.0071), because sunny weather and high humidity are much more common on "no" days.
-- A value never seen with a class gives a zero that overrides everything, because the score is a product; Laplace smoothing (add 1 to every count) prevents it, so the model is no longer 100% sure about something it saw only a few times. `CategoricalNB(alpha=1)` does this by default.
+- A value never seen with a class gives a zero that overrides everything, because the score is a product; **Laplace smoothing** (G-1045) (add 1 to every count) prevents it, so the model is no longer 100% sure about something it saw only a few times. `CategoricalNB(alpha=1)` does this by default.
 - So in code, Naive Bayes is two short steps, count then look up and multiply, plus smoothing to keep one unseen value from deciding the answer.
 
 ## 9. Sources
@@ -238,10 +238,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0. |
 | Lookup table (G-1128) | The stored probabilities (class priors, and each feature value's probability within each class) that Naive Bayes computes once in training and then looks up to score new rows. |
-| pd.crosstab (G-1470) | pandas function that counts how often each pair of values from two columns occurs. |
+| Zero-frequency problem (G-2149) | A probability of 0 for a value never seen with a class, which forces that class's score to 0. |
 | Laplace smoothing (G-1045) | Adding a small count (usually 1) to every count so that no probability is 0. |
+| pd.crosstab (G-1470) | pandas function that counts how often each pair of values from two columns occurs. |
 | CategoricalNB (G-353) | scikit-learn's Naive Bayes for categorical inputs. |
 | [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
 | [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |

@@ -16,7 +16,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/standard-
 
 ## 1. Overview
 
-> **Key point:** Standardizing turns any normal distribution into the standard normal distribution $N(0, 1)$; one table of its areas, the z-table, then answers probability questions about every normal variable.
+> **Key point:** Standardizing turns any normal distribution into the standard normal distribution $N(0, 1)$; one table of its areas, the **z-table** (G-2142), then answers probability questions about every normal variable.
 
 ![Standardizing: X ~ N(5, 2.5²) becomes Z ~ N(0, 1); every value moves to its z-score](images/standardize.png){height=48%}
 
@@ -29,7 +29,7 @@ This Note builds on [what the normal distribution is](../MA-024-normal-distribut
 - the standard normal distribution and how to standardize (sections 2 and 3);
 - how to read a z-table (section 4);
 - two problems solved with it (section 5);
-- the 68-95-99.7 rule, derived (section 6);
+- the **68-95-99.7 rule** (G-53), derived (section 6);
 - where the normal distribution is used in data science (section 7).
 
 ## 2. The standard normal distribution
@@ -102,7 +102,7 @@ Real data works the same way. A [**feature**](../../../ML/01-foundations/ML-002-
 Two benefits make the standard normal distribution so useful:
 
 1. **Comparison.** Two normal distributions with different means and spreads (heights in centimetres and in inches, marks in two different exams) can be compared side by side once both are standardized.
-   For example, a student scores 80 in an exam with mean 70 and standard deviation 10, and 65 in another exam with mean 50 and standard deviation 5. The raw marks favour the first exam. The z-scores say the opposite:
+   For example, a student scores 80 in an exam with mean 70 and standard deviation 10, and 65 in another exam with mean 50 and standard deviation 5. The raw marks favour the first exam. The **z-scores** (G-2141) say the opposite:
    $$z_1 = \frac{80 - 70}{10} = 1$$
    $$z_2 = \frac{65 - 50}{5} = 3$$
    The second result is three standard deviations above its mean, a far rarer performance than the first.
@@ -118,7 +118,7 @@ $$\Phi(z) = P(Z \le z) = \text{area under the curve from } -\infty \text{ to } z
 
 The table gives an **area**, so a probability, not the height of the curve at $z$ (Figure 4, left). There are two tables: one for negative $z$ and one for positive $z$.
 
-To look up a z-score with two decimals, such as 1.33:
+To look up a **z-score** (G-2141) with two decimals, such as 1.33:
 
 1. Choose the positive table, because 1.33 is positive.
 2. Find the row for the first two digits, **1.3**.
@@ -151,12 +151,12 @@ $$1 - 0.90824 = 0.09176$$
 
 The heights of adult men in a population are normal with mean 68 inches and standard deviation 3 inches. What is the probability that a randomly chosen man is taller than 72 inches?
 
-1. **In words:** turn 72 into a z-score, read the area to its left, and subtract it from 1 to get the area to its right.
+1. **In words:** turn 72 into a **z-score** (G-2141), read the area to its left, and subtract it from 1 to get the area to its right.
 2. **Formula:**
    $$P(X > 72) = 1 - \Phi\negthinspace\left(\frac{72 - 68}{3}\right)$$
 3. **Example:** the z-score is
    $$z = \frac{72 - 68}{3} = \frac{4}{3} = 1.33$$
-   The z-table gives $\Phi(1.33) = 0.90824$, so
+   The **z-table** (G-2142) gives $\Phi(1.33) = 0.90824$, so
    $$P(X > 72) = 1 - 0.90824 = 0.09176$$
    About 9.2% of men are taller than 72 inches.
 
@@ -177,7 +177,7 @@ Now no numbers are given: $X \sim N(\mu, \sigma^2)$. What share of the values li
    $$z_{\text{lower}} = \frac{\mu - \mu}{\sigma} = 0$$
    $$z_{\text{upper}} = \frac{(\mu + \sigma) - \mu}{\sigma} = 1$$
    $$P(\mu \le X \le \mu + \sigma) = \Phi(1) - \Phi(0)$$
-3. **Example:** the z-table gives $\Phi(1) = 0.8413$, and $\Phi(0) = 0.5$ because the curve is symmetric. So
+3. **Example:** the **z-table** (G-2142) gives $\Phi(1) = 0.8413$, and $\Phi(0) = 0.5$ because the curve is symmetric. So
    $$P(\mu \le X \le \mu + \sigma) = 0.8413 - 0.5 = 0.3413$$
 
 ![The area between 0 and 1 as the difference of two z-table areas](images/one_sd_area.png){height=30%}
@@ -202,7 +202,7 @@ The same steps for 2 and 3 standard deviations:
 
 ![The areas within 1, 2 and 3 standard deviations of the mean, shaded one step at a time: 68.27, 95.45 and 99.73 percent.](images/empirical_rule.gif)
 
-The 68-95-99.7 pattern is the [**empirical rule**](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) of [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule), now derived from the z-table instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
+The 68-95-99.7 pattern is the [**empirical rule**](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) of [the 68-95-99.7 rule](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule), now derived from the **z-table** (G-2142) instead of taken on trust. The rule is powerful: knowing only that a variable is normal, without seeing any data, we can say that 99.73% of its values lie within 3 standard deviations of the mean.
 
 A value far outside that range is extraordinary. Don Bradman's Test batting average of 99.94 is a famous example: it lies about 4.4 standard deviations above the mean of Test cricketers (Davis 2000). If the averages were normal, fewer than 1 value in 100,000 would lie that far up:
 
@@ -227,7 +227,7 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
    $$68 + 16 = 84$$
 
-   The z-table agrees: $\Phi(1) = 0.8413$. Below $z = -1$ lies only the left tail, 16 percent.
+   The **z-table** (G-2142) agrees: $\Phi(1) = 0.8413$. Below $z = -1$ lies only the left tail, 16 percent.
 
 4. **Above $z = 2$.** Within two standard deviations lie 95 percent, so 5 percent is left over, 2.5 percent in each tail. The z-table gives:
 
@@ -241,7 +241,7 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 
 > **Key point:** Outlier detection, the assumptions of some ML models, hypothesis testing, and the central limit theorem.
 
-1. **Outlier detection.** For a feature that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (values far from the rest; the z-score method, see [the limits](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#32-the-limits)). For the Titanic ages, three standard deviations are
+1. **Outlier detection.** For a **feature** (G-772) that is roughly normal, values beyond $\mu \pm 3\sigma$ are treated as outliers (values far from the rest; the z-score method, see [the limits](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#32-the-limits)). For the Titanic ages, three standard deviations are
 
    $$3 \times 14.53 = 43.59$$
 
@@ -269,8 +269,8 @@ The rule can also be run in the other direction, to get areas quickly with no ta
 | Between two values | $\Phi(z_2) - \Phi(z_1)$ | $\Phi(1) - \Phi(0) = 0.3413$ | the left area up to $z_2$ minus the left area up to $z_1$ leaves the strip between |
 | Empirical rule | $2(\Phi(k) - 0.5)$ | 68.27%, 95.45%, 99.73% | lets us answer "below" and "above" questions in the head, without a table |
 
-- A z-table gives areas (probabilities) to the left of $z$, not heights of the curve, so "more than" and "between" questions need a subtraction.
-- Standardizing keeps the shape; only normal data becomes standard normal, so a skewed feature stays skewed and the z-table does not give its probabilities.
+- A **z-table** (G-2142) gives areas (probabilities) to the left of $z$, not heights of the curve, so "more than" and "between" questions need a subtraction.
+- Standardizing keeps the shape; only normal data becomes standard normal, so a skewed **feature** (G-772) stays skewed and the z-table does not give its probabilities.
 - Values beyond 3 standard deviations are rare: 0.27% in all, so the z-score method flags them as outliers (the Titanic ages 74 and 80).
 - This answers the opening question: standardize, then one table of $N(0, 1)$ areas gives probabilities for every normal variable.
 
@@ -293,15 +293,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Z-table (G-2142) | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |
 | Standard normal distribution (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
 | $\phi(z)$ (G-19) | The height of the standard normal bell curve (mean 0, standard deviation 1) at $z$, which shows how densely values lie near $z$ (its probability density function). |
 | $\Phi(z)$ (G-18) | The probability that a standard normal value is below $z$: the area under the bell curve to the left of $z$ (the CDF of the standard normal distribution). For example $\Phi(1) = 0.84$. |
-| Z-table (G-2142) | A table that gives, for many values of $z$, the probability that a standard normal value falls below $z$, written $\Phi(z)$; used to find normal probabilities. |
+| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
 | [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
 | [Parametric density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation) (G-1451) | Estimating how the data is spread (its probability density) by assuming it follows a named distribution and estimating that distribution's parameters from the data. |

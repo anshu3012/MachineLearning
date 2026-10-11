@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/position
 
 ## 1. Overview
 
-> **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** (G-1528) fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the word embedding, and add it to the embedding before self-attention.
+> **Key point:** Self-attention reads all words of a sentence at once, so on its own it cannot tell "Rahul killed the lion" from "the lion killed Rahul". A **positional encoding** (G-1528) fixes this: for every position we build a vector of sines and cosines of different frequencies, of the same size as the **word embedding** (G-2127), and add it to the embedding before self-attention.
 
 [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763), taught in [the idea: a word as a mix of its sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#3-the-idea-a-word-as-a-mix-of-its-sentence), turns the embeddings of a sentence into [**contextual embeddings**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462): vectors that depend on the other words around each word. It has two strengths: it captures context, and it computes all words in parallel. The second strength has a price. Because all words go in together, self-attention has no idea which word came first.
 
@@ -26,14 +26,14 @@ This Note builds the fix step by step. We start from the simplest idea (count th
 
 ## 2. Prerequisites
 
-- [Query, key and value](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) in self-attention: queries, keys, values and contextual embeddings.
+- [Query, key and value](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) in **self-attention** (G-1763): queries, keys, values and contextual embeddings.
 - [**Word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127): each word as a dense vector of $d$ numbers.
 - [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): word order carries meaning ("dog bites man" against "man bites dog").
 - [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why a network trains badly on inputs with very large values.
 
 ## 3. Why the transformer needs positions
 
-> **Key point:** Self-attention gives every word the same output whatever the order of the other words. Shuffle the sentence, and the outputs are only shuffled with it.
+> **Key point:** **Self-attention** (G-1763) gives every word the same output whatever the order of the other words. Shuffle the sentence, and the outputs are only shuffled with it.
 
 An RNN reads "Rahul killed the lion" one word per time step: "Rahul" at step 1, "killed" at step 2, and so on. The order is built into the way it reads. Self-attention sends all four embeddings in at the same time, and each output is a weighted sum over all the words. Nothing in that computation says which word stood where. For self-attention, "Rahul killed the lion" and "the lion killed Rahul" are the same set of words, although they mean opposite things.
 
@@ -43,7 +43,7 @@ The Notebook checks this. One self-attention layer (Keras' `MultiHeadAttention`,
 
 On a sentence of 12 words shuffled at random, the outputs are the original outputs shuffled in the same way, to within $2 \times 10^{-7}$.
 
-Vaswani et al. (2017, §3.5) state the consequence: since the model "contains no recurrence and no convolution", it must be given "some information about the relative or absolute position of the tokens". A **positional encoding** is that information: a vector that says where a word stands. Once we add positional encodings to the embeddings (section 6), the same word gets different outputs in the two sentences (the Notebook measures changes of up to 1.68 in a single number, for "the").
+Vaswani et al. (2017, §3.5) state the consequence: since the model "contains no recurrence and no convolution", it must be given "some information about the relative or **absolute position** (G-158) of the tokens". A **positional encoding** is that information: a vector that says where a word stands. Once we add **positional encodings** (G-1528) to the embeddings (section 6), the same word gets different outputs in the two sentences (the Notebook measures changes of up to 1.68 in a single number, for "the").
 
 ![The output vector of "rahul" and of "lion" from the same attention layer, for the two word orders. Top: without positions, the two bars of every pair are equal. Bottom: with positional encodings added to the embeddings, they differ. Idea of swapping the words after StatQuest, "Transformer Neural Networks, ChatGPT's foundation, Clearly Explained!!!"](images/order_with_pe.png){width=100%}
 
@@ -120,13 +120,13 @@ So the first pair makes almost exactly 60 full turns between them, and the pair 
 
 ## 6. The formula of "Attention Is All You Need"
 
-> **Key point:** The positional encoding of a position is a vector of $d_{\text{model}}$ numbers. Each pair of dimensions $(2i, 2i+1)$ holds the sine and cosine of $\text{pos}/10000^{2i/d_{\text{model}}}$, so the **frequency** (G-806) falls as $i$ grows. The vector is added to the embedding.
+> **Key point:** The **positional encoding** (G-1528) of a position is a vector of $d_{\text{model}}$ numbers. Each pair of dimensions $(2i, 2i+1)$ holds the sine and cosine of $\text{pos}/10000^{2i/d_{\text{model}}}$, so the **frequency** (G-806) falls as $i$ grows. The vector is added to the embedding.
 
 ### 6.1 Same size, added
 
 > **Key point:** The encoding has as many numbers as the embedding, and the two are added element by element, not concatenated.
 
-Vaswani et al. (2017, §3.5) give the positional encodings "the same dimension $d_{\text{model}}$ as the embeddings, so that the two can be summed". Here $d_{\text{model}}$ is the number of values in each embedding: 512 in the paper. Every word therefore gets a positional encoding vector of 512 numbers, and the sum of the two vectors, still 512 numbers, goes into self-attention (Figure 1).
+Vaswani et al. (2017, §3.5) give the **positional encodings** (G-1528) "the same dimension $d_{\text{model}}$ as the embeddings, so that the two can be summed". Here $d_{\text{model}}$ is the number of values in each embedding: 512 in the paper. Every word therefore gets a positional encoding vector of 512 numbers, and the sum of the two vectors, still 512 numbers, goes into **self-attention** (G-1763) (Figure 1).
 
 Why add instead of concatenating, as in section 4? Concatenation would double the size of every input vector, from 512 to 1,024. Every weight matrix that reads the input, such as $W_Q$, $W_K$ and $W_V$ in self-attention, would need twice as many rows, so the model would have more parameters and take longer to train. Adding keeps the size unchanged.
 
@@ -183,7 +183,7 @@ Figure 6 builds the encoding position by position. The fast wave (dimension 0) m
 
 > **Key point:** In the heatmap of the encodings, the first dimensions change from position to position and the last ones barely change. Fast waves tell neighbouring positions apart; slow waves tell distant positions apart.
 
-Figure 7 is the standard picture of positional encoding, a **heatmap**. Take a table with 50 rows (positions) and $d_{\text{model}} = 128$ columns (dimensions), and replace every number by a colour: $-1$ is red, $0$ is white and $1$ is blue. Read it row by row: each row is one position's encoding vector.
+Figure 7 is the standard picture of **positional encoding** (G-1528), a **heatmap**. Take a table with 50 rows (positions) and $d_{\text{model}} = 128$ columns (dimensions), and replace every number by a colour: $-1$ is red, $0$ is white and $1$ is blue. Read it row by row: each row is one position's encoding vector.
 
 ![Positional encodings of 50 positions with $d_{\text{model}} = 128$. Row 0 alternates 0 and 1; the left dimensions change quickly from row to row, the right ones hardly at all](images/pe_heatmap.png){width=95%}
 
@@ -201,7 +201,7 @@ The pattern is the same as in binary counting (Figure 8). In the binary codes of
 
 > **Key point:** The sine and cosine of the same angle are a point on a circle. Moving $k$ positions along the sentence turns every such point by a fixed angle, whatever the start. That is what makes distances easy to use.
 
-[Section 4](#4-first-idea-count-the-words) left one problem open: counting gives absolute positions but no easy handle on the distance between two words. Vaswani et al. (2017, §3.5) chose sinusoids "because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $k$, $PE_{\text{pos}+k}$ can be represented as a linear function of $PE_{\text{pos}}$". A **linear function** here means multiplication by a matrix. This section derives that matrix.
+[Section 4](#4-first-idea-count-the-words) left one problem open: counting gives **absolute positions** (G-158) but no easy handle on the distance between two words. Vaswani et al. (2017, §3.5) chose sinusoids "because we hypothesized it would allow the model to easily learn to attend by relative positions, since for any fixed offset $k$, $PE_{\text{pos}+k}$ can be represented as a linear function of $PE_{\text{pos}}$". A **linear function** here means multiplication by a matrix. This section derives that matrix.
 
 ### 8.1 One matrix per distance
 
@@ -256,11 +256,11 @@ This is also why the encoding uses sine and cosine together. With only sines, $\
 |---|---|---|---|---|---|
 | $PE(p) \cdot PE(p + k)$, every $p$ | 64.00 | 62.09 | 47.19 | 42.82 | 34.96 |
 
-The smallest and largest values over all $p$ agree to four decimals: the dot product depends on $k$ alone. Figure 10 shows the same thing as a picture: in the heatmap of all dot products, every diagonal (fixed distance) has a single colour, and the value falls, with small ripples, as the distance grows. Since self-attention scores words by dot products, this gives it a built-in sense of how far apart two positions are.
+The smallest and largest values over all $p$ agree to four decimals: the dot product depends on $k$ alone. Figure 10 shows the same thing as a picture: in the heatmap of all dot products, every diagonal (fixed distance) has a single colour, and the value falls, with small ripples, as the distance grows. Since **self-attention** (G-1763) scores words by dot products, this gives it a built-in sense of how far apart two positions are.
 
 ![Left: dot products between the encodings of positions 0 to 99; each diagonal, a fixed distance, has one colour. Right: the dot product against the distance $k$, the same for every starting position](images/pe_dot.png){width=100%}
 
-> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings** (G-1066), one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned absolute positions as the simplest method, and add that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
+> **Extra:** The sine-cosine encoding is fixed: nothing in it is learned. Vaswani et al. (2017, §3.5 and Table 3, row E) also tried **learned positional embeddings** (G-1066), one trainable vector per position, and "found that the two versions produced nearly identical results". They kept the sinusoids "because it may allow the model to extrapolate to sequence lengths longer than the ones encountered during training": a formula gives a vector for any position, while a learned table stops at the longest training position. Jurafsky and Martin (SLP3 §7.4) describe learned **absolute positions** (G-158) as the simplest method, and add that later methods such as rotary position embeddings (RoPE) represent relative position directly inside the attention computation.
 
 ## 9. Summary
 
@@ -272,8 +272,8 @@ The smallest and largest values over all $p$ agree to four decimals: the dot pro
 | Sine-cosine pairs, frequencies $1/10000^{2i/d}$ | yes | yes | yes | yes: rotation $M_k$ |
 
 - The table's columns are the reasons each idea was dropped: large inputs make gradients unstable, a position with different values in different sentences cannot be learned, and two positions with the same value look like one position. Only the last row passes every test.
-- Self-attention computes all words in parallel and ignores their order; shuffling the input only shuffles the output, so without help "Rahul killed the lion" and "the lion killed Rahul" give the same outputs.
-- A positional encoding is a vector of $d_{\text{model}}$ numbers per position, added to the word's embedding, because adding keeps the input size, while concatenating would double it and the weight matrices with it.
+- **Self-attention** (G-1763) computes all words in parallel and ignores their order; shuffling the input only shuffles the output, so without help "Rahul killed the lion" and "the lion killed Rahul" give the same outputs.
+- A **positional encoding** (G-1528) is a vector of $d_{\text{model}}$ numbers per position, added to the word's embedding, because adding keeps the input size, while concatenating would double it and the weight matrices with it.
 - Dimension $2i$ holds $\sin(\text{pos}/10000^{2i/d_{\text{model}}})$, dimension $2i+1$ the cosine; the wavelengths grow geometrically from $2\pi$ to $10000 \cdot 2\pi$, so the frequencies are spread far apart and no two positions get almost the same vector.
 - Early dimensions change fast, late dimensions slowly, like the bits of a binary counter, so fast waves tell neighbouring positions apart and slow waves tell distant ones apart.
 - For every distance $k$ a fixed matrix takes $PE(p)$ to $PE(p + k)$, and $PE(p) \cdot PE(p + k)$ depends only on $k$, so attention, which already multiplies by matrices and scores by dot products, can learn to use how far apart two words are.
@@ -307,9 +307,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Rotation matrix (G-1708) | The matrix of a rotation about the origin; by 90°, columns $[0, 1]$ and $[-1, 0]$. |
 | Learned positional embedding (G-1066) | A trainable vector per position, learned like a word embedding. |
 | Rotation matrix $M_k$ (G-1707) | The fixed matrix that turns the encoding of any position $p$ into that of $p + k$. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
-| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Exploding gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [$d_{\text{model}}$](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-27) | The number of values in each word's vector at the layer's input and output; 512 in the transformer. |

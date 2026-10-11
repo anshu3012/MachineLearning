@@ -15,11 +15,11 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 ## 1. Overview
 
-> **Key point:** Probability is always measured for an event; to name an event we first need the random experiment, its trials and outcomes, and the sample space the event is taken from.
+> **Key point:** Probability is always measured for an event; to name an event we first need the random experiment, its trials and **outcomes** (G-1417), and the sample space the event is taken from.
 
 ![The five basic terms on one die roll](images/terms.png)
 
-Figure 1 places the five basic terms of probability on a single die roll. A random experiment is run once in a trial, which gives one outcome. Every outcome lies in the sample space $S$, and an event is any set of outcomes we care about, here "an odd number".
+Figure 1 places the five basic terms of probability on a single die roll. A **random experiment** (G-1610) is run once in a trial, which gives one outcome. Every outcome lies in the sample space $S$, and an **event** (G-717) is any set of outcomes we care about, here "an odd number".
 
 This Note:
 
@@ -27,15 +27,15 @@ This Note:
 - applies them to three experiments (section 3);
 - sorts events into types (section 4).
 
-Every later probability topic, from conditional probability to Bayes' theorem, is phrased in these words.
+Every later probability topic, from **conditional probability** (G-444) to Bayes' theorem, is phrased in these words.
 
 ## 2. The five basic terms
 
-> **Key point:** Random experiment, trial, outcome, sample space and event: an experiment is run in trials, each trial gives one outcome, all possible outcomes form the sample space, and an event is a chosen part of it.
+> **Key point:** Random experiment, trial, **outcome** (G-1417), sample space and event: an experiment is run in trials, each trial gives one outcome, all possible outcomes form the sample space, and an event is a chosen part of it.
 
 ### 2.1 Random experiment
 
-> **Key point:** An experiment is random when it has more than one possible outcome and we cannot predict which one will happen.
+> **Key point:** An experiment is random when it has more than one possible **outcome** (G-1417) and we cannot predict which one will happen.
 
 A **random experiment** (G-1610) is an experiment whose outcome is random, such as tossing a coin. Stated precisely, an experiment is a random experiment when it meets **both** conditions:
 
@@ -48,38 +48,38 @@ Tossing a coin meets both: it can land heads or tails, and before the toss nobod
 
 ### 2.2 Trial
 
-> **Key point:** A trial is one run of the random experiment.
+> **Key point:** A trial is one run of the **random experiment** (G-1610).
 
 A **trial** (G-2015) is a single execution of a random experiment. Tossing the coin once is one trial; tossing it again is a second trial.
 
-Every trial produces exactly one outcome. Repeating an experiment means running more trials of it.
+Every trial produces exactly one **outcome** (G-1417). Repeating an experiment means running more trials of it.
 
-Figure 2 runs the die experiment for 12 trials. Each trial gives one outcome (the boxed face); the event "an odd number" happens whenever that outcome is one of the orange faces. Here it happened in 4 of the 12 trials.
+Figure 2 runs the die experiment for 12 trials. Each trial gives one outcome (the boxed face); the **event** (G-717) "an odd number" happens whenever that outcome is one of the orange faces. Here it happened in 4 of the 12 trials.
 
 ![The random experiment "roll a die" run in 12 simulated trials. Left: the sample space, with the event A = {1, 3, 5} in orange and the current outcome boxed. Right: the outcome of every trial so far, orange when A happened.](images/die_trials.gif)
 
 ### 2.3 Outcome
 
-> **Key point:** An outcome is the single result of one trial.
+> **Key point:** An outcome is the single result of one **trial** (G-2015).
 
 An **outcome** (G-1417) is one possible result of a trial. If the first toss lands heads, heads is the outcome of that trial; if the second lands tails, tails is the outcome of the second.
 
 ### 2.4 Sample space
 
-> **Key point:** The sample space is the set of all possible outcomes of the experiment; whatever happens in a trial is always one of its members.
+> **Key point:** The sample space is the set of all possible **outcomes** (G-1417) of the experiment; whatever happens in a trial is always one of its members.
 
 The **sample space** (G-1729) is the set of all possible outcomes of an experiment. The sample space is written in curly brackets, usually named $S$ (some books use $\Omega$):
 
 - Toss a coin: $S = \lbrace H, T\rbrace$.
 - Roll a die: $S = \lbrace1, 2, 3, 4, 5, 6\rbrace$.
 
-One random experiment has one sample space. Every trial's outcome comes from inside it, never from outside.
+One **random experiment** (G-1610) has one sample space. Every trial's outcome comes from inside it, never from outside.
 
 ### 2.5 Event
 
-> **Key point:** An event is a set of outcomes we want the probability of: a subset of the sample space, with one outcome or several.
+> **Key point:** An event is a set of **outcomes** (G-1417) we want the probability of: a subset of the sample space, with one outcome or several.
 
-An **event** (G-717) is a set of outcomes: a specific set of outcomes of a random experiment. In set language it is a **subset** of the sample space: every outcome in the event also belongs to $S$.
+An **event** (G-717) is a set of outcomes: a specific set of outcomes of a **random experiment** (G-1610). In set language it is a **subset** of the **sample space** (G-1729): every outcome in the event also belongs to $S$.
 
 Events are what probability is computed for. Two examples:
 
@@ -95,13 +95,13 @@ The event is chosen by the question we ask, not by the experiment. Figure 1 mark
 
 ## 3. The terms on three experiments
 
-> **Key point:** Writing out all five terms for an experiment removes the confusion between them; the experiment and sample space stay fixed, while the outcome changes with each trial and the event changes with each question.
+> **Key point:** Writing out all five terms for an experiment removes the confusion between them; the experiment and sample space stay fixed, while the **outcome** (G-1417) changes with each trial and the event changes with each question.
 
 The five terms are easy to read and easy to mix up. Laying them out side by side for three experiments shows what stays fixed and what changes.
 
 ### 3.1 Rolling a die
 
-> **Key point:** One roll gives one outcome from $\lbrace1, \dots, 6\rbrace$; the event can be one face or several.
+> **Key point:** One roll gives one **outcome** (G-1417) from $\lbrace1, \dots, 6\rbrace$; the **event** (G-717) can be one face or several.
 
 | Term | Rolling a die |
 |---|---|
@@ -111,13 +111,13 @@ The five terms are easy to read and easy to mix up. Laying them out side by side
 | Sample space | $\lbrace1, 2, 3, 4, 5, 6\rbrace$ |
 | Event | "Getting a 3" $= \lbrace3\rbrace$; "a number greater than 4" $= \lbrace5, 6\rbrace$; "an odd number" $= \lbrace1, 3, 5\rbrace$ |
 
-Each trial can give a different outcome (3, then 4, then 5), but every trial gives exactly one.
+Each **trial** (G-2015) can give a different outcome (3, then 4, then 5), but every trial gives exactly one.
 
 ### 3.2 Tossing a coin twice
 
-> **Key point:** When the experiment is "toss twice", one trial is two tosses, and each outcome is a pair such as $HT$.
+> **Key point:** When the experiment is "toss twice", one trial is two tosses, and each **outcome** (G-1417) is a pair such as $HT$.
 
-Here the experiment is the whole double toss, not one toss. One trial means tossing the coin twice, and its outcome records both results in order.
+Here the experiment is the whole double toss, not one toss. One **trial** (G-2015) means tossing the coin twice, and its outcome records both results in order.
 
 | Term | Tossing a coin twice |
 |---|---|
@@ -127,7 +127,7 @@ Here the experiment is the whole double toss, not one toss. One trial means toss
 | Sample space | $\lbrace HH, HT, TH, TT\rbrace$ |
 | Event | "Two heads" $= \lbrace HH\rbrace$; "at least one head" $= \lbrace HH, HT, TH\rbrace$ |
 
-However many times we repeat the double toss, each result is one of these four pairs. Figure 3 draws the sample space with the two events as subsets.
+However many times we repeat the double toss, each result is one of these four pairs. Figure 3 draws the **sample space** (G-1729) with the two events as subsets.
 
 ![Tossing a coin twice: the sample space and two events](images/two_coins.png)
 
@@ -135,9 +135,9 @@ The pairs $HT$ and $TH$ are different outcomes: the order of the tosses is recor
 
 ### 3.3 Drawing a Titanic passenger
 
-> **Key point:** Picking a random observation of a dataset is a random experiment too; its sample space is the set of values the chosen feature can take.
+> **Key point:** Picking a random observation of a dataset is a **random experiment** (G-1610) too; its sample space is the set of values the chosen feature can take.
 
-The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each outcome.
+The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature)) lists 891 passengers; each passenger is one **observation** (G-1374; one record, one row of the data table). The [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) `Pclass` (a feature is an input variable, one column of the data table) is the ticket class: 1, 2 or 3. Drawing one passenger at random and reading their class is a random experiment. Figure 4 shows its sample space with the number of passengers behind each **outcome** (G-1417).
 
 | Term | Drawing a Titanic passenger |
 |---|---|
@@ -149,19 +149,19 @@ The Titanic dataset (used in [frequency tables](../../01-descriptive-stats/MA-00
 
 ![Each class of Pclass with its number of passengers; together the classes form the sample space {1, 2, 3}. The event "not in first class" = {2, 3} (orange) covers 675 of the 891 passengers.](images/pclass_space.png){height=34%}
 
-Here probability meets machine learning: each observation of a dataset is the outcome of a trial, and a feature's possible values form a sample space. The probabilities of these events, from the counts in the data, are worked out in [Titanic passengers](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#32-titanic-passengers).
+Here probability meets machine learning: each observation of a dataset is the outcome of a trial, and a feature's possible values form a **sample space** (G-1729). The probabilities of these events, from the counts in the data, are worked out in [Titanic passengers](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#32-titanic-passengers).
 
 ## 4. Types of events
 
-> **Key point:** Events are classified by how many outcomes they hold (simple, compound), by how two of them relate (independent, dependent, mutually exclusive, exhaustive), and by the two extremes (impossible, sure).
+> **Key point:** Events are classified by how many **outcomes** (G-1417) they hold (simple, compound), by how two of them relate (independent, dependent, mutually exclusive, exhaustive), and by the two extremes (impossible, sure).
 
-Since probability is always calculated for events, their types come up constantly. Figure 5 shows most of them on one die roll. Each panel is the sample space $\lbrace1, \dots, 6\rbrace$ as six numbers in a box; a coloured outline circles the outcomes of one event, and the caption under the panel says why it has that type.
+Since probability is always calculated for events, their types come up constantly. Figure 5 shows most of them on one die roll. Each panel is the **sample space** (G-1729) $\lbrace1, \dots, 6\rbrace$ as six numbers in a box; a coloured outline circles the outcomes of one **event** (G-717), and the caption under the panel says why it has that type.
 
 ![Types of events on one die roll](images/event_types.png){height=62%}
 
 ### 4.1 Simple events
 
-> **Key point:** A simple event holds exactly one outcome.
+> **Key point:** A simple event holds exactly one **outcome** (G-1417).
 
 A **simple event** (G-1806; also called an **elementary event**) consists of exactly one outcome. On a die, "getting a 3" $= \lbrace3\rbrace$ is simple (Figure 5, top left).
 
@@ -169,9 +169,9 @@ A **simple event** (G-1806; also called an **elementary event**) consists of exa
 
 ### 4.2 Compound events
 
-> **Key point:** A compound event holds two or more outcomes, so it is made of two or more simple events.
+> **Key point:** A compound event holds two or more **outcomes** (G-1417), so it is made of two or more simple events.
 
-A **compound event** (G-432) consists of two or more simple events. "Rolling a number greater than 4" $= \lbrace5, 6\rbrace$ is compound (Figure 5, top right): it is made of the simple events $\lbrace5\rbrace$ and $\lbrace6\rbrace$.
+A **compound event** (G-432) consists of two or more simple **events** (G-717). "Rolling a number greater than 4" $= \lbrace5, 6\rbrace$ is compound (Figure 5, top right): it is made of the simple events $\lbrace5\rbrace$ and $\lbrace6\rbrace$.
 
 Events joined by "or" are usually compound. The sign $\cup$, the **union**, collects the outcomes that are in either part (see [the addition rule](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off)). The event "rolling a number less than 2 or greater than 3" joins two parts:
 
@@ -179,15 +179,15 @@ $$\lbrace1\rbrace\cup \lbrace4, 5, 6\rbrace= \lbrace1, 4, 5, 6\rbrace$$
 
 ### 4.3 Independent events
 
-> **Key point:** Two events are independent when one happening does not change the probability of the other.
+> **Key point:** Two **events** (G-717) are independent when one happening does not change the probability of the other.
 
 [**Independent events**](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) are taught in [the definition of independence](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition): one event happening does not change the probability of the other. Flipping a coin and rolling a die together is the standard case: the coin's result has no effect on the die's.
 
 ### 4.4 Dependent events
 
-> **Key point:** Two events are dependent when one happening changes the probability of the other, as when cards are drawn without being put back.
+> **Key point:** Two **events** (G-717) are dependent when one happening changes the probability of the other, as when cards are drawn without being put back.
 
-Two events are [**dependent**](../MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) when the occurrence of one **does** affect the probability of the other. They are the opposite of independent events.
+Two events are [**dependent**](../MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) when the occurrence of one **does** affect the probability of the other. They are the opposite of **independent events** (G-934).
 
 Drawing two cards from a pack **without replacement** (G-2126; the first card is not put back) is the standard example. A pack has 52 cards, 13 of them spades. Write $P(\text{spade})$ for the probability of the event "the card is a spade" (a number from 0 to 1):
 
@@ -231,17 +231,17 @@ Figure 6 shows the two branches. The chance of a spade on the second draw depend
 
 ### 4.5 Mutually exclusive events
 
-> **Key point:** Two events are mutually exclusive when they cannot both happen in the same trial.
+> **Key point:** Two events are mutually exclusive when they cannot both happen in the same **trial** (G-2015).
 
-[**Mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) are taught in [the definition of mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition): they cannot happen together in one trial, so they share no outcome. On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
+[**Mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) are taught in [the definition of mutually exclusive events](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition): they cannot happen together in one trial, so they share no **outcome** (G-1417). On a die, $\lbrace1, 2, 3\rbrace$ and $\lbrace4, 5, 6\rbrace$ are mutually exclusive (Figure 5, middle left).
 
 $\lbrace1, 2, 3\rbrace$ and $\lbrace3, 4, 5\rbrace$ are not (Figure 5, middle right): a roll of 3 belongs to both.
 
 ### 4.6 Exhaustive events
 
-> **Key point:** A set of events is exhaustive when together they cover the whole sample space, so at least one of them must happen in every trial.
+> **Key point:** A set of events is exhaustive when together they cover the whole **sample space** (G-1729), so at least one of them must happen in every trial.
 
-A set of events is **exhaustive** (G-721) if at least one of them must occur whenever the experiment is performed. In set terms, their outcomes together make up the whole sample space.
+A set of **events** (G-717) is **exhaustive** (G-721) if at least one of them must occur whenever the experiment is performed. In set terms, their **outcomes** (G-1417) together make up the whole sample space.
 
 On a die, "odd" $= \lbrace1, 3, 5\rbrace$ and "even" $= \lbrace2, 4, 6\rbrace$ are exhaustive: every roll is odd or even. $\lbrace1, 2, 3\rbrace$ and $\lbrace3, 4, 5\rbrace$ are not exhaustive, because a roll of 6 lies in neither (Figure 5, middle right).
 
@@ -256,7 +256,7 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 
 ![The four rows of the table on die faces. Purple faces belong to both events (an overlap); white faces belong to neither (a gap).](images/exclusive_exhaustive.png)
 
-> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every trial **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The [**law of total probability**](../MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then (Blitzstein and Hwang 2019, §2.3):
+> **Extra:** Events that are both mutually exclusive and exhaustive split the sample space into separate pieces with no gaps and no overlaps. Such a set is called a **partition** (G-1459) of the sample space: in every **trial** (G-2015) **exactly one** of them happens. Spam and not spam, or the classes of a classifier, form a partition. The [**law of total probability**](../MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) needs exactly this: if $B_1, B_2, \dots$ partition the sample space, then (Blitzstein and Hwang 2019, §2.3):
 >
 > $$P(A) = \sum_i P(A \mid B_i)\thinspace P(B_i)$$
 >
@@ -286,11 +286,11 @@ Exhaustive and mutually exclusive are separate properties. A set of events can h
 
 ### 4.7 Impossible and sure events
 
-> **Key point:** The impossible event contains no outcome and has probability 0; the sure event is the whole sample space and has probability 1.
+> **Key point:** The impossible event contains no **outcome** (G-1417) and has probability 0; the sure event is the whole sample space and has probability 1.
 
-The two extreme events:
+The two extreme **events** (G-717):
 
-- An **impossible event** (G-926) contains no outcome of the sample space. "Rolling a 7" with one die can never happen. The impossible event is the empty set, written $\varnothing$, and its probability is 0.
+- An **impossible event** (G-926) contains no outcome of the **sample space** (G-1729). "Rolling a 7" with one die can never happen. The impossible event is the empty set, written $\varnothing$, and its probability is 0.
 - A **sure event** (G-1925; or **certain event**) contains every outcome. "Rolling a number from 1 to 6" always happens. The sure event is the whole sample space $S$, and its probability is 1.
 
 All other events lie between these two, with probabilities between 0 and 1 (Figure 5, bottom).
@@ -305,7 +305,7 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Sample space | All possible outcomes | $\lbrace1, 2, 3, 4, 5, 6\rbrace$ |
 | Event | A subset of the sample space | Odd $= \lbrace1, 3, 5\rbrace$ |
 
-- The experiment and the sample space stay fixed, the outcome changes with each trial, and the event changes with each question, so writing all five out for an experiment removes the confusion between them.
+- The experiment and the sample space stay fixed, the **outcome** (G-1417) changes with each trial, and the event changes with each question, so writing all five out for an experiment removes the confusion between them.
 
 | Type of event | Test | Die example |
 |---|---|---|
@@ -318,11 +318,11 @@ All other events lie between these two, with probabilities between 0 and 1 (Figu
 | Impossible | No outcome; probability 0 | Rolling a 7 |
 | Sure | All of $S$; probability 1 | Rolling 1 to 6 |
 
-- Probability is always calculated for events, so these types come up constantly.
-- An experiment has one sample space but can have many events: the event is set by the question, so name the event from the question before computing a probability.
+- Probability is always calculated for **events** (G-717), so these types come up constantly.
+- An experiment has one **sample space** (G-1729) but can have many events: the event is set by the question, so name the event from the question before computing a probability.
 - An outcome is one result; an event is a set of results, possibly just one. Probability is computed for events, so a single result is written as the event $\lbrace3\rbrace$.
-- Mutually exclusive and exhaustive are separate properties; both together make a partition, in which exactly one event happens in every trial, which is what the law of total probability (and so Bayes' theorem) needs.
-- Every later probability topic, from conditional probability to Bayes' theorem, is phrased in these terms, so they are the words to learn first.
+- Mutually exclusive and exhaustive are separate properties; both together make a partition, in which exactly one event happens in every trial, which is what the **law of total probability** (G-1053) (and so Bayes' theorem) needs.
+- Every later probability topic, from **conditional probability** (G-444) to Bayes' theorem, is phrased in these terms, so they are the words to learn first.
 
 ## 6. Sources
 
@@ -340,11 +340,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Random experiment (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
-| Trial (probability) (G-2015) | One run of a random experiment; it gives exactly one outcome. |
 | Outcome (G-1417) | The single result of one trial, such as heads or a 3. |
-| Sample space (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
+| Random experiment (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
 | Event (G-717) | A set of outcomes, such as "the sum is at most 10". |
+| Trial (probability) (G-2015) | One run of a random experiment; it gives exactly one outcome. |
+| Sample space (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
 | Simple (elementary) event (G-1806) | An event with exactly one outcome. |
 | Compound event (G-432) | An event with two or more outcomes. |
 | Without replacement (G-2126) | Drawing items without putting them back, so later draws depend on earlier ones. |
@@ -352,10 +352,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Partition (G-1459) | A set of events of which exactly one happens in every trial: no two can happen together (mutually exclusive) and together they cover every outcome (exhaustive). |
 | Impossible event (G-926) | An event that contains no outcome, so it can never happen, such as rolling a 7 with one die; it is the empty set $\varnothing$ and has probability 0. |
 | Sure (certain) event (G-1925) | The event that contains every outcome, the whole sample space, so it always happens; its probability is 1. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Dependent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) | Events that are not independent: knowing one changes the probability of the other. |
-| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
 | [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
 | [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |

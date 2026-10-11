@@ -28,7 +28,7 @@ Figure 1 shows the core idea. In traditional programming, we write the logic and
 
 The rest of this Note covers:
 
-- what Machine Learning is, and what "explicit programming" means,
+- what Machine Learning is, and what "**explicit programming** (G-730)" means,
 - three situations where ML beats hand-written code,
 - why ML only became popular after 2010,
 - why ML skills are in demand.
@@ -60,7 +60,7 @@ Tom Mitchell's definition states this exactly (Mitchell 1997, Ch. 1): a program 
 
 ## 3. Explicit programming vs learning from data
 
-> **Key point:** In explicit programming, we write code for every case. In ML, an algorithm finds the pattern between inputs and outputs, and handles the cases for us.
+> **Key point:** In **explicit programming** (G-730), we write code for every case. In ML, an algorithm finds the pattern between inputs and outputs, and handles the cases for us.
 
 ### 3.1 Explicit programming
 
@@ -112,11 +112,11 @@ The advantage: we do not have to write code for each condition or case. The ML a
 
 ### 3.3 Example: adding numbers
 
-> **Key point:** A hand-written sum program only does what we coded. A model learns "addition" from the rows we give it, so a new case needs new data, not new code.
+> **Key point:** A hand-written sum program only does what we coded. A **model** (G-1256) learns "addition" from the rows we give it, so a new case needs new data, not new code.
 
 *Traditional programming.* We write a program that adds two numbers. Whenever we give it two numbers, it returns their sum.
 
-*Machine Learning.* We do not write the addition ourselves. Instead, we give the algorithm a spreadsheet in which each row holds some numbers and their sum:
+***Machine Learning** (G-1140).* We do not write the addition ourselves. Instead, we give the algorithm a spreadsheet in which each row holds some numbers and their sum:
 
 | Numbers | Sum |
 |---|---|
@@ -125,7 +125,7 @@ The advantage: we do not have to write code for each condition or case. The ML a
 | 1, 6, 2 | 9 |
 | 5, 5, 5, 5 | 20 |
 
-When the model trains on this data, it discovers that the pattern is addition. After training, the model adds the numbers of a new row that looks like the rows it trained on (Extra below).
+When the model trains on this data, it discovers that the pattern is addition. After **training** (G-1255), the model adds the numbers of a new row that looks like the rows it trained on (Extra below).
 
 Figure 4 shows training at work on the two-number case. Each row has two numbers; call the first one $a$ and the second one $b$. For the row 2, 3 we have $a = 2$ and $b = 3$. The model is a formula with three numbers it can change, called its [**parameters**](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450): $w_1$ multiplies $a$, $w_2$ multiplies $b$, and $c$ is added at the end.
 
@@ -155,7 +155,7 @@ The hand-written program cannot do this. The program was coded to add exactly tw
 
 ## 4. When to use Machine Learning
 
-> **Key point:** ML is the better choice when the rules keep changing, when there are too many cases to write, and when we want to dig out hidden patterns (data mining).
+> **Key point:** ML is the better choice when the rules keep changing, when there are too many cases to write, and when we want to dig out hidden patterns (**data mining** (G-537)).
 
 Not every problem needs ML. Three situations where it clearly beats traditional software development:
 
@@ -167,11 +167,11 @@ There are other situations too, but these three are the most important.
 
 ### 4.1 When the rules keep changing: spam filtering
 
-> **Key point:** Hand-written rules must be rewritten every time the world changes. An ML model updates itself from new data.
+> **Key point:** Hand-written rules must be rewritten every time the world changes. An ML **model** (G-1256) updates itself from new data.
 
 Suppose we must build an **email spam classifier**: a program that decides whether an email is spam or not.
 
-*With explicit programming*, we would:
+*With **explicit programming** (G-730)*, we would:
 
 1. Collect a bunch of emails, each marked spam or not spam.
 2. Look for patterns by hand. For example, spam often repeats words such as "discount", "sale" or "awesome", or is full of pictures.
@@ -183,13 +183,13 @@ Say one of our rules is: *if "huge" appears more than three times, mark the emai
 
 Advertising companies find out about the rule and write "big" or "massive" instead of "huge". Our program no longer catches their emails, so we change the logic. They experiment with other words, and we have to change it again, and again.
 
-*With Machine Learning* (Figure 5, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
+*With **Machine Learning** (G-1140)* (Figure 5, right), the logic comes from the data. When advertisers change their words, we add the new labelled emails to the data, and the change is reflected in the logic automatically. We write one algorithm, and it handles everything else.
 
 Figure 6 measures this story on the 5,574 text messages of Figure 2, with the word "call" in the role of "huge".
 
 ![A hand-written rule and a learned filter, before and after spammers change one word (SMS Spam Collection; 134 spam messages in the test set). Left: share of the spam caught. Right: the weight the learned filter gives each word.](images/spam_arms_race.gif)
 
-1. **Today.** Our hand-written rule is: *if the message contains "call", mark it as spam*. The rule catches 42.5 percent of the spam. A Naive Bayes filter that learned from 4,574 labelled messages catches 88.1 percent. The filter gives every word a weight; "call" has a weight of +1.4, a sign of spam.
+1. **Today.** Our hand-written rule is: *if the message contains "call", mark it as spam*. The rule catches 42.5 percent of the spam. A **Naive Bayes** (G-1297) filter that learned from 4,574 labelled messages catches 88.1 percent. The filter gives every word a weight; "call" has a weight of +1.4, a sign of spam.
 2. **The spammers adapt.** We replace "call" with "ring" in every spam message. The hand-written rule now catches 0.0 percent. The learned filter still catches 87.3 percent, because it weighs all the words of a message, not one.
 3. **Retraining.** The filter trains again on labelled messages that contain the new wording. Nobody edits its code. The weight of "ring" moves from −0.3 to +4.1, the filter catches 91.0 percent (a little more than before the change, because the new weight of "ring", +4.1, is a much stronger sign of spam than the +1.4 that "call" had), and the hand-written rule stays at 0.0 until someone rewrites it.
 
@@ -213,7 +213,7 @@ To write this program by hand, we would need a case for every breed and every lo
 
 Figure 7 shows the problem on real photos. Try to write one rule that is true for all eight dogs and false for the four cats: "brown" fails, "large" fails, "standing on grass" fails.
 
-Instead, we use the same technique humans use. From childhood we were shown animals and told "this is a dog", "that is not a dog, that is a cat". Our mind kept tagging names to animals and learned from that data. An ML model learns from labelled photos, such as those of Figure 7, in the same way.
+Instead, we use the same technique humans use. From childhood we were shown animals and told "this is a dog", "that is not a dog, that is a cat". Our mind kept tagging names to animals and learned from that data. An ML **model** (G-1256) learns from labelled photos, such as those of Figure 7, in the same way.
 
 ### 4.3 Data mining: finding hidden patterns
 
@@ -227,7 +227,7 @@ Sometimes the information is too well hidden to show up in any graph. For exampl
 
 ![Data analysis vs data mining](images/analysis_vs_mining.png){width=80%}
 
-1. We build a prediction model, for example the email spam classifier.
+1. We build a prediction **model** (G-1256), for example the email spam classifier.
 2. We inspect the patterns the model has learned. For example: when "huge" occurs often, the email is labelled spam; when it is rare, the email is not spam.
 3. The useful information we extract this way is the result of data mining.
 
@@ -307,10 +307,10 @@ Figure 10 shows this pattern for any technology: the salary premium first rises,
 | Rules that keep changing (spam) | Endless rewrites | Logic updates from data |
 | Too many cases (dog photos) | Impossible to code | Learned from labelled examples |
 
-- ML: learning from data, without explicit programming, so a program gets better as it sees more examples while its code stays the same (the spam filter went from 86.9 to 98.1 percent).
+- ML: learning from data, without **explicit programming** (G-730), so a program gets better as it sees more examples while its code stays the same (the spam filter went from 86.9 to 98.1 percent).
 - Explicit programming: writing code for every scenario, so every new case needs new code.
-- Use ML when rules keep changing, when cases are too many to write, and for data mining, because in each of these hand-written rules break: they need endless rewrites, cannot all be listed, or cannot see the pattern.
-- Data mining uses ML to dig out patterns too hidden for graphs, so the patterns a trained model has learned can be read back as new information.
+- Use ML when rules keep changing, when cases are too many to write, and for **data mining** (G-537), because in each of these hand-written rules break: they need endless rewrites, cannot all be listed, or cannot see the pattern.
+- Data mining uses ML to dig out patterns too hidden for graphs, so the patterns a trained **model** (G-1256) has learned can be read back as new information.
 - ML is decades old; data and hardware made it take off after 2010.
 - ML skills pay well because demand is ahead of supply; this will even out over time.
 
@@ -342,9 +342,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Machine Learning (ML) (G-1140) | Using statistics to let a machine find patterns (rules) in data by itself. |
 | Explicit programming (G-730) | A human writing out every rule the computer follows. ML avoids it. |
 | Model (G-1256) | The logic produced by training, used to give outputs for new inputs. |
+| Data mining (G-537) | Using ML on data to extract patterns too hidden for graphs. |
 | Image classification (G-919) | Deciding what a picture contains, e.g. dog or not dog. |
 | Data analysis (G-530) | Finding patterns and hidden information in data, mainly by plotting graphs. |
-| Data mining (G-537) | Using ML on data to extract patterns too hidden for graphs. |
 | Data (G-542) | Recorded examples of inputs together with their outputs; a machine learning algorithm learns the pattern that links them from these examples. |
 | If-else ladder (G-916) | A long chain of hand-written `if` conditions, one per case; the traditional way to code rules, which breaks down when the cases are too many or keep changing. |
 | ML algorithm (G-1239) | A general method that finds the pattern between inputs and outputs in data. |

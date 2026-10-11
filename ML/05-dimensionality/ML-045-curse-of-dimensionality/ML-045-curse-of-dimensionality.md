@@ -17,13 +17,13 @@ tags: [subject/machine-learning, area/features, step/reduce, concept/curse-dim, 
 
 ## 1. Where we are in feature engineering
 
-> **Key point:** Two parts of feature engineering are left: feature selection and feature extraction. Both exist to fight the curse of dimensionality.
+> **Key point:** Two parts of feature engineering are left: feature selection and feature extraction. Both exist to fight the **curse of dimensionality** (G-520).
 
 Of the four parts of feature engineering (see [the four parts of feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering)), feature transformation (missing values, encoding, scaling, outliers) and feature construction and splitting are done.
 
 Two parts remain:
 
-- [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768): keep only the useful features. Feature selection is usually done after a model is built, to check whether removing features helps the model.
+- [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768): keep only the useful **features** (G-772). Feature selection is usually done after a model is built, to check whether removing features helps the model.
 - [**Feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762): build a few new features from the old ones. Its most important technique, PCA, comes next.
 
 Both rest on one idea: the curse of dimensionality. This Note explains that idea, why it matters, and how we deal with it.
@@ -47,7 +47,7 @@ These problems together are the **curse of dimensionality** (G-520): the problem
 
 ## 3. An example: images of digits
 
-> **Key point:** In images, every pixel is a feature. Many pixels, such as the ones at the edges, carry almost no information.
+> **Key point:** In images, every pixel is a **feature** (G-772). Many pixels, such as the ones at the edges, carry almost no information.
 
 Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST (the classic set of handwritten-digit images) carry almost nothing (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
 
@@ -59,7 +59,7 @@ A pixel that is the same in every image cannot help tell one digit from another.
 
 ### 3.1 Measuring the effect
 
-> **Key point:** Accuracy rose to 96% with the useful pixels, then fell to 80% as we added useless features.
+> **Key point:** Accuracy rose to 96% with the useful pixels, then fell to 80% as we added useless **features** (G-772).
 
 Figure 2 shows a real experiment with KNN, a classifier that labels a point by looking at its nearest neighbours. The score is **accuracy**, the share of test images whose digit the model names correctly.
 
@@ -68,7 +68,7 @@ Figure 2 shows a real experiment with KNN, a classifier that labels a point by l
 1. **Blue line:** we add the 64 pixels one group at a time, most useful first. Accuracy rises fast, from 21% with 1 pixel to 90% with 16 pixels. Accuracy levels off at 96% from about 40 pixels on.
 2. **Red line:** we keep all 64 pixels and add features of random numbers. Accuracy drops steadily, to 80% with 400 extra features.
 
-The blue line shows the optimal number of features: after about 40 pixels, adding more brings nothing. The red line shows that useless features actively hurt.
+The blue line shows the **optimal number of features** (G-1397): after about 40 pixels, adding more brings nothing. The red line shows that useless features actively hurt.
 
 > **Python:** Accuracy for different numbers of features (full code in the Notebook).
 >
@@ -106,7 +106,7 @@ The wallet is the same in each case. Only the number of dimensions changed, and 
 
 ### 4.2 The same data spreads thin
 
-> **Key point:** With 5 bins per feature, each new feature multiplies the number of cells by 5, while the number of points stays the same.
+> **Key point:** With 5 bins per **feature** (G-772), each new feature multiplies the number of cells by 5, while the number of points stays the same.
 
 Figure 3 applies the wallet idea to data. We take the same 20 points and split each feature into 5 bins (5 equal ranges of values).
 
@@ -140,7 +140,7 @@ This "sparse" has a different meaning from the sparse data of [**normalization**
 
 Many algorithms, such as KNN, make a prediction by finding the points closest to a new point. Finding the closest points only works if "close" means something.
 
-In high dimensions, every point is far from every other point. The nearest neighbour is not really near, so the prediction is based on points that are not similar. These dissimilar neighbours are why the KNN accuracy in Figure 2 fell as we added useless features.
+In high dimensions, every point is far from every other point. The nearest neighbour is not really near, so the prediction is based on points that are not similar. These dissimilar neighbours are why the KNN accuracy in Figure 2 fell as we added useless **features** (G-772).
 
 > **Extra:** We checked this on the red line of Figure 2. For every image we found its nearest other image and asked whether it shows the same digit (Notebook, after the accuracy table):
 >
@@ -160,7 +160,7 @@ In high dimensions, every point is far from every other point. The nearest neigh
 
 > **Key point:** Too many dimensions cause two problems: lower performance and more computation.
 
-1. **Performance decreases.** Useless features spread the data thin and push the truly similar points apart ([Section 4.3](#43-why-this-hurts-models)). In Figure 2, accuracy fell from 96% to 80%.
+1. **Performance decreases.** Useless **features** (G-772) spread the data thin and push the truly similar points apart ([Section 4.3](#43-why-this-hurts-models)). In Figure 2, accuracy fell from 96% to 80%.
 2. **Computation increases.** Every extra feature is more data to store and more numbers to process in every step. In the same experiment, scoring the model with 464 features took about 1.6 to 2.4 times as long as with 64, depending on the run.
 
 Figure 5 draws both problems on the red-line experiment of Figure 2. As random features are added, the share of images whose nearest other image shows the same digit falls from 98.8 to 72.5 percent. The time to score the model rises overall, from about 0.028 seconds with 64 features to 0.045 seconds with 464; the small dip between 64 and 164 features is timing noise of one machine.
@@ -171,7 +171,7 @@ The fix for both is to bring the number of features down to the optimal number.
 
 ## 6. The solution: dimensionality reduction
 
-> **Key point:** Dimensionality reduction lowers the number of features. Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
+> **Key point:** Dimensionality reduction lowers the number of **features** (G-772). Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
 
 **Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) and [**feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-762):
 
@@ -188,7 +188,7 @@ PCA, LDA and t-SNE are taught in later Notes.
 
 ![Feature selection vs feature extraction](images/selection_vs_extraction.png)
 
-> **Extra:** The F2 feature in Figure 6 is 0 in every observation, like the edge pixels in Figure 1. Removing such a constant feature is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
+> **Extra:** The F2 feature in Figure 6 is 0 in every **observation** (G-1374), like the edge pixels in Figure 1. Removing such a constant feature is the simplest feature selection there is. In scikit-learn it is done by `VarianceThreshold`.
 
 ## 7. Summary
 
@@ -199,14 +199,14 @@ PCA, LDA and t-SNE are taught in later Notes.
 | Techniques | forward selection, backward elimination | PCA, LDA, t-SNE |
 | When | usually after a first model is built | next Notes (PCA) |
 
-- Selection keeps the original features, so the model stays easy to read; extraction mixes all the old features, so a few new ones can hold most of the information.
+- Selection keeps the original **features** (G-772), so the model stays easy to read; extraction mixes all the old features, so a few new ones can hold most of the information.
 
 - Each feature of the data is a dimension, so a table with 1,000 columns is 1,000-dimensional data.
-- Every dataset has an optimal number of features; past it, extra features hurt, so adding columns is not free: on the digits, 400 random features cut accuracy from 96% to 80%.
+- Every dataset has an **optimal number of features** (G-1397); past it, extra features hurt, so adding columns is not free: on the digits, 400 random features cut accuracy from 96% to 80%.
 - More dimensions spread the same data thinner: cells grow as $5^d$, points stay the same, so most cells end up empty (86% with 3 features).
 - Sparse data makes distances less useful, which hurts distance-based algorithms like KNN, because the nearest neighbour is no longer near and more often shows a different digit.
 - Two problems: lower performance and more computation, because every extra feature pushes similar points apart and is more numbers to process.
-- The fix is dimensionality reduction: feature selection or feature extraction, because bringing the features down to the optimal number fixes both problems at once.
+- The fix is **dimensionality reduction** (G-611): feature selection or feature extraction, because bringing the features down to the optimal number fixes both problems at once.
 
 
 ## 8. Sources
@@ -226,13 +226,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Curse of dimensionality (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
 | High-dimensional data (G-897) | Data with a very large number of columns. |
 | Optimal number of features (G-1397) | The number of columns at which a model performs best. |
-| Curse of dimensionality (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
 | Dimensionality reduction (G-611) | Reducing the number of input columns while keeping the information. |
 | [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
-| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Data leakage](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#81-why-the-preprocessing-must-be-inside-data-leakage) (G-535) | Information from the test rows reaching the model during training, for example when a scaling or feature-selection step is fitted on all the data before the split; the test scores then come out higher than the model will really do on new data. |

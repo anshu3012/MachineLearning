@@ -17,9 +17,9 @@ tags: [subject/machine-learning, area/features, step/features, concept/feature-s
 
 ## 1. Overview
 
-> **Key point:** Standardization rescales every feature so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.
+> **Key point:** **Standardization** (G-1874) rescales every feature so that its mean is 0 and its standard deviation is 1: subtract the mean, then divide by the standard deviation.
 
-Feature scaling brings [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each of the data table) that live on very different ranges, such as age and salary, onto a similar range. Feature scaling has two main techniques: standardization and normalization. This Note covers standardization; normalization comes in the next Note.
+**Feature scaling** (G-767) brings [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each of the data table) that live on very different ranges, such as age and salary, onto a similar range. Feature scaling has two main techniques: standardization and **normalization** (G-1349). This Note covers standardization; normalization comes in the next Note.
 
 Figure 1 shows the whole topic. Standardization is two moves done one after the other: shift the column so its mean is 0, then shrink or stretch it so its standard deviation is 1.
 
@@ -27,7 +27,7 @@ Figure 1 shows the whole topic. Standardization is two moves done one after the 
 
 ## 2. Feature scaling, in brief
 
-> **Key point:** Feature scaling brings the features to a similar range, so a feature with big numbers does not drown out one with small numbers.
+> **Key point:** Feature scaling brings the **features** (G-772) to a similar range, so a feature with big numbers does not drown out one with small numbers.
 
 [**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) brings the features of a dataset into a similar range. [Scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) introduced the reason; here we work it through on this Note's data ([Section 6.1](#61-the-data)), where each user has an age and a salary.
 
@@ -46,7 +46,7 @@ $$d = \sqrt{(\text{age gap})^2 + (\text{salary gap})^2}.$$
 
 The age gaps add 256 and 81 to numbers above a billion: they change nothing. The 42-year-old counts as the nearer user only because the salaries are closer.
 
-Figure 2 draws the squared distance to five users as bars, split into the age part (blue) and the salary part (orange). Watch the blue part: on raw data it is too small to see. After standardization, both parts show, and the nearest user changes from the 42-year-old to the 35-year-old, who is closer in age.
+Figure 2 draws the squared distance to five users as bars, split into the age part (blue) and the salary part (orange). Watch the blue part: on raw data it is too small to see. After **standardization** (G-1874), both parts show, and the nearest user changes from the 42-year-old to the 35-year-old, who is closer in age.
 
 ![The squared distance from one user to five others, split into its age part and its salary part, on raw and on standardized data](images/distance_parts.gif)
 
@@ -57,12 +57,12 @@ Two more points about feature scaling:
 
 ## 3. Types of feature scaling
 
-> **Key point:** The two types of feature scaling are standardization and normalization.
+> **Key point:** The two types of **feature scaling** (G-767) are standardization and normalization.
 
 There are two main types:
 
 1. **Standardization** (G-1874), the subject of this Note.
-2. [**Normalization**](../ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349), which has several techniques of its own. The main one is [**min-max scaling**](../ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217); another is the [**robust scaler**](../ML-024-normalization/ML-024-normalization.md#9-robust-scaling) (G-1699), which copes well with outliers. Both are covered in the next Note.
+2. [**Normalization**](../ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349), which has several techniques of its own. The main one is [**min-max scaling**](../ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217); another is the [**robust scaler**](../ML-024-normalization/ML-024-normalization.md#9-robust-scaling) (G-1699), which copes well with **outliers** (G-1420). Both are covered in the next Note.
 
 Standardization is sometimes called **z-score normalization** (G-2140) in ML writing, because each scaled value is a [**z-score**](../../04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141). The two names mean the same technique.
 
@@ -88,7 +88,7 @@ Figure 3 builds the z-scores of eight made-up ages, chosen so that the arithmeti
 | 34 | 4 | 1 | 1 standard deviation above |
 | 38 | 8 | 2 | 2 standard deviations above |
 
-Step 1 is [**mean centring**](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195): subtracting the mean, so that the mean itself becomes 0. Step 2 changes the unit from years to standard deviations. Doing both steps to every value of a column is standardization.
+Step 1 is [**mean centring**](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195): subtracting the mean, so that the mean itself becomes 0. Step 2 changes the unit from years to standard deviations. Doing both steps to every value of a column is **standardization** (G-1874).
 
 ### 4.2 The formula
 
@@ -121,16 +121,16 @@ The new column always has two fixed properties, whatever the original numbers we
 
 ## 5. What standardization does to the data
 
-> **Key point:** Standardization first moves the cloud of points so its centre sits at the origin (mean centring), then squeezes or stretches each axis until its standard deviation is 1.
+> **Key point:** Standardization first moves the cloud of points so its centre sits at the origin (**mean centring** (G-1195)), then squeezes or stretches each axis until its standard deviation is 1.
 
-Plot every row as a point, with one column on each axis. The 500 customers form a cloud somewhere away from the origin, with some spread along each axis. Standardization moves this cloud in two steps (Figure 5):
+Plot every row as a point, with one column on each axis. The 500 customers form a cloud somewhere away from the origin, with some spread along each axis. **Standardization** (G-1874) moves this cloud in two steps (Figure 5):
 
 1. **Mean centring:** subtracting the mean slides the whole cloud, unchanged, until its mean sits at the origin $(0, 0)$.
 2. **Scaling by the standard deviation:** dividing by the standard deviation changes the spread along each axis to exactly 1.
 
 ![Standardization in two steps: shift the mean to the origin, then make the spread 1 on each axis](images/standardize_steps.gif){height=55%}
 
-In Figure 5, the red cross marks the mean and the dashed box reaches one standard deviation either side of it. Feature 1 starts with standard deviation 2 and feature 2 with 0.6.
+In Figure 5, the red cross marks the mean and the dashed box reaches one standard deviation either side of it. **Feature** (G-772) 1 starts with standard deviation 2 and feature 2 with 0.6.
 
 The second step works differently for the two axes:
 
@@ -155,7 +155,7 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 | 35 | 20,000 | 0 |
 | 26 | 43,000 | 0 |
 
-`Age` and `EstimatedSalary` are the features; `Purchased` (1 = bought, 0 = did not) is the target. So this is a classification problem.
+`Age` and `EstimatedSalary` are the **features** (G-772); `Purchased` (1 = bought, 0 = did not) is the **target** (G-1949). So this is a classification problem.
 
 > **Python:** Loading the data and keeping three columns.
 >
@@ -169,7 +169,7 @@ The data is the Social Network Ads file: 400 users of a social network, and whet
 
 ### 6.2 Split before scaling
 
-> **Key point:** Always do the train-test split before any feature scaling.
+> **Key point:** Always do the train-test split before any **feature scaling** (G-767).
 
 Whether we standardize or normalize, the **train-test split** (G-1998) comes first. The scaler should learn only from the training set, as [training and test sets](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) explained under **data leakage** (G-535; information from the test set leaking into training). With 30% of the rows held back for testing, the training set has 280 rows and the test set 120.
 
@@ -280,11 +280,11 @@ Figure 8 draws the [**kernel density estimate (KDE)**](../../02-getting-data/ML-
 
 ![Density curves of age (blue) and salary (orange), before and after standardization](images/kde_before_after.png)
 
-The two curves cannot be compared because their scales differ so much. After standardization, both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which helps the algorithms that measure distances or train by gradient descent ([Section 8](#8-why-scaling-matters-an-experiment)).
+The two curves cannot be compared because their scales differ so much. After **standardization** (G-1874), both curves sit on the same range, around 0. Any algorithm that compares the columns now treats them fairly, which helps the algorithms that measure distances or train by gradient descent ([Section 8](#8-why-scaling-matters-an-experiment)).
 
 ### 7.3 Each column keeps its shape
 
-> **Key point:** Standardization does not change the shape of a column's distribution.
+> **Key point:** **Standardization** (G-1874) does not change the shape of a column's distribution.
 
 Figure 9 shows each column on its own. Age before scaling and age after scaling have exactly the same curve; so do salary before and after.
 
@@ -304,9 +304,9 @@ Think of judging two runners, one timed in seconds and one in milliseconds: unti
 | Logistic regression | 65.8% | 86.7% |
 | Decision tree | 87.5% | 87.5% |
 
-For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too, as Figure 2 showed (scikit-learn examples, "Importance of Feature Scaling").
+For **KNN**, which measures distances, scaling raised the accuracy from 82.5% to 91.7%. On raw data, salary differences in thousands decide the distance alone; after scaling, age counts too, as Figure 2 showed (scikit-learn examples, "Importance of **Feature Scaling** (G-767)").
 
-Figure 10 shows the two KNN models on the same axes, in the original units. Each coloured area is a [**decision region**](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After standardization, one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
+Figure 10 shows the two KNN models on the same axes, in the original units. Each coloured area is a [**decision region**](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557): the set of points that KNN would label with that class. The line where the two colours meet is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). KNN labels a point by its 5 nearest training users. On raw data, the distance between two users is almost entirely their salary gap, because a salary gap of thousands dwarfs an age gap of tens. So the 5 nearest users are simply those with the closest salaries, whatever their age, and the raw model's decision boundary runs flat across the plot. After **standardization** (G-1874), one standard deviation of age counts as much as one standard deviation of salary, so the boundary bends with age as well.
 
 ![Where KNN (5 neighbours) predicts "bought" (orange) and "did not buy" (blue), trained on raw and on standardized data; dots are the 120 test users](images/knn_regions.png)
 
@@ -333,7 +333,7 @@ For a [**decision tree**](../../08-trees-and-ensembles/ML-091-decision-trees-int
 >
 > For the decision tree, replace `LogisticRegression(solver="sag")` with `DecisionTreeClassifier()` from `sklearn.tree`.
 
-> **Extra:** Why `solver="sag"`? A [**solver**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like gradient descent ([Section 10](#10-when-to-use-standardization)), and scikit-learn warns that it is only fast when the features have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
+> **Extra:** Why `solver="sag"`? A [**solver**](../../07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) is the method a model uses to find its best settings during training. `"sag"` takes many small downhill steps, like **gradient descent** (G-862) ([Section 10](#10-when-to-use-standardization)), and scikit-learn warns that it is only fast when the **features** (G-772) have about the same scale (scikit-learn docs, `LogisticRegression`). Here salaries reach 150,000 while ages stay below 60, so each step is tiny and the weights hardly move from 0. The model then predicts "not purchased" for every user, and 65.8% is simply the share of non-buyers in the test set. The Notebook checks this: allowed up to 100,000 steps, `sag` stops after about 9,800 with the weights still close to 0 and the accuracy still 65.8%.
 >
 > The default solver, `"lbfgs"`, does find good weights on the raw data too (87.5% on raw data, 86.7% on scaled data), but needs 65 steps on raw data against 7 on scaled data. The 0.8-point gap between those two accuracies is one test user out of 120, so it is noise, not a sign that scaling hurt. Either way, unscaled data makes the training harder.
 
@@ -341,7 +341,7 @@ In this experiment, scaling never hurt KNN, logistic regression with `sag` or th
 
 ## 9. Standardization and outliers
 
-> **Key point:** Standardization does not remove outliers or reduce their effect; they stay just as far from the rest of the data.
+> **Key point:** **Standardization** (G-1874) does not remove outliers or reduce their effect; they stay just as far from the rest of the data.
 
 The original data has ages from 18 to 60 and salaries from 15,000 to 150,000 rupees. To see what happens to outliers, we add three made-up users far outside these ranges:
 
@@ -379,22 +379,22 @@ Standardizing rarely does harm, but for the algorithms below we should always do
 
 **Algorithms that need scaling:**
 
-- [**K-means**](../../09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) and **KNN** (k-nearest neighbours, G-998): both compute the Euclidean distance between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
+- [**K-means**](../../09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) and **KNN** (k-nearest neighbours, G-998): both compute the **Euclidean distance** (G-715) between points. If one column's numbers are much bigger, it dominates the distance and the results are poor.
 - [**PCA**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) (principal component analysis): PCA looks for the directions in which the data spreads the most (the most variance). A column with big numbers looks like it has the most spread just because of its units, so the columns must be put on the same scale, and PCA also needs the data mean centred. For example, an age column with a spread of 10 years has a variance of 100, while a salary column with a spread of 20,000 rupees has a variance of 400,000,000. PCA would find that salary "has all the spread" only because rupees are small units.
-- [**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862), and every algorithm trained with it: linear regression, logistic regression and neural networks (deep learning).
+- [**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862), and every algorithm trained with it: linear regression, **logistic regression** (G-1120) and neural networks (deep learning).
 
 Gradient descent (taught in [the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)) improves the weights by small downhill steps. When the columns are on very different scales, some weights take big jumps while others crawl, so it struggles to settle at the minimum; with scaled columns it converges much more easily. A reason in numbers: the step for a column's weight is proportional to the column's value (error times value). For a user aged 25 with a salary of 50,000, one error of 1 pushes the age weight by 25 units and the salary weight by 50,000, a ratio of 2,000 to 1. Scaled, both values are near 1 and the pushes are similar.
 
 **Algorithms that do not need scaling:**
 
-- decision trees;
+- **decision trees** (G-561);
 - random forest;
 - gradient boosting;
 - XGBoost.
 
-Tree-based algorithms only compare values within one feature, asking questions like "is age greater than 40?". They never compute a distance or add up different columns, so the scale of the columns does not matter. Scaling them does no harm, but makes no difference either.
+Tree-based algorithms only compare values within one **feature** (G-772), asking questions like "is age greater than 40?". They never compute a distance or add up different columns, so the scale of the columns does not matter. Scaling them does no harm, but makes no difference either.
 
-> **Extra:** Why a tree does not care. Suppose a tree splits on "age > 40". After standardization, the same split becomes "scaled age > 0.21", which is $(40 - 37.86)/10.20$. Exactly the same users fall on each side, so the tree makes exactly the same predictions.
+> **Extra:** Why a tree does not care. Suppose a tree splits on "age > 40". After **standardization** (G-1874), the same split becomes "scaled age > 0.21", which is $(40 - 37.86)/10.20$. Exactly the same users fall on each side, so the tree makes exactly the same predictions.
 
 ## 11. Summary
 
@@ -413,14 +413,14 @@ Tree-based algorithms only compare values within one feature, asking questions l
 | Linear regression, logistic regression, neural networks | yes | trained with gradient descent |
 | Decision tree, random forest, gradient boosting, XGBoost | no | only compare values within one column |
 
-- Feature scaling is usually the last step before the model, and only the features are scaled. Its job is to stop a feature with big numbers (salary) from drowning out one with small numbers (age).
-- Standardization: $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1, whatever the units of the original column.
-- A z-score says how many standard deviations a value lies above or below the mean, so a scaled value can be read on its own: -1.16 for the 26-year-old means 1.16 standard deviations below the mean age.
-- Geometrically: mean centring, then squeezing or stretching each axis to standard deviation 1, so the cloud of points keeps its shape and only its centre and units change.
-- Split first; fit the scaler on the training set only; transform both sets, because the test set must be scaled with the training mean and standard deviation, or test-set information leaks into training (data leakage).
-- Standardization keeps the shape of the data and does not remove outliers, so outliers still have to be detected and handled on their own.
-- On the ads data, KNN went from 82.5% to 91.7% accuracy and logistic regression from 65.8% to 86.7%; a decision tree stayed at 87.5%. The reason: on raw data the salary gap decides the KNN distance alone and the `sag` solver barely moves, while a tree only compares values within one column.
-- So standardization is how features on very different ranges, such as age and salary, get one common scale before a distance-based or gradient-descent model sees them.
+- **Feature scaling** (G-767) is usually the last step before the model, and only the features are scaled. Its job is to stop a feature with big numbers (salary) from drowning out one with small numbers (age).
+- **Standardization** (G-1874): $x' = (x - \bar{x}) / \sigma$, giving mean 0 and standard deviation 1, whatever the units of the original column.
+- A **z-score** (G-2141) says how many standard deviations a value lies above or below the mean, so a scaled value can be read on its own: -1.16 for the 26-year-old means 1.16 standard deviations below the mean age.
+- Geometrically: **mean centring** (G-1195), then squeezing or stretching each axis to standard deviation 1, so the cloud of points keeps its shape and only its centre and units change.
+- Split first; **fit** (G-783) the scaler on the training set only; transform both sets, because the test set must be scaled with the training mean and standard deviation, or test-set information leaks into training (data leakage).
+- Standardization keeps the shape of the data and does not remove **outliers** (G-1420), so outliers still have to be detected and handled on their own.
+- On the ads data, KNN went from 82.5% to 91.7% accuracy and **logistic regression** (G-1120) from 65.8% to 86.7%; a decision tree stayed at 87.5%. The reason: on raw data the salary gap decides the KNN distance alone and the `sag` **solver** (G-1836) barely moves, while a tree only compares values within one column.
+- So standardization is how **features** (G-772) on very different ranges, such as age and salary, get one common scale before a distance-based or gradient-descent model sees them.
 
 ## 12. Sources
 
@@ -446,13 +446,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Train-test split (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
 | StandardScaler (G-1876) | scikit-learn's class that standardizes columns: `fit` learns each column's mean and standard deviation from the training set, and `transform` applies $(x - \bar{x})/\sigma$. |
 | fit / transform (G-783) | Learn the scaler's numbers from the training set / apply them to any data. |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Normalization (feature scaling)](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Normalization (feature scaling)](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#2-what-normalization-is) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
 | [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
 | [Robust scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#9-robust-scaling) (G-1699) | Subtract the median and divide by the interquartile range; copes well with outliers. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Z-score](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#4-why-it-is-called-the-z-score-method) (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
 | [Mean centring](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#5-mean-centring-shifting-in-ml) (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
@@ -463,8 +464,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) | The method a model uses to find its best settings during training. |
-| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
-| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-basics, area/dl-training, step/model, conc
 
 ## 1. Overview
 
-> **Key point:** A `Dropout` layer after each hidden layer turns the theory into one line of Keras. On two small problems it smooths the model, shrinks the gap between training and validation loss, and improves the score on new data.
+> **Key point:** A `Dropout` layer after each **hidden layer** (G-890) turns the theory into one line of Keras. On two small problems it smooths the model, shrinks the gap between training and validation loss, and improves the score on new data.
 
 [How dropout works](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) explained [**dropout**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off a random fraction $p$ of the nodes at every training step. This Note applies it to two small problems, one regression and one classification, and then asks how to choose $p$.
 
@@ -33,12 +33,12 @@ The Notebook (`DL-025-dropout-code.ipynb`) runs every step.
 ## 2. Prerequisites
 
 - [How dropout works](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works): switching nodes off at each training step.
-- [**Training curves**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves) (G-2001): loss against epochs for training and validation data.
-- [A regression network](../../01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node): a network with a linear output node and the MSE loss.
+- [**Training curves**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves) (G-2001): loss against **epochs** (G-696) for training and validation data.
+- [A regression network](../../01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node): a network with a **linear** (G-1089) output node and the MSE loss.
 
 ## 3. Dropout for regression
 
-> **Key point:** Without dropout: training MSE 0.006, test MSE 0.186. With $p = 0.2$: 0.024 and 0.134. Training gets worse, testing gets better, and the gap shrinks.
+> **Key point:** Without **dropout** (G-639): training MSE 0.006, test MSE 0.186. With $p = 0.2$: 0.024 and 0.134. Training gets worse, testing gets better, and the gap shrinks.
 
 ### 3.1 The data and the network
 
@@ -69,15 +69,15 @@ The network is compiled with **Adam** (G-169; [**learning rate**](../../../ML/01
 
 The network fits its 20 training points almost exactly, but its error on the test points is about 30 times larger. Figure 1 (top left) shows why: the blue curve bends to pass through the black training points, and these bends mean nothing for the red test points.
 
-Figure 2 (top left) gives the second sign. Each panel plots the loss (vertical axis) against the epoch (horizontal axis). The training loss (blue) is the loss on the training points. The validation loss (orange) is the loss on data held out from training (here the 20 test points). The validation loss is lowest early on, then rises steadily, while the training loss (blue) keeps falling. The gap between them is overfitting.
+Figure 2 (top left) gives the second sign. Each panel plots the loss (vertical axis) against the epoch (horizontal axis). The training loss (blue) is the loss on the training points. The validation loss (orange) is the loss on data held out from training (here the 20 test points). The validation loss is lowest early on, then rises steadily, while the training loss (blue) keeps falling. The gap between them is **overfitting** (G-1429).
 
 ![Training and validation loss. Top: regression without dropout and with p = 0.2. Bottom: classification without dropout and with p = 0.5.](images/loss_curves.png)
 
 ### 3.3 With dropout
 
-> **Key point:** One `Dropout(0.2)` layer after each hidden layer; everything else is the same.
+> **Key point:** One `Dropout(0.2)` layer after each **hidden layer** (G-890); everything else is the same.
 
-The new model has the same layers, with a **`Dropout` layer** after each hidden layer. `Dropout(0.2)` switches off each node of the layer before it with probability 0.2 at each training step. We do not put dropout after the output layer, because every sub-network must still give a full prediction (see [the output layer is never switched off](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off)).
+The new model has the same layers, with a **`Dropout` layer** after each hidden layer. `Dropout(0.2)` switches off each node of the layer before it with probability 0.2 at each training step. We do not put **dropout** (G-639) after the output layer, because every sub-network must still give a full prediction (see [the output layer is never switched off](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off)).
 
 > **Python:** The regression network with dropout.
 >
@@ -103,13 +103,13 @@ The new model has the same layers, with a **`Dropout` layer** after each hidden 
 | No dropout | 0.006 | 0.186 |
 | $p = 0.2$ | 0.024 | 0.134 |
 
-The training error rose, and the test error fell by a quarter. In Figure 1 (top right) the curve is much smoother: it reacts less to the small ups and downs of the training points and follows the overall trend. In Figure 2 (top right) the validation loss no longer climbs and the gap between the curves stays the same over the 500 epochs.
+The training error rose, and the test error fell by a quarter. In Figure 1 (top right) the curve is much smoother: it reacts less to the small ups and downs of the training points and follows the overall trend. In Figure 2 (top right) the validation loss no longer climbs and the gap between the curves stays the same over the 500 **epochs** (G-696).
 
 > **Extra:** The training loss that Keras prints during `fit` is computed with dropout switched on, on the shrunken [**sub-networks**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-1909), so it is noisier and higher than the loss of the full network. The table's training MSE comes from `evaluate`, which runs the full network with dropout off (Keras FAQ, training versus testing loss). Dropout during training is why the blue curve in Figure 2 (top right) is jagged.
 
 ## 4. Dropout for classification
 
-> **Key point:** Without dropout: 95% training accuracy, 69% validation accuracy and a wiggly decision boundary. With $p = 0.5$: 85% and 74%, a smoother decision boundary, and a validation loss three times smaller.
+> **Key point:** Without **dropout** (G-639): 95% training accuracy, 69% validation accuracy and a wiggly decision boundary. With $p = 0.5$: 85% and 74%, a smoother decision boundary, and a validation loss three times smaller.
 
 ### 4.1 The data and the network
 
@@ -117,7 +117,7 @@ The training error rose, and the test error fell by a quarter. In Figure 1 (top 
 
 The data is again made up: two clouds of points with two features, class 1 centred at $(0.6, 0.6)$ and class 0 at $(-0.6, -0.6)$, each with standard deviation 1 (a typical distance of a point from its cloud's centre). The clouds overlap, so some points of each class sit in the other's region: a straight line separates them reasonably, but not perfectly. There are 200 training points and 200 validation points.
 
-The network is the same as in section 3, with 2 inputs and a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) output node for binary classification, trained with [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) for 500 epochs.
+The network is the same as in section 3, with 2 inputs and a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) output node for binary classification, trained with [**binary cross-entropy**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) for 500 **epochs** (G-696).
 
 ### 4.2 The results
 
@@ -129,13 +129,13 @@ The network is the same as in section 3, with 2 inputs and a [**sigmoid**](../..
 | 0.2 | 91% | 70% | 1.76 |
 | 0.5 | 85% | 74% | 0.86 |
 
-Without dropout (Figure 3, left), the **decision boundary** (G-555; the line or curve separating the two classes) is irregular: it builds small islands and long fingers to capture individual points of one class in the other's region. The islands and fingers come from the noise of the training data and will not hold on new data. The validation loss climbs from 0.5 to almost 3 (Figure 2, bottom left), while the training loss keeps falling.
+Without **dropout** (G-639) (Figure 3, left), the **decision boundary** (G-555; the line or curve separating the two classes) is irregular: it builds small islands and long fingers to capture individual points of one class in the other's region. The islands and fingers come from the noise of the training data and will not hold on new data. The validation loss climbs from 0.5 to almost 3 (Figure 2, bottom left), while the training loss keeps falling.
 
 ![Classification: decision boundaries for dropout rates 0, 0.2 and 0.5, with the training points.](images/boundaries.png)
 
 In Figure 3, the background colour is the class the network predicts at that spot: orange for class 0, blue for class 1. The black line is the decision boundary, where the prediction switches class.
 
-With $p = 0.2$ the validation loss is lower, but the decision boundary still has islands and the validation accuracy barely improves (69% to 70%). The overfitting tendency is reduced, not removed.
+With $p = 0.2$ the validation loss is lower, but the decision boundary still has islands and the validation accuracy barely improves (69% to 70%). The **overfitting** (G-1429) tendency is reduced, not removed.
 
 With $p = 0.5$ the decision boundary (Figure 3, right) is much simpler: one main dividing line with only small bends near the overlap. The validation accuracy rises from 69% to 74%, and the validation loss falls from 2.80 to 0.86. In Figure 2 (bottom right) the gap between the curves still grows slowly, but far less than without dropout.
 
@@ -143,7 +143,7 @@ Dropout is a form of **regularisation** (G-1659; any method that reduces overfit
 
 ## 5. Choosing the dropout rate
 
-> **Key point:** Too small a $p$ leaves overfitting; too large a $p$ underfits. Try values between 0.2 and 0.5.
+> **Key point:** Too small a $p$ leaves **overfitting** (G-1429); too large a $p$ underfits. Try values between 0.2 and 0.5.
 
 Figure 1 shows all four rates on the regression problem:
 
@@ -166,10 +166,10 @@ The same holds for classification: $p = 0.2$ was too little, $p = 0.5$ worked. T
 
 ## 6. Practical tips
 
-> **Key point:** Raise $p$ if the network overfits, lower it if it underfits; try dropout on the last hidden layer first; typical rates are 0.2 to 0.5.
+> **Key point:** Raise $p$ if the network overfits, lower it if it underfits; try **dropout** (G-639) on the last hidden layer first; typical rates are 0.2 to 0.5.
 
 1. **Overfitting: increase $p$. Underfitting: decrease $p$.** This follows directly from section 5.
-2. **Start with the last hidden layer.** Many well-performing architectures put dropout only after the last hidden layer. So rather than adding dropout everywhere at once, try it there first, check the effect, then add it to other layers. The last hidden layers are usually the largest, so they are where dropout does most to limit the model: AlexNet's last two hidden layers hold more than 40 million parameters, and dropout is applied to them (d2l §8.1.2.3, §8.1.4). Layers near the input usually get a lower rate (d2l §5.6.2.1).
+2. **Start with the last hidden layer.** Many well-performing architectures put dropout only after the last **hidden layer** (G-890). So rather than adding dropout everywhere at once, try it there first, check the effect, then add it to other layers. The last hidden layers are usually the largest, so they are where dropout does most to limit the model: AlexNet's last two hidden layers hold more than 40 million parameters, and dropout is applied to them (d2l §8.1.2.3, §8.1.4). Layers near the input usually get a lower rate (d2l §5.6.2.1).
 3. **Typical rates by type of network:**
 
 | Network | Typical dropout rate |
@@ -190,10 +190,10 @@ Why the rates differ:
 
 > **Key point:** Training converges more slowly, and the loss changes from step to step, which makes gradients (the slopes of the loss, which tell each weight how to change) harder to check and the network harder to debug.
 
-Dropout has two main costs:
+**Dropout** (G-639) has two main costs:
 
-1. [**Slower convergence**](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472). Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more epochs: the original paper reports that a dropout network typically takes 2 to 3 times longer to train (Srivastava et al. 2014, §9).
-2. **A loss that keeps changing.** At each training step the loss is computed from a different sub-network, because a different set of nodes is missing, so in effect the loss function itself changes every step. The changing loss makes the gradients (the slopes of the loss, which tell each weight how to change) hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
+1. [**Slower convergence**](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472). Each step trains only part of the network, so the network takes longer to reach good weights and biases. Experiments show training with dropout needs more **epochs** (G-696): the original paper reports that a dropout network typically takes 2 to 3 times longer to train (Srivastava et al. 2014, §9).
+2. **A loss that keeps changing.** At each training step the loss is computed from a different **sub-network** (G-1909), because a different set of nodes is missing, so in effect the loss function itself changes every step. The changing loss makes the gradients (the slopes of the loss, which tell each weight how to change) hard to interpret and debugging harder: when training goes wrong, it is difficult to tell whether something is broken or the loss is just jumping around (compare the jagged blue curves of Figure 2).
 
 Apart from these, dropout has few downsides, and it usually helps. For the mathematics, the original paper (Srivastava et al. 2014, about 30 pages) is worth reading once.
 
@@ -206,9 +206,9 @@ Apart from these, dropout has few downsides, and it usually helps. For the mathe
 | Classification: training accuracy | 95% | 91% | 85% | |
 | Classification: validation accuracy | 69% | 70% | **74%** | |
 
-- In Keras, dropout is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer, because every sub-network must still give a full prediction.
-- Dropout raises the training error and lowers the test error: smoother curves and decision boundaries, smaller gaps between the training curves.
-- Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last hidden layer, because the large layers near the output are where dropout limits the model most; RNNs take lower rates, because the recurrence amplifies dropout noise.
+- In Keras, **dropout** (G-639) is a `Dropout(p)` layer placed after the layer whose nodes it drops; never after the output layer, because every **sub-network** (G-1909) must still give a full prediction.
+- Dropout raises the training error and lowers the test error: smoother curves and decision boundaries, smaller gaps between the **training curves** (G-2001).
+- Small $p$ overfits, large $p$ underfits, because at $p$ = 0.75 three nodes in four are gone each step and the network can no longer fit the data; try 0.2 to 0.5, starting with the last **hidden layer** (G-890), because the large layers near the output are where dropout limits the model most; RNNs take lower rates, because the recurrence amplifies dropout noise.
 - The price: slower training and a loss that is harder to monitor, because each step trains only part of the network and the loss comes from a different sub-network every step.
 
 So one `Dropout` line, with $p$ between 0.2 and 0.5, lowered the error on new data in both problems here.
@@ -235,18 +235,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Regularisation by randomisation (G-1657) | A name for dropout: reducing overfitting through random choices during training. |
 | `Dropout` layer (G-75) | Keras layer that switches off a fraction $p$ of the previous layer's outputs at each training step; inactive at prediction. |
+| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Training curves (learning curves)](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves) (G-2001) | Loss or accuracy plotted against the epoch, for the training and validation sets; they show how the model improves as training goes on and when the two sets start to differ. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Linear activation](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node) (G-1089) | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
-| [Linear activation](../../../DL/01-basics/DL-013-graduate-admission-ann/DL-013-graduate-admission-ann.md#41-the-linear-output-node) (G-1089) | An activation that passes a node's weighted sum through unchanged, $f(z) = z$. Used in the output layer for regression. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
-| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Sub-network](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-1909) | The smaller network left after dropout switches some nodes off; it shares the full network's weights, and each training step trains a different one. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |

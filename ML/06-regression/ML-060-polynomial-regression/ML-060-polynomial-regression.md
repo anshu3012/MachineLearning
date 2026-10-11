@@ -37,23 +37,23 @@ The example data has 200 points that follow
 
 $$y = 0.8x^2 + 0.9x + 2 + \text{noise}$$
 
-for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary linear regression, the best straight line scores only $R^2 = 0.38$ on the test points. The **$R^2$ score** (G-1717) is 1 for a perfect fit and 0 for a model no better than always predicting the mean (see [where the number comes from](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#3-scikit-learn-first)); the **test points** are observations kept out of the fitting. The line cannot bend, so it misses the low middle and both high ends (Figure 2). The misses form a pattern: the points sit above the line at both ends and below it in the middle. A residual pattern like this is the sign of a curved relationship (see [assumption 1, a linear relationship](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship)).
+for $x$ between $-3$ and 3: a U-shaped curve with some random scatter. Fitted with ordinary **linear regression** (G-1094), the best straight line scores only $R^2 = 0.38$ on the test points. The **$R^2$ score** (G-1717) is 1 for a perfect fit and 0 for a model no better than always predicting the mean (see [where the number comes from](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#3-scikit-learn-first)); the **test points** are **observations** (G-1374) kept out of the fitting. The line cannot bend, so it misses the low middle and both high ends (Figure 2). The misses form a pattern: the points sit above the line at both ends and below it in the middle. A residual pattern like this is the sign of a curved relationship (see [assumption 1, a linear relationship](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship)).
 
 ![The best straight line on the 160 training points (test R² 0.38). Blue sticks: points above the line, mostly at both ends. Red sticks: points below it, mostly in the middle.](images/line_misses.png)
 
 ## 3. Adding powers as new features
 
-> **Key point:** For degree 2, each observation gets a new feature holding $x^2$. Linear regression then finds one coefficient per feature.
+> **Key point:** For degree 2, each **observation** (G-1374) gets a new feature holding $x^2$. **Linear regression** (G-1094) then finds one coefficient per feature.
 
 The trick: for each observation, compute $x^2$ and add it as a new column of the table (Figure 3).
 
 ![`PolynomialFeatures` (G-1516) turns one column into $1$, $x$ and $x^2$](images/features.png)
 
-With the features $x$ and $x^2$, linear regression fits
+With the **features** (G-772) $x$ and $x^2$, linear regression fits
 
 $$\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$$
 
-Here $\hat{y}$ ("y hat") is the predicted target and $\beta_0$, $\beta_1$, $\beta_2$ are the coefficients (numbers the fit learns).
+Here $\hat{y}$ ("y hat") is the predicted **target** (G-1949) and $\beta_0$, $\beta_1$, $\beta_2$ are the coefficients (numbers the fit learns).
 
 The fitted model is a curve in $x$, but it is still a linear combination of its coefficients: each coefficient just multiplies a feature. This is what "**linear** regression" means here: linear in the coefficients, not in $x$. With made-up numbers $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 3$ the prediction at $x = 2$ is
 
@@ -61,7 +61,7 @@ $$1 + 2 \times 2 + 3 \times 2^2 = 1 + 4 + 12 = 17$$
 
 and the curve through $x = 0, 1, 2$ gives 1, 6, 17: bending upwards, though every coefficient only multiplies a feature once. So the usual linear regression machinery (OLS, ordinary least squares, or [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)) finds $\beta_0$, $\beta_1$ and $\beta_2$ unchanged.
 
-Linearity in the coefficients is why polynomial regression is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
+Linearity in the coefficients is why **polynomial regression** (G-1515) is called "linear": **linear** refers to the coefficients, not to the shape of the curve in $x$.
 
 > **Python:** Degree-2 polynomial regression.
 >
@@ -94,9 +94,9 @@ The remaining difference comes from the noise: refitting on the same training ob
 
 ## 4. Choosing the degree
 
-> **Key point:** Too low a degree underfits; too high a degree bends to fit the noise and overfits. Training R² keeps rising with the degree, but test R² falls.
+> **Key point:** Too low a **degree** (G-577) underfits; too high a degree bends to fit the noise and overfits. Training R² keeps rising with the degree, but test R² falls.
 
-Higher degrees add more features, $x^3$, $x^4$ and so on, and the curve can bend more. Figure 4 fits three degrees to only 25 training points, then scores them on 200 new test points.
+Higher degrees add more **features** (G-772), $x^3$, $x^4$ and so on, and the curve can bend more. Figure 4 fits three degrees to only 25 training points, then scores them on 200 new test points.
 
 ![Polynomial fits of degree 1, 2 and 15, and R² against the degree](images/degrees.png){height=48%}
 
@@ -120,9 +120,9 @@ The degree is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelin
 
 ## 5. More than one feature
 
-> **Key point:** With several features, PolynomialFeatures also adds products of features, such as xy. The number of features grows very fast with the degree.
+> **Key point:** With several features, PolynomialFeatures also adds products of features, such as xy. The number of features grows very fast with the **degree** (G-577).
 
-With two features $x$ and $y$, degree 2 creates all terms of total power up to 2:
+With two **features** (G-772) $x$ and $y$, degree 2 creates all terms of total power up to 2:
 
 $$1,\ x,\ y,\ x^2,\ xy,\ y^2$$
 
@@ -152,7 +152,7 @@ Both models are fitted and scored on the same 100 points of Figure 6. A plane re
 
 ![A plane vs a degree-2 surface on curved 3D data](images/surface.png){height=45%}
 
-The number of new features grows quickly. With 2 features, degree 2 gives 6; degree 30 gives 496. With many features and a high degree, the new features quickly outnumber the observations. Once there are as many features as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
+The number of new features grows quickly. With 2 features, degree 2 gives 6; degree 30 gives 496. With many features and a high degree, the new features quickly outnumber the **observations** (G-1374). Once there are as many features as observations, least squares passes exactly through every training point, whatever the true relationship, and such a model does very poorly on new data (ISL §6.4.2).
 
 > **Extra:** To put two 1-D arrays side by side as columns, use `np.c_[x, y]` or `np.column_stack([x, y])`. A shortcut sometimes seen, `np.array([x, y]).reshape(100, 2)`, does not do this: it fills the rows with the 100 values of `x` first and then those of `y`, so the first 50 rows each hold two `x` values and the last 50 rows two `y` values. The model still runs, but on scrambled data. Checking `X[:3]` against `x[:3]` and `y[:3]` catches it.
 
@@ -164,11 +164,11 @@ The number of new features grows quickly. With 2 features, degree 2 gives 6; deg
 | 2 | $x$, $x^2$ | follows the curve (test R² 0.86) | it matches how the data was made |
 | 15 | $x$ to $x^{15}$ | overfits (test R² $-9.35$) | the curve bends enough to learn the noise of 25 points |
 
-- Polynomial regression = new power features + ordinary linear regression, so curves need no new algorithm.
-- Polynomial regression is "linear" in the coefficients, so OLS and gradient descent work unchanged.
-- `PolynomialFeatures(degree=d)` creates the new features; with several features it adds interaction terms too, so the number of features grows very fast with the degree (6 for two features at degree 2, 496 at degree 30).
-- The degree controls flexibility: too low underfits, too high overfits. Choose it on held-out data, because training R² rises with every extra degree and cannot show overfitting.
-- Together these answer the opening question: adding $x^2$, $x^3$, ... as new features lets plain linear regression fit curves, and the degree sets how much the curve can bend.
+- Polynomial regression = new power features + ordinary **linear regression** (G-1094), so curves need no new algorithm.
+- **Polynomial regression** (G-1515) is "linear" in the coefficients, so OLS and gradient descent work unchanged.
+- `PolynomialFeatures(degree=d)` creates the new features; with several features it adds interaction terms too, so the number of features grows very fast with the **degree** (G-577) (6 for two features at degree 2, 496 at degree 30).
+- The degree controls flexibility: too low **underfits** (G-2035), too high overfits. Choose it on held-out data, because training R² rises with every extra degree and cannot show overfitting.
+- Together these answer the opening question: adding $x^2$, $x^3$, ... as new **features** (G-772) lets plain linear regression fit curves, and the degree sets how much the curve can bend.
 
 
 ## 7. Sources

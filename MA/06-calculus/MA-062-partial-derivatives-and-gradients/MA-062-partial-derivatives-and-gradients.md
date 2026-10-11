@@ -15,7 +15,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/gradient]
 
 ## 1. Overview
 
-> **Key point:** For a function of many inputs, we take one derivative per input with the others held fixed; collected in a row, these partial derivatives form the gradient, an arrow that points straight uphill.
+> **Key point:** For a function of many inputs, we take one derivative per input with the others held fixed; collected in a row, these **partial derivatives** (G-1457) form the gradient, an arrow that points straight uphill.
 
 This Note follows Chapter 5 (Section 5.2) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
@@ -57,7 +57,7 @@ Figure 2 is the contour map from the end of Figure 1, with arrows added. At ever
 
 Earlier Notes already used these ideas:
 
-- the partial derivative as a slope in one variable, from [the derivative of the error with respect to $b$](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b);
+- the **partial derivative** (G-1457) as a slope in one variable, from [the derivative of the error with respect to $b$](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b);
 - the gradient as the vector of partial derivatives of the loss, from [both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together).
 
 This Note adds the definition as a limit, the geometry of the gradient, the rules for vectors and the chain rule with several variables. It builds on [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero).
@@ -127,7 +127,7 @@ Two different inputs can give the same number: $[2, -1]$ also gives 4, so it lie
 
 ## 3. Partial derivatives
 
-> **Key point:** A partial derivative changes one input by a tiny step, keeps all the others fixed, and measures the slope; it is an ordinary one-variable derivative.
+> **Key point:** A **partial derivative** (G-1457) changes one input by a tiny step, keeps all the others fixed, and measures the slope; it is an ordinary one-variable derivative.
 
 ### 3.1 The definition
 
@@ -140,7 +140,7 @@ A one-variable derivative answers: if we nudge the input a little, how many time
 
 ![The point $(1, 1)$ in the input plane (left) and the single output number $f$ on a number line (right). A nudge of 0.1 in $x_1$ alone moves the output by 0.31; the same nudge in $x_2$ alone moves it by 0.52. Idea after Khan Academy, "Partial derivatives, introduction"](images/nudge_lines.gif){height=50%}
 
-The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The derivative in [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b) was the first [**partial derivative**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) as the slope of a function of several variables in one variable, holding the others fixed. Written with the limit of [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (a limit of the difference quotient, [the slope of a secant line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line)):
+The same function responds differently to each input. Each of the two ratios tells only part of the story of how $f$ changes, which is where the name comes from. The derivative in [the error function](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#43-step-1-the-derivative-with-respect-to-b) was the first [**partial derivative**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) as the slope of a **function of several variables** (G-815) in one variable, holding the others fixed. Written with the limit of [the one-variable derivative](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (a limit of the difference quotient, [the slope of a secant line](../MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#3-the-difference-quotient-slope-of-a-secant-line)):
 
 1. **In words:** move only $x_i$ by a step $h$, divide the change in $f$ by $h$, and let $h$ shrink to 0.
 2. **Formula:**
@@ -162,7 +162,7 @@ Because the other variables are frozen, they behave like numbers. All the [rules
 1. **In words:** to differentiate with respect to $x_1$, read $x_2$ as a fixed number, and the other way round.
 2. **Formula:** for our bowl
    $$f(x_1, x_2) = x_1^2 + x_1 x_2 + 2x_2^2$$
-   the partial derivatives are
+   the **partial derivatives** (G-1457) are
    $$\frac{\partial f}{\partial x_1} = 2x_1 + x_2$$
    $$\frac{\partial f}{\partial x_2} = x_1 + 4x_2$$
    In $\partial f / \partial x_1$, the term $x_1 x_2$ is $x_1$ times a constant, so its derivative is that constant $x_2$; the term $2x_2^2$ is a constant, so its derivative is 0.
@@ -170,7 +170,7 @@ Because the other variables are frozen, they behave like numbers. All the [rules
    $$\frac{\partial f}{\partial x_1} = 2 \times 1 + 1 = 3$$
    $$\frac{\partial f}{\partial x_2} = 1 + 4 \times 1 = 5$$
 
-The chain rule works the same way inside a partial derivative. Take
+The **chain rule** (G-371) works the same way inside a partial derivative. Take
 
 $$g(x, y) = (x + y^2)^2$$
 
@@ -200,13 +200,13 @@ The two tangent lines together span a flat plane that touches the surface at $(1
 
 ## 4. The gradient
 
-> **Key point:** The gradient collects all partial derivatives in one row vector; as an arrow, it points in the direction of steepest ascent and is perpendicular to the contour lines.
+> **Key point:** The gradient collects all **partial derivatives** (G-1457) in one row vector; as an arrow, it points in the direction of steepest ascent and is perpendicular to the contour lines.
 
 ### 4.1 Collecting the partial derivatives
 
-> **Key point:** One partial derivative per input, side by side: a row of $n$ numbers (a $1 \times n$ row vector).
+> **Key point:** One **partial derivative** (G-1457) per input, side by side: a row of $n$ numbers (a $1 \times n$ row vector).
 
-Gradient descent ([both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together)) already used the **gradient** as the vector of partial derivatives of the loss, pointing in the direction of steepest increase. We write it as a row:
+**Gradient descent** (G-862) ([both parameters together](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together)) already used the **gradient** as the vector of partial derivatives of the loss, pointing in the direction of steepest increase. We write it as a row:
 
 1. **In words:** list the partial derivatives in the order of the inputs.
 2. **Formula:**
@@ -217,11 +217,11 @@ Gradient descent ([both parameters together](../../../ML/06-regression/ML-056-gr
    $$\nabla f(1, 1) = \begin{bmatrix} 3 & 5 \end{bmatrix}$$
    $$\nabla f(2, -1) = \begin{bmatrix} 3 & -2 \end{bmatrix}$$
 
-**Row or column?** Many texts, and the [update rules of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the chain rule becomes ordinary matrix multiplication with no transposes ([Section 6](#6-the-chain-rule-with-several-variables)), and the next Note's Jacobian follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
+**Row or column?** Many texts, and the [update rules of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move), treat the gradient as a column vector like the parameters. The book we follow uses a row: then the **chain rule** (G-371) becomes ordinary matrix multiplication with no transposes ([Section 6](#6-the-chain-rule-with-several-variables)), and the next Note's **Jacobian** (G-980) follows naturally. The numbers are the same either way; only the shape differs. In NumPy both are plain 1-D arrays, so code rarely notices.
 
 ### 4.2 The gradient as an arrow on the contour map
 
-> **Key point:** Drawn at its point, the gradient arrow points the way $f$ rises fastest, crosses the contour line at a right angle, and is longer where the surface is steeper.
+> **Key point:** Drawn at its point, the **gradient** (G-863) arrow points the way $f$ rises fastest, crosses the contour line at a right angle, and is longer where the surface is steeper.
 
 Figure 2 draws the gradient as an arrow at many points of the contour map. Three things are visible:
 
@@ -248,9 +248,9 @@ At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its oppos
 
 ### 4.3 The slope in any direction
 
-> **Key point:** The slope of $f$ along a unit vector $\mathbf{u}$ is the dot product $\nabla f \cdot \mathbf{u}$; it is largest when $\mathbf{u}$ points along the gradient.
+> **Key point:** The slope of $f$ along a unit vector $\mathbf{u}$ is the dot product $\nabla f \cdot \mathbf{u}$; it is largest when $\mathbf{u}$ points along the **gradient** (G-863).
 
-The partial derivatives give the slope along the two axes. A hiker can walk in any direction, so we need the slope along any arrow.
+The **partial derivatives** (G-1457) give the slope along the two axes. A hiker can walk in any direction, so we need the slope along any arrow.
 
 1. **In words:** a step in the direction $\mathbf{u} = [a, b]$ is made of two parts: $a$ along $x_1$ and $b$ along $x_2$. Each part changes $f$ on its own:
    - the $x_1$ part changes $f$ by its size $a$ times the rate $\partial f/\partial x_1$;
@@ -291,13 +291,13 @@ Figure 8 turns the three directions above into one sweep. Watch the right panel.
 
 ## 5. Rules for gradients
 
-> **Key point:** Sum, product and chain rules still hold with vectors, but the factors are now vectors and matrices, so their order matters.
+> **Key point:** Sum, product and **chain rules** (G-371) still hold with vectors, but the factors are now vectors and matrices, so their order matters.
 
-The rules of the one-variable case carry over. We need one building block first: the gradient of a dot product with a fixed vector. Take $\mathbf{a} = [1, 2]$, so
+The rules of the one-variable case carry over. We need one building block first: the **gradient** (G-863) of a dot product with a fixed vector. Take $\mathbf{a} = [1, 2]$, so
 
 $$\mathbf{a}^{\mathsf T}\mathbf{x} = 1 \times x_1 + 2 \times x_2$$
 
-Its partial derivatives are just the two fixed numbers:
+Its **partial derivatives** (G-1457) are just the two fixed numbers:
 
 $$\frac{\partial}{\partial x_1}(x_1 + 2x_2) = 1$$
 
@@ -366,7 +366,7 @@ Figure 9 draws both rules as arrows added tip to tail. A gradient is a vector, s
 
 ## 6. The chain rule with several variables
 
-> **Key point:** When an input affects $f$ through several intermediate variables, we multiply along each path and add up the paths; written with gradients, this is a matrix product.
+> **Key point:** When an input affects $f$ through several intermediate variables, we multiply along each path and add up the paths; written with **gradients** (G-863), this is a matrix product.
 
 This rule is the **multivariate chain rule** (G-1281), the several-variable form of the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371).
 
@@ -442,7 +442,7 @@ The rule, in general:
    $$\frac{df}{dt} = \frac{\partial f}{\partial x_1}\frac{dx_1}{dt} + \frac{\partial f}{\partial x_2}\frac{dx_2}{dt}$$
    The same sum, written as a product of two vectors:
    $$\frac{df}{dt} = \begin{bmatrix} \dfrac{\partial f}{\partial x_1} & \dfrac{\partial f}{\partial x_2} \end{bmatrix} \begin{bmatrix} \dfrac{dx_1}{dt} \cr\dfrac{dx_2}{dt} \end{bmatrix}$$
-   The second form is the gradient (a row) times the velocity of the point (a column). At $t = \pi/2$:
+   The second form is the **gradient** (G-863) (a row) times the velocity of the point (a column). At $t = \pi/2$:
    $$\begin{bmatrix} 1 & 4 \end{bmatrix} \begin{bmatrix} -1 \cr0 \end{bmatrix}$$
    $$= 1 \times (-1) + 4 \times 0$$
    $$= -1$$
@@ -473,13 +473,13 @@ $$t = \tfrac{\pi}{2}: \quad \sin \pi + \cos \pi = 0 + (-1) = -1$$
 
 $$t = 0: \quad \sin 0 + \cos 0 = 0 + 1 = 1$$
 
-The same two answers. The long way needs a new round of algebra for every function. The chain rule gives the same result from two small pieces that are already known, the gradient and the velocity.
+The same two answers. The long way needs a new round of algebra for every function. The **chain rule** (G-371) gives the same result from two small pieces that are already known, the gradient and the velocity.
 
 The second form is a $1 \times 2$ row times a $2 \times 1$ column, giving a $1 \times 1$ number. The chain rule is where the row-vector convention pays off: the gradient sits on the left and the shapes fit with no transposing.
 
 ### 6.2 Two outer inputs: a matrix of partial derivatives
 
-> **Key point:** With inputs $s$ and $t$, the inner derivatives fill a $2 \times 2$ matrix, and the chain rule becomes (row gradient) times (matrix).
+> **Key point:** With inputs $s$ and $t$, the inner derivatives fill a $2 \times 2$ matrix, and the **chain rule** (G-371) becomes (row gradient) times (matrix).
 
 Now let $x_1$ and $x_2$ depend on two variables $s$ and $t$, for example $x_1 = s + t$ and $x_2 = st$ (at $s = 1$, $t = 2$ these are 3 and 2). Each of $\partial f/\partial s$ and $\partial f/\partial t$ follows the path rule:
 
@@ -494,7 +494,7 @@ $$\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x_1}\frac{\partial 
 3. **Example:** our bowl with $x_1 = s + t$ and $x_2 = st$, at $s = 1$, $t = 2$. The inner values:
    $$x_1 = 1 + 2 = 3$$
    $$x_2 = 1 \times 2 = 2$$
-   The gradient of the bowl there:
+   The **gradient** (G-863) of the bowl there:
    $$\frac{\partial f}{\partial x_1} = 2 \times 3 + 2 = 8$$
    $$\frac{\partial f}{\partial x_2} = 3 + 4 \times 2 = 11$$
    The inner derivatives:
@@ -511,15 +511,15 @@ $$\frac{\partial f}{\partial t} = \frac{\partial f}{\partial x_1}\frac{\partial 
 
 The matrix in the middle is the first example of a [**Jacobian**](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980), the subject of [the Jacobian](../MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian). The chain rule as a product of matrices mirrors [**composition**](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another) (G-431): doing one function after another multiplies their matrices.
 
-The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; partial derivatives are not really fractions.
+The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in the first factor and "above" in the second, and "cancels" to leave $\partial f/\partial(s, t)$. The fraction reading is a memory aid only; **partial derivatives** (G-1457) are not really fractions.
 
 ## 7. Checking a gradient numerically
 
 > **Key point:** Nudge each input by a small $h$ and compare the finite-difference slope with the formula; a tiny relative error means the formula and code are probably right.
 
-Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the partial derivative gives a simple test, called **gradient checking** (G-860):
+Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the **partial derivative** (G-1457) gives a simple test, called **gradient checking** (G-860):
 
-1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated gradient with the formula's.
+1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated **gradient** (G-863) with the formula's.
 2. **Example first.** The squared-error loss of [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together) (G-862) on three points, inputs $x = [1, 2, 3]$ and targets $y = [2, 4, 5]$. A line with slope $m$ and intercept $b$ predicts $m x_i + b$ for point $i$; the loss adds up the squared misses ($\sum_i$ means "add over the points $i = 1, 2, 3$"):
    $$L(m, b) = \sum_i (y_i - m x_i - b)^2$$
    At $m = 1$, $b = 0$ the predictions are $1, 2, 3$, and the misses (the residuals $r_i$) are
@@ -600,11 +600,11 @@ Deep learning libraries compute gradients automatically, and they ship the same 
 | Gradient $\nabla f$ | $1 \times n$ row | $[3, 5]$ | points steepest uphill; gradient descent steps against it |
 | Chain rule $\partial f / \partial(s, t)$ | $(1 \times 2)(2 \times 2) = 1 \times 2$ | $[30, 19]$ at $s = 1$, $t = 2$ | the gradient when $f$ depends on its inputs through other variables |
 
-- A partial derivative moves one input and holds the others fixed; it is the slope of one slice of the surface, so the one-variable rules compute it, with the other inputs treated as constants.
-- The gradient collects all partial derivatives; it points straight uphill, at right angles to the contour lines, and gradient descent steps against it, because the slope along a unit direction $\mathbf{u}$ is $\nabla f \cdot \mathbf{u}$, largest when $\mathbf{u}$ points along the gradient.
-- Sum, product and chain rules carry over to vectors, with the order of factors kept, because the factors are now vectors and matrices.
-- The multivariate chain rule adds the products along every path, because the input changes $f$ through each intermediate variable; with gradients as rows, it is matrix multiplication.
-- Gradient checking compares a formula with finite differences, because a wrong hand-derived gradient makes training fail quietly.
+- A **partial derivative** (G-1457) moves one input and holds the others fixed; it is the slope of one slice of the surface, so the one-variable rules compute it, with the other inputs treated as constants.
+- The gradient collects all partial derivatives; it points straight uphill, at right angles to the contour lines, and **gradient descent** (G-862) steps against it, because the slope along a unit direction $\mathbf{u}$ is $\nabla f \cdot \mathbf{u}$, largest when $\mathbf{u}$ points along the **gradient** (G-863).
+- Sum, product and **chain rules** (G-371) carry over to vectors, with the order of factors kept, because the factors are now vectors and matrices.
+- The **multivariate chain rule** (G-1281) adds the products along every path, because the input changes $f$ through each intermediate variable; with gradients as rows, it is matrix multiplication.
+- **Gradient checking** (G-860) compares a formula with finite differences, because a wrong hand-derived gradient makes training fail quietly.
 - So the partial derivatives of a loss, collected in the gradient, tell gradient descent which way is steepest downhill.
 
 ## 9. Sources
@@ -640,9 +640,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Steepest ascent (G-1888) | The direction in which $f$ increases fastest: the direction of the gradient; gradient descent steps the opposite way to go downhill fastest. |
 | Multivariate chain rule (G-1281) | How to take a derivative when a function depends on its inputs through in-between (intermediate) variables: multiply the derivatives along each path and add the paths. In matrix form, a row gradient times a matrix of inner derivatives. |
 | Gradient checking (G-860) | Checking that a gradient formula is right by comparing it with a numerical estimate made by nudging each weight a tiny amount (finite differences), measured by the relative error. |
+| [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
-| [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
 | [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |

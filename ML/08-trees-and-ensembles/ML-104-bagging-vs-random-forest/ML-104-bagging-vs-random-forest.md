@@ -26,9 +26,9 @@ This Note covers both differences and checks the second one in code. The Noteboo
 
 ## 2. Difference 1: the base model
 
-> **Key point:** Bagging is a general technique for any algorithm; a random forest is made of decision trees only.
+> **Key point:** Bagging is a general technique for any algorithm; a **random forest** (G-1611) is made of decision trees only.
 
-In bagging, the base models can come from any algorithm, as long as they all use the same one: all decision trees, all KNN or all SVMs (see [other base models](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models)). Decision trees, KNN and SVMs are the usual choices.
+In bagging, the **base models** (G-260) can come from any algorithm, as long as they all use the same one: all decision trees, all KNN or all SVMs (see [other base models](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models)). Decision trees, KNN and SVMs are the usual choices.
 
 ![Difference 1: BaggingClassifier takes any one algorithm as its base model; RandomForestClassifier is always made of decision trees](images/base_model.png){height=30%}
 
@@ -43,7 +43,7 @@ In a random forest, the base model is always a decision tree. scikit-learn's cla
 
 ## 3. Difference 2: tree-level against node-level feature sampling
 
-> **Key point:** Bagging fixes each tree's features before the tree is grown; a random forest picks a fresh random set of features before every split.
+> **Key point:** Bagging fixes each tree's features before the tree is grown; a **random forest** (G-1611) picks a fresh random set of features before every split.
 
 So is a bagging ensemble of decision trees a random forest? **No.** The remaining difference is in how the features are sampled (feature sampling, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)).
 
@@ -61,7 +61,7 @@ Bagging therefore uses **tree-level feature sampling** (tree-level column sampli
 
 > **Key point:** Two features are drawn at every node, so one tree can end up using all five.
 
-In a random forest, the draw happens again **every time a node is about to split** (Figure 1, right). The forest therefore uses **node-level feature sampling** (node-level column sampling, G-1325):
+In a **random forest** (G-1611), the draw happens again **every time a node is about to split** (Figure 1, right). The forest therefore uses **node-level feature sampling** (node-level column sampling, G-1325):
 
 - the root draws col2 and col3, and splits on the better of the two, col3;
 - the next node draws again, col4 and col5, and splits on col4;
@@ -73,7 +73,7 @@ Building a forest tree this way is shown step by step in [building one tree](../
 
 > **Key point:** More randomness makes the trees more different from each other, and an ensemble of different models performs better, as long as each tree stays accurate on its own (section 4.3 shows randomness that weakens every tree doing harm).
 
-Recall [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models): an ensemble works best when its base models are each better than chance and as different from each other as possible. How alike two models' predictions are is measured by the **correlation between base models** (G-488): 0 means unrelated, 1 means identical. The chain from sampling to accuracy:
+Recall [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models): an ensemble works best when its **base models** (G-260) are each better than chance and as different from each other as possible. How alike two models' predictions are is measured by the **correlation between base models** (G-488): 0 means unrelated, 1 means identical. The chain from sampling to accuracy:
 
 1. Node-level sampling forces each split to choose among a random few features, so even trees grown on similar observations end up splitting on different features.
 2. Trees that split differently make their mistakes on different observations, so their correlation is lower (ESL §15.2).
@@ -150,11 +150,11 @@ Figure 4 counts, for 100 trees of each kind, how many different features each tr
 - **bagging:** all 100 trees use exactly 2 features;
 - **random forest:** 5 trees use 2 features, 28 use 3, 50 use 4, and 17 use all 5.
 
-The counts prove the point: bagging samples features at the tree level, a random forest at the node level.
+The counts prove the point: bagging samples features at the tree level, a **random forest** (G-1611) at the node level.
 
 ### 4.3 Does it pay off?
 
-> **Key point:** On real spam data, the random forest scores 0.953, bagging 0.946 with all features and 0.922 with 7 features per tree.
+> **Key point:** On real spam data, the **random forest** (G-1611) scores 0.953, bagging 0.946 with all features and 0.922 with 7 features per tree.
 
 We use the Spambase data (UCI, via OpenML): 4,601 emails, 57 features such as how often words like "free" or "$" appear, and a target of spam or not. ESL §15.2 compares bagging and random forests on the same data. Each model has 200 trees, scored with 5-fold **cross-validation** (G-510; the data is split into 5 parts, each used once as the test part, see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)) repeated 3 times:
 
@@ -178,7 +178,7 @@ The random forest makes about 13% fewer mistakes than bagging (4.7% against 5.4%
 | Randomness | less | more |
 | On the spam data (accuracy) | 0.946 (all features) | 0.953 |
 
-- A bagging ensemble of decision trees is still not a random forest, because the two sample features in different places.
+- A bagging ensemble of decision trees is still not a **random forest** (G-1611), because the two sample features in different places.
 - Bagging decides each tree's features before it is grown; a random forest re-draws them before every split, so one forest tree can end up using all 5 features while a bagged tree uses exactly 2.
 - More randomness at each node makes the trees less alike while each tree can still reach every feature, which makes the forest better (spam data: 0.953 against 0.946), because less alike trees make mistakes on different observations, and adding trees cannot remove the error that alike trees share. Fixing 7 random features per tree weakens every tree and scores worse (0.922), because each tree often misses the most useful words.
 - In a bagged tree, `feature_0`, `feature_1`, ... are positions within that tree's own features, because the tree was trained on a smaller table; `estimators_features_` maps them back, so read it before naming a split.

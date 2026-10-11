@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pooling]
 
 ## 1. Overview
 
-> **Key point:** A pooling layer shrinks each feature map by replacing every small window with one summary number, usually its maximum. Pooling cuts memory, makes the network less sensitive to where exactly a feature sits, and has nothing to train.
+> **Key point:** A pooling layer shrinks each feature map by replacing every small window with one summary number, usually its maximum. **Pooling** (G-1521) cuts memory, makes the network less sensitive to where exactly a feature sits, and has nothing to train.
 
 A pooling layer comes right after a convolution layer (a layer that slides filters over an image, see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)) and its ReLU (the step that sets negative values to 0) in a convolutional neural network (CNN, a network for images). Pooling answers two problems of convolution: feature maps take a lot of memory, and their values are tied to the exact position of each feature.
 
@@ -64,9 +64,9 @@ So the layer outputs a **volume** (a stack of feature maps, one per filter) of 2
 
 ![Memory of one input image, of the feature maps one convolution layer of 100 filters makes from it, of those maps for a batch of 100 images, and of one image's maps after 2 × 2 max pooling (section 7.1). Log scale; 4 bytes per number.](images/memory_bars.png){height=38%}
 
-In Figure 2, the first two steps to the right are jumps of a power of ten or more: one convolution layer turns a 0.6 MB image into 19.7 MB of feature maps, and a batch of 100 makes that 1.97 GB. Pooling (green) brings one image's 19.7 MB back down by a factor of 4, to 4.9 MB.
+In Figure 2, the first two steps to the right are jumps of a power of ten or more: one convolution layer turns a 0.6 MB image into 19.7 MB of feature maps, and a batch of 100 makes that 1.97 GB. **Pooling** (G-1521) (green) brings one image's 19.7 MB back down by a factor of 4, to 4.9 MB.
 
-Such volumes can slow a machine down or make the program crash for lack of memory. So we want to shrink the feature maps. A larger stride (see [why use strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#6-why-use-strides)) would do it, but pooling also solves a second problem.
+Such volumes can slow a machine down or make the program crash for lack of memory. So we want to shrink the feature maps. A larger **stride** (G-1900) (see [why use strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#6-why-use-strides)) would do it, but pooling also solves a second problem.
 
 ### 3.2 Features tied to their location
 
@@ -74,13 +74,13 @@ Such volumes can slow a machine down or make the program crash for lack of memor
 
 A convolution layer finds features such as edges, eyes or ears. Its output is tied to location: if the cat sits on the left of the image, its ear lights up the left of the feature map; if it sits on the right, the right. In the Notebook, a digit shifted 1 pixel to the right gives exactly the same feature map, shifted 1 pixel to the right.
 
-For a task such as telling cats from dogs, the location of the ear does not matter, only that it is an ear. But the next layers see different numbers for the same ear at different places. We would like the network to treat a feature the same way wherever it appears, a property called **translation invariance** (G-2011). Pooling gives an approximate version of it.
+For a task such as telling cats from dogs, the location of the ear does not matter, only that it is an ear. But the next layers see different numbers for the same ear at different places. We would like the network to treat a feature the same way wherever it appears, a property called **translation invariance** (G-2011). **Pooling** (G-1521) gives an approximate version of it.
 
 > **Extra:** The precise names (Goodfellow et al. 2016, §9.2 and §9.3): convolution is **equivariant** to translation (**translation equivariance**, G-2010), meaning that if the input shifts, the output shifts in the same way. Pooling makes the output approximately **invariant** to small translations, meaning that the pooled values mostly do not change. The problem of section 3.2 is therefore equivariance where invariance is wanted.
 
 ## 4. Max pooling
 
-> **Key point:** Choose a window size (usually 2 × 2), a stride (usually 2) and a type (usually max). Slide the window over the feature map and keep the largest value in each window.
+> **Key point:** Choose a window size (usually 2 × 2), a **stride** (G-1900) (usually 2) and a type (usually max). Slide the window over the feature map and keep the largest value in each window.
 
 ### 4.1 Where pooling sits
 
@@ -90,7 +90,7 @@ The order inside a CNN is: convolution gives the feature map, ReLU adds non-line
 
 ### 4.2 The three settings
 
-> **Key point:** Size of the window, stride, and type of pooling.
+> **Key point:** Size of the window, stride, and type of **pooling** (G-1521).
 
 A pooling layer needs three settings:
 
@@ -129,13 +129,13 @@ The 4 × 4 feature map has become 2 × 2. The output size follows the formula of
 
 $$\lfloor (4 - 2)/2 \rfloor + 1 = 2$$
 
-What does the largest value mean? A feature map is large where the filter's pattern is present (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). So the maximum of a window marks the spot where the filter matched the image best, and max pooling keeps exactly that spot.
+What does the largest value mean? A feature map is large where the filter's pattern is present (see [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). So the maximum of a window marks the spot where the filter matched the image best, and **max pooling** (G-1182) keeps exactly that spot.
 
 Within each small region, the [**receptive field**](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) of the output value, max pooling keeps the strongest response and drops the weaker ones. The strongest response is the most dominant feature in that region. Low-level detail is discarded, and the dominant features move on.
 
 ## 5. Pooling a volume
 
-> **Key point:** Pooling works on each feature map separately. A 4 × 4 × 2 volume becomes 2 × 2 × 2; the number of channels does not change.
+> **Key point:** **Pooling** (G-1521) works on each feature map separately. A 4 × 4 × 2 volume becomes 2 × 2 × 2; the number of channels does not change.
 
 After a convolution with several filters we have a volume of feature maps. For example, a 6 × 6 × 3 image and 2 filters of 3 × 3 × 3 give 4 × 4 × 2. After ReLU, pooling is applied to each feature map on its own, first the front one, then the back one, giving a 2 × 2 × 2 volume. With 100 filters, a 4 × 4 × 100 volume becomes 2 × 2 × 100.
 
@@ -145,9 +145,9 @@ Pooling changes the height and width, never the depth (Figure 3). The Notebook c
 
 ## 6. Pooling in Keras
 
-> **Key point:** `MaxPooling2D(pool_size=(2, 2), strides=2)` (G-116) after each convolution layer. Pooling layers have 0 parameters.
+> **Key point:** `MaxPooling2D(pool_size=(2, 2), strides=2)` (G-116) after each convolution layer. **Pooling** (G-1521) layers have 0 parameters.
 
-> **Python:** Two convolution layers, each followed by max pooling.
+> **Python:** Two convolution layers, each followed by **max pooling** (G-1182).
 >
 > ```python
 > model = keras.Sequential([
@@ -183,19 +183,19 @@ In Figure 4, watch the orange squares: each pooling layer halves the side of the
 
 ## 7. Advantages of pooling
 
-> **Key point:** Smaller feature maps, approximate translation invariance, stronger dominant features (max pooling only), and no parameters to train.
+> **Key point:** Smaller feature maps, approximate translation invariance, stronger dominant features (**max pooling** (G-1182) only), and no parameters to train.
 
 ### 7.1 Reduced size
 
-> **Key point:** 2 × 2 pooling with stride 2 keeps a quarter of the values: 222 × 222 × 100 becomes 111 × 111 × 100, 4.9 MB instead of 19.7 MB.
+> **Key point:** 2 × 2 **pooling** (G-1521) with stride 2 keeps a quarter of the values: 222 × 222 × 100 becomes 111 × 111 × 100, 4.9 MB instead of 19.7 MB.
 
-In the example of section 3.1, 2 × 2 max pooling turns the 222 × 222 × 100 volume into 111 × 111 × 100, a quarter of the values and of the memory (Notebook). The next layers also have less work to do.
+In the example of section 3.1, 2 × 2 **max pooling** (G-1182) turns the 222 × 222 × 100 volume into 111 × 111 × 100, a quarter of the values and of the memory (Notebook). The next layers also have less work to do.
 
 ### 7.2 Translation invariance
 
 > **Key point:** On 1,000 digits shifted by 1 pixel, the feature map changes by 0.88 (relative), the 2 × 2 max-pooled map by 0.65, the 4 × 4 by 0.42, and the global maximum not at all.
 
-Downsampling keeps the dominant feature of each region and forgets exactly where in the region it was. So a small shift of the input changes the pooled map much less than the feature map.
+**Downsampling** (G-636) keeps the dominant feature of each region and forgets exactly where in the region it was. So a small shift of the input changes the pooled map much less than the feature map.
 
 ![Left: a digit and the same digit shifted 1 pixel right, their feature maps (vertical-edge filter and ReLU) and 2 × 2 max-pooled maps. Right: the relative change caused by the shift, averaged over 1,000 test digits; 0 means identical](images/shift_pool.png){width=100%}
 
@@ -209,7 +209,7 @@ Figure 5 and the Notebook measure it on 1,000 MNIST test digits, each shifted 1 
 | After 4 × 4 max pooling | 0.42 |
 | After global max pooling | 0.00 |
 
-Larger pooling windows give more invariance, and a single maximum over the whole map (section 8.2) does not change at all. Pooling makes the network focus on whether a feature is present and less on where it is.
+Larger **pooling** (G-1521) windows give more invariance, and a single maximum over the whole map (section 8.2) does not change at all. Pooling makes the network focus on whether a feature is present and less on where it is.
 
 The invariance holds for small shifts only. Figure 6 moves one digit 8 further and further to the right. Watch the feature map slide with the digit, while the pooled map keeps roughly the same dark cells at a shift of 1 pixel and then starts to change too.
 
@@ -225,7 +225,7 @@ At every shift the pooled maps change less than the feature map, and a larger wi
 
 ### 7.3 Enhanced features (max pooling only)
 
-> **Key point:** Max pooling keeps the strongest value of each window, so the edges in a pooled edge map look bolder; average pooling dilutes them.
+> **Key point:** **Max pooling** (G-1182) keeps the strongest value of each window, so the edges in a pooled edge map look bolder; average pooling dilutes them.
 
 ![The vertical-edge map of a photo (left), after 4 × 4 max pooling (middle) and after 4 × 4 average pooling (right), on the same colour scale. Max pooling keeps the edges strong; averaging fades them](images/photo_pool.png){width=100%}
 
@@ -235,17 +235,17 @@ Each window of an edge map holds a few strong edge values and many weak ones. Ma
 
 > **Key point:** A pooling layer only needs its settings. A pooling layer has no weights, so backpropagation has nothing to update in it.
 
-The values of a convolution filter are learned by backpropagation. Pooling needs no training: we only choose the window size, the stride and the type, and finding the largest of 4 numbers needs no learning. With nothing to update, a pooling layer adds no parameters and no training cost.
+The values of a convolution filter are learned by backpropagation. **Pooling** (G-1521) needs no training: we only choose the window size, the stride and the type, and finding the largest of 4 numbers needs no learning. With nothing to update, a pooling layer adds no parameters and no training cost.
 
 ## 8. Types of pooling
 
-> **Key point:** Max pooling is the most used; average pooling takes the mean; global pooling reduces each whole feature map to one number.
+> **Key point:** **Max pooling** (G-1182) is the most used; average pooling takes the mean; global pooling reduces each whole feature map to one number.
 
 ### 8.1 Max, average and L2 pooling
 
 > **Key point:** On the windows of section 4.3: max gives 5, 3, 7, 4; average gives 3, 1.5, 2.75, 2.5.
 
-Max pooling keeps the largest value of each window. **Average pooling** (G-238) keeps the mean of the window instead: add the four values and divide by 4. In Figure 8, watch the same window fill both maps: the first window, 1, 5, 2, 4, gives 5 in the max-pooled map. In the average-pooled map it gives:
+**Max pooling** (G-1182) keeps the largest value of each window. **Average pooling** (G-238) keeps the mean of the window instead: add the four values and divide by 4. In Figure 8, watch the same window fill both maps: the first window, 1, 5, 2, 4, gives 5 in the max-pooled map. In the average-pooled map it gives:
 
 $$(1 + 5 + 2 + 4)/4 = 12/4 = 3$$
 
@@ -263,7 +263,7 @@ The window can be summarised in other ways too (Goodfellow et al. 2016, §9.3):
 
 Figure 9 puts the summaries side by side on the same map: max keeps the peaks 5, 3, 7, 4, average dilutes them, and the global versions squeeze the whole map into a single number.
 
-Min pooling, the smallest value, is also possible but is not a Keras layer. Keras has `MaxPooling2D` and `AveragePooling2D`, and the Notebook checks that both give the numbers above. Max pooling is used most; average pooling can be worth trying in some problems.
+Min **pooling** (G-1521), the smallest value, is also possible but is not a Keras layer. Keras has `MaxPooling2D` and `AveragePooling2D`, and the Notebook checks that both give the numbers above. Max pooling is used most; average pooling can be worth trying in some problems.
 
 ### 8.2 Global pooling
 
@@ -271,16 +271,16 @@ Min pooling, the smallest value, is also possible but is not a Keras layer. Kera
 
 **Global pooling** (G-849) treats the whole feature map as one window. **Global max pooling** keeps the largest value of the whole feature map; for the map of section 4.3 that is 7. **Global average pooling** takes the mean of the whole map: 2.4375. With several feature maps, each gives one number: a 4 × 4 × 3 volume becomes a vector (a list) of 3 values.
 
-Global pooling can replace the Flatten layer before the fully connected layers. For a 5 × 5 × 32 volume, Flatten gives 800 values and a `Dense(10)` layer on them has 8,010 parameters; global average pooling gives 32 values and the same layer has 330 (Notebook). Fewer parameters reduce overfitting.
+Global pooling can replace the Flatten layer before the fully connected layers. For a 5 × 5 × 32 volume, Flatten gives 800 values and a `Dense(10)` layer on them has 8,010 parameters; global **average pooling** (G-238) gives 32 values and the same layer has 330 (Notebook). Fewer parameters reduce overfitting.
 
 > **Extra:** Global average pooling as a replacement for the fully connected part was introduced by Lin et al. (2014), who describe it as "itself a structural regularizer, which natively prevents overfitting", whereas fully connected layers "are prone to overfitting".
 
 ## 9. Disadvantages of pooling
 
-> **Key point:** Pooling throws away location, which hurts tasks where location matters, and it discards 75% of the values.
+> **Key point:** **Pooling** (G-1521) throws away location, which hurts tasks where location matters, and it discards 75% of the values.
 
-1. **Lost location.** Translation invariance helps when only the presence of a feature matters, as in image classification. In some computer vision tasks the location is the answer, such as **image segmentation** (G-2268), which divides an image into regions and must say exactly which pixels belong to the car. There, pooling can hurt: if a task relies on preserving precise spatial information, pooling on all features can increase the training error (Goodfellow et al. 2016, §9.4).
-2. **Lost information.** 2 × 2 pooling with stride 2 turns 16 values into 4: it keeps a quarter and discards exactly 75% of the values (CS231n notes).
+1. **Lost location.** **Translation invariance** (G-2011) helps when only the presence of a feature matters, as in image classification. In some computer vision tasks the location is the answer, such as **image segmentation** (G-2268), which divides an image into regions and must say exactly which pixels belong to the car. There, pooling can hurt: if a task relies on preserving precise spatial information, pooling on all features can increase the training error (Goodfellow et al. 2016, §9.4).
+2. **Lost information.** 2 × 2 pooling with **stride** (G-1900) 2 turns 16 values into 4: it keeps a quarter and discards exactly 75% of the values (CS231n notes).
 
 Whether to pool depends on the application.
 
@@ -295,11 +295,11 @@ Whether to pool depends on the application.
 | Keras layer | `MaxPooling2D` | `AveragePooling2D` | `GlobalMaxPooling2D`, `GlobalAveragePooling2D` |
 | Parameters | 0 | 0 | 0 |
 
-- Pooling follows convolution and ReLU, and downsamples each feature map separately, so it changes the height and width, never the depth.
+- **Pooling** (G-1521) follows convolution and ReLU, and downsamples each feature map separately, so it changes the height and width, never the depth.
 - It solves two problems: large feature maps (memory) and features tied to location, because a batch of feature maps can need gigabytes and classification cares whether a feature is present, not exactly where.
-- Advantages: smaller maps, approximate translation invariance, stronger dominant features (max only), no training, because each window keeps only one summary of its values and forgets where in the window the feature was.
+- Advantages: smaller maps, approximate **translation invariance** (G-2011), stronger dominant features (max only), no training, because each window keeps only one summary of its values and forgets where in the window the feature was.
 - Disadvantages: location is lost (bad for segmentation-like tasks) and 75% of the values are discarded, so whether to pool depends on the task.
-- Global pooling turns each feature map into one number and can replace Flatten, so the dense layer after it needs far fewer parameters, which reduces overfitting.
+- **Global pooling** (G-849) turns each feature map into one number and can replace Flatten, so the dense layer after it needs far fewer parameters, which reduces overfitting.
 
 ## 11. Sources
 
@@ -323,10 +323,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Pooling (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | Max pooling (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | Translation invariance (G-2011) | The output stays (almost) the same when the input is shifted slightly. |
 | Translation equivariance (G-2010) | The output shifts in the same way as the input; a property of convolution. |
-| Pooling (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | Downsampling (G-636) | Reducing the height and width of a feature map. |
 | `MaxPooling2D` (G-116) | The Keras layer for 2D max pooling, `MaxPooling2D(pool_size, strides)`: it keeps only the largest value in each window of a feature map, which shrinks the map; it has no parameters. |
 | Average pooling (G-238) | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |

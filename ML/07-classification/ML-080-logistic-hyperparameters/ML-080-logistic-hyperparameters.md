@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/production, step/tune, concept/hyperparame
 
 ## 1. Overview
 
-> **Key point:** The settings that matter most are the regularisation (C and the L1/L2 mix), the solver, max_iter and class_weight. The rest can usually stay at their defaults.
+> **Key point:** The settings that matter most are the regularisation (C and the L1/L2 mix), the **solver** (G-1836), max_iter and class_weight. The rest can usually stay at their defaults.
 
 scikit-learn's `LogisticRegression` has about fifteen [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): settings chosen before training, not learned from the data. This Note covers:
 
@@ -29,11 +29,11 @@ An interactive app at the end lets you change them and watch the decision bounda
 
 ## 2. Regularisation
 
-> **Key point:** By default, logistic regression adds an L2 (Ridge) penalty. C is the inverse of its strength: a small C means strong regularisation.
+> **Key point:** By default, logistic regression adds an L2 (Ridge) penalty. **C** (G-337) is the inverse of its strength: a small C means strong regularisation.
 
 ### 2.1 The type of penalty
 
-> **Key point:** l1_ratio = 0 is L2 (Ridge), 1 is L1 (Lasso), in between is Elastic Net; C = inf switches the penalty off.
+> **Key point:** l1_ratio = 0 is L2 (Ridge), 1 is L1 (Lasso), in between is Elastic Net; **C** (G-337) = inf switches the penalty off.
 
 The same three penalties as in [Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [Lasso](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) and [Elastic Net](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#2-the-loss-function) are available, and the mix is set by [**l1_ratio**](../../06-regression/ML-068-elastic-net/ML-068-elastic-net.md#3-alpha-and-l1_ratio) (G-1027), the L1 share of the penalty:
 
@@ -53,7 +53,7 @@ On the breast-cancer data: 569 tumours, each one [**observation**](../../01-foun
 | L1, C = 1 | 0.970 | 16 |
 | Elastic Net, `l1_ratio=0.5`, C = 1 | 0.974 | 26 |
 
-Without a penalty the model overfits slightly (and the solver stops at `max_iter` with a `ConvergenceWarning`). As in [why coefficients reach exactly 0](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0), L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
+Without a penalty the model overfits slightly (and the **solver** (G-1836) stops at `max_iter` with a `ConvergenceWarning`). As in [why coefficients reach exactly 0](../../06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#7-why-coefficients-reach-exactly-0), L1 sets many coefficients to exactly zero: here it keeps 16 of the 30 measurements.
 
 ### 2.2 The strength: C
 
@@ -61,7 +61,7 @@ Without a penalty the model overfits slightly (and the solver stops at `max_iter
 
 In plain words, **C** (G-337) says how much the model may trust the training data. A large C means "trust the data fully": the coefficients may grow as large as the data asks for. A small C means "do not trust the data much": the coefficients are held close to 0, whatever the data says.
 
-The next animation shades the plane by the model's predicted probability, so first the surface behind it. For two features the model outputs the sigmoid ramp of [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function):
+The next animation shades the plane by the model's predicted probability, so first the surface behind it. For two **features** (G-772) the model outputs the sigmoid ramp of [the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function):
 
 $$p = \sigma(w_0 + w_1 x_1 + w_2 x_2)$$
 
@@ -117,7 +117,7 @@ Figure 4 lowers C from 100 to 0.001 and shows all 30 coefficients at each step. 
 
 ![The 30 coefficients on the breast-cancer data as C falls from 100 to 0.001, for L2 (top) and L1 (bottom); titles give the 5-fold CV accuracy](images/c_sweep.gif){height=60%}
 
-C is the hyperparameter most worth tuning, typically by trying values spaced by factors of 10 with cross-validation ([grid search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest)).
+C is the hyperparameter most worth tuning, typically by trying values spaced by factors of 10 with **cross-validation** (G-510) ([grid search](../../08-trees-and-ensembles/ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest)).
 
 ## 3. The solver
 
@@ -136,13 +136,13 @@ Our own gradient descent ([the code](../ML-074-logistic-gradient-descent/ML-074-
 
 Asking for a combination that is not supported raises an error, for example `LogisticRegression(l1_ratio=1, solver="lbfgs")` fails with "Solver lbfgs supports only 'l2' or None penalties". For L1 use `liblinear` or `saga`; for Elastic Net use `saga`. The reason: lbfgs follows the slope (gradient) of the loss, and the L1 penalty, the sum of absolute values, has a sharp corner with no slope wherever a coefficient is 0, so lbfgs cannot be used with it (Andrew and Gao 2007). `liblinear` uses coordinate descent instead, and `saga` is built to handle this non-smooth penalty (scikit-learn user guide §1.1.11.3).
 
-A **solver** is the algorithm that searches for the best coefficients, step by step, like the gradient descent of the earlier Notes. In Figure 5, across is the number of iterations (steps) allowed and up is how high the quantity being minimised still is, so a line that falls fast has found a good answer in few steps. Figure 5 runs five solvers on the standardised breast-cancer data with the default L2 penalty, C = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 5, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
+A **solver** is the algorithm that searches for the best coefficients, step by step, like the gradient descent of the earlier Notes. In Figure 5, across is the number of iterations (steps) allowed and up is how high the quantity being minimised still is, so a line that falls fast has found a good answer in few steps. Figure 5 runs five solvers on the standardised breast-cancer data with the default L2 penalty, **C** (G-337) = 1. Each point is a fresh fit stopped after k iterations, scored by the quantity every solver minimises: the log loss plus the L2 penalty. In Figure 5, the lines start from different heights and fall at different speeds, but all five end on the same dotted line, 0.0664: the solver changes the route to the minimum, not the minimum itself.
 
 ![Five solvers on the standardised breast-cancer data (L2, C = 1): log loss plus penalty after k iterations. All reach the same minimum, 0.0664](images/solvers.png){height=40%}
 
 ## 4. Training settings
 
-> **Key point:** max_iter and tol control when the solver stops; raise max_iter if a ConvergenceWarning appears.
+> **Key point:** max_iter and tol control when the **solver** (G-1836) stops; raise max_iter if a ConvergenceWarning appears.
 
 | Setting | Default | Meaning |
 |---|---|---|
@@ -153,7 +153,7 @@ A **solver** is the algorithm that searches for the best coefficients, step by s
 | `n_jobs` | None | has no effect; deprecated since 1.8 |
 | `random_state` | None | seed for solvers that shuffle the data (`sag`, `saga`, `liblinear`) |
 
-If scikit-learn prints a **ConvergenceWarning** (G-473), the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the features, raise `max_iter`, or both. Lowering `tol` is rarely needed.
+If scikit-learn prints a **ConvergenceWarning** (G-473), the solver stopped at `max_iter` before reaching the minimum. The fixes are to standardise the **features** (G-772), raise `max_iter`, or both. Lowering `tol` is rarely needed.
 
 In Figure 6, across is the number of iterations the solver is allowed and up is how far the coefficients still are from the best ones, on a log scale (each gridline is ten times closer than the one above). Figure 6 shows why standardising helps, on the breast-cancer data with the default `lbfgs`. The y-axis is the distance from the minimum after k iterations. On standardised features (blue), the distance reaches the floor of the plot after 19 iterations. On the raw features (red), whose standard deviations differ by a factor of about 200,000 between columns, `lbfgs` needs 2,338 iterations. In Figure 6, the red line is still far from the minimum at the dashed line, the default `max_iter = 100`, so the fit stops there with a ConvergenceWarning.
 
@@ -174,7 +174,7 @@ In Figure 6, across is the number of iterations the solver is allowed and up is 
 
 > **Key point:** On real data with 5% positives, "balanced" raised recall from 0.77 to 0.85, at some cost in precision.
 
-On imbalanced data ([when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the loss is dominated by the common class, so the model tends to neglect the rare one. The **class_weight** (G-391) setting `class_weight="balanced"` multiplies each observation's loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
+On imbalanced data ([when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the loss is dominated by the common class, so the model tends to neglect the rare one. The **class_weight** (G-391) setting `class_weight="balanced"` multiplies each **observation** (G-1374)'s loss by a weight inversely proportional to its class's frequency, so mistakes on the rare class count more.
 
 An everyday picture: if an exam has one rare question type worth the same marks as the rest, a student can skip it and still score well. Give that question type extra marks, and skipping it becomes costly.
 
@@ -201,11 +201,11 @@ Each malignant mistake therefore counts about 18 times as much as a benign one.
 
 > **Key point:** With three or more classes, LogisticRegression uses softmax automatically; one-vs-rest needs OneVsRestClassifier.
 
-Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). The setting has been removed: with three or more classes, all solvers except `liblinear` now fit [the softmax model](../ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function), and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
+Older versions had a `multi_class` setting (`"ovr"`, `"multinomial"`, `"auto"`). The setting has been removed: with three or more classes, all **solvers** (G-1836) except `liblinear` now fit [the softmax model](../ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function), and `liblinear` raises an error (scikit-learn docs, `LogisticRegression`). For one-vs-rest, wrap the model: `OneVsRestClassifier(LogisticRegression())`.
 
 ## 7. An interactive playground
 
-> **Key point:** app.py lets you change the dataset, penalty, C, solver, l1_ratio and max_iter and see the decision regions update.
+> **Key point:** app.py lets you change the dataset, penalty, C, **solver** (G-1836), l1_ratio and max_iter and see the decision regions update.
 
 The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`.
 
@@ -216,7 +216,7 @@ The folder of this Note contains `app.py`, a small Dash app. Run `python app.py`
 Things to try:
 
 - **C** from 3 down to $-3$ (that is, $10^3$ to $10^{-3}$) with L2: the boundaries stay straight but the coefficients shrink and the model becomes less sure.
-- **L1 with small C**: one of the two coefficients drops to exactly 0, and the boundary becomes vertical or horizontal (the model uses only one feature).
+- **L1 with small C**: one of the two coefficients drops to exactly 0, and the boundary becomes vertical or horizontal (the model uses only one **feature** (G-772)).
 - **Penalty L1 with solver lbfgs**: the app shows the "not allowed" error.
 - **max_iter = 10**: the solver stops early and the boundary is not yet in place.
 
@@ -231,7 +231,7 @@ Things to try:
 | `class_weight` | None | `"balanced"` for imbalanced classes | mistakes on the rare class then count more, so recall rises (0.770 to 0.850) at some cost in precision |
 | others | | rarely | their defaults suit almost every case |
 
-So of about fifteen settings, C is the one to tune first, and the rest follow from the penalty wanted, the data size and the class balance.
+So of about fifteen settings, **C** (G-337) is the one to tune first, and the rest follow from the penalty wanted, the data size and the class balance.
 
 ## 9. Sources
 
@@ -250,8 +250,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| C (LogisticRegression) (G-337) | The setting that controls how strongly LogisticRegression is regularised: C is the inverse of the regularisation strength, so smaller C means stronger regularisation. |
 | Solver (G-1836) | The method a model uses to find its best settings during training. |
+| C (LogisticRegression) (G-337) | The setting that controls how strongly LogisticRegression is regularised: C is the inverse of the regularisation strength, so smaller C means stronger regularisation. |
 | ConvergenceWarning (G-473) | A warning that the solver stopped at max_iter before reaching the minimum. |
 | class_weight (G-391) | A setting that weights each class's mistakes in the loss; "balanced" helps rare classes. |
 | `max_iter` (LogisticRegression) (G-114) | The largest number of solver iterations; default 100, raised when a ConvergenceWarning appears. |

@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/calculus, area/models-2, step/foundations,
 
 ## 1. Overview
 
-> **Key point:** XGBoost's formulas all come from one calculation: write the objective (loss + a penalty on the new tree), approximate it with a second-order Taylor series, group the observations (the records of the data) by leaf, and minimise. The minimum gives the leaf output; its value gives the similarity score and the gain.
+> **Key point:** XGBoost's formulas all come from one calculation: write the objective (loss + a penalty on the new tree), approximate it with a second-order Taylor series, group the observations (the records of the data) by leaf, and minimise. The minimum gives the leaf output; its value gives the **similarity score** (G-1804) and the gain.
 
 ![The derivation in five steps: from the objective to the leaf output, the similarity score and the gain](images/roadmap.png){height=42%}
 
@@ -64,7 +64,7 @@ Good leaf weights bring each prediction $\hat y_i$ close to the true value $y_i$
 
 Gradient boosting accepts any differentiable loss and minimises $\sum_i L(y_i, \hat y_i)$. XGBoost adds a **regularisation term** (G-1658; a penalty that keeps the model simple, see [the idea of Ridge](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)) $\Omega$ for the newest tree. The sum of the two is called the **objective function** (G-1372; G-1371 for XGBoost's): loss plus regularisation.
 
-1. **In words:** the total loss over all observations, plus $\gamma$ times the number of leaves, plus half of $\lambda$ times the sum of the squared leaf weights.
+1. **In words:** the total loss over all observations, plus $\gamma$ times the number of leaves, plus half of $\lambda$ times the sum of the squared **leaf weights** (G-1063).
 2. **Formula:**
    $$\text{Obj} = \sum_{i=1}^{n} L(y_i, \hat y_i) + \Omega(f)$$
    $$\Omega(f) = \gamma T + \frac{1}{2}\lambda \sum_{j=1}^{T} w_j^2$$
@@ -111,11 +111,11 @@ At a general stage $t$, everything up to $f_{t-1}$ is already known. We call tha
    $$\frac{1}{2}\big(4.5 - 7.375 - f_2(x_1)\big)^2$$
    This is small when $f_2(x_1)$ is close to $-2.875$, the residual.
 
-The goal is to choose the new tree, and so its leaf weights, to make $\text{Obj}^{(t)}$ as small as possible.
+The goal is to choose the new tree, and so its **leaf weights** (G-1063), to make $\text{Obj}^{(t)}$ as small as possible.
 
 ## 6. Why XGBoost approximates the loss
 
-> **Key point:** For a general loss, the best leaf weights have no simple formula. XGBoost replaces the loss by a parabola that is easy to minimise, and the same recipe then works for every loss.
+> **Key point:** For a general loss, the best **leaf weights** (G-1063) have no simple formula. XGBoost replaces the loss by a parabola that is easy to minimise, and the same recipe then works for every loss.
 
 In linear regression the prediction is $mx + b$. The unknowns are two numbers, $m$ and $b$, so we set the derivatives of the loss to 0 ([the two formulas](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas)) or walk downhill ([the idea of gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
 
@@ -128,7 +128,7 @@ A boosted model is different in two ways (Figure 5, right):
 
 Gradient boosting handled each loss in its own way: the mean of the residuals for squared error, a special formula for log loss. XGBoost uses one method for every loss: approximate the loss near the current prediction by a parabola, and minimise the parabola. In the paper's words, the second-order approximation "can be used to quickly optimize the objective in the general setting" (Chen and Guestrin 2016, §2.2).
 
-A hiker in fog does the same: she cannot see the whole valley, so she judges the slope and the curve of the ground under her feet, steps to the bottom of that local bowl, and looks again. The tool for this is the Taylor series.
+A hiker in fog does the same: she cannot see the whole valley, so she judges the slope and the curve of the ground under her feet, steps to the bottom of that local bowl, and looks again. The tool for this is the **Taylor series** (G-1954).
 
 ## 7. The Taylor series
 
@@ -156,7 +156,7 @@ Figure 6 shows the pattern. The straight line $1 + x$ is right only near 0. Addi
 
 > **Key point:** Expand each observation's loss around the old prediction: loss $\approx$ old loss + $g_i f_t(x_i)$ + $\frac{1}{2} h_i f_t(x_i)^2$, with $g_i$ the gradient and $h_i$ the Hessian of the loss at the old prediction.
 
-We apply the Taylor series to each observation's loss $L(y_i, \hat y_i^{(t-1)} + f_t(x_i))$, seen as a function of the prediction. The point we expand around is the old prediction, and the step away from it is the new tree's output:
+We apply the **Taylor series** (G-1954) to each observation's loss $L(y_i, \hat y_i^{(t-1)} + f_t(x_i))$, seen as a function of the prediction. The point we expand around is the old prediction, and the step away from it is the new tree's output:
 
 - $x = \hat y_i^{(t-1)} + f_t(x_i)$ (the new prediction);
 - $a = \hat y_i^{(t-1)}$ (the old prediction);
@@ -220,7 +220,7 @@ Two facts make the regrouping work:
    $$f_t(x_3) = w_1$$
    $$f_t(x_1) = f_t(x_2) = f_t(x_4) = w_2$$
 
-So, for example, the gradient part becomes $g_3 w_1 + (g_1 + g_2 + g_4) w_2$. Writing the sums of the gradients and Hessians in leaf $j$ as
+So, for example, the gradient part becomes $g_3 w_1 + (g_1 + g_2 + g_4) w_2$. Writing the sums of the gradients and **Hessians** (G-887) in leaf $j$ as
 
 $$G_j = \sum_{i \in I_j} g_i$$
 
@@ -247,7 +247,7 @@ Differentiate $G_j w_j + \frac{1}{2}(H_j + \lambda) w_j^2$ with respect to $w_j$
 
 $$\frac{\partial \tilde{\text{Obj}}}{\partial w_j} = G_j + (H_j + \lambda) w_j = 0$$
 
-1. **In words:** the best output of a leaf is minus its gradient sum divided by (its Hessian sum plus $\lambda$).
+1. **In words:** the best output of a leaf is minus its gradient sum divided by (its **Hessian** (G-887) sum plus $\lambda$).
 2. **Formula:**
    $$w_j^\ast= -\frac{G_j}{H_j + \lambda}$$
 3. **Example:** the leaf of section 9, with $G = 4.25$, $H = 2$, $\lambda = 0$:
@@ -267,7 +267,7 @@ Figure 8 draws the three parabolas of the regression tree. Watch each star sit a
 >
 > $$L = \frac{1}{2}(y - \hat{y})^2$$
 >
-> The gradient is minus the residual $r_i$ and the Hessian is 1:
+> The gradient is minus the residual $r_i$ and the **Hessian** (G-887) is 1:
 >
 > $$g_i = \hat y_i - y_i = -r_i$$
 >
@@ -291,7 +291,7 @@ The $\frac{1}{2}$ in the loss is there only to cancel the 2 from the square, as 
 
 ## 12. Classification: gradient and Hessian of log loss
 
-> **Key point:** For log loss, measured in log-odds, the gradient is minus the residual $r_i$ and the Hessian is $p_i(1 - p_i)$:
+> **Key point:** For log loss, measured in log-odds, the gradient is minus the residual $r_i$ and the **Hessian** (G-887) is $p_i(1 - p_i)$:
 >
 > $$g_i = p_i - y_i = -r_i$$
 >
@@ -356,7 +356,7 @@ $$-\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}(H_j + \lambda)\frac{G_j^2}{(H_j + \
 $$= -\frac{G_j^2}{H_j + \lambda} + \frac{1}{2}\frac{G_j^2}{H_j + \lambda}$$
 $$= -\frac{1}{2}\frac{G_j^2}{H_j + \lambda}$$
 
-1. **In words:** the best objective of a tree is minus a half of the sum over its leaves of (gradient sum squared over Hessian sum plus $\lambda$), plus $\gamma$ per leaf.
+1. **In words:** the best objective of a tree is minus a half of the sum over its leaves of (gradient sum squared over **Hessian** (G-887) sum plus $\lambda$), plus $\gamma$ per leaf.
 2. **Formula:**
    $$\tilde{\text{Obj}}^{\ast} = -\frac{1}{2}\sum_{j=1}^{T} \frac{G_j^2}{H_j + \lambda} + \gamma T$$
 3. **Example:** the regression tree with one split at CGPA < 8.25, $\lambda = \gamma = 0$. Left:
@@ -424,8 +424,8 @@ The XGBoost library follows the same convention as those examples. Its tree dump
 | Log loss (in log-odds) | $g = p - y$, $h = p(1-p)$ | gives the classification formulas, with $\sum p(1-p)$ in the denominator |
 
 - XGBoost minimises loss plus a penalty on the number of leaves ($\gamma$) and on the size of their outputs ($\lambda$), so larger $\gamma$ and $\lambda$ give simpler trees, as the L2 penalty does in ridge regression.
-- A second-order Taylor series turns any loss into one parabola per leaf, which is minimised in closed form, because for a general loss the best leaf weights have no simple formula.
-- The leaf output and the similarity score both come from that minimisation; only $g$ and $h$ depend on the loss, so one derivation serves regression, classification and any other differentiable loss.
+- A second-order Taylor series turns any loss into one parabola per leaf, which is minimised in closed form, because for a general loss the best **leaf weights** (G-1063) have no simple formula.
+- The leaf output and the **similarity score** (G-1804) both come from that minimisation; only $g$ and $h$ depend on the loss, so one derivation serves regression, classification and any other differentiable loss.
 - The gain is the drop in the best objective after a split; the library drops the $\frac{1}{2}$ and compares with `gamma`, because the $\frac{1}{2}$ rescales every gain by the same factor and the best split stays the same (the library's `gamma` is $2\gamma$ in the paper's formula).
 - So all four formulas used without proof in XGBoost regression and classification come from one calculation: penalised objective, Taylor parabola, grouping by leaf, minimum.
 
@@ -455,10 +455,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Hessian $h_i$ (G-887) | How fast row $i$'s gradient changes as the previous prediction moves (the second derivative of that row's loss with respect to the prediction). XGBoost uses it together with the gradient to compute leaf weights and split gains. |
 | Instance set $I_j$ (G-954) | The rows that land in leaf $j$. |
 | Structure score (G-1905) | XGBoost's number for how good one tree's shape is: the best value of its loss-plus-penalty objective, $-\frac{1}{2}\sum_j G_j^2/(H_j + \lambda) + \gamma T$. Lower is better, so it is used to compare candidate splits. |
+| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Objective function](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#2-the-problem-pca-solves) (G-1372) | The quantity an algorithm tries to make as large or as small as possible. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
-| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |

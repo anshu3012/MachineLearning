@@ -16,11 +16,11 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/adaboost]
 
 ## 1. Overview
 
-> **Key point:** We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, normalisation and upsampling, then the weighted vote. The result matches the steps of [the worked example](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight).
+> **Key point:** We code three stages of AdaBoost by hand on 10 observations: weights, stump, error, alpha, weight update, **normalisation** (G-1347) and upsampling, then the weighted vote. The result matches the steps of [the worked example](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight).
 
 ![Three stages of AdaBoost on the 10-observation toy data, and their weighted vote. Marker size shows how many copies of an observation are in that stage's dataset; crosses are observations not drawn](images/stages.png){height=55%}
 
-[The seven steps of one stage](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight) were gone through on paper before. A **stump** is a decision tree with one split, a stage's **alpha** is the say of its stump in the final vote, and the idea is in [the AdaBoost idea](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage). Here we write each step in Python with pandas, NumPy and scikit-learn, and run three stages (Figure 1). The Notebook (`ML-111-adaboost-from-scratch.ipynb`) holds the full code; `images/figs.py` draws the figures with the same data and random seed.
+[The seven steps of one stage](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#3-step-1-every-observation-gets-the-same-weight) were gone through on paper before. A **stump** is a decision tree with one split, a stage's **alpha** is the say of its stump in the final vote, and the idea is in [the AdaBoost idea](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage). Here we write each step in Python with pandas, NumPy and scikit-learn, and run three stages (Figure 1). The Notebook (`ML-111-adaboost-from-scratch.ipynb`) holds the full code; `images/figs.py` draws the figures with the same data and **random seed** (G-1617).
 
 Along the way we see two things the paper version did not show: why the weight update uses the exponential, and what to do when a stump makes no mistakes at all.
 
@@ -62,7 +62,7 @@ The labels are stored as 1 and 0, the way scikit-learn expects them. For the fin
 
 ## 3. Stage 1: weights, stump, error and alpha
 
-> **Key point:** Every observation gets 0.1; the first stump is "X2 at most 2.5 means class 0"; it misclassifies observations 2, 6 and 8, so error = 0.3 and alpha = 0.42.
+> **Key point:** Every **observation** (G-1374) gets 0.1; the first stump is "X2 at most 2.5 means class 0"; it misclassifies observations 2, 6 and 8, so error = 0.3 and alpha = 0.42.
 
 **Weights.** With 10 observations, each observation starts at:
 
@@ -85,7 +85,7 @@ $$1/10 = 0.1$$
 >
 > `df.shape[0]` is the number of rows. `export_text(dt1)` from `sklearn.tree` prints the split as text.
 
-> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 observations wrong. When two cuts tie, scikit-learn tries the features in a random order, so the winner depends on `random_state` (scikit-learn docs, `DecisionTreeClassifier`); another seed can give the X1 cut.
+> **Extra:** On this data the cut "X1 $\le$ 2.5" is exactly as good as "X2 $\le$ 2.5": both get 3 observations wrong. When two cuts tie, scikit-learn tries the **features** (G-772) in a random order, so the winner depends on `random_state` (scikit-learn docs, `DecisionTreeClassifier`); another seed can give the X1 cut.
 
 **Mistakes.** Comparing `label` with `y_pred` observation by observation, the stump is wrong on observations **2, 6 and 8**: three class-0 observations in the class-1 region.
 
@@ -124,7 +124,7 @@ Figure 2 lays each stage's ten weights end to end, so they fill 0 to 1. Watch th
 
 ## 4. Updating the weights
 
-> **Key point:** The three mistakes go from 0.1 to 0.1528; the seven correct observations from 0.1 to 0.0655.
+> **Key point:** The three mistakes go from 0.1 to 0.1528; the seven correct **observations** (G-1374) from 0.1 to 0.0655.
 
 With $\alpha_1 = 0.4236$ (see [step 5: update the observation weights](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#7-step-5-update-the-observation-weights); $e \approx 2.718$ is Euler's number):
 
@@ -160,13 +160,13 @@ Figure 3 shows the update for every row, together with the normalising step of s
 
 ## 5. Why the update uses the exponential
 
-> **Key point:** $e^{\alpha}$ grows fast with alpha: a stump we trust a lot changes the weights a lot; a stump we barely trust changes them little.
+> **Key point:** $e^{\alpha}$ grows fast with **alpha** (G-192): a stump we trust a lot changes the weights a lot; a stump we barely trust changes them little.
 
 ![The factors $e^{\alpha}$ (mistakes) and $e^{-\alpha}$ (correct observations) against alpha, marked at our stage 1 and stage 2 alphas](images/exp_curves.png){height=36%}
 
 Figure 4 plots the two factors.
 
-- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets an observation wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
+- **$e^{\alpha}$ (red)** is 1 at $\alpha = 0$ and rises quickly. A large alpha means a trustworthy stump, one with few mistakes. If such a stump still gets an **observation** (G-1374) wrong, that observation is likely a hard one, and its weight is multiplied by a big number: $\times 3.00$ for our stage 2 stump ($\alpha = 1.10$).
 - **$e^{-\alpha}$ (green)** is one divided by $e^{\alpha}$: below 1 for any positive alpha, and smaller the larger alpha is. Observations a trustworthy stump gets right lose most of their weight: $\times 0.33$ at $\alpha = 1.10$.
 - A stump we barely trust (small alpha) changes the weights only a little: $\times 1.53$ and $\times 0.65$ for our stage 1 stump ($\alpha = 0.42$).
 
@@ -174,7 +174,7 @@ So the size of the update follows how much we trust the stump that made it.
 
 ## 6. Normalising and drawing the next dataset
 
-> **Key point:** The updated weights add to 0.9165; after dividing, mistakes weigh 0.1667 and correct observations 0.0714. Ten random draws then give the dataset for stage 2.
+> **Key point:** The updated weights add to 0.9165; after dividing, mistakes weigh 0.1667 and correct **observations** (G-1374) 0.0714. Ten random draws then give the dataset for stage 2.
 
 **Normalise.** Dividing every weight by the sum of all weights is **normalisation** (G-1347); afterwards the weights add up to 1. The updated weights add up to:
 
@@ -229,14 +229,14 @@ Figure 5 plays the whole loop of sections 3 to 8, one step per frame, for the th
 
 ## 7. Stage 2, and a stump with no mistakes
 
-> **Key point:** The second stump is "X1 at most 2 means class 1"; it gets one observation wrong, so error = 0.1 and alpha = 1.10, a bigger say than the first stump's.
+> **Key point:** The second stump is "X1 at most 2 means class 1"; it gets one **observation** (G-1374) wrong, so error = 0.1 and alpha = 1.10, a bigger say than the first stump's.
 
 On `second_df` we repeat every step:
 
 1. weights 0.1 each;
 2. the new stump is **X1 $\le$ 2**: left, class 1; right, class 0 (Figure 1, top right);
 3. it gets one observation wrong, original observation 7 (class 1 at X1 = 7), so the error is 0.1;
-4. the stump's alpha is:
+4. the stump's **alpha** (G-192) is:
 
    $$\alpha_2 = 0.5 \times \ln(0.9/0.1)$$
 
@@ -271,9 +271,9 @@ scikit-learn handles this case itself: it stops boosting early, because a perfec
 
 ## 8. Stage 3
 
-> **Key point:** The third stump, trained on the third dataset, is "X2 at most 6.5 means class 0"; error 0.2, alpha 0.69.
+> **Key point:** The third stump, trained on the third dataset, is "X2 at most 6.5 means class 0"; error 0.2, **alpha** (G-192) 0.69.
 
-The third dataset is observations 7, 6, 7, 6, 7, 0, 7, 7, 8, 7. The new stump is **X2 $\le$ 6.5**: below, class 0; above, class 1 (Figure 1, bottom left). The third stump gets two observations wrong, original observations 0 and 8, so the error is 0.2 and
+The third dataset is **observations** (G-1374) 7, 6, 7, 6, 7, 0, 7, 7, 8, 7. The new stump is **X2 $\le$ 6.5**: below, class 0; above, class 1 (Figure 1, bottom left). The third stump gets two observations wrong, original observations 0 and 8, so the error is 0.2 and
 
 $$\alpha_3 = \frac{1}{2}\ln\left(\frac{1-0.2}{0.2}\right)$$
 
@@ -283,7 +283,7 @@ $$\alpha_3 = \frac{1}{2}\ln 4 = 0.6931$$
 
 ## 9. Prediction: the weighted vote
 
-> **Key point:** Convert each stump's 1/0 to +1/-1, weight by alpha, add, take the sign. Observation (1, 5) gets +0.83: class 1. Observation (9, 9) gets +0.02: class 1, which is wrong.
+> **Key point:** Convert each stump's 1/0 to +1/-1, weight by alpha, add, take the sign. **Observation** (G-1374) (1, 5) gets +0.83: class 1. Observation (9, 9) gets +0.02: class 1, which is wrong.
 
 We have $\alpha_1 = 0.4236$, $\alpha_2 = 1.0986$, $\alpha_3 = 0.6931$. A stump predicts 1 or 0; for the vote (see [the final prediction](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#5-the-final-prediction-a-weighted-vote)) we turn 1 into +1 and 0 into -1 with $2p - 1$.
 
@@ -337,13 +337,13 @@ Figure 7 builds both totals one stump at a time. Watch stump 2: on (1, 5) it pus
 
 ## 10. Weights instead of upsampling: how scikit-learn does it
 
-> **Key point:** scikit-learn hands the weights to the stump with `sample_weight` instead of drawing observations, so no random draw changes the stumps; its alpha has no factor 1/2, which changes no decision. A weighted loop with the same tie-breaking reproduces `AdaBoostClassifier` exactly, and here it gets all 10 observations right, against 9 for our upsampled stumps.
+> **Key point:** scikit-learn hands the weights to the stump with `sample_weight` instead of drawing **observations** (G-1374), so no random draw changes the stumps; its alpha has no factor 1/2, which changes no decision. A weighted loop with the same tie-breaking reproduces `AdaBoostClassifier` exactly, and here it gets all 10 observations right, against 9 for our upsampled stumps.
 
-Upsampling is random: another seed draws other observations and can give other stumps. scikit-learn's `AdaBoostClassifier` avoids the randomness. scikit-learn never draws observations; it trains each stump with `fit(X, y, sample_weight=w)`, the **sample_weight** (G-1732) argument, so the tree counts every observation in proportion to its weight when it compares cuts.
+**Upsampling** (G-2063) is random: another seed draws other observations and can give other stumps. scikit-learn's `AdaBoostClassifier` avoids the randomness. scikit-learn never draws observations; it trains each stump with `fit(X, y, sample_weight=w)`, the **sample_weight** (G-1732) argument, so the tree counts every observation in proportion to its weight when it compares cuts.
 
 scikit-learn also uses a slightly different but equivalent bookkeeping, the **SAMME** (G-1722) algorithm (Zhu et al. 2009):
 
-- the alpha is twice ours (no factor 0.5):
+- the **alpha** (G-192) is twice ours (no factor 0.5):
 
   $$\alpha = \ln((1-\text{error})/\text{error})$$
 
@@ -395,12 +395,12 @@ Figure 8 puts the two ensembles side by side on the training data. Watch the top
 | 2 | drawn: 6, 2, 0, 0, 8, 8, 6, 7, 6, 9 | X1 $\le$ 2: class 1 | observation 7 | 0.1 | 1.0986 |
 | 3 | drawn: 7, 6, 7, 6, 7, 0, 7, 7, 8, 7 | X2 $\le$ 6.5: class 0 | observations 0, 8 | 0.2 | 0.6931 |
 
-- The alphas in the table grow as the error falls (0.3, 0.1, 0.2 give 0.42, 1.10, 0.69), so the stump with the fewest mistakes gets the largest say.
+- The **alphas** (G-192) in the table grow as the error falls (0.3, 0.1, 0.2 give 0.42, 1.10, 0.69), so the stump with the fewest mistakes gets the largest say.
 - Every step of a stage is a few lines of pandas and NumPy: weights, stump, error, alpha, update, normalise, draw, so the whole algorithm can be checked number by number against the paper version.
-- The exponential update makes trusted stumps change the weights a lot and doubtful ones a little, because a mistake by a stump we trust is likely a hard observation.
+- The exponential update makes trusted stumps change the weights a lot and doubtful ones a little, because a mistake by a stump we trust is likely a hard **observation** (G-1374).
 - An error of 0 breaks the alpha formula, because it divides by zero; a tiny `eps` keeps it finite.
 - Each stump must be trained and scored on its own stage's dataset, because otherwise the predictions belong to different observations from the labels and the error is meaningless (0.7 and a negative say in the Notebook's slip).
-- Our three upsampled stumps get 9 of 10 training observations right; scikit-learn's weighted stumps (SAMME, `sample_weight`) get all 10, because handing the weights to the stump removes the random draw that can give other stumps.
+- Our three upsampled stumps get 9 of 10 training observations right; scikit-learn's weighted stumps (**SAMME** (G-1722), `sample_weight`) get all 10, because handing the weights to the stump removes the random draw that can give other stumps.
 - So hand-coding three stages confirms the seven steps of the worked example, and scikit-learn reaches the same idea with weights instead of draws.
 
 ## 12. Sources

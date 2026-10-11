@@ -24,20 +24,20 @@ Summarising data and presenting it in a meaningful way is [**descriptive statist
 
 This Note covers:
 
-- the three frequency tables of one categorical feature, and the dot plot of a discrete one (section 2);
+- the three frequency tables of one categorical feature, and the **dot plot** (G-2230) of a discrete one (section 2);
 - the histogram of one numerical feature, and the shapes it can take (section 3);
 - the graphs for two features (section 4);
 - the graphs for more than two features (section 5).
 
 ## 2. Frequency tables for a categorical feature
 
-> **Key point:** Count each category (frequency), turn the counts into shares (relative frequency), and add them up as we go (cumulative frequency).
+> **Key point:** Count each category (frequency), turn the counts into shares (**relative frequency** (G-1664)), and add them up as we go (cumulative frequency).
 
 ### 2.1 Frequency distribution table
 
 > **Key point:** A frequency distribution table lists each category with the number of times it occurs.
 
-We survey 200 people about their favourite type of vacation. Each answer is one of six categories: beach, city, adventure, nature, cruise or other. The data has one observation per person, with their name and their answer.
+We survey 200 people about their favourite type of vacation. Each answer is one of six categories: beach, city, adventure, nature, cruise or other. The data has one **observation** (G-1374) per person, with their name and their answer.
 
 A **frequency distribution table** (G-807) summarises how many times each value occurs in a dataset. For the survey, we count each category:
 
@@ -63,7 +63,7 @@ The frequencies are drawn as a bar chart, one bar per category (Figure 1, left).
 
 The **relative frequency** (G-1664) of a category is its proportion, or percentage, of the data.
 
-1. **In words:** divide the category's count by the total number of observations.
+1. **In words:** divide the category's count by the total number of **observations** (G-1374).
 2. **Formula:** for a category with frequency $f$ out of $n$ observations,
    $$\text{relative frequency} = \frac{f}{n}$$
 3. **Example:** 60 of the 200 people chose the beach, so
@@ -102,7 +102,7 @@ The **cumulative frequency** (G-517) of a category is its frequency plus the fre
 
 A line chart shows the running total (Figure 1, right). The same running total of the relative frequencies, the **cumulative relative frequency** (G-518), climbs from 0.30 to 0.50, and so on, to 1.
 
-Cumulative frequency is most meaningful when the categories have an order, such as ordinal data or the bins of a histogram: "how many people scored 60 or less?". For unordered categories it depends on the order we list them in.
+Cumulative frequency is most meaningful when the categories have an order, such as ordinal data or the **bins** (G-298) of a histogram: "how many people scored 60 or less?". For unordered categories it depends on the order we list them in.
 
 > **Python:** The three tables with pandas.
 >
@@ -116,9 +116,9 @@ Cumulative frequency is most meaningful when the categories have an order, such 
 
 ### 2.4 A discrete feature: the dot plot
 
-> **Key point:** A numerical feature with only a few separate values gets the same frequency table; drawn with one dot per observation, the table is a dot plot.
+> **Key point:** A numerical feature with only a few separate values gets the same frequency table; drawn with one dot per **observation** (G-1374), the table is a dot plot.
 
-A discrete feature, such as the number of people in a restaurant party, has few distinct values, so each value can play the part of a category. For the 76 Sunday parties of the tips data (a standard dataset of 244 restaurant bills with the tip, party size and day) we count each party size:
+A discrete **feature** (G-772), such as the number of people in a restaurant party, has few distinct values, so each value can play the part of a category. For the 76 Sunday parties of the tips data (a standard dataset of 244 restaurant bills with the tip, party size and day) we count each party size:
 
 | Party size | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -143,9 +143,9 @@ Three questions answered straight from Figure 3:
 
 ## 3. Histograms for a numerical feature
 
-> **Key point:** A numerical feature has no categories, so we make our own by cutting its range into bins; the histogram is the frequency table of those bins.
+> **Key point:** A numerical **feature** (G-772) has no categories, so we make our own by cutting its range into bins; the histogram is the frequency table of those bins.
 
-A dot plot fails for a measured feature. Figure 4 starts with the 244 total bills of the tips data, one dot per bill on a number line:
+A **dot plot** (G-2230) fails for a measured feature. Figure 4 starts with the 244 total bills of the tips data, one dot per bill on a number line:
 
 1. **The dots hide each other.** Many bills are close together, so the dots overlap and we cannot see how many there are.
 2. **Stacking equal values does not help.** A bill of 13.42 dollars rarely occurs twice. Only 15 of the 244 dots have an equal partner to stack on.
@@ -153,7 +153,7 @@ A dot plot fails for a measured feature. Figure 4 starts with the 244 total bill
 
 ![The 244 total bills as dots on a line, then stacked by equal value, then cut into bins 5 dollars wide and stacked per bin: the stacks are the histogram. Idea after StatQuest, "Histograms, Clearly Explained"](images/dots_to_bins.gif)
 
-The tallest stack in Figure 4 holds the 67 bills between 15 and 20 dollars; only 1 bill is above 50. So a histogram also says where the next observation will probably fall: in a tall bin, rarely out in the short ones.
+The tallest stack in Figure 4 holds the 67 bills between 15 and 20 dollars; only 1 bill is above 50. So a histogram also says where the next **observation** (G-1374) will probably fall: in a tall bin, rarely out in the short ones.
 
 In general, a numerical feature such as a bill or an age has no categories to count. So we create them, in three steps:
 
@@ -161,7 +161,7 @@ In general, a numerical feature such as a bill or an age has no categories to co
 2. Put each person in the bin that holds their age.
 3. Count the people in each bin.
 
-The result is a frequency distribution table on bins instead of categories, and its chart is the **histogram** (G-899; see [the histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)).
+The result is a **frequency distribution table** (G-807) on bins instead of categories, and its chart is the **histogram** (G-899; see [the histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)).
 
 A histogram looks like a bar chart with one difference: its bars touch. The categories of a bar chart are separate; the bins of a histogram are continuous ranges, one ending where the next begins.
 
@@ -188,7 +188,7 @@ Figure 6 shows six typical shapes.
 - **Symmetric:** most values in the middle, fewer and fewer towards both sides.
 - [**Bimodal**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296): two separate peaks, two groups of values where points are dense. With three peaks it is trimodal. Two peaks often mean two groups mixed together, each with its own centre, such as the heights of children and adults (NIST Handbook §1.3.3.14.5).
 - **Right or left skew:** a long tail on one side; the shapes and the skewness number (how lopsided a distribution is) are taught in [**skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817).
-- **Uniform:** every bin holds about the same number of values. Too few bins also make data look uniform.
+- **Uniform:** every **bin** (G-298) holds about the same number of values. Too few bins also make data look uniform.
 - **No pattern:** the bars jump up and down. Usually there are too many bins for the amount of data, here 30 bins for 60 values.
 
 Named shapes such as the normal and uniform distributions come in the probability distribution Notes.
@@ -197,21 +197,21 @@ Named shapes such as the normal and uniform distributions come in the probabilit
 
 ## 4. Graphs for two features
 
-> **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an aggregate per category, or a contingency table of bins).
+> **Key point:** Two features are categorical + categorical (contingency table), numerical + numerical (scatter plot) or categorical + numerical (an **aggregate** (G-182) per category, or a contingency table of bins).
 
-Studying two features together is [**bivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310); [four datasets for four kinds of plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#2-four-datasets-for-four-kinds-of-plots) maps each pair of feature types to its plots.
+Studying two **features** (G-772) together is [**bivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-310); [four datasets for four kinds of plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#2-four-datasets-for-four-kinds-of-plots) maps each pair of feature types to its plots.
 
 Figure 7 draws one example of each pair on the Titanic.
 
 ![Left: a contingency table of class against survival, drawn as grouped bars. Middle: three aggregates of age for each sex. Right: a contingency table of age band against sex.](images/two_features.png)
 
 - **Categorical + categorical:** a [**contingency table**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464), also called a [**crosstab**](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511): the counts for every pair of categories (see [crosstab and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)). On the Titanic, a contingency table of class against survival shows 372 of the 549 passengers who died were in third class (Figure 7, left). A side-by-side or stacked bar chart draws it.
-- **Numerical + numerical:** a scatter plot (one dot per observation, with one feature on each axis; see [total bill against tip](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip)). Its pattern can show a positive relation (one rises as the other rises), a negative one, or none, which [**correlation**](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) measures.
+- **Numerical + numerical:** a scatter plot (one dot per **observation** (G-1374), with one feature on each axis; see [total bill against tip](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip)). Its pattern can show a positive relation (one rises as the other rises), a negative one, or none, which [**correlation**](../MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) measures.
 - **Categorical + numerical:** two options, below.
 
 ### 4.1 Categorical and numerical: any aggregate per category
 
-> **Key point:** A bar per category whose height is any summary of the numerical feature: mean, median, maximum, standard deviation.
+> **Key point:** A bar per category whose height is any summary of the numerical **feature** (G-772): mean, median, maximum, standard deviation.
 
 A bar chart of a categorical feature against a numerical one does not show counts. Each bar shows an **aggregate** (G-182), one summary number computed from the numerical values in that category. [The bar plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#4-bar-plot-a-numerical-column-across-categories) uses the mean, but any summary works:
 
@@ -224,9 +224,9 @@ The mean bars compare typical ages; the maximum bars show that the oldest man (8
 
 ### 4.2 Categorical and numerical: a contingency table of bins
 
-> **Key point:** Cutting the numerical feature into bins turns it into a categorical one, so a contingency table works.
+> **Key point:** Cutting the numerical feature into **bins** (G-298) turns it into a categorical one, so a contingency table works.
 
-We can also bin the numerical feature, as for a histogram, and then count every pair of age band and category:
+We can also bin the numerical **feature** (G-772), as for a histogram, and then count every pair of age band and category:
 
 | Age band | Female | Male |
 |---|---|---|
@@ -240,7 +240,7 @@ We can also bin the numerical feature, as for a histogram, and then count every 
 
 The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 30. The table shows the men outnumbered the women in every band, most of all among the older passengers (19 against 3 over 60). Figure 7, right, draws the table: the blue bars are taller in every band.
 
-> **Python:** Binning, then a contingency table.
+> **Python:** Binning, then a **contingency table** (G-464).
 >
 > ```python
 > bands = pd.cut(df["Age"], bins=[0, 10, 20, 30, 40, 50, 60, 80])
@@ -249,13 +249,13 @@ The cell "20 to 30, male" means 149 passengers were men aged over 20 and up to 3
 >
 > `pd.cut` puts each age in its band; a band such as (20, 30] includes 30 but not 20.
 
-> **Extra:** A crosstab only counts pairs of categories. A [**pivot table**](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) (G-1500) can also aggregate a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; [a pivot table and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) uses one.
+> **Extra:** A **crosstab** (G-511) only counts pairs of categories. A [**pivot table**](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) (G-1500) can also **aggregate** (G-182) a third, numerical feature for each pair: for example, the mean age of the male passengers in first class. Spreadsheets and pandas (`pivot_table`) both offer it; [a pivot table and heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#111-pivot-table-and-heatmap) uses one.
 
 ## 5. Graphs for more than two features
 
-> **Key point:** A 3D scatter plot, colour (hue), facet grids, pair plots and bubble charts each fit three or more features into one figure.
+> **Key point:** A **3D scatter plot** (G-50), colour (hue), facet grids, pair plots and bubble charts each fit three or more features into one figure.
 
-Studying more than two features at once is [**multivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280). Most of its graphs are bivariate graphs with an extra feature added:
+Studying more than two **features** (G-772) at once is [**multivariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-1280). Most of its graphs are bivariate graphs with an extra feature added:
 
 - **Hue** (G-906): colour shows a categorical feature, on a scatter plot, bar plot or box plot. A bar plot of mean age by sex with hue = class shows three features. See [adding more columns: colour, marker and size](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#32-adding-more-columns-colour-marker-and-size).
 - **Bubble chart:** a scatter plot whose dot size shows a third numerical feature, such as countries by GDP and population with bubble size for literacy rate (the "size" setting of the same section above).
@@ -264,9 +264,9 @@ Studying more than two features at once is [**multivariate analysis**](../../../
 
 ### 5.1 The 3D scatter plot
 
-> **Key point:** Three numerical features on three axes; colour can add a fourth.
+> **Key point:** Three numerical **features** (G-772) on three axes; colour can add a fourth.
 
-A **3D scatter plot** (G-50) places each observation as a point in three dimensions, one numerical feature per axis. Figure 8 plots the tips data: total bill, party size and tip, with lunch and dinner by colour.
+A **3D scatter plot** (G-50) places each **observation** (G-1374) as a point in three dimensions, one numerical feature per axis. Figure 8 plots the tips data: total bill, party size and tip, with lunch and dinner by colour.
 
 ![3D scatter plot of total bill, party size and tip](images/scatter_3d.png)
 
@@ -274,7 +274,7 @@ Bigger bills and bigger parties go with bigger tips: the points rise towards the
 
 ### 5.2 The facet grid
 
-> **Key point:** The same plot repeated side by side, one panel per category of another feature.
+> **Key point:** The same plot repeated side by side, one panel per category of another **feature** (G-772).
 
 A **facet grid** (G-744) splits the data by a categorical feature and draws the same plot for each part, side by side, on shared axes. Figure 9 draws bill against tip once for lunch and once for dinner, with smokers in orange.
 
@@ -282,7 +282,7 @@ A **facet grid** (G-744) splits the data by a categorical feature and draws the 
 
 Figure 9 shows four features at once: bill, tip, meal time (the panels) and smoker (the colour). Dinner has more customers and more of the large bills.
 
-> **Python:** 3D scatter plot and facet grid.
+> **Python:** **3D scatter plot** (G-50) and facet grid.
 >
 > ```python
 > import plotly.express as px
@@ -305,10 +305,10 @@ Figure 9 shows four features at once: bill, tip, meal time (the panels) and smok
 | Two | categorical + numerical | aggregate per category, or crosstab of bins | bar chart of an aggregate, box plots | compares a summary of the numbers across categories |
 | Three or more | any | pivot table | hue, bubble chart, pair plot, 3D scatter, facet grid | colour, size or panels fit the extra features into one figure |
 
-- Relative frequency = frequency / total; cumulative frequency = running total. The shares add up to 1, so they suit a pie chart; the running total answers questions such as "how many scored 60 or less?".
-- Histogram bars touch because bins are continuous ranges.
-- Histogram shapes: symmetric, bimodal, right skew, left skew, uniform, no pattern. Two peaks often mean two groups mixed together, and too few or too many bins can fake a uniform or patternless shape, so try a few bin counts.
-- The types of the features decide the table and the graph, so check the types first.
+- Relative frequency = frequency / total; cumulative frequency = running total. The shares add up to 1, so they suit a **pie chart** (G-1495); the running total answers questions such as "how many scored 60 or less?".
+- Histogram bars touch because **bins** (G-298) are continuous ranges.
+- Histogram shapes: symmetric, **bimodal** (G-296), right skew, left skew, uniform, no pattern. Two peaks often mean two groups mixed together, and too few or too many bins can fake a uniform or patternless shape, so try a few bin counts.
+- The types of the **features** (G-772) decide the table and the graph, so check the types first.
 
 ## 7. Sources
 
@@ -329,14 +329,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Frequency distribution table (G-807) | A table of each value or category with the number of times it occurs. |
+| Dot plot (G-2230) | A frequency table drawn with one dot per observation, stacked over its value. |
 | Relative frequency (G-1664) | A category's share of all the data: its frequency divided by the total. |
+| Frequency distribution table (G-807) | A table of each value or category with the number of times it occurs. |
 | Cumulative frequency (G-517) | The running total of the frequencies, up to and including a category. |
 | Cumulative relative frequency (G-518) | The running total of the relative frequencies; ends at 1. |
-| Dot plot (G-2230) | A frequency table drawn with one dot per observation, stacked over its value. |
 | Aggregate (G-182) | One summary number (mean, median, maximum, ...) computed from a group of values. |
-| Hue, style, size (G-906) | Plot settings that show an extra column by colour, marker shape or dot size. |
 | 3D scatter plot (G-50) | A scatter plot with three numerical features on three axes, one point per observation, to see how the three relate at once. |
+| Hue, style, size (G-906) | Plot settings that show an extra column by colour, marker shape or dot size. |
 | Facet grid (G-744) | The same plot repeated side by side, one panel per category of another column. |
 | [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

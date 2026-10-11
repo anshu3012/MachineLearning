@@ -16,7 +16,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/convex-optimisati
 
 ## 1. Overview
 
-> **Key point:** A shape is convex when we can walk in a straight line between any two of its points without ever leaving it. A function is convex when it is shaped like a bowl. Minimising a bowl-shaped function over a convex region is a convex optimisation problem: it has no false bottoms, so the first low point we find is the lowest one.
+> **Key point:** A shape is convex when we can walk in a straight line between any two of its points without ever leaving it. A function is convex when it is shaped like a bowl. Minimising a bowl-shaped function over a convex region is a **convex optimisation problem** (G-478): it has no false bottoms, so the first low point we find is the lowest one.
 
 Picture a room. In a plain rectangular room, we can walk in a straight line from any spot to any other spot without touching a wall. In an L-shaped room, some straight walks run into the corner wall. The rectangular room is convex; the L-shaped room is not.
 
@@ -26,14 +26,14 @@ Figure 1 shows the same idea on flat shapes. In the top row, every straight segm
 
 Two Notes prepare this one:
 
-- the [chord test](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) defined a convex function and showed why gradient descent (the method that repeatedly steps downhill, see [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)) likes them;
-- [constrained optimisation problems](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) added constraints, which cut the parameter space down to a feasible region.
+- the [chord test](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) defined a **convex function** (G-476) and showed why gradient descent (the method that repeatedly steps downhill, see [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)) likes them;
+- [constrained optimisation problems](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) added constraints, which cut the parameter space down to a **feasible region** (G-759).
 
 This Note puts the two together:
 
-- convex sets, the new ingredient ([Section 2](#2-convex-sets));
+- **convex sets** (G-479), the new ingredient ([Section 2](#2-convex-sets));
 - convex functions and their link to convex sets ([Section 3](#3-convex-functions-and-their-sets));
-- three practical tests for convex functions: a slope that keeps increasing, tangent lines below the graph, and the Hessian (the table of second derivatives) ([Section 4](#4-testing-convexity-with-derivatives));
+- three practical tests for convex functions: a slope that keeps increasing, **tangent lines** (G-1945) below the graph, and the Hessian (the table of second derivatives) ([Section 4](#4-testing-convexity-with-derivatives));
 - rules for building convex functions ([Section 5](#5-building-convex-functions));
 - the convex optimisation problem ([Section 6](#6-convex-optimisation-problems)).
 
@@ -62,7 +62,7 @@ $$\text{walk point} = \theta\thinspace\mathbf x + (1 - \theta)\thinspace\mathbf 
 - At $\theta = 0$ it is $\mathbf y$.
 - At $\theta = 0.5$ it is the midpoint.
 
-Such a mix, with non-negative shares that add up to 1, is a **convex combination** (G-475). It is the same mix the chord test of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) uses.
+Such a mix, with non-negative shares that add up to 1, is a **convex combination** (G-475). It is the same mix the **chord** (G-384) test of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) uses.
 
 For the disc, with $\mathbf x = (1, 0)$, $\mathbf y = (0, 1)$ and $\theta = 0.5$:
 
@@ -115,13 +115,13 @@ Informally, a convex set has no dents and no holes (Figure 1). Common convex set
 
 ### 2.2 Combining convex sets
 
-> **Key point:** The overlap (intersection) of convex sets is convex; their union usually is not.
+> **Key point:** The overlap (intersection) of **convex sets** (G-479) is convex; their union usually is not.
 
 **In plain words.** Look at the bottom row of Figure 3. On the left, two discs overlap in a lens shape. Take two points of the lens. The segment between them stays in the first disc, because that disc is convex. It also stays in the second disc, for the same reason. So it stays in both discs at once, which is the lens. The overlap of two sets is their [**intersection**](../../02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967), and the argument works for any number of convex sets.
 
 On the right, two separate discs together form their [**union**](../../02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045). A walk from one disc to the other crosses empty space (red dashed), so a union does not keep convexity.
 
-The overlap rule is why a feasible region made of many convex constraints is convex: the region is the overlap of one convex set per constraint. A box in two dimensions, for example, is the overlap of four half-spaces:
+The overlap rule is why a **feasible region** (G-759) made of many convex constraints is convex: the region is the overlap of one convex set per constraint. A box in two dimensions, for example, is the overlap of four half-spaces:
 
 | Constraint | Half-space |
 |---|---|
@@ -132,11 +132,11 @@ The overlap rule is why a feasible region made of many convex constraints is con
 
 In $n$ dimensions the same box is the overlap of $2n$ half-spaces.
 
-> **Extra:** The set where a convex function $g$ stays at or below a level $c$ is always convex (Boyd and Vandenberghe §3.1.6). For example, with $g(x, y) = x^2 + y^2$, so that $g(0.5, 0.5) = 0.5$, and the level $c = 1$, the set of points with $g(x, y) \le 1$ is the disc of Figure 2. The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints, written $g_i(\mathbf{x}) \le 0$ ([Section 6](#6-convex-optimisation-problems)): each constraint then cuts out a convex set. The set where a convex function is exactly equal to a level is not convex in general. The circle $x^2 + y^2 = 1$ is the edge of the disc only: its points (1, 0) and (0, 1) have the midpoint (0.5, 0.5), at distance 0.71, off the circle. That is why equality constraints must be linear.
+> **Extra:** The set where a **convex function** (G-476) $g$ stays at or below a level $c$ is always convex (Boyd and Vandenberghe §3.1.6). For example, with $g(x, y) = x^2 + y^2$, so that $g(0.5, 0.5) = 0.5$, and the level $c = 1$, the set of points with $g(x, y) \le 1$ is the disc of Figure 2. The level-set rule is why convex optimisation asks for convex functions $g_i$ in its inequality constraints, written $g_i(\mathbf{x}) \le 0$ ([Section 6](#6-convex-optimisation-problems)): each constraint then cuts out a convex set. The set where a convex function is exactly equal to a level is not convex in general. The circle $x^2 + y^2 = 1$ is the edge of the disc only: its points (1, 0) and (0, 1) have the midpoint (0.5, 0.5), at distance 0.71, off the circle. That is why equality constraints must be linear.
 
 ## 3. Convex functions and their sets
 
-> **Key point:** A function is convex when it is shaped like a bowl: a string stretched between any two points of its graph never dips below the graph. Equivalently, the region above its graph is a convex set.
+> **Key point:** A function is convex when it is shaped like a bowl: a string stretched between any two points of its graph never dips below the graph. Equivalently, the region above its graph is a **convex set** (G-479).
 
 **The idea in plain words.** Draw the graph of a function. Pick two points on the graph and stretch a straight string between them. This string is a [**chord**](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) (G-384). For a bowl, every string lies on or above the bowl. For a curve with a hump, a string stretched across the hump passes under it. A function whose every chord lies on or above its graph is a [**convex function**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476).
 
@@ -184,7 +184,7 @@ $$\le\thickspace\theta f(\mathbf{a}) + (1 - \theta) f(\mathbf{b})$$
 
 Check: for $f(w) = w^2$, $a = -1$, $b = 3$, $\theta = 0.5$, the left side is 1 and the right side is 5, and $1 \le 5$. The definition comes from the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula). One condition was left implicit there: the [**domain**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#2-functions-one-number-in-one-number-out) (G-632) of $f$, the set of inputs where $f$ is defined, must itself be a convex set, so that the mixed input $\theta\mathbf{a} + (1 - \theta)\mathbf{b}$ is somewhere $f$ is defined (Boyd and Vandenberghe §3.1.1).
 
-A [**strictly convex function**](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1899) is one whose curve lies strictly below every chord between two different points, as $w^2$ does (1 is strictly less than 5). It has at most one minimum, which is why a strictly convex loss leaves gradient descent nowhere to get stuck.
+A [**strictly convex function**](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1899) is one whose curve lies strictly below every chord between two different points, as $w^2$ does (1 is strictly less than 5). It has at most one minimum, which is why a strictly convex loss leaves **gradient descent** (G-862) nowhere to get stuck.
 
 **Two related ideas.**
 
@@ -212,16 +212,16 @@ Figure 5 shows why the two statements say the same thing. The two black dots of 
 
 ## 4. Testing convexity with derivatives
 
-> **Key point:** Checking every chord is impossible. When the function has derivatives, three shortcuts replace the chord test: the slope never decreases, every tangent lies below the graph, and (in several variables) the function curves upwards in every direction.
+> **Key point:** Checking every **chord** (G-384) is impossible. When the function has derivatives, three shortcuts replace the chord test: the slope never decreases, every tangent lies below the graph, and (in several variables) the function curves upwards in every direction.
 
 ### 4.1 Curving up: the slope keeps increasing
 
-> **Key point:** Where a curve bends upwards like a cup, its slope is increasing, so its second derivative is at least 0. A convex function bends upwards everywhere.
+> **Key point:** Where a curve bends upwards like a cup, its slope is increasing, so its second derivative is at least 0. A **convex function** (G-476) bends upwards everywhere.
 
 Walk along a curve from left to right and watch its slope.
 
 1. **In words:** on a cup-shaped part, the slope starts negative, rises through 0 at the bottom, and keeps rising. On a hump-shaped part, the slope does the opposite: it falls from positive through 0 to negative. A rising slope means the derivative of the slope, the [**second derivative**](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), is positive.
-2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the chord test of [Section 3](#3-convex-functions-and-their-sets) and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
+2. **The terms:** calculus books call a cup-shaped part **concave up** and a hump-shaped part **concave down** (G-2256). Concave up is the same as convex, and concave down is the same as concave. The two names describe one shape, so they never disagree: the **chord** (G-384) test of [Section 3](#3-convex-functions-and-their-sets) and the rising slope of this section pick out exactly the same functions, for any function with a second derivative (Boyd and Vandenberghe §3.1.4).
 3. **Example:** the hump function $q(w) = w^2(w - 1)^2$ of Figure 4, with $q(0.5) = 0.0625$. Its slope and second derivative are
    $$q'(w) = 2w(w - 1)(2w - 1)$$
    $$q''(w) = 12w^2 - 12w + 2$$
@@ -235,7 +235,7 @@ Walk along a curve from left to right and watch its slope.
 
 ![Three stacked graphs share one moving cursor: $q(w) = w^2(w - 1)^2$ with its tangent line, its slope $q'(w)$, and its second derivative $q''(w)$. Green where $q'' \ge 0$ (the slope rises, $q$ curves up), red where $q'' < 0$. At the end the three flat points are sorted by the second derivative test. Idea after Khan Academy, "Concavity introduction"](images/curving_up.gif)
 
-In Figure 6, watch the tangent line and the middle graph together. In the green parts the tangent turns anticlockwise and $q'$ climbs; in the red part the tangent turns clockwise and $q'$ falls.
+In Figure 6, watch the **tangent line** (G-1945) and the middle graph together. In the green parts the tangent turns anticlockwise and $q'$ climbs; in the red part the tangent turns clockwise and $q'$ falls.
 
 **The second derivative test.** At a point $c$ where the tangent is flat, the slope $f'(c)$ is 0. Then:
 
@@ -278,7 +278,7 @@ Here $\ln$ is the natural logarithm and $e \approx 2.718$.
 
 ![The first-order test. Left: every tangent of softplus lies below the curve, so it is convex. Right: the tangent of $w^2(w - 1)^2$ at $w = 0.5$ lies above the curve near 0 and 1, so it is not convex](images/first_order.png)
 
-Figure 7 shows both cases. On the left, three orange tangents of softplus each stay below the blue curve. On the right, the red tangent of $q$ at the top of the hump is flat at height 0.0625, and the curve drops below it near $w = 0$ and $w = 1$. The test that every tangent lies on or below the graph is the **first-order condition** (G-781).
+Figure 7 shows both cases. On the left, three orange tangents of **softplus** (G-1834) each stay below the blue curve. On the right, the red tangent of $q$ at the top of the hump is flat at height 0.0625, and the curve drops below it near $w = 0$ and $w = 1$. The test that every tangent lies on or below the graph is the **first-order condition** (G-781).
 
 **Worked example on numbers.** Softplus at $z = 0$ has value 0.693 and slope $\sigma(0) = 0.5$ ([Section 4.1](#41-curving-up-the-slope-keeps-increasing)). The tangent at 0 predicts, at any other input $y$:
 
@@ -313,7 +313,7 @@ $$f(\mathbf{y}) \ge f(\mathbf{x}^\ast) + \mathbf 0\thinspace(\mathbf{y} - \mathb
 
 $$f(\mathbf{y}) \ge f(\mathbf{x}^\ast) \quad \text{for every } \mathbf y$$
 
-So for a convex function, any point with zero gradient is a [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848). Gradient descent stops at zero gradient, so on a convex function it stops at the best answer.
+So for a **convex function** (G-476), any point with zero gradient is a [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848). **Gradient descent** (G-862) stops at zero gradient, so on a convex function it stops at the best answer.
 
 > **Extra:** Softplus is the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) in disguise. For an **observation** (one record, a row of the data table) with score $z$:
 > $$\text{label 0:} \quad -\ln\big(1 - \sigma(z)\big) = \ln(1 + e^{z})$$
@@ -324,7 +324,7 @@ So for a convex function, any point with zero gradient is a [**global minimum**]
 
 > **Key point:** With two or more inputs, a function is convex when it curves upwards along every straight direction we can walk, at every point.
 
-**The idea in plain words.** A bowl curves up whichever way we walk out of its bottom: east, north or diagonally. A saddle (the shape of a horse's saddle or a crisp) curves up along one direction and down along another. One downward direction is enough to make a chord dip below the surface, so a saddle is not convex.
+**The idea in plain words.** A bowl curves up whichever way we walk out of its bottom: east, north or diagonally. A saddle (the shape of a horse's saddle or a crisp) curves up along one direction and down along another. One downward direction is enough to make a **chord** (G-384) dip below the surface, so a saddle is not convex.
 
 ![Top: the surfaces of the two quadratics (the black segment is the chord between (1, −1) and (−1, 1)). Bottom: the same surfaces seen from above, as contour maps. Arrows: the Hessian's eigenvector directions, labelled with their eigenvalues. Left: both positive, closed ellipses, a bowl. Right: one negative, a saddle; the chord between (1, −1) and (−1, 1) sits at −1, below the value 0 at the midpoint](images/hessian_bowl_saddle.png)
 
@@ -375,7 +375,7 @@ The chord (−1) is below the curve (0): $f_2$ is not convex.
 
 $$\nabla^2 f(\mathbf{x}) \text{ is positive semi-definite for every } \mathbf{x}$$
 
-In one variable the Hessian is the single number $f''(x)$, and the condition becomes $f''(x) \ge 0$ for every $x$, the condition of [Section 4.1](#41-curving-up-the-slope-keeps-increasing). Check: softplus has $f''(z) > 0$ everywhere, and $f_1$ has eigenvalues 1 and 3, both non-negative.
+In one variable the Hessian is the single number $f''(x)$, and the condition becomes $f''(x) \ge 0$ for every $x$, the condition of [Section 4.1](#41-curving-up-the-slope-keeps-increasing). Check: **softplus** (G-1834) has $f''(z) > 0$ everywhere, and $f_1$ has eigenvalues 1 and 3, both non-negative.
 
 > **Python:** the eigenvalue check in NumPy. `eigvalsh` is meant for symmetric matrices such as Hessians and returns the eigenvalues in increasing order.
 >
@@ -390,13 +390,13 @@ In one variable the Hessian is the single number $f''(x)$, and the condition bec
 
 ## 5. Building convex functions
 
-> **Key point:** Adding bowls gives a bowl. Adding convex functions, or scaling them by non-negative numbers, keeps them convex; this is why "convex loss plus convex penalty" is convex.
+> **Key point:** Adding bowls gives a bowl. Adding **convex functions** (G-476), or scaling them by non-negative numbers, keeps them convex; this is why "convex loss plus convex penalty" is convex.
 
 **The idea in plain words.** In practice we rarely test a function from scratch. We build it from pieces already known to be convex, using rules that keep convexity. The main rule: stack one bowl on top of another and the result is still a bowl. Subtracting a bowl, though, can turn the result upside down.
 
 ![Left: the sum w² + 2|w| (blue) of two convex pieces (grey); its chord from −1 to 3 stays above the curve, 9 against 3 at the midpoint. Right: the difference w² − 2w² = −w²; its chord sits below the curve](images/sum_difference.png)
 
-Figure 9 puts the rule and its failure side by side. Watch where the chord sits: above the curve for the sum on the left, below it for the difference on the right.
+Figure 9 puts the rule and its failure side by side. Watch where the **chord** (G-384) sits: above the curve for the sum on the left, below it for the difference on the right.
 
 **Worked example on numbers.** Take two convex pieces and add them, with weight 1 on the first and weight 2 on the second:
 
@@ -453,11 +453,11 @@ This rule covers the regularised losses of earlier Notes:
 
 ## 6. Convex optimisation problems
 
-> **Key point:** Looking for the lowest point of a bowl inside a convex fenced region is a convex optimisation problem: every local minimum is global, and the dual gives the same answer as the primal.
+> **Key point:** Looking for the lowest point of a bowl inside a convex fenced region is a **convex optimisation problem** (G-478): every local minimum is global, and the dual gives the same answer as the primal.
 
 ### 6.1 The definition
 
-> **Key point:** The function we minimise must be a bowl, every "at most" constraint must be built from a convex function, and every "exactly equal" constraint must be a straight line or plane.
+> **Key point:** The function we minimise must be a bowl, every "at most" constraint must be built from a **convex function** (G-476), and every "exactly equal" constraint must be a straight line or plane.
 
 **The idea in plain words.** Picture a bowl-shaped valley, and a fence that marks where we are allowed to stand. We want the lowest allowed spot. If the valley is a bowl and the allowed region is convex (no dents, no holes), then walking downhill inside the region can never trap us in a false bottom: any walk towards a lower spot stays inside the fence.
 
@@ -493,7 +493,7 @@ The problem is a **convex optimisation problem** (G-478) when (MML §7.3; Boyd a
 - $f$ and every $g_i$ are convex functions;
 - every $h_j$ is **affine** (a straight line or plane, linear plus a constant): $h_j(\mathbf{x}) = \mathbf a_j^{\mathsf T}\mathbf{x} - b_j$.
 
-Then the [**feasible region**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759), the set of allowed points, is a convex set (Section 2.2). Check with the example: the constraint $x + y \ge 3$ becomes
+Then the [**feasible region**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759), the set of allowed points, is a **convex set** (G-479) (Section 2.2). Check with the example: the constraint $x + y \ge 3$ becomes
 
 $$g_1(x, y) = 3 - x - y \le 0$$
 
@@ -505,9 +505,9 @@ and $g_1$ is linear, hence convex. There are no equality constraints.
 
 > **Key point:** No local-minimum traps, a zero-gradient (or KKT) point is the answer, and the dual reaches the same value as the primal.
 
-For a convex optimisation problem:
+For a **convex optimisation problem** (G-478):
 
-- **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
+- **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex **feasible region** (G-759) too, because the segment towards a lower point stays feasible.
 - **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer ([Section 4.2](#42-first-order-condition-tangents-lie-below)). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1036) is the answer.
 - [**Strong duality**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
   $$\text{primal minimum} = f(2, 1) = 6$$
@@ -551,9 +551,9 @@ In the first row, $X$ is the data matrix (one row per observation) and $X^{\math
 | Building rules | non-negative sums and maximums keep convexity | Ridge, Lasso, hinge loss | a loss built from convex pieces needs no new test |
 | Convex problem | convex $f$ and $g_i$, affine $h_j$ | Lagrange Note example | every local minimum is then global |
 
-- Overlaps of convex sets are convex, so convex constraints give a convex feasible region.
-- For a convex function, zero gradient means global minimum, so gradient descent stops at the best answer.
-- Convex problems have no local-minimum traps and satisfy strong duality (under Slater's condition, which linear constraints such as the SVM's meet whenever some point is allowed), so the answer does not depend on the starting point or the solver.
+- Overlaps of **convex sets** (G-479) are convex, so convex constraints give a convex feasible region.
+- For a **convex function** (G-476), zero gradient means global minimum, so gradient descent stops at the best answer.
+- Convex problems have no local-minimum traps and satisfy strong duality (under **Slater's condition** (G-1821), which linear constraints such as the SVM's meet whenever some point is allowed), so the answer does not depend on the starting point or the solver.
 - This is the answer to the opening question: minimising a bowl over a convex region has no false bottoms, so the first low point found is the lowest one.
 
 ## 8. Sources
@@ -576,6 +576,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Convex optimisation problem (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
 | Convex set (G-479) | A set that contains the whole segment between any two of its points. |
 | Convex combination (G-475) | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
 | Concave function (G-438) | A function shaped like an upside-down bowl, the negative of a convex function: every chord lies on or below its graph, as for $\ln x$. Maximising a concave function is the same task as minimising a convex one. |
@@ -586,21 +587,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Softplus (G-1834) | A smooth curve, $\ln(1 + e^z)$, that bends upward (convex) and whose slope at every point is the sigmoid. |
 | First-order condition (G-781) | A test for a bowl-shaped (convex) function: a differentiable function is convex exactly when every tangent plane lies on or below its graph. |
 | Second-order condition (G-1761) | A test of whether a function is bowl-shaped (convex) by its curvature: a twice-differentiable function is convex exactly when its Hessian is positive semi-definite everywhere (with one input, when $f'' \ge 0$ everywhere). |
-| Convex optimisation problem (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |
 | Slater's condition (G-1821) | There is at least one point that meets every inequality limit with room to spare (strictly). Together with convexity, this guarantees that the related helper (dual) problem gives the same best value as the original (strong duality). |
+| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
+| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
+| [Chord](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) (G-384) | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
 | [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | [Union (A ∪ B)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
-| [Chord](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test) (G-384) | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
-| [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
 | [Domain](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#2-functions-one-number-in-one-number-out) (G-632) | The set of allowed inputs of a function. |
 | [Strictly convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1899) | A function whose curve lies strictly below the straight line (chord) joining any two different points of it; it has at most one minimum. |
 | [Second derivative](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249) | The derivative of the derivative; it measures how the curve bends. |
 | [Inflection point](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#5-the-pdf-of-the-normal-distribution) (G-945) | A point where a curve switches between bending down and bending up; for the normal curve, at $\mu \pm \sigma$. |
-| [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | [Tangent plane](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#1-overview) (G-1946) | The flat plane that touches a surface at one point with the same slopes (gradient) there; it approximates the surface near that point and is the first-order Taylor approximation. |
 | [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
 | [Hessian matrix](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#51-the-hessian-matrix) (G-888) | The table of how a many-input function's slopes change, which measures its curvature: the symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$. |
@@ -609,7 +610,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Positive semi-definite](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1532) | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
 | [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |
-| [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | [KKT conditions](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) | The four checks a point must pass to be a minimum when some constraints are inequalities: the Lagrangian's gradient is zero (stationarity), the point obeys every constraint (primal feasibility), every multiplier is at least 0 (dual feasibility), and each multiplier is 0 unless its constraint is tight (complementary slackness). |
 | [Strong duality](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903) | The best lower bound given by a related helper problem (the dual problem) equals the true minimum of the original (primal) problem, so solving the dual solves the original; it holds for convex problems. |
 | [k-means](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) | A clustering algorithm that repeatedly assigns points to the nearest centre and moves each centre to the mean of its points. |

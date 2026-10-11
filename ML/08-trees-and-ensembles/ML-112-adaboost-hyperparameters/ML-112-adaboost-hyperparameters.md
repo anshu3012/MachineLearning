@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ## 1. Overview
 
-> **Key point:** AdaBoost has two settings that matter, `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, so a grid search tunes them together.
+> **Key point:** AdaBoost has two settings that matter, `n_estimators` (how many stumps) and `learning_rate` (how much say each stump gets); they trade off against each other, so a **grid search** (G-872) tunes them together.
 
 AdaBoost is boosting with stumps: small models trained one after another, each focusing on the mistakes of the ones before (see [stage by stage](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#4-stage-by-stage)). AdaBoost has few [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), settings we choose before training.
 
@@ -27,7 +27,7 @@ Gradient boosting and XGBoost, covered in later Notes, have many hyperparameters
 The present Note:
 
 - covers what each hyperparameter does (section 2);
-- shows `n_estimators` and `learning_rate` at work on decision surfaces (Figure 1, sections 3 and 4);
+- shows `n_estimators` and `learning_rate` at work on **decision surfaces** (G-560) (Figure 1, sections 3 and 4);
 - tunes both together with `GridSearchCV` (section 5).
 
 The Notebook (`ML-112-adaboost-hyperparameters.ipynb`) runs every experiment. The Dash app `app.py` has a control for each hyperparameter and redraws the decision surface.
@@ -36,7 +36,7 @@ The Notebook (`ML-112-adaboost-hyperparameters.ipynb`) runs every experiment. Th
 
 ## 2. The hyperparameters of AdaBoostClassifier
 
-> **Key point:** `estimator` is the weak learner (a stump by default), `n_estimators` the number of stages (50 by default), `learning_rate` a multiplier on every alpha (1.0 by default).
+> **Key point:** `estimator` is the **weak learner** (G-2104) (a stump by default), `n_estimators` the number of stages (50 by default), `learning_rate` a multiplier on every alpha (1.0 by default).
 
 Figure 2 marks where each one acts on the boosting loop. Watch the three orange boxes: one picks the model inside the loop, one scales each model's say, and one caps how many times the loop runs.
 
@@ -67,9 +67,9 @@ In practice, decision trees are used almost every time, and stumps are the defau
 
 ### 2.2 n_estimators: the number of stages
 
-> **Key point:** The maximum number of weak learners. Training stops earlier if a stump classifies the training data perfectly, or if a new stump is no better than guessing.
+> **Key point:** The maximum number of **weak learners** (G-2104). Training stops earlier if a stump classifies the training data perfectly, or if a new stump is no better than guessing.
 
-`n_estimators` (G-1290) is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix ([a stump with no mistakes](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#7-stage-2-and-a-stump-with-no-mistakes)). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important hyperparameter of AdaBoost; section 3 shows its effect.
+`n_estimators` (G-1290) is the number of base models, one per stage. The number is a maximum. If some stump makes no mistakes on its weighted data, boosting stops there, because there is nothing left to fix ([a stump with no mistakes](../ML-111-adaboost-from-scratch/ML-111-adaboost-from-scratch.md#7-stage-2-and-a-stump-with-no-mistakes)). Boosting also stops if a new stump's weighted error reaches 0.5 or more on two classes, no better than guessing; that stump is thrown away (scikit-learn source). `n_estimators` is the most important **hyperparameter** (G-910) of AdaBoost; section 3 shows its effect.
 
 ### 2.3 learning_rate: the say of every stump, scaled
 
@@ -81,7 +81,7 @@ In practice, decision trees are used almost every time, and stumps are the defau
 
 > **Key point:** Old versions offered two algorithms, SAMME and SAMME.R; current scikit-learn has only SAMME and no `algorithm` parameter.
 
-Older versions of `AdaBoostClassifier` had a fourth hyperparameter, `algorithm`, with two choices: `"SAMME"` and `"SAMME.R"`. SAMME.R, which used predicted probabilities instead of hard votes, was the default and typically converged faster (scikit-learn 1.5 docs).
+Older versions of `AdaBoostClassifier` had a fourth **hyperparameter** (G-910), `algorithm`, with two choices: `"SAMME"` and `"SAMME.R"`. SAMME.R, which used predicted probabilities instead of hard votes, was the default and typically converged faster (scikit-learn 1.5 docs).
 
 > **Extra:** The `algorithm` parameter has since been removed. scikit-learn 1.9, which this Note uses, accepts only `estimator`, `n_estimators`, `learning_rate` and `random_state`, and always runs SAMME. Code that passes `algorithm="SAMME.R"` fails with a `TypeError`; deleting the argument fixes it.
 
@@ -117,7 +117,7 @@ So `n_estimators` needs a middle value, like `max_depth` for a decision tree ([*
 
 ## 4. learning_rate: shrinkage
 
-> **Key point:** The learning rate multiplies every alpha. A smaller alpha means smaller weight updates, so each stage changes less, learning is slower, and overfitting is slower too.
+> **Key point:** The learning rate multiplies every alpha. A smaller alpha means smaller weight updates, so each stage changes less, learning is slower, and **overfitting** (G-1429) is slower too.
 
 ### 4.1 What the learning rate does
 
@@ -166,7 +166,7 @@ Figure 5 tracks accuracy as stumps are added (scikit-learn's `staged_score` (G-1
 
 The smaller the learning rate, the more stumps it takes, and the less the model overfits on the way. In Figure 1, 1,500 stumps with learning rate 0.1 (bottom right) have none of the islands of 1,500 stumps with learning rate 1.0 (bottom middle).
 
-So we do not tune the two separately. A large `n_estimators` with a small `learning_rate` is the usual recipe (ESL §10.12.1); the grid search finds a good pair.
+So we do not tune the two separately. A large `n_estimators` with a small `learning_rate` is the usual recipe (ESL §10.12.1); the **grid search** (G-872) finds a good pair.
 
 > **Python:** n_estimators and learning_rate.
 >
@@ -185,7 +185,7 @@ So we do not tune the two separately. A large `n_estimators` with a small `learn
 
 > **Key point:** A grid of 4 values of n_estimators and 5 learning rates, with 10-fold cross-validation, finds 500 stumps at learning rate 0.1: accuracy 0.832, up from 0.812.
 
-[**Grid search**](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872), training every combination in a list of values, was introduced in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k), and used on a random forest in [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest). Here the grid covers the two hyperparameters that matter:
+[**Grid search**](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872), training every combination in a list of values, was introduced in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k), and used on a random forest in [grid search over a random forest](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#6-grid-search-over-a-random-forest). Here the grid covers the two **hyperparameters** (G-910) that matter:
 
 > **Python:** Grid search over AdaBoost.
 >
@@ -233,10 +233,10 @@ The best pair is **500 stumps at learning rate 0.1**, with a cross-validated acc
 | `algorithm` | removed | (SAMME.R no longer exists) | | |
 
 - `n_estimators` and `learning_rate` trade off: a smaller learning rate needs more stumps but overfits less, so the two are tuned together, not one at a time.
-- The learning rate multiplies alpha, so the weight updates have a smaller amplitude and learning slows down: shrinkage. Each stage then moves the model only a small step, so consecutive stumps differ less and the model fits noise more slowly.
-- On the circles data, the defaults score 0.812 (10-fold cross-validation); a grid search finds 500 stumps at learning rate 0.1, scoring 0.832, which is the usual recipe of many stumps with a small learning rate.
+- The learning rate multiplies alpha, so the weight updates have a smaller amplitude and learning slows down: **shrinkage** (G-1796). Each stage then moves the model only a small step, so consecutive stumps differ less and the model fits noise more slowly.
+- On the circles data, the defaults score 0.812 (10-fold cross-validation); a **grid search** (G-872) finds 500 stumps at learning rate 0.1, scoring 0.832, which is the usual recipe of many stumps with a small learning rate.
 - Averaged over 20 datasets, 1,500 stumps at learning rate 1.0 widen the train-test gap from 0.033 (50 stumps) to 0.074, because each extra stage focuses on the observations still wrong, which on noisy data are mostly noise; learning rate 0.1 keeps it at 0.034.
-- So of AdaBoost's few hyperparameters only these two matter, and a grid search over them both is the way to tune it.
+- So of AdaBoost's few **hyperparameters** (G-910) only these two matter, and a grid search over them both is the way to tune it.
 
 ## 7. Sources
 
@@ -262,16 +262,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | staged_score (G-1868) | A method that gives an ensemble's score after each added stage. |
 | SAMME.R (G-1723) | An AdaBoost variant that used predicted probabilities; removed from scikit-learn. |
 | Shrinkage (boosting) (G-1795) | Scaling down each base model's contribution so the ensemble learns in small steps and overfits less. |
+| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Weak learner](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104) | A model whose accuracy is only a little better than random guessing. |
 | [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
-| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [max_depth](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#2-overfitting-and-underfitting-in-a-tree) (G-1184) | The cap on a tree's depth; None lets it grow until every leaf is pure. |
 | [Shrinkage](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |
-| [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |

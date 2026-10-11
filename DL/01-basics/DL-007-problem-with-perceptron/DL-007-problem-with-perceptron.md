@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/perceptron-lim
 
 ## 1. Overview
 
-> **Key point:** A perceptron has one straight **decision boundary** (G-555; the line that splits the two classes). It learns AND and OR easily, but no line can separate XOR (exclusive or, defined in section 3), so on XOR (and on any data that needs a curved decision boundary) it fails, however long it trains.
+> **Key point:** A perceptron has one straight **decision boundary** (G-555; the line that splits the two classes). It learns AND and **OR** (G-199) easily, but no line can separate XOR (exclusive or, defined in section 3), so on XOR (and on any data that needs a curved decision boundary) it fails, however long it trains.
 
 ![scikit-learn's Perceptron on AND, OR and XOR](images/gates.png)
 
@@ -72,7 +72,7 @@ Plotted, the four observations are the corners of a square (Figure 1):
 
 ## 4. What the perceptron learns
 
-> **Key point:** AND and OR get a separating line and 100% accuracy. XOR ends with all weights 0, no line at all, and 50% accuracy.
+> **Key point:** AND and **OR** (G-199) get a separating line and 100% accuracy. XOR ends with all weights 0, no line at all, and 50% accuracy.
 
 The three perceptrons give:
 
@@ -114,7 +114,7 @@ Watch the black ring: at every angle some corner is on the wrong side, and the c
 
 ### 4.1 Another way to see it: one input
 
-> **Key point:** With one input, XOR becomes the pattern 0, 1, 0. A straight line can rise or fall, but it cannot rise and then fall.
+> **Key point:** With one input, XOR becomes the pattern 0, 1, 0. A straight line can rise **or** (G-199) fall, but it cannot rise and then fall.
 
 The same failure shows with a single input. Suppose a drug is tested at three doses:
 
@@ -146,7 +146,7 @@ The Notebook repeats this experiment in scikit-learn with `LogisticRegression`, 
 - **XOR quadrants** (middle): class 1 where $x_1$ and $x_2$ have the same sign. A line cuts across all four quadrants, accuracy 52%.
 - **Circles** (right): one class inside a ring of the other. A line cannot enclose anything, accuracy 50%.
 
-So the problem is not the four-row table: any data whose classes need a bent or closed decision boundary defeats a single neuron. Such data is called **non-linear data** (G-1335; [data that no straight line can split](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#2-data-that-no-straight-line-can-split)): no line, plane or hyperplane separates its classes.
+So the problem is not the four-row table: any data whose classes need a bent **or** (G-199) closed decision boundary defeats a single neuron. Such data is called **non-linear data** (G-1335; [data that no straight line can split](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#2-data-that-no-straight-line-can-split)): no line, plane or hyperplane separates its classes.
 
 > **Extra:** Two ways out exist.
 >
@@ -161,7 +161,7 @@ So the problem is not the four-row table: any data whose classes need a bent or 
 
 > **Key point:** Combining several perceptrons in layers gives curved decision boundaries: the multi-layer perceptron.
 
-A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the OR line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. [Combining two perceptrons](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) gives a curved decision boundary, and [XOR with two hidden nodes](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#51-xor-with-two-hidden-nodes) solves XOR on the Playground.
+A single perceptron is a linear model, so it can only capture linear relationships. The fix is to use several perceptrons and feed their outputs into another one. The last frame of Figure 2 shows the idea with two lines, one per hidden perceptron: $x_1 + x_2 = 0.5$ (the **OR** (G-199) line of section 4) and $x_1 + x_2 = 1.5$. The sum $x_1 + x_2$ is 0 for $(0, 0)$, 1 for $(0, 1)$ and $(1, 0)$, and 2 for $(1, 1)$, so exactly the two 1s fall between the lines. [Combining two perceptrons](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons) gives a curved decision boundary, and [XOR with two hidden nodes](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#51-xor-with-two-hidden-nodes) solves XOR on the Playground.
 
 Figure 5 shows why the second perceptron layer then has an easy job. Each hidden perceptron outputs 0 or 1 (a step function: 1 when its weighted sum is 0 or more, else 0), so each observation gets a new pair of numbers, $(h_1, h_2)$. In the figure, the left panel is the input square with the two hidden lines; the right panel plots each observation at its new position $(h_1, h_2)$, with the same green and red dots.
 
@@ -188,7 +188,7 @@ The hidden layer has changed how the data is represented, into a form where the 
 - A perceptron can only have one straight decision boundary, so it can only split data that a line separates.
 - XOR puts each class on opposite corners of a square: no line separates them, which a short proof confirms.
 - More training never fixes this; more neurons, in layers, do, because a hidden layer moves the observations to new positions where one line separates the classes.
-- So a single perceptron fails on XOR and on any data that needs a bent or closed boundary, however long it trains, and that failure is why multi-layer perceptrons were needed.
+- So a single perceptron fails on XOR and on any data that needs a bent **or** (G-199) closed boundary, however long it trains, and that failure is why multi-layer perceptrons were needed.
 
 ## 8. Sources
 

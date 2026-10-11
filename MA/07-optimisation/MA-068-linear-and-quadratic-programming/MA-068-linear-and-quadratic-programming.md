@@ -27,7 +27,7 @@ For each family we write the problem, solve a small example from the picture, de
 
 ## 2. Linear programming
 
-> **Key point:** A linear program is a shopping-list problem with linear rules (each one a straight line on the plan's graph): get the most profit (or the least cost) from a plan that must obey limits. The best plan always sits at a corner of the region of allowed plans.
+> **Key point:** A **linear program** (G-1093) is a shopping-list problem with linear rules (each one a straight line on the plan's graph): get the most profit (or the least cost) from a plan that must obey limits. The best plan always sits at a corner of the region of allowed plans.
 
 ### 2.1 The problem
 
@@ -73,7 +73,7 @@ $$A\mathbf{x} = [4, 6, 3, -3, -1]^{\mathsf T}$$
 
 Each entry is at most the matching entry of $\mathbf{b}$, as the table above checked.
 
-Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a linear program is a [**convex optimisation problem**](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478).
+Each constraint is a half-plane, and the feasible region is their overlap: a convex polygon (in more dimensions, a **polytope**, G-1518). The objective is linear, so it is convex too, and a **linear program** (G-1093) is a [**convex optimisation problem**](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478).
 
 ### 2.2 The answer is at a corner
 
@@ -115,7 +115,7 @@ The best plan is 3 batches of A and 1 of B, for 11 thousand rupees. If the profi
 3. Look at the next neighbour, $(3, 1)$: profit 11, better. Move there.
 4. Look at the next neighbour, $(1.5, 2.5)$: profit 9.5, worse. No neighbour is better, so stop.
 
-The walk visited 3 of the 5 vertices and ends at the same answer as the table, $(3, 1)$ with profit 11. Stopping is safe because a linear program is a convex problem, and in a convex problem every local minimum is a global minimum (see [what convexity guarantees](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)): a vertex with no better neighbour is the best of all.
+The walk visited 3 of the 5 vertices and ends at the same answer as the table, $(3, 1)$ with profit 11. Stopping is safe because a **linear program** (G-1093) is a convex problem, and in a convex problem every local minimum is a global minimum (see [what convexity guarantees](../MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#62-what-convexity-guarantees)): a vertex with no better neighbour is the best of all.
 
 ![The workshop region cut out one constraint at a time (oven, flour, demand), then the walk from vertex to vertex: profit 0, 9, 11. The next vertex earns 9.5 (red), so the walk stops at $(3, 1)$. Idea after StatQuest, "Optimization with Linear Programming (and the Simplex Algorithm), Main Ideas!!!"; our own problem](images/simplex_walk.gif)
 
@@ -155,7 +155,7 @@ $$\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = 8 + 0 + 3 = 11$$
 
 $$-\mathbf{b}^{\mathsf T}\boldsymbol{\lambda} = -11$$
 
-This equals the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. This agreement is **strong duality** (the dual's best value equals the primal's best value), which holds for every linear program whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
+This equals the primal minimum $\mathbf{c}^{\mathsf T}\mathbf{x} = -11$. This agreement is **strong duality** (the dual's best value equals the primal's best value), which holds for every **linear program** (G-1093) whose primal problem is feasible (Boyd and Vandenberghe, Ch. 5).
 
 **The formal version.** The Lagrangian is linear in $\mathbf{x}$, with the $\mathbf{x}$ terms gathered:
 
@@ -187,7 +187,7 @@ The primal has $d$ variables and $m$ constraints; the dual has $m$ variables and
 
 ### 2.4 Reading the multipliers
 
-> **Key point:** Each multiplier is the extra profit one more unit of that resource would bring; a resource with spare capacity is worth 0.
+> **Key point:** Each **multiplier** (G-1036) is the extra profit one more unit of that resource would bring; a resource with spare capacity is worth 0.
 
 The multipliers are [the shadow prices](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#42-what-the-multiplier-measures). The last frame of Figure 3 shows the oven's multiplier: one more oven hour moves the best corner from $(3, 1)$ to $(3, 2)$ and the profit from 11 to 13. Changing one limit by one unit and solving again confirms each one:
 
@@ -201,7 +201,7 @@ The multipliers are [the shadow prices](../MA-066-lagrange-multipliers/MA-066-la
 
 Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags are left over, so more flour is worth nothing. An extra oven hour is worth 2 thousand rupees, so the workshop should pay up to that much for one. The zero multiplier on flour is complementary slackness in action: a constraint with room to spare (inactive) has multiplier 0.
 
-> **Extra:** Linear programs appear in ML too. Fitting a line by least absolute deviations means minimising the sum of the absolute errors over the **observations** (G-1374; one record, one row of the data table):
+> **Extra:** **Linear programs** (G-1093) appear in ML too. Fitting a line by least absolute deviations means minimising the sum of the absolute errors over the **observations** (G-1374; one record, one row of the data table):
 >
 > $$\sum_i |y_i - \mathbf{w}^{\mathsf T}\mathbf x_i|$$
 >
@@ -223,11 +223,11 @@ Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags
 
 ## 3. Quadratic programming
 
-> **Key point:** A quadratic program is the same kind of problem with linear rules (each one a straight line on the plan's graph), but the quantity to minimise is a smooth bowl, not a straight slope. The lowest point of the bowl inside the region can be inside, on an edge, or at a corner.
+> **Key point:** A **quadratic program** (G-1598) is the same kind of problem with linear rules (each one a straight line on the plan's graph), but the quantity to minimise is a smooth bowl, not a straight slope. The lowest point of the bowl inside the region can be inside, on an edge, or at a corner.
 
 ### 3.1 The problem
 
-> **Key point:** Same linear rules as a linear program, but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
+> **Key point:** Same linear rules as a **linear program** (G-1093), but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
 
 **In plain words.** Roll a marble in a bowl. Without a fence it settles at the bottom. Now fence off a triangle that does not contain the bottom. The marble rolls as far downhill as the fence lets it, and stops against the fence. Figures 7 and 8 show the bowl, as a surface and as contour ellipses, and the triangle.
 
@@ -299,7 +299,7 @@ So the bottom is $\mathbf{x} = -Q^{-1}\mathbf{c}$ ($Q^{-1}$ is the inverse of $Q
 
 > **Key point:** Guess which rules the marble leans on, solve the equations for that guess, then check that every price is non-negative.
 
-Only the edge constraint $x_1 + x_2 \le 2$ is active, with multiplier $\lambda$. Here $\lambda$ is the price of that edge and $[1, 1]$ is the edge's normal arrow (the row of $A$). The stationarity condition says that the slope of the bowl plus the push-back of the edge is zero:
+Only the edge constraint $x_1 + x_2 \le 2$ is active, with **multiplier** (G-1036) $\lambda$. Here $\lambda$ is the price of that edge and $[1, 1]$ is the edge's normal arrow (the row of $A$). The stationarity condition says that the slope of the bowl plus the push-back of the edge is zero:
 
 $$Q\mathbf{x} + \mathbf{c} + \lambda [1, 1]^{\mathsf T} = \mathbf{0}$$
 
@@ -350,7 +350,7 @@ All checks pass, so $(1.5, 0.5)$ is the answer. Its objective value is $f(1.5, 0
 
 > **Key point:** For a given price on the edge, the marble's lowest point in the priced bowl has a formula. Putting that point back leaves a score that depends on the prices alone; the best price gives the same value as the original problem.
 
-**In plain words.** As with the linear program, we put a price $\lambda$ on each rule. The prices tilt the bowl. The tilted bowl has no rules, so its lowest point is found by setting the slope to zero. The score of that lowest point is a floor under the true answer; we look for the price that makes the floor highest.
+**In plain words.** As with the **linear program** (G-1093), we put a price $\lambda$ on each rule. The prices tilt the bowl. The tilted bowl has no rules, so its lowest point is found by setting the slope to zero. The score of that lowest point is a floor under the true answer; we look for the price that makes the floor highest.
 
 **Worked example.** Take the prices $\boldsymbol{\lambda} = [4.5, 0, 0]^{\mathsf T}$ (edge, $x_1 \ge 0$, $x_2 \ge 0$). The tilt is $\mathbf{t} = \mathbf{c} + A^{\mathsf T}\boldsymbol{\lambda}$:
 
@@ -418,7 +418,7 @@ $$\max_{\boldsymbol{\lambda} \ge \mathbf{0}} D(\boldsymbol{\lambda})$$
 
 The numbers above reproduce $-12.25$.
 
-Figure 10 draws $D$ along the edge multiplier, with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
+Figure 10 draws $D$ along the edge **multiplier** (G-1036), with the two sign-constraint multipliers held at 0. It is an upside-down bowl that stays below the primal minimum $-12.25$ (weak duality) and reaches it exactly at $\lambda = 4.5$ (strong duality).
 
 ![The dual function of the quadratic program along the edge multiplier λ (the other two multipliers at 0): a concave curve below the primal minimum −12.25 (dashed), touching it at λ = 4.5.](images/qp_dual.png)
 
@@ -426,7 +426,7 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
 ### 3.4 Quadratic programs in ML
 
-> **Key point:** Training a support vector machine is a quadratic program, in its primal form and in its dual form.
+> **Key point:** Training a support vector machine is a **quadratic program** (G-1598), in its primal form and in its dual form.
 
 - **SVM, primal** (**support vector machine**, G-1921): minimise
 
@@ -436,7 +436,7 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
   $$y_i(\mathbf{w}^{\mathsf T}\mathbf x_i + b) \ge 1$$
 
-  (see [the soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite (eigenvalues positive or zero), because $b$ has no squared term, so the dual is derived as in [the SVM dual](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#72-the-svm-dual) rather than with $Q^{-1}$.
+  (see [the soft margin](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss)). The objective is quadratic and each constraint is linear in $(\mathbf{w}, b)$. Here $Q$ is only positive semi-definite (**eigenvalues** (G-665) positive or zero), because $b$ has no squared term, so the dual is derived as in [the SVM dual](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#72-the-svm-dual) rather than with $Q^{-1}$.
 - **SVM, dual:** maximise
 
   $$\sum_i \alpha_i - \tfrac12 \sum_{i,j} \alpha_i \alpha_j y_i y_j\thinspace\mathbf x_i^{\mathsf T}\mathbf x_j$$
@@ -447,10 +447,10 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 
   $$\sum_i \alpha_i y_i = 0$$
 
-  This is a quadratic program in the multipliers $\alpha_i$. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
+  This is a quadratic program in the **multipliers** (G-1036) $\alpha_i$. The soft-margin version only adds the upper bound $\alpha_i \le C$. scikit-learn's `SVC` solves this dual (scikit-learn User Guide, SVM).
 - **Lasso, constraint form:** least squares subject to $\sum_i |w_i| \le t$ is a quadratic program once each weight is split into a positive and a negative part (Tibshirani 1996, §6).
 
-> **Python:** scipy's `linprog` solves linear programs and reports the multipliers in `ineqlin.marginals` (with scipy's sign, so negative here). `minimize` with `trust-constr` handles the quadratic program.
+> **Python:** scipy's `linprog` solves **linear programs** (G-1093) and reports the multipliers in `ineqlin.marginals` (with scipy's sign, so negative here). `minimize` with `trust-constr` handles the quadratic program.
 >
 > ```python
 > import numpy as np
@@ -486,12 +486,12 @@ The dual has only simple sign constraints $\boldsymbol{\lambda} \ge \mathbf{0}$.
 | Example | workshop: $(3, 1)$, profit 11 | triangle: $(1.5, 0.5)$, value $-12.25$ |
 | In ML | least absolute deviations, quantile regression | SVM (primal and dual), Lasso in constraint form |
 
-- A linear program's answer is at a corner because its equal-profit lines are parallel, so checking corners (or walking corner to corner, as the simplex algorithm does) is enough.
-- A quadratic program's answer can sit on an edge because its contours are ellipses, so a guessed answer is checked with the KKT conditions instead.
+- A **linear program** (G-1093)'s answer is at a corner because its equal-profit lines are parallel, so checking corners (or walking corner to corner, as the simplex algorithm does) is enough.
+- A **quadratic program** (G-1598)'s answer can sit on an edge because its contours are ellipses, so a guessed answer is checked with the KKT conditions instead.
 - The dual has $m$ variables where the primal has $d$, so we can solve whichever is smaller; the QP dual has only sign constraints, which are easy to keep.
 - Training an SVM is a quadratic program, so scikit-learn's `SVC` trains it by solving the dual.
 - Both are convex problems with linear constraints, so whenever the primal is feasible the dual value equals the primal value (Boyd and Vandenberghe, Ch. 5).
-- Multipliers are shadow prices: an inactive constraint has multiplier 0, because a resource with spare capacity is worth nothing; so a multiplier says how much one more unit of a limit is worth.
+- **Multipliers** (G-1036) are shadow prices: an inactive constraint has multiplier 0, because a resource with spare capacity is worth nothing; so a multiplier says how much one more unit of a limit is worth.
 
 ## 5. Sources
 

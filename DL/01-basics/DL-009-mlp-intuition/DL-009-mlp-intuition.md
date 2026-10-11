@@ -39,7 +39,7 @@ So each perceptron outputs a [**probability**](../../../MA/02-probability/MA-011
 
 > **Key point:** Two hidden nodes each give one S-shaped curve. The output node multiplies each curve by a weight, adds them, and gets a curve that rises and then falls, which no single node can produce.
 
-Before the two-feature case, here is the whole idea with one feature. A drug works only at a medium dose: low 0, medium 1, high 0. The [one-input version of XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#41-another-way-to-see-it-one-input) showed that no straight line fits this pattern. A network with one input, two sigmoid hidden nodes and one sigmoid output node does fit it. Figure 1 builds its curve step by step.
+Before the two-feature case, here is the whole idea with one feature. A drug works only at a medium dose: low 0, medium 1, high 0. The [one-input version of XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#41-another-way-to-see-it-one-input) showed that no straight line fits this pattern. A network with one input, two **sigmoid** (G-1798) hidden nodes and one sigmoid output node does fit it. Figure 1 builds its curve step by step.
 
 ![A network with two hidden nodes fits the 0, 1, 0 dose data. Steps: the data; hidden node 1's curve; hidden node 2's curve; each curve times its output weight; their sum plus the bias; the sigmoid of that sum. Idea after StatQuest, "The Essential Main Ideas of Neural Networks".](images/squiggle.gif)
 
@@ -59,7 +59,7 @@ The numbers come from training this network on the nine patients (script `images
    $$z = -13.3\thinspace h_1 - 13.3\thinspace h_2 + 6.3$$
 
    Wherever a hidden node is on, $z$ is pulled far below 0. Only at medium doses are both off, and there $z$ stays near $+6.3$.
-4. **The sigmoid** turns $z$ into the output $\hat{y} = \sigma(z)$. Here $\hat{y}$ ("y hat") is the network's predicted probability that the drug works.
+4. **The sigmoid** turns $z$ into the output $\hat{y} = \sigma(z)$. Here $\hat{y}$ ("y hat") is the network's predicted **probability** (G-1574) that the drug works.
 
 | Dose | $h_1$ | $h_2$ | $z$ | $\hat{y}$ |
 |---|---|---|---|---|
@@ -67,15 +67,15 @@ The numbers come from training this network on the nine patients (script `images
 | 0.5 (medium) | 0.066 | 0.066 | 4.54 | 0.989 |
 | 0.9 (high) | 0.881 | 0.001 | $-5.42$ | 0.004 |
 
-Reading the table row by row: $z$ is the output node's weighted sum and $\hat{y}$ its sigmoid. The weights on the input slide and flip each S-curve; the output weights stretch the curves; the output bias shifts the sum. Adding two such curves gives a new shape. The rest of this Note does the same thing with two features, where each S-curve becomes a probability map over the plane.
+Reading the table row by row: $z$ is the output node's **weighted sum** (G-2119) and $\hat{y}$ its sigmoid. The weights on the input slide and flip each S-curve; the output weights stretch the curves; the output bias shifts the sum. Adding two such curves gives a new shape. The rest of this Note does the same thing with two features, where each S-curve becomes a probability map over the **plane** (G-1502).
 
 > **Extra:** Training does not always find these weights. From 20 random starting points, 12 reached all nine patients correct; Figure 1 uses the first of those. [Section 5.2](#52-other-shapes) returns to setups that fail to train.
 
 ## 2. One perceptron with a sigmoid
 
-> **Key point:** A perceptron with a sigmoid gives every point a probability: 0.5 on its hyperplane, rising towards 1 on one side and falling towards 0 on the other.
+> **Key point:** A **perceptron** (G-1486) with a sigmoid gives every point a probability: 0.5 on its hyperplane, rising towards 1 on one side and falling towards 0 on the other.
 
-With the sigmoid as activation and **binary cross-entropy** (G-303; the loss that scores a predicted probability) as loss, a perceptron is [logistic regression](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models). The data uses three terms:
+With the **sigmoid** (G-1798) as activation and **binary cross-entropy** (G-303; the loss that scores a predicted probability) as loss, a perceptron is [logistic regression](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#8-one-perceptron-many-models). The data uses three terms:
 
 - each student is one **observation** (G-1374; one record, one row of the data table);
 - CGPA $x_1$ and IQ $x_2$ are its two **features** (G-772; input variables, one column each);
@@ -85,9 +85,9 @@ For one student the perceptron computes
 
 $$\hat{y} = \sigma(w_1 x_1 + w_2 x_2 + b),$$
 
-the probability that the student is placed. The probability of not being placed is $1 - \hat{y}$.
+the **probability** (G-1574) that the student is placed. The probability of not being placed is $1 - \hat{y}$.
 
-The [probability map of a sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#53-a-map-of-probabilities) draws this as a picture. On the line $w_1 x_1 + w_2 x_2 + b = 0$, the perceptron's **hyperplane** (G-911; a straight line when there are two features), the probability is 0.5. Lines parallel to it carry 0.6, 0.7, 0.8, ... on one side and 0.4, 0.3, ... on the other, so the probability changes gradually across the plane.
+The [probability map of a sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#53-a-map-of-probabilities) draws this as a picture. On the line $w_1 x_1 + w_2 x_2 + b = 0$, the perceptron's **hyperplane** (G-911; a straight line when there are two features), the probability is 0.5. Lines parallel to it carry 0.6, 0.7, 0.8, ... on one side and 0.4, 0.3, ... on the other, so the probability changes gradually across the **plane** (G-1502).
 
 The perceptron's probability is a function of two inputs, so it is a surface: for every point $(x_1, x_2)$ the height is $p$. Take the perceptron
 
@@ -109,7 +109,7 @@ Figure 2 shows the surface: flat near 0 where both inputs are small, flat near 1
 
 Figure 3 draws this map for the first perceptron of Figure 5 (section 3.1), the one of Figure 2:
 
-- on the black line, the weighted sum $3x_1 + 3x_2$ is 0, so $p = \sigma(0) = 0.5$;
+- on the black line, the **weighted sum** (G-2119) $3x_1 + 3x_2$ is 0, so $p = \sigma(0) = 0.5$;
 - moving up and right, $3x_1 + 3x_2$ grows and $p$ rises towards 1; at the point $(0.5, 0.5)$ it is $\sigma(3) = 0.953$;
 - moving down and left, $p$ falls towards 0.
 
@@ -117,15 +117,15 @@ All the contour lines are parallel to the hyperplane, because $p$ depends on the
 
 ## 3. Combining two perceptrons
 
-> **Key point:** Two perceptrons give two probability maps; adding them and passing the sum through a sigmoid gives a new map whose 0.5 decision boundary is curved.
+> **Key point:** Two **perceptrons** (G-1486) give two probability maps; adding them and passing the sum through a sigmoid gives a new map whose 0.5 decision boundary is curved.
 
 ### 3.1 The idea: superimpose, then smooth
 
-> **Key point:** Lay the two maps on top of each other, then smooth the result back into a probability.
+> **Key point:** Lay the two maps on top of each other, then smooth the result back into a **probability** (G-1574).
 
-Suppose the green points sit in a wedge, as in Figure 5. Perceptron 1 (left) separates them from the points below-left; perceptron 2 (middle) separates them from the points above-left. Neither line alone works: perceptron 1 misclassifies 44 of the 160 points, perceptron 2 misclassifies 40.
+Suppose the green points sit in a wedge, as in Figure 5. **Perceptron** (G-1486) 1 (left) separates them from the points below-left; perceptron 2 (middle) separates them from the points above-left. Neither line alone works: perceptron 1 misclassifies 44 of the 160 points, perceptron 2 misclassifies 40.
 
-Before the maps, the surfaces. Each panel of Figure 4 is the height $p$ above the plane, for the three perceptrons of Figure 5. Their weights are our own, chosen to show the effect:
+Before the maps, the surfaces. Each panel of Figure 4 is the height $p$ above the **plane** (G-1502), for the three perceptrons of Figure 5. Their weights are our own, chosen to show the effect:
 
 $$p_1 = \sigma(3x_1 + 3x_2)$$
 
@@ -153,11 +153,11 @@ Figure 5 is the three surfaces of Figure 4 seen from above (three maps, shaded g
 
 ### 3.2 Adding the probabilities
 
-> **Key point:** For each point, add the two perceptrons' probabilities and pass the sum through a sigmoid, so the result is again a probability.
+> **Key point:** For each point, add the two **perceptrons** (G-1486)' probabilities and pass the sum through a sigmoid, so the result is again a probability.
 
-Take one student. Perceptron 1 says the probability of placement is 0.7, perceptron 2 says 0.8. Adding them gives 1.5, which cannot be a probability. The sigmoid fixes that:
+Take one student. Perceptron 1 says the **probability** (G-1574) of placement is 0.7, perceptron 2 says 0.8. Adding them gives 1.5, which cannot be a probability. The sigmoid fixes that:
 
-1. **In words:** add the two probabilities, then squeeze the sum back into the range 0 to 1 with the sigmoid.
+1. **In words:** add the two probabilities, then squeeze the sum back into the range 0 to 1 with the **sigmoid** (G-1798).
 2. **Formula:**
    $$\hat{y} = \sigma(p_1 + p_2)$$
 3. **Example:** with $p_1 = 0.7$ and $p_2 = 0.8$,
@@ -167,11 +167,11 @@ We repeat this for every point. Adding is the superimposing; the sigmoid is the 
 
 ### 3.3 Weights and a bias
 
-> **Key point:** A [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) plus a bias lets one perceptron count more than the other, and lets us shift the result.
+> **Key point:** A [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) plus a bias lets one **perceptron** (G-1486) count more than the other, and lets us shift the result.
 
 Plain adding treats both perceptrons equally. To make perceptron 1 count twice as much, we multiply its output by a weight of 10 and perceptron 2's by 5, and add a bias of 3:
 
-1. **In words:** multiply each perceptron's probability by its weight, add the bias, and take the sigmoid.
+1. **In words:** multiply each perceptron's **probability** (G-1574) by its weight, add the bias, and take the sigmoid.
 2. **Formula:**
    $$\hat{y} = \sigma(w_1 p_1 + w_2 p_2 + b)$$
 3. **Example:** with $w_1 = 10$, $w_2 = 5$, $b = 3$:
@@ -199,11 +199,11 @@ Figure 6 replays sections 3.1 to 3.3 on the two perceptrons of Figure 5, one ste
 3. **Frame 4, weights and bias:** the weighted sum with bias is
    $$z = 8p_1 + 8p_2 - 12$$
    It is above 0 only where $p_1 + p_2 > 1.5$. The black line $z = 0$ is curved.
-4. **Frame 5, smooth:** the sigmoid squeezes $z$ into 0 to 1. The line $z = 0$ becomes the 0.5 decision boundary.
+4. **Frame 5, smooth:** the **sigmoid** (G-1798) squeezes $z$ into 0 to 1. The line $z = 0$ becomes the 0.5 decision boundary.
 
 ### 3.4 The combiner is a perceptron
 
-> **Key point:** Weighted sum, bias, sigmoid: the combining step is itself a perceptron, whose inputs are the outputs of perceptrons 1 and 2.
+> **Key point:** Weighted sum, bias, sigmoid: the combining step is itself a **perceptron** (G-1486), whose inputs are the outputs of perceptrons 1 and 2.
 
 Look again at $\sigma(w_1 p_1 + w_2 p_2 + b)$. This expression is exactly what a perceptron computes, except that its inputs are not features of the data but the outputs of two other perceptrons. So the whole model is three perceptrons connected together (Figure 7).
 
@@ -222,11 +222,11 @@ Look again at $\sigma(w_1 p_1 + w_2 p_2 + b)$. This expression is exactly what a
 
   $$\hat{y} = \sigma(10 p_1 + 5 p_2 + 3)$$
 
-The nodes now sit in layers: an **input layer** (G-952; CGPA, IQ), a **hidden layer** (G-890; perceptrons 1 and 2) and an **output layer** (G-1424; perceptron 3). This layered network is a multi-layer perceptron. Why it can bend, step by step:
+The nodes now sit in layers: an **input layer** (G-952; CGPA, IQ), a **hidden layer** (G-890; perceptrons 1 and 2) and an **output layer** (G-1424; perceptron 3). This layered network is a **multi-layer perceptron** (G-1270). Why it can bend, step by step:
 
-1. Each hidden perceptron gives a probability map whose 0.5 contour is a straight line.
+1. Each hidden perceptron gives a **probability** (G-1574) map whose 0.5 contour is a straight line.
 2. The output perceptron adds the two maps with weights and a bias.
-3. The sigmoid squeezes that sum back into 0 to 1. With the weights of Figure 5, the 0.5 contour of the result follows perceptron 1's line where perceptron 2 is near 1, follows perceptron 2's line where perceptron 1 is near 1, and bends round where both are in between (the rounded tip of Figure 5).
+3. The **sigmoid** (G-1798) squeezes that sum back into 0 to 1. With the weights of Figure 5, the 0.5 contour of the result follows perceptron 1's line where perceptron 2 is near 1, follows perceptron 2's line where perceptron 1 is near 1, and bends round where both are in between (the rounded tip of Figure 5).
 
 No single perceptron can do this, because its 0.5 contour is always one straight line.
 
@@ -244,7 +244,7 @@ The [**architecture**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learn
 
 > **Key point:** Each extra hidden node adds one more hyperplane to combine, so the decision boundary can bend in more places.
 
-With three hidden perceptrons instead of two (Figure 8a), the output perceptron combines three lines. The formula just gains a term. For hidden outputs 0.2, 0.3 and 0.4, weights 1, 2 and 3 and a bias of 10:
+With three hidden **perceptrons** (G-1486) instead of two (Figure 8a), the output perceptron combines three lines. The formula just gains a term. For hidden outputs 0.2, 0.3 and 0.4, weights 1, 2 and 3 and a bias of 10:
 
 $$z = 1 \times 0.2 + 2 \times 0.3 + 3 \times 0.4 + 10$$
 
@@ -256,7 +256,7 @@ Each extra hidden node adds one more straight line to the combination, so the de
 
 ### 4.2 More nodes in the input layer
 
-> **Key point:** One input node per feature; with three features, each hidden perceptron is a plane instead of a line.
+> **Key point:** One input node per feature; with three features, each hidden **perceptron** (G-1486) is a plane instead of a line.
 
 The input layer has one node per feature, so we add input nodes only when the data gains a feature (Figure 8b). With 12th marks as a third feature, every point lives in 3D. Each hidden perceptron is then a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), and the output perceptron combines planes in exactly the same way. With four or more features the planes become hyperplanes (see [from a line to a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)).
 
@@ -282,9 +282,9 @@ With enough hidden nodes, an MLP can approximate any continuous function: the **
 
 ### 4.5 What a hidden node can detect
 
-> **Key point:** A hidden node's weights are a pattern. Its weighted sum is large when the input matches the pattern, so each hidden node detects one simple feature, and later layers combine features into larger ones.
+> **Key point:** A hidden node's weights are a pattern. Its **weighted sum** (G-2119) is large when the input matches the pattern, so each hidden node detects one simple feature, and later layers combine features into larger ones.
 
-So far a hidden node was a line on a plane. With an image as input, the same weighted sum has a second reading. Take a $28 \times 28$ image of a digit: 784 pixels, each between 0 (white) and 1 (ink). A hidden node has one weight per pixel, so its weights can be drawn as a $28 \times 28$ grid too.
+So far a hidden node was a line on a **plane** (G-1502). With an image as input, the same weighted sum has a second reading. Take a $28 \times 28$ image of a digit: 784 pixels, each between 0 (white) and 1 (ink). A hidden node has one weight per pixel, so its weights can be drawn as a $28 \times 28$ grid too.
 
 ![One hidden node as an edge detector. Left: its weights, set by hand: +1 on a horizontal strip, −1 just above and below, 0 elsewhere. Middle and right: a 7 and a 1 from the MNIST digits, with the strip outlined. Idea after 3Blue1Brown, "But what is a neural network?".](images/edge_neuron.png)
 
@@ -292,7 +292,7 @@ In Figure 9 we set the weights by hand to look for a horizontal stroke near the 
 
 1. **Positive weights on a strip.** Ink on the strip adds to the weighted sum.
 2. **Negative weights around the strip.** Ink just above or below subtracts, so a large blob of ink does not count as a stroke.
-3. **The 7** has a horizontal stroke on the strip: its weighted sum is 14.8, and after the sigmoid the node is fully on.
+3. **The 7** has a horizontal stroke on the strip: its weighted sum is 14.8, and after the **sigmoid** (G-1798) the node is fully on.
 4. **The 1** only crosses the strip: its weighted sum is $-4.0$, and the node is off.
 
 Such a node is an **edge detector** (G-2263). Stacking layers repeats the idea: nodes in the next layer take the edge detectors' outputs as inputs and can respond to a combination of edges, such as a loop or a long line; a later layer combines those into a whole digit (a 9 is a loop on top of a line). That layering is described in [layers extract features of rising complexity](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#24-layers-extract-features-of-rising-complexity). In a trained network nobody sets these weights; training finds them. [What the filters look like](../../04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#52-what-the-filters-look-like) shows the patterns a trained image network actually learns.
@@ -305,9 +305,9 @@ Such a node is an **edge detector** (G-2263). Stacking layers repeats the idea: 
 
 > **Key point:** Hidden node 1 and hidden node 2 each define a line; the output node says "class 1" only between them. All 200 points are classified correctly.
 
-We return to XOR, the data no single perceptron can separate (see [why one perceptron cannot learn XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)). Each of the four XOR inputs, centred as $(\pm 1.5, \pm 1.5)$, gets a small cloud of 50 noisy points. Class 1 (green) is where exactly one input is positive, as in the XOR table.
+We return to XOR, the data no single **perceptron** (G-1486) can separate (see [why one perceptron cannot learn XOR](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#3-three-tiny-datasets-and-or-and-xor)). Each of the four XOR inputs, centred as $(\pm 1.5, \pm 1.5)$, gets a small cloud of 50 noisy points. Class 1 (green) is where exactly one input is positive, as in the XOR table.
 
-The network has 2 inputs, **2 sigmoid hidden nodes** and 1 sigmoid output node. We train it with plain [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862; repeated small steps downhill on the loss) on the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303): **learning rate** (G-1068; the step size) 1, 5,000 steps, starting from small random weights. (How the gradients of the hidden weights are found is the topic of [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).)
+The network has 2 inputs, **2 sigmoid hidden nodes** and 1 **sigmoid** (G-1798) output node. We train it with plain [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862; repeated small steps downhill on the loss) on the [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303): **learning rate** (G-1068; the step size) 1, 5,000 steps, starting from small random weights. (How the gradients of the hidden weights are found is the topic of [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).)
 
 ![XOR with two hidden nodes. Left and middle: what each hidden node learned, with its line (the 0.5 boundary). Right: the output node's map; its boundary (black) lies on the two hidden lines (dashed).](images/xor_lines.png){height=30%}
 
@@ -323,7 +323,7 @@ Figure 11 replays that training, frame by frame.
 
 ![The 2-2-1 network of Figure 10 during gradient descent. Shading: the output node's probability of class 1 (green); black: its 0.5 decision boundary; dashed and dotted: the two hidden nodes' lines.](images/xor_training.gif)
 
-In Figure 11 the shading is the probability of class 1 at each spot (green: high, red: low), and the black line is the decision boundary, where that probability is 0.5. It is the top view of a probability surface like those of Figure 4.
+In Figure 11 the shading is the **probability** (G-1574) of class 1 at each spot (green: high, red: low), and the black line is the decision boundary, where that probability is 0.5. It is the top view of a probability surface like those of Figure 4.
 
 1. **Steps 0 to about 1,500: a long flat stretch.** The weights start tiny (spread 0.01), so both hidden nodes output almost exactly 0.5 everywhere, and the log loss stays at 0.693, the loss of guessing 0.5 for every point. Each hidden weight's update is multiplied by the output node's weight to that node (the `dH` line of `TwoNodeNet.fit` in `images/playground.py`), and those output weights also start near 0.01, so the hidden weights grow only slowly.
 2. **Steps 1,500 to 1,750: the escape.** Once the weights are large enough, the two hidden lines swing apart. The loss falls from 0.693 to 0.178, and the accuracy climbs from 54 to 74, 92 and then 100 percent.
@@ -346,17 +346,17 @@ and the output is $h_1 - 2h_2$. Here $\max(0, a)$ is $a$ when $a$ is positive an
 
 The output is 0, 1, 1, 0: it is high only along the strip around $x_1 + x_2 = 1$, where the two class-1 points sit, and drops back to 0 on either side.
 
-> **Extra:** Our hidden nodes use the sigmoid, as everywhere in this Note. Goodfellow et al. use ReLU, an activation taught later. The picture is the same: two lines, and the output keeps the strip between them.
+> **Extra:** Our hidden nodes use the sigmoid, as everywhere in this Note. Goodfellow et al. use **ReLU** (G-1668), an activation taught later. The picture is the same: two lines, and the output keeps the strip between them.
 
 ### 5.2 Other shapes
 
-> **Key point:** On circles and spirals, small MLPs find the curved decision boundaries a single perceptron cannot. A poor setup still fails.
+> **Key point:** On circles and spirals, small MLPs find the curved decision boundaries a single **perceptron** (G-1486) cannot. A poor setup still fails.
 
 **TensorFlow Playground** (G-1958; first used in [what the perceptron learns](../DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#4-what-the-perceptron-learns)) lets us build small networks in the browser and watch them train. Figure 12 repeats two more of its demos in Python, with scikit-learn's `MLPClassifier` (G-1246), so the results can be rerun from the Notebook.
 
 ![MLPs trained on two circles and on two spirals](images/playground.png){height=26%}
 
-In Figure 12 the background shade is the probability of the green class at each spot (green: high, red: low), and the boundary between the two colours, where the probability is 0.5, is the decision boundary.
+In Figure 12 the background shade is the **probability** (G-1574) of the green class at each spot (green: high, red: low), and the boundary between the two colours, where the probability is 0.5, is the decision boundary.
 
 Reading the panels in order:
 
@@ -364,7 +364,7 @@ Reading the panels in order:
 - **Spirals, 4 hidden layers of 4 sigmoid nodes:** 50%, no better than guessing. The network predicts one class everywhere.
 - **Spirals, same layers with ReLU:** 98% in the figure. Changing only the activation function makes the deep network trainable.
 
-Averaged over 5 random starts (adam solver, Notebook), the sigmoid network stays at 50% every time, while the ReLU network reaches 84% (73% to 98%). The sigmoid network stalls because of the [**vanishing gradient**](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070):
+Averaged over 5 random starts (adam solver, Notebook), the **sigmoid** (G-1798) network stays at 50% every time, while the ReLU network reaches 84% (73% to 98%). The sigmoid network stalls because of the [**vanishing gradient**](../DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070):
 
 1. To update a weight, training multiplies the gradient by the sigmoid's derivative once for every layer it passes back through.
 2. That derivative is at most 0.25.
@@ -403,14 +403,14 @@ TensorFlow Playground also draws what each hidden node has learned. A first-laye
 | More output nodes | One output per class | Multi-class classification |
 | More hidden layers | Combinations of combinations | Very complex boundaries |
 
-- A sigmoid perceptron gives every point a probability; its 0.5 line is a straight decision boundary, because the probability depends on the point only through the weighted sum.
+- A sigmoid **perceptron** (G-1486) gives every point a probability; its 0.5 line is a straight decision boundary, because the probability depends on the point only through the weighted sum.
 - Combining perceptrons: $\hat{y} = \sigma(w_1 p_1 + w_2 p_2 + b)$, itself a perceptron, so a whole network is built from one repeated unit.
-- Input layer, hidden layer, output layer: that is a multi-layer perceptron.
-- The sigmoid between layers is what lets the combined decision boundary curve; without it, the layers add up to a straight line again.
+- Input layer, hidden layer, output layer: that is a **multi-layer perceptron** (G-1270).
+- The **sigmoid** (G-1798) between layers is what lets the combined decision boundary curve; without it, the layers add up to a straight line again.
 - With one input, two hidden nodes give two S-curves; weighted and added, they make a curve that rises and falls, so the network fits the medium-dose pattern that no straight line fits.
-- With an image as input, a hidden node's weights are a pattern, such as an edge, because its weighted sum is large only when the input matches the pattern; later layers combine such patterns.
+- With an image as input, a hidden node's weights are a pattern, such as an edge, because its **weighted sum** (G-2119) is large only when the input matches the pattern; later layers combine such patterns.
 - Two hidden nodes already solve XOR: two lines, and the output keeps the strip between them.
-- With enough nodes and layers an MLP can approximate any continuous function; in practice the setup (size, activation, solver) decides whether training finds it, because the theorem only says good weights exist (deep sigmoid networks, for example, stall on vanishing gradients).
+- With enough nodes and layers an MLP can approximate any continuous function; in practice the setup (size, activation, solver) decides whether training finds it, because the theorem only says good weights exist (deep sigmoid networks, for example, stall on **vanishing gradients** (G-2070)).
 - So feeding several perceptrons into another one combines their straight boundaries into a curved one, and that layered combination is the multi-layer perceptron.
 
 ## 7. Sources
@@ -444,25 +444,25 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
+| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
+| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
-| [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
 | [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
 | [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
 | [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
-| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Multi-class classification](../../../DL/05-rnn/DL-063-lstm-next-word-prediction/DL-063-lstm-next-word-prediction.md#51-why-not-regression) (G-1266) | Classification where the output is one of more than two classes, such as the next word out of a whole vocabulary; the output layer has one node per class. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | [Softmax regression](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#1-overview) (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
 | [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation) (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [TensorFlow Playground](../../../DL/01-basics/DL-007-problem-with-perceptron/DL-007-problem-with-perceptron.md#5-the-same-failure-on-larger-data) (G-1958) | A website that trains small neural networks in the browser and shows their boundaries. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
-| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver) (G-1836) | The method a model uses to find its best settings during training. |
 | [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |

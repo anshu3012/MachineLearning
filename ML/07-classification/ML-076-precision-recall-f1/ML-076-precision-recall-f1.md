@@ -34,7 +34,7 @@ Figure 1 shades the part of this table that each metric reads: precision reads o
 
 ## 2. Precision
 
-> **Key point:** Precision = TP / (TP + FP). Use it when false positives are the expensive mistake.
+> **Key point:** **Precision** (G-1547) = TP / (TP + FP). Use it when false positives are the expensive mistake.
 
 ### 2.1 A spam filter
 
@@ -60,7 +60,7 @@ A missed job offer in the spam folder is far worse than an extra advert in the i
 
 $$\text{precision} = \frac{TP}{TP + FP}$$
 
-In words: of everything the model **predicted** positive, how much really was positive? Precision uses the "predicted 1" column of the confusion matrix (Figure 1, left).
+In words: of everything the model **predicted** positive, how much really was positive? **Precision** (G-1547) uses the "predicted 1" column of the confusion matrix (Figure 1, left).
 
 - Model A: about a third of what it calls spam is not spam.
   $$190 / (190 + 100) = 0.66$$
@@ -79,7 +79,7 @@ Model B has the higher precision, matching the choice above. Figure 2 shows wher
 
 ## 3. Recall
 
-> **Key point:** Recall = TP / (TP + FN). Use it when false negatives are the expensive mistake.
+> **Key point:** **Recall** (G-1641) = TP / (TP + FN). Use it when false negatives are the expensive mistake.
 
 ### 3.1 A cancer detector
 
@@ -105,7 +105,7 @@ The false negative is far more dangerous, so we want the model with fewer of the
 
 $$\text{recall} = \frac{TP}{TP + FN}$$
 
-In words: of everything that **really** is positive, how much did the model catch? Recall uses the "actual 1" row of the confusion matrix (Figure 1, right).
+In words: of everything that **really** is positive, how much did the model catch? **Recall** (G-1641) uses the "actual 1" row of the confusion matrix (Figure 1, right).
 
 - Model A:
   $$150 / (150 + 10) = 0.94$$
@@ -120,7 +120,7 @@ Model A has the higher recall, matching the choice above. Figure 3 shows where t
 
 ### 3.3 Choosing between them
 
-> **Key point:** Decide which mistake costs more. False positives worse: precision. False negatives worse: recall.
+> **Key point:** Decide which mistake costs more. False positives worse: **precision** (G-1547). False negatives worse: recall.
 
 | Problem | Worse mistake | Metric to watch |
 |---|---|---|
@@ -129,7 +129,7 @@ Model A has the higher recall, matching the choice above. Figure 3 shows where t
 | Fraud alerts that block cards | FP: blocking honest customers | precision |
 | Airport threat screening | FN: missing a threat | recall |
 
-Precision and recall usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). [How the threshold moves the two rates](../ML-077-roc-auc/ML-077-roc-auc.md#33-how-the-threshold-moves-them) looks at the same trade-off (scikit-learn docs, "Precision-Recall" example).
+Precision and **recall** (G-1641) usually pull against each other: making a model flag more cases catches more true positives (higher recall) but also more false alarms (lower precision). [How the threshold moves the two rates](../ML-077-roc-auc/ML-077-roc-auc.md#33-how-the-threshold-moves-them) looks at the same trade-off (scikit-learn docs, "Precision-Recall" example).
 
 Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients). The logistic regression (a model that gives a probability for a yes-or-no target, see [exploring the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data)) gives every patient a probability of disease, and a patient is flagged when that probability passes the threshold; scikit-learn uses 0.5. Watch the threshold slide: moving it left catches every patient (recall 1.00) but turns healthy people into false alarms (precision 0.56 at 0.05); moving it right clears the false alarms (precision 1.00 at 0.95) but misses most patients (recall 0.38).
 
@@ -137,17 +137,17 @@ Figure 4 shows the pull on the heart-disease test set of section 5 (61 patients)
 
 ## 4. F1 score
 
-> **Key point:** F1 is one number built from precision (P) and recall (R), their harmonic mean. F1 is high only if both are high.
+> **Key point:** F1 is one number built from **precision** (G-1547) (P) and recall (R), their harmonic mean. F1 is high only if both are high.
 
 ### 4.1 When neither mistake clearly matters more
 
 > **Key point:** Sometimes both errors matter equally, and one number is needed.
 
-For a model that tells cats from dogs, calling a cat a dog is no worse than the reverse. Both precision and recall matter, and comparing two numbers for every model is awkward. The **F1 score** combines them.
+For a model that tells cats from dogs, calling a cat a dog is no worse than the reverse. Both **precision** (G-1547) and recall matter, and comparing two numbers for every model is awkward. The **F1 score** combines them.
 
 ### 4.2 Why the harmonic mean
 
-> **Key point:** The harmonic mean is pulled towards the smaller value, so a model cannot hide a bad precision behind a good recall.
+> **Key point:** The harmonic mean is pulled towards the smaller value, so a model cannot hide a bad **precision** (G-1547) behind a good recall.
 
 $$F_1 = \frac{2 \times \text{precision} \times \text{recall}}{\text{precision} + \text{recall}}$$
 
@@ -163,7 +163,7 @@ An everyday picture: a chain is only as strong as its weakest link. F1 behaves t
 
 - When both are equal, the two means agree.
 - When they differ, F1 stays closer to the smaller one. The second model has the same average as the first but a weak precision, and F1 penalises it.
-- A model that flags everything as positive has recall 1 but may have precision near 0. The average would still give it 0.5; F1 gives 0.
+- A model that flags everything as positive has **recall** (G-1641) 1 but may have precision near 0. The average would still give it 0.5; F1 gives 0.
 
 ![F1 against the arithmetic mean](images/f1_vs_mean.png){height=50%}
 
@@ -173,7 +173,7 @@ In Figure 5, the horizontal axis is the precision and each colour keeps the reca
 
 > **Key point:** precision_score, recall_score and f1_score; by default they report the positive class (1).
 
-> **Python:** Precision, recall and F1.
+> **Python:** **Precision** (G-1547), recall and F1.
 >
 > ```python
 > from sklearn.metrics import precision_score, recall_score, f1_score
@@ -192,7 +192,7 @@ On the heart-disease test set of [the confusion matrix](../ML-075-accuracy-confu
 
 A decision tree is a chain of yes-or-no questions on the features (see [a decision tree is nested if-else](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)). "Standardised" means each feature was rescaled to mean 0 and standard deviation 1 first.
 
-Logistic regression misses fewer patients (higher recall), which matters most for a disease. Figure 6 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
+Logistic regression misses fewer patients (higher **recall** (G-1641)), which matters most for a disease. Figure 6 draws the table: the two models are close on precision, and the gap in recall carries over into F1.
 
 ![Precision, recall and F1 on the 61 heart-disease test patients: standardised logistic regression (blue) and a decision tree (orange).](images/heart_scores.png)
 
@@ -200,7 +200,7 @@ Logistic regression misses fewer patients (higher recall), which matters most fo
 
 ## 6. More than two classes
 
-> **Key point:** Compute precision, recall and F1 for each class, then combine them with a macro average (plain mean) or a weighted average (by class size).
+> **Key point:** Compute precision, recall and F1 for each class, then combine them with a **macro average** (G-1143) (plain mean) or a weighted average (by class size).
 
 ### 6.1 Per class
 
@@ -225,9 +225,9 @@ The **support** (G-1924) is the number of items really in each class.
 
 ### 6.2 Combining the classes
 
-> **Key point:** Macro: the plain mean of the class scores. Weighted: each class counts in proportion to its support.
+> **Key point:** Macro: the plain mean of the class scores. Weighted: each class counts in proportion to its **support** (G-1924).
 
-- **Macro average** (G-1143): every class counts equally. For precision, add the three class values, then divide by 3. With four decimals (25/29, 30/51 and 20/28), so that the rounding does not shift the last digit:
+- **Macro average** (G-1143): every class counts equally. For **precision** (G-1547), add the three class values, then divide by 3. With four decimals (25/29, 30/51 and 20/28), so that the rounding does not shift the last digit:
 
   $$
   0.8621 + 0.5882 + 0.7143 = 2.1646
@@ -270,7 +270,7 @@ When the classes are about the same size, the two agree closely. When they are v
 > print(classification_report(y_test, y_pred))
 > ```
 >
-> `classification_report` (G-396) prints precision, recall, F1 and support for every class, plus the accuracy and both averages.
+> `classification_report` (G-396) prints precision, **recall** (G-1641), F1 and support for every class, plus the accuracy and both averages.
 
 On scikit-learn's handwritten digits (10 classes), logistic regression reaches a macro F1 of 0.971; its weakest class is the digit 5, with precision 0.875.
 
@@ -282,10 +282,10 @@ On scikit-learn's handwritten digits (10 classes), logistic regression reaches a
 | Recall | $TP / (TP + FN)$ | of the real positives, how many were found? | false negatives are costly |
 | F1 | $2PR / (P + R)$ | one number that needs both to be high | both mistakes matter |
 
-- Equal accuracy can hide very different mistakes; precision and recall separate them, so you can pick the model whose mistakes are the cheap kind (the spam filters and the cancer detectors both tie on accuracy).
-- Precision and recall usually pull against each other, because flagging more cases catches more positives and also raises more false alarms.
-- F1 is the harmonic mean, so it stays near the weaker of the two, and a model cannot hide a bad precision behind a good recall.
-- With several classes, compute per class and combine with a macro or weighted average; on imbalanced classes macro gives rare classes a full say, while weighted reflects a typical item.
+- Equal accuracy can hide very different mistakes; **precision** (G-1547) and recall separate them, so you can pick the model whose mistakes are the cheap kind (the spam filters and the cancer detectors both tie on accuracy).
+- Precision and **recall** (G-1641) usually pull against each other, because flagging more cases catches more positives and also raises more false alarms.
+- F1 is the **harmonic mean** (G-880), so it stays near the weaker of the two, and a model cannot hide a bad precision behind a good recall.
+- With several classes, compute per class and combine with a macro or **weighted average** (G-2113); on imbalanced classes macro gives rare classes a full say, while weighted reflects a typical item.
 - So these three metrics answer what accuracy cannot: which kind of mistake a model makes, and how well it handles the class we look for.
 
 ## 8. Sources
@@ -313,8 +313,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | F1 score (G-743) | One number that combines precision and recall as their harmonic mean, $2PR/(P + R)$; it is high only when both are high, so it is used when both kinds of mistake matter. |
 | Specificity (G-2209) | Of all items that really are negative, the fraction the model cleared: TN / (TN + FP). |
 | Harmonic mean (G-880) | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |
-| Support (G-1924) | The number of items that really belong to a class. |
 | Macro average (G-1143) | The plain mean of a metric (such as precision) over all classes, so every class counts equally however many rows it has. |
+| Support (G-1924) | The number of items that really belong to a class. |
 | Weighted average (G-2113) | One number for a per-class score: the mean of the score over classes, each class counted by how many items really belong to it (its support). |
 | classification_report (G-396) | scikit-learn function that prints precision, recall, F1 and support for every class. |
 | [Confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) | A table counting a classifier's predictions for every pair of actual and predicted class, so we can see which kinds of mistake it makes, which accuracy alone hides. |

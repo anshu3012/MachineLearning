@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ## 1. Overview
 
-> **Key point:** A [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) takes fully grown trees, which have low bias and high variance, and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
+> **Key point:** A [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) takes fully grown trees, which have low bias and high **variance** (G-2074), and averages away most of the variance. The result has low bias and low variance, the combination single models rarely reach.
 
 ![Concentric circles: (a) one fully grown tree draws boxes around single points; (b) a random forest of 500 trees draws one smooth inner region. Titles give the accuracy on the training and test sets](images/circles.png){height=45%}
 
@@ -26,7 +26,7 @@ This Note explains why, using the [**bias-variance trade-off**](../../06-regress
 
 ## 2. Why a forest lowers the variance
 
-> **Key point:** A random forest is bagging with fully grown trees: each tree keeps the bias low, and averaging many of them removes most of the variance.
+> **Key point:** A **random forest** (G-1611) is bagging with fully grown trees: each tree keeps the bias low, and averaging many of them removes most of the variance.
 
 Two words carry this Note (both explained in [bias and variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias)):
 
@@ -47,8 +47,8 @@ The data is made with `make_circles` (see [the data: two circles](../../07-class
 
 **One fully grown tree** (Figure 1a). Its surface has long thin strips and isolated boxes. Each exists because of a single point: a lone blue point among orange ones gets its own blue strip, although the region around it clearly belongs to orange.
 
-- Training accuracy: **1.00**, every training point is classified correctly: low bias.
-- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high variance. This is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the model fits the quirks of its training sample, not the pattern.
+- Training accuracy: **1.00**, every training point is classified correctly: low **bias** (G-287).
+- Test accuracy: **0.86**. A new sample from the same pattern would produce different strips in different places: high **variance** (G-2074). This is [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the model fits the quirks of its training sample, not the pattern.
 
 **A random forest of 500 trees** (Figure 1b). Most strips and boxes are gone. The surface captures the true nature of the data: a blue region inside an orange one.
 
@@ -75,17 +75,17 @@ Variance means how much a model changes when the training data changes, so Figur
 >
 > `n_estimators` is the number of trees and `n_jobs=-1` trains them on every CPU core (both from [BaggingClassifier in code](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#3-baggingclassifier-in-code)). The surfaces are drawn on a grid of points, as in [**decision surfaces**](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces) (G-560).
 
-> **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not. Each tree's bootstrap sample holds about 63% of the training observations (ESL §7.11), and a fully grown tree gets every observation it saw right. So for any training observation, the trees that saw it are a majority, and they outvote the rest.
+> **Extra:** One might expect the forest to give up a little training accuracy in exchange for the lower variance. Here it does not. Each tree's **bootstrap sample** (G-319) holds about 63% of the training observations (ESL §7.11), and a fully grown tree gets every observation it saw right. So for any training observation, the trees that saw it are a majority, and they outvote the rest.
 >
 > The Notebook checks this: every training observation was seen by at least 57% of the 500 trees, and those trees were always right on it. Raising the noise of `make_circles` up to 1.0 leaves the forest's training accuracy at 1.00.
 
 ## 4. Seeing it in regression
 
-> **Key point:** On a noisy curve, one tree chases every point (test MSE 0.0192); a forest of 1,000 trees stays closer to the true pattern (test MSE 0.0140), exactly like bagging, since one feature leaves no features to sample.
+> **Key point:** On a noisy curve, one tree chases every point (test MSE 0.0192); a forest of 1,000 trees stays closer to the true pattern (test MSE 0.0140), exactly like **bagging** (G-251), since one feature leaves no features to sample.
 
 ![Two bumps plus noise: (a) one fully grown regression tree; (b) bagging with 1,000 fully grown trees; (c) a random forest of 1,000 trees. The dashed curve is the true pattern](images/curves.png){height=36%}
 
-The data is the two-bumps curve of [seeing it on a curve](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#3-seeing-it-on-a-curve), which compares one tree with bagging. Here we add the random forest. We train on 150 points and test on 1,000; the dashed curve in Figure 4 is the true pattern.
+The data is the two-bumps curve of [seeing it on a curve](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#3-seeing-it-on-a-curve), which compares one tree with bagging. Here we add the **random forest** (G-1611). We train on 150 points and test on 1,000; the dashed curve in Figure 4 is the true pattern.
 
 - **(a) One fully grown tree** (red) passes through every training point: training error 0, test **mean squared error (MSE)** (G-1201; the average squared gap between prediction and truth, see [**mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201)) **0.0192**.
 - **(b) Bagging with 1,000 fully grown trees** (green) no longer reaches every outlier and stays closer to the dashed curve: test MSE **0.0140**.
@@ -102,9 +102,9 @@ Panels (b) and (c) match because the data has a single feature. A random forest 
 | Circles: train / test accuracy | 1.00 / 0.86 | 1.00 / 0.91 |
 | Curve: train / test MSE | 0.0000 / 0.0192 | 0.0018 / 0.0140 |
 
-- We want low bias and low variance, but single models usually trade one for the other, so a model that escapes the trade-off is worth having.
-- Fully grown trees are low bias, high variance: they overfit, because they fit every training point (training accuracy 1.00) and draw strips around single noisy points that move with every new sample.
-- A random forest averages many such trees, each trained on a different random sample, so noisy observations are spread out and their effect averages away.
+- We want low bias and low **variance** (G-2074), but single models usually trade one for the other, so a model that escapes the trade-off is worth having.
+- Fully grown trees are low **bias** (G-287), high variance: they overfit, because they fit every training point (training accuracy 1.00) and draw strips around single noisy points that move with every new sample.
+- A **random forest** (G-1611) averages many such trees, each trained on a different random sample, so noisy observations are spread out and their effect averages away.
 - The result keeps the low bias and cuts the variance: smoother boundaries and curves, better scores on new data. This is why a random forest performs so well: each tree keeps the bias low, and the average removes most of the variance.
 
 ## 6. Sources
@@ -124,9 +124,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
-| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
 | [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |

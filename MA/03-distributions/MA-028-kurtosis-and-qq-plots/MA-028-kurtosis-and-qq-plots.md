@@ -27,7 +27,7 @@ The first three are known: the mean and the standard deviation (the typical dist
 
 ## 2. Four summary numbers of a distribution
 
-> **Key point:** Mean, standard deviation, skewness and kurtosis each add one layer of information about a distribution's shape.
+> **Key point:** Mean, standard deviation, skewness and **kurtosis** (G-1021) each add one layer of information about a distribution's shape.
 
 Take a batter who plays 100 matches in each of two seasons and averages 40 runs per match in both. By the mean alone the two seasons are identical. Figure 1 shows three ways in which they can still differ.
 
@@ -52,16 +52,16 @@ In statistics these numbers are called **moments** (G-1882): averages of the dis
 
 - **1st moment:** the mean.
 - **2nd moment:** the [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), the average squared distance from the mean. The standard deviation is its square root, so the two carry the same information.
-- **3rd moment:** skewness, from the cubed distances.
-- **4th moment:** kurtosis, from the distances raised to the fourth power.
+- **3rd moment:** **skewness** (G-1817), from the cubed distances.
+- **4th moment:** **kurtosis** (G-1021), from the distances raised to the fourth power.
 
 There are higher moments, but these four are the ones in common use.
 
 ## 3. Kurtosis: a measure of tailedness
 
-> **Key point:** Kurtosis measures the tailedness of a distribution: how often values far from the mean occur; fat tails mean more outliers.
+> **Key point:** **Kurtosis** (G-1021) measures the tailedness of a distribution: how often values far from the mean occur; fat tails mean more outliers.
 
-Kurtosis (from the Greek for "curved, arching") is the fourth statistical moment. Kurtosis is a measure of the **tailedness** (G-1944) of the probability distribution of a real-valued random variable. Like skewness, it describes one particular aspect of the distribution's shape.
+Kurtosis (from the Greek for "curved, arching") is the fourth **statistical moment** (G-1882). Kurtosis is a measure of the **tailedness** (G-1944) of the probability distribution of a real-valued random variable. Like **skewness** (G-1817), it describes one particular aspect of the distribution's shape.
 
 A **fat tail** (G-757), or heavy tail, is a tail that falls to zero slowly. Far-away values then have a noticeable density, so they occur more often than in a curve whose tails drop quickly. In other words:
 
@@ -72,7 +72,7 @@ So when someone asks what kurtosis is, the short answer is: how fat the tails of
 
 ### 3.1 Kurtosis is not peakedness
 
-> **Key point:** Kurtosis is about the tails, not the height of the peak; descriptions of it as "peakedness" are wrong.
+> **Key point:** **Kurtosis** (G-1021) is about the tails, not the height of the peak; descriptions of it as "peakedness" are wrong.
 
 Many books and websites describe kurtosis as how **peaked** or flat a curve is, or as "peakedness plus tails". Both are incorrect. The statistician Peter Westfall showed that kurtosis has only one clear interpretation: **tail extremity**, meaning either outliers that are present in the data, or a tendency to produce outliers (Westfall 2014).
 
@@ -82,7 +82,7 @@ The reason is in the formula below. Values near the mean contribute almost nothi
 
 ### 3.2 The kurtosis formula
 
-> **Key point:** Kurtosis is the average of the z-scores raised to the fourth power.
+> **Key point:** **Kurtosis** (G-1021) is the average of the z-scores raised to the fourth power.
 
 Each value's z-score is its distance from the mean in standard deviations (see [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874)). Raising z-scores to the fourth power makes far values count enormously. A value 2 standard deviations away contributes
 
@@ -111,7 +111,7 @@ Figure 2 plays the computation. Watch step 3: raising to the fourth power turns 
 
 ## 4. Excess kurtosis and the three types
 
-> **Key point:** Excess kurtosis is kurtosis minus 3, the kurtosis of every normal distribution; positive means fatter tails than normal (leptokurtic), negative means thinner (platykurtic), zero means normal-like (mesokurtic).
+> **Key point:** Excess kurtosis is **kurtosis** (G-1021) minus 3, the kurtosis of every normal distribution; positive means fatter tails than normal (leptokurtic), negative means thinner (platykurtic), zero means normal-like (mesokurtic).
 
 Every normal distribution, whatever its mean and standard deviation, has kurtosis exactly 3. The mean and standard deviation drop out because kurtosis is built from z-scores, and turning values into z-scores makes every normal distribution the same standard normal curve (see [standardizing a normal variable](../MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#3-standardizing-a-normal-variable)). For that one curve, the average of $z^4$ is 3 (NIST/SEMATECH e-Handbook §1.3.5.11). So kurtosis is usually reported relative to the normal:
 
@@ -157,9 +157,9 @@ The prime example of a mesokurtic distribution is the normal distribution itself
 
 ## 5. Where kurtosis matters: kurtosis risk
 
-> **Key point:** In finance, high kurtosis in an asset's returns means a higher chance of extreme gains and extreme losses, called kurtosis risk.
+> **Key point:** In finance, high **kurtosis** (G-1021) in an asset's returns means a higher chance of extreme gains and extreme losses, called kurtosis risk.
 
-Kurtosis is not needed in every analysis, but finance is one field that relies on it. **Kurtosis risk** (G-1020) is the risk that comes from the possibility of extreme outcomes, the fat tails, in the distribution of returns of an asset or a portfolio.
+Kurtosis is not needed in every analysis, but finance is one field that relies on it. **Kurtosis risk** (G-1020) is the risk that comes from the possibility of extreme outcomes, the **fat tails** (G-757), in the distribution of returns of an asset or a portfolio.
 
 Picture the distribution of returns of a mutual fund. A fat tail on both sides means many investors made a lot of money and many lost a lot. Such a fund is called **volatile** (G-2094).
 
@@ -167,7 +167,7 @@ So analysts plot the return distribution of an asset and compute its kurtosis. I
 
 ## 6. Is a feature normally distributed?
 
-> **Key point:** Besides plots, a statistical test such as Shapiro-Wilk checks normality with a p-value; it is best read together with a Q-Q plot.
+> **Key point:** Besides plots, a statistical test such as Shapiro-Wilk checks normality with a p-value; it is best read together with a **Q-Q plot** (G-1596).
 
 Many methods assume that a feature is normally distributed, so "how do we know whether a feature is normal?" is a common interview question. The visual checks, a density plot and a Q-Q plot, are taught in [checking whether a column is normal](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#4-checking-whether-a-column-is-normal); the Q-Q plot is the most informative and gets a second look below.
 
@@ -187,7 +187,7 @@ The shape never changed; only the sample grew. A small p-value on a large sample
 
 ## 7. Building a Q-Q plot
 
-> **Key point:** A Q-Q plot pairs each sorted data value with the matching quantile of a theoretical distribution; the quantiles can come from cutting the curve into equal-area strips, or from the percentiles of a large generated sample.
+> **Key point:** A **Q-Q plot** (G-1596) pairs each sorted data value with the matching quantile of a theoretical distribution; the quantiles can come from cutting the curve into equal-area strips, or from the percentiles of a large generated sample.
 
 How to read a Q-Q plot, and a five-value build, are in [how a Q-Q plot is built](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) and [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot). Here we build the plot twice: first on 15 values, where every point can be followed by eye, and then from percentiles ([percentiles](../../01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#3-percentiles): the value below which a given share of the data lies), which needs no formula.
 
@@ -215,14 +215,14 @@ With 150 or more values we do the same pairing with percentiles, as follows.
 
 ### 7.2 The steps with percentiles
 
-> **Key point:** Our data on the y axis, a theoretical distribution on the x axis, one point per quantile.
+> **Key point:** Our data on the y axis, a theoretical distribution on the x axis, one point per **quantile** (G-1599).
 
 We compare our data $X$ with a **theoretical distribution** $Y$: one whose type we already know, here the normal distribution (see [the normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). Figure 6 shows the steps.
 
 1. **Theoretical data.** Generate many values from the theoretical distribution, say 1,000 values from a normal distribution with mean 0 and standard deviation 1.
 2. **Sort both and take quantiles.** Sort our data and compute its percentiles: 1st, 2nd, ..., 99th. Do the same for the theoretical data.
 3. **Pair them.** The 1st percentile of $Y$ with the 1st percentile of $X$, the 2nd with the 2nd, and so on.
-4. **Plot the pairs.** Theoretical quantile on the x axis, data quantile on the y axis.
+4. **Plot the pairs.** **Theoretical quantile** (G-1968) on the x axis, data quantile on the y axis.
 
 ![Building a Q-Q plot: sort both sets, take the same percentiles, plot them in pairs](images/qq_build.gif){height=55%}
 
@@ -232,7 +232,7 @@ Points on one straight line still mean that $X$ has the same shape as $Y$. The l
 
 > **Key point:** The 150 sepal lengths lie close to the line in the middle and stray at the ends: roughly normal, but not perfectly.
 
-The iris dataset holds measurements of 150 flowers. Its `sepal length` feature looks like a bell in a density plot. Figure 7 (left) builds its Q-Q plot by hand, with 99 percentiles of the data against 99 percentiles of 1,000 standard normal values. The right panel is the ready-made version.
+The iris dataset holds measurements of 150 flowers. Its `sepal length` feature looks like a bell in a density plot. Figure 7 (left) builds its **Q-Q plot** (G-1596) by hand, with 99 percentiles of the data against 99 percentiles of 1,000 standard normal values. The right panel is the ready-made version.
 
 ![Q-Q plot of the iris sepal lengths against the normal distribution, by hand and with scipy](images/iris_qq.png)
 
@@ -258,13 +258,13 @@ The points follow the line closely in the middle, but not every point touches it
 >     stats.probplot(sepal, dist="norm")
 > ```
 >
-> `probplot` uses exact normal quantiles instead of a generated sample, and one point per data value. The Notebook (`MA-028-kurtosis-and-qq-plots.ipynb`) draws both panels with Plotly.
+> `probplot` uses exact normal **quantiles** (G-1599) instead of a generated sample, and one point per data value. The Notebook (`MA-028-kurtosis-and-qq-plots.ipynb`) draws both panels with Plotly.
 
 ### 7.4 Which reference line?
 
 > **Key point:** The diagonal $y = x$ only fits standardized data; for raw data use a line fitted through the points.
 
-statsmodels has a one-line Q-Q plot, `sm.qqplot(x, line=...)`, with four choices of reference line:
+statsmodels has a one-line **Q-Q plot** (G-1596), `sm.qqplot(x, line=...)`, with four choices of reference line:
 
 - `"45"`: the diagonal $y = x$;
 - `"s"`: a standardized line, with the data's standard deviation as slope and its mean as intercept;
@@ -277,11 +277,11 @@ The diagonal only works when the data has mean 0 and standard deviation 1, or wh
 
 ## 8. Reading tails on a Q-Q plot
 
-> **Key point:** Fat tails make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
+> **Key point:** **Fat tails** (G-757) make the points leave the line at both ends, outwards; thin tails bend them back in, in an S shape.
 
-The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). Kurtosis explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points ([Section 3.1](#31-kurtosis-is-not-peakedness)).
+The basic shapes, including fat tails leaving the line outwards at both ends, are in [reading a Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#42-reading-a-q-q-plot) (Figure 5). **Kurtosis** (G-1021) explains that fat-tail shape: a leptokurtic feature has more extreme values on both sides than a normal one. Such a curve often also looks too peaked in the middle, but it is the tails that move the points ([Section 3.1](#31-kurtosis-is-not-peakedness)).
 
-Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed [**Laplace distribution**](../../08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal quantiles are only $-3.20$ and $3.20$: both ends leave the line outwards.
+Figure 8 shows the fat-tail shape on 1,000 standardized values from the peaked, fat-tailed [**Laplace distribution**](../../08-likelihood/MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#34-estimating-the-noise) (G-1044), the Notebook's check. The middle point sits on the line, while the lowest and highest values are $-5.41$ and $4.82$ where the normal **quantiles** (G-1599) are only $-3.20$ and $3.20$: both ends leave the line outwards.
 
 ![Q-Q plot of 1,000 standardized Laplace values against the normal. The middle follows the dashed line; both ends bend away from it, outwards.](images/laplace_qq.png){height=45%}
 
@@ -297,9 +297,9 @@ The more the points leave the line, the further the data is from normal.
 
 ## 9. Q-Q plots for other distributions
 
-> **Key point:** A Q-Q plot can compare data with any theoretical distribution, not only the normal: uniform, log-normal, Pareto and others.
+> **Key point:** A **Q-Q plot** (G-1596) can compare data with any theoretical distribution, not only the normal: uniform, log-normal, Pareto and others.
 
-A common misunderstanding is that Q-Q plots can only detect normal distributions. By definition a Q-Q plot compares two distributions, so the theoretical one can be anything. Only the quantiles on the x axis change.
+A common misunderstanding is that Q-Q plots can only detect normal distributions. By definition a Q-Q plot compares two distributions, so the theoretical one can be anything. Only the **quantiles** (G-1599) on the x axis change.
 
 Figure 9 shows 1,000 values drawn from a **uniform distribution** between 0 and 1, where every value in the range is equally likely ([the uniform distribution](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution)). The histogram looks flat.
 
@@ -329,11 +329,11 @@ The same idea checks for the [log-normal](../MA-029-uniform-and-log-normal/MA-02
 | Platykurtic | Excess below 0: thin tails | uniform, $-1.2$ | extreme values are rarer than normal |
 | Q-Q plot | Data quantiles against theoretical quantiles | iris sepal length vs normal | shows at a glance whether data follows a distribution, and where it departs |
 
-- Kurtosis is about tails, not peakedness, because values near the mean add almost nothing to the average of $z^4$.
-- Most software reports excess kurtosis; a normal feature gives about 0, so do not expect 3 from scipy or pandas.
-- Three ways to check normality: plot, Q-Q plot, statistical test, so read the test together with a Q-Q plot, because with large samples the test flags even small departures.
+- **Kurtosis** (G-1021) is about tails, not peakedness, because values near the mean add almost nothing to the average of $z^4$.
+- Most software reports **excess kurtosis** (G-720); a normal feature gives about 0, so do not expect 3 from scipy or pandas.
+- Three ways to check normality: plot, **Q-Q plot** (G-1596), statistical test, so read the test together with a Q-Q plot, because with large samples the test flags even small departures.
 - Points on a straight line: same shape. The diagonal $y = x$ only fits standardized data, so for raw data use a fitted line (`"s"`, `"r"` or `"q"`).
-- Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape), because the extreme values are more, or less, extreme than the normal quantiles.
+- Fat tails leave the line outwards at both ends; thin tails bend inwards (S shape), because the extreme values are more, or less, extreme than the normal **quantiles** (G-1599).
 - Any theoretical distribution can go on the x axis of a Q-Q plot, so the same tool checks for uniform, log-normal or Pareto data.
 - This answers the opening question: kurtosis measures how heavy the tails are, and a Q-Q plot shows whether data follows a given distribution and whether its tails are heavy or light.
 

@@ -16,19 +16,19 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, step/model, conc
 
 ## 1. Overview
 
-> **Key point:** Five main types of network (MLP, CNN, RNN, autoencoder, GAN) each suit a kind of data or task. Neural networks rose and fell twice before deep learning took off in 2012, and today they power cars, games, assistants and creative tools.
+> **Key point:** Five main types of network (MLP, CNN, RNN, **autoencoder** (G-231), GAN) each suit a kind of data or task. Neural networks rose and fell twice before deep learning took off in 2012, and today they power cars, games, assistants and creative tools.
 
 This Note gives that big picture before the technical Notes start. The Note has three parts:
 
 1. **Types of neural networks:** what each of the five main types is for (Figure 1).
-2. **History:** from the first perceptron in 1958 to the ImageNet breakthrough of 2012 (Figure 3).
-3. **Applications:** where deep learning is used today.
+2. **History:** from the first **perceptron** (G-1486) in 1958 to the ImageNet breakthrough of 2012 (Figure 3).
+3. **Applications:** where **deep learning** (G-568) is used today.
 
 Deep learning has [parts of a network](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (input, hidden and output layers) and [five forces behind its success](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#5-why-deep-learning-took-off-after-2010), both explained earlier. This Note builds on both.
 
 ## 2. Types of neural networks
 
-> **Key point:** MLPs for general supervised learning, CNNs for images, RNNs and LSTMs for sequences, autoencoders for compression, GANs for generating new data.
+> **Key point:** MLPs for general supervised learning, CNNs for images, RNNs and **LSTMs** (G-1123) for sequences, autoencoders for compression, GANs for generating new data.
 
 ![The five main types of neural network](images/nn_types.png)
 
@@ -40,7 +40,7 @@ Figure 2 animates the same five types. In each part, watch where the orange sign
 
 ### 2.1 Multi-layer perceptron (MLP)
 
-> **Key point:** Perceptrons organised in layers; the simplest network, good at non-linear relationships in ordinary supervised problems.
+> **Key point:** **Perceptrons** (G-1486) organised in layers; the simplest network, good at non-linear relationships in ordinary supervised problems.
 
 The simplest network stacks small units in layers and passes the data straight through them. In part 1 of Figure 2, the signal starts at the input layer, crosses the two hidden layers and ends at the output layer, always in one direction.
 
@@ -91,9 +91,9 @@ As the game goes on, the generator learns to fool the discriminator. Its output 
 
 ## 3. History of deep learning
 
-> **Key point:** Two booms and two winters: the perceptron (1958) and its XOR failure (1969), backpropagation (1986) and its scaling failure, then deep belief nets (2006) and the 2012 ImageNet win.
+> **Key point:** Two booms and two winters: the **perceptron** (G-1486) (1958) and its XOR failure (1969), backpropagation (1986) and its scaling failure, then deep belief nets (2006) and the 2012 ImageNet win.
 
-Deep learning is a young field, and many of the people who shaped it are still active. Its history reads like the plot of a film, full of ups and downs: two rises and two falls (Figure 3).
+**Deep learning** (G-568) is a young field, and many of the people who shaped it are still active. Its history reads like the plot of a film, full of ups and downs: two rises and two falls (Figure 3).
 
 ![Interest in neural networks drawn year by year, with the two AI winters shaded. The height of the curve is a sketch of the story below, not measured data; the events and years are exact](images/timeline_anim.gif)
 
@@ -115,9 +115,9 @@ Funding, media attention and research on neural networks dropped sharply. A peri
 
 ### 3.2 Backpropagation and the second boom
 
-> **Key point:** Many perceptrons in layers can learn non-linear functions, and backpropagation can train them.
+> **Key point:** Many **perceptrons** (G-1486) in layers can learn non-linear functions, and backpropagation can train them.
 
-In 1986, **Geoffrey Hinton**, now known as a father of deep learning, published with David Rumelhart and Ronald Williams the paper *Learning representations by back-propagating errors* (Rumelhart et al. 1986). The paper's message:
+In 1986, **Geoffrey Hinton**, now known as a father of **deep learning** (G-568), published with David Rumelhart and Ronald Williams the paper *Learning representations by back-propagating errors* (Rumelhart et al. 1986). The paper's message:
 
 - A single perceptron can only learn linear functions.
 - Many perceptrons arranged in layers, with hidden layers, can learn non-linear ones.
@@ -148,11 +148,11 @@ Figure 5 is a small experiment of our own design: watch the red curve as neurons
 The theorem in section 3.3 says a good network exists; it does not say we can train one in practice. By the early 1990s it became clear that networks did not perform well on large problems. Four reasons stood out:
 
 1. **Too little labelled data.**
-2. **Too little computing power** to compute all the weights with backpropagation and add many layers.
+2. **Too little computing power** to compute all the weights with **backpropagation** (G-247) and add many layers.
 3. **No good way to initialise the weights:** they started at random values, which caused errors in training.
 4. **Better rivals:** algorithms such as the [**support vector machine**](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) and [**random forest**](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) trained well on less data.
 
-Interest fell again for about 15 years: the second AI winter.
+Interest fell again for about 15 years: the second **AI winter** (G-185).
 
 ### 3.5 Deep belief networks and the name "deep learning"
 
@@ -164,7 +164,7 @@ From then on, the field of artificial neural networks was rebranded as [**deep l
 
 ### 3.6 2012: ImageNet and after
 
-> **Key point:** In 2012 a deep network trained on GPUs cut the ImageNet error from about 26% to about 15%; from then on deep learning never looked back.
+> **Key point:** In 2012 a deep network trained on GPUs cut the ImageNet error from about 26% to about 15%; from then on **deep learning** (G-568) never looked back.
 
 **ImageNet** (G-920) is a very large dataset of labelled images, and from 2010 a yearly competition asked teams to classify its images. The best error rates in 2010 and 2011 were around 28% and 26%.
 
@@ -192,7 +192,7 @@ The reasons for this final success are the five forces of [why deep learning too
 
 ## 4. Applications of deep learning
 
-> **Key point:** Since 2012 deep learning has entered almost every field: driving, games, assistants, translation, photos, and the creative work of GANs.
+> **Key point:** Since 2012 **deep learning** (G-568) has entered almost every field: driving, games, assistants, translation, photos, and the creative work of GANs.
 
 Deep learning is everywhere: recommendation engines such as Netflix's, chatbots, and much more. [Applications of ML](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#2-consumer-and-business-applications) covers business uses such as retail and banking; this section lists uses that rely on deep learning.
 
@@ -204,7 +204,7 @@ Figure 7 is the map of this section: each coloured group is one of the subsectio
 
 > **Key point:** Self-driving cars, game-playing agents, and virtual assistants.
 
-- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs deep learning models on all this input and controls the car's mechanics (Figure 8). Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
+- **Self-driving cars:** an ordinary car with sensors: cameras on every side, **LiDAR** (G-1083) on the roof to measure the distance to nearby objects, and GPS. A computer runs **deep learning** (G-568) models on all this input and controls the car's mechanics (Figure 8). Waymo (part of Google's parent company Alphabet), Tesla and Uber have worked on such cars.
 - **Game-playing agents:** **deep reinforcement learning** (G-572), the combination of deep learning and [**reinforcement learning**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#5-reinforcement-learning) (G-1660), raised the skill of game programs enormously. AlphaGo, by Google's DeepMind, beat the Go champion of its time, in a game with more possible positions than there are atoms in the universe.
 - **Virtual assistants and chatbots:** Google Now, Siri and Cortana understand speech and follow the context of a conversation. Their quality jumped once deep learning, such as RNNs, became mainstream around 2015, and most companies now run chatbots built on it.
 
@@ -228,7 +228,7 @@ Both are far too many for any program to search one by one, and Go has $10^{34}$
 - **Image colourisation:** a network predicts the colour of every pixel of a black-and-white photo; used to colour old films.
 - **Sound for silent video:** a network watches a silent clip and generates matching sound.
 - **Image caption generation:** a network writes a sentence describing what happens in a photo; similar models write taglines from movie posters.
-- **Text translation:** point a phone camera at a sign in an unknown language and read it translated in real time. Much of Google Translate runs on deep learning, which helps travellers with signboards and bus numbers.
+- **Text translation:** point a phone camera at a sign in an unknown language and read it translated in real time. Much of Google Translate runs on **deep learning** (G-568), which helps travellers with signboards and bus numbers.
 - **Pixel restoration:** Google Brain researchers turned very low-resolution photos into sharper, higher-resolution ones by predicting the missing pixels from their neighbours, which revives old, blurry photos.
 - **Object detection and identification:** Google Photos detects the people, pets and objects in our photos, identifies them, and groups them into albums automatically. Google Photos even assembles a slideshow of a growing child, with a caption, without anyone asking.
 
@@ -240,7 +240,7 @@ GANs generate data that never existed: photos of people who never lived, a predi
 
 ### 4.4 Everyday industry uses
 
-> **Key point:** Medicine, finance and education use deep learning for drugs, fraud and student performance.
+> **Key point:** Medicine, finance and education use **deep learning** (G-568) for drugs, fraud and student performance.
 
 - **Medicine:** drug research, genetics and vaccine development.
 - **Finance:** fraud detection and customer churn prediction.
@@ -267,10 +267,10 @@ GANs generate data that never existed: photos of people who never lived, a predi
 | 2012 | AlexNet on GPUs nearly halves the ImageNet error | companies and researchers took notice, and the field never looked back |
 | 2016 | AlphaGo beats Lee Sedol | Go is far more complex than chess |
 
-- Feed-forward networks (MLP, CNN) pass information one way; RNNs loop it back, so only RNNs remember the earlier steps of a sequence.
+- **Feed-forward networks** (G-775) (MLP, CNN) pass information one way; RNNs loop it back, so only RNNs remember the earlier steps of a sequence.
 - A network with a hidden layer and enough neurons can approximate any continuous function, which is why networks are called universal function approximators; the theorem says a good network exists, not that training will find it.
 - Data, hardware, frameworks, ready-made architectures and community ended the winters, because the second winter came from too little labelled data, too little computing power and poor starting weights.
-- So each type of network suits one kind of data or task, and networks rose and fell twice before data, GPUs and better training made deep learning take off in 2012.
+- So each type of network suits one kind of data or task, and networks rose and fell twice before data, GPUs and better training made **deep learning** (G-568) take off in 2012.
 
 ## 6. Sources
 
@@ -301,10 +301,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Autoencoder (G-231) | A network with a narrow middle layer that learns to compress data and rebuild it. |
 | Multi-layer perceptron (MLP) (G-1270) | Many perceptrons organised in layers: input, hidden and output. |
 | Feed-forward network (G-775) | A network in which information moves only from the first layer to the last. |
 | Recurrent neural network (RNN) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |
-| Autoencoder (G-231) | A network with a narrow middle layer that learns to compress data and rebuild it. |
 | Generative adversarial network (GAN) (G-840) | A generator and a discriminator competing, so that the generator learns to create realistic new data. |
 | Generator (G-843) | The GAN network that creates new data. |
 | Discriminator (G-620) | In a GAN, the network that judges whether data is real or fake. |
@@ -316,14 +316,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | ImageNet (G-920) | A very large labelled image dataset with a yearly classification competition. |
 | LiDAR (G-1083) | A sensor that measures distances to nearby objects with laser light. |
 | Deep reinforcement learning (G-572) | Reinforcement learning (an agent learning from rewards by trial and error) that uses deep neural networks; it raised the skill of game-playing programs. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
+| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
-| [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
-| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Support vector machine (SVM)](../../../ML/07-classification/ML-086-svm-intuition/ML-086-svm-intuition.md#1-overview) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
 | [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
-| [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
 | [AlexNet](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#53-alexnet-the-2012-winner) (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
 | [Reinforcement learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#51-agent-environment-policy-and-reward) (G-1660) | Learning by acting and receiving rewards or punishments. |

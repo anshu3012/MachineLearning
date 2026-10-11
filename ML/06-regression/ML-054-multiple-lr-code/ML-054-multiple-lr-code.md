@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/multiple-lr,
 
 > **Key point:** The normal equation fits in three lines of NumPy. Our own class gives the same coefficients and the same R² (0.44) as scikit-learn on the diabetes data.
 
-In plain words: one calculation takes the table of patients (the features) and the list of their targets and returns every number the model needs, in a single go, with no repeated training. [The derivation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) gives this calculation, the [**normal equation**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344), which gives every [**coefficient**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of features and $y$ the targets:
+In plain words: one calculation takes the table of patients (the features) and the list of their **targets** (G-1949) and returns every number the model needs, in a single go, with no repeated training. [The derivation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) gives this calculation, the [**normal equation**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344), which gives every [**coefficient**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) of multiple linear regression at once. Written as a formula, with $X$ the table of **features** (G-772) and $y$ the targets:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
@@ -41,7 +41,7 @@ The [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#2
 
 > **Extra:** The features come already scaled: each column is centred on 0 and shrunk so that its squares add up to 1 (scikit-learn docs, Diabetes dataset). The scaling explains why the values are small numbers such as 0.038. The target keeps its original scale, from 25 to 346.
 
-Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the [**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) $r$ (see [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)): 1 means two features rise and fall together exactly, 0 means no linear (straight-line) link. Figure 1 is a **heat map**: the square in row s1 and column s2 holds the r of that pair, printed as a number and coloured from dark blue ($-1$) through white (0) to dark red ($+1$). The diagonal is 1 because each feature matches itself. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. [Section 5](#5-comparing-the-two) shows what this pair does to the coefficients.
+Figure 1 shows how strongly each pair of features moves together on the training patients, measured by the [**correlation**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) $r$ (see [reading a correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#41-reading-a-correlation)): 1 means two features rise and fall together exactly, 0 means no linear (straight-line) link. Figure 1 is a **heat map**: the square in row s1 and column s2 holds the r of that pair, printed as a number and coloured from dark blue ($-1$) through white (0) to dark red ($+1$). The diagonal is 1 because each feature matches itself. Watch the outlined pair: s1 (total cholesterol) and s2 (LDL cholesterol) have $r = 0.90$, close to copies of each other. [Section 5](#5-comparing-the-two) shows what this pair does to the **coefficients** (G-407).
 
 ![Correlation between the 10 diabetes features on the 353 training patients; s1 and s2 (outlined) are at 0.90](images/feature_corr.png)
 
@@ -60,7 +60,7 @@ We split the data 80/20, a [**train-test split**](../../03-feature-engineering/M
 
 ## 3. scikit-learn first
 
-> **Key point:** scikit-learn's LinearRegression gives R² = 0.44 on the test patients, with 10 coefficients and an intercept of 151.88.
+> **Key point:** scikit-learn's LinearRegression gives R² = 0.44 on the test patients, with 10 **coefficients** (G-407) and an intercept of 151.88.
 
 > **Python:** The reference result.
 >
@@ -91,15 +91,15 @@ Watch the two rows: the model's errors (orange) spread less widely than the plai
 
 ## 4. Our own class
 
-> **Key point:** fit adds a column of 1s and applies the normal equation; predict multiplies the inputs by the coefficients and adds the intercept.
+> **Key point:** fit adds a column of 1s and applies the **normal equation** (G-1344); predict multiplies the inputs by the coefficients and adds the intercept.
 
-The class has two methods. `fit` learns the coefficients from the training data, and `predict` uses them on new data. Figure 3 follows the shapes of the arrays through both methods. Watch the column of 1s: `fit` adds it (10 columns become 11), and `predict` leaves it out and adds the intercept at the end instead.
+The class has two methods. `fit` learns the **coefficients** (G-407) from the training data, and `predict` uses them on new data. Figure 3 follows the shapes of the arrays through both methods. Watch the column of 1s: `fit` adds it (10 columns become 11), and `predict` leaves it out and adds the **intercept** (G-960) at the end instead.
 
 ![The shapes through MyMLR: fit turns the 353 × 10 training data into 11 numbers, the intercept and 10 coefficients; predict turns the 89 × 10 test data into 89 predictions](images/fit_shapes.png)
 
 ### 4.1 fit
 
-> **Key point:** Three steps: add the 1s, compute $\beta$, split it into intercept and coefficients.
+> **Key point:** Three steps: add the 1s, compute $\beta$, split it into intercept and **coefficients** (G-407).
 
 1. **Add a column of 1s** at the front of $X$, so the [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) is learned like any other coefficient. **`np.insert`** (G-1356), called as `np.insert(X, 0, 1, axis=1)`, inserts the value 1 at position 0 along the columns. The training data goes from 353 × 10 to 353 × 11.
 2. **Apply the normal equation.** In NumPy, **`@`** (G-55) is matrix multiplication, `.T` is the [**transpose**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) and **`np.linalg.inv`** (G-1357) the [**inverse**](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968). The result has 11 numbers.
@@ -109,9 +109,9 @@ The class has two methods. `fit` learns the coefficients from the training data,
 
 ### 4.2 predict
 
-> **Key point:** A prediction is the inputs times the 10 coefficients, plus the intercept $\beta_0$ added separately.
+> **Key point:** A prediction is the inputs times the 10 **coefficients** (G-407), plus the intercept $\beta_0$ added separately.
 
-For new data we do not need the column of 1s: we multiply the inputs by the 10 coefficients and add the intercept separately. For the test set the product is an 89 × 10 matrix times a vector of 10, giving 89 predictions.
+For new data we do not need the column of 1s: we multiply the inputs by the 10 coefficients and add the **intercept** (G-960) separately. For the test set the product is an 89 × 10 matrix times a vector of 10, giving 89 predictions.
 
 > **Python:** Multiple linear regression from scratch.
 >
@@ -139,25 +139,25 @@ For new data we do not need the column of 1s: we multiply the inputs by the 10 c
 
 > **Key point:** All 11 numbers agree with scikit-learn to within about 0.000000000003.
 
-Figure 4 (left) puts the 10 coefficients side by side: the two models are indistinguishable. The largest difference is about $3 \times 10^{-12}$, a rounding effect.
+Figure 4 (left) puts the 10 **coefficients** (G-407) side by side: the two models are indistinguishable. The largest difference is about $3 \times 10^{-12}$, a rounding effect.
 
 ![Coefficients of our class and scikit-learn; predicted against actual on the test set](images/results.png)
 
 The right panel plots the 89 test predictions against the true values. If the model were perfect, all points would lie on the dashed diagonal; the wide scatter is what an R² of 0.44 looks like.
 
-The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the features are standardised, these coefficients can be compared with each other.
+The largest coefficients belong to s5 (+861), s1 ($-896$), s2 (+561) and bmi (+517). Because the **features** (G-772) are standardised, these coefficients can be compared with each other.
 
 > **Extra:** The large opposite coefficients of s1 and s2 are a typical sign of [**multicollinearity**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273): s1 (total cholesterol) and s2 (LDL cholesterol) are strongly related, so the model can trade weight between them almost freely, like two people carrying one box who can shift the load between them without the box moving. Collinearity makes the individual coefficients very uncertain (ISLR §3.3.3), so their sizes should not be over-interpreted. Regularisation, later, tames this effect. The Notebook checks all three points:
 >
-> - **Strongly related:** correlation 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
+> - **Strongly related:** **correlation** (G-490) 0.895; variance inflation factors 56 and 37, against under 2 for age, sex, bmi and bp.
 > - **Trading weight:** over 200 bootstrap refits, the s1 and s2 coefficients swing far more than bmi's (standard deviation 464 and 369 against 77), in opposite directions (correlation $-0.97$).
 > - **Regularisation:** ridge regression with a small penalty (`alpha=0.1`) gives s1 $-73$ and s2 $-81$.
 
 ## 6. Solving without an explicit inverse
 
-> **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when features are nearly copies of each other.
+> **Key point:** In practice, libraries solve the least-squares problem from $X$ itself instead of computing an inverse; the result is the same, and more accurate when **features** (G-772) are nearly copies of each other.
 
-The class above follows the formula word for word, inverse included. Libraries get the same coefficients by a safer route. Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no inverse. Two other NumPy functions give the same coefficients:
+The class above follows the formula word for word, inverse included. Libraries get the same **coefficients** (G-407) by a safer route. Computing $(X^{\mathsf T}X)^{-1}$ explicitly is fine for a small example, but it can lose accuracy when the matrix is close to having no **inverse** (G-968). Two other NumPy functions give the same coefficients:
 
 - `np.linalg.solve(Xb.T @ Xb, Xb.T @ y)` solves $X^{\mathsf T}X\beta = X^{\mathsf T}y$ directly.
 - **`np.linalg.lstsq`** (G-1358), called as `np.linalg.lstsq(Xb, y)`, finds the least-squares solution from $X$ itself, without forming $X^{\mathsf T}X$.
@@ -180,10 +180,10 @@ Figure 5 plots these errors on a log scale, where each step up the axis means 10
 | Predict | `X @ coef_ + intercept_` | one product gives every prediction |
 | Result on diabetes data | R² = 0.44, same as scikit-learn | the match proves the class is right |
 
-- The normal equation needs only matrix products, a transpose and an inverse, so it fits in three lines of NumPy.
+- The **normal equation** (G-1344) needs only matrix products, a transpose and an inverse, so it fits in three lines of NumPy.
 - Our class reproduces `LinearRegression` to about twelve decimal places, because both solve the same least-squares problem.
-- Real libraries avoid the explicit inverse; `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when features are nearly copies of each other, so prefer it on real data (with a near-copied column, `inv` was off by about 0.07 and `lstsq` by $2 \times 10^{-9}$).
-- Together these answer the opening question: three lines of NumPy turn the normal equation into a class that matches scikit-learn's coefficients and R².
+- Real libraries avoid the explicit **inverse** (G-968); `lstsq`, which never forms $X^{\mathsf T}X$, stays accurate when **features** (G-772) are nearly copies of each other, so prefer it on real data (with a near-copied column, `inv` was off by about 0.07 and `lstsq` by $2 \times 10^{-9}$).
+- Together these answer the opening question: three lines of NumPy turn the normal equation into a class that matches scikit-learn's **coefficients** (G-407) and R².
 
 
 ## 8. Sources
@@ -209,13 +209,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | @ (matrix multiplication) (G-55) | Python's operator for multiplying matrices and vectors. |
 | np.linalg.inv (G-1357) | NumPy function that computes the inverse of a square matrix. |
 | np.linalg.lstsq (G-1358) | NumPy function that finds the best-fit answer to a set of linear equations, the one with the smallest squared error (the least-squares solution). |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Inverse matrix](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) | The matrix that undoes another: their product is the identity matrix. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Train-test split](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1998) | Dividing the data into a training set the model learns from and a test set held back to check it on unseen rows; it comes before scaling or fitting. |
 | [R² score (coefficient of determination)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717) | 1 minus the model's squared error divided by the squared error of always predicting the mean: 1 is perfect, 0 is no better than the average. |

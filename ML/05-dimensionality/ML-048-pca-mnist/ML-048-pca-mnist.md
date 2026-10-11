@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/features, step/reduce, concept/pca]
 
 ## 1. Overview
 
-> **Key point:** On real image data, PCA cuts 784 features to 50 and KNN gets slightly *more* accurate and much faster. PCA also lets us see the data in 2D and 3D.
+> **Key point:** On real image data, PCA cuts 784 features to 50 and **KNN** (G-998) gets slightly *more* accurate and much faster. PCA also lets us see the data in 2D and 3D.
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), and the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict. Here each observation is one image, each feature one pixel, and the target the digit.
 
@@ -56,7 +56,7 @@ We use 42,000 images and split them 80/20: 33,600 for training and 8,400 for tes
 
 ## 3. KNN on all 784 features
 
-> **Key point:** KNN reaches 96.8% on the raw pixels, but each prediction compares the image with 33,600 others across 784 features, which is slow.
+> **Key point:** KNN reaches 96.8% on the raw pixels, but each prediction compares the image with 33,600 others across 784 **features** (G-772), which is slow.
 
 We first train [**KNN**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) (K-nearest neighbours) with its default of 5 neighbours on all 784 features. To classify a test image, KNN computes its distance to every one of the 33,600 training images and takes the most common label among the 5 nearest.
 
@@ -64,7 +64,7 @@ The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 d
 
 ## 4. KNN on principal components
 
-> **Key point:** Fit PCA on the training set, transform both sets, then train the same KNN on the new features.
+> **Key point:** Fit PCA on the training set, transform both sets, then train the same KNN on the new **features** (G-772).
 
 ### 4.1 The steps
 
@@ -76,11 +76,11 @@ PCA in scikit-learn follows the same fit and transform pattern as scalers and en
 2. **Transform** both sets: project every image onto the kept components.
 3. **Train KNN** on the transformed training set and test it on the transformed test set.
 
-We do not standardise the pixels first. All 784 pixels share one unit, brightness from 0 to 255, and when features are measured in the same units there is no need to scale them before PCA (ISL §12.2.4). [Section 4.3](#43-what-standardising-would-do) shows what standardising would cost here.
+We do not standardise the pixels first. All 784 pixels share one unit, brightness from 0 to 255, and when **features** (G-772) are measured in the same units there is no need to scale them before PCA (ISL §12.2.4). [Section 4.3](#43-what-standardising-would-do) shows what standardising would cost here.
 
-The parameter `n_components` sets how many components to keep. Left as `None`, it keeps all of them, 784 here. The number of components can never exceed the number of features or the number of observations, whichever is smaller (scikit-learn `PCA` docs).
+The parameter `n_components` sets how many components to keep. Left as `None`, it keeps all of them, 784 here. The number of components can never exceed the number of features or the number of **observations** (G-1374), whichever is smaller (scikit-learn `PCA` docs).
 
-> **Python:** KNN on 50 principal components.
+> **Python:** **KNN** (G-998) on 50 principal components.
 >
 > ```python
 > from sklearn.decomposition import PCA
@@ -114,9 +114,9 @@ How many components do we need? Figure 3 repeats the experiment for k from 1 to 
 
 - **1 to 20 components:** each one adds a lot; the first components carry the most information.
 - **30 to 75:** the best range, 97.2% to 97.3%, above the 96.8% of all 784 pixels.
-- **Above 100:** accuracy drifts back down towards 96.8%. The later components add small differences between images that do not help KNN find the right neighbours (see the Extra below).
+- **Above 100:** accuracy drifts back down towards 96.8%. The later components add small differences between images that do not help **KNN** (G-998) find the right neighbours (see the Extra below).
 
-So 50 components, 6% of the original features, give the best result in this run.
+So 50 components, 6% of the original **features** (G-772), give the best result in this run.
 
 > **Extra:** Are the later components useful? Components 51 to 784 alone give 54%, so they hold a little information. Next to the first 50, though, they act like noise for KNN: shuffling each of them across images (same spread, no link to the label) leaves accuracy unchanged, 96.8% real against 97.0% shuffled. Components 101 to 300 behave the same way (97.1% with shuffled ones). Dropping them removes small, unhelpful differences, which is why 50 components beat all 784 pixels.
 
@@ -124,7 +124,7 @@ So 50 components, 6% of the original features, give the best result in this run.
 
 > **Key point:** Standardising every pixel first lowers accuracy, to 94.0% on all pixels and 95.4% with 50 components.
 
-Standardising (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) gives every pixel mean 0 and standard deviation 1. For images that is harmful. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances KNN measures.
+Standardising (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) gives every pixel mean 0 and standard deviation 1. For images that is harmful. A pixel near the edge is blank in almost every image; standardising stretches its rare small changes to the same size as the busy centre pixels, so they disturb the distances **KNN** (G-998) measures.
 
 | Setup | Accuracy |
 |---|---|
@@ -133,7 +133,7 @@ Standardising (see [the standardization formula](../../03-feature-engineering/ML
 | Standardised, all 784 | 94.0% |
 | Standardised, PCA 50 | 95.4% |
 
-Standardising is still the right step when the features are on different scales. Figure 4 shows why, on two features of scikit-learn's wine data (178 wines): proline, which runs from 278 to 1,680, and hue, which runs from 0.48 to 1.71.
+Standardising is still the right step when the **features** (G-772) are on different scales. Figure 4 shows why, on two features of scikit-learn's wine data (178 wines): proline, which runs from 278 to 1,680, and hue, which runs from 0.48 to 1.71.
 
 ![PCA on two wine features. Left: raw values; PC1 is almost pure proline, only because proline's numbers are about a thousand times bigger. Right: after standardising, PC1 uses both features in equal parts. Idea after StatQuest, "PCA - Practical Tips".](images/scale_matters.png)
 
@@ -192,7 +192,7 @@ The eigenvalues are large because the pixels run from 0 to 255, so their varianc
 
 Each eigenvector has 784 numbers, one per pixel, because it is a direction in the 784-dimensional pixel space; the number for a pixel is the weight that pixel gets in the component, and the 784 squared weights add up to 1 (the direction has length 1). So one row of `components_` has shape (784,), and the three rows together have shape (3, 784).
 
-Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 MNIST images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
+Reshaped to 28 × 28, each one is itself a picture: it shows which pixels that component combines. Figure 7 draws the first six, fitted on all 70,000 **MNIST** (G-1249) images. PC1 looks like a 0: its red ring and blue centre add up the ink of a round digit and subtract the ink of a thin, central one such as a 1, so a 0 scores high and a 1 scores low on PC1. Measured on all 70,000 images, the average PC1 score is about 1,000 for the 0s and about −840 for the 1s, the two extremes of the ten digits.
 
 ![The first six eigenvectors of MNIST, each reshaped to 28 × 28 (PCA fitted on all 70,000 images). Red pixels count positively, blue negatively.](images/eigen_pictures.png){height=48%}
 
@@ -204,7 +204,7 @@ The first three components together hold only 23% of the variance. So little var
 
 ### 7.1 Explained variance
 
-> **Key point:** Each eigenvalue, divided by the sum of all eigenvalues, is the share of the data's variance that its component explains.
+> **Key point:** Each **eigenvalue** (G-665), divided by the sum of all eigenvalues, is the share of the data's variance that its component explains.
 
 Each eigenvalue $\lambda_i$ is the variance along component $i$. The total variance of the data is the sum of all of them.
 
@@ -216,13 +216,13 @@ Here $r_i$ is the explained variance ratio of component $i$.
 
 Here $\lambda_i$ is the eigenvalue of component $i$ (its variance) and $d$ is the number of components (784 for all of them).
 
-With numbers: on MNIST the 784 eigenvalues add up to about 3,429,600. PC1's eigenvalue is 331,121, so
+With numbers: on **MNIST** (G-1249) the 784 eigenvalues add up to about 3,429,600. PC1's eigenvalue is 331,121, so
 
 $$\frac{331{,}121}{3{,}429{,}600} \approx 0.097 = 9.7\ \text{percent}$$
 
 ### 7.2 The cumulative curve and the 90% rule
 
-> **Key point:** On MNIST, 87 components explain 90% of the variance.
+> **Key point:** On **MNIST** (G-1249), 87 components explain 90% of the variance.
 
 Adding up the ratios in order gives the **cumulative explained variance** (G-516): the share kept by the first $k$ components. Figure 8 plots it for every $k$.
 
@@ -246,7 +246,7 @@ The curve rises fast and then flattens towards 100%. A common rule of thumb is t
 >
 > `np.cumsum` gives the running total. `np.searchsorted` finds the first position where it reaches 0.90; positions start at 0, so we add 1.
 
-> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 3, KNN was already at its best with 50 components, which explain about 83% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as [Section 4.2](#42-accuracy-as-k-grows) did.
+> **Extra:** The 90% rule is a safe starting point, not a law. In Figure 3, **KNN** (G-998) was already at its best with 50 components, which explain about 83% of the variance. When there is a model to evaluate, the most direct way to pick $k$ is to try several values and compare the test or cross-validation scores, as [Section 4.2](#42-accuracy-as-k-grows) did.
 
 ## 8. When PCA does not help
 
@@ -277,10 +277,10 @@ In all three cases, the picture in fewer dimensions mixes up points that were cl
 | Digits that overlap | 8 with 3 and 7; 4, 7 and 9 | similar-looking digits stay mixed in 3 components |
 
 - Use PCA like a scaler: fit on the training set, transform both sets, so the test images do not shape the components.
-- Pixels share one unit, so PCA runs on them unscaled; standardising them hurts KNN here. Features on different scales must be standardised first, or PC1 is just the feature with the biggest numbers.
-- A few principal components can keep, or even improve, the accuracy at a fraction of the computation, because the later components add small differences that act like noise for KNN.
+- Pixels share one unit, so PCA runs on them unscaled; standardising them hurts KNN here. **Features** (G-772) on different scales must be standardised first, or PC1 is just the feature with the biggest numbers.
+- A few principal components can keep, or even improve, the accuracy at a fraction of the computation, because the later components add small differences that act like noise for **KNN** (G-998).
 - 2 or 3 components let us look at high-dimensional data, but they hold only part of its information, so overlap in the plot does not mean the digits cannot be told apart.
-- `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common target, but trying several $k$ and comparing scores is more direct (50 components, about 83%, were already the best here).
+- `explained_variance_ratio_` and its running total tell how much of the data each $k$ keeps; about 90% is a common **target** (G-1949), but trying several $k$ and comparing scores is more direct (50 components, about 83%, were already the best here).
 - PCA fails when spread is equal in all directions, when classes differ along a small-spread direction, or when the pattern is curved, because it can only rotate the axes and drop some, and it never sees the labels.
 - Together these answer the opening question: on real images, PCA cut 784 features to 50 with slightly better and much faster KNN, and let us see the digits in 2D and 3D.
 
@@ -312,12 +312,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Explained variance (G-728) | How much of the data's spread one principal component keeps: the variance of the data along that component, equal to its eigenvalue. |
 | Explained variance ratio (G-727) | The share of the data's total spread that one principal component keeps: its eigenvalue divided by the sum of all eigenvalues (its share of the total variance). Adding these shares from the largest down tells us how many components to keep. |
 | n_components (G-1289) | The number of principal components PCA keeps; a number between 0 and 1 means a share of the variance. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
-| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
 | [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [LDA](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |

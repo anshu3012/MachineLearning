@@ -17,14 +17,14 @@ tags: [subject/machine-learning, area/features, step/features, concept/normaliza
 
 ## 1. Overview
 
-> **Key point:** Normalization rescales every feature into a common, fixed range. Its main technique, min-max scaling, squeezes each column into 0 to 1.
+> **Key point:** Normalization rescales every feature into a common, fixed range. Its main technique, **min-max scaling** (G-1217), squeezes each column into 0 to 1.
 
-[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) has two main types: standardization ([the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): subtract the mean, divide by the standard deviation) and normalization (this Note). Normalization is a family of techniques; this Note covers four of them:
+[**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) has two main types: standardization ([the standardization formula](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula): subtract the mean, divide by the standard deviation) and **normalization** (G-1349) (this Note). Normalization is a family of techniques; this Note covers four of them:
 
 - min-max scaling (sections 4 to 6);
-- mean normalization (section 7);
-- max-abs scaling (section 8);
-- robust scaling (section 9).
+- **mean normalization** (G-1198) (section 7);
+- **max-abs scaling** (G-1183) (section 8);
+- **robust scaling** (G-1699) (section 9).
 
 Figure 1 shows the four techniques side by side: one box per technique, with its formula, the range of its output and when to use it. The Note ends with a guide to choosing between standardization and each of them.
 
@@ -40,15 +40,15 @@ Start from a plain example. The same person weighs 70 in kilograms, 70,000 in gr
 
 Take a dataset that predicts whether a person will buy sports equipment, from **features** (G-772; input variables, one column each of the data table) such as weight and height. Each person is one **observation** (G-1374; one record, one row), and the purchase is the **target** (G-1949; the output we predict). Every numerical quantity has two parts: a **magnitude** (G-1144; the number) and a **unit**. A weight of 70 has the magnitude 70 and a unit that could be grams, kilograms or pounds.
 
-In ML it is a good idea to remove the units before training. When every column is brought to a common scale with no units, ML algorithms usually give better results. Removing the units is the whole idea behind normalization. Figure 2 shows it with the five weights of section 4, written in kilograms, grams and pounds. The raw numbers differ by a factor of 1,000, yet after min-max scaling all three give the same five values, 0, 0.22, 0.29, 0.36 and 1, because a change of unit multiplies the value, the minimum and the maximum by the same factor, which cancels in the fraction.
+In ML it is a good idea to remove the units before training. When every column is brought to a common scale with no units, ML algorithms usually give better results. Removing the units is the whole idea behind normalization. Figure 2 shows it with the five weights of section 4, written in kilograms, grams and pounds. The raw numbers differ by a factor of 1,000, yet after **min-max scaling** (G-1217) all three give the same five values, 0, 0.22, 0.29, 0.36 and 1, because a change of unit multiplies the value, the minimum and the maximum by the same factor, which cancels in the fraction.
 
 ![The same five weights in kilograms, grams and pounds (top) and after min-max scaling (bottom). The units disappear: all three rows become 0, 0.22, 0.29, 0.36 and 1.](images/units.png)
 
 ## 3. Types of normalization
 
-> **Key point:** We look at four techniques; min-max scaling is the simplest and gets the most attention here.
+> **Key point:** We look at four techniques; **min-max scaling** (G-1217) is the simplest and gets the most attention here.
 
-The four normalization techniques in this Note are:
+The four **normalization** (G-1349) techniques in this Note are:
 
 1. **Min-max scaling**, the most common one. Sometimes people say "normalization" and mean exactly this.
 2. **Mean normalization**.
@@ -90,11 +90,11 @@ The new value is smallest when $x_i$ is the minimum. Then the top of the fractio
 
 The new value is largest when $x_i$ is the maximum. Then the top and the bottom of the fraction are equal, so the result is 1. Every other value gives something between 0 and 1.
 
-So whenever we apply min-max scaling, the new column always lies in the range 0 to 1. The fixed 0-to-1 range is the main guarantee of min-max scaling.
+So whenever we apply **min-max scaling** (G-1217), the new column always lies in the range 0 to 1. The fixed 0-to-1 range is the main guarantee of min-max scaling.
 
 ### 4.3 What min-max scaling does to the data
 
-> **Key point:** Min-max scaling picks up the whole cloud of points and squeezes it into the unit square.
+> **Key point:** **Min-max scaling** (G-1217) picks up the whole cloud of points and squeezes it into the unit square.
 
 Take two columns, weight and height, and plot every customer as a point. Height is in centimetres and weight in kilograms, so the cloud sits somewhere far from the origin, with its own spread on each axis. Min-max scaling moves this cloud in two steps (Figure 3, drawn with two made-up features, feature 1 and feature 2):
 
@@ -154,7 +154,7 @@ As with standardization, the [**train-test split**](../ML-023-standardization/ML
 
 scikit-learn's **`MinMaxScaler`** (G-1228) class applies the min-max formula. `fit` learns each column's minimum and maximum from the training set; `transform` applies the formula with those stored numbers.
 
-> **Python:** Min-max scaling with `MinMaxScaler`.
+> **Python:** **Min-max scaling** (G-1217) with `MinMaxScaler`.
 >
 > ```python
 > from sklearn.model_selection import train_test_split
@@ -206,7 +206,7 @@ The same formula, worked on a real row:
 
 Before scaling, alcohol ran from 11.03 to 14.75 and malic acid from 0.89 to 5.65. After scaling, both have minimum 0 and maximum 1.
 
-The mean and the standard deviation come out different for each column (0.53 and 0.31, 0.22 and 0.24). Min-max scaling guarantees only the minimum and the maximum, nothing about the centre or the spread.
+The mean and the standard deviation come out different for each column (0.53 and 0.31, 0.22 and 0.24). **Min-max scaling** (G-1217) guarantees only the minimum and the maximum, nothing about the centre or the spread.
 
 Figure 4 draws each wine as a tick. On the left the two features live on different ranges; on the right both training ranges are exactly 0 to 1 (dashed lines). The grey ticks are the test wines, scaled with the training minimum and maximum; a few land just outside 0 to 1: one alcohol value at $1.02$, and malic-acid values at $-0.03$ and $1.03$.
 
@@ -216,13 +216,13 @@ Figure 4 draws each wine as a tick. On the left the two features live on differe
 
 ## 6. Effect of min-max scaling on the data
 
-> **Key point:** Min-max scaling changes the numbers on the axes, not the pattern of the data or the shape of each column.
+> **Key point:** **Min-max scaling** (G-1217) changes the numbers on the axes, not the pattern of the data or the shape of each column.
 
 ### 6.1 Same effect as standardization
 
 > **Key point:** As in the standardization Note, the cloud keeps its pattern and each column keeps its shape; only the axes change, and now they run from 0 to 1.
 
-Min-max scaling has the same effects as standardization (see [the effect of scaling on the data](../ML-023-standardization/ML-023-standardization.md#7-effect-of-scaling-on-the-data)), now inside the unit square. Figure 5 shows the training wines before and after: the three classes keep their places, and both axes now run from 0 to 1.
+**Min-max scaling** (G-1217) has the same effects as standardization (see [the effect of scaling on the data](../ML-023-standardization/ML-023-standardization.md#7-effect-of-scaling-on-the-data)), now inside the **unit square** (G-2047). Figure 5 shows the training wines before and after: the three classes keep their places, and both axes now run from 0 to 1.
 
 ![The training wines before and after min-max scaling, coloured by class](images/scatter_before_after.png)
 
@@ -230,9 +230,9 @@ Min-max scaling has the same effects as standardization (see [the effect of scal
 
 > **Key point:** One extreme value sets the minimum or maximum, and squeezes all the normal values into a small part of 0 to 1.
 
-Min-max scaling depends entirely on the two most extreme values of the column. If one of them is an outlier, it decides the range for everyone. In the weight column, 130 is far above the rest; the other four weights end up between 0 and 0.36, leaving most of the 0 to 1 range empty.
+**Min-max scaling** (G-1217) depends entirely on the two most extreme values of the column. If one of them is an outlier, it decides the range for everyone. In the weight column, 130 is far above the rest; the other four weights end up between 0 and 0.36, leaving most of the 0 to 1 range empty.
 
-So min-max scaling handles outliers badly. For all other purposes it is a good, simple choice; for columns with outliers, robust scaling ([Section 9](#9-robust-scaling)) works better. Figure 9 in that section shows the squeeze getting worse as the outlier grows.
+So min-max scaling handles outliers badly. For all other purposes it is a good, simple choice; for columns with outliers, **robust scaling** (G-1699) ([Section 9](#9-robust-scaling)) works better. Figure 9 in that section shows the squeeze getting worse as the outlier grows.
 
 ## 7. Mean normalization
 
@@ -284,7 +284,7 @@ scikit-learn has a class for it, **`MaxAbsScaler`** (G-1188), used exactly like 
 
 Max-abs scaling is used for **sparse data** (G-1840): data in which most values are 0. If our data has a very large number of zeros, max-abs scaling is the one to try. Apart from that, it is not used much.
 
-Figure 7 scales a sparse column, four zeros out of seven values, both ways. Max-abs scaling only divides by 8, so each 0 stays 0. Min-max scaling first subtracts the minimum, $-4$, so each 0 becomes:
+Figure 7 scales a sparse column, four zeros out of seven values, both ways. Max-abs scaling only divides by 8, so each 0 stays 0. **Min-max scaling** (G-1217) first subtracts the minimum, $-4$, so each 0 becomes:
 
 $$\frac{0 - (-4)}{12} = \frac{4}{12} = 0.333$$
 
@@ -332,9 +332,9 @@ Figure 8 shows why. The figure scales the same five weights with every technique
 
 ![The five weights after each scaler; the outlier 130 in red](images/scalers_outlier.png)
 
-With min-max scaling and max-abs scaling, the outlier takes the top of the range and the four normal weights crowd together. With robust scaling, the four normal weights keep a useful spread (from -2.15 to 0.54) and only the outlier is pushed far away, to 5.38.
+With min-max scaling and **max-abs scaling** (G-1183), the outlier takes the top of the range and the four normal weights crowd together. With robust scaling, the four normal weights keep a useful spread (from -2.15 to 0.54) and only the outlier is pushed far away, to 5.38.
 
-Figure 9 makes the outlier bigger step by step, from 130 to 1,000. Watch the four blue dots. Under min-max scaling they are pushed towards 0, until all four sit between 0 and 0.04. Under robust scaling they do not move at all; only the outlier's own value grows.
+Figure 9 makes the outlier bigger step by step, from 130 to 1,000. Watch the four blue dots. Under **min-max scaling** (G-1217) they are pushed towards 0, until all four sit between 0 and 0.04. Under robust scaling they do not move at all; only the outlier's own value grows.
 
 ![The outlier grows from 130 to 1,000. Min-max scaling (top) squeezes the four normal weights towards 0; robust scaling (bottom) leaves them at −2.15 to 0.54.](images/outlier_drag.gif)
 
@@ -354,7 +354,7 @@ No scaler wins everywhere. On one problem one scaler does best, on another probl
 
 ## 10. Normalization or standardization: which scaler when
 
-> **Key point:** First ask whether scaling is needed at all; if it is, standardization is the usual choice, with a normalization technique for a few special cases.
+> **Key point:** First ask whether scaling is needed at all; if it is, standardization is the usual choice, with a **normalization** (G-1349) technique for a few special cases.
 
 Choosing between normalization and standardization confuses many people. The answer depends on the algorithm we use and the data we have. Figure 10 puts the practical rules into one flowchart.
 
@@ -364,11 +364,11 @@ Choosing between normalization and standardization confuses many people. The ans
 
 **Second question: standardization or normalization?** If scaling is needed, these practical rules help:
 
-- **Standardization** is the usual default. Most problems are solved well by it: many learning algorithms assume features centred around zero with spreads of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than min-max scaling (Géron 2019, ch. 2).
+- **Standardization** is the usual default. Most problems are solved well by it: many learning algorithms assume features centred around zero with spreads of the same order (scikit-learn, "Preprocessing data"), and standardization is much less affected by outliers than **min-max scaling** (G-1217) (Géron 2019, ch. 2).
 - **Min-max scaling** suits columns whose minimum and maximum are known in advance. In image processing, for example with CNNs (neural networks for images), every colour channel of a pixel runs from 0 to 255, so everyone uses min-max scaling there.
   Figure 11 shows this known-range case on one photo: the limits 0 and 255 are fixed by the image format, not learned from the data, so min-max scaling is just a division by 255.
 - **Robust scaling** suits columns with outliers.
-- **Max-abs scaling** suits sparse data.
+- **Max-abs scaling** suits **sparse data** (G-1840).
 - **Mean normalization** is rarely needed; standardization does the same centring job.
 
 ![The pixel values of one photo (all three colour channels). The minimum 0 and the maximum 255 are known in advance, so min-max scaling divides every value by 255 and the histogram keeps its shape on a 0-to-1 axis.](images/pixel_range.gif)
@@ -403,13 +403,13 @@ The five weights 32, 54, 60, 67, 130 after each technique:
 | 67 | 0.357 | -0.016 | 0.515 | 0.54 |
 | 130 | 1 | 0.627 | 1 | 5.38 |
 
-- Normalization puts numerical columns on a common scale and removes their units, so the same weight in grams, kilograms or pounds gives the same scaled values.
-- Min-max scaling: $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1, because the minimum maps to exactly 0 and the maximum to exactly 1.
-- Geometrically, min-max scaling presses the data into a unit square (cube, hypercube), and the cloud keeps its pattern inside the box.
+- **Normalization** (G-1349) puts numerical columns on a common scale and removes their units, so the same weight in grams, kilograms or pounds gives the same scaled values.
+- **Min-max scaling** (G-1217): $x' = (x - x_{\min}) / (x_{\max} - x_{\min})$; every training value lands in 0 to 1, because the minimum maps to exactly 0 and the maximum to exactly 1.
+- Geometrically, min-max scaling presses the data into a **unit square** (G-2047) (cube, hypercube), and the cloud keeps its pattern inside the box.
 - Split first; fit `MinMaxScaler` on the training set; transform both sets, so the test set is scaled with the training minimum and maximum (a few test values may land just outside 0 to 1, which is harmless).
 - Min-max scaling keeps the shape of each column, but outliers squeeze the other values together, because one extreme value sets the minimum or maximum for everyone.
-- Robust scaling uses the median and the IQR, so it copes well with outliers: neither moves when one extreme value grows (130 to 1,000 leaves the four normal weights unchanged).
-- First decide whether scaling is needed (a decision tree does not need it); then standardization is the default, with min-max, robust or max-abs scaling for their special cases. When unsure, try several, because no scaler wins on every dataset.
+- **Robust scaling** (G-1699) uses the median and the IQR, so it copes well with outliers: neither moves when one extreme value grows (130 to 1,000 leaves the four normal weights unchanged).
+- First decide whether scaling is needed (a decision tree does not need it); then standardization is the default, with min-max, robust or **max-abs scaling** (G-1183) for their special cases. When unsure, try several, because no scaler wins on every dataset.
 - So normalization brings every column to a common, unit-free range; which technique to pick depends on whether the range is known, whether there are outliers, and whether the data is sparse.
 
 ## 12. Sources
@@ -429,19 +429,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Normalization (feature scaling) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
-| Magnitude (of a quantity) (G-1144) | The number part of a quantity, as opposed to its unit. |
 | Min-max scaling (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |
+| Normalization (feature scaling) (G-1349) | The type of feature scaling that squeezes values into a fixed range, such as 0 to 1. |
+| Mean normalization (G-1198) | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. |
+| Max-abs scaling (G-1183) | Divide by the largest absolute value in the column, giving values from -1 to 1. |
+| Robust scaling (G-1699) | Subtract the median and divide by the interquartile range; copes well with outliers. |
+| Magnitude (of a quantity) (G-1144) | The number part of a quantity, as opposed to its unit. |
 | Unit square (G-2047) | The square from (0, 0) to (1, 1), into which min-max scaling presses two columns. |
 | Unit hypercube (G-2046) | The box from 0 to 1 along every axis in three or more dimensions (a unit cube in three); min-max scaling presses data with many columns into it. |
 | MinMaxScaler (G-1228) | scikit-learn's class for min-max scaling. |
-| Mean normalization (G-1198) | Subtract the mean and divide by the range, giving values from -1 to 1 centred on 0. |
 | Centred data (G-365) | Data whose mean is 0, made by subtracting the mean from every value; some algorithms need it. |
 | Absolute value (G-159) | A number's size without its sign. |
-| Max-abs scaling (G-1183) | Divide by the largest absolute value in the column, giving values from -1 to 1. |
 | MaxAbsScaler (G-1188) | scikit-learn's class for max-abs scaling. |
 | Sparse data (G-1840) | Two senses: a table that is mostly zeros (as after one-hot encoding); or, in many dimensions, a space where most regions hold no points. |
-| Robust scaling (G-1699) | Subtract the median and divide by the interquartile range; copes well with outliers. |
 | RobustScaler (G-1701) | scikit-learn's class for robust scaling. |
 | [Feature scaling (scaling)](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) | Putting columns on the same scale, so no column dominates distances. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

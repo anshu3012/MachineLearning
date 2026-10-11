@@ -34,11 +34,11 @@ Figure 1 shows the two random starts that fail: too small, and the signal dies o
 
 - [The steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation): the training loop, and the Extra on nodes that start equal ([one update](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#72-the-update)).
 - [The vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) and [the exploding gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#7-the-exploding-gradient-problem).
-- [Activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#5-properties-of-an-ideal-activation-function): sigmoid, tanh, ReLU and saturation (a function's flat ends).
+- [Activation functions](../DL-027-activation-functions/DL-027-activation-functions.md#5-properties-of-an-ideal-activation-function): sigmoid, tanh, **ReLU** (G-1668) and saturation (a function's flat ends).
 
 ## 3. Why the starting weights matter
 
-> **Key point:** Initialisation is step 0 of training, and it alone can decide between learning and not learning. Bad starts, with the sigmoid, stalled deep learning research for years.
+> **Key point:** Initialisation is step 0 of training, and it alone can decide between learning and not learning. Bad starts, with the **sigmoid** (G-1798), stalled deep learning research for years.
 
 Training a network repeats four steps after the start (see [the steps of backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)):
 
@@ -48,11 +48,11 @@ Training a network repeats four steps after the start (see [the steps of backpro
 3. **Gradients:** compute the derivative of the loss for every parameter.
 4. **Update:** move every parameter against its gradient.
 
-Steps 1 to 4 all start from what step 0 chose. When researchers in the 1990s and 2000s finally understood why deep networks would not train, they found two culprits behind the vanishing gradient: the sigmoid activation and badly chosen starting weights (Glorot and Bengio 2010). Research on initialisation has continued ever since.
+Steps 1 to 4 all start from what step 0 chose. When researchers in the 1990s and 2000s finally understood why deep networks would not train, they found two culprits behind the **vanishing gradient** (G-2070): the sigmoid activation and badly chosen starting weights (Glorot and Bengio 2010). Research on initialisation has continued ever since.
 
 ## 4. Do not start every weight at zero
 
-> **Key point:** With ReLU or tanh, all-zero weights never change: training does nothing. With sigmoid the weights change, but every node in a layer stays identical, so the layer acts like one node.
+> **Key point:** With **ReLU** (G-1668) or tanh, all-zero weights never change: training does nothing. With sigmoid the weights change, but every node in a layer stays identical, so the layer acts like one node.
 
 ### 4.1 The setup
 
@@ -92,13 +92,13 @@ The same holds for $a_{12}$. Now look at the gradients:
 2. **Formula:** for an output weight and a hidden weight,
    $$\frac{\partial L}{\partial W_{11}^2} = \frac{\partial L}{\partial \hat{y}}\thinspace a_{11}$$
    $$\frac{\partial L}{\partial W_{11}^1} = \frac{\partial L}{\partial \hat{y}}\thinspace W_{11}^2\thinspace g'(z_{11})\thinspace x_1$$
-   Here $g'(z_{11})$ is the slope of the activation function $g$ at $z_{11}$ (for a sigmoid, at most 0.25).
-3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So with learning rate $\eta$ the update leaves the weight at 0:
+   Here $g'(z_{11})$ is the slope of the activation function $g$ at $z_{11}$ (for a **sigmoid** (G-1798), at most 0.25).
+3. **Example:** $a_{11} = 0$ makes the first gradient 0, and $W_{11}^2 = 0$ makes the second 0, whatever $\partial L/\partial \hat{y}$ and $x_1$ are. So with **learning rate** (G-1068) $\eta$ the update leaves the weight at 0:
    $$W_{\text{new}} = W_{\text{old}} - \eta \cdot 0 = 0$$
 
 The weights are 0 after the first update, so the same happens again, forever. Only the output bias, whose gradient is just $\partial L/\partial \hat{y}$, can move. The network predicts one constant for every input.
 
-We check this in Keras on 300 observations of `make_moons` (G-111; two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 epochs:
+We check this in Keras on 300 observations of `make_moons` (G-111; two features, two classes), with two ReLU hidden nodes and a sigmoid output. We overwrite Keras' starting weights with zeros and train for 100 **epochs** (G-696):
 
 - every hidden and output weight is still exactly 0;
 - only the output bias moved, to $-0.0024$;
@@ -148,7 +148,7 @@ Figure 2 shows the consequence. However many nodes the layer has, they compute t
 
 The network is in effect a [**perceptron**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486): a linear model that cannot capture non-linear patterns.
 
-The Notebook trains a layer of 10 sigmoid nodes from all zeros for 200 epochs. Afterwards:
+The Notebook trains a layer of 10 sigmoid nodes from all zeros for 200 **epochs** (G-696). Afterwards:
 
 - all 10 weights from $x_1$ are 0.436, and all 10 weights from $x_2$ are $-1.186$;
 - all 10 biases are $-0.822$;
@@ -162,7 +162,7 @@ In Figure 3, the background shade is the probability the network gives to class 
 
 ## 5. Do not start every weight at the same non-zero value
 
-> **Key point:** Starting all weights at 0.5 avoids the zeros but not the symmetry: with ReLU, tanh or sigmoid, every node in a layer stays identical and the network stays linear.
+> **Key point:** Starting all weights at 0.5 avoids the zeros but not the symmetry: with **ReLU** (G-1668), tanh or sigmoid, every node in a layer stays identical and the network stays linear.
 
 Starting every weight and bias at a non-zero constant, say 0.5, removes the zeros of section 4.2. With ReLU,
 
@@ -172,7 +172,7 @@ is now some non-zero value, so $a_{11} = a_{12} \ne 0$. But the two are equal, w
 
 The stuck classifier in [training the classifier](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#8-training-the-classifier), where every weight starts at 0.1, is this same problem.
 
-The Notebook confirms it with 3 hidden nodes and 100 epochs:
+The Notebook confirms it with 3 hidden nodes and 100 **epochs** (G-696):
 
 | Activation | Weights from $x_1$ | Weights from $x_2$ | Accuracy |
 |---|---|---|---|
@@ -191,11 +191,11 @@ The network trains, but only as a linear model. Sections [4](#4-do-not-start-eve
 
 ## 6. Do not use very small random weights
 
-> **Key point:** Random weights of about $\pm 0.01$ make every weighted sum tiny. With tanh and sigmoid the gradients vanish; with ReLU the network converges extremely slowly.
+> **Key point:** Random weights of about $\pm 0.01$ make every weighted sum tiny. With tanh and sigmoid the gradients vanish; with **ReLU** (G-1668) the network converges extremely slowly.
 
 ### 6.1 The signal shrinks layer by layer
 
-> **Key point:** 500 inputs times weights of about 0.01 give $z$ close to 0. Tanh keeps it close to 0, and each layer shrinks it further: the standard deviation goes 0.21, 0.048, 0.011.
+> **Key point:** 500 inputs times weights of about 0.01 give $z$ close to 0. **Tanh** (G-1947) keeps it close to 0, and each layer shrinks it further: the standard deviation goes 0.21, 0.048, 0.011.
 
 Take a dataset with 1000 observations and 500 features, each feature a standardised number (mean 0, [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) 1). The network has three hidden layers of 500 nodes. Every weight is drawn as `np.random.randn(500, 500) * 0.01`, a [**standard normal**](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) number times 0.01, and every bias is 0.
 
@@ -207,35 +207,35 @@ The next layer multiplies these small activations by small weights again, so eve
 
 ### 6.2 The three activations
 
-> **Key point:** Tanh: strong vanishing gradients. Sigmoid: weaker, but training is very slow. ReLU: no saturation, but convergence is extremely slow.
+> **Key point:** Tanh: strong vanishing gradients. Sigmoid: weaker, but training is very slow. **ReLU** (G-1668): no saturation, but convergence is extremely slow.
 
 - **Tanh:** the activations collapse towards 0, as just shown; the gradients vanish strongly, and the weights may not update at all.
-- **Sigmoid:** $\sigma(0) = 0.5$, so the activations cluster around 0.5 (standard deviation 0.055 in layer 1, then 0.027 in layers 2 and 3), not around 0. The vanishing gradient is weaker than with tanh, but training is very slow or stalls.
-- **ReLU:** the activations also shrink (standard deviation 0.131, 0.021, 0.003), though ReLU does not squash them. The gradients do not vanish as strongly, but convergence is extremely slow: in section 6.3 a small ReLU network started this way does not move in 100 epochs.
+- **Sigmoid:** $\sigma(0) = 0.5$, so the activations cluster around 0.5 (**standard deviation** (G-1871) 0.055 in layer 1, then 0.027 in layers 2 and 3), not around 0. The vanishing gradient is weaker than with tanh, but training is very slow or stalls.
+- **ReLU:** the activations also shrink (standard deviation 0.131, 0.021, 0.003), though ReLU does not squash them. The gradients do not vanish as strongly, but **convergence** (G-472) is extremely slow: in section 6.3 a small ReLU network started this way does not move in 100 epochs.
 
 The problem gets worse with depth. A shallow network has few factors to multiply; a deep one has many.
 
 ### 6.3 In Keras: the weights do not move
 
-> **Key point:** Four hidden layers of 10 nodes, weights 0.01 × standard normal, plain SGD: the loss stays at 0.6934 for 100 epochs and the weights match their start to four decimals. Keras' default start reaches a loss of 0.002.
+> **Key point:** Four hidden layers of 10 nodes, weights 0.01 × **standard normal** (G-1873), plain SGD: the loss stays at 0.6934 for 100 epochs and the weights match their start to four decimals. Keras' default start reaches a loss of 0.002.
 
-The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh or ReLU, starts every weight at 0.01 times a standard normal number and every bias at 0, and trains with plain **SGD** (G-1892; [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) 0.1) for 100 epochs:
+The Notebook builds four hidden layers of 10 nodes on the moons data, with tanh or **ReLU** (G-1668), starts every weight at 0.01 times a standard normal number and every bias at 0, and trains with plain **SGD** (G-1892; [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) 0.1) for 100 **epochs** (G-696):
 
 - **Tanh:** the loss is 0.6934 at the start and 0.6934 at the end, the loss of guessing ($\ln 2 = 0.693$). The first-layer weights read $0.0035, 0.0082, 0.0033, -0.0130$ before and after, identical to four decimals. Accuracy 47%, no better than guessing.
 - **ReLU:** exactly the same picture.
-- **Keras' default start,** same networks: the loss falls to 0.002 (tanh) and 0.001 (ReLU), with 100% accuracy.
+- **Keras' default start,** same networks: the loss falls to 0.002 (**tanh** (G-1947)) and 0.001 (ReLU), with 100% accuracy.
 
 ![Training loss of the four-layer network with plain SGD. Started from 0.01 × standard normal, tanh and ReLU stay at 0.693 for 100 epochs. Started from Keras' default, both fall to near 0](images/small_init_loss.png){width=85%}
 
 Figure 5 shows the four loss curves. The only difference between the flat and the falling ones is the starting weights.
 
-> **Extra:** With the [**Adam**](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) optimizer (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the [Extra on gradients and weights](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#43-the-weights-do-not-move-the-loss-does-not-fall) explains, but does not always rescue training.
+> **Extra:** With the [**Adam**](../../03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) **optimizer** (G-1401) (learning rate 0.01) instead of plain SGD, the tanh network does learn (loss 0.27, accuracy 87%) while the ReLU network stays stuck at 0.693. Adam divides each step by the recent size of that weight's gradients, so the step size does not depend on how small the gradients are (Kingma and Ba 2015). Adam therefore hides the vanishing gradient in the weights, as the [Extra on gradients and weights](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#43-the-weights-do-not-move-the-loss-does-not-fall) explains, but does not always rescue training.
 
 ## 7. Do not use large random weights
 
-> **Key point:** Weights around $\pm 1$ make $z$ a sum of 500 sizeable terms. Tanh and sigmoid saturate, causing slow training or vanishing gradients; ReLU passes the large values on, causing exploding gradients and unstable training.
+> **Key point:** Weights around $\pm 1$ make $z$ a sum of 500 sizeable terms. Tanh and sigmoid saturate, causing slow training or vanishing gradients; **ReLU** (G-1668) passes the large values on, causing exploding gradients and unstable training.
 
-Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostly between $-3$ and 3. (Uniform numbers between 0 and 1 cause the same problem: in the Notebook, 84%, 99% and 100% of the tanh outputs of layers 1, 2 and 3 lie beyond $\pm 0.99$.) In deep learning these count as large weights.
+Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostly between $-3$ and 3. (Uniform numbers between 0 and 1 cause the same problem: in the Notebook, 84%, 99% and 100% of the **tanh** (G-1947) outputs of layers 1, 2 and 3 lie beyond $\pm 0.99$.) In deep learning these count as large weights.
 
 1. **In words:** $z$ adds up 500 products of inputs around $\pm 1$ and weights around $\pm 1$.
 2. **Formula:** $z = \sum_{i=1}^{500} w_i x_i$
@@ -248,7 +248,7 @@ Now draw the weights without the factor 0.01: `np.random.randn(500, 500)`, mostl
    $$\sqrt{500} \approx 22 \quad \text{(the standard deviation)}$$
    So $z$ typically lands in the tens.
 
-**Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the sigmoid, 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
+**Tanh and sigmoid saturate.** Feeding $z$ of 20 or 50 into tanh gives $-1$ or 1; into the **sigmoid** (G-1798), 0 or 1. Figure 1 (bottom row) shows it: in every hidden layer the tanh activations pile up at $-1$ and 1. In layer 3, 90% of them are beyond $\pm 0.99$. At these values the slope is almost 0, so training is slow at best, and in the worst case the gradient vanishes.
 
 **ReLU explodes.** ReLU does not saturate on the positive side: if $z = 250$, the output is 250. The large values pass on and grow. In the Notebook the mean ReLU activation is 8.9 in layer 1, 140 in layer 2 and 2,224 in layer 3. The chain that follows:
 
@@ -279,8 +279,8 @@ That middle start is [**Xavier initialisation**](../DL-030-xavier-he-initializat
 
 - Weights must start different from each other, because nodes that start the same get the same gradient and stay identical, so they must be random.
 - Their spread must be neither too small (the signal dies out) nor too large (it saturates or explodes).
-- In the moons experiments: zeros leave every weight at 0 (47%); a sigmoid layer started at zeros acts as one node (87%, straight line); 0.01-scale weights keep the loss at 0.693 with plain SGD.
-- Choosing that spread well is the job of Xavier and He initialisation.
+- In the moons experiments: zeros leave every weight at 0 (47%); a **sigmoid** (G-1798) layer started at zeros acts as one node (87%, straight line); 0.01-scale weights keep the loss at 0.693 with plain SGD.
+- Choosing that spread well is the job of Xavier and He **initialisation** (G-947).
 
 ## 9. Sources
 
@@ -308,15 +308,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Exploding gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-731) | Gradients growing huge as they pass back through many layers, making updates erratic. |
 | [Convergence (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472) | The point where the fills hardly change between two iterations. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [`make_moons`](../../../DL/02-training/DL-028-relu-variants/DL-028-relu-variants.md#34-dead-nodes-in-practice) (G-111) | scikit-learn function that generates two interleaving half-moon classes. |
-| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
@@ -324,7 +325,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
 | [Histogram](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
 | [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
-| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

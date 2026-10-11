@@ -16,21 +16,21 @@ tags: [subject/machine-learning, area/features, step/features, concept/function-
 
 ## 1. Overview
 
-> **Key point:** A mathematical transformation applies one formula to every value of a feature, usually to make a skewed feature closer to a normal distribution.
+> **Key point:** A mathematical transformation applies one formula to every value of a feature, usually to make a skewed feature closer to a **normal distribution** (G-1343).
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). So far, feature transformation has meant filling missing values, encoding categories and scaling numbers. This Note adds one more kind: **mathematical transformation** (G-1174), where we apply a mathematical formula, such as a logarithm or a square root, to every value of a feature.
 
 Think of a map of India drawn to scale: Delhi, Mumbai and a small village are hard to show together. A log scale works like a map that shrinks the big distances more than the small ones, so everything fits on one page.
 
-Figure 1 shows the whole topic. A skewed feature goes through scikit-learn's `FunctionTransformer`, which applies the formula we choose, and comes out closer to normal. We then check the result with the skewness and a Q-Q plot.
+Figure 1 shows the whole topic. A skewed feature goes through scikit-learn's `FunctionTransformer`, which applies the formula we choose, and comes out closer to normal. We then check the result with the skewness and a **Q-Q plot** (G-1596).
 
 ![A skewed column, the formulas we can choose from, and FunctionTransformer applying one of them](images/overview.png)
 
-The formulas covered here are the log, reciprocal, square and square root transforms. Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the [**power transformer**](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn) (G-1542).
+The formulas covered here are the log, reciprocal, square and **square root transforms** (G-1860). Two more advanced ones, the Box-Cox and Yeo-Johnson transforms, belong to the [**power transformer**](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn) (G-1542).
 
 ## 2. Why make data normal
 
-> **Key point:** Some algorithms, such as linear and logistic regression, often score better when a skewed feature is brought close to a normal distribution (section 7 measures it); tree-based algorithms do not care.
+> **Key point:** Some algorithms, such as linear and logistic regression, often score better when a skewed **feature** (G-772) is brought close to a normal distribution (section 7 measures it); tree-based algorithms do not care.
 
 The [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) is the symmetric, bell-shaped curve ([what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). [**Skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) is the number that says how lopsided a distribution is ([**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)).
 
@@ -46,10 +46,10 @@ The normal distribution is the most important distribution in statistics. Many s
 
 In ML, this matters for the statistical algorithms:
 
-- **Care about the distribution:** **linear regression** (G-1094; a straight line fitted to the data) and **logistic regression** (G-1120; a model for yes-or-no targets, built in [exploring the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data)). They tend to perform better when the features are close to normal.
+- **Care about the distribution:** **linear regression** (G-1094; a straight line fitted to the data) and **logistic regression** (G-1120; a model for yes-or-no **targets** (G-1949), built in [exploring the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#4-exploring-the-data)). They tend to perform better when the features are close to normal.
 - **Do not care:** **decision trees** (G-561; a chain of yes-or-no questions on the features, see [a decision tree is nested if-else](../../08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)) and **random forests** (G-1611; many decision trees voting together). Their results hardly change whatever the shape of the data.
 
-So when we use an algorithm of the first kind on a skewed feature, we try to make that feature normal first. The mathematical transformations in this Note do exactly that.
+So when we use an algorithm of the first kind on a skewed feature, we try to make that feature normal first. The **mathematical transformations** (G-1174) in this Note do exactly that.
 
 There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is a valid transformation too, and we can write our own custom function. The goal is always the same: get a distribution as close to normal as possible.
 
@@ -59,33 +59,33 @@ There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is
 
 ## 3. Mathematical transformers in scikit-learn
 
-> **Key point:** scikit-learn has three classes for mathematical transformations: the function transformer, the power transformer and the quantile transformer.
+> **Key point:** scikit-learn has three classes for **mathematical transformations** (G-1174): the function transformer, the power transformer and the quantile transformer.
 
 scikit-learn offers three classes for this job:
 
-1. **`FunctionTransformer`** (G-819), the most widely used, and the subject of this Note. `FunctionTransformer` can apply the log, reciprocal, square and square root transforms, or any custom function we write.
+1. **`FunctionTransformer`** (G-819), the most widely used, and the subject of this Note. `FunctionTransformer` can apply the log, reciprocal, square and **square root transforms** (G-1860), or any custom function we write.
 2. **`PowerTransformer`** (G-1543), which applies the [Box-Cox and Yeo-Johnson transforms](../ML-030-power-transformer/ML-030-power-transformer.md#2-power-transformer-in-scikit-learn).
 3. **`QuantileTransformer`** (G-1600), which is used much less and is only shown in Figure 3 below.
 
-Figure 3 runs all three on the Titanic fares with their simplest settings (the quantile transformer set to give a normal-shaped output). Each pulls the long right tail in, from skewness 4.79 to 0.39, $-0.04$ and $-0.93$. In all three, the 15 passengers with a fare of 0 stay apart as a small group on the left; for the quantile transformer that group is what pulls its skewness below 0.
+Figure 3 runs all three on the Titanic fares with their simplest settings (the **quantile** (G-1599) transformer set to give a normal-shaped output). Each pulls the long right tail in, from skewness 4.79 to 0.39, $-0.04$ and $-0.93$. In all three, the 15 passengers with a fare of 0 stay apart as a small group on the left; for the quantile transformer that group is what pulls its **skewness** (G-1817) below 0.
 
 ![The 891 Titanic fares, raw and after each of scikit-learn's three mathematical transformers, with the skewness of each result.](images/three_transformers.png)
 
 ## 4. Checking whether a column is normal
 
-> **Key point:** Three checks: look at the density plot, compute the skewness, and draw a Q-Q plot; the Q-Q plot is the most reliable.
+> **Key point:** Three checks: look at the density plot, compute the skewness, and draw a **Q-Q plot** (G-1596); the Q-Q plot is the most reliable.
 
-Before transforming a feature, we need to know whether it is normal already. There are three common ways:
+Before transforming a **feature** (G-772), we need to know whether it is normal already. There are three common ways:
 
 1. **Density plot:** draw the histogram with its KDE curve, as in [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot). The shape gives a first idea of how normal the feature is.
 2. **Skewness:** pandas' `skew()`. A value near 0 means symmetric; positive means right-skewed, negative means left-skewed (see [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)).
-3. **Q-Q plot:** the most reliable of the three, and the most used. Skewness is one number that measures only lopsidedness, so a symmetric shape with fat tails (the last panel of Figure 5) has a skewness near 0 though it is not normal. The Q-Q plot compares every value with where a normal distribution would put it, so it shows that problem too. The rest of this section explains how it is built and how to read it.
+3. **Q-Q plot:** the most reliable of the three, and the most used. Skewness is one number that measures only lopsidedness, so a symmetric shape with fat tails (the last panel of Figure 5) has a skewness near 0 though it is not normal. The Q-Q plot compares every value with where a **normal distribution** (G-1343) would put it, so it shows that problem too. The rest of this section explains how it is built and how to read it.
 
 ### 4.1 How a Q-Q plot is built
 
 > **Key point:** Sort the data, cut the normal curve into as many equal slices as there are values, and plot the $k$-th smallest value against the $k$-th slice; a straight line of dots means the data has the normal shape.
 
-A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect normal distribution (Wilk and Gnanadesikan 1968). [**Quantiles**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
+A **Q-Q plot** (G-1596) (quantile-quantile plot) compares our data with a perfect **normal distribution** (G-1343) (Wilk and Gnanadesikan 1968). [**Quantiles**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#2-quantiles) (G-1599) are the values that cut sorted data into equal-sized groups. The plot asks one question for every value: if the data were normal, where would the smallest value sit, where the second smallest, and so on?
 
 We build one by hand for the five values 1, 2, 3, 4 and 10 from [the skewness example](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness). Figure 4 animates the steps:
 
@@ -121,16 +121,16 @@ The same construction works against any distribution: cut that distribution's cu
 
 ### 4.2 Reading a Q-Q plot
 
-> **Key point:** The closer the points lie to the straight red line, the closer the data is to a normal distribution.
+> **Key point:** The closer the points lie to the straight red line, the closer the data is to a **normal distribution** (G-1343).
 
-With hundreds of values the dots merge into a curve, and we read its shape. Each point stands for one value of the feature:
+With hundreds of values the dots merge into a curve, and we read its shape. Each point stands for one value of the **feature** (G-772):
 
 - **horizontal axis (theoretical quantiles, G-1968):** where that value would sit if the data were perfectly normal;
 - **vertical axis (sample quantiles):** where the value actually sits in our data.
 
 The red line is the best straight line through the points. If the data is normal, its values sit exactly where a normal distribution predicts, and every point lands on that line.
 
-Figure 5 shows four made-up features, with the histogram on top and the Q-Q plot below.
+Figure 5 shows four made-up features, with the histogram on top and the **Q-Q plot** (G-1596) below.
 
 ![Four shapes of data (top) and their Q-Q plots (bottom)](images/qq_shapes.png){width=100%}
 
@@ -162,7 +162,7 @@ The further the points stray from the line, the further the data is from normal.
 
 > **Key point:** The log transform replaces every value with its logarithm; it pulls a long right tail in, so it is the transform for right-skewed data.
 
-The **log transform** (G-1112) is simple: take the log of every value of the feature. The base can be 10 or $e$; both give the same shape.
+The **log transform** (G-1112) is simple: take the log of every value of the **feature** (G-772). The base can be 10 or $e$; both give the same shape.
 
 The log transform, step by step:
 
@@ -220,7 +220,7 @@ Two rules for using it:
 
 NumPy has two log functions:
 
-- **`np.log(x)`:** the plain natural log (base $e$). A 0 in the feature breaks it.
+- **`np.log(x)`:** the plain natural log (base $e$). A 0 in the **feature** (G-772) breaks it.
 - **`np.log1p(x)`** (G-1117)**:** first adds 1, then takes the log. For $x \ge 0$ the number inside the log, $1 + x$, is at least 1, so zeros are safe: a fare of 0 becomes $\ln 1 = 0$.
 
 The $\log(1 + x)$ transform, step by step:
@@ -260,7 +260,7 @@ The **reciprocal transform** (G-1643), step by step:
    $$\frac{1}{100} = 0.01$$
    The biggest value became the smallest.
 
-The reciprocal is a very different kind of transform from the others, since it flips the order. On some data it gives a close-to-normal result. A 0 in the feature breaks it, because $1/0$ is infinite.
+The reciprocal is a very different kind of transform from the others, since it flips the order. On some data it gives a close-to-normal result. A 0 in the **feature** (G-772) breaks it, because $1/0$ is infinite.
 
 > **Extra:** The reciprocal pulls a right tail in even harder than the log, so it is mainly tried on strongly right-skewed data. Because the reciprocal reverses the order, a model's coefficient for that feature also changes sign: a larger original value now means a smaller transformed one.
 
@@ -273,7 +273,7 @@ The **square transform** (G-1861), step by step:
 1. **In words:** multiply each value by itself.
 2. **Formula:**
    $$x' = x^2$$
-3. **Example:** take marks in an easy test, a left-skewed feature: 30, 80 and 90. They become
+3. **Example:** take marks in an easy test, a left-skewed **feature** (G-772): 30, 80 and 90. They become
    $$30^2 = 900$$
    $$80^2 = 6400$$
    $$90^2 = 8100$$
@@ -309,8 +309,8 @@ The square root is used less often, but it is worth trying. Like the log, it doe
 
 We usually cannot tell in advance which transform will work best. What we do know:
 
-- **right-skewed data:** start with the log transform;
-- **left-skewed data:** start with the square transform.
+- **right-skewed data:** start with the **log transform** (G-1112);
+- **left-skewed data:** start with the **square transform** (G-1861).
 
 Beyond that, each transform is one line of code, so we try them all and keep the one that gives the best result.
 
@@ -320,13 +320,13 @@ Figure 9 puts the four transforms side by side, with the example values of this 
 
 ## 7. Function transformer on the Titanic data
 
-> **Key point:** On the Titanic data, a log transform raised logistic regression's accuracy from 65.9% to 67.8% (cross-validated), while the decision tree stayed at about 66%.
+> **Key point:** On the Titanic data, a **log transform** (G-1112) raised logistic regression's accuracy from 65.9% to 67.8% (cross-validated), while the decision tree stayed at about 66%.
 
 ### 7.1 The data
 
-> **Key point:** Two numerical features, `Age` and `Fare`, and the target `Survived`.
+> **Key point:** Two numerical **features** (G-772), `Age` and `Fare`, and the **target** (G-1949) `Survived`.
 
-We use the Titanic training file (891 passengers, one observation each) and keep three columns:
+We use the Titanic training file (891 passengers, one **observation** (G-1374) each) and keep three columns:
 
 | Survived | Age | Fare |
 |---|---|---|
@@ -366,9 +366,9 @@ As always, we split before anything else (see [training and test sets](../../01-
 
 ### 7.2 Is each column normal?
 
-> **Key point:** `Age` is close to normal (skewness 0.36); `Fare` is strongly right-skewed (skewness 4.88).
+> **Key point:** `Age` is close to normal (**skewness** (G-1817) 0.36); `Fare` is strongly right-skewed (skewness 4.88).
 
-We check both training features with a density plot and a Q-Q plot, as in [Section 4](#4-checking-whether-a-column-is-normal). The left halves of Figures 10 and 12 show them.
+We check both training features with a density plot and a **Q-Q plot** (G-1596), as in [Section 4](#4-checking-whether-a-column-is-normal). The left halves of Figures 10 and 12 show them.
 
 - **Age:** the density plot looks roughly normal, though not perfectly. In the Q-Q plot, most points lie near the line and stray only in a few places. Skewness: 0.36.
 - **Fare:** not normal at all. The density plot has a long right tail: a few passengers paid huge fares, and most paid very little. In the Q-Q plot, the points curve far above the line on the right. Skewness: 4.88.
@@ -381,7 +381,7 @@ We check both training features with a density plot and a Q-Q plot, as in [Secti
 
 > **Key point:** Without any transform, logistic regression scores 64.8% on the test set and a decision tree 67.0%.
 
-First we train two models on the raw features, to have something to compare with: logistic regression and a decision tree.
+First we train two models on the raw **features** (G-772), to have something to compare with: logistic regression and a decision tree.
 
 | Model | Test accuracy, no transform |
 |---|---|
@@ -407,13 +407,13 @@ First we train two models on the raw features, to have something to compare with
 
 ### 7.4 Applying the log with FunctionTransformer
 
-> **Key point:** `FunctionTransformer(func=np.log1p)` applies $\log(1 + x)$ to every feature it receives.
+> **Key point:** `FunctionTransformer(func=np.log1p)` applies $\log(1 + x)$ to every **feature** (G-772) it receives.
 
 **`FunctionTransformer`** (in `sklearn.preprocessing`) applies a function we give it to the data. Its first parameter, **`func`** (G-814), is that function: a built-in one such as `np.log1p`, or our own.
 
 Here we pass `np.log1p` rather than `np.log`, because 15 passengers have a fare of 0. Like every transformer, `FunctionTransformer` is fitted on the training set and then used to transform both sets.
 
-> **Python:** The log transform with `FunctionTransformer`.
+> **Python:** The **log transform** (G-1112) with `FunctionTransformer`.
 >
 > ```python
 > import numpy as np
@@ -473,7 +473,7 @@ The improvement for logistic regression holds up: about 2 points. The decision t
 
 ### 7.6 Before and after the log
 
-> **Key point:** The log brought `Fare` from skewness 4.88 to 0.40, but pushed `Age` from 0.36 to -2.24.
+> **Key point:** The log brought `Fare` from **skewness** (G-1817) 4.88 to 0.40, but pushed `Age` from 0.36 to -2.24.
 
 Figure 10 shows `Fare` before and after the transform. Before, `Fare` was very far from normal; after, the skewness is 0.40 and the points lie much closer to the line. The change in `Fare` is what improved logistic regression, as [Section 7.7](#77-log-on-fare-only-with-columntransformer) confirms.
 
@@ -487,7 +487,7 @@ Figure 12 does the same for `Age`. Here the transform made things worse: `Age` w
 
 ![Age before (blue) and after (green) the log transform: density plot and Q-Q plot](images/age_log.png){width=100%}
 
-Such damage happens when we force a log onto a feature that is not right-skewed. The log squashes the big ages and stretches the small ones, so the few children become a new left tail.
+Such damage happens when we force a log onto a **feature** (G-772) that is not right-skewed. The log squashes the big ages and stretches the small ones, so the few children become a new left tail.
 
 The tall bar near age 30 in Figure 12 is the 177 passengers whose missing age was filled with the mean. After the log it stays one tall bar, near 3.4.
 
@@ -529,7 +529,7 @@ The overall lesson:
 
 > **Key point:** On the right-skewed `Fare`, the log gave the best result; square, reciprocal and sine made it worse.
 
-To compare all the transforms quickly, we wrap the steps in one function. The function takes a formula, applies it to `Fare` only, reports the cross-validated accuracy of logistic regression, and draws the Q-Q plot.
+To compare all the transforms quickly, we wrap the steps in one function. The function takes a formula, applies it to `Fare` only, reports the cross-validated accuracy of logistic regression, and draws the **Q-Q plot** (G-1596).
 
 > **Python:** One function to try any transform.
 >
@@ -548,9 +548,9 @@ To compare all the transforms quickly, we wrap the steps in one function. The fu
 > apply_transform(lambda x: 1 / (x + 0.1))
 > ```
 >
-> A **lambda** is a one-line function without a name: `lambda x: x**2` means "take x, return x squared". `max_iter=1000` lets logistic regression take more steps, which the square transform's huge numbers need.
+> A **lambda** is a one-line function without a name: `lambda x: x**2` means "take x, return x squared". `max_iter=1000` lets logistic regression take more steps, which the **square transform** (G-1861)'s huge numbers need.
 
-Figure 13 shows the Q-Q plot of `Fare` after each transform, with its skewness and accuracy.
+Figure 13 shows the Q-Q plot of `Fare` after each transform, with its **skewness** (G-1817) and accuracy.
 
 ![Fare after each transform: Q-Q plot, skewness and cross-validated accuracy of logistic regression](images/transforms_compare.png){width=100%}
 
@@ -573,7 +573,7 @@ What each one did:
 - **Reciprocal:** the plain $1/x$ fails, because 15 fares are 0 and $1/0$ is infinite. Adding a small 0.1 avoids that, but the result is worse: the zero fares all jump to 10 and form a new tail.
 - **Sine:** any function can be passed in, even one with no sense behind it. $\sin(x)$ squeezes every fare into the range -1 to 1, which wipes out the information and drops the accuracy.
 
-So on this data the log transform wins, as expected for a right-skewed column. On other data another transform may win: the only way to know is to try them, and each one takes one line of code.
+So on this data the **log transform** (G-1112) wins, as expected for a right-skewed column. On other data another transform may win: the only way to know is to try them, and each one takes one line of code.
 
 ## 9. Summary
 
@@ -585,12 +585,12 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Square root | $\sqrt{x}$ | squashes them gently | right-skewed data (milder) | negatives |
 | Custom | any $f(x)$ | depends on $f$ | try anything | depends on $f$ |
 
-- A mathematical transformation applies one formula to every value of a feature, usually to bring the feature closer to a normal distribution.
-- Linear and logistic regression benefit from close-to-normal features, because a few huge values pull their one linear formula towards themselves; decision trees and random forests do not care, because the log keeps the order of the values and a tree's questions split the rows the same way.
-- Check normality with a density plot, the skewness, and a Q-Q plot: points on the line mean normal. Checking first matters, because forcing a log onto a feature that is not right-skewed (`Age`, 0.36 to -2.24) makes it less normal.
+- A **mathematical transformation** (G-1174) applies one formula to every value of a feature, usually to bring the feature closer to a normal distribution.
+- Linear and logistic regression benefit from close-to-normal **features** (G-772), because a few huge values pull their one linear formula towards themselves; decision trees and random forests do not care, because the log keeps the order of the values and a tree's questions split the rows the same way.
+- Check normality with a density plot, the skewness, and a **Q-Q plot** (G-1596): points on the line mean normal. Checking first matters, because forcing a log onto a feature that is not right-skewed (`Age`, 0.36 to -2.24) makes it less normal.
 - `FunctionTransformer(func=...)` applies any function; `np.log1p` is safe when a feature has zeros, because it adds 1 before the log, so a fare of 0 becomes 0 instead of minus infinity.
 - Combine `FunctionTransformer` with `ColumnTransformer` to transform only the features that need it, so a column that is already close to normal is left alone.
-- On the Titanic data, logging `Fare` (skewness 4.88 to 0.40) raised logistic regression from 65.9% to 67.1%; logging `Age` too gave 67.8%, though `Age` itself became skewed. The decision tree stayed at about 66%.
+- On the Titanic data, logging `Fare` (**skewness** (G-1817) 4.88 to 0.40) raised logistic regression from 65.9% to 67.1%; logging `Age` too gave 67.8%, though `Age` itself became skewed. The decision tree stayed at about 66%.
 - Which transform is best is found by trying them all, because we usually cannot tell in advance and each one is one line of code.
 - So a mathematical transformation is one formula applied to every value of a skewed feature, chosen and checked so that the feature ends up closer to normal for the models that care.
 
@@ -614,22 +614,22 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Mathematical transformation (G-1174) | Applying one mathematical formula, such as the log or the square root, to every value of a column, usually to bring its distribution closer to normal. |
+| Q-Q plot (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
+| Square root transform (G-1860) | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |
 | FunctionTransformer (G-819) | scikit-learn's class that applies any function we give it to the data. |
 | QuantileTransformer (G-1600) | A scikit-learn transformer that maps each column's values, through their quantiles, onto a uniform or normal distribution; it is used much less than the log and power transforms. |
-| Q-Q plot (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |
 | Theoretical quantile (G-1968) | Where a value would sit if the data were perfectly normal (the horizontal axis of a Q-Q plot). |
 | Log transform (G-1112) | Replacing each value with its logarithm; pulls in a long right tail. |
 | log1p (G-1117) | NumPy's function that adds 1 to each value and then takes the log, $\log(1 + x)$, so the log transform also works when a value is 0. |
 | Reciprocal transform (G-1643) | Replacing each value with $1/x$; reverses the order of the values. |
 | Square transform (G-1861) | Replacing each value with $x^2$; used for left-skewed data. |
-| Square root transform (G-1860) | Replacing each value with $\sqrt{x}$; it pulls a right tail in, more gently than the log. |
 | func (G-814) | The `FunctionTransformer` parameter that holds the function to apply. |
 | Lambda (Python) (G-1040) | A one-line Python function without a name, such as `lambda x: x**2`. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#1-overview) (G-1542) | A transform that raises each column to a learned power $\lambda$ to make it close to normal. |
-| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |

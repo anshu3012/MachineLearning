@@ -15,7 +15,7 @@ tags: [subject/maths, area/calculus, step/model, concept/convexity]
 
 ## 1. Overview
 
-> **Key point:** A convex cost function is one bowl: every chord lies on or above the curve, any minimum is the global minimum, and gradient descent (with a small enough learning rate) finds it from any start. A non-convex one can have several dips, and gradient descent may stop in the wrong one.
+> **Key point:** A convex cost function is one bowl: every chord lies on or above the curve, any minimum is the global minimum, and gradient descent (with a small enough learning rate) finds it from any start. A **non-convex** (G-1333) one can have several dips, and gradient descent may stop in the wrong one.
 
 The idea first appeared with [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-862): a **convex** function (G-476) is one where a straight line between any two points on its curve never goes below the curve. Linear regression's loss is convex; other losses can trap [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) in a [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) instead of the [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848).
 
@@ -112,11 +112,11 @@ Here $0 > -3.94$: the curve rises above the chord, so $g$ is non-convex. One fai
 
 ### 3.2 Why convexity matters: one minimum
 
-> **Key point:** A strictly convex function has at most one minimum, and for any convex function every local minimum is a global minimum; a non-convex function can have several minima, and only one of them is the lowest.
+> **Key point:** A strictly convex function has at most one minimum, and for any convex function every **local minimum** (G-1110) is a global minimum; a non-convex function can have several minima, and only one of them is the lowest.
 
 Optimisation looks for the parameter values where the loss is lowest. Convexity gives two guarantees:
 
-- **Any convex function:** every local minimum is a global minimum. There is no dip that is lower only locally.
+- **Any convex function:** every local minimum is a **global minimum** (G-848). There is no dip that is lower only locally.
 - **Strictly convex:** there is at most one minimum point. A convex function that is not strict can have a flat bottom with many minimum points, but they all share the same lowest value.
 
 The first guarantee follows from the chord test, in three steps:
@@ -133,7 +133,7 @@ $$\frac{1}{2} f^\ast+ \frac{1}{2} f^\ast= f^\ast$$
 
 so the midpoint has a value below the lowest one, which is impossible.
 
-A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
+A **non-convex function** (G-1333) gives no such promise. In Figure 3 (right), $g$ has a dip at $w = 1.35$ where $g = -2.62$ and a deeper one at $w = -1.47$ where $g = -5.44$. The first is a local minimum; the second is the global minimum.
 
 > **Extra:** Points with zero slope are called **stationary points** (G-1879). For $g$, the derivative (the slope, [**derivatives**](../../06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero) (G-595)) is
 >
@@ -153,7 +153,7 @@ A non-convex function gives no such promise. In Figure 3 (right), $g$ has a dip 
 
 ## 4. What goes wrong with a non-convex loss
 
-> **Key point:** Gradient descent only sees the local slope, so on a non-convex loss it settles in whichever dip it reaches first, which may be a local minimum with a worse loss than the global one.
+> **Key point:** Gradient descent only sees the local slope, so on a non-convex loss it settles in whichever dip it reaches first, which may be a **local minimum** (G-1110) with a worse loss than the global one.
 
 Picture a ball placed on a hilly track. The ball rolls downhill and comes to rest at the bottom of whichever valley lies below its starting point. The ball cannot know that a deeper valley lies behind the next hill.
 
@@ -168,13 +168,13 @@ Figure 4 runs gradient descent on $g$ from two starting points with the same lea
 | $w = -2$ | $w = -1.47$ | $-5.44$ | global minimum |
 | $w = 2$ | $w = 1.35$ | $-2.62$ | local minimum |
 
-The orange run is the worst case for a non-convex loss: it converges, but to a sub-optimal answer. The parameters it returns give a loss 2.82 higher than the best possible. On a convex loss this cannot happen: every start ends at the same lowest value.
+The orange run is the worst case for a **non-convex** (G-1333) loss: it converges, but to a sub-optimal answer. The parameters it returns give a loss 2.82 higher than the best possible. On a convex loss this cannot happen: every start ends at the same lowest value.
 
 > **Extra:** Ways to reduce the risk: start from several random points and keep the best result, or use [**stochastic gradient descent**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) (one observation per step), whose noisy steps can jump out of a shallow dip (Kleinberg et al. 2018). Methods built for this (momentum, adaptive learning rates) are covered with neural networks.
 
 ## 5. Two losses compared
 
-> **Key point:** The loss of linear regression with squared error is convex, so it has one bowl; the loss of even a tiny neural network is non-convex, with several minima and a ridge between them.
+> **Key point:** The loss of linear regression with squared error is convex, so it has one bowl; the loss of even a tiny neural network is **non-convex** (G-1333), with several minima and a ridge between them.
 
 Figure 1 fits the same data with two models. The data is 21 points $x = -2, -1.8, \dots, 2$ with $y = 1.5\tanh(2x)$, an S-shaped curve ($\tanh$ is the S-shaped function that squeezes any number into the range $-1$ to $1$; [the tanh function](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh)). The loss is the mean squared error in both cases.
 
@@ -182,7 +182,7 @@ Figure 1 fits the same data with two models. The data is 21 points $x = -2, -1.8
 
 > **Key point:** Over its slope and intercept, the squared-error loss of a straight line is a single bowl with one lowest point.
 
-For the line $y = mx + b$, the contours in Figure 1 (left) are closed rings around one point, $m = 1.02$, $b = 0$, with loss $0.18$. That loss is not 0 because no straight line fits an S-curve exactly, but it is the best a line can do, and gradient descent with a small enough learning rate reaches it from any start (Boyd and Vandenberghe §9.3).
+For the line $y = mx + b$, the contours in Figure 1 (left) are closed rings around one point, $m = 1.02$, $b = 0$, with loss $0.18$. That loss is not 0 because no straight line fits an S-curve exactly, but it is the best a line can do, and **gradient descent** (G-862) with a small enough learning rate reaches it from any start (Boyd and Vandenberghe §9.3).
 
 The chord test confirms it. Take the two end points $(m, b) = (-1, 0)$ and $(3, 0)$. Their losses, 6.18 at $m = -1$ and 5.91 at $m = 3$, are rows of the table in section 2. The midpoint is $(1, 0)$:
 
@@ -200,7 +200,7 @@ In two dimensions the chord is a straight line through the parameter plane, and 
 
 The smallest possible neural network, $y = w_2 \tanh(w_1 x)$, has one hidden unit (one tanh neuron) and two **weights** $w_1$ and $w_2$ (the numbers training adjusts). It can fit the data exactly: at $(w_1, w_2) = (2, 1.5)$ it reproduces $y = 1.5\tanh(2x)$, with loss 0.
 
-Because $\tanh(-z) = -\tanh(z)$, flipping both signs gives the same predictions: $(-1.5)\tanh(-2x) = 1.5\tanh(2x)$. So $(-2, -1.5)$ is a second global minimum, also with loss 0 (Figure 1, right).
+Because $\tanh(-z) = -\tanh(z)$, flipping both signs gives the same predictions: $(-1.5)\tanh(-2x) = 1.5\tanh(2x)$. So $(-2, -1.5)$ is a second **global minimum** (G-848), also with loss 0 (Figure 1, right).
 
 The chord test between the two minima fails at the midpoint $(0, 0)$:
 
@@ -208,7 +208,7 @@ $$\text{curve: } L(0, 0) = 1.71$$
 
 $$\text{chord: } 0.5 \times 0 + 0.5 \times 0 = 0$$
 
-$1.71 > 0$, so the loss is non-convex. A convex function could never have two separate lowest points with a higher point between them. Figure 5 (right) walks the straight path between the two minima: the loss climbs from 0 over a ridge of height 1.71 and comes back down to 0, entirely above the chord (red).
+$1.71 > 0$, so the loss is **non-convex** (G-1333). A convex function could never have two separate lowest points with a higher point between them. Figure 5 (right) walks the straight path between the two minima: the loss climbs from 0 over a ridge of height 1.71 and comes back down to 0, entirely above the chord (red).
 
 How to read Figure 5: a loss over two parameters cannot be drawn as one curve, so we walk along a straight path from one parameter pair to another and plot the loss on the way. The horizontal axis is the fraction of the way (0 at the start, 1 at the end, 0.5 at the midpoint), and the vertical axis is the loss. The result is a one-input curve, so the chord test of [Section 3](#3-the-chord-test) applies to it: the dashed green line is the chord between the loss at the start and the loss at the end. A curve below the dashed line (left) passes; a curve above it (right, red) fails.
 
@@ -216,7 +216,7 @@ How to read Figure 5: a loss over two parameters cannot be drawn as one curve, s
 
 Here both minima are equally good, so landing in either is fine. Real networks have millions of weights, many such symmetries, and also genuine local minima and flat stretches, so their losses are non-convex (Goodfellow et al. §8.2.2–8.2.3).
 
-> **Extra:** The midpoint $(0, 0)$ is itself a stationary point: with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718): the loss rises along one diagonal and falls along the other (see [the Hessian](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian)). Gradient descent started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
+> **Extra:** The midpoint $(0, 0)$ is itself a **stationary point** (G-1879): with $w_1 = 0$ every prediction is 0 whatever $w_2$ is, and with $w_2 = 0$ every prediction is 0 whatever $w_1$ is, so neither weight has a slope there. The midpoint is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718): the loss rises along one diagonal and falls along the other (see [the Hessian](../../06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian)). **Gradient descent** (G-862) started exactly at $(0, 0)$ would never move, since both slopes are zero there: one reason why neural network weights are not all started at zero (Goodfellow et al. §8.4).
 
 > **Python:** a numerical chord test. We pick 10,000 random pairs of parameter points and random $\theta$, and record by how much the curve ever rises above the chord. A result above 0 proves the loss is non-convex; 0 is evidence (not proof) that it is convex.
 >
@@ -252,10 +252,10 @@ Here both minima are equally good, so landing in either is fine. Real networks h
 | Gradient descent | reaches the best value from any start | result depends on the start; may stop in a local minimum |
 | Example | linear regression with squared error | neural networks |
 
-- The gradient descent row follows from the minima row: gradient descent stops where the slope is zero, and on a convex loss every such low point is the global one.
+- The **gradient descent** (G-862) row follows from the minima row: gradient descent stops where the slope is zero, and on a convex loss every such low point is the global one.
 - The loss is a function of the parameters; the data stays fixed, because training changes only the parameters, so the best model is the lowest point of this function.
-- Convex: $f(\theta a + (1 - \theta) b) \le \theta f(a) + (1 - \theta) f(b)$ for all $a$, $b$ and $0 \le \theta \le 1$; this chord test guarantees that every local minimum is a global minimum.
-- One failing pair of points is enough to show a function is non-convex, because convexity must hold for every pair.
+- Convex: $f(\theta a + (1 - \theta) b) \le \theta f(a) + (1 - \theta) f(b)$ for all $a$, $b$ and $0 \le \theta \le 1$; this chord test guarantees that every **local minimum** (G-1110) is a global minimum.
+- One failing pair of points is enough to show a function is **non-convex** (G-1333), because convexity must hold for every pair.
 - On a non-convex loss, gradient descent can converge to a sub-optimal local minimum, because it only sees the local slope and stops wherever the slope is zero.
 - So on a convex loss, such as linear regression's, gradient descent finds the best parameters from any start; on a non-convex loss, such as a neural network's, the start can decide where it ends.
 
@@ -279,9 +279,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Non-convex function (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | Cost function (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
 | Chord (G-384) | The straight line joining two points on a function's graph; it is used to test convexity: a convex function never rises above any of its chords. |
-| Non-convex function (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | Strictly convex function (G-1899) | A function whose curve lies strictly below the straight line (chord) joining any two different points of it; it has at most one minimum. |
 | Stationary point (G-1879) | A point where a function is flat, its slope is zero (the derivative, or every partial derivative, is zero); it is a minimum, a maximum or a saddle point. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

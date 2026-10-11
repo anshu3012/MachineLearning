@@ -15,7 +15,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/svd]
 
 ## 1. Overview
 
-> **Key point:** A matrix stretches some directions more than others. To find the SVD by hand, we multiply the matrix by its own transpose. That new matrix keeps the stretching but forgets the final turn, so its eigenvectors are the directions of most and least stretch, and its eigenvalues are the squared stretches.
+> **Key point:** A matrix stretches some directions more than others. To find the SVD by hand, we multiply the matrix by its own transpose. That new matrix keeps the stretching but forgets the final turn, so its eigenvectors are the directions of most and least stretch, and its **eigenvalues** (G-665) are the squared stretches.
 
 The [rotate, stretch, rotate](../MA-057-svd-geometry/MA-057-svd-geometry.md#4-rotate-stretch-rotate-a--usigma-vmathsf-t) picture showed what $A = U\Sigma V^{\mathsf T}$ means: turn, stretch, turn. The small $\mathsf T$ marks the [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012): the same numbers with rows and columns swapped, so row 1 becomes column 1. For example:
 
@@ -35,23 +35,23 @@ without saying where they came from. This Note finds them, with a four-step reci
 
 ![The four steps of computing an SVD by hand](images/svd_recipe.png)
 
-Figure 1 is the plan for the whole Note. Read it top to bottom: form a new symmetric matrix, take its eigenvectors and eigenvalues, turn the eigenvalues into stretches, then get the output directions from the input directions.
+Figure 1 is the plan for the whole Note. Read it top to bottom: form a new **symmetric matrix** (G-1932), take its eigenvectors and eigenvalues, turn the eigenvalues into stretches, then get the output directions from the input directions.
 
 This Note covers:
 
 - why $A^{\mathsf T}A$ and $AA^{\mathsf T}$ hold the answer ([Section 2](#2-making-one-orthogonal-matrix-disappear));
 - the four-step recipe of Figure 1, worked on $A$ ([Section 3](#3-the-recipe-worked-on-a-2-times-2-matrix));
 - a sign trap, and how computing each $\mathbf u_i$ from its $\mathbf v_i$ avoids it ([Section 4](#4-the-sign-trap));
-- a matrix of rank 1, where a singular value is 0 ([Section 5](#5-a-matrix-of-rank-1));
+- a matrix of **rank** (G-1627) 1, where a singular value is 0 ([Section 5](#5-a-matrix-of-rank-1));
 - the four subspaces that the SVD gives bases for ([Section 6](#6-the-four-subspaces));
 - a matrix that is not square ([Section 7](#7-a-matrix-that-is-not-square));
 - why computers do not use this recipe ([Section 8](#8-how-computers-compute-the-svd)).
 
-Finding eigenvalues and eigenvectors by hand, with the determinant, is taught in [finding eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues); we use it here without repeating it.
+Finding eigenvalues and **eigenvectors** (G-666) by hand, with the determinant, is taught in [finding eigenvalues](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#3-finding-eigenvalues); we use it here without repeating it.
 
 ## 2. Making one orthogonal matrix disappear
 
-> **Key point:** The SVD has two unknown turning matrices, $U$ and $V$. In $A^{\mathsf T}A$, the turn $U$ cancels out, leaving a symmetric matrix whose eigenvectors and eigenvalues we can find by hand.
+> **Key point:** The SVD has two unknown turning matrices, $U$ and $V$. In $A^{\mathsf T}A$, the turn $U$ cancels out, leaving a **symmetric matrix** (G-1932) whose eigenvectors and eigenvalues we can find by hand.
 
 ### 2.1 $A^{\mathsf T}A$ gives $V$ and the singular values
 
@@ -80,7 +80,7 @@ $$\mathbf x^{\mathsf T}\mathbf x = 3 \times 3 + 4 \times 4$$
 
 $$= 25$$
 
-so its length is 5, the square root of 25. The squared length of an output can therefore be regrouped, using the rule $(A\mathbf v)^{\mathsf T} = \mathbf v^{\mathsf T}A^{\mathsf T}$ (the transpose of a product is the product of the transposes in reverse order; Strang §2.7):
+so its length is 5, the square root of 25. The squared length of an output can therefore be regrouped, using the rule $(A\mathbf v)^{\mathsf T} = \mathbf v^{\mathsf T}A^{\mathsf T}$ (the **transpose** (G-2012) of a product is the product of the transposes in reverse order; Strang §2.7):
 
 $$\lVert A\mathbf v\rVert^2 = (A\mathbf v)^{\mathsf T}(A\mathbf v)$$
 
@@ -148,15 +148,15 @@ Check: for $A$, the eigenvalues 45 and 5 give $\sigma_1 = 6.71$ and $\sigma_2 = 
 
 ### 2.2 Why this always works
 
-> **Key point:** $A^{\mathsf T}A$ is symmetric with eigenvalues of at least 0, so it always has perpendicular eigenvectors and real square roots.
+> **Key point:** $A^{\mathsf T}A$ is symmetric with **eigenvalues** (G-665) of at least 0, so it always has perpendicular eigenvectors and real square roots.
 
-$A$ itself may have no useful eigenvectors, but $A^{\mathsf T}A$ always does, for two reasons.
+$A$ itself may have no useful **eigenvectors** (G-666), but $A^{\mathsf T}A$ always does, for two reasons.
 
-**It is symmetric.** The matrix $A^{\mathsf T}A$ of [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values) reads the same across its diagonal: 20 above and 20 below. That always happens, because its transpose is itself:
+**It is symmetric.** The matrix $A^{\mathsf T}A$ of [Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values) reads the same across its diagonal: 20 above and 20 below. That always happens, because its **transpose** (G-2012) is itself:
 
 $$(A^{\mathsf T}A)^{\mathsf T} = A^{\mathsf T}(A^{\mathsf T})^{\mathsf T} = A^{\mathsf T}A$$
 
-A [**symmetric matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). So $V$ can always be built as an orthogonal matrix. Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
+A [**symmetric matrix**](../MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932) always has a full set of perpendicular eigenvectors (the same fact that makes PCA work on a covariance matrix, see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). So $V$ can always be built as an **orthogonal matrix** (G-1407). Check: the dot product of $[1, 1]$ and $[-1, 1]$ is
 
 $$-1 + 1 = 0$$
 
@@ -180,7 +180,7 @@ A symmetric matrix with no negative eigenvalues is [**positive semi-definite**](
 
 ### 2.3 $AA^{\mathsf T}$ gives $U$, with the same numbers
 
-> **Key point:** Multiplying in the other order, $AA^{\mathsf T}$, cancels $V$ instead and keeps $U$; its non-zero eigenvalues are the same squared stretches.
+> **Key point:** Multiplying in the other order, $AA^{\mathsf T}$, cancels $V$ instead and keeps $U$; its non-zero **eigenvalues** (G-665) are the same squared stretches.
 
 **In plain words.** $A^{\mathsf T}A$ looks at the input side and finds the $\mathbf v$'s. Swapping the order looks at the output side and finds the $\mathbf u$'s.
 
@@ -224,11 +224,11 @@ $$AA^{\mathsf T} = U\Sigma V^{\mathsf T}\thinspace V\Sigma^{\mathsf T}U^{\mathsf
 
 $$= U\thinspace\Sigma\Sigma^{\mathsf T}\thinspace U^{\mathsf T}$$
 
-So the left singular vectors $\mathbf u_i$ are the eigenvectors of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: the middle factors $\Sigma\Sigma^{\mathsf T}$ (here) and $\Sigma^{\mathsf T}\Sigma$ ([Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values)) are diagonal matrices with the same non-zero entries $\sigma_i^2$, so $AA^{\mathsf T}$ and $A^{\mathsf T}A$ share their non-zero eigenvalues for every matrix $A$.
+So the left singular vectors $\mathbf u_i$ are the **eigenvectors** (G-666) of $AA^{\mathsf T}$, and its non-zero eigenvalues are the same $\sigma_i^2$. The match of 45 and 5 is no accident: the middle factors $\Sigma\Sigma^{\mathsf T}$ (here) and $\Sigma^{\mathsf T}\Sigma$ ([Section 2.1](#21-amathsf-ta-gives-v-and-the-singular-values)) are diagonal matrices with the same non-zero entries $\sigma_i^2$, so $AA^{\mathsf T}$ and $A^{\mathsf T}A$ share their non-zero eigenvalues for every matrix $A$.
 
 ## 3. The recipe, worked on a $2 \times 2$ matrix
 
-> **Key point:** Find the eigenvectors and eigenvalues of $A^{\mathsf T}A$, take square roots, then get each $\mathbf u_i$ by applying $A$ to $\mathbf v_i$ and shrinking the result to length 1.
+> **Key point:** Find the eigenvectors and **eigenvalues** (G-665) of $A^{\mathsf T}A$, take square roots, then get each $\mathbf u_i$ by applying $A$ to $\mathbf v_i$ and shrinking the result to length 1.
 
 Figure 1 shows the four steps. We follow them for $A$ with rows $[3, 0]$ and $[4, 5]$.
 
@@ -383,9 +383,9 @@ $$= A$$
 
 ## 4. The sign trap
 
-> **Key point:** Finding $U$ and $V$ separately as eigenvectors can pick mismatched signs and give a wrong product; computing $\mathbf u_i = A\mathbf v_i/\sigma_i$ always matches them.
+> **Key point:** Finding $U$ and $V$ separately as **eigenvectors** (G-666) can pick mismatched signs and give a wrong product; computing $\mathbf u_i = A\mathbf v_i/\sigma_i$ always matches them.
 
-[Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers) suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of $AA^{\mathsf T}$, found on their own. For $A$, $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, with eigenvalues 45 and 5. Its eigenvectors are the lines through $[1, 3]$ and through $[3, -1]$.
+[Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers) suggests a shortcut: take the $\mathbf{u}$'s as the eigenvectors of $AA^{\mathsf T}$, found on their own. For $A$, $AA^{\mathsf T}$ has rows $[9, 12]$ and $[12, 41]$, with **eigenvalues** (G-665) 45 and 5. Its eigenvectors are the lines through $[1, 3]$ and through $[3, -1]$.
 
 Every non-zero multiple of an eigenvector is an eigenvector too, so $\frac{1}{\sqrt{10}}[3, -1]$ is as correct an eigenvector as $\frac{1}{\sqrt{10}}[-3, 1]$. But it is the negative of the $\mathbf u_2$ that belongs with our $\mathbf v_2$. Using it gives
 
@@ -431,7 +431,7 @@ $$= \begin{bmatrix} 2 & 4 \cr1 & 2 \end{bmatrix}\begin{bmatrix} 2 & 1 \cr4 & 2 \
 
 $$= \begin{bmatrix} 20 & 10 \cr10 & 5 \end{bmatrix}$$
 
-**Step 2.** The determinant and the diagonal sum ([Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers)) give the two eigenvalues:
+**Step 2.** The determinant and the diagonal sum ([Section 2.3](#23-aamathsf-t-gives-u-with-the-same-numbers)) give the two **eigenvalues** (G-665):
 
 $$\det = 20 \times 5 - 10 \times 10 = 0$$
 
@@ -445,7 +445,7 @@ $$\sigma_1 = \sqrt{25} = 5$$
 
 $$\sigma_2 = 0$$
 
-The eigenvectors are
+The **eigenvectors** (G-666) are
 
 $$\mathbf v_1$$
 
@@ -474,7 +474,7 @@ $$= \frac{1}{5\sqrt5}\begin{bmatrix} 5 \cr10 \end{bmatrix}$$
 
 $$= \frac{1}{\sqrt5}\begin{bmatrix} 1 \cr2 \end{bmatrix}$$
 
-**Step 4.** Computing $\mathbf u_2$ as $C\mathbf v_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf u_1$ completes $U$ to an orthogonal matrix; we take:
+**Step 4.** Computing $\mathbf u_2$ as $C\mathbf v_2 / \sigma_2$ would divide zero by zero. Any unit vector perpendicular to $\mathbf u_1$ completes $U$ to an **orthogonal matrix** (G-1407); we take:
 
 $$\mathbf u_2 = \frac{1}{\sqrt5}[-2, 1]$$
 
@@ -549,7 +549,7 @@ $$= 0$$
 
 The unreached direction is perpendicular to the output line.
 
-**The standard terms.** Together these are the **four fundamental subspaces** (G-799) of a matrix (Strang §7.2). A **subspace** here is a line, plane or higher flat set through the origin. We write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 1)$, $\mathbb{R}^3$ triples such as $(2, 1, 1)$. An $m \times n$ matrix ($m$ rows, $n$ columns) takes inputs from $\mathbb{R}^n$ and gives outputs in $\mathbb{R}^m$; for $C$, $m = n = 2$. For a matrix of rank $r$ (there are $r$ non-zero singular values):
+**The standard terms.** Together these are the **four fundamental subspaces** (G-799) of a matrix (Strang §7.2). A **subspace** here is a line, plane or higher flat set through the origin. We write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 1)$, $\mathbb{R}^3$ triples such as $(2, 1, 1)$. An $m \times n$ matrix ($m$ rows, $n$ columns) takes inputs from $\mathbb{R}^n$ and gives outputs in $\mathbb{R}^m$; for $C$, $m = n = 2$. For a matrix of **rank** (G-1627) $r$ (there are $r$ non-zero singular values):
 
 | Subspace | Where | Basis from the SVD | Dimension | For $C$ |
 |---|---|---|---|---|
@@ -580,7 +580,7 @@ $$= \begin{bmatrix} 2 + 1 \cr0 + 1 \cr2 + 0 \end{bmatrix}$$
 
 $$= \begin{bmatrix} 3 \cr1 \cr2 \end{bmatrix}$$
 
-Every output is a mix of B's two columns, $[1, 0, 1]$ and $[1, 1, 0]$. Two arrows in 3D span a flat sheet through the origin, so all outputs lie on that sheet. One direction, sticking straight out of the sheet, is never reached.
+Every output is a mix of B's two columns, $[1, 0, 1]$ and $[1, 1, 0]$. Two arrows in 3D **span** (G-1838) a flat sheet through the origin, so all outputs lie on that sheet. One direction, sticking straight out of the sheet, is never reached.
 
 ![The outputs of B fill a plane in 3-D (blue): every output is a mix of B's two columns (grey). The left singular vectors u₁ (orange) and u₂ (green) lie in the plane; u₃ (red) sticks out of it at a right angle and is never reached](images/tall_matrix.png){height=40%}
 
@@ -647,9 +647,9 @@ Both dot products are 0, so
 
 $$\mathbf u_3 = \frac{1}{\sqrt3}\begin{bmatrix} 1 \cr-1 \cr-1 \end{bmatrix}$$
 
-The vector $\mathbf u_3$ spans the left null space, the one direction in 3D that $B$ never reaches (the red arrow of Figure 8).
+The vector $\mathbf u_3$ spans the **left null space** (G-1078), the one direction in 3D that $B$ never reaches (the red arrow of Figure 8).
 
-The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eigenvalue problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of [Section 4](#4-the-sign-trap). For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
+The other route, **eigenvectors** (G-666) of $BB^{\mathsf T}$, would mean a $3 \times 3$ **eigenvalue** (G-665) problem (eigenvalues 3, 1 and 0), and would still risk the sign trap of [Section 4](#4-the-sign-trap). For a tall data matrix with thousands of rows, $A^{\mathsf T}A$ is the small one, so we always start from it.
 
 ## 8. How computers compute the SVD
 
@@ -657,7 +657,7 @@ The other route, eigenvectors of $BB^{\mathsf T}$, would mean a $3 \times 3$ eig
 
 **In plain words.** A computer keeps only about 16 significant digits of each number. Squaring a tiny number makes it far tinier, and next to a big number it falls off the end of those 16 digits.
 
-**On numbers.** Take a matrix like $M$ in the box below: its big singular value is $\sigma_1 = 2$ and its small one is about $10^{-9}$. Square both to get the eigenvalues of $M^{\mathsf T}M$:
+**On numbers.** Take a matrix like $M$ in the box below: its big singular value is $\sigma_1 = 2$ and its small one is about $10^{-9}$. Square both to get the **eigenvalues** (G-665) of $M^{\mathsf T}M$:
 
 $$\sigma_1^2 = 2^2 = 4$$
 
@@ -702,11 +702,11 @@ Figure 9 repeats the box for twelve values of the small number $\varepsilon$ (th
 | 3 | $\mathbf u_i = A\mathbf v_i/\sigma_i$ | $\frac{1}{\sqrt{10}}[1, 3]$, $\frac{1}{\sqrt{10}}[-3, 1]$ | $\frac{1}{\sqrt5}[1, 2]$ | keeps each $\mathbf u_i$ matched in sign to its $\mathbf v_i$ |
 | 4 | complete $U$ | nothing missing | $\frac{1}{\sqrt5}[-2, 1]$ | a zero $\sigma_i$ gives no $\mathbf u_i$ to divide out |
 
-- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: eigenvectors are the $\mathbf v_i$, eigenvalues the $\sigma_i^2$, because $U^{\mathsf T}U = I$ makes the turn $U$ cancel.
-- $A^{\mathsf T}A$ is always symmetric and positive semi-definite, so this always works.
+- $A^{\mathsf T}A = V\Sigma^{\mathsf T}\Sigma V^{\mathsf T}$: **eigenvectors** (G-666) are the $\mathbf v_i$, **eigenvalues** (G-665) the $\sigma_i^2$, because $U^{\mathsf T}U = I$ makes the turn $U$ cancel.
+- $A^{\mathsf T}A$ is always symmetric and **positive semi-definite** (G-1532), so this always works.
 - Get the $\mathbf u_i$ from $A\mathbf v_i/\sigma_i$, not from a separate eigen-problem: that keeps the signs matched.
-- Zero singular values belong to the null space; the missing $\mathbf{u}$'s are any perpendicular completion, because $A\mathbf v_i/\sigma_i$ cannot be computed when $\sigma_i = 0$.
-- The SVD gives perpendicular bases for the row space, null space, column space and left null space, and the bases line up in pairs, so the matrix is diagonal in them.
+- Zero singular values belong to the **null space** (G-1362); the missing $\mathbf{u}$'s are any perpendicular completion, because $A\mathbf v_i/\sigma_i$ cannot be computed when $\sigma_i = 0$.
+- The SVD gives perpendicular bases for the row space, null space, column space and **left null space** (G-1078), and the bases line up in pairs, so the matrix is diagonal in them.
 - Computers compute the SVD from $A$ directly, because $A^{\mathsf T}A$ loses small singular values.
 - So the SVD can be found by hand from the eigenvectors and eigenvalues of $A^{\mathsf T}A$, the matrix that keeps the stretching and forgets the final turn.
 
@@ -739,16 +739,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Left null space (G-1078) | The set of output vectors perpendicular to every column of a matrix, so the matrix can never produce them; in the SVD it is spanned by the left singular vectors $\mathbf u_{r+1}, \dots, \mathbf u_m$. |
 | Condition number (G-441) | A number that says how much a matrix can magnify small errors, such as rounding errors, when we solve with it; a large value means the answer is sensitive. It is the largest singular value over the smallest, $\sigma_1 / \sigma_n$. |
 | $A^{\mathsf T}A$ (G-22) | The matrix $A$ transposed times $A$, used to find the SVD by hand: it is symmetric, its eigenvectors are the right singular vectors of $A$ and its eigenvalues are the squared singular values. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Right singular vector ($\mathbf v_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
 | [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
 | [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
 | [Left singular vector ($\mathbf u_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
+| [Symmetric matrix](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932) | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
-| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |
 | [Orthogonal matrix](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#23-orthonormal-columns) (G-1407) | A square matrix that only rotates or flips: its columns have length 1 and are all perpendicular (orthonormal), and its inverse is its transpose. |
-| [Symmetric matrix](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932) | A square matrix equal to its own transpose, such as $X^{\mathsf T}X$ or a covariance matrix; it always has a full set of perpendicular eigenvectors. |
 | [Positive semi-definite](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1532) | A symmetric matrix that never curves downward in any direction: its eigenvalues are all 0 or positive. For such a matrix the eigenvectors are orthonormal, so its eigen-decomposition and its SVD are the same. |
 | [Singular value equation](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#34-the-singular-value-equation) (G-1814) | The equation $A\mathbf v_i = \sigma_i\mathbf u_i$: the matrix sends each input direction $\mathbf v_i$ to its output direction $\mathbf u_i$, stretched by the singular value $\sigma_i$; it is used to compute each $\mathbf u_i$. |
 | [Column space](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |

@@ -17,7 +17,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/pdf]
 
 ## 1. Overview
 
-> **Key point:** For a continuous random variable the probability of any single exact value is 0, so the height of the PDF (probability density function) is a density, and probabilities are areas under it; the CDF (cumulative distribution function) is the area to the left of $x$.
+> **Key point:** For a continuous random variable the probability of any single exact value is 0, so the height of the PDF (**probability density function** (G-1568)) is a density, and probabilities are areas under it; the CDF (cumulative distribution function) is the area to the left of $x$.
 
 ![Density histograms with narrower and narrower bins settle onto the PDF curve](images/hist_to_density.gif){height=45%}
 
@@ -109,7 +109,7 @@ Where does the curve come from, and what is its height? Start from data: the 100
 1. **Height = probability (right panel).** Each bar's height is the share of students in its bin. Halve the bin width and each bin holds about half as many students, so every bar roughly halves: the tallest bar falls from 0.507 at width 2 to 0.015 at width 0.05. In the limit, all bars sink to a flat line at 0, the "probability at each $x$" of section 2, which tells us nothing about the shape.
 2. **Area = probability (left panel).** Each bar's height is the share divided by the bin width, so its **area**, height times width, is the share. Halve the width and the share roughly halves too, so the height stays about the same: the tallest bar stays between 0.25 and 0.29 at every width. The bars keep the shape and settle onto a smooth curve. At every width, the total area of the bars is 1.
 
-The height on the left is "probability divided by width": a probability **per unit** of CGPA. It is called a **probability density** (G-1569). The curve the bars settle onto is the **probability density function (PDF)** (G-1568): the probability distribution function of a continuous random variable. Its graph is an unbroken curve, and the probability of any range is the area under it, as in section 3.
+The height on the left is "probability divided by width": a probability **per unit** of CGPA. It is called a **probability density** (G-1569). The curve the bars settle onto is the **probability density function (PDF)** (G-1568): the probability distribution function of a **continuous random variable** (G-466). Its graph is an unbroken curve, and the probability of any range is the area under it, as in section 3.
 
 The x axis works as for a PMF: it holds the values of the variable. The difference is the y axis:
 
@@ -172,7 +172,7 @@ The **cumulative distribution function** (CDF, G-515) has the same definition as
 2. **Formula:**
    $$F(x) = P(X \le x) = \int_{-\infty}^{x} f(t)\thinspace dt$$
    The letter $t$ runs along the axis up to $x$; $-\infty$ means "from the far left".
-3. **Example:** adult heights in a group follow a normal distribution with mean 165 cm and standard deviation 10 cm. Half the area lies left of the mean, so $F(165) = 0.5$: half the people are 165 cm or shorter. The area left of 150 is $F(150) = 0.067$: about 7% are 150 cm or shorter.
+3. **Example:** adult heights in a group follow a **normal distribution** (G-1343) with mean 165 cm and standard deviation 10 cm. Half the area lies left of the mean, so $F(165) = 0.5$: half the people are 165 cm or shorter. The area left of 150 is $F(150) = 0.067$: about 7% are 150 cm or shorter.
 
 Figure 7 puts the two functions one above the other. The same point means different things on each:
 
@@ -208,7 +208,7 @@ The CDF of a continuous variable has no steps: it rises smoothly, steepest where
 
 ## 8. How the PDF and CDF are linked
 
-> **Key point:** The area under the PDF gives the CDF, and the slope (G-1823) of the CDF gives the PDF; in calculus terms, integration goes one way and differentiation (G-608) the other.
+> **Key point:** The area under the PDF gives the CDF, and the slope (G-1823) of the CDF gives the PDF; in calculus terms, **integration** (G-957) goes one way and differentiation (G-608) the other.
 
 The two curves of Figure 7 carry the same information:
 
@@ -264,9 +264,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Probability density function (PDF) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | Integration (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
 | Probability density (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
-| Probability density function (PDF) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
 | Differentiation (G-608) | Finding the slope of a curve at each point; the derivative of the CDF is the PDF. |
 | $\int_a^b f(x)\thinspace dx$ (G-13) | The area under $f$ from $a$ to $b$; for a PDF, $P(a \le X \le b)$. |
 | [Density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#2-what-density-estimation-is) (G-586) | Working out, from observed data, how likely each value of a random variable is: estimating its probability density function (PDF). |

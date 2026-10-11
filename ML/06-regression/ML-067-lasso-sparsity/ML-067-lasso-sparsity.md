@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/lasso]
 
 ## 1. Overview
 
-> **Key point:** The Lasso penalty puts a sharp corner into the loss curve at slope 0, and a large enough λ makes that corner the lowest point. The Ridge penalty keeps the curve smooth, so its lowest point only moves towards 0.
+> **Key point:** The Lasso penalty puts a sharp corner into the loss curve at **slope** (G-1823) 0, and a large enough λ makes that corner the lowest point. The Ridge penalty keeps the curve smooth, so its lowest point only moves towards 0.
 
 [One feature, the slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0) showed that [**Lasso regression**](../ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) sets coefficients to exactly 0, while [**Ridge regression**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) only shrinks them. A model in which many coefficients are exactly 0 is called [**sparse**](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#7-feature-maps-get-sparser-with-depth) (G-1846), so the effect is called **sparsity** (G-1849).
 
@@ -32,13 +32,13 @@ Sparsity matters when many [**features**](../../01-foundations/ML-002-ai-vs-ml-v
 
 ## 2. The picture: a corner in the loss curve
 
-> **Key point:** The best slope is the lowest point of the loss curve. Lasso's penalty λ|m| bends the curve into a corner at m = 0; once λ is large enough, the corner is the lowest point.
+> **Key point:** The best **slope** (G-1823) is the lowest point of the loss curve. Lasso's penalty λ|m| bends the curve into a corner at m = 0; once λ is large enough, the corner is the lowest point.
 
 ### 2.1 The best slope is the lowest point of a curve
 
-Take one feature $x$ and a [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) $y$ (the output we predict). Every [**slope**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) $m$ gives a different line, and every line has a total squared error, the [**residual sum of squares**](../ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
+Take one **feature** (G-772) $x$ and a [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) $y$ (the output we predict). Every [**slope**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) $m$ gives a different line, and every line has a total squared error, the [**residual sum of squares**](../ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684). Plotting that error against the slope gives a U-shaped curve, a parabola. The best slope is the bottom of the U.
 
-**A three-point toy set** shows each quantity with numbers. Here $n = 3$ is the number of observations, $x_i$ the feature of the $i$-th one and $y_i$ its target:
+**A three-point toy set** shows each quantity with numbers. Here $n = 3$ is the number of **observations** (G-1374), $x_i$ the feature of the $i$-th one and $y_i$ its target:
 
 | $i$ | $x_i$ | $y_i$ |
 |---|---|---|
@@ -108,7 +108,7 @@ The constant, $\sum (y_i - \bar{y})^2$, does not depend on $m$, so it moves the 
 
 ### 2.2 Adding a penalty moves the lowest point
 
-A [**penalty term**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) is an extra cost for a large slope, added to the squared error. Its strength is $\lambda$.
+A [**penalty term**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) is an extra cost for a large **slope** (G-1823), added to the squared error. Its strength is $\lambda$.
 
 | | Penalty | Loss curve (constant left out) |
 |---|---|---|
@@ -129,13 +129,13 @@ Step by step, in Figure 1:
 4. **Lasso, λ = 100.** The corner has grown, and the lowest point has slid into it: $m = 0$.
 5. **Lasso, λ = 150.** The curve now rises on both sides of the corner. The lowest point stays at $m = 0$.
 
-A slope of exactly 0 means the feature is no longer used in the prediction. The rest of the Note explains the same result with a formula: where the corner comes from, why the lowest point reaches it at λ = 100, and why it stays.
+A slope of exactly 0 means the **feature** (G-772) is no longer used in the prediction. The rest of the Note explains the same result with a formula: where the corner comes from, why the lowest point reaches it at λ = 100, and why it stays.
 
 ## 3. The Lasso slope
 
-> **Key point:** Because of the absolute value, the derivative is different for m > 0 and m < 0, so the formula comes in cases.
+> **Key point:** Because of the **absolute value** (G-159), the derivative is different for m > 0 and m < 0, so the formula comes in cases.
 
-Without a penalty, we set the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the curve of section 2.1 to zero (its slope is $2Dm - 2S$):
+Without a penalty, we set the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the curve of section 2.1 to zero (its **slope** (G-1823) is $2Dm - 2S$):
 
 $$2Dm - 2S = 0$$
 
@@ -147,7 +147,7 @@ This is **linear regression**, with $b = \bar{y} - m\bar{x}$ (see [the formulas 
 
 > **Key point:** The loss is the squared error plus 2λ|m|; the 2 only keeps the result tidy.
 
-With one feature, the Lasso loss is
+With one **feature** (G-772), the Lasso loss is
 
 $$L = \sum_{i=1}^{n}(y_i - m x_i - b)^2 + 2\lambda|m|$$
 
@@ -157,9 +157,9 @@ The penalty does not contain $b$, so differentiating with respect to $b$ gives t
 
 ### 3.2 Why cases are needed
 
-> **Key point:** |m| has no derivative at m = 0, but on each side of 0 it is a simple line.
+> **Key point:** |m| has no **derivative** (G-595) at m = 0, but on each side of 0 it is a simple line.
 
-The [**absolute value**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-159) $|m|$ has a sharp corner at $m = 0$: the corner of the Lasso curve in Figure 1. A curve has no single slope at a corner, so $|m|$ is not [**differentiable**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-606) at $m = 0$. On either side, though, it is simple:
+The [**absolute value**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-159) $|m|$ has a sharp corner at $m = 0$: the corner of the Lasso curve in Figure 1. A curve has no single **slope** (G-1823) at a corner, so $|m|$ is not [**differentiable**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-606) at $m = 0$. On either side, though, it is simple:
 
 - if $m > 0$, then $|m| = m$;
 - if $m < 0$, then $|m| = -m$.
@@ -168,7 +168,7 @@ So we solve the two cases separately.
 
 ### 3.3 Case m > 0
 
-> **Key point:** For a positive slope, m = (S − λ) / D.
+> **Key point:** For a positive **slope** (G-1823), m = (S − λ) / D.
 
 With $|m| = m$, the penalty $2\lambda|m|$ is $2\lambda m$, whose slope is $2\lambda$. The slope of the squared error comes from the chain rule, as in [finding the minimum](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum): each term gives $2 \times \text{error} \times (-(x_i - \bar{x}))$. Setting the total slope to zero (here $\partial L/\partial m$ means "how fast $L$ changes when only $m$ changes"):
 
@@ -196,7 +196,7 @@ $$(100 - 50)/50 = 1$$
 
 ### 3.4 Case m < 0
 
-> **Key point:** For a negative slope, m = (S + λ) / D.
+> **Key point:** For a negative **slope** (G-1823), m = (S + λ) / D.
 
 With $|m| = -m$, the penalty is $-2\lambda m$, whose slope is $-2\lambda$ instead of $+2\lambda$:
 
@@ -216,7 +216,7 @@ $$(-100 + 50)/50 = -1$$
 
 ### 3.5 Case m = 0
 
-> **Key point:** When neither formula gives an answer with the right sign, the slope is 0.
+> **Key point:** When neither formula gives an answer with the right sign, the **slope** (G-1823) is 0.
 
 Each case was solved assuming the sign of $m$, so each answer must be checked against that sign:
 
@@ -230,7 +230,7 @@ Each case was solved assuming the sign of $m$, so each answer must be checked ag
 | $-\lambda \leq S \leq \lambda$ | $m = 0$ |
 | $S < -\lambda$ | $m = (S + \lambda) / D$ |
 
-Figure 2 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ and three values of $\lambda$. Watch the jump at the corner $m = 0$: once $\lambda$ reaches $S$, the jump spans zero and the lowest loss sits on the corner.
+Figure 2 draws the **derivative** (G-595) of the loss, both cases, for $S = 100$, $D = 50$ and three values of $\lambda$. Watch the jump at the corner $m = 0$: once $\lambda$ reaches $S$, the jump spans zero and the lowest loss sits on the corner.
 
 ![The derivative of the Lasso loss against the slope m (S = 100, D = 50). Blue: the m < 0 case; red: the m > 0 case; dotted: the jump at the corner. At λ = 50 the red line crosses zero at m = 1. At λ = 100 and 150 neither line crosses zero on its own side: the derivative jumps from negative to positive at m = 0, so the slope is 0.](images/cases_derivative.png)
 
@@ -238,7 +238,7 @@ Figure 2 draws the derivative of the loss, both cases, for $S = 100$, $D = 50$ a
 
 > **Key point:** Ridge: m = S / (D + λ). λ sits in the denominator.
 
-The Ridge penalty $\lambda m^2$ has no corner, so one derivative covers every $m$ (see [ridge regression with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature)):
+The Ridge penalty $\lambda m^2$ has no corner, so one **derivative** (G-595) covers every $m$ (see [ridge regression with one feature](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#2-one-feature)):
 
 $$2Dm - 2S + 2\lambda m = 0$$
 
@@ -250,7 +250,7 @@ with the same $b$ as before.
 
 ## 4. Watching the slope reach 0
 
-> **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the slope stays at 0.
+> **Key point:** Subtracting λ from S brings the top of the fraction down to exactly 0. After that, the **slope** (G-1823) stays at 0.
 
 Take the same numbers: $S = 100$ and $D = 50$, so the linear regression slope is:
 
@@ -273,11 +273,11 @@ Figure 3 follows both slopes as $\lambda$ grows; the values are the lowest point
 
 > **Key point:** λ grows until it equals S; then the numerator is 0.
 
-At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the slope is exactly 0.
+At $\lambda = 100$, the numerator $S - \lambda$ is 0, so the **slope** (G-1823) is exactly 0.
 
 ### 4.2 Why Lasso stops at 0
 
-> **Key point:** Going past 0 would need the other case's formula, which pushes the slope back to the positive side.
+> **Key point:** Going past 0 would need the other case's formula, which pushes the **slope** (G-1823) back to the positive side.
 
 Work through $\lambda = 150$ step by step:
 
@@ -305,7 +305,7 @@ Again neither side has a valid answer, and the slope stays at 0.
 
 An everyday picture: take a bill of 100 rupees. Subtracting a discount of 100 rupees brings it to exactly 0. Splitting it among more and more people only makes each share smaller; no share ever becomes 0. Lasso subtracts λ; Ridge divides by something that grows with λ.
 
-In Ridge's $S / (D + \lambda)$, the numerator stays at 100 however large $\lambda$ gets. Even with $\lambda = 10{,}000{,}000$, the slope is $100 / 10{,}000{,}050$, tiny but not 0.
+In Ridge's $S / (D + \lambda)$, the numerator stays at 100 however large $\lambda$ gets. Even with $\lambda = 10{,}000{,}000$, the **slope** (G-1823) is $100 / 10{,}000{,}050$, tiny but not 0.
 
 In short:
 
@@ -314,7 +314,7 @@ In short:
 
 ## 5. The dead zone
 
-> **Key point:** For a fixed λ, every feature whose S lies between −λ and λ gets a slope of exactly 0.
+> **Key point:** For a fixed λ, every feature whose S lies between −λ and λ gets a **slope** (G-1823) of exactly 0.
 
 Figure 4 turns the view around: $\lambda$ is fixed at 100, and the slope is drawn for every value of $S$.
 
@@ -324,7 +324,7 @@ Figure 4 turns the view around: $\lambda$ is fixed at 100, and the slope is draw
 - **Ridge** (blue): also proportional to $S$, just flatter. The Ridge slope is 0 only when $S$ is exactly 0.
 - **Lasso** (red): flat at 0 for every $S$ between $-100$ and 100, the shaded **dead zone** (G-552). Outside it, Lasso follows the linear regression line moved $\lambda / D = 2$ towards 0.
 
-$S$ measures how strongly the feature and the target move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is Lasso's [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (G-768): the model that is left uses fewer features, so it is simpler and easier to read.
+$S$ measures how strongly the feature and the **target** (G-1949) move together. So a feature with only a weak link to the target falls into the dead zone and is dropped. Dropping weak features in this way is Lasso's [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (G-768): the model that is left uses fewer **features** (G-772), so it is simpler and easier to read.
 
 Think of λ as an entry fee. A feature's link with the target, $|S|$, must be larger than the fee to get any slope at all, and above the fee the feature keeps only what is left over.
 
@@ -334,7 +334,7 @@ Think of λ as an entry fee. A feature's link with the target, $|S|$, must be la
 
 > **Key point:** On the 10-feature diabetes data, Lasso coefficients drop to exactly 0 one after another; Ridge coefficients only shrink.
 
-Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (same split). Each panel plots the coefficient (vertical axis) against $\lambda$ (horizontal axis, log scale), one line per feature: bmi, bp, s1, s2 and s5 in colour, the other five in grey. Watch the dots at the end of the lines: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
+Figure 5 grows λ for Ridge (left) and Lasso (right) on the diabetes data of [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection) (same split). Each panel plots the coefficient (vertical axis) against $\lambda$ (horizontal axis, log scale), one line per **feature** (G-772): bmi, bp, s1, s2 and s5 in colour, the other five in grey. Watch the dots at the end of the lines: a Lasso dot that reaches 0 turns into an open circle and stays there, while every Ridge dot keeps sliding towards 0 without arriving.
 
 ![Ridge (left) and Lasso (right) coefficients of the 10 diabetes features as λ grows. Each panel has its own λ range, because Ridge shrinks faster on these features. An open circle marks a coefficient that is exactly 0](images/paths_race.gif)
 
@@ -352,7 +352,7 @@ The same result has a geometric picture (ESL §3.4.3, Figure 3.11). Ridge and La
 
 The loss is a bowl over the $(b_1, b_2)$ plane. Its lowest point is the [**ordinary least squares**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) answer, and points of equal loss form ellipses around it, the loss **contours** (G-468; lines of equal loss, see [reading a contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map)). Growing the ellipse until it first touches the feasible region gives the answer: the point of the region with the smallest loss.
 
-Figure 6 does this on two features of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
+Figure 6 does this on two **features** (G-772) of the same diabetes training split, bmi and bp, each scaled to standard deviation 1, with the same budget $t = 15$ for both. Watch where each ring first meets its region.
 
 ![Lasso (left) and Ridge (right) with the same budget on two diabetes features. The loss ellipse grows from the least-squares point until it first touches each region: the diamond at its corner (bp coefficient exactly 0), the circle at a point where both coefficients are non-zero](images/constraint_touch.gif)
 
@@ -363,7 +363,7 @@ The corners stick out towards the rings, so the rings often meet a corner first.
 
 ## 6. Checking with scikit-learn
 
-> **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same slopes, including the exact 0.
+> **Key point:** On the 100-observation example, the formula and scikit-learn's Lasso give the same **slopes** (G-1823), including the exact 0.
 
 For the example of the earlier Notes, with 100 [**observations**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (records, one row of the data table each), the computer adds the two sums of section 2.1 over the 100 pairs (input: the 100 values of $x$ and $y$; output: $S = 2416.73$ and $D = 86.85$). So the slope reaches 0 at $\lambda = 2416.73$. One row of the table by hand:
 
@@ -406,10 +406,10 @@ scikit-learn's `Lasso` divides the squared error by $2n$, so its `alpha` equals 
 | Large λ | slope small, never 0 | slope exactly 0 |
 | Weak features | kept with small coefficients | dropped (dead zone) |
 
-- Sparsity means many coefficients exactly 0, so the features behind them drop out and the model is simpler and easier to read.
-- The Lasso penalty puts a corner into the loss curve at slope 0; a large enough λ makes the corner the lowest point. The Ridge curve stays a smooth parabola, so its lowest point only slides towards 0.
-- The absolute value forces the Lasso formula into cases, because $|m|$ has no derivative at 0; λ ends up subtracted from the numerator, so it can bring the slope to exactly 0.
-- Once $\lambda \geq |S|$, the slope is 0 and stays there, because neither case formula then gives an answer with its own sign; so a feature only weakly linked to the target (small $|S|$) lands in the dead zone and is dropped.
+- **Sparsity** (G-1849) means many coefficients exactly 0, so the features behind them drop out and the model is simpler and easier to read.
+- The Lasso penalty puts a corner into the loss curve at **slope** (G-1823) 0; a large enough λ makes the corner the lowest point. The Ridge curve stays a smooth parabola, so its lowest point only slides towards 0.
+- The **absolute value** (G-159) forces the Lasso formula into cases, because $|m|$ has no **derivative** (G-595) at 0; λ ends up subtracted from the numerator, so it can bring the slope to exactly 0.
+- Once $\lambda \geq |S|$, the slope is 0 and stays there, because neither case formula then gives an answer with its own sign; so a feature only weakly linked to the **target** (G-1949) (small $|S|$) lands in the **dead zone** (G-552) and is dropped.
 - In pictures: the loss ellipse usually first touches Lasso's diamond at a corner, where a coefficient is exactly 0, because the corners stick out towards the rings; Ridge's circle has no corners.
 - This is the answer to the interview question: Lasso subtracts λ and Ridge divides by it, so only Lasso creates sparsity.
 
@@ -436,22 +436,22 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Dead zone (G-552) | The range of $S$ (how strongly the data pulls the slope away from 0) for which Lasso's best slope is exactly 0: inside it the penalty wins, which is how Lasso removes features. |
 | Soft thresholding (G-1827) | Moving a value towards 0 by a fixed amount, and setting it to 0 if it would cross 0; this is how Lasso sets coefficients to exactly 0. |
 | Coordinate descent (G-485) | An optimisation method that updates one coefficient at a time; used by scikit-learn's Lasso. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Ridge regression](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1691) | Linear regression with a penalty on the sum of squared coefficients added to the loss; the penalty keeps the coefficients small, which reduces overfitting (L2 regularisation). |
 | [Sparse](../../../DL/04-cnn/DL-052-visualizing-cnn/DL-052-visualizing-cnn.md#7-feature-maps-get-sparser-with-depth) (G-1846) | Mostly made of zeros, such as a feature map whose values are almost all 0, or a model whose coefficients are mostly exactly 0. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
 | [Penalty term](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term) (G-1476) | The extra term added to the cost to discourage large weights. |
-| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Absolute value](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#8-max-abs-scaling) (G-159) | A number's size without its sign. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Differentiable](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-606) | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
 | [Feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) | Keeping only the useful input columns and dropping the rest. |
 | [Constraint](../../../ML/07-classification/ML-087-svm-maths/ML-087-svm-maths.md#42-one-constraint-for-both-classes) (G-456) | A condition the solution must satisfy; in SVM, $y_i (w^T x_i + b) \geq 1$ for every training point. |
 | [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
 | [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
-| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

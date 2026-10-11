@@ -16,7 +16,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/venn-cont
 
 ## 1. Overview
 
-> **Key point:** A Venn diagram draws events as overlapping circles inside the sample space; a contingency table holds the same counts in a grid. Both show at a glance which outcomes two events share.
+> **Key point:** A **Venn diagram** (G-2086) draws events as overlapping circles inside the sample space; a contingency table holds the same counts in a grid. Both show at a glance which outcomes two events share.
 
 ![One die with two events, $A$ = at least 4 and $B$ = even, as a Venn diagram](images/venn_die.png)
 
@@ -25,12 +25,12 @@ The **sample space** is the set of all possible outcomes of an experiment; for o
 This Note covers two ways of showing how events overlap:
 
 - the Venn diagram, a picture (section 2);
-- the contingency table, the same information as a grid of counts (section 3);
+- the **contingency table** (G-464), the same information as a grid of counts (section 3);
 - how to switch between them (section 4).
 
 Joint, marginal and conditional probabilities, the subject of the [joint, marginal and conditional probability](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability), are all read off these two views.
 
-Sample spaces and events are defined in the [random experiments and events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); the complement and addition rules used here are in the [empirical and theoretical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#6-the-rules-every-probability-follows).
+Sample spaces and events are defined in the [random experiments and events](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space); the **complement** (G-422) and addition rules used here are in the [empirical and theoretical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#6-the-rules-every-probability-follows).
 
 ## 2. Venn diagrams
 
@@ -40,7 +40,7 @@ A **Venn diagram** (G-2086) comes from set theory. A rectangle stands for the **
 
 ### 2.1 The rectangle is the sample space
 
-> **Key point:** In probability, the universal set is the sample space, so $P(U) = 1$.
+> **Key point:** In probability, the **universal set** (G-2053) is the sample space, so $P(U) = 1$.
 
 In probability the universal set is the sample space of the experiment. For one die, the rectangle holds the outcomes 1 to 6.
 
@@ -50,7 +50,7 @@ $$P(U) = 1$$
 
 ### 2.2 One event and its complement
 
-> **Key point:** A circle marks one event; everything in the rectangle outside the circle is its complement.
+> **Key point:** A circle marks one event; everything in the rectangle outside the circle is its **complement** (G-422).
 
 Take the event $A$ = "a number of at least 4" $= \lbrace4, 5, 6\rbrace$ (the braces list the outcomes that belong to the event). Its outcomes go inside a circle; 1, 2 and 3 stay outside it, in the rectangle.
 
@@ -120,7 +120,7 @@ Both routes agree with the counts in the table above.
 >
 > The identity is **De Morgan's law** (G-550): $(A \cup B)^c = A^c \cap B^c$. Its twin, $(A \cap B)^c = A^c \cup B^c$, says "not both" means "at least one of them fails". In Figure 2, the panel labelled "neither" is exactly this region outside both circles.
 
-> **Extra:** A Venn diagram shows overlap, not independence. Mutually exclusive events (see the [**mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
+> **Extra:** A **Venn diagram** (G-2086) shows overlap, not independence. Mutually exclusive events (see the [**mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286)) are circles that do not touch. Whether two overlapping events are independent needs a calculation. If they were independent, the overlap would equal the product:
 >
 > $$P(A) \cdot P(B) = \frac{1}{2} \cdot \frac{1}{2} = \frac{1}{4}$$
 >
@@ -134,7 +134,7 @@ Both routes agree with the counts in the table above.
 
 > **Key point:** A contingency table puts the categories of one event in the rows and of the other in the columns; each inner cell counts the outcomes in one Venn region, and the totals count whole circles.
 
-A **contingency table** (G-464), also called a **crosstab** (G-511; see the [bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)), counts every pair of categories of two categorical **features** (G-772; a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the Venn diagram, arranged as a grid.
+A **contingency table** (G-464), also called a **crosstab** (G-511; see the [bivariate and multivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap)), counts every pair of categories of two categorical **features** (G-772; a feature is a variable, one column of the data table). Applied to two events, it holds the same information as the **Venn diagram** (G-2086), arranged as a grid.
 
 ### 3.1 The die as a table
 
@@ -148,7 +148,7 @@ For the die, the rows ask "is the number at least 4?" and the columns ask "is it
 | below 4 | 1 (2) | 2 (1, 3) | 3 |
 | total | 3 | 3 | 6 |
 
-Each inner cell matches one region of Figure 1: "at least 4 and even" is the overlap, "below 4 and odd" is the outside. The row totals count circle $A$ and its complement; the column totals count circle $B$ and its complement.
+Each inner cell matches one region of Figure 1: "at least 4 and even" is the overlap, "below 4 and odd" is the outside. The row totals count circle $A$ and its **complement** (G-422); the column totals count circle $B$ and its complement.
 
 Each yes/no question works like a random variable with two values, 1 for yes and 0 for no (see the [random variables as functions](../MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#2-a-random-variable-is-a-function)). The table lists every combination of the two.
 
@@ -191,13 +191,13 @@ Now every probability from section 2 can be read from the table:
 
 - $P(\text{Maths} \cap \text{Bio}) = 0.10$, one inner cell.
 - $P(\text{Maths}) = 0.40$, a row total.
-- The union uses the general addition rule:
+- The **union** (G-2045) uses the general addition rule:
   $$P(\text{Maths} \cup \text{Bio}) = 0.40 + 0.50 - 0.10$$
   $$P(\text{Maths} \cup \text{Bio}) = 0.80$$
-- The complement of the union:
+- The **complement** (G-422) of the union:
   $$P(\text{neither}) = 1 - 0.80 = 0.20$$
 
-Figure 4 shades the cells behind each of these four probabilities: one cell for the intersection, a row for $P(\text{Maths})$, three cells for the union, and the one remaining cell for "neither".
+Figure 4 shades the cells behind each of these four probabilities: one cell for the **intersection** (G-967), a row for $P(\text{Maths})$, three cells for the union, and the one remaining cell for "neither".
 
 ![The students' probability table four times; the orange cells add up to the probability named above each panel.](images/table_reads.png)
 
@@ -205,7 +205,7 @@ Figure 4 shades the cells behind each of these four probabilities: one cell for 
 
 > **Key point:** Venn regions and table cells are the same sets of outcomes, so either view can be rebuilt from the other.
 
-The Venn diagram and the contingency table carry exactly the same information. Figure 5 lights up each Venn region of the die example together with its table cell, then a whole circle together with its total:
+The **Venn diagram** (G-2086) and the contingency table carry exactly the same information. Figure 5 lights up each Venn region of the die example together with its table cell, then a whole circle together with its total:
 
 ![The die example: each Venn region (orange numbers) lights up with the matching cell of the contingency table; a whole circle matches a row or column total.](images/venn_table_link.gif)
 
@@ -223,7 +223,7 @@ The full correspondence:
 
 Each view suits different work:
 
-- A **Venn diagram** shows how events overlap at a glance, and makes unions, complements and De Morgan's law easy to see.
+- A **Venn diagram** shows how events overlap at a glance, and makes **unions** (G-2045), complements and De Morgan's law easy to see.
 - A **contingency table** scales to real data with many **observations** (G-1374; records, one row of the data table each) and more than two categories, such as three passenger classes. pandas builds it in one call, which the [joint, marginal and conditional probability](../MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#21-joint-probabilities-from-the-titanic-table) uses on the Titanic data.
 
 ## 5. Summary
@@ -239,7 +239,7 @@ Each view suits different work:
 - Each event in the table is a set of regions, so its probability is read by counting the outcomes in its shaded part.
 - The rectangle is the sample space; its probability is 1, because every trial gives some outcome inside it.
 - Two events split the sample space into four regions, whose probabilities add to 1, because every outcome lies in exactly one region. So a count nobody mentions ("neither") is what is left of the total.
-- A contingency table holds the same four regions as cells, and the circles as row and column totals, so either view can be rebuilt from the other; the table also scales to real data with many observations and categories.
+- A **contingency table** (G-464) holds the same four regions as cells, and the circles as row and column totals, so either view can be rebuilt from the other; the table also scales to real data with many observations and categories.
 - Dividing a table of counts by its grand total turns it into a table of probabilities, the probabilities for one randomly chosen member.
 - Both views show at a glance which outcomes two events share, and joint, marginal and conditional probabilities are all read off them.
 
@@ -256,14 +256,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Venn diagram (G-2086) | A picture of events as circles inside a rectangle; overlaps show shared outcomes. |
+| Contingency table (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
 | Universal set ($U$) (G-2053) | The rectangle of a Venn diagram; in probability, the sample space, with $P(U) = 1$. |
 | De Morgan's law (G-550) | Two rules for "not" over "or" and "and": "neither A nor B" is "not A and not B", $(A \cup B)^c = A^c \cap B^c$; "not both" is "at least one fails", $(A \cap B)^c = A^c \cup B^c$. |
-| Contingency table (G-464) | A table that counts the observations for every pair of categories of two categorical features, so we can see whether the two are related; also called a crosstab. |
 | Grand total (G-867) | The sum of every cell of a contingency table: the size of the whole sample. |
 | Row and column totals (G-1711) | The sums in the margins of a contingency table; each counts one whole event. |
+| [Complement ($A^c$)](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#62-the-complement-rule) (G-422) | The event that $A$ does not happen: every outcome not in $A$. |
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | [Union (A ∪ B)](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
-| [Complement ($A^c$)](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#62-the-complement-rule) (G-422) | The event that $A$ does not happen: every outcome not in $A$. |
 | [Mutually exclusive events](../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Crosstab](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-511) | A table that counts the rows for every pair of categories of two categorical columns, so we can see whether the two are related; pandas builds it with `pd.crosstab`. Also called a contingency table. |

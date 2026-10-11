@@ -27,14 +27,14 @@ This Note builds the idea in four steps:
 
 - **what** a tree is: nested if-else conditions, drawn as a tree;
 - **what it does to the data**: cuts the input space with lines parallel to the axes;
-- **how it measures purity**: entropy and Gini impurity;
-- **how it chooses each question**: information gain, for categorical and numerical features.
+- **how it measures purity**: **entropy** (G-691) and Gini impurity;
+- **how it chooses each question**: **information gain** (G-946), for categorical and numerical features.
 
 The Notebook (`ML-091-decision-trees-intuition.ipynb`) computes every number in this Note.
 
 ## 2. A decision tree is nested if-else
 
-> **Key point:** If we can write the data's pattern as if-else statements, those statements already are a decision tree.
+> **Key point:** If we can write the data's pattern as if-else statements, those statements already are a **decision tree** (G-561).
 
 ### 2.1 Recommending an app
 
@@ -73,7 +73,7 @@ Drawing the control flow of this code gives Figure 1. Each question is a box, ea
 
 > **Key point:** A new day travels from the root down one branch; features that the tree never asks about are ignored.
 
-The Play Tennis data (see [the data](../../07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#2-the-data)) has 14 days, four weather features (outlook, temperature, humidity, wind) and whether tennis was played. Figure 2 shows the decision tree built from it.
+The Play Tennis data (see [the data](../../07-classification/ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#2-the-data)) has 14 days, four weather features (outlook, temperature, humidity, wind) and whether tennis was played. Figure 2 shows the **decision tree** (G-561) built from it.
 
 ![The Play Tennis decision tree; the thick path is the route of one new day](images/tennis_tree.png){height=30%}
 
@@ -83,7 +83,7 @@ Take a new day: rain, mild temperature, high humidity, strong wind. The root ask
 
 > **Key point:** With numbers, a question becomes a threshold: "is petal length at most 2.45?".
 
-Decision trees also work on numerical features. The iris data (see [how the model predicts](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)) has 150 flowers of three kinds: setosa, versicolor and virginica. Using only the petal length and petal width (in cm), scikit-learn builds this tree with two questions:
+**Decision trees** (G-561) also work on numerical features. The iris data (see [how the model predicts](../../07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#3-how-the-model-predicts)) has 150 flowers of three kinds: setosa, versicolor and virginica. Using only the petal length and petal width (in cm), scikit-learn builds this tree with two questions:
 
 1. **Is petal length $\le 2.45$?** Yes: setosa.
 2. Otherwise, **is petal width $\le 1.75$?** Yes: versicolor. No: virginica.
@@ -116,9 +116,9 @@ The cuts are always parallel to an axis, because each question looks at one feat
 
 ### 3.3 Two ways to see a decision tree
 
-> **Key point:** In code, a tree is a big nested if-else; in geometry, it is axis-parallel hyperplanes that cut the space into hyper-cuboids.
+> **Key point:** In code, a tree is a big nested if-else; in geometry, it is axis-parallel hyperplanes that cut the space into **hyper-cuboids** (G-907).
 
-- **As a programmer:** a decision tree is a large structure of nested if-else conditions. On real data it can be hundreds of conditions deep.
+- **As a programmer:** a **decision tree** (G-561) is a large structure of nested if-else conditions. On real data it can be hundreds of conditions deep.
 - **Mathematically:** a decision tree uses hyperplanes, each parallel to one axis, to cut the coordinate system into hyper-cuboids, and gives each hyper-cuboid one prediction.
 
 ### 3.4 The algorithm in four steps
@@ -178,14 +178,14 @@ Before answering those questions, we look at what the tree picture already tells
 
 > **Key point:** Overfitting, and bias towards the common class in imbalanced data.
 
-- **Overfitting.** A tree can keep splitting until every leaf holds a handful of observations, memorising noise ([**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). [The main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) (settings we choose before training) show how to stop this.
+- **Overfitting.** A tree can keep **splitting** (G-1855) until every leaf holds a handful of observations, memorising noise ([**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). [The main hyperparameters](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#4-the-main-hyperparameters) (settings we choose before training) show how to stop this.
 - **Imbalanced data.** When one class is rare, for example 95 "yes" against 5 "no" (imbalanced data, see [when accuracy misleads](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), the tree is biased towards the common class, so it helps to balance the data before training (sklearn UG §1.10).
 
 ### 5.3 Classification and regression: CART
 
 > **Key point:** Trees are mostly used for classification, but the same idea predicts numbers; hence the name CART.
 
-Decision trees are mostly used for classification problems, but the same logic also works for regression problems ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). These two uses give trees their other name, **CART** (G-347): **classification and regression trees**.
+**Decision trees** (G-561) are mostly used for classification problems, but the same logic also works for regression problems ([how a regression tree predicts](../ML-093-regression-trees/ML-093-regression-trees.md#3-how-a-regression-tree-predicts)). These two uses give trees their other name, **CART** (G-347): **classification and regression trees**.
 
 ### 5.4 A tree in action: Akinator
 
@@ -197,7 +197,7 @@ After about a dozen questions only one character fits, and the game names it. Ea
 
 ## 6. Entropy
 
-> **Key point:** Entropy measures disorder: how mixed the classes in a set of observations are. All one class: entropy 0. Evenly mixed: entropy at its highest.
+> **Key point:** **Entropy** (G-691) measures disorder: how mixed the classes in a set of observations are. All one class: entropy 0. Evenly mixed: entropy at its highest.
 
 ### 6.1 Disorder and uncertainty
 
@@ -213,7 +213,7 @@ In data, disorder means uncertainty about the class. If a set of observations is
 
 ### 6.2 The formula
 
-> **Key point:** Entropy is minus the sum, over the classes, of each class's share times the log of that share.
+> **Key point:** **Entropy** (G-691) is minus the sum, over the classes, of each class's share times the log of that share.
 
 **The idea: entropy is average surprise.** Pick one observation at random from a set and look at its class. A common class is no surprise; a rare class is a big surprise. Take dataset 2 of section 6.3, with 1 yes and 4 no: drawing a "no" (share 0.8) is expected, drawing the "yes" (share 0.2) is surprising. So the surprise must go up as the share $p$ goes down.
 
@@ -279,7 +279,7 @@ $$H = -\tfrac{1}{5}\log_2\tfrac{1}{5} - \tfrac{4}{5}\log_2\tfrac{4}{5}$$
 
 $$H = 0.464 + 0.258 = 0.722$$
 
-Dataset 2 is less mixed, so its entropy is lower, as expected.
+Dataset 2 is less mixed, so its **entropy** (G-691) is lower, as expected.
 
 **Dataset 3** has 0 yes and 5 no. Every observation is "no", so we are certain:
 
@@ -296,7 +296,7 @@ $$H = 0.5 + 0.531 + 0.531 = 1.561$$
 
 ### 6.4 Properties of entropy
 
-> **Key point:** For two classes entropy runs from 0 (pure) to 1 (50/50). With more classes the maximum is higher.
+> **Key point:** For two classes **entropy** (G-691) runs from 0 (pure) to 1 (50/50). With more classes the maximum is higher.
 
 - **More uncertainty, more entropy**, and the other way round.
 - **Two classes:** the minimum is 0, when all observations are one class; the maximum is 1, when the classes are equal (5 yes and 5 no).
@@ -307,7 +307,7 @@ $$H = 0.5 + 0.531 + 0.531 = 1.561$$
 
 ### 6.5 The entropy curve
 
-> **Key point:** Plotted against the share of yes, two-class entropy is an arch: 0 at both ends, 1 in the middle, symmetric.
+> **Key point:** Plotted against the share of yes, two-class **entropy** (G-691) is an arch: 0 at both ends, 1 in the middle, symmetric.
 
 Figure 7 plots the two-class entropy against $P(\text{yes})$, with our examples marked.
 
@@ -321,7 +321,7 @@ The curve is symmetric because with two classes $P(\text{no}) = 1 - P(\text{yes}
 
 ### 6.6 Entropy of a numerical feature
 
-> **Key point:** For a continuous feature, the more peaked the distribution, the lower the entropy; the more spread out, the higher.
+> **Key point:** For a continuous feature, the more peaked the distribution, the lower the **entropy** (G-691); the more spread out, the higher.
 
 Entropy so far needed classes. For a numerical output, such as a price, we can still compare two datasets by their density curves, the KDE (a smooth curve over a histogram; see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)). Figure 8 shows the prices of two datasets, **standardized** (each price minus the average price, divided by the standard deviation), which is why the values sit around 0 and can be negative.
 
@@ -333,13 +333,13 @@ The right question is again "where do we know more?". In dataset 1 most standard
 
 ## 7. Information gain
 
-> **Key point:** Information gain is the drop in entropy from a parent node to its children. The tree splits on the feature with the highest gain.
+> **Key point:** Information gain is the drop in **entropy** (G-691) from a parent node to its children. The tree splits on the feature with the highest gain.
 
 ### 7.1 The definition
 
-> **Key point:** Gain = entropy of the parent minus the weighted average entropy of the children.
+> **Key point:** Gain = **entropy** (G-691) of the parent minus the weighted average entropy of the children.
 
-**Information gain** (G-946) is the metric used to train decision trees: it measures the quality of a split on one feature. Information gain is the decrease in entropy after the dataset is split on that feature. Building a tree means finding, at each node, the feature with the highest information gain.
+**Information gain** (G-946) is the metric used to train **decision trees** (G-561): it measures the quality of a split on one feature. Information gain is the decrease in entropy after the dataset is split on that feature. Building a tree means finding, at each node, the feature with the highest information gain.
 
 1. **In words:** compute the parent's entropy; split; compute each child's entropy; average the children's entropies, weighting each child by its share of the observations; subtract.
 2. **Formula:**
@@ -350,7 +350,7 @@ The right question is again "where do we know more?". In dataset 1 most standard
 
 ### 7.2 Worked example: splitting Play Tennis on outlook
 
-> **Key point:** Outlook takes the entropy from 0.940 down to 0.694, a gain of 0.247.
+> **Key point:** Outlook takes the **entropy** (G-691) from 0.940 down to 0.694, a gain of 0.247.
 
 **Step 1: entropy of the parent.** The 14 days have 9 yes and 5 no:
 
@@ -393,19 +393,19 @@ Outlook wins, so it becomes the root, as in Figure 2. Figure 10 repeats Steps 2 
 
 > **Key point:** At each node the tree takes the best split right now and never revisits it.
 
-Decision trees use a **recursive greedy search** (G-871), top-down: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches entropy 0 (a leaf), it is not split further.
+**Decision trees** (G-561) use a **recursive greedy search** (G-871), top-down: starting at the root, each node picks the split with the highest gain at that moment, then the same search runs inside each child. Once a node reaches **entropy** (G-691) 0 (a leaf), it is not split further.
 
 > **Extra:** "Greedy" means the tree never looks ahead. A split that looks weak now but would enable two excellent splits later is never chosen. Finding the best possible tree is far too slow (the problem is NP-complete, which means no known method solves it quickly), so practical tree algorithms are greedy (sklearn UG §1.10).
 
 ## 8. Gini impurity
 
-> **Key point:** Gini impurity, $1 - \sum p_i^2$, measures impurity like entropy does but without logs. Gini is scikit-learn's default.
+> **Key point:** **Gini impurity** (G-847), $1 - \sum p_i^2$, measures impurity like **entropy** (G-691) does but without logs. Gini is scikit-learn's default.
 
 ### 8.1 Why another measure
 
 > **Key point:** scikit-learn's `criterion` defaults to `"gini"`, not `"entropy"`.
 
-In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` chooses the impurity measure. The default is `"gini"`; `"entropy"` gives the entropy we used above. So we need to know Gini too.
+In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` chooses the impurity measure. The default is `"gini"`; `"entropy"` gives the **entropy** (G-691) we used above. So we need to know Gini too.
 
 > **Extra:** scikit-learn 1.9 accepts three values: `"gini"`, `"entropy"` and `"log_loss"`. The last two are the same criterion under two names (sklearn UG §1.10.7.1).
 
@@ -413,7 +413,7 @@ In scikit-learn's `DecisionTreeClassifier`, the hyperparameter `criterion` choos
 
 > **Key point:** One minus the sum of the squared class shares.
 
-**Gini impurity** (G-847) measures, like entropy, how pure the children of a split are; only the formula differs.
+**Gini impurity** (G-847) measures, like **entropy** (G-691), how pure the children of a split are; only the formula differs.
 
 1. **In words:** square each class's share, add the squares, and subtract the total from 1.
 2. **Formula:**
@@ -430,7 +430,7 @@ Dataset 2 is purer, and $0.32 < 0.48$, just as its entropy was lower.
 
 > **Key point:** Same shape, same verdicts; Gini peaks at 0.5 instead of 1 and is faster to compute.
 
-Both measures are 0 for a pure node. With $P(\text{yes}) = 1$, the entropy is:
+Both measures are 0 for a pure node. With $P(\text{yes}) = 1$, the **entropy** (G-691) is:
 
 $$-1 \log_2 1 = 0$$
 
@@ -468,7 +468,7 @@ Outlook again wins against the other three features, so Gini picks the same root
 
 ## 9. Splitting on a numerical feature
 
-> **Key point:** Sort the feature, try a split at every value, compute the information gain of each, and keep the best threshold.
+> **Key point:** Sort the feature, try a split at every value, compute the **information gain** (G-946) of each, and keep the best threshold.
 
 ### 9.1 The problem
 
@@ -488,7 +488,7 @@ Here is our data, already sorted by rating:
 
 1. **Sort** the data by the numerical feature $f$.
 2. **For each value** $v_1, v_2, \dots$ of the feature, split the data in two: $D_1$ with $f \le v$ and $D_2$ with $f > v$. For example, "rating $\le 1.6$" puts 1 observation in $D_1$ and 7 in $D_2$; "rating $\le 2.9$" puts 3 observations in $D_1$ and 5 in $D_2$.
-3. **Compute** the entropy of $D_1$ and $D_2$, then their weighted entropy, then the information gain, for every candidate.
+3. **Compute** the **entropy** (G-691) of $D_1$ and $D_2$, then their weighted entropy, then the **information gain** (G-946), for every candidate.
 4. **Keep** the threshold with the maximum information gain as the splitting criterion.
 5. **Recurse** on each side until the leaves are reached.
 
@@ -530,13 +530,13 @@ The cost is paid **once**, at training time, on our own machine. Predictions for
 | Speed | slower (logs) | faster (squares) |
 | scikit-learn | `criterion="entropy"` | `criterion="gini"` (default) |
 
-- Gini and entropy give similar accuracy but not always the same tree, because entropy leans towards balanced splits while Gini isolates the most common class, so treat `criterion` as a hyperparameter and try both.
-- A decision tree is nested if-else conditions; geometrically, axis-parallel hyperplanes that cut the space into hyper-cuboids, because each question looks at one feature only, so its boundary is a staircase, never a slanted line.
-- Root node at the top, decision nodes in the middle, leaves at the bottom, so "which feature goes at each node?" is the question that building a tree must answer.
+- Gini and **entropy** (G-691) give similar accuracy but not always the same tree, because entropy leans towards balanced splits while Gini isolates the most common class, so treat `criterion` as a hyperparameter and try both.
+- A **decision tree** (G-561) is nested if-else conditions; geometrically, axis-parallel hyperplanes that cut the space into hyper-cuboids, because each question looks at one feature only, so its boundary is a staircase, never a slanted line.
+- **Root node** (G-1706) at the top, decision nodes in the middle, leaves at the bottom, so "which feature goes at each node?" is the question that building a tree must answer.
 - Entropy and Gini measure how mixed a node is: 0 when pure, highest when evenly mixed, so they give the tree one number to compare the nodes a split produces.
-- Information gain = parent impurity minus the weighted impurity of the children. At each node the tree greedily splits on the feature with the highest gain (Play Tennis: outlook, 0.247), because the biggest drop leaves the purest children; this is how the tree chooses its root and every later question.
+- **Information gain** (G-946) = parent impurity minus the weighted impurity of the children. At each node the tree greedily splits on the feature with the highest gain (Play Tennis: outlook, 0.247), because the biggest drop leaves the purest children; this is how the tree chooses its root and every later question.
 - For a numerical feature, every value is a candidate threshold; the one with the highest gain wins, because grouping by every distinct value would make one child per observation.
-- Strengths: easy to read, no scaling, fast predictions, because each question compares values within one feature and a prediction walks one path. Weaknesses: overfitting, because a tree can keep splitting until it memorises noise, and imbalanced data, because the tree leans towards the common class.
+- Strengths: easy to read, no scaling, fast predictions, because each question compares values within one feature and a prediction walks one path. Weaknesses: **overfitting** (G-1429), because a tree can keep splitting until it memorises noise, and imbalanced data, because the tree leans towards the common class.
 
 ## 11. Sources
 
@@ -561,6 +561,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Decision tree (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
+| Entropy (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
+| Information gain (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
 | Hyper-cuboid (G-907) | A box in many dimensions: the region a tree's cuts carve out. |
 | Axis-parallel split (G-243) | A cut that tests one column, so it is a line, plane or hyperplane parallel to the other axes. |
 | Root node (G-1706) | The first node of a tree, holding all the training rows. |
@@ -569,10 +571,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Leaf node (G-1060) | A node that is not split; it gives the prediction. |
 | Branch (subtree) (G-332) | A node together with everything below it. |
 | CART (G-347) | Classification and regression trees: the tree algorithm used for both kinds of problem. |
-| Entropy (G-691) | A measure of disorder (impurity) of the class labels in a node, $-\sum p_i \log_2 p_i$: 0 when all rows are one class, 1 for a 50/50 two-class node. A decision tree splits where entropy drops most (highest information gain). |
 | Surprise (G-2221) | How unexpected a class is: $\log_2(1/p)$ for a class with share $p$; entropy is the average surprise. |
 | Differential entropy (G-607) | How uncertain a continuous variable is (the entropy of a continuous variable): higher for a more spread-out distribution. |
-| Information gain (G-946) | How much a split reduces the mix of labels: the parent's entropy minus the weighted entropy of its children; the tree splits on the highest. |
 | Greedy search (G-871) | Taking the best split at each node without looking ahead. |
 | Gini impurity (G-847) | A number for how mixed the class labels in a node are (impurity), $1 - \sum p_i^2$: 0 when all rows are one class, 0.5 for a 50/50 two-class node. A decision tree uses it, like entropy, to pick the split whose children are purest. |
 | criterion (G-503) | The DecisionTreeClassifier hyperparameter choosing the impurity measure: "gini" (default), "entropy" or "log_loss". |

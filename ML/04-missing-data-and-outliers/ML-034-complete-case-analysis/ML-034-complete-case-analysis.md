@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/complete-case, c
 
 ## 1. Overview
 
-> **Key point:** Missing values can be removed or filled in; complete case analysis is the simplest way of removing them: drop every row that has a gap.
+> **Key point:** **Missing values** (G-1234) can be removed or filled in; complete case analysis is the simplest way of removing them: drop every row that has a gap.
 
 Real data almost always has gaps, and most scikit-learn models refuse to train on data with gaps. This Note opens a group of Notes on handling them. [Handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values) introduced the problem briefly; here we lay out all the techniques and then cover the first one in full.
 
@@ -25,7 +25,7 @@ Figure 1 is the map of the whole group. There are two options: **remove** the in
 
 ![The techniques for handling missing data: remove rows or a column, or impute with one column (univariate) or with several columns (multivariate)](images/overview.png){height=50%}
 
-This Note covers the left-most box: removing rows, called complete case analysis. We also learn why data goes missing, because that decides whether removing rows is safe.
+This Note covers the left-most box: removing rows, called **complete case analysis** (G-425). We also learn why data goes missing, because that decides whether removing rows is safe.
 
 ## 2. Why missing values must be handled
 
@@ -45,7 +45,7 @@ A [**missing value**](../../02-getting-data/ML-014-working-with-csv/ML-014-worki
 
 > **Key point:** Removing is the easiest option, but it throws away good values along with the missing one.
 
-Take a table with three features, one target and five observations. Suppose the third observation has no value in the first feature. The simplest fix is to delete that whole row and work with the four rows that remain.
+Take a table with three features, one target and five **observations** (G-1374). Suppose the third observation has no value in the first feature. The simplest fix is to delete that whole row and work with the four rows that remain.
 
 Deleting the row also throws away its values in the second, third and fourth columns. Those values were fine and might have been useful. Think of a class register: crossing out a whole student because one test score is blank also throws away every score they did have. This waste is why removing rows is used less often than filling the gaps.
 
@@ -53,9 +53,9 @@ When a column is missing most of its values, we can instead remove the column it
 
 ### 3.2 Imputing: filling in the gaps
 
-> **Key point:** Univariate imputation fills a feature using only that feature; multivariate imputation also uses the other features.
+> **Key point:** Univariate imputation fills a **feature** (G-772) using only that feature; multivariate imputation also uses the other features.
 
-Imputation, met in [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values), fills each missing value with an estimate. There are two families:
+Imputation, met in [handling missing values](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#61-handling-missing-values), fills each **missing value** (G-1234) with an estimate. There are two families:
 
 - **Univariate imputation** (G-2051) looks at one feature at a time. To fill a gap in `age`, it uses only the other values of `age`.
 - **Multivariate imputation** (G-1282) looks at several features together. To fill a gap in `age`, it also uses features such as `income` or `education`.
@@ -69,7 +69,7 @@ Univariate techniques depend on the type of the feature:
 
 scikit-learn's `SimpleImputer` class does all of these. Multivariate imputation has two main techniques, each with its own class:
 
-- [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#7-knn-imputation-with-scikit-learn) (G-108) (`KNNImputer`): fills a gap from the most similar observations, using the k-nearest-neighbours algorithm.
+- [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#7-knn-imputation-with-scikit-learn) (G-108) (`KNNImputer`): fills a gap from the most similar **observations** (G-1374), using the k-nearest-neighbours algorithm.
 - [**Iterative imputer**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#8-the-iterative-imputer-in-scikit-learn) (G-98) (`IterativeImputer`): predicts each feature with an ML model trained on the other features, and repeats. Its algorithm is called [**MICE**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216).
 
 Figure 2 compares the two options on four real rows of the job data used in [Section 8](#8-complete-case-analysis-on-real-data), where row 3 has no `enrolled_university` value. Removing the row loses its three good values; imputing keeps them and fills the gap with the most frequent category.
@@ -93,9 +93,9 @@ A last technique, the [**missing indicator**](../ML-037-missing-indicator-random
 
 ## 4. Complete case analysis
 
-> **Key point:** Complete case analysis keeps only the observations that have a value in every feature we use.
+> **Key point:** Complete case analysis keeps only the **observations** (G-1374) that have a value in every feature we use.
 
-**Complete case analysis (CCA)** (G-425), also called **listwise deletion**, discards every observation that is missing a value in any of the features we use. Only the **complete cases** remain: observations with a value in every feature used.
+**Complete case analysis (CCA)** (G-425), also called **listwise deletion**, discards every observation that is missing a value in any of the **features** (G-772) we use. Only the **complete cases** remain: observations with a value in every feature used.
 
 Figure 3 applies it to the table of [Section 3.1](#31-removing-the-incomplete-data). Row 3 has a `NaN` in column `f1`, so the whole row goes, and four complete cases are left.
 
@@ -114,13 +114,13 @@ The name says what we analyse: only the complete cases. The number of columns st
 
 ## 5. Why data goes missing: MCAR, MAR and MNAR
 
-> **Key point:** CCA is safe only when the values are missing completely at random, so that the rows we drop look just like the rows we keep.
+> **Key point:** CCA is safe only when the values are **missing completely at random** (G-1192), so that the rows we drop look just like the rows we keep.
 
 ### 5.1 Missing completely at random (MCAR)
 
 > **Key point:** Data is MCAR when the chance of a value being missing has nothing to do with any value in the data.
 
-Suppose a table has 1,000 rows and 4 columns, and one column has 50 missing values. CCA drops those 50 rows and leaves 950. The columns stay the same.
+Suppose a table has 1,000 rows and 4 columns, and one column has 50 **missing values** (G-1234). CCA drops those 50 rows and leaves 950. The columns stay the same.
 
 Whether this is safe depends on *which* 50 rows are missing. If they are scattered randomly through the table, deleting them is like deleting 50 random rows. The remaining 950 rows still look like the full table.
 
@@ -130,11 +130,11 @@ Data where the gaps are spread purely at random is called **missing completely a
 
 ### 5.2 The other two kinds: MAR and MNAR
 
-Statisticians name three ways in which data goes missing. MCAR is the first; the other two have a reason behind the gaps.
+Statisticians name three ways in which data goes missing. **MCAR** (G-1192) is the first; the other two have a reason behind the gaps.
 
 - **MCAR (missing completely at random):** the gaps have no reason at all. *Example:* a survey sheet gets coffee spilled on it, and a few answers become unreadable.
-- **MAR (missing at random)** (G-1158): the gaps depend on *another feature that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
-- **MNAR (missing not at random)** (G-1248): the gaps depend on *the missing value itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
+- **MAR (missing at random)** (G-1158): the gaps depend on *another **feature** (G-772) that we can see*. *Example:* job applicants with no relevant experience leave the "years of experience" field empty more often. Whether `experience` is missing depends on `relevent_experience`, which is recorded.
+- **MNAR (missing not at random)** (G-1248): the gaps depend on *the **missing value** (G-1234) itself*. *Example:* applicants with very little experience leave the field empty because they do not want to show it. The reason is hidden in the very value we lost.
 
 Rubin gave the three kinds these names (Rubin 1976). The name MAR is confusing: the data is *not* missing at random overall, only at random once we know the other feature.
 
@@ -159,14 +159,14 @@ Under MCAR, CCA removed the most rows but left the mean unchanged. Under MAR and
 
 ## 6. When to use complete case analysis
 
-> **Key point:** Use CCA only when the data is MCAR and each column is missing less than about 5% of its values.
+> **Key point:** Use CCA only when the data is **MCAR** (G-1192) and each column is missing less than about 5% of its values.
 
 There is no strict law, but a common rule of thumb has two conditions:
 
 1. **The data is MCAR.** The gaps are spread at random ([Section 5](#5-why-data-goes-missing-mcar-mar-and-mnar)).
 2. **Each feature used is missing less than 5% of its values.** Then CCA loses only a small part of the data.
 
-The share of missing values in a column, step by step:
+The share of **missing values** (G-1234) in a column, step by step:
 
 1. **In words:** count the missing cells in the column and divide by the number of rows.
 2. **Formula:**
@@ -179,13 +179,13 @@ The share of missing values in a column, step by step:
 
 > **Key point:** If a column is missing almost all of its values, remove the column instead of the rows.
 
-Suppose a column of 1,000 rows has 950 missing values. CCA on it would keep only 50 rows, which is nearly all the data gone.
+Suppose a column of 1,000 rows has 950 **missing values** (G-1234). CCA on it would keep only 50 rows, which is nearly all the data gone.
 
 The column itself carries almost no information: only 50 of its values exist. Removing the column is the better choice, and every row survives.
 
 ## 7. Advantages and disadvantages
 
-> **Key point:** CCA is trivial to do and keeps the distributions when the data is MCAR, but it can lose much data, distort the data when not MCAR, and leaves the model unable to handle gaps later.
+> **Key point:** CCA is trivial to do and keeps the distributions when the data is **MCAR** (G-1192), but it can lose much data, distort the data when not MCAR, and leaves the model unable to handle gaps later.
 
 **Advantages:**
 
@@ -195,7 +195,7 @@ The column itself carries almost no information: only 50 of its values exist. Re
 **Disadvantages:**
 
 1. **It can throw away a large part of the data.** Each row is dropped if *any* of the chosen columns has a gap, so the losses add up across columns (Figure 6).
-2. **It distorts the data when the gaps are not random.** If the data is MAR or MNAR, the dropped rows carry information the model never sees, as Figure 4 showed.
+2. **It distorts the data when the gaps are not random.** If the data is **MAR** (G-1158) or MNAR, the dropped rows carry information the model never sees, as Figure 4 showed.
 3. **The deployed model cannot handle missing values.** The model was trained only on complete rows. Once deployed, a new row may arrive with a gap, and the model has no way to deal with it.
 
 ![Complete case analysis on the 19,158 job applicants of Section 8, adding the five chosen columns one at a time. Each column alone is missing at most 4 percent, but together they cost 10.3 percent of the rows.](images/rows_lost.gif)
@@ -208,11 +208,11 @@ The third point is the biggest. Because of it, CCA is used less often than imput
 
 ### 8.1 The data
 
-> **Key point:** Each observation is a candidate who applied for a data science job; four features are missing far more than 5%.
+> **Key point:** Each **observation** (G-1374) is a candidate who applied for a data science job; four features are missing far more than 5%.
 
-The data describes applicants for a data science job: 19,158 rows and 13 columns. Its features include the candidate's ID, city, the **city development index** of that city (a score from 0 to 1), gender, relevant experience, university enrolment, education level, major subject, years of experience, company size and type, and hours of data science training. The target is 1 if the candidate was hired and 0 if not.
+The data describes applicants for a data science job: 19,158 rows and 13 columns. Its **features** (G-772) include the candidate's ID, city, the **city development index** of that city (a score from 0 to 1), gender, relevant experience, university enrolment, education level, major subject, years of experience, company size and type, and hours of data science training. The **target** (G-1949) is 1 if the candidate was hired and 0 if not.
 
-Figure 7 shows the share of missing values in every column.
+Figure 7 shows the share of **missing values** (G-1234) in every column.
 
 ![Share of missing values per column: green columns are under 5%, red columns are above](images/missing_share.png)
 
@@ -289,7 +289,7 @@ Only a few thin slivers of red or green stick out of the bars, and the density c
 | `city_development_index` | 0.829 | 0.831 | 0.903 | 0.910 |
 | `experience` | 9.93 | 10.04 | 9 | 9 |
 
-The distributions did not change, which supports the view that these gaps are MCAR. CCA is safe for these three columns.
+The distributions did not change, which supports the view that these gaps are **MCAR** (G-1192). CCA is safe for these three columns.
 
 > **Python:** Overlaying the two histograms with Plotly.
 >
@@ -353,10 +353,10 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | Univariate imputation | fills a gap from the same column (mean, median, mode, ...) | [numerical](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview), [categorical](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) and [indicator and random sample](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) imputation |
 | Multivariate imputation | fills a gap using other columns (KNN, MICE) | [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) (G-1017) and [**MICE**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216) |
 
-- Most scikit-learn models cannot train on missing values, so we remove or impute them first.
-- Complete case analysis (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`. It is the easiest fix, but it also throws away the good values in every dropped row, and the losses add up across columns (five columns missing at most 4% each cost 10.3% of the rows).
-- Data is MCAR when the gaps have no reason; MAR when they depend on another column; MNAR when they depend on the missing value itself. CCA is safe only for MCAR, because only then do the dropped rows look like the kept ones: under MAR and MNAR the mean experience rose from 9.9 to 11.0 and 11.9 years.
-- After CCA, compare each numerical column's histogram or density, and each categorical column's category shares, before and after. They should match, because no test on the data can prove MCAR; a visible shift warns that the gaps are not random.
+- Most scikit-learn models cannot train on **missing values** (G-1234), so we remove or impute them first.
+- **Complete case analysis** (G-425) (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`. It is the easiest fix, but it also throws away the good values in every dropped row, and the losses add up across columns (five columns missing at most 4% each cost 10.3% of the rows).
+- Data is MCAR when the gaps have no reason; **MAR** (G-1158) when they depend on another column; MNAR when they depend on the missing value itself. CCA is safe only for MCAR, because only then do the dropped rows look like the kept ones: under MAR and MNAR the mean experience rose from 9.9 to 11.0 and 11.9 years.
+- After CCA, compare each numerical column's histogram or density, and each categorical column's category shares, before and after. They should match, because no test on the data can prove **MCAR** (G-1192); a visible shift warns that the gaps are not random.
 - On the job-applicant data, CCA on five columns kept 89.7% of the rows and changed no distribution, so CCA was safe for those five columns.
 - The main drawback: a model trained only on complete rows cannot handle gaps in new data, so imputation is used more often.
 - So dropping the incomplete rows is the simplest way to deal with gaps, and it is safe only when the gaps are random and few.
@@ -379,9 +379,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Complete case analysis (CCA) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
 | Univariate imputation (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
 | Multivariate imputation (G-1282) | Filling the gaps in one column using the values of the other columns too (as the KNN and iterative imputers do), so each fill fits the rest of its row. |
-| Complete case analysis (CCA) (G-425) | Dropping every row that has a missing value in any chosen column; also called listwise deletion. |
 | dropna (G-637) | The pandas method that drops rows (or columns) with missing values. |
 | MCAR (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
 | MAR (G-1158) | Missing at random: the gaps depend on another, recorded column. |
@@ -389,10 +389,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | isnull (G-974) | The pandas method that marks each missing cell `True`. |
 | 5% rule of thumb (G-52) | Drop the incomplete rows (complete case analysis) only for columns missing less than about 5% of their values, so only a small part of the data is lost. |
 | Complete case (G-426) | A row with a value in every column used. |
+| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | [`KNNImputer`](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#7-knn-imputation-with-scikit-learn) (G-108) | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |
 | [`IterativeImputer`](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#8-the-iterative-imputer-in-scikit-learn) (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
 | [MICE](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216) | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |

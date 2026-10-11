@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/backpropagatio
 
 [**Backpropagation**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) (G-247) was built, with its [9 derivatives](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#6-the-nine-derivatives), for a 2-2-1 regression network (2 inputs, 2 hidden nodes, 1 output). This Note runs it:
 
-1. **Regression:** the same network and data, trained for several epochs (an epoch is one full pass over the data) with our own NumPy code, then with Keras.
+1. **Regression:** the same network and data, trained for several **epochs** (G-696) (an epoch is one full pass over the data) with our own NumPy code, then with Keras.
 2. **Classification:** the same architecture with **sigmoid** (a function that squashes any number into the range 0 to 1) activations and **binary cross-entropy** (G-303; [the loss for two classes](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)). The derivatives change, so we derive them, then train again.
 
 ![Average loss per epoch for our code and for Keras, started from the same weights](images/loss_curves.png){height=33%}
@@ -40,7 +40,7 @@ The data and network are those of [the backpropagation example](../DL-015-backpr
 1. Initialise the parameters.
 2. For each of 5 epochs:
    - for each student, in order:
-     a. predict $\hat{y}$ with forward propagation;
+     a. predict $\hat{y}$ with **forward propagation** (G-797);
      b. compute the loss $(y - \hat{y})^2$;
      c. update the 9 parameters with $W \leftarrow W - \eta\thinspace\partial L/\partial W$, where the step size $\eta = 0.001$ is the [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068).
    - print the average of the 4 losses: the loss of the [**epoch**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), one full pass over the data.
@@ -57,7 +57,7 @@ Students are taken in order here. In practice the observations are usually picke
 
 ### 4.1 Initialising and predicting
 
-> **Key point:** One weight matrix and one bias vector per layer; forward propagation keeps the hidden outputs, because the update needs them.
+> **Key point:** One weight matrix and one bias vector per layer; **forward propagation** (G-797) keeps the hidden outputs, because the update needs them.
 
 > **Python:** Initialisation and forward propagation.
 >
@@ -104,7 +104,7 @@ The minus signs in the formulas and the minus of the update rule cancel: every u
 
 ### 4.3 Training
 
-> **Key point:** Five epochs bring the average loss from 26.35 down to 1.22.
+> **Key point:** Five **epochs** (G-696) bring the average loss from 26.35 down to 1.22.
 
 > **Python:** The training loop.
 >
@@ -135,7 +135,7 @@ Figure 3 plots the weight value (vertical axis) after each of the 20 updates (ho
 
 ## 5. The same training in Keras
 
-> **Key point:** Same architecture, same starting weights, plain SGD (stochastic gradient descent: update after one observation) with the same learning rate, one observation per update, no shuffling: Keras gives the same losses and weights.
+> **Key point:** Same architecture, same starting weights, plain SGD (stochastic gradient descent: update after one observation) with the same **learning rate** (G-1068), one observation per update, no shuffling: Keras gives the same losses and weights.
 
 > **Python:** The regression network in Keras, with our starting weights.
 >
@@ -156,7 +156,7 @@ Figure 3 plots the weight value (vertical axis) after each of the 20 updates (ho
 >
 > `model.summary()` shows 9 trainable parameters. Keras normally starts from random weights; `get_weights` returns the arrays in the order kernel, bias, kernel, bias, and `set_weights` overwrites them. `batch_size=1` (G-62) updates after every row, as our loop does; `shuffle=False` (G-143) keeps the rows in order. `keras.optimizers.SGD` (G-104) is plain gradient descent with a fixed learning rate.
 
-Keras prints the epoch losses 26.346, 19.859, 10.882, 3.777 and 1.224, and ends with exactly our weights (0.272, 0.393, 0.469, ...). The two curves in Figure 1 (left) coincide for all 75 epochs.
+Keras prints the **epoch** (G-696) losses 26.346, 19.859, 10.882, 3.777 and 1.224, and ends with exactly our weights (0.272, 0.393, 0.469, ...). The two curves in Figure 1 (left) coincide for all 75 epochs.
 
 ![The gap between our epoch loss and Keras's, every epoch, on a log scale](images/keras_gap.png){height=30%}
 
@@ -325,7 +325,7 @@ The hidden-layer gradients are about 7 times smaller than the output-layer ones:
 
 ## 8. Training the classifier
 
-> **Key point:** The loss starts at 0.694 and is still 0.694 after 50 epochs. Keras, from the same start, does exactly the same: the code is right, and this network is stuck.
+> **Key point:** The loss starts at 0.694 and is still 0.694 after 50 **epochs** (G-696). Keras, from the same start, does exactly the same: the code is right, and this network is stuck.
 
 Training with the same loops and $\eta = 0.001$:
 
@@ -338,7 +338,7 @@ The loss barely moves, and every student gets a probability of about 0.54 (Figur
 
 ![The classifier's predicted probability for each student over 50 epochs](images/stuck.png){height=30%}
 
-In Figure 9, all four lines lie on top of each other at about 0.54 and stay flat: the placed students never rise towards 1, and the others never fall towards 0. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So backpropagation is computed correctly; the network is simply not learning.
+In Figure 9, all four lines lie on top of each other at about 0.54 and stay flat: the placed students never rise towards 1, and the others never fall towards 0. Is the code wrong? The same network in Keras (sigmoid activations, `loss="binary_crossentropy"`, same weights and settings) gives the same numbers to four digits (Figure 1, right). So **backpropagation** (G-247) is computed correctly; the network is simply not learning.
 
 The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0.5 for everyone: the network has learned nothing beyond "two students are placed, two are not". Two causes add up:
 
@@ -347,7 +347,7 @@ The loss sits next to $\log 2 = 0.693$, the binary cross-entropy of predicting 0
 
 ![Training the classifier for 2,000 epochs with learning rate 0.1. Left: every weight starts at 0.1. Right: one weight, $W_{11}^{1}$, starts at 0.11. Top: the CGPA weight of each hidden node. Bottom: the average loss](images/symmetry.gif){height=50%}
 
-Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 so that the weights move. Watch the blue and orange lines in the top row:
+Figure 10 shows the symmetry problem at work, with the larger **learning rate** (G-1068) 0.1 so that the weights move. Watch the blue and orange lines in the top row:
 
 - **Left, all weights 0.1:** the two lines lie on top of each other for all 2,000 epochs. The two hidden nodes receive the same updates and never separate. The loss stops at 0.49.
 - **Right, one weight 0.11:** a difference of 0.01 in one starting weight is enough. The two lines drift apart, each hidden node learns its own job, and after a bumpy stretch the loss falls to 0.04. All four students are then classified correctly, with probabilities 0.96, 0.96, 0.02 and 0.03.
@@ -365,11 +365,11 @@ Figure 10 shows the symmetry problem at work, with the larger learning rate 0.1 
 | Hidden-layer gradient | $-2(y - \hat{y})\thinspace W_{j1}^{2}\thinspace x_{ik}$ | $-(y - \hat{y})\thinspace W_{j1}^{2}\thinspace O_{1j}(1 - O_{1j})\thinspace x_{ik}$ |
 | Training here | 26.35 to 1.22 in 5 epochs | stuck at 0.694 |
 
-- The code is the algorithm: initialise, then epochs of forward, loss, update, row by row, so writing it once in NumPy shows exactly what Keras does.
-- Our NumPy code and Keras (`SGD`, `batch_size=1`, `shuffle=False`, same starting weights) give identical losses and weights, because Keras runs the same backpropagation we write by hand.
+- The code is the algorithm: initialise, then **epochs** (G-696) of forward, loss, update, row by row, so writing it once in NumPy shows exactly what Keras does.
+- Our NumPy code and Keras (`SGD`, `batch_size=1`, `shuffle=False`, same starting weights) give identical losses and weights, because Keras runs the same **backpropagation** (G-247) we write by hand.
 - For a sigmoid output with binary cross-entropy, $\partial L/\partial z = \hat{y} - y$, because the sigmoid and the log cancel.
 - Each sigmoid on the way back adds a factor $O(1 - O)$, which shrinks the gradient.
-- Correct backpropagation can still fail to learn: starting weights and the learning rate matter, because a tiny learning rate with tiny hidden gradients barely moves the weights (the classifier stayed at 0.694).
+- Correct backpropagation can still fail to learn: starting weights and the **learning rate** (G-1068) matter, because a tiny learning rate with tiny hidden gradients barely moves the weights (the classifier stayed at 0.694).
 - Hidden nodes that start with identical weights stay identical, so the network acts as if it had one hidden node; a difference of 0.01 in one starting weight breaks the symmetry.
 
 So the algorithm runs as written: our code matches Keras, and when training stalls the cause is the start (weights, learning rate), not the derivatives.
@@ -396,11 +396,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `keras.optimizers.SGD` (G-104) | Plain gradient descent in Keras, with a fixed learning rate. |
 | $\partial L/\partial z$ (G-16) | How much the loss changes when a node's weighted sum $z$ changes (the derivative of the loss with respect to $z$). Every weight entering the node multiplies it by its own input. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
-| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
-| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
-| [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
+| [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Memoization](../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#3-memoization-on-the-fibonacci-numbers) (G-1210) | Storing the result of a function call and returning the stored result when the same input comes again. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Symmetry problem](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (G-1933) | Nodes that start with equal weights get equal updates and stay identical, so a layer acts like one node. |
 | [`get_weights()` / `set_weights()`](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#42-relu-and-tanh-nothing-moves) (G-85) | Keras methods that read and replace the weight and bias arrays of a model or a layer, as a list of arrays. |

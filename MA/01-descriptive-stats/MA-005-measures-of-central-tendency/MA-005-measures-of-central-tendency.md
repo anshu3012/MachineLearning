@@ -16,11 +16,11 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/central-te
 
 ## 1. Overview
 
-> **Key point:** A measure of central tendency gives one number for the centre of a feature; the mean, median, mode, weighted mean and trimmed mean each suit different data.
+> **Key point:** A measure of central tendency gives one number for the centre of a feature; the **mean** (G-1203), median, mode, weighted mean and trimmed mean each suit different data.
 
 ![Choosing a measure of central tendency](images/measure_chooser.png)
 
-Figure 1 is a flow chart: start at the top box, answer each question, and follow the arrow to the measure that fits. A **categorical** feature has values that are labels (such as a state's name), and a **numerical** feature has values that are numbers ([types of data](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#6-types-of-data)). An **outlier** is a value far from the rest ([what an outlier is](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is)). This Note works through each measure, its formula and its weak spot, in that order.
+Figure 1 is a flow chart: start at the top box, answer each question, and follow the arrow to the measure that fits. A **categorical** **feature** (G-772) has values that are labels (such as a state's name), and a **numerical** feature has values that are numbers ([types of data](../MA-004-what-is-statistics/MA-004-what-is-statistics.md#6-types-of-data)). An **outlier** is a value far from the rest ([what an outlier is](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is)). This Note works through each measure, its formula and its weak spot, in that order.
 
 ## 2. What central tendency means
 
@@ -30,7 +30,7 @@ A **measure of central tendency** (G-1205) is a statistical measure that represe
 
 Take the `Age` feature of 1,000 passengers. Reading 1,000 ages tells us little. One number for where the ages are centred tells us a lot: "the average salary", "the average package", "a batsman's average" are all such numbers.
 
-There are several such measures. The main ones are the mean, median and mode; the weighted mean and trimmed mean are useful variants.
+There are several such measures. The main ones are the **mean** (G-1203), median and mode; the weighted mean and trimmed mean are useful variants.
 
 ## 3. Mean
 
@@ -38,7 +38,7 @@ There are several such measures. The main ones are the mean, median and mode; th
 
 Five students score 3, 4, 1, 2 and 5 marks in a quiz. Share the marks out so that everyone ends up with the same score: this equal share is the [**mean**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203). We find it in two steps, and [count, mean, standard deviation, minimum and maximum](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) in code covers it too.
 
-Figure 2 draws the five scores as equal weights on a beam. The orange triangle marks the one place where the beam balances.
+Figure 2 draws the five scores as equal **weights** (G-2111) on a beam. The orange triangle marks the one place where the beam balances.
 
 ![The scores 3, 4, 1, 2, 5 as equal weights on a beam: the mean, 3, is the balance point](images/mean_balance.png){height=28%}
 
@@ -68,7 +68,7 @@ $\mu$ is the true centre of the whole population; $\bar{x}$ is the centre of one
 
 ### 3.1 The weak spot of the mean: outliers
 
-> **Key point:** One very high or very low value pulls the mean towards it, so the mean stops describing anyone.
+> **Key point:** One very high or very low value pulls the **mean** (G-1203) towards it, so the mean stops describing anyone.
 
 As [one outlier changes the mean](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#21-one-outlier-changes-the-mean) shows, one billionaire in a classroom drags the mean salary into the crores. Here is the same effect on a class we will reuse below.
 
@@ -81,7 +81,7 @@ Nine students earn between 28 and 40 thousand rupees a month. A tenth classmate 
 | Nine students | $28 + 30 + 31 + 32 + 33 + 35 + 36 + 38 + 40 = 303$ | $303 / 9$ | 33.7 thousand rupees, a fair summary |
 | With the founder | $303 + 2000 = 2303$ | $2303 / 10$ | 230.3 thousand rupees: nobody in the class earns anything like that |
 
-So before using the mean, we check whether the feature has outliers. If it does, the mean is not a good summary of that feature.
+So before using the mean, we check whether the **feature** (G-772) has outliers. If it does, the mean is not a good summary of that feature.
 
 ## 4. Median
 
@@ -89,7 +89,7 @@ So before using the mean, we check whether the feature has outliers. If it does,
 
 Line the students up in order of marks and pick the one standing in the middle. That student's mark is the **median** (G-1209), the middle value of the sorted data. [Percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) covers it too.
 
-Figure 4 shows two lists. The top row has 5 values, so one value sits in the middle. The bottom row has 6 values, so two values share the middle, and we take their mean.
+Figure 4 shows two lists. The top row has 5 values, so one value sits in the middle. The bottom row has 6 values, so two values share the middle, and we take their **mean** (G-1203).
 
 ![Sorted values 1 to 5 and 1 to 6: the middle value, or the mean of the two middle values, is the median](images/median_middle.png){height=28%}
 
@@ -134,7 +134,7 @@ $$\text{median} = \frac{3 + 4}{2} = 3.5$$
 
 The unchanged median of 3.5 shows why the median resists outliers. However large an extreme value is, sorting puts it at the end of the list, and the middle stays where it was. In Figure 3, the founder moves the median only from 33 to 34 thousand rupees.
 
-Figure 5 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green trimmed mean (section 7) stay flat at about 34. Both horizontal axes use a **log scale**: the step from 30 to 300 takes the same width as the step from 100 to 1000, because each is ten times bigger. That lets 40 and 2,000 fit on one axis.
+Figure 5 drags the tenth salary up step by step, from 40 to 2,000 thousand rupees. Watch the red mean climb with it while the blue median and the green **trimmed mean** (G-2017) (section 7) stay flat at about 34. Both horizontal axes use a **log scale**: the step from 30 to 300 takes the same width as the step from 100 to 1000, because each is ten times bigger. That lets 40 and 2,000 fit on one axis.
 
 ![The tenth salary dragged from 40 to 2,000 thousand rupees: the mean follows it up to 230.3, the median stays at 34 and the 10% trimmed mean at 34.4](images/salary_drag.gif){height=55%}
 
@@ -181,10 +181,10 @@ Here $f(1) = 4$ is the largest, so the mode is $v = 1$, as in the table.
 
 The mode is most useful for:
 
-- **Categorical features** (labels, not numbers), where the mean and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
+- **Categorical features** (labels, not numbers), where the **mean** (G-1203) and median make no sense. Ask a class which state each student comes from and count; if Maharashtra comes up most often, it is the mode.
 - **Discrete features with few values,** such as the number of siblings on board.
 
-For a continuous feature, the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
+For a continuous **feature** (G-772), the mode is rarely useful: with values such as 32.17 and 32.18, almost every value appears only once.
 
 If two values tie for the highest count, both are modes. Data with two modes is [**bimodal**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) (two peaks, as in [how normal each feature is](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature)); with more, it is **multimodal** (G-1275).
 
@@ -203,7 +203,7 @@ If two values tie for the highest count, both are modes. Data with two modes is 
 
 > **Key point:** The weighted mean multiplies each value by its importance before averaging, so more important values count more.
 
-In the ordinary mean, every value counts equally. Sometimes one value deserves more say than another. We predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, XGBoost has been right most often, so we trust it most. We give each prediction a **weight** (G-2111), a number that says how much it counts, and average with those weights: the **weighted mean** (G-2117).
+In the ordinary **mean** (G-1203), every value counts equally. Sometimes one value deserves more say than another. We predict a house price with three models: linear regression says 10 lakh rupees, a random forest 15 lakh, and XGBoost 12 lakh. From past results, XGBoost has been right most often, so we trust it most. We give each prediction a **weight** (G-2111), a number that says how much it counts, and average with those weights: the **weighted mean** (G-2117).
 
 Figure 7 shows the idea. Each prediction is a dot on a beam, and a heavier dot is a bigger weight. The weighted mean (orange) is the balance point, pulled towards the heaviest dot.
 
@@ -246,7 +246,7 @@ This weighting is exactly what a voting regressor with weights does (see [weight
 
 In a diving contest, seven judges score a dive. One judge may be far too generous, or far too harsh. To stop that one judge deciding the result, we throw away the highest scores and the lowest scores and average the rest. This is the **trimmed mean** (G-2017): remove a chosen percentage of the smallest and of the largest values, then take the mean of what is left. The percentage removed from each end is the **trimming percentage** (G-2018).
 
-We use the class from section 3.1: nine students and one founder. Sorted, the $n = 10$ salaries in thousand rupees are 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000. Figure 8 shows the trim on a log scale (equal distances along the horizontal axis mean equal factors, as the ticks 25, 30, 40, 50, 100, 200, 500, 1000, 2000 show, so 28 and 2000 fit on one axis): the lowest and highest salaries are cut, and the mean is taken of the 8 left.
+We use the class from section 3.1: nine students and one founder. Sorted, the $n = 10$ salaries in thousand rupees are 28, 30, 31, 32, 33, 35, 36, 38, 40 and 2000. Figure 8 shows the trim on a log scale (equal distances along the horizontal axis **mean** (G-1203) equal factors, as the ticks 25, 30, 40, 50, 100, 200, 500, 1000, 2000 show, so 28 and 2000 fit on one axis): the lowest and highest salaries are cut, and the mean is taken of the 8 left.
 
 ![The worked example on a log scale: the 10% trim cuts the lowest salary, 28, and the founder's 2000; the mean of the 8 left is 34.4, while the plain mean of all 10 is 230.3, above every student but one](images/trim_example.png){width=95%}
 
@@ -276,7 +276,7 @@ $$\bar x_{\text{trim}} = \frac{275}{8} = 34.375$$
 
 This is the value in the table.
 
-The trimmed mean sits between the mean and the median: trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
+The trimmed mean sits between the mean and the **median** (G-1209): trimming nothing gives the plain mean, and trimming almost 50% from each end leaves only the middle, the median. In between, it uses more values than the median yet ignores the extremes.
 
 How much to trim depends on the data. We look at its distribution first, for example with a box plot, see where the outliers are, and choose the trimming percentage from that.
 
@@ -297,7 +297,7 @@ How much to trim depends on the data. We look at its distribution first, for exa
 
 ## 8. Choosing a measure
 
-> **Key point:** Use the mode for categories, the mean for numbers without outliers, and the median or trimmed mean when outliers are present.
+> **Key point:** Use the mode for categories, the **mean** (G-1203) for numbers without outliers, and the median or trimmed mean when outliers are present.
 
 | Measure | Uses | Affected by outliers? | Best for |
 |---|---|---|---|
@@ -307,7 +307,7 @@ How much to trim depends on the data. We look at its distribution first, for exa
 | Weighted mean | every value and its weight | yes | values of unequal importance |
 | Trimmed mean | the values left after trimming | only if trimming is too light | numerical data with a few outliers |
 
-When there are no outliers, the mean is the better summary: it uses every value, while the median uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed feature, [skewness in univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) shows how the mean is pulled towards the long tail.
+When there are no outliers, the mean is the better summary: it uses every value, while the **median** (G-1209) uses only one or two. No rule says one measure is always best; we look at the data first. For a skewed feature, [skewness in univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) shows how the mean is pulled towards the long tail.
 
 > **Extra:** Two more means appear in special cases.
 >
@@ -340,9 +340,9 @@ When there are no outliers, the mean is the better summary: it uses every value,
 | Weighted mean | $\sum w_i x_i / \sum w_i$ | 10, 15, 12 with weights 0.2, 0.3, 0.5 | 12.5 | lets the more trusted values count more |
 | Trimmed mean (10%) | mean after cutting each end | the 10 class salaries | 34.375 | cuts the extremes first, so the founder's salary cannot pull it |
 
-- Population mean $\mu$ and sample mean $\bar{x}$ use the same arithmetic but describe different things, so a sample mean need not equal the population mean.
-- The mean is pulled by outliers; the median and the trimmed mean are not, so check a feature for outliers before using its mean (compare median packages, not average ones).
-- Ties give several modes: bimodal or multimodal data, which is why pandas `mode()` returns a Series, not a single number.
+- **Population mean** (G-1524) $\mu$ and **sample mean** (G-1725) $\bar{x}$ use the same arithmetic but describe different things, so a sample mean need not equal the population mean.
+- The **mean** (G-1203) is pulled by outliers; the median and the trimmed mean are not, so check a feature for outliers before using its mean (compare median packages, not average ones).
+- Ties give several **modes** (G-1251): bimodal or multimodal data, which is why pandas `mode()` returns a Series, not a single number.
 - No measure is always best, so look at the data first and follow Figure 1 to the measure that fits it.
 
 ## 10. Sources
@@ -364,18 +364,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Measure of central tendency (G-1205) | A single number for the typical, central value of a column. |
+| Weight (in a weighted mean) (G-2111) | A number saying how much a value counts in a weighted mean. |
 | Population mean ($\mu$) (G-1524) | The mean of every value in the population. |
 | Sample mean ($\bar{x}$) (G-1725) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
 | Median (G-1209) | The middle value of sorted data; the 50% percentile. |
+| Trimmed mean (G-2017) | The mean after removing a fixed share of the smallest and largest values. |
 | Mode (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | Multimodal (G-1275) | Having more than one mode (two modes: bimodal). |
-| Weight (in a weighted mean) (G-2111) | A number saying how much a value counts in a weighted mean. |
 | Weighted mean (G-2117) | A mean in which each value is multiplied by a weight saying how much it counts. |
-| Trimmed mean (G-2017) | The mean after removing a fixed share of the smallest and largest values. |
 | Trimming percentage (G-2018) | The share of values removed from each end for a trimmed mean. |
 | Geometric mean (G-844) | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |
+| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Bimodal](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#63-how-normal-is-each-feature) (G-296) | A distribution with two peaks. |
 | [Harmonic mean](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#42-why-the-harmonic-mean) (G-880) | An average that stays close to the smaller of the values, so one low value pulls it down; F1 uses it to combine precision and recall. For two values: $2ab/(a + b)$. |

@@ -24,7 +24,7 @@ The previous Note trained `LinearRegression` and read off the slope $m = 0.558$ 
 The plan has three parts:
 
 1. Write the total error of any line as a formula in $m$ and $b$ ([Section 3](#3-the-error-function)).
-2. Find the $m$ and $b$ that make it smallest, using derivatives ([Section 4](#4-finding-the-minimum)).
+2. Find the $m$ and $b$ that make it smallest, using **derivatives** (G-595) ([Section 4](#4-finding-the-minimum)).
 3. Code the result as our own class and compare it with scikit-learn ([Section 6](#6-our-own-linear-regression-class)).
 
 ## 2. Two ways to find m and b
@@ -33,7 +33,7 @@ The plan has three parts:
 
 There are two ways to compute the best $m$ and $b$: jump straight to the answer, or walk towards it.
 
-- **Closed-form solution** (G-398): a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For linear regression, this method is called **ordinary least squares (OLS)** (G-1406).
+- **Closed-form solution** (G-398): a formula we can evaluate directly, using only ordinary operations such as adding, multiplying and dividing. The quadratic formula from school is an example: it gives the answer in one go. For **linear regression** (G-1094), this method is called **ordinary least squares (OLS)** (G-1406).
 - **Non-closed-form solution** (G-1332): no direct formula; we start from a guess and improve it step by step until it is good enough. For linear regression, this method is [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862).
 
 Both routes search for the same thing, so first we need the picture of what is searched. Every line is fixed by two numbers, the slope $m$ and the intercept $b$, and every line has a **total error** $E(m, b)$: the sum of the squared gaps between the line and the 160 training students (defined step by step in [Section 3](#3-the-error-function)). For example, the flat line $m = 0$, $b = 0$ has $E(0, 0) = 1{,}516.8$, and the best line, $m = 0.558$, $b = -0.896$, has $E = 16.55$.
@@ -58,7 +58,7 @@ scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gra
 
 > **Key point:** For each point, the error is the actual value minus the value the line predicts.
 
-The best-fit line should pass as close as possible to all the points. For each point, the vertical gap between the point and the line measures how wrong the line is there (Figure 3).
+The **best-fit line** (G-280) should pass as close as possible to all the points. For each point, the vertical gap between the point and the line measures how wrong the line is there (Figure 3).
 
 ![The error at each point is the vertical gap to the line](images/residuals.png)
 
@@ -90,7 +90,7 @@ Try the guess line $\hat y = x$, that is slope 1 and intercept 0. Its prediction
 
 To get the total error we add the errors of all $n$ points. Adding $d_1 + d_2 + \dots + d_n$ directly does not work: points above the line give positive errors, points below give negative ones, and they cancel out.
 
-Figure 4 shows the cancelling on our data. A flat line at the average package is clearly a poor fit, yet its residuals add up to exactly 0, the same as the best line's. The raw sum cannot tell the two lines apart; the sum of the squares can (73.02 against 16.55).
+Figure 4 shows the cancelling on our data. A flat line at the average package is clearly a poor fit, yet its **residuals** (G-705) add up to exactly 0, the same as the best line's. The raw sum cannot tell the two lines apart; the sum of the squares can (73.02 against 16.55).
 
 ![Two lines on the 160 training students. Blue sticks: positive residuals; red sticks: negative ones. For both lines the residuals add up to 0, but the sums of squared residuals are 73.02 for the flat line and 16.55 for the best line.](images/cancel.png)
 
@@ -105,7 +105,7 @@ $$0^2 + 1^2 + (-1)^2 = 0 + 1 + 1 = 2$$
 So we square each error before adding. Squares were chosen over absolute values $|d_i|$ for two reasons:
 
 - **Large errors count more:** an error of 2 counts 4, an error of 10 counts 100. A line that badly misses some points is punished.
-- **The square can be differentiated:** in [Section 4](#4-finding-the-minimum) we find the minimum with derivatives. The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
+- **The square can be differentiated:** in [Section 4](#4-finding-the-minimum) we find the minimum with **derivatives** (G-595). The absolute value has a sharp corner at 0, where it has no derivative; the square is smooth everywhere.
 
 Figure 5 puts the two choices side by side: the orange square grows faster for large residuals, and it has no corner at 0.
 
@@ -153,7 +153,7 @@ Figure 6 links the two views. On the left, each error is drawn as a square with 
 
 ## 4. Finding the minimum
 
-> **Key point:** At the lowest point of E, its slope is zero in the m direction and in the b direction. Setting both derivatives to zero gives two equations for m and b.
+> **Key point:** At the lowest point of E, its slope is zero in the m direction and in the b direction. Setting both **derivatives** (G-595) to zero gives two equations for m and b.
 
 ### 4.1 The shape of E
 
@@ -232,7 +232,7 @@ $$m = 0.5$$
 
 $$b = 2 - 2 \times 0.5 = 1$$
 
-Check: the line $\hat y = 0.5x + 1$ predicts 1.5, 2, 2.5; the residuals are $-0.5$, $1$, $-0.5$.
+Check: the line $\hat y = 0.5x + 1$ predicts 1.5, 2, 2.5; the **residuals** (G-705) are $-0.5$, $1$, $-0.5$.
 
 $$E = 0.25 + 1 + 0.25 = 1.5$$
 
@@ -250,7 +250,7 @@ Sections [4.3](#43-step-1-the-derivative-with-respect-to-b) and [4.4](#44-step-2
 
 > **Key point:** Setting the b-derivative to zero gives $b = \bar{y} - m\bar{x}$.
 
-In words: differentiate each squared term with respect to $b$, set the sum to zero, and solve for $b$. The chain rule worked on the toy points in [Section 4.2](#42-a-hand-run-on-the-three-toy-points) gives each term the slope "2 times the gap, times $-1$":
+In words: differentiate each squared term with respect to $b$, set the sum to zero, and solve for $b$. The **chain rule** (G-371) worked on the toy points in [Section 4.2](#42-a-hand-run-on-the-three-toy-points) gives each term the slope "2 times the gap, times $-1$":
 
 $$\frac{\partial E}{\partial b} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-1) = 0$$
 
@@ -274,7 +274,7 @@ The formula for $b$ says the best line always passes through the point $(\bar{x}
 
 > **Key point:** Setting the m-derivative to zero and using $b = \bar{y} - m\bar{x}$ gives the formula for m.
 
-In words: differentiate with respect to $m$, set it to zero, replace $b$ with the result of Step 1, and solve for $m$. Now the chain rule gives each term "2 times the gap, times $-x_i$", as in [Section 4.2](#42-a-hand-run-on-the-three-toy-points).
+In words: differentiate with respect to $m$, set it to zero, replace $b$ with the result of Step 1, and solve for $m$. Now the **chain rule** (G-371) gives each term "2 times the gap, times $-x_i$", as in [Section 4.2](#42-a-hand-run-on-the-three-toy-points).
 
 $$\frac{\partial E}{\partial m} = \sum_{i=1}^{n} 2(y_i - m x_i - b)(-x_i) = 0$$
 
@@ -343,7 +343,7 @@ Figure 9 shows what the top of the formula adds up. Move the axes to the point o
 
 ![The 160 training students with the axes moved to the point of means. Each dot's size is the size of its product; blue products are positive, red negative. Sum of products 101.204, divided by the sum of squared CGPA deviations 181.384, gives m = 0.558.](images/cov_quadrants.png)
 
-> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of linear expressions, a bowl that only curves upward (Figure 7). The check uses the second derivatives:
+> **Extra:** Strictly, a zero slope only shows a flat point, which could be a maximum or a saddle. For $E(m, b)$ the flat point is always a minimum: $E$ is a sum of squares of linear expressions, a bowl that only curves upward (Figure 7). The check uses the second **derivatives** (G-595):
 >
 > $$\frac{\partial^2 E}{\partial b^2} = 2n$$
 >
@@ -389,7 +389,7 @@ These are the numbers `LinearRegression` reported. scikit-learn reaches them by 
 
 > **Key point:** The slope is the correlation times the ratio of the two spreads: $m = r \times s_y / s_x$.
 
-The $m$ formula can be rewritten with the **Pearson correlation coefficient** $r$ (G-1474) ([correlation](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation)). Write $s_x$ and $s_y$ for the standard deviations of CGPA and package. Correlation is covariance divided by both standard deviations, so covariance $= r \times s_x \times s_y$, and
+The $m$ formula can be rewritten with the **Pearson correlation coefficient** $r$ (G-1474) ([correlation](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation)). Write $s_x$ and $s_y$ for the standard deviations of CGPA and package. Correlation is **covariance** (G-496) divided by both standard deviations, so covariance $= r \times s_x \times s_y$, and
 
 $$m = \frac{\text{covariance}}{\text{variance of } x}$$
 
@@ -457,9 +457,9 @@ The predictions match scikit-learn's to every digit shown. Figure 12 draws the c
 | Slope | $m = \sum (x_i - \bar{x})(y_i - \bar{y}) \thinspace/\thinspace\sum (x_i - \bar{x})^2$ | how much $x$ and $y$ move together, divided by how much $x$ moves alone |
 | Placement data | $m = 0.558$, $b = -0.896$, $E = 16.55$ | the same numbers `LinearRegression` reported |
 
-- Closed form (OLS) gives $m$ and $b$ directly; gradient descent reaches them step by step, so OLS suits one or a few features and gradient descent suits very many, where the OLS formula gets expensive.
+- Closed form (OLS) gives $m$ and $b$ directly; **gradient descent** (G-862) reaches them step by step, so OLS suits one or a few features and gradient descent suits very many, where the OLS formula gets expensive.
 - Errors are squared so they do not cancel, large errors count more, and the function can be differentiated.
-- The error function is a bowl in $(m, b)$; the best line is its bottom, where both partial derivatives are zero, so setting the two derivatives to zero gives two equations that pin down $m$ and $b$.
+- The error function is a bowl in $(m, b)$; the best line is its bottom, where both **partial derivatives** (G-1457) are zero, so setting the two derivatives to zero gives two equations that pin down $m$ and $b$.
 - The best line always passes through $(\bar{x}, \bar{y})$, because the $b$-derivative set to zero gives exactly that condition.
 - The slope is also $r \times s_y / s_x$: correlation times the ratio of the spreads, so with $r = 0$ the line is flat at the average and CGPA tells us nothing.
 - scikit-learn's `LinearRegression` solves the same least-squares problem (with `scipy.linalg.lstsq`) and gets the same $m$ and $b$, so our two-formula class gives exactly its predictions.
@@ -495,11 +495,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Best-fit line](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-280) | The line with the smallest total error over all the training points. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
 | [Residual sum of squares (sum of squared errors, SSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1684) | The squares of all the errors (residuals) added up; the quantity the best-fit line makes smallest, and a regression tree splits where the SSE of the two sides is smallest. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
-| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |

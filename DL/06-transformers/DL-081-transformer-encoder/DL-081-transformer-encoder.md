@@ -50,16 +50,16 @@ We follow one sentence, "How are you", through the encoder. Along the way we:
 
 ## 3. From a black box to the real block
 
-> **Key point:** The transformer is an encoder and a decoder. The encoder is 6 identical blocks in a row. Each block is attention followed by a feed-forward network, with add and norm after each.
+> **Key point:** The transformer is an encoder and a **decoder** (G-564). The encoder is 6 identical blocks in a row. Each block is attention followed by a feed-forward network, with add and norm after each.
 
 The full diagram looks complicated, so we build it up in four steps (Figure 2).
 
 ![The encoder built up in four steps: two boxes; six blocks in the encoder; two sub-layers in each block; an add-and-norm step after each sub-layer, with the residual connections in red](images/build_up.png){width=100%}
 
-1. **Two boxes.** A transformer is one box holding two boxes: the encoder and the decoder. The encoder reads the input sentence; the decoder writes the output sentence.
+1. **Two boxes.** A transformer is one box holding two boxes: the **encoder** (G-682) and the decoder. The encoder reads the input sentence; the decoder writes the output sentence.
 2. **Six blocks each.** Next to both boxes the paper's diagram writes "N×". The encoder is a stack of $N = 6$ identical layers, and so is the decoder (Vaswani et al. 2017, §3.1). We call each layer an **encoder block**.
-3. **Two sub-layers per block.** Each encoder block has two parts: a multi-head self-attention, then a feed-forward network (Vaswani et al. 2017, §3.1).
-4. **Add and norm.** Around each of the two sub-layers sits a residual connection, followed by a layer normalisation: the "add & norm" boxes of Figure 1.
+3. **Two sub-layers per block.** Each **encoder block** (G-681) has two parts: a multi-head self-attention, then a feed-forward network (Vaswani et al. 2017, §3.1).
+4. **Add and norm.** Around each of the two sub-layers sits a residual connection, followed by a **layer normalisation** (G-1054): the "add & norm" boxes of Figure 1.
 
 "Identical" means the same design. Every block has its own weights, learned separately (section 6).
 
@@ -83,11 +83,11 @@ The three resulting vectors $x_1, x_2, x_3$ are stacked as the rows of a $3 \tim
 
 ## 5. Inside one encoder block
 
-> **Key point:** A block does four things in order: attention lets the words exchange information, an add-and-norm step adds the input back and rescales, a feed-forward network transforms each word on its own, and a second add-and-norm step follows.
+> **Key point:** A block does four things in order: attention lets the words exchange information, an add-and-norm step adds the input back and rescales, a **feed-forward network** (G-775) transforms each word on its own, and a second add-and-norm step follows.
 
 In symbols, the four steps are:
 
-1. $X \to$ multi-head attention $\to Z$;
+1. $X \to$ **multi-head attention** (G-1268) $\to Z$;
 2. add $X$ and normalise $\to Z_{\text{norm}}$;
 3. feed-forward network $\to Y$;
 4. add $Z_{\text{norm}}$ and normalise $\to Y_{\text{norm}}$.
@@ -98,7 +98,7 @@ Figure 4 shows the path of the three words through one block, with every shape.
 
 ![One encoder block for a 3-word sentence. Every matrix is $3 \times 512$ except $H$, the hidden layer of the feed-forward network. The red arrows are the residual connections](images/block_flow.png){width=100%}
 
-To show real numbers, the Notebook builds a tiny block: $d_{\text{model}} = 4$, 2 heads of 2 numbers, and a feed-forward hidden layer of 8. The embeddings of "how", "are", "you" are made-up values, and the block's weights are Keras' random starting weights. The steps and the formulas are exactly those of the full-size block. We follow the word "how", whose input row, embedding plus positional encoding, is
+To show real numbers, the Notebook builds a tiny block: $d_{\text{model}} = 4$, 2 heads of 2 numbers, and a feed-forward hidden layer of 8. The embeddings of "how", "are", "you" are made-up values, and the block's weights are Keras' random starting weights. The steps and the formulas are exactly those of the full-size block. We follow the word "how", whose input row, embedding plus **positional encoding** (G-1528), is
 
 $$x_{\text{how}} = [0.5,\ 1.0,\ -0.5,\ 0.2] + [0,\ 1,\ 0,\ 1]$$
 
@@ -108,7 +108,7 @@ $$x_{\text{how}} = [0.5,\ 2.0,\ -0.5,\ 1.2]$$
 
 > **Key point:** Multi-head attention turns each word's vector into a contextual vector of the same size, using every word of the sentence.
 
-The first sub-layer is the multi-head attention of the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268), with queries, keys and values all taken from $X$. The embedding of a word is the same in every sentence; attention mixes in the other words, so "bank" in "river bank" gets a different vector from "bank" in "money bank". Its output $Z$ has one 512-number row per word, $z_1, z_2, z_3$, each aware of the whole sentence.
+The first **sub-layer** (G-1908) is the multi-head attention of the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268), with queries, keys and values all taken from $X$. The embedding of a word is the same in every sentence; attention mixes in the other words, so "bank" in "river bank" gets a different vector from "bank" in "money bank". Its output $Z$ has one 512-number row per word, $z_1, z_2, z_3$, each aware of the whole sentence.
 
 For "how" in the tiny block, the multi-head attention above (with the Notebook's weights) gives:
 
@@ -116,9 +116,9 @@ $$z_{\text{how}} = [1.08,\ 0.77,\ 0.39,\ -1.21]$$
 
 ### 5.2 Add and norm
 
-> **Key point:** Add the sub-layer's input to its output (the residual connection), then apply layer normalisation to each word: $\text{LayerNorm}(x + \text{Sublayer}(x))$.
+> **Key point:** Add the sub-layer's input to its output (the **residual connection** (G-1681)), then apply layer normalisation to each word: $\text{LayerNorm}(x + \text{Sublayer}(x))$.
 
-The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sublayer}(x))$ (Vaswani et al. 2017, §3.1). Two things happen.
+The paper writes the output of each **sub-layer** (G-1908) as $\text{LayerNorm}(x + \text{Sublayer}(x))$ (Vaswani et al. 2017, §3.1). Two things happen.
 
 **Add.** Besides going through the attention, $X$ also takes a second path that skips the attention (the red arrow). At the "add" box, the two meet: $Z' = X + Z$. The addition works because both are $3 \times 512$; the paper keeps every sub-layer's output at $d_{\text{model}} = 512$ "to facilitate these residual connections" (Vaswani et al. 2017, §3.1). A path that skips a sub-layer and is added back is a **residual connection** (also called a skip connection). [Section 7.1](#71-why-residual-connections) explains why it is there.
 
@@ -140,7 +140,7 @@ The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sub
    $$\frac{-0.01 - 1.06}{1.20} = -0.89$$
    $$z_{\text{norm,how}} = [0.44,\ 1.43,\ -0.98,\ -0.89]$$
 
-**Attention as a change.** Read the addition the other way round: the word's vector $x$ stays, and attention adds a change $z$ to it. The [self-attention geometrically](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#73-adding-the-change-back), section 7.3, draws this as an arrow $e$ with a change $\Delta e$ placed at its tip, and measures how small the change is in a trained model (Sanderson 2024, Ch 6). The feed-forward network of section 5.3 adds a second change in the same way (Figure 6).
+**Attention as a change.** Read the addition the other way round: the word's vector $x$ stays, and attention adds a change $z$ to it. The [self-attention geometrically](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#73-adding-the-change-back), section 7.3, draws this as an arrow $e$ with a change $\Delta e$ placed at its tip, and measures how small the change is in a trained model (Sanderson 2024, Ch 6). The **feed-forward network** (G-775) of section 5.3 adds a second change in the same way (Figure 6).
 
 **Why normalise here.** The outputs of attention have no fixed range, and adding $X$ can make them larger still. Training is more stable when the numbers stay in a small range; layer normalisation brings every word's vector back to mean 0 and standard deviation 1 before the next sub-layer (Ba et al. 2016; the [**layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) (G-1054)).
 
@@ -148,7 +148,7 @@ The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sub
 
 > **Key point:** A two-layer network, 512 → 2048 with ReLU → 512 with no activation, applied to each word's vector separately with the same weights: $\text{FFN}(x) = \max(0, xW_1 + b_1)W_2 + b_2$.
 
-The second sub-layer is a small fully connected network (Vaswani et al. 2017, §3.3):
+The second **sub-layer** (G-1908) is a small fully connected network (Vaswani et al. 2017, §3.3):
 
 | Layer | Nodes | Activation | Weights | Biases |
 |---|---|---|---|---|
@@ -191,7 +191,7 @@ Words exchange information only in the attention sub-layer: the same change to "
 
 ![The tiny block of this section, with 5 added to every number of "you". Blue: how much each word's attention output changes. Orange: how much each word's feed-forward output changes](images/who_changes.png){width=90%}
 
-In Figure 5, the orange bars of "how" and "are" are exactly 0: the feed-forward network never sees "you" when it processes them. The blue bars show attention passing the change to every word.
+In Figure 5, the orange bars of "how" and "are" are exactly 0: the **feed-forward network** (G-775) never sees "you" when it processes them. The blue bars show attention passing the change to every word.
 
 > **Extra:** One way to read $W_1$ and $W_2$ (Sanderson 2024, Ch 7; Geva et al. 2021):
 >
@@ -203,9 +203,9 @@ In Figure 5, the orange bars of "how" and "are" are exactly 0: the feed-forward 
 
 ### 5.4 Add and norm again, then the next block
 
-> **Key point:** The feed-forward output gets its own residual connection and layer normalisation. The result, still $3 \times 512$, is the input of the next block.
+> **Key point:** The feed-forward output gets its own residual connection and **layer normalisation** (G-1054). The result, still $3 \times 512$, is the input of the next block.
 
-The second add and norm repeats section 5.2, with $Z_{\text{norm}}$ as the input that skips the sub-layer:
+The second add and norm repeats section 5.2, with $Z_{\text{norm}}$ as the input that skips the **sub-layer** (G-1908):
 
 $$Y' = Z_{\text{norm}} + Y$$
 
@@ -231,7 +231,7 @@ Watch in Figure 6 how each sub-layer only adds a change to the vector that comes
 
 The Notebook repeats the whole block by hand in NumPy, from $X$ to $Y_{\text{norm}}$, and compares with the Keras block built from `MultiHeadAttention`, `LayerNormalization` and `Dense` layers. The largest difference is $5 \times 10^{-7}$: rounding error.
 
-> **Python:** One encoder block as a Keras layer (post-norm, as in the paper).
+> **Python:** One **encoder block** (G-681) as a Keras layer (post-norm, as in the paper).
 >
 > ```python
 > class EncoderBlock(keras.layers.Layer):
@@ -252,13 +252,13 @@ The Notebook repeats the whole block by hand in NumPy, from $X$ to $Y_{\text{nor
 >         return self.norm2(z_norm + y)
 > ```
 
-> **Extra:** The paper also applies dropout (the [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639)) with a rate of 0.1 to the output of each sub-layer, before it is added to the sub-layer's input, and to the sum of the embeddings and positional encodings (Vaswani et al. 2017, §5.4, "Residual Dropout"). Dropout only acts during training; the block above leaves it out to keep the computation exact.
+> **Extra:** The paper also applies dropout (the [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639)) with a rate of 0.1 to the output of each sub-layer, before it is added to the sub-layer's input, and to the sum of the embeddings and **positional encodings** (G-1528) (Vaswani et al. 2017, §5.4, "Residual Dropout"). Dropout only acts during training; the block above leaves it out to keep the computation exact.
 
 ## 6. Six blocks: shapes and parameters
 
-> **Key point:** The shape stays $n \times 512$ through all 6 blocks. One block has 3,152,384 parameters, two-thirds of them in the feed-forward network; the encoder's 6 blocks have 18,914,304.
+> **Key point:** The shape stays $n \times 512$ through all 6 blocks. One block has 3,152,384 parameters, two-thirds of them in the feed-forward network; the **encoder** (G-682)'s 6 blocks have 18,914,304.
 
-**Shapes.** Every sub-layer maps $3 \times 512$ to $3 \times 512$, so the 6 blocks can be chained, and the encoder's output is again $3 \times 512$: one vector per input word, now informed by the whole sentence. The Notebook passes a $3 \times 512$ input through 6 Keras blocks and gets $3 \times 512$ out. For a sentence of $n$ words, read $n$ for 3.
+**Shapes.** Every **sub-layer** (G-1908) maps $3 \times 512$ to $3 \times 512$, so the 6 blocks can be chained, and the encoder's output is again $3 \times 512$: one vector per input word, now informed by the whole sentence. The Notebook passes a $3 \times 512$ input through 6 Keras blocks and gets $3 \times 512$ out. For a sentence of $n$ words, read $n$ for 3.
 
 **Parameters.** The counts follow from the layer sizes, with $d = 512$ and $d_{\text{ff}} = 2048$ (the attention formula is derived in the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head) (G-1268), section 6.1):
 
@@ -274,25 +274,25 @@ Keras' `count_params()` gives exactly these numbers (Notebook). The embedding la
 
 ![One encoder block's parameters split by part. The two layer normalisations hold 2,048, too few to show](images/param_share.png){width=95%}
 
-The feed-forward network holds 2,099,712 of a block's 3,152,384 parameters (Figure 7): 66.6 percent, two-thirds. Geva et al. (2021) open their study of these layers with the same observation: "feed-forward layers constitute two-thirds of a transformer model's parameters".
+The **feed-forward network** (G-775) holds 2,099,712 of a block's 3,152,384 parameters (Figure 7): 66.6 percent, two-thirds. Geva et al. (2021) open their study of these layers with the same observation: "feed-forward layers constitute two-thirds of a transformer model's parameters".
 
 **Same design, own weights.** The 6 blocks are copies of one design, not of one set of numbers. Each block has its own attention matrices, its own $W_1, b_1, W_2, b_2$ and its own $\gamma, \beta$, all updated separately by backpropagation. The paper says this of the feed-forward networks: the transformations "are the same across different positions", but "they use different parameters from layer to layer" (Vaswani et al. 2017, §3.3). In the Notebook, the first entry of $W_1$ is 0.038 in block 1 and $-0.034$ in block 2.
 
 ## 7. Why each part is there
 
-> **Key point:** Residual connections keep a direct path for the input and for the gradient through a deep stack. The feed-forward network adds a non-linear transformation of each word, and holds most of the parameters. Several blocks give the model the depth to represent language; 6 worked best among the sizes the paper tried.
+> **Key point:** **Residual connections** (G-1681) keep a direct path for the input and for the gradient through a deep stack. The feed-forward network adds a non-linear transformation of each word, and holds most of the parameters. Several blocks give the model the depth to represent language; 6 worked best among the sizes the paper tried.
 
-The paper describes the encoder but says little about why each part was chosen. The reasons below come from the papers that introduced the parts, and from experiments.
+The paper describes the **encoder** (G-682) but says little about why each part was chosen. The reasons below come from the papers that introduced the parts, and from experiments.
 
 ### 7.1 Why residual connections
 
-> **Key point:** A residual connection lets a sub-layer's input pass straight through, so the sub-layer only has to learn a change to its input. In deep networks this makes training easier, and it keeps each word's own information from being lost. Without residual connections, a single untrained encoder block gave all 30 words of a review the same vector.
+> **Key point:** A **residual connection** (G-1681) lets a sub-layer's input pass straight through, so the sub-layer only has to learn a change to its input. In deep networks this makes training easier, and it keeps each word's own information from being lost. Without residual connections, a single untrained encoder block gave all 30 words of a review the same vector.
 
 The paper uses residual connections without explaining the choice; it cites the network that introduced them, ResNet (He et al. 2016a). Two reasons are given in the literature.
 
 **Reason 1: deep stacks train more easily.** He et al. (2016a) observed a **degradation problem** (G-576): when they added layers to an already deep plain network, the training error went up, not down, and the cause was not overfitting. A deeper network should never be worse on the training data, since its extra layers could simply copy their input (an identity mapping). Plain layers find copying hard. With a residual connection, a layer computes $F(x) + x$, and copying only requires $F(x) = 0$: "the solvers may simply drive the weights of the multiple nonlinear layers toward zero to approach identity mappings" (He et al. 2016a, §3.1).
 
-1. **In words:** if a sub-layer has nothing useful to add, its weights can go to 0, and the input passes through unchanged apart from the normalisation.
+1. **In words:** if a **sub-layer** (G-1908) has nothing useful to add, its weights can go to 0, and the input passes through unchanged apart from the normalisation.
 2. **Formula:** with all weights and biases of the sub-layer at 0, $\text{Sublayer}(x) = 0$, so
    $$\text{LayerNorm}(x + \text{Sublayer}(x)) = \text{LayerNorm}(x)$$
    Without the residual connection the same block would output $\text{LayerNorm}(0)$, which is just $\beta$ for every word.
@@ -320,11 +320,11 @@ Without residual connections, one block is enough: all 30 words get the same vec
 
 ### 7.2 Why the feed-forward network
 
-> **Key point:** Attention mixes words; the feed-forward network transforms each word on its own, with a ReLU in between. Its ReLU is the block's only element-wise activation.
+> **Key point:** Attention mixes words; the **feed-forward network** (G-775) transforms each word on its own, with a ReLU in between. Its ReLU is the block's only element-wise activation.
 
-Attention already produces contextual vectors, so why add a second sub-layer? Two observations from the formulas:
+Attention already produces contextual vectors, so why add a second **sub-layer** (G-1908)? Two observations from the formulas:
 
-- **Attention mixes, the feed-forward network transforms.** Each attention output is a weighted average of the value vectors, and each value vector is a linear function of the input ($v = xW_V$). The weights of that average are not linear in the input: they come from a softmax of dot products between the words' own vectors, so attention as a whole is not a linear operation. The feed-forward network does not mix positions: it is "position-wise, meaning that it operates on each token position i independently. This makes a contrast with the attention network, whose job is to mix information from different token positions" (SLP3 §7.2.1). [Section 5.3](#53-the-feed-forward-network) measured this split.
+- **Attention mixes, the feed-forward network transforms.** Each attention output is a weighted average of the value vectors, and each value vector is a linear function of the input ($v = xW_V$). The weights of that average are not linear in the input: they come from a softmax of dot products between the words' own vectors, so attention as a whole is not a linear operation. The feed-forward network does not mix positions: it is "**position-wise** (G-1527), meaning that it operates on each token position i independently. This makes a contrast with the attention network, whose job is to mix information from different token positions" (SLP3 §7.2.1). [Section 5.3](#53-the-feed-forward-network) measured this split.
 - **A non-linearity per word.** Once the weights are fixed, attention only averages value vectors. The ReLU inside the feed-forward network is the only activation function applied to each word's own vector in the block (the [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#4-why-a-network-needs-a-non-linear-activation) explains why stacked layers need one). It lets the block apply a non-linear transformation to each contextual vector.
 
 What the feed-forward layers learn is an open research topic. One finding: in trained language models they behave like **key-value memories**, where the first layer's weights detect patterns in the input text and the second layer's weights push the prediction towards particular output words (Geva et al. 2021). Jurafsky and Martin add that the feed-forward parameters "seem to encode most of the factual knowledge in the transformer" (SLP3 §7.2.1).
@@ -359,13 +359,13 @@ Figure 9 draws the table. Going from 2 to 6 blocks adds 2.1 BLEU; going to 8 add
 | Add & norm | $\text{LayerNorm}(Z_{\text{norm}} + Y)$ | $Y_{\text{norm}}$: $3 \times 512$ |
 | Repeat | 6 blocks, each with its own weights | $3 \times 512$ to the decoder |
 
-- The encoder is 6 identical blocks; each block is multi-head attention and a position-wise feed-forward network, each followed by add and norm. The number 6 was chosen by experiment: it scored best of 2, 4, 6 and 8 blocks in the paper.
+- The encoder is 6 identical blocks; each block is **multi-head attention** (G-1268) and a position-wise feed-forward network, each followed by add and norm. The number 6 was chosen by experiment: it scored best of 2, 4, 6 and 8 blocks in the paper.
 - Every vector keeps $d_{\text{model}} = 512$ numbers, which makes the residual additions possible and lets the 6 blocks be chained.
-- One block has 3,152,384 parameters, two-thirds in the feed-forward network, so most of what a block learns sits there, not in attention.
-- Residual connections give the input and the gradient a direct path through the stack, so each sub-layer only learns a change; without them, one untrained block gave all 30 words of a review the same vector.
+- One block has 3,152,384 parameters, two-thirds in the **feed-forward network** (G-775), so most of what a block learns sits there, not in attention.
+- **Residual connections** (G-1681) give the input and the gradient a direct path through the stack, so each sub-layer only learns a change; without them, one untrained block gave all 30 words of a review the same vector.
 - Add and norm brings each word's vector back to mean 0 and standard deviation 1, because attention outputs have no fixed range and adding the input can make them larger.
-- The feed-forward network transforms each word separately, with the block's only ReLU; attention is where words exchange information, so the two sub-layers split the work between mixing words and transforming each word.
-- Put together, these parts turn a sentence into one context-aware 512-number vector per word, ready for the decoder.
+- The feed-forward network transforms each word separately, with the block's only ReLU; attention is where words exchange information, so the two **sub-layers** (G-1908) split the work between mixing words and transforming each word.
+- Put together, these parts turn a sentence into one context-aware 512-number vector per word, ready for the **decoder** (G-564).
 
 ## 9. Sources
 

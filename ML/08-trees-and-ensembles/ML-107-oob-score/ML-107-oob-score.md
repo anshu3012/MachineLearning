@@ -63,7 +63,7 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 
 ### 3.2 The formula
 
-> **Key point:** OOB accuracy is the number of observations whose OOB prediction is right, divided by the number of observations that have an OOB prediction.
+> **Key point:** OOB accuracy is the number of observations whose **OOB prediction** (G-1392) is right, divided by the number of observations that have an OOB prediction.
 
 1. **In words:** the share of training observations predicted correctly by the trees that never saw them.
 2. **Formula:**
@@ -82,7 +82,7 @@ For a regressor, the OOB prediction of an observation is the **mean** of its OOB
 
 We use [the heart disease data](../ML-106-random-forest-tuning/ML-106-random-forest-tuning.md#2-the-heart-disease-data): 303 patients, 242 for training and 61 for testing.
 
-> **Python:** A random forest with its OOB score.
+> **Python:** A **random forest** (G-1611) with its OOB score.
 >
 > ```python
 > rf = RandomForestClassifier(oob_score=True,
@@ -92,7 +92,7 @@ We use [the heart disease data](../ML-106-random-forest-tuning/ML-106-random-for
 > rf.score(X_test, y_test)      # 0.836
 > ```
 >
-> `oob_score=True` must be set **before** `fit`: the OOB predictions are collected while the forest is trained. Without it, `oob_score_` does not exist.
+> `oob_score=True` must be set **before** `fit`: the **OOB predictions** (G-1392) are collected while the forest is trained. Without it, `oob_score_` does not exist.
 
 On this split the OOB score, **0.835**, is close to the test accuracy, **0.836**, and a 5-fold [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) on the training set gives 0.806. One split of 61 test patients is noisy, though: one patient moves the test accuracy by 0.016. So the Notebook repeats the comparison on 50 random splits, with 500 trees:
 
@@ -116,14 +116,14 @@ A free validation score is also a way to tune a forest: train forests with diffe
 
 > **Key point:** `estimators_samples_` tells us which observations each tree saw; predicting each tree's missing observations and adding up the probabilities reproduces `oob_score_` exactly.
 
-A fitted forest keeps each tree's bootstrap sample in `estimators_samples_` (the same attribute as in [which observations and features each tree got](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#33-which-observations-and-features-each-tree-got)). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed. Figure 4 draws that table.
+A fitted forest keeps each tree's **bootstrap sample** (G-319) in `estimators_samples_` (the same attribute as in [which observations and features each tree got](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#33-which-observations-and-features-each-tree-got)). From it, the Notebook builds a table with one row per tree and one column per training observation, marking which observations each tree missed. Figure 4 draws that table.
 
 ![The out-of-bag table of the forest above: 100 trees (rows) by 242 training observations (columns), orange where a tree missed an observation. Bottom: the number of trees that missed each observation](images/oob_table.png)
 
 Reading Figure 4 row by row and column by column gives two facts:
 
 - each tree's share of OOB observations is between 32% and 41%, **36.7%** on average, matching the theory's 36.8%;
-- every training observation is OOB for at least 24 of the 100 trees (36.7 on average, at most 47), so every observation gets an OOB prediction.
+- every training observation is OOB for at least 24 of the 100 trees (36.7 on average, at most 47), so every observation gets an **OOB prediction** (G-1392).
 
 > **Python:** The OOB predictions, step by step.
 >
@@ -153,21 +153,21 @@ Each observation is OOB for only about 37% of the trees. With 5 trees, the chanc
 
 $$0.632^5 \approx 0.10$$
 
-So about 10% of the observations get no OOB prediction at all: 27 of the 242 here. scikit-learn warns: "Some inputs do not have OOB scores. This probably means too few trees were used", and still counts those observations, with empty probabilities, in the score.
+So about 10% of the observations get no **OOB prediction** (G-1392) at all: 27 of the 242 here. scikit-learn warns: "Some inputs do not have OOB scores. This probably means too few trees were used", and still counts those observations, with empty probabilities, in the score.
 
 Figure 5 shows the effect on the heart disease data:
 
 - with **5 trees**, the OOB score is 0.711, far below the test accuracy of 0.787: 27 observations have no OOB prediction, and the rest are judged by only a few trees each;
 - from about **20 trees** on, the OOB score settles between 0.80 and 0.84, close to the test accuracy (0.84 to 0.87 on 61 noisy test observations).
 
-Here the OOB score sits a little below the test accuracy at every forest size from 20 trees on (for example 0.818 against 0.836 with 500 trees). The gap is a known effect: on two-class data the OOB score tends to underrate a forest, most of all with balanced classes and few observations, as here (Janitza and Hornung, 2018). The reason is that a bootstrap sample that misses observation $i$ holds slightly more observations of the *other* class, so the trees that judge observation $i$ lean a little towards the wrong class.
+Here the OOB score sits a little below the test accuracy at every forest size from 20 trees on (for example 0.818 against 0.836 with 500 trees). The gap is a known effect: on two-class data the OOB score tends to underrate a forest, most of all with balanced classes and few observations, as here (Janitza and Hornung, 2018). The reason is that a **bootstrap sample** (G-319) that misses observation $i$ holds slightly more observations of the *other* class, so the trees that judge observation $i$ lean a little towards the wrong class.
 
 ## 7. When the OOB score is available
 
 > **Key point:** Only with `bootstrap=True`; it works for classifiers, regressors and bagging ensembles alike.
 
 - **The OOB score needs bootstrapping.** With `bootstrap=False` (pasting, see [pasting](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#62-pasting)) there are no OOB observations, and scikit-learn raises `ValueError: Out of bag estimation only available if bootstrap=True`.
-- **The OOB score works for regression.** On a 5,000-observation sample of the California housing data (`fetch_california_housing` in scikit-learn: districts of California, 8 features, the median house value as target), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-observation OOB predictions are in `oob_prediction_`.
+- **The OOB score works for regression.** On a 5,000-observation sample of the California housing data (`fetch_california_housing` in scikit-learn: districts of California, 8 features, the median house value as target), a `RandomForestRegressor` gives an OOB $R^2$ of 0.764 against a test $R^2$ of 0.741. Its per-observation **OOB predictions** (G-1392) are in `oob_prediction_`.
 - **The OOB score works for any bagging ensemble**: `BaggingClassifier` and `BaggingRegressor` take the same `oob_score` ([the bagging classifier's OOB score](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#4-the-out-of-bag-score) and [the bagging regressor's](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
 
 
@@ -179,10 +179,10 @@ Here the OOB score sits a little below the test accuracy at every forest size fr
 | 5-fold cross-validation | 0.820 | 5 more forests |
 | Test accuracy (61 patients) | 0.831 | a held-out test set |
 
-- A tree's OOB observations are the training observations its bootstrap sample missed: about 37%, because drawing with replacement repeats some observations and never draws others; the tree has never seen them, so they can test it.
-- OOB is per tree: practically every observation is seen by some trees and missed by others, so every observation can still get an OOB prediction.
+- A tree's OOB observations are the training observations its **bootstrap sample** (G-319) missed: about 37%, because drawing with replacement repeats some observations and never draws others; the tree has never seen them, so they can test it.
+- OOB is per tree: practically every observation is seen by some trees and missed by others, so every observation can still get an **OOB prediction** (G-1392).
 - Each observation is predicted only by its OOB trees; the share of correct predictions is the OOB score, so every prediction is made on data the voting trees never saw.
-- With enough trees (here about 20 or more), the OOB score is a free estimate as good as cross-validation, because with few trees some observations have no OOB tree; it needs no extra forests and no held-out observations, so it can also tune a forest. It needs `bootstrap=True`, because without bootstrapping no observation is out-of-bag.
+- With enough trees (here about 20 or more), the OOB score is a free estimate as good as **cross-validation** (G-510), because with few trees some observations have no OOB tree; it needs no extra forests and no held-out observations, so it can also tune a forest. It needs `bootstrap=True`, because without bootstrapping no observation is out-of-bag.
 - So the OOB score answers how the forest will do on new data, using only its training data.
 
 ## 9. Sources

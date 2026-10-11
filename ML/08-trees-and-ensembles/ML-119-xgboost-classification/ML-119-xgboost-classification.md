@@ -15,11 +15,11 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/xgboost]
 
 ## 1. Overview
 
-> **Key point:** XGBoost classifies like gradient boosting for classification: start from the log-odds, turn it into a probability, fit trees to the residuals $y - p$, and add their outputs in log-odds. Its trees use the similarity score and gain from regression, with $\sum p(1-p)$ in place of the number of residuals.
+> **Key point:** XGBoost classifies like gradient boosting for classification: start from the **log-odds** (G-1116), turn it into a probability, fit trees to the residuals $y - p$, and add their outputs in log-odds. Its trees use the **similarity score** (G-1804) and gain from regression, with $\sum p(1-p)$ in place of the number of **residuals** (G-705).
 
 ![The first XGBoost classification tree on five students: residuals, similarity scores and leaf outputs](images/tree.png){height=36%}
 
-This Note joins two earlier ones. The flow (log-odds, probabilities, residuals) comes from [the flow of gradient boosting classification](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss). The tree (similarity score, gain, output value) comes from [the similarity score](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score).
+This Note joins two earlier ones. The flow (log-odds, probabilities, residuals) comes from [the flow of gradient boosting classification](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss). The tree (similarity score, gain, **output value** (G-1425)) comes from [the similarity score](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score).
 
 The one real change is the denominator of the formulas, shown in Figure 1. Where the formulas come from is derived in [classification: gradient and Hessian of log loss](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#12-classification-gradient-and-hessian-of-log-loss) (Chen and Guestrin 2016, §2.2).
 
@@ -73,7 +73,7 @@ So stage 1 says "probability 0.6" for every student, whatever the CGPA. With a t
 | 4 | 8.15 | 1 | 0.6 | 0.4 |
 | 5 | 9.60 | 1 | 0.6 | 0.4 |
 
-A [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from log-odds. Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
+A [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) is the actual class minus the predicted probability. Residuals are always computed from probabilities, never from **log-odds** (G-1116). Figure 2 draws them: each residual is the gap from the dashed line at 0.6 to the student's class, 0 or 1.
 
 ![Stage 1 predicts probability 0.6 for every student. The residuals are the gaps from 0.6 to the actual class: -0.6 for the two students not placed, +0.4 for the three placed](images/residuals.png){height=32%}
 
@@ -81,7 +81,7 @@ The next model, an XGBoost tree, takes CGPA as its feature and these residuals a
 
 ## 5. The similarity score for classification
 
-> **Key point:** Similarity = (sum of residuals) squared divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
+> **Key point:** Similarity = (sum of **residuals** (G-705)) squared divided by ($\sum p(1-p) + \lambda$), where $p$ is each observation's previous probability. The root scores 0.
 
 The [**similarity score**](../ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) keeps the numerator of regression. The denominator replaces "number of residuals" with the sum of $p(1-p)$ over the observations in the leaf, the same quantity as in the gradient boosting leaf formula.
 
@@ -100,7 +100,7 @@ The [**similarity score**](../ML-118-xgboost-regression/ML-118-xgboost-regressio
    $$= \frac{0}{1.2} = 0$$
 
 
-As with the mean in regression, the residuals from the base log-odds add up to exactly 0, so the root scores 0.
+As with the mean in regression, the residuals from the base **log-odds** (G-1116) add up to exactly 0, so the root scores 0.
 
 Figure 3 shows what each observation adds to the denominator. Watch the red curve stay far below the green line: in regression every observation counts 1, in classification it counts $p(1-p)$, never more than 0.25.
 
@@ -143,7 +143,7 @@ Figure 4 runs the same search as an animation, in the style of [candidate splits
 
 ## 7. Output values in log-odds
 
-> **Key point:** A leaf's output is (sum of residuals) divided by ($\sum p(1-p) + \lambda$): $-1.11$ for the left leaf and $1.67$ for the right. These outputs are log-odds, so they can be added to the base log-odds.
+> **Key point:** A leaf's output is (sum of **residuals** (G-705)) divided by ($\sum p(1-p) + \lambda$): $-1.11$ for the left leaf and $1.67$ for the right. These outputs are **log-odds** (G-1116), so they can be added to the base log-odds.
 
 1. **In words:** add the residuals in the leaf and divide by the sum of $p(1-p)$ over its observations plus $\lambda$.
 2. **Formula:**
@@ -163,7 +163,7 @@ The output formula is the leaf formula of [leaf values in log-odds](../ML-116-gr
 
 ## 8. Stage 2: add in log-odds, read in probability
 
-> **Key point:** New log-odds = 0.405 + 0.3 $\times$ leaf output. The sigmoid turns it into a probability; the residuals shrink.
+> **Key point:** New **log-odds** (G-1116) = 0.405 + 0.3 $\times$ leaf output. The sigmoid turns it into a probability; the **residuals** (G-705) shrink.
 
 1. **In words:** add eta ($\eta$, the learning rate: the fraction of each leaf output that is added, here 0.3) times the leaf output to the base log-odds, then apply the sigmoid.
 2. **Formula:**
@@ -201,7 +201,7 @@ Four of the five residuals move towards 0 (Figure 5). Student 2 is placed but si
 
 ## 9. The next trees
 
-> **Key point:** Repeat with the new probabilities: residual 2 and $p^{(2)}(1-p^{(2)})$ go into the next tree's similarity scores and outputs.
+> **Key point:** Repeat with the new probabilities: **residual** (G-705) 2 and $p^{(2)}(1-p^{(2)})$ go into the next tree's **similarity scores** (G-1804) and outputs.
 
 Stage 3 grows a tree on CGPA and residual 2. The observations now have different probabilities, so the denominators change from one observation to the next. On the left:
 
@@ -211,7 +211,7 @@ On the right:
 
 $$0.712 \times 0.288 = 0.205$$
 
-On our data the second tree prefers CGPA < 5.975 (gain 1.39), which isolates student 1.
+On our data the second tree prefers CGPA < 5.975 (**gain** (G-820) 1.39), which isolates student 1.
 
 The model after $M$ trees is
 
@@ -229,7 +229,7 @@ Figure 6 repeats the loop for 15 trees. Watch the red probability curve: after o
 
 ## 10. What changed from regression
 
-> **Key point:** Only the base model and the denominators. Everything else, splits, gains, eta, the loop, is the same.
+> **Key point:** Only the base model and the denominators. Everything else, splits, **gains** (G-820), eta, the loop, is the same.
 
 | | Regression | Classification |
 |---|---|---|
@@ -255,9 +255,9 @@ Figure 7 compares the two. Watch the blue bars: because $\sum p(1-p)$ is small, 
 
 ## 11. The same in code
 
-> **Key point:** The Notebook grows the tree with NumPy and checks it against the XGBoost library: same split, same gain, same stage-2 log-odds. scikit-learn's gradient boosting classifier agrees on this first tree.
+> **Key point:** The Notebook grows the tree with NumPy and checks it against the XGBoost library: same split, same gain, same stage-2 **log-odds** (G-1116). scikit-learn's gradient boosting classifier agrees on this first tree.
 
-> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the residuals rather than by XGBoost's gain. On this first tree every observation has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, so the two can choose different splits: XGBoost divides each leaf's $(\sum r)^2$ by $\sum p(1-p)$, the squared-error split by the number of observations. On our second tree they still agree (both split at CGPA < 5.975).
+> **Extra:** `GradientBoostingClassifier(loss="log_loss", n_estimators=1, learning_rate=0.3, max_depth=1)` starts from the same log-odds, 0.405, and uses the same leaf outputs with $\lambda = 0$. Its tree picks splits by the squared error of the **residuals** (G-705) rather than by XGBoost's gain. On this first tree every observation has the same $p(1-p)$, so both pick CGPA < 7.625 and give exactly the log-odds 0.072 and 0.905. From the second tree on the $p(1-p)$ values differ, so the two can choose different splits: XGBoost divides each leaf's $(\sum r)^2$ by $\sum p(1-p)$, the squared-error split by the number of observations. On our second tree they still agree (both split at CGPA < 5.975).
 
 > **Python:** The first tree in XGBoost, with every setting matched to this Note.
 >
@@ -283,7 +283,7 @@ Figure 7 compares the two. Watch the blue bars: because $\sum p(1-p)$ is small, 
 >
 > For classification `base_score` (G-61) is given as a probability; XGBoost converts it to the log-odds 0.405 itself. Many older tutorials start from probability 0.5 (log-odds 0), the default of older versions; the current library (checked on version 3.4) starts from the share of class 1, 0.6 here, when `base_score` is not given. The log-odds come out as 0.072 and 0.905. The dump shows the split `f0<7.625` with `gain=2.22` and `cover=1.2`, the **cover** (G-498): the sum of $p(1-p)$ over the five observations. The leaves read $-0.333$ and 0.5: the outputs $-1.11$ and 1.67 already multiplied by eta.
 
-With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain 1.39, as in section 9.
+With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with **gain** (G-820) 1.39, as in section 9.
 
 ## 12. Summary
 
@@ -297,10 +297,10 @@ With `n_estimators=2` the library's second tree splits at CGPA < 5.975 with gain
 | Stage 2 | $z = 0.405 + 0.3 \times$ output, then sigmoid | $p = 0.518$ or 0.712 | four of the five residuals move towards 0 |
 
 - XGBoost classification is gradient boosting classification with XGBoost's trees, so the flow and the tree are both known; only the denominator of the formulas is new.
-- Trees are fitted to probability residuals, but their outputs are log-odds, so each output can be added to the running log-odds.
-- The similarity score and output use $\sum p(1-p) + \lambda$ in the denominator, because each observation counts $p(1-p)$, never more than 0.25, instead of 1; so the same $\lambda$ shrinks classification outputs much more than regression ones.
+- Trees are fitted to probability residuals, but their outputs are **log-odds** (G-1116), so each output can be added to the running log-odds.
+- The **similarity score** (G-1804) and output use $\sum p(1-p) + \lambda$ in the denominator, because each observation counts $p(1-p)$, never more than 0.25, instead of 1; so the same $\lambda$ shrinks classification outputs much more than regression ones.
 - The sigmoid turns the summed log-odds into the final probability, so it can be compared with the threshold (usually 0.5) to predict "placed" or not.
-- So XGBoost classifies exactly like gradient boosting for classification, with the similarity score and gain of XGBoost regression and $\sum p(1-p)$ in place of the count.
+- So XGBoost classifies exactly like gradient boosting for classification, with the similarity score and **gain** (G-820) of XGBoost regression and $\sum p(1-p)$ in place of the count.
 
 ## 13. Sources
 
@@ -325,10 +325,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `base_score` (G-61) | XGBoost's starting prediction, which every tree then corrects; for classification it is given as a probability, which XGBoost turns into log-odds. |
 | Cover (G-498) | XGBoost's measure of how much data a node holds, as its similarity score counts it: the sum of $p(1-p)$ over the node's observations in classification, the number of observations in regression. The tree dump prints it as `cover`. |
 | Similarity score (classification) (G-1803) | The same score for XGBoost classification trees: how well the leftover errors (residuals) in a node agree, $(\text{sum of residuals})^2 / (\sum p(1-p) + \lambda)$ with $p$ the previous probabilities. As in regression, it is used to choose splits. |
+| [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
+| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
-| [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
-| [Similarity score](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#4-the-similarity-score) (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
 | [Gain (XGBoost)](../../../ML/08-trees-and-ensembles/ML-118-xgboost-regression/ML-118-xgboost-regression.md#6-gain-choosing-the-root-split) (G-820) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |

@@ -16,15 +16,15 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/causation,
 
 ## 1. Overview
 
-> **Key point:** Covariance gives the direction of the linear (straight-line) relationship between two numerical features; correlation divides it by the two standard deviations, which adds the strength and removes the effect of units.
+> **Key point:** Covariance gives the direction of the linear (straight-line) relationship between two numerical features; correlation divides it by the two **standard deviations** (G-1871), which adds the strength and removes the effect of units.
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
-A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row. A **scatter plot** (G-1749; one point per observation, with one feature along each axis) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both. Each dot is one observation. The two mean lines (a vertical line at the mean of the first feature and a horizontal line at the mean of the second) cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
+A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row. A **scatter plot** (G-1749; one point per observation, with one feature along each axis) shows by eye whether two numerical features rise together. Covariance and correlation turn that picture into a number. Figure 1 shows the idea behind both. Each dot is one observation. The two **mean** (G-1203) lines (a vertical line at the mean of the first feature and a horizontal line at the mean of the second) cut the plot into four quadrants, and each point votes positive or negative depending on its quadrant.
 
 ## 2. From mean to variance to covariance
 
-> **Key point:** The mean gives the centre, variance gives the spread of one feature, and covariance gives how two features move together.
+> **Key point:** The mean gives the centre, variance gives the spread of one **feature** (G-772), and covariance gives how two features move together.
 
 Each measure fixes a blind spot of the one before:
 
@@ -47,9 +47,9 @@ Variance of $x$: $2/3$. Variance of $y$: $2/3$, in both datasets. Covariance, ri
 
 ## 3. Covariance
 
-> **Key point:** Covariance averages the product of each point's distances from the two means; positive means the features rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
+> **Key point:** Covariance averages the product of each point's distances from the two means; positive means the **features** (G-772) rise together, negative means one falls as the other rises, near zero means no straight-line relationship.
 
-Do two features rise together? Take five employees (a sample) with their years of experience $x$ and monthly salary $y$ in lakh rupees. Salary rises with experience, but how do we turn that into one number? The idea: measure how far each employee sits from the average employee on both features, multiply the two distances, and average the products. This is **covariance** (G-496). The [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) (section 3.2) teaches it, and the [bivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) shows how its sign gives the direction of a linear relationship.
+Do two features rise together? Take five employees (a sample) with their years of experience $x$ and monthly salary $y$ in lakh rupees. Salary rises with experience, but how do we turn that into one number? The idea: measure how far each employee sits from the average employee on both features, multiply the two distances, and average the products. This is **covariance** (G-496). The [PCA step by step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) (section 3.2) teaches it, and the [bivariate analysis](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) shows how its sign gives the direction of a **linear relationship** (G-1095).
 
 The data: experience $x$ = 2, 5, 8, 12, 13 years and salary $y$ = 1, 2, 5, 12, 10 lakh rupees. First the two means, one per line.
 
@@ -57,7 +57,7 @@ $$\bar{x} = \frac{2 + 5 + 8 + 12 + 13}{5} = \frac{40}{5} = 8 \text{ years}$$
 
 $$\bar{y} = \frac{1 + 2 + 5 + 12 + 10}{5} = \frac{30}{5} = 6 \text{ lakh rupees}$$
 
-The bar over a letter means "mean of that feature". Then, for each employee, the distance from each mean and the product of the two distances:
+The bar over a letter means "mean of that feature". Then, for each employee, the distance from each **mean** (G-1203) and the product of the two distances:
 
 | Employee | $x$ | $y$ | $x - \bar{x}$ | $y - \bar{y}$ | Product |
 |---|---|---|---|---|---|
@@ -98,9 +98,9 @@ $$s_{xy} = \frac{86}{4} = 21.5$$
 
 ### 3.1 Reading covariance from the quadrants
 
-> **Key point:** Points in quadrants I and III add to the covariance, points in II and IV subtract from it; whichever side holds more weight sets the sign.
+> **Key point:** Points in quadrants I and III add to the **covariance** (G-496), points in II and IV subtract from it; whichever side holds more weight sets the sign.
 
-The two mean lines split the scatter plot into four quadrants (Figure 1, left):
+The two **mean** (G-1203) lines split the scatter plot into four quadrants (Figure 1, left):
 
 - **Quadrant I** (top right): both distances are positive, so the product is positive.
 - **Quadrant III** (bottom left): both distances are negative, and negative times negative is positive.
@@ -125,7 +125,7 @@ $$\bar{y} = \frac{10 + 12 + 5 + 2 + 1}{5} = \frac{30}{5} = 6$$
 
 $$s_{xy} = \frac{-83}{5 - 1} = -20.75$$
 
-A third case: if every student got the same package of 10 lakh, whatever their backlogs, then $y - \bar{y} = 0$ for every point. Every product is 0, and the covariance is exactly 0: no linear relationship.
+A third case: if every student got the same package of 10 lakh, whatever their backlogs, then $y - \bar{y} = 0$ for every point. Every product is 0, and the covariance is exactly 0: no **linear relationship** (G-1095).
 
 A fourth case is a common interview trap: a covariance of 0 does not mean "no relationship". Take $x = -2, -1, 0, 1, 2$ and $y = x^2$, which is $4, 1, 0, 1, 4$. The means are 0 and 2.
 
@@ -148,11 +148,11 @@ Yet $y$ is completely fixed by $x$. Covariance sees only a linear trend: zero co
 
 ### 3.2 The flaw: covariance depends on the scale
 
-> **Key point:** Multiplying a feature by a number multiplies the covariance by it too, so the size of a covariance says nothing about how strong the relationship is.
+> **Key point:** Multiplying a feature by a number multiplies the **covariance** (G-496) by it too, so the size of a covariance says nothing about how strong the relationship is.
 
-Covariance tells the direction of the [**linear relationship**](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the features.
+Covariance tells the direction of the [**linear relationship**](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095), but not its **strength**: how closely the points follow a straight line. Its size depends on the units of the **features** (G-772).
 
-Take the employees again and measure experience in months instead of years. Every $x$ is multiplied by 12, so every distance from the mean is multiplied by 12, and so is every product:
+Take the employees again and measure experience in months instead of years. Every $x$ is multiplied by 12, so every distance from the **mean** (G-1203) is multiplied by 12, and so is every product:
 
 | Employee | Product in years | Product in months |
 |---|---|---|
@@ -179,9 +179,9 @@ Figure 5 shows the problem with 40 random points; the three covariances are comp
 
 ![Covariance changes with the scale; correlation does not](images/scale.png)
 
-So a large covariance does not mean a strong relationship. Covariance is reliable only for its sign. Its main use is as the building block of correlation.
+So a large covariance does not mean a strong relationship. Covariance is reliable only for its sign. Its main use is as the building block of **correlation** (G-490).
 
-> **Extra:** The covariance of a feature with itself is its variance. With $y = x$ the formula becomes the sample variance:
+> **Extra:** The covariance of a feature with itself is its **variance** (G-2074). With $y = x$ the formula becomes the sample variance:
 >
 > $$\frac{\sum (x_i - \bar{x})(x_i - \bar{x})}{n-1} = \frac{\sum (x_i - \bar{x})^2}{n-1}$$
 >
@@ -189,11 +189,11 @@ So a large covariance does not mean a strong relationship. Covariance is reliabl
 
 ## 4. Correlation
 
-> **Key point:** Correlation is covariance divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
+> **Key point:** Correlation is **covariance** (G-496) divided by the two standard deviations; it always lies between -1 and +1, gives both direction and strength, and does not change with the units.
 
-The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each feature is: the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
+The covariance 21.5 mixes years and lakh rupees, so its size means nothing by itself. To remove the units, divide it by how spread out each **feature** (G-772) is: the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) of $x$ and of $y$. The result is the **correlation** (G-490).
 
-The standard deviation is the square root of the average squared distance from the mean (with $n - 1$ for a sample). Using the distances from the table in section 3, one step per line:
+The standard deviation is the square root of the average squared distance from the **mean** (G-1203) (with $n - 1$ for a **sample** (G-1731)). Using the distances from the table in section 3, one step per line:
 
 $$s_x^2 = \frac{(-6)^2 + (-3)^2 + 0^2 + 4^2 + 5^2}{4}$$
 
@@ -227,7 +227,7 @@ The formal version names the **Pearson correlation coefficient** $r$ (G-1474), w
 
 $$r = \frac{s_{xy}}{s_x\thinspace s_y}$$
 
-For a population, the correlation is written $\rho$ ("rho"):
+For a **population** (G-1525), the correlation is written $\rho$ ("rho"):
 
 $$\rho = \frac{\sigma_{xy}}{\sigma_x \sigma_y}$$
 
@@ -239,7 +239,7 @@ $$\frac{21.5}{4.637 \times 4.848} \approx 0.96$$
 
 > **Key point:** The sign gives the direction and the distance from 0 gives the strength; +1 and -1 are perfect straight lines.
 
-The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike covariance, which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
+The scale of $r$, from $-1$ to $+1$, is read as in the [understanding your data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (section 9.1): the sign gives the direction, and the closer $|r|$ is to 1, the closer the points lie to a straight line, so the stronger the relationship. Unlike **covariance** (G-496), which can be any number (1205, 3757, $-5000$), $r$ never leaves that range.
 
 Strength has a practical meaning: prediction. When the points lie close to a line, knowing $x$ pins $y$ down to a narrow range; when they scatter widely, the same $x$ leaves a wide range of possible $y$ values.
 
@@ -257,7 +257,7 @@ Figure 6 sweeps $r$ from $-1$ to $+1$ on the same 60 random points. Watch the cl
 
 ### 4.2 Few points can fake a strong correlation
 
-> **Key point:** A straight line passes through any two points, so two observations always give $r = +1$ or $-1$; a correlation is only as trustworthy as the amount of data behind it.
+> **Key point:** A straight line passes through any two points, so two **observations** (G-1374) always give $r = +1$ or $-1$; a **correlation** (G-490) is only as trustworthy as the amount of data behind it.
 
 Take only the first two employees, $(2, 1)$ and $(5, 2)$. One step per line:
 
@@ -283,9 +283,9 @@ So $r$ answers "how strong is the relationship in this data?", not "how sure are
 
 ### 4.3 Correlation does not depend on the scale
 
-> **Key point:** Scaling a feature scales its standard deviation by the same amount, which cancels the change in the covariance.
+> **Key point:** Scaling a feature scales its **standard deviation** (G-1871) by the same amount, which cancels the change in the covariance.
 
-In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.65. Scaling by positive numbers never changes the correlation.
+In Figure 5, doubling both features quadrupled the **covariance** (G-496) but left $r$ at 0.65. Scaling by positive numbers never changes the **correlation** (G-490).
 
 > **Extra:** Proof that correlation ignores the units.
 >
@@ -297,7 +297,7 @@ In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.
 >
 > $$r = \frac{258}{269.7} \approx 0.96$$
 >
-> as before. The 12 in the covariance and the 12 in $s_x$ cancel. In general, multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too; the same holds for $y$ with a number $c$. (Adding a constant changes nothing, since it moves the mean by the same amount.) For $a, c > 0$,
+> as before. The 12 in the covariance and the 12 in $s_x$ cancel. In general, multiplying $x$ by $a$ multiplies the covariance by $a$ and the standard deviation of $x$ by $a$ too; the same holds for $y$ with a number $c$. (Adding a constant changes nothing, since it moves the **mean** (G-1203) by the same amount.) For $a, c > 0$,
 >
 > $$r(a\thinspace x,\ c\thinspace y) = \frac{a\thinspace c\ \text{cov}(x, y)}{(a\thinspace s_x)(c\thinspace s_y)}$$
 >
@@ -305,7 +305,7 @@ In Figure 5, doubling both features quadrupled the covariance but left $r$ at 0.
 >
 > If $a$ or $c$ is negative, the sign of $r$ flips but its size stays.
 
-Because it gives both the direction and the strength, and does not depend on units, correlation is the measure we use to study the linear relationship between two numerical features, for example before linear regression. Covariance is still needed, as the step that computes it.
+Because it gives both the direction and the strength, and does not depend on units, correlation is the measure we use to study the **linear relationship** (G-1095) between two numerical features, for example before linear regression. Covariance is still needed, as the step that computes it.
 
 > **Python:** Covariance and correlation.
 >
@@ -322,9 +322,9 @@ Because it gives both the direction and the strength, and does not depend on uni
 
 ## 5. Correlation does not imply causation
 
-> **Key point:** Two features can move together without one causing the other, often because a hidden third factor drives both.
+> **Key point:** Two **features** (G-772) can move together without one causing the other, often because a hidden third factor drives both.
 
-**Causation** (G-359) is a cause-and-effect relationship: a change in one thing produces a change in the other. A correlation only says two things move together. The phrase "correlation does not imply causation" means that a correlation, however strong, is not evidence that one variable causes the other.
+**Causation** (G-359) is a cause-and-effect relationship: a change in one thing produces a change in the other. A **correlation** (G-490) only says two things move together. The phrase "correlation does not imply causation" means that a correlation, however strong, is not evidence that one variable causes the other.
 
 Two examples:
 
@@ -350,13 +350,13 @@ Establishing causation needs more than data that happens to be collected: contro
 | Backlogs vs package | $-20.75$ | $-0.92$ |
 | Same package for everyone | 0 | undefined (no spread in $y$) |
 
-- Points in quadrants I and III push the covariance up; II and IV push it down, because two distances with the same sign give a positive product. So the sign can be guessed by drawing the two mean lines on a scatter plot.
-- $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same, because the same factors scale the two standard deviations and cancel.
-- The covariance of a feature with itself is its variance, which is why a covariance matrix has the variances on its diagonal.
-- Zero covariance means no linear relationship; a curve such as $y = x^2$ can still be there, because covariance sees only a linear trend.
+- Points in quadrants I and III push the covariance up; II and IV push it down, because two distances with the same sign give a positive product. So the sign can be guessed by drawing the two **mean** (G-1203) lines on a scatter plot.
+- $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same, because the same factors scale the two **standard deviations** (G-1871) and cancel.
+- The covariance of a feature with itself is its **variance** (G-2074), which is why a covariance matrix has the variances on its diagonal.
+- Zero covariance means no **linear relationship** (G-1095); a curve such as $y = x^2$ can still be there, because **covariance** (G-496) sees only a linear trend.
 - Two points always give $r = \pm 1$, because one straight line passes through any two points; trust $r$ only with enough data.
-- Correlation does not imply causation; a confounding variable can drive both features, so a strong $r$ is not evidence that one feature causes the other.
-- Correlation turns the scatter plot into one number for direction and strength, so it is the measure to check, for example before linear regression.
+- Correlation does not imply **causation** (G-359); a confounding variable can drive both features, so a strong $r$ is not evidence that one **feature** (G-772) causes the other.
+- **Correlation** (G-490) turns the scatter plot into one number for direction and strength, so it is the measure to check, for example before linear regression.
 
 ## 7. Sources
 
@@ -386,13 +386,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Population covariance ($\sigma_{xy}$) (G-1523) | The covariance computed from every member of a population: the average product of the two columns' distances from their means, dividing by $N$; it shows whether the two columns move together. |
 | Sample covariance ($s_{xy}$) (G-1724) | Covariance computed from a sample of $n$ observations: the products of the two features' distances from their means, added up and divided by $n - 1$; its sign says whether the two features rise together or move in opposite directions. |
 | Strength of a relationship (G-1897) | How closely the points follow a straight line; measured by $\lvert r \rvert$. |
+| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Scatter plot](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#31-total-bill-against-tip) (G-1749) | A chart with one dot per row and one numerical column on each axis; it shows by eye whether two features rise together, fall together or are unrelated. |
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
-| [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
-| [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |

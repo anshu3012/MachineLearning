@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/exploding-grad
 
 > **Key point:** Backpropagation multiplies many factors together to get the gradient of an early layer. If they are mostly below 1 (as with sigmoid), the gradient vanishes and the early layers stop learning; if they are mostly above 1, it explodes and training breaks.
 
-In backpropagation every weight receives an update proportional to the derivative of the loss with respect to it. In a deep network, the derivative for a weight near the input is a long product, with one factor per layer between it and the loss. Two things can go wrong:
+In backpropagation every weight receives an update proportional to the derivative of the loss with respect to it. In a **deep network** (G-570), the derivative for a weight near the input is a long product, with one factor per layer between it and the loss. Two things can go wrong:
 
 - **Vanishing gradient problem** (**vanishing gradient**, G-2070): the factors are small, the product is vanishingly small, and the weight hardly changes. In the worst case the network stops training. (A **gradient** is the list of slopes of the loss, one for each weight; a large one means a large update.)
 - **Exploding gradient problem** (**exploding gradient**, G-731): the factors are large, the product is huge, and the updates throw the weights around at random.
@@ -40,7 +40,7 @@ Figure 1 shows both on real networks. This Note explains:
 
 ## 3. The vanishing gradient problem
 
-> **Key point:** Three facts: a product of many numbers below 1 is tiny; it only happens in deep networks; and it comes from activations such as sigmoid and tanh whose slopes are small.
+> **Key point:** Three facts: a product of many numbers below 1 is tiny; it only happens in **deep networks** (G-570); and it comes from activations such as sigmoid and tanh whose slopes are small.
 
 ### 3.1 Multiplying small numbers
 
@@ -170,7 +170,7 @@ In Figure 5, the ReLU gradients are about the same size in every layer throughou
 
 ## 6. Five ways to fix it
 
-> **Key point:** Fewer layers; ReLU instead of sigmoid; better starting weights; batch normalisation; residual connections. The first two are shown here; the others have their own Notes later.
+> **Key point:** Fewer layers; ReLU instead of sigmoid; better starting weights; **batch normalisation** (G-266); residual connections. The first two are shown here; the others have their own Notes later.
 
 ### 6.1 Reduce the depth
 
@@ -235,7 +235,7 @@ In Figure 8, the green shortcut carries $x$ around the two layers to the sum; on
 
 ## 7. The exploding gradient problem
 
-> **Key point:** The opposite case: factors above 1 multiply into a huge gradient, the updates become huge, and the loss jumps around or becomes undefined. The problem is most common in recurrent networks; gradient clipping is the standard fix.
+> **Key point:** The opposite case: factors above 1 multiply into a huge gradient, the updates become huge, and the loss jumps around or becomes undefined. The problem is most common in recurrent networks; **gradient clipping** (G-861) is the standard fix.
 
 ### 7.1 Multiplying large numbers
 
@@ -287,7 +287,7 @@ $$800 / 1000 = 0.8$$
 
 The clipped gradient $(0.6, 0.8)$ still points the same way, so the update still goes downhill, but its step is 1000 times shorter.
 
-With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and batch normalisation also help against exploding gradients.
+With clipping the same network produces finite numbers: the loss falls from 12,155 to 2,049 over 5 epochs. Still enormous, because the starting weights are bad, but it decreases instead of breaking. Proper initialisation and **batch normalisation** (G-266) also help against exploding gradients.
 
 ## 8. Summary
 

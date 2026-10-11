@@ -15,7 +15,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-tran
 
 ## 1. Overview
 
-> **Key point:** A matrix is a record of where the basis vectors land under a linear transformation; multiplying a matrix by a vector computes where that vector lands.
+> **Key point:** A **matrix** (G-1180) is a record of where the basis vectors land under a linear transformation; multiplying a matrix by a vector computes where that vector lands.
 
 ![A linear transformation moves the whole grid. Where $\hat{\imath}$ (green) and $\hat{\jmath}$ (red) land decides where every other vector, such as $\mathbf{v}$ (orange), lands](images/basis_landing.gif)
 
@@ -33,7 +33,7 @@ To see a transformation as a whole, we watch every vector move at once. Drawing 
 
 ## 3. What makes a transformation linear
 
-> **Key point:** A transformation is linear when all lines stay straight lines and the origin stays fixed; then grid lines stay parallel and evenly spaced.
+> **Key point:** A **transformation** (G-2006) is linear when all lines stay straight lines and the origin stays fixed; then grid lines stay parallel and evenly spaced.
 
 General transformations can bend space in complicated ways. Linear algebra studies only the simple kind. Visually, a transformation is **linear** when it has two properties:
 
@@ -67,7 +67,7 @@ A scalar is a single number, such as $c = 3$.
 
    $$L(\mathbf{0}) = \mathbf{0}$$
 
-   [Section 5](#5-the-matrix-of-a-transformation) checks both rules on a matrix, once matrix multiplication has been explained.
+   [Section 5](#5-the-matrix-of-a-transformation) checks both rules on a **matrix** (G-1180), once matrix multiplication has been explained.
 
 > **Another way to see it:** Take one output of a transformation, say $-x$ when the input coordinate $x$ goes 2, 3, 4. The output goes $-2, -3, -4$: each step of 1 in the input changes the output by the same amount, $-1$, like the constant slope of a straight line. For $2^x$ the output goes 4, 8, 16: the change grows, like the slope of a curve, so $2^x$ is not linear. This constant-change test checks the "lines stay lines" rule. It does not check the origin: $x + 1$ also changes by a constant amount, yet it moves 0 to 1, so it is not linear in the sense of this Note (it is affine, see [Section 7.3](#73-neural-network-layers-and-pca)). A linear transformation needs both properties.
 
@@ -77,7 +77,7 @@ A scalar is a single number, such as $c = 3$.
 
 How can we describe a linear transformation with numbers, so that a computer can tell where any vector lands? We only need to record where $\hat{\imath}$ and $\hat{\jmath}$ land.
 
-Take $\mathbf{v} = [-1, 2]$, which is $-1\thinspace\hat{\imath} + 2\thinspace\hat{\jmath}$. Because grid lines stay parallel and evenly spaced, $\mathbf{v}$ lands on the same linear combination of the new $\hat{\imath}$ and the new $\hat{\jmath}$.
+Take $\mathbf{v} = [-1, 2]$, which is $-1\thinspace\hat{\imath} + 2\thinspace\hat{\jmath}$. Because grid lines stay parallel and evenly spaced, $\mathbf{v}$ lands on the same **linear combination** (G-1091) of the new $\hat{\imath}$ and the new $\hat{\jmath}$.
 
 1. **In words:** keep the coordinates of the vector, but use them to scale the landed basis vectors instead of the original ones.
 2. **Formula:** if $\hat{\imath}$ lands on $\mathbf{i}'$ and $\hat{\jmath}$ lands on $\mathbf{j}'$,
@@ -97,7 +97,7 @@ a formula for where every vector lands. So a 2D linear transformation is complet
 
 ## 5. The matrix of a transformation
 
-> **Key point:** Write where $\hat{\imath}$ lands as the first column and where $\hat{\jmath}$ lands as the second; that $2 \times 2$ grid of numbers is the matrix of the transformation.
+> **Key point:** Write where $\hat{\imath}$ lands as the first column and where $\hat{\jmath}$ lands as the second; that $2 \times 2$ grid of numbers is the matrix of the **transformation** (G-2006).
 
 We package the four numbers into a $2 \times 2$ [**matrix**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) whose columns are the landed basis vectors:
 
@@ -121,7 +121,7 @@ The first column is where $\hat{\imath}$ lands; the second column is where $\hat
 
    $$= \begin{bmatrix} 5 \cr2 \end{bmatrix}$$
 
-The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised in school. The middle form says what it means: the result is a linear combination of the columns, with the vector's coordinates as the scalars. The matrix is written to the left of the vector, like a function written to the left of its input.
+The formula on the right, $[ax + by,\ cx + dy]$, is the rule usually memorised in school. The middle form says what it means: the result is a **linear combination** (G-1091) of the columns, with the vector's coordinates as the scalars. The matrix is written to the left of the vector, like a function written to the left of its input.
 
 > **Python:** In NumPy the `@` operator multiplies a matrix by a vector.
 >
@@ -185,7 +185,7 @@ $$A(c\mathbf{v}) = c v_1\mathbf a_1 + c v_2\mathbf a_2 = cA\mathbf{v}$$
 
 > **Key point:** Read the columns, move $\hat{\imath}$ and $\hat{\jmath}$ there, and let the rest of the grid follow.
 
-Every matrix can be read as a transformation, and every linear transformation has a matrix. Figure 4 plays four of them in turn. In each, watch the green arrow move to the first column and the red arrow to the second column; the rest of the grid follows, keeping its lines parallel and evenly spaced.
+Every **matrix** (G-1180) can be read as a transformation, and every linear transformation has a matrix. Figure 4 plays four of them in turn. In each, watch the green arrow move to the first column and the red arrow to the second column; the rest of the grid follows, keeping its lines parallel and evenly spaced.
 
 ![Four matrices read as transformations of the grid: green is where $\hat{\imath}$ lands, red is where $\hat{\jmath}$ lands, grey is the grid before. Examples after 3Blue1Brown, "Linear transformations and matrices"](images/gallery_morph.gif){height=60%}
 
@@ -195,17 +195,17 @@ Every matrix can be read as a transformation, and every linear transformation ha
 
   $$[1, 2] + [3, 1] = [4, 3]$$
 
-- **Squishing onto a line.** If the two columns are linearly dependent (one is a multiple of the other), the whole plane is squished onto a line. Here the first column is $[2, 1]$ and the second is $-0.5$ times it, $[-1, -0.5]$, so the whole plane is squished onto the line they span. $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
+- **Squishing onto a line.** If the two columns are linearly dependent (one is a multiple of the other), the whole plane is squished onto a line. Here the first column is $[2, 1]$ and the second is $-0.5$ times it, $[-1, -0.5]$, so the whole plane is squished onto the line they **span** (G-1838). $[1, 1]$ lands on $[1, 0.5]$ and $[3, -1]$ on $[7, 3.5]$: both on the line through $[2, 1]$.
 
-The last case links back to [linear dependence](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence): every output is a linear combination of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
+The last case links back to [linear dependence](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence): every output is a **linear combination** (G-1091) of the columns, so all outputs lie in the span of the columns. Independent columns span the plane; dependent ones only a line.
 
 > **Extra:** The span of the columns is called the **column space** (G-414) of the matrix, one of the topics the [linear algebra roadmap](../MA-047-linear-algebra-roadmap/MA-047-linear-algebra-roadmap.md#4-the-eight-modules) lists. Its dimension is the **rank** of the matrix (the number of independent columns): 2 for the first three matrices of Figure 4, 1 for the squishing one.
 
 ## 7. Where ML uses linear transformations
 
-> **Key point:** Feature scaling, PCA and every layer of a neural network apply a matrix to each data point.
+> **Key point:** Feature scaling, PCA and every layer of a neural network apply a **matrix** (G-1180) to each data point.
 
-Once a matrix is a transformation, many ML steps become pictures of moving space.
+Once a matrix is a **transformation** (G-2006), many ML steps become pictures of moving space.
 
 ### 7.1 One matrix for the whole dataset
 
@@ -233,13 +233,13 @@ A dataset is a stack of feature vectors, one per [**observation**](../../../ML/0
 
 ### 7.2 Feature scaling is a stretch along the axes
 
-> **Key point:** Dividing each feature by a number is a diagonal matrix: it stretches or squishes space along the axes only.
+> **Key point:** Dividing each **feature** (G-772) by a number is a diagonal matrix: it stretches or squishes space along the axes only.
 
 Dividing a feature by its standard deviation, the second half of [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874), is a linear transformation. With standard deviations 2 and 10, $\hat{\imath}$ lands on $[0.5, 0]$ and $\hat{\jmath}$ on $[0, 0.1]$:
 
 $$\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$$
 
-A matrix with zeros everywhere off the diagonal is a **diagonal matrix** (G-601). Its picture is simple: each axis is stretched or squished by its own factor, and nothing rotates or slants.
+A **matrix** (G-1180) with zeros everywhere off the diagonal is a **diagonal matrix** (G-601). Its picture is simple: each axis is stretched or squished by its own factor, and nothing rotates or slants.
 
 ![200 toy points with spreads 2 and 10, before and after the diagonal matrix; both spreads become about 1](images/scaling_stretch.png)
 
@@ -247,7 +247,7 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
 ### 7.3 Neural network layers and PCA
 
-> **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a matrix of eigenvectors (directions a matrix stretches without turning, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
+> **Key point:** A neural network layer multiplies by a weight matrix, adds a shift, then bends the result; PCA multiplies by a **matrix** (G-1180) of eigenvectors (directions a matrix stretches without turning, see [the vectors that do not turn](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn)).
 
 - **A neural network layer** computes $W\mathbf{x} + \mathbf{b}$ and then applies an [**activation function**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) such as the [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (a curve that squeezes a number into 0 to 1) or ReLU. A worked example follows the list. $W\mathbf{x}$ is a linear transformation of the input. Adding $\mathbf{b}$ moves the origin, and the activation bends the lines, so the layer as a whole is not linear. The activation is the step that lets a network learn curved boundaries: without it, a stack of layers is still one affine map, which cannot even separate the four points of XOR (a classic problem: the two classes sit at opposite corners of a square) (Goodfellow et al. §6.1).
 - **PCA** (principal component analysis, a method that rotates the data onto its main directions) projects each point with $Z = XW^{\mathsf T}$ (see [the projection step](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#51-the-projection-step)): a matrix applied to every row, exactly as in [Section 7.1](#71-one-matrix-for-the-whole-dataset).
@@ -280,9 +280,9 @@ In Figure 5, watch the tall, thin cloud turn round: the matrix only shrinks each
 
 Only step 1 is a linear transformation. The weights here are illustrative numbers, not trained ones; a trained network learns them with backpropagation (the method that adjusts the weights to reduce the error; the layer itself is the one in [what one node computes](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)).
 
-> **Extra:** A transformation followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation** (G-178). It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (standardization) is affine, and so is a neural network layer before its activation.
+> **Extra:** A **transformation** (G-2006) followed by a shift, $A\mathbf{x} + \mathbf{b}$, is called an **affine transformation** (G-178). It keeps lines straight and parallel but moves the origin. Mean centring followed by scaling (**standardization** (G-1874)) is affine, and so is a neural network layer before its activation.
 
-> **Extra:** Matrices need not be square. A matrix with 2 rows and 3 columns has three columns, one for where each of the three 3D basis vectors lands, and each column has 2 numbers: it takes 3D vectors to 2D vectors. PCA from 3 features to 2 components is such a $2 \times 3$ matrix $W$. Its rows are the two eigenvectors; reading it by columns, each column says where one original axis lands in the new 2D picture.
+> **Extra:** Matrices need not be square. A matrix with 2 rows and 3 columns has three columns, one for where each of the three 3D basis vectors lands, and each column has 2 numbers: it takes 3D vectors to 2D vectors. PCA from 3 **features** (G-772) to 2 components is such a $2 \times 3$ matrix $W$. Its rows are the two eigenvectors; reading it by columns, each column says where one original axis lands in the new 2D picture.
 
 ## 8. Summary
 
@@ -293,11 +293,11 @@ Only step 1 is a linear transformation. The weights here are illustrative number
 | $\begin{bmatrix} 0.5 & 0 \cr0 & 0.1 \end{bmatrix}$ | $[0.5, 0]$ | $[0, 0.1]$ | scaling along the axes |
 | $\begin{bmatrix} 2 & -1 \cr1 & -0.5 \end{bmatrix}$ | $[2, 1]$ | $[-1, -0.5]$ | squishes the plane onto a line |
 
-- Reading the two columns is enough to picture each matrix, because the rest of the grid follows $\hat{\imath}$ and $\hat{\jmath}$.
+- Reading the two columns is enough to picture each **matrix** (G-1180), because the rest of the grid follows $\hat{\imath}$ and $\hat{\jmath}$.
 - A linear transformation keeps lines straight and the origin fixed; grid lines stay parallel and evenly spaced, because it respects the two operations, adding vectors and scaling them.
 - It is decided by where the basis vectors land; those landing spots are the columns of its matrix, because every vector keeps its coordinates and only the basis vectors move.
-- $A\mathbf{x}$ is a linear combination of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars, so every output lies in the span of the columns, and dependent columns squish the plane onto a line.
-- Every matrix is a transformation of space; $XA^{\mathsf T}$ applies it to a whole dataset, so feature scaling, PCA and the first step of a neural network layer can be pictured as moving space.
+- $A\mathbf{x}$ is a **linear combination** (G-1091) of the columns of $A$, with the coordinates of $\mathbf{x}$ as scalars, so every output lies in the **span** (G-1838) of the columns, and dependent columns squish the plane onto a line.
+- Every matrix is a **transformation** (G-2006) of space; $XA^{\mathsf T}$ applies it to a whole dataset, so feature scaling, PCA and the first step of a neural network layer can be pictured as moving space.
 - So a matrix records where the basis vectors land, and multiplying by it computes where any vector lands.
 
 ## 9. Sources
@@ -328,9 +328,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Linear transformation (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | Matrix (of a transformation) (G-1175) | The grid of numbers that records a linear transformation: its columns are where the basis vectors land, which is enough to find where every vector lands. |
 | Shear (G-1789) | A linear transformation that keeps $\hat{\imath}$ fixed and slants $\hat{\jmath}$, so horizontal lines slide sideways, more the higher they are. |
+| [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Linear combination](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#5-linear-combinations) (G-1091) | A sum of vectors each multiplied by a number, $a_1\mathbf v_1 + \dots + a_k\mathbf v_k$; changing the numbers reaches different vectors, and all the vectors it can reach form the span. |
 | [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
-| [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |

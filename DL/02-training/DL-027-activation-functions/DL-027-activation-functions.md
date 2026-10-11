@@ -17,13 +17,13 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/activation-f
 
 ## 1. Overview
 
-> **Key point:** An activation function is the non-linear step inside every node. Without it a deep network is only a linear model. Sigmoid and tanh squash their input and slow deep networks down; ReLU does not squash positive values and is the default for hidden layers today.
+> **Key point:** An activation function is the non-linear step inside every node. Without it a deep network is only a linear model. Sigmoid and tanh squash their input and slow deep networks down; **ReLU** (G-1668) does not squash positive values and is the default for hidden layers today.
 
 Every node of a neural network computes a [**weighted sum**](../../06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) $z$ of its inputs plus a [**bias**](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287), then passes $z$ through a function. This function, the [**activation function**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165), decides how strongly the node "fires". This Note answers three questions:
 
 - **Why** a network needs a non-linear activation at all.
 - **What** makes an activation function good: five properties.
-- **How** the three classic functions, sigmoid, tanh and ReLU, score on those properties.
+- **How** the three classic functions, **sigmoid** (G-1798), tanh and ReLU, score on those properties.
 
 ![Sigmoid, tanh and ReLU (solid) with their derivatives (dashed). Sigmoid's slope is never above 0.25, tanh's never above 1; both fall to 0 for large $|z|$. ReLU's slope is 0 or 1](images/activations.png){width=100%}
 
@@ -31,20 +31,20 @@ Figure 1 shows the three functions side by side. Most of this Note is about what
 
 ## 2. Prerequisites
 
-- [The perceptron](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron): weighted sum, bias and activation function.
-- [The sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) and [the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative). The sigmoid and its slope:
+- [The perceptron](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron): weighted sum, bias and **activation function** (G-165).
+- [The sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) and [the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative). The **sigmoid** (G-1798) and its slope:
 
   $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
   $$\sigma'(z) = \sigma(z)(1 - \sigma(z)) \le 0.25$$
 - [The vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem): why small slopes stop early layers from learning.
-- [Backpropagation in code](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops): gradients as chain-rule products.
+- [Backpropagation in code](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops): **gradients** (G-863) as chain-rule products.
 
 ## 3. What an activation function is
 
 > **Key point:** A node computes $z = \sum w_i x_i + b$ and outputs $a = g(z)$. The function $g$ is the activation function: a gate deciding whether, and how much, the node is activated.
 
-Take a network with two inputs, one hidden layer of two nodes and one output node. The first hidden node computes the weighted sum of its inputs plus its bias:
+Take a network with two inputs, one hidden layer of two nodes and one output node. The first hidden node computes the **weighted sum** (G-2119) of its inputs plus its bias:
 
 $$z = w_1 x_1 + w_2 x_2 + b_1$$
 
@@ -54,7 +54,7 @@ $$a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
 
 where $\sum$ means "add up the terms for $i = 1$ to $n$".
 
-A worked case: weights $w_1 = 2$ and $w_2 = -1$, bias $b_1 = 0.5$, inputs $x_1 = 3$ and $x_2 = 1$, and a sigmoid for $g$:
+A worked case: weights $w_1 = 2$ and $w_2 = -1$, **bias** (G-287) $b_1 = 0.5$, inputs $x_1 = 3$ and $x_2 = 1$, and a sigmoid for $g$:
 
 $$z = 2 \times 3 + (-1) \times 1 + 0.5 = 5.5$$
 $$a = g(5.5) = \frac{1}{1 + e^{-5.5}} = 0.996$$
@@ -63,11 +63,11 @@ We can picture $g$ as a gate between what flows into a node and what flows out. 
 
 ## 4. Why a network needs a non-linear activation
 
-> **Key point:** Without a non-linear activation, any number of layers collapses into one linear layer: the network's decision boundary (the line between the regions given to each class) is a straight line, however deep it is.
+> **Key point:** Without a non-linear activation, any number of layers collapses into one linear layer: the network's **decision boundary** (G-555) (the line between the regions given to each class) is a straight line, however deep it is.
 
 ### 4.1 An experiment: linear activations on circles
 
-> **Key point:** Two hidden layers of 32 nodes with linear activations reach 50% accuracy on two circles, the same as guessing. With ReLU the same network reaches 100%.
+> **Key point:** Two hidden layers of 32 nodes with linear activations reach 50% accuracy on two circles, the same as guessing. With **ReLU** (G-1668) the same network reaches 100%.
 
 The data is `make_circles` (G-110) from scikit-learn. Each **observation** (G-1374; one record, one row of the data table) has:
 
@@ -79,7 +79,7 @@ There are 300 observations, 150 per class. No straight line separates the two ri
 - two hidden layers of 32 nodes with `activation="linear"`, which means $g(z) = z$, the same as no activation at all;
 - the same two layers with `activation="relu"`.
 
-The output node is a sigmoid in both, because this is binary classification.
+The output node is a **sigmoid** (G-1798) in both, because this is binary classification.
 
 ![Decision regions after 200 epochs. Left: with linear activations the boundary (black) is a straight line, here pushed outside the data; every point gets about 0.5. Right: with ReLU the boundary bends around the inner ring](images/boundaries.png){width=100%}
 
@@ -98,7 +98,7 @@ Figure 2 shows the result. The linear network ends with a loss of 0.694 and 50% 
 
 > **Key point:** Two linear layers $W_2(W_1 a_0 + b_1) + b_2$ equal one layer $W' a_0 + b'$. The output is a degree-1 function of the input.
 
-Stacked matrices without an activation multiply into a single matrix (see [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another)). The bias terms add only a shift, so they do not change that.
+Stacked matrices without an activation multiply into a single matrix (see [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another)). The **bias** (G-287) terms add only a shift, so they do not change that.
 
 1. **In words:** the first layer computes $a_1 = W_1 a_0 + b_1$; the second feeds that into $a_2 = W_2 a_1 + b_2$; multiplying out gives one weight matrix and one bias.
 2. **Formula:**
@@ -109,11 +109,11 @@ Stacked matrices without an activation multiply into a single matrix (see [matri
 
 The Notebook checks the collapse on the trained linear network of Figure 2. The network's three weight matrices multiply into one $2 \times 1$ matrix $W'$, and one layer with $W'$ and $b'$ gives the same predictions to within $6 \times 10^{-8}$. A network with linear activations is therefore [linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#2-from-a-line-to-a-hyperplane) (G-1094; regression output) or [logistic regression](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1120; sigmoid output), however many layers it has.
 
-With a non-linear $g$, such as the sigmoid, $g(W_1 a_0 + b_1)$ is no longer a degree-1 expression. Feeding it into the next layer gives a relationship between input and output that is not a polynomial of degree 1, so the network can follow non-linear patterns. Capturing non-linear patterns is the whole reason activation functions exist.
+With a non-linear $g$, such as the **sigmoid** (G-1798), $g(W_1 a_0 + b_1)$ is no longer a degree-1 expression. Feeding it into the next layer gives a relationship between input and output that is not a polynomial of degree 1, so the network can follow non-linear patterns. Capturing non-linear patterns is the whole reason **activation functions** (G-165) exist.
 
 ## 5. Properties of an ideal activation function
 
-> **Key point:** A good activation function is non-linear, differentiable, cheap to compute, zero-centred and non-saturating. No classic function has all five.
+> **Key point:** A good **activation function** (G-165) is non-linear, differentiable, cheap to compute, zero-centred and non-saturating. No classic function has all five.
 
 ### 5.1 Non-linear
 
@@ -127,11 +127,11 @@ The relationship between $z$ and $g(z)$ must not be a straight line, as section 
 
 [**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) multiplies the activation's [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) into every [**gradient**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) (see [backpropagation in code](../../01-basics/DL-016-backpropagation-how/DL-016-backpropagation-how.md#3-the-regression-algorithm-in-loops)). Without a derivative there is no gradient, no update and no training.
 
-The property is important but not strict. ReLU has no derivative at exactly $z = 0$ and is still the most used activation (section 8.2 explains how this is handled).
+The property is important but not strict. **ReLU** (G-1668) has no derivative at exactly $z = 0$ and is still the most used activation (section 8.2 explains how this is handled).
 
 ### 5.3 Computationally inexpensive
 
-> **Key point:** The function and its derivative are computed for every node, every observation and every epoch; a slow function makes training slow.
+> **Key point:** The function and its **derivative** (G-595) are computed for every node, every observation and every epoch; a slow function makes training slow.
 
 A network with a million nodes trained on a million observations for 100 epochs evaluates its activation this many times:
 
@@ -147,9 +147,9 @@ Functions built from a simple comparison are faster than those built from expone
 
 > **Key point:** Outputs with mean about 0, some positive and some negative, act like normalised inputs to the next layer and make training converge faster.
 
-A **zero-centred** activation function (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874)), and the outputs of one layer are the inputs of the next. Tanh is zero-centred; section 6.3 shows what goes wrong when an activation is not.
+A **zero-centred** **activation function** (G-165) (G-2148) gives outputs whose mean over a layer is around 0. Training converges faster when the inputs are normalised (see [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874)), and the outputs of one layer are the inputs of the next. **Tanh** (G-1947) is zero-centred; section 6.3 shows what goes wrong when an activation is not.
 
-Figures 3 and 4 show the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like sigmoid outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same **learning rate** (the size of each step), 2.5.
+Figures 3 and 4 show the effect on the simplest case: one node $\hat y = w_1 a_1 + w_2 a_2$ learning, one observation at a time, a target that needs $w_1 = 1$ and $w_2 = -1$. The inputs $a_1, a_2$ are 200 random values between 0.1 and 0.9, like **sigmoid** (G-1798) outputs (left), or the same values minus 0.5, centred on 0 like tanh outputs (right). Both start from $(-1, 1)$ with the same **learning rate** (the size of each step), 2.5.
 
 The loss of this node is a surface over the two weights. For a pair $(w_1, w_2)$ the height is the mean squared error over the 200 observations, drawn as $\log_{10}(L + 0.001)$ so that the region near the minimum is visible. Two points on it, for either kind of input:
 
@@ -163,7 +163,7 @@ Figure 3 shows the two surfaces: both are bowls with the target at the bottom. T
 
 ![Stochastic gradient descent on one node with two weights. Left: inputs all positive. Right: the same inputs centred on 0. Grey: contours of the loss; black dot: start; star: the target weights.](images/zigzag.gif)
 
-1. **Each step's direction.** Here $y$ is the target and $\hat y$ the node's output. The gradient of the squared error has one part for each weight:
+1. **Each step's direction.** Here $y$ is the target and $\hat y$ the node's output. The **gradient** (G-863) of the squared error has one part for each weight:
    $$\frac{\partial L}{\partial w_1} = (\hat y - y)\thinspace a_1$$
    $$\frac{\partial L}{\partial w_2} = (\hat y - y)\thinspace a_2$$
    With positive inputs, both parts have the sign of $\hat y - y$, so every orange step moves both weights up or both down: along a diagonal.
@@ -174,17 +174,17 @@ Figure 3 shows the two surfaces: both are bowls with the target at the bottom. T
 
 > **Key point:** A saturating function squeezes any input into a fixed range, so its slope goes to 0 at the ends. The flat ends cause the vanishing gradient problem.
 
-A **saturating function** (G-1741) squeezes an input from $-\infty$ to $\infty$ into a bounded range and flattens out there. The sigmoid squeezes into 0 to 1, tanh into $-1$ to 1. A **non-saturating function** (G-1339) has no such ceiling: ReLU, $\max(0, z)$, grows as large as its input.
+A **saturating function** (G-1741) squeezes an input from $-\infty$ to $\infty$ into a bounded range and flattens out there. The **sigmoid** (G-1798) squeezes into 0 to 1, tanh into $-1$ to 1. A **non-saturating function** (G-1339) has no such ceiling: **ReLU** (G-1668), $\max(0, z)$, grows as large as its input.
 
 Where a function is flat its slope is near 0, and a product of many near-zero slopes is the [vanishing gradient](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) (G-2070). The vanishing gradient appears with saturating activations, which is why non-saturation matters.
 
 ## 6. Sigmoid
 
-> **Key point:** The sigmoid gives a probability, is non-linear and differentiable; but it saturates, is not zero-centred and needs an exponential. Today it is used mainly in the output layer for binary classification.
+> **Key point:** The **sigmoid** (G-1798) gives a probability, is non-linear and differentiable; but it saturates, is not zero-centred and needs an exponential. Today it is used mainly in the output layer for binary classification.
 
 ### 6.1 Shape and slope
 
-> **Key point:** Output 0.5 at $z = 0$, near 0 or 1 for large $|z|$. Its derivative peaks at 0.25 and is almost 0 outside $-3$ to 3.
+> **Key point:** Output 0.5 at $z = 0$, near 0 or 1 for large $|z|$. Its **derivative** (G-595) peaks at 0.25 and is almost 0 outside $-3$ to 3.
 
 The [sigmoid](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) is (Figure 1, left)
 
@@ -198,19 +198,19 @@ Its [derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-
 
 > **Key point:** Output reads as a probability; non-linear; differentiable everywhere.
 
-1. **Probability output.** The output lies between 0 and 1, so it can be read as a probability. For this reason we put a sigmoid in the output node for binary classification: near 1 means "yes", near 0 means "no".
+1. **Probability output.** The output lies between 0 and 1, so it can be read as a probability. For this reason we put a **sigmoid** (G-1798) in the output node for binary classification: near 1 means "yes", near 0 means "no".
 2. **Non-linear.** The exponential makes it non-linear, so it can capture non-linear patterns.
-3. **Differentiable everywhere,** with a derivative that is easy to write in terms of the function itself.
+3. **Differentiable everywhere,** with a **derivative** (G-595) that is easy to write in terms of the function itself.
 
 ### 6.3 Disadvantages
 
-> **Key point:** Saturation causes the vanishing gradient; all-positive outputs force every weight into a node to move in the same direction; the exponential is slow.
+> **Key point:** Saturation causes the **vanishing gradient** (G-2070); all-positive outputs force every weight into a node to move in the same direction; the exponential is slow.
 
 **1. Saturating, so the gradient vanishes.** Gradient descent updates each weight with the learning rate $\eta$ (the step size):
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 
-If $z$ is outside about $-3$ to 3, the sigmoid's slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see [the vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem)).
+If $z$ is outside about $-3$ to 3, the **sigmoid** (G-1798)'s slope is near 0, the gradient is near 0 and $w_{\text{new}} \approx w_{\text{old}}$: no training. In a deep network these small slopes multiply from layer to layer (see [the vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem)).
 
 $z$ becomes large in two ways:
 
@@ -223,7 +223,7 @@ Saturation is the main reason the sigmoid has disappeared from hidden layers (Go
 
 $$z_{31} = w_{21}\thinspace a_{21} + w_{22}\thinspace a_{22} + b_{31}$$
 
-1. **In words:** by the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), the gradient of each weight is a factor shared by both, times that weight's input.
+1. **In words:** by the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), the **gradient** (G-863) of each weight is a factor shared by both, times that weight's input.
 2. **Formula:** with the shared factor (called $\delta$) equal to the product of two slopes,
    $$\delta = \frac{\partial L}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z_{31}}$$
    $$\frac{\partial L}{\partial w_{21}} = \delta \cdot a_{21}$$
@@ -231,7 +231,7 @@ $$z_{31} = w_{21}\thinspace a_{21} + w_{22}\thinspace a_{22} + b_{31}$$
 3. **Example:** with $\delta = -0.5$ and sigmoid outputs $a_{21} = 0.6$ and $a_{22} = 0.3$:
    $$\frac{\partial L}{\partial w_{21}} = -0.5 \times 0.6 = -0.30$$
    $$\frac{\partial L}{\partial w_{22}} = -0.5 \times 0.3 = -0.15$$
-   Both are negative. Had $a_{22}$ been a tanh output of $-0.3$, the second would be positive:
+   Both are negative. Had $a_{22}$ been a **tanh** (G-1947) output of $-0.3$, the second would be positive:
    $$\frac{\partial L}{\partial w_{22}} = -0.5 \times (-0.3) = +0.15$$
 
 Because $a_{21}$ and $a_{22}$ are both positive, both gradients take the sign of $\delta$. So in one update the weights into a node either all increase or all decrease; they can never move in opposite directions.
@@ -242,19 +242,19 @@ Figure 5 shows the consequence. If reaching the minimum needs $w_{21}$ to grow w
 
 The Notebook checks the sign rule with one hidden layer of 10 nodes feeding a sigmoid output, for one observation. With sigmoid hidden nodes, the 10 gradients of the output node's weights all have the same sign (`++++++++++`). With tanh hidden nodes they are mixed (`-+-+++++-+`).
 
-**3. Computationally expensive.** Each evaluation needs an exponential. In the Notebook, 10 million sigmoids take about 3,200 ms, against about 800 ms for ReLU: about four times as long. The exact times depend on the computer.
+**3. Computationally expensive.** Each evaluation needs an exponential. In the Notebook, 10 million sigmoids take about 3,200 ms, against about 800 ms for **ReLU** (G-1668): about four times as long. The exact times depend on the computer.
 
 In short, the sigmoid is rarely used in hidden layers today. The sigmoid stays in the output layer for binary classification.
 
 ## 7. Tanh
 
-> **Key point:** Tanh is a stretched sigmoid with range $-1$ to 1. Tanh is zero-centred, which fixes the sigmoid's slow training, but it still saturates and still needs exponentials.
+> **Key point:** Tanh is a stretched **sigmoid** (G-1798) with range $-1$ to 1. **Tanh** (G-1947) is zero-centred, which fixes the sigmoid's slow training, but it still saturates and still needs exponentials.
 
 ### 7.1 Shape and slope
 
-> **Key point:** $\tanh(z) = (e^{z} - e^{-z})/(e^{z} + e^{-z})$, with derivative $1 - \tanh^2(z)$, peaking at 1.
+> **Key point:** $\tanh(z) = (e^{z} - e^{-z})/(e^{z} + e^{-z})$, with **derivative** (G-595) $1 - \tanh^2(z)$, peaking at 1.
 
-1. **In words:** the **hyperbolic tangent (tanh)** is an S-shaped curve like the sigmoid, but from $-1$ to 1, passing through 0 at $z = 0$.
+1. **In words:** the **hyperbolic tangent (tanh)** is an S-shaped curve like the **sigmoid** (G-1798), but from $-1$ to 1, passing through 0 at $z = 0$.
 2. **Formula:**
    $$\tanh(z) = \frac{e^{z} - e^{-z}}{e^{z} + e^{-z}}$$
    $$\tanh'(z) = 1 - \tanh^2(z)$$
@@ -265,7 +265,7 @@ In short, the sigmoid is rarely used in hidden layers today. The sigmoid stays i
 
 Like the sigmoid, its derivative is written in terms of the function itself. The derivative's peak is 1 instead of 0.25, and the curve is steeper (Figure 1, middle).
 
-> **Extra:** Tanh is a rescaled sigmoid: it equals twice the sigmoid of $2z$, minus 1. To see it, start from the right side and multiply the top and bottom of the last fraction by $e^{z}$:
+> **Extra:** **Tanh** (G-1947) is a rescaled sigmoid: it equals twice the sigmoid of $2z$, minus 1. To see it, start from the right side and multiply the top and bottom of the last fraction by $e^{z}$:
 >
 > $$2\sigma(2z) - 1 = \frac{2}{1 + e^{-2z}} - 1$$
 > $$= \frac{1 - e^{-2z}}{1 + e^{-2z}}$$
@@ -280,28 +280,28 @@ Advantages:
 
 1. **Non-linear**, so it captures non-linear patterns.
 2. **Differentiable** everywhere.
-3. **Zero-centred.** Outputs are both positive and negative. The gradients of the weights into a node can then have different signs, and training is faster than with the sigmoid (LeCun et al. 1998, §4.4). In the Notebook, over all 300 observations, a 128-node tanh layer has mean output 0.000 with half the values positive, while a sigmoid layer has mean 0.500 with every value positive.
+3. **Zero-centred.** Outputs are both positive and negative. The gradients of the weights into a node can then have different signs, and training is faster than with the **sigmoid** (G-1798) (LeCun et al. 1998, §4.4). In the Notebook, over all 300 observations, a 128-node tanh layer has mean output 0.000 with half the values positive, while a sigmoid layer has mean 0.500 with every value positive.
 
 ![The outputs of one freshly initialised 128-node layer for the 300 circles observations, with three activations: 38,400 values each. Dashed line: 0.](images/layer_outputs.png)
 
-Figure 6 shows those layer outputs. The sigmoid's values all sit above 0, around 0.5. The tanh values spread evenly on both sides of 0, so the next layer receives inputs centred on 0, as in the right half of Figure 4. ReLU's values are 0 or positive, never negative: ReLU is not zero-centred either (section 8.2).
+Figure 6 shows those layer outputs. The sigmoid's values all sit above 0, around 0.5. The tanh values spread evenly on both sides of 0, so the next layer receives inputs centred on 0, as in the right half of Figure 4. **ReLU** (G-1668)'s values are 0 or positive, never negative: ReLU is not zero-centred either (section 8.2).
 
 Disadvantages:
 
-1. **Saturating.** For large $|z|$ the slope is 0, so tanh also suffers from the vanishing gradient.
+1. **Saturating.** For large $|z|$ the slope is 0, so **tanh** (G-1947) also suffers from the vanishing gradient.
 2. **Computationally expensive**, because of the exponentials (about 1,250 ms for 10 million values in the Notebook). Tanh comes out faster than the sigmoid here only because of how the Notebook computes them: the sigmoid is written as three separate NumPy steps (an exponential, an addition, a division), while `np.tanh` is one built-in step. Both are slower than ReLU, which needs no exponential.
 
-Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not the vanishing gradient.
+Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not the **vanishing gradient** (G-2070).
 
 ## 8. ReLU
 
-> **Key point:** ReLU, $\max(0, z)$, is non-linear, does not saturate for positive $z$, is cheap and converges faster than sigmoid and tanh. Its weaknesses: no derivative at 0, not zero-centred, and dying nodes.
+> **Key point:** **ReLU** (G-1668), $\max(0, z)$, is non-linear, does not saturate for positive $z$, is cheap and converges faster than **sigmoid** (G-1798) and tanh. Its weaknesses: no derivative at 0, not zero-centred, and dying nodes.
 
 [ReLU](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#62-use-relu) (rectified linear unit) is $\max(0, z)$: 0 for negative $z$, $z$ itself for positive $z$ (Figure 1, right). ReLU is the most used activation in hidden layers today, the recommended default (Goodfellow et al. 2016, §6.3).
 
 ### 8.1 Advantages
 
-> **Key point:** Non-linear (one ReLU has a corner; two make a bump), non-saturating on the positive side, no exponential, faster convergence.
+> **Key point:** Non-linear (one **ReLU** (G-1668) has a corner; two make a bump), non-saturating on the positive side, no exponential, faster convergence.
 
 **1. Non-linear.** ReLU looks like two straight segments, which makes some people think it is linear. A linear function would be $f(z) = z$ everywhere; $\max(0, z)$ has a corner, so it is not. Combining ReLUs builds more complex shapes:
 
@@ -316,7 +316,7 @@ Tanh fixed the sigmoid's slow training from non-zero-centred outputs, but not th
 
 ![Two ReLUs (dotted) and their difference (green): flat, rising, flat. No straight line has two corners](images/relu_bend.png){width=80%}
 
-Figure 7 shows the result: a curve with two corners. The ReLU decision boundary in Figure 2 is built the same way, from straight segments joined at corners: it is [**piecewise linear**](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-1496).
+Figure 7 shows the result: a curve with two corners. The ReLU **decision boundary** (G-555) in Figure 2 is built the same way, from straight segments joined at corners: it is [**piecewise linear**](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-1496).
 
 **How the bends fit data.** A network makes the same move with its own weights. Take a drug that works at a medium dosage and fails at a low and a high one: three observations, dosage 0, 0.5 and 1, with targets 0, 1 and 0. A network with two ReLU hidden nodes and a final ReLU on the output node fits them in six steps, one per frame of Figure 8:
 
@@ -337,21 +337,21 @@ Check the three observations:
 | 0.5 | 0 | 17.0 | 1.0 | 1.0 |
 | 1 | $0.85 \times (-40.8) = -34.7$ | 34.0 | $-16.7$ | 0 |
 
-Each ReLU node contributes one bent line. The weights and biases slide, flip and stretch these lines, and their sum is a new shape with one corner per node. More nodes give more corners, so the network can follow more complicated patterns.
+Each ReLU node contributes one bent line. The weights and **biases** (G-287) slide, flip and stretch these lines, and their sum is a new shape with one corner per node. More nodes give more corners, so the network can follow more complicated patterns.
 
-**2. Non-saturating in the positive region.** For positive $z$ the output grows without limit and the slope stays 1, so the gradient does not vanish there.
+**2. Non-saturating in the positive region.** For positive $z$ the output grows without limit and the slope stays 1, so the **gradient** (G-863) does not vanish there.
 
-**3. Computationally inexpensive.** Computing it is one comparison, and its derivative is 0 or 1. No exponentials.
+**3. Computationally inexpensive.** Computing it is one comparison, and its **derivative** (G-595) is 0 or 1. No exponentials.
 
-**4. Faster convergence** than sigmoid and tanh. On the CIFAR-10 images, a four-layer ReLU network reached a 25% training error about six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1, Figure 1).
+**4. Faster convergence** than **sigmoid** (G-1798) and tanh. On the CIFAR-10 images, a four-layer ReLU network reached a 25% training error about six times faster than the same network with tanh (Krizhevsky et al. 2012, §3.1, Figure 1).
 
 ### 8.2 Disadvantages
 
-> **Key point:** No derivative at exactly 0 (we just pick one), outputs never negative (batch normalisation helps), and nodes that can die.
+> **Key point:** No **derivative** (G-595) at exactly 0 (we just pick one), outputs never negative (batch normalisation helps), and nodes that can die.
 
 **1. Not differentiable at $z = 0$.** The two segments meet at a corner, which has no single slope. In code we simply choose one: slope 0 for $z < 0$, slope 1 for $z > 0$, and one of the two at exactly 0.
 
-**2. Not zero-centred.** Like the sigmoid's, ReLU's outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../DL-031-batch-normalization/DL-031-batch-normalization.md#3-why-normalise-inside-the-network) (G-266) addresses this: it normalises the values passed between layers.
+**2. Not zero-centred.** Like the sigmoid's, **ReLU** (G-1668)'s outputs are never negative, with the same effect on the gradient signs as in section 6.3. [Batch normalisation](../DL-031-batch-normalization/DL-031-batch-normalization.md#3-why-normalise-inside-the-network) (G-266) addresses this: it normalises the values passed between layers.
 
 [**3. The dying ReLU problem**](../DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem) (G-650). A node whose $z$ stays negative outputs 0 with slope 0, so it stops learning (see [using ReLU against vanishing gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#62-use-relu)). The causes and the fixes are in the [ReLU variants](../DL-028-relu-variants/DL-028-relu-variants.md#3-the-dying-relu-problem). [GELU and SiLU](../DL-028-relu-variants/DL-028-relu-variants.md#63-gelu-and-silu-smooth-versions-of-relu) are smooth versions of ReLU used in transformers.
 
@@ -383,8 +383,8 @@ Each ReLU node contributes one bent line. The weights and biases slide, flip and
 
 - Without a non-linear activation, any network is a linear model (50% vs 100% on the circles), because any number of linear layers collapses into one linear layer.
 - An ideal activation is non-linear, differentiable, cheap, zero-centred and non-saturating, so these five properties are the checklist for judging any activation.
-- Saturating functions (sigmoid, tanh) cause the vanishing gradient.
-- All-positive outputs (sigmoid, ReLU) make the weights into a node move together, so training zigzags.
+- **Saturating functions** (G-1741) (sigmoid, tanh) cause the vanishing gradient.
+- All-positive outputs (sigmoid, **ReLU** (G-1668)) make the weights into a node move together, so training zigzags.
 - ReLU is the default for hidden layers, because it is cheap and does not saturate for $z > 0$; its dying-node problem leads to the ReLU variants.
 
 ## 10. Sources
@@ -406,9 +406,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| ReLU (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | Transfer function (G-2004) | Another name for the activation function: the function a node applies to its weighted sum to give its output. |
 | Tanh (hyperbolic tangent) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
-| ReLU (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | `make_circles` (G-110) | scikit-learn function that generates two concentric rings of observations, one ring per class. |
 | Zero-centred activation (G-2148) | An activation whose outputs average about 0 over a layer, positive and negative; it feeds the next layer roughly centred inputs, which helps training converge faster. |
 | Saturating function (G-1741) | A function that squeezes any input into a bounded range, such as the sigmoid into 0 to 1, so its slope goes to 0 at the ends; those near-zero slopes make gradients vanish in deep networks. |
@@ -417,18 +417,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
+| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
-| [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Universal approximation theorem](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#33-universal-approximation) (G-2052) | A network with a hidden layer and enough neurons can approximate any continuous function. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
-| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |

@@ -45,11 +45,11 @@ Picture a seesaw: the data pulls the slope up, and λ is a weight added to the o
 
 > **Key point:** The loss is the usual sum of squared errors plus λ times the slope squared.
 
-With one feature, the prediction for observation i is the slope times its feature value plus the intercept:
+With one feature, the prediction for **observation** (G-1374) i is the slope times its feature value plus the intercept:
 
 $$\hat y_i = m x_i + b$$
 
-Here m is the slope, as in [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#51-reading-m-and-b) (G-1808) (in [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), m counted the features instead). The Ridge loss is
+Here m is the slope, as in [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#51-reading-m-and-b) (G-1808) (in [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#2-the-model-in-matrix-form), m counted the **features** (G-772) instead). The Ridge loss is
 
 $$L = \sum_{i=1}^{n} (y_i - m x_i - b)^2 + \lambda m^2$$
 
@@ -183,7 +183,7 @@ Figure 3 shows the whole curve.
 
 However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coefficients small but never exactly zero. Lasso behaves differently: [its slope reaches exactly 0](../ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
 
-> **Python:** Ridge with one feature, from scratch.
+> **Python:** Ridge with one **feature** (G-772), from scratch.
 >
 > ```python
 > class MyRidge:
@@ -202,7 +202,7 @@ However large $\lambda$ gets, the fraction stays above 0. So Ridge makes coeffic
 
 ## 3. Many features
 
-> **Key point:** With many features the same recipe runs on matrices: the penalty adds λ to every number on the diagonal of the matrix that the normal equation inverts, except the intercept's.
+> **Key point:** With many **features** (G-772) the same recipe runs on matrices: the penalty adds λ to every number on the diagonal of the matrix that the normal equation inverts, except the intercept's.
 
 Figure 4 shows the whole result before the steps. Compared with [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation), only one piece is new: λ times a matrix I that has 1s on its diagonal, with a 0 in the top-left corner so that the intercept is not penalised. Adding it puts λ on the diagonal, which makes the inverse smaller, just as λ on the bottom of the fraction made the slope smaller in [Section 2](#2-one-feature).
 
@@ -212,7 +212,7 @@ Figure 4 shows the whole result before the steps. Compared with [the normal equa
 
 > **Key point:** The penalty, λ times the sum of squared coefficients, is a row of coefficients times the same column.
 
-With many features, the predictions are one matrix product, as in [the matrix form of linear regression](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#22-stacking-the-equations):
+With many **features** (G-772), the predictions are one matrix product, as in [the matrix form of linear regression](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#22-stacking-the-equations):
 
 $$\hat{y} = Xw$$
 
@@ -252,7 +252,7 @@ The penalty needs one more rule, the matrix version of "the derivative of w² is
 
 $$w^{\mathsf T}w = w_0^2 + w_1^2$$
 
-The two partial derivatives:
+The two **partial derivatives** (G-1457):
 
 $$\frac{\partial}{\partial w_0}(w_0^2 + w_1^2) = 2w_0$$
 
@@ -362,7 +362,7 @@ $$= \begin{bmatrix} 0 \cr0 \end{bmatrix}$$
 
 Both entries are 0, so (1.5, 1.0) is the bottom of the Ridge loss.
 
-> **Python:** Ridge with many features, from scratch.
+> **Python:** Ridge with many **features** (G-772), from scratch.
 >
 > ```python
 > class MyRidgeND:
@@ -396,7 +396,7 @@ The closed form has the same limit as the normal equation: inverting the matrix 
 
 > **Extra:** A bonus of $+\lambda I$: when columns of $X$ are strongly correlated (**multicollinearity**, G-1273), $X^{\mathsf T}X$ can be impossible or unstable to invert (the **inverse matrix**, G-968, is the matrix that undoes it; [the normal equation](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation)). Adding a positive $\lambda$ to the diagonal always makes it invertible, so Ridge has an answer even when plain OLS does not. In fact this was the main reason Ridge was first introduced (ESL §3.4.1; Hoerl and Kennard 1970).
 >
-> A small case: two observations with the same feature value 2. The two columns of X are then copies of each other up to a factor, and the determinant is 0, so the 2 × 2 recipe would divide by 0:
+> A small case: two **observations** (G-1374) with the same feature value 2. The two columns of X are then copies of each other up to a factor, and the determinant is 0, so the 2 × 2 recipe would divide by 0:
 >
 > $$X = \begin{bmatrix} 1 & 2 \cr1 & 2 \end{bmatrix}$$
 >
@@ -435,7 +435,7 @@ In Figure 5 every axis is a log scale: each labelled gridline is 10 times the on
 
 - The two columns differ only by the $\lambda$ terms, because Ridge is found with the same recipe as OLS: write the loss, set its slope to zero, solve. With $\lambda = 0$ each Ridge formula becomes the OLS one.
 
-- Ridge adds $\lambda$ to the denominator of the slope (one feature) or to the diagonal of $X^{\mathsf T}X$ (many features), so the matrix always has an inverse, even when features are strongly correlated.
+- Ridge adds $\lambda$ to the denominator of the slope (one **feature** (G-772)) or to the diagonal of $X^{\mathsf T}X$ (many features), so the matrix always has an inverse, even when features are strongly correlated.
 - A larger $\lambda$ gives smaller coefficients, but never exactly 0, because the bottom of the slope fraction grows with $\lambda$ while the top stays the same, so the fraction shrinks but stays above 0.
 - The intercept is not penalised: the top-left entry of $I$ is 0, because the intercept only shifts predictions up or down.
 - The from-scratch code matches scikit-learn's `Ridge` exactly, because both solve the same equation; on large data, gradient descent replaces the costly inverse.

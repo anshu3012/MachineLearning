@@ -16,38 +16,38 @@ tags: [subject/machine-learning, area/foundations, step/foundations, concept/dev
 
 ## 1. Overview
 
-> **Key point:** We can write ML code on our own computer (conda plus Jupyter) or in the browser (Kaggle or Google Colab); both give us the same kind of notebook.
+> **Key point:** We can write ML code on our own computer (conda plus Jupyter) or in the browser (Kaggle or Google Colab); both give us the same kind of **notebook** (G-1353).
 
-A **notebook** is a page made of boxes called cells. We type a line of Python in a cell, such as `2 + 3`, press run, and the answer, `5`, appears right below the cell. The next cell can use what the earlier cell made. Every ML example in these Notes is a notebook like this, so the first job is to get one running.
+A **notebook** is a page made of boxes called **cells** (G-362). We type a line of Python in a cell, such as `2 + 3`, press run, and the answer, `5`, appears right below the cell. The next cell can use what the earlier cell made. Every ML example in these Notes is a notebook like this, so the first job is to get one running.
 
 ![Two ways to get a working ML setup](images/setup_map.png)
 
 ML work needs Python plus many libraries (ready-made code written by others that we import): pandas for tables, NumPy for numbers, scikit-learn for models, and plotting libraries. Installing and matching all of them by hand is slow and error-prone. Figure 1 shows the two ways around this:
 
-- **On our computer:** an installer gives us **conda** (G-439), conda builds a separate box of Python and libraries, and Jupyter runs notebooks from that box.
-- **In the browser:** Kaggle or Google Colab give us a ready-made notebook on their servers. Nothing to install, but the library versions are theirs.
+- **On our computer:** an installer gives us **conda** (G-439), conda builds a separate box of Python and libraries, and **Jupyter** (G-990) runs notebooks from that box.
+- **In the browser:** Kaggle or **Google Colab** (G-854) give us a ready-made notebook on their servers. Nothing to install, but the library versions are theirs.
 
 Every command in this Note matches the environment the rest of these Notes are built with. That environment is pinned in the file `environment.yml` ([Section 5](#5-the-environment-used-in-these-notes)). The Notebook for this Note (`ML-011-setup-anaconda-jupyter-colab.ipynb`) checks a setup: it prints which Python and which library versions are really in use.
 
 ## 2. Anaconda, Miniforge and conda
 
-> **Key point:** conda installs Python and data science libraries in one place; Miniforge is the small installer for it that we use, and Anaconda is the large one.
+> **Key point:** conda installs Python and data science libraries in one place; **Miniforge** (G-1224) is the small installer for it that we use, and Anaconda is the large one.
 
 ### 2.1 What Anaconda and conda are
 
-> **Key point:** A distribution bundles Python with hundreds of libraries; conda is the tool inside it that installs and updates them.
+> **Key point:** A distribution bundles Python with hundreds of libraries; **conda** (G-439) is the tool inside it that installs and updates them.
 
 Data science uses many libraries, and each depends on others. Installing them one by one, with versions that work together, quickly becomes hard. A **distribution** solves this: one installer that sets up Python together with the libraries we need.
 
-**Anaconda** (G-195) is the best-known data science distribution. Anaconda installs Python, hundreds of popular libraries, and tools such as Jupyter (Anaconda docs). At its heart is **conda**, a **package manager** (G-1434): a program that downloads libraries (called **packages**, G-1435), works out which versions fit together, and installs them.
+**Anaconda** (G-195) is the best-known data science distribution. Anaconda installs Python, hundreds of popular libraries, and tools such as **Jupyter** (G-990) (Anaconda docs). At its heart is **conda**, a **package manager** (G-1434): a program that downloads libraries (called **packages**, G-1435), works out which versions fit together, and installs them.
 
 > **Extra:** pip vs conda. Python also has its own package manager, **pip** (G-1497), which downloads packages from **PyPI** (G-1593) (the Python Package Index). conda can also install things that are not Python, because a conda package can hold system-level libraries and programs as well as Python modules (conda docs, "Packages"). Python itself and the compiled maths libraries under NumPy are installed this way. We use conda for almost everything and pip only for packages that conda does not have.
 
 ### 2.2 Miniforge: the installer we use
 
-> **Key point:** Miniforge installs only conda and Python, and gets packages from the free conda-forge channel; we add the rest ourselves.
+> **Key point:** Miniforge installs only **conda** (G-439) and Python, and gets packages from the free conda-forge channel; we add the rest ourselves.
 
-A **channel** is an online store of conda packages. Anaconda's own channel is the default in the Anaconda installer. **conda-forge** (G-440) is a community channel with more packages, often newer ones.
+A **channel** is an online store of conda packages. **Anaconda** (G-195)'s own channel is the default in the Anaconda installer. **conda-forge** (G-440) is a community channel with more packages, often newer ones.
 
 **Miniforge** (G-1224) is a small installer (under 100 MB) that sets up only conda, Python and a few basics, with conda-forge as its only channel. Everything else we install into our own environments ([Section 4](#4-virtual-environments)). Miniforge plus our own environments is the setup these Notes use.
 
@@ -61,9 +61,9 @@ The full Anaconda distribution works too: every `conda` command in this Note is 
 
 ### 2.3 Installing Miniforge
 
-> **Key point:** Download the installer for our system from the Miniforge GitHub page, run it, and accept the defaults.
+> **Key point:** Download the installer for our system from the **Miniforge** (G-1224) GitHub page, run it, and accept the defaults.
 
-The installers are on the Miniforge release page (github.com/conda-forge/miniforge). On Linux and macOS, three lines in a terminal (a text window where we type commands) download and run the right one.
+The installers are on the Miniforge release page (github.com/**conda-forge** (G-440)/miniforge). On Linux and macOS, three lines in a terminal (a text window where we type commands) download and run the right one.
 
 The commands below do three things: store the address of the download page, download the installer, run it. Each line is explained right after the box.
 
@@ -75,7 +75,7 @@ The commands below do three things: store the address of the download page, down
 > bash Miniforge3-$(uname)-$(uname -m).sh
 > ```
 >
-> `$(uname)` fills in the system name (`Linux` or `Darwin` for macOS) and `$(uname -m)` the processor type (for example `x86_64`), so the URL points to the matching installer. The first line only stores the folder of the download page, `curl` downloads the installer, and `bash` runs it. We answer **yes** when it asks to initialise conda, so new terminals can find `conda`.
+> `$(uname)` fills in the system name (`Linux` or `Darwin` for macOS) and `$(uname -m)` the processor type (for example `x86_64`), so the URL points to the matching installer. The first line only stores the folder of the download page, `curl` downloads the installer, and `bash` runs it. We answer **yes** when it asks to initialise **conda** (G-439), so new terminals can find `conda`.
 
 On Windows, we download `Miniforge3-Windows-x86_64.exe` from the same page and click through it with the default settings. Afterwards the Start menu has a **Miniforge Prompt**: a terminal where `conda` works. Every command in this Note is typed there on Windows.
 
@@ -90,19 +90,19 @@ To check the install, we open a new terminal and list the environments:
 
 ### 2.4 Navigator and Spyder
 
-> **Key point:** Anaconda adds a point-and-click control panel (Navigator) and a code editor (Spyder); Miniforge has neither, and we do not need them.
+> **Key point:** Anaconda adds a point-and-click control panel (Navigator) and a code editor (Spyder); **Miniforge** (G-1224) has neither, and we do not need them.
 
-The full Anaconda distribution also installs:
+The full **Anaconda** (G-195) distribution also installs:
 
 - **Anaconda Navigator** (G-194): a window that lists environments and packages and starts tools with a click. Navigator is a graphical front end for the same `conda` commands, and it can be slow.
 - **Anaconda Prompt:** the terminal where `conda` works on Windows (Miniforge Prompt is the same thing).
 - **Spyder** (G-1856): a code editor for Python with a panel that shows the variables and tables in memory.
 
-We use Jupyter ([Section 3](#3-jupyter-notebooks)) instead of Spyder, and the terminal instead of Navigator. With Miniforge, `conda install spyder` adds Spyder to an environment if we want it.
+We use **Jupyter** (G-990) ([Section 3](#3-jupyter-notebooks)) instead of Spyder, and the terminal instead of Navigator. With Miniforge, `conda install spyder` adds Spyder to an environment if we want it.
 
 ## 3. Jupyter notebooks
 
-> **Key point:** A notebook mixes runnable code, its output and formatted text in one document, and runs one cell at a time.
+> **Key point:** A **notebook** (G-1353) mixes runnable code, its output and formatted text in one document, and runs one cell at a time.
 
 ### 3.1 Starting Jupyter
 
@@ -112,7 +112,7 @@ We use Jupyter ([Section 3](#3-jupyter-notebooks)) instead of Spyder, and the te
 
 ![The three parts of local Jupyter: the browser page, the server in the terminal, and the kernel](images/jupyter_parts.png){width=70%}
 
-Figure 3 shows where our code runs: the browser only shows the cells, and the kernel behind the server runs them.
+Figure 3 shows where our code runs: the browser only shows the cells, and the **kernel** (G-1009) behind the server runs them.
 
 > **Python:** Starting JupyterLab.
 >
@@ -130,9 +130,9 @@ Good practice is one folder per project. In the file browser, the folder button 
 
 ### 3.2 Code cells and Markdown cells
 
-> **Key point:** A code cell runs Python; a Markdown cell holds formatted text; Shift+Enter runs either one.
+> **Key point:** A code **cell** (G-362) runs Python; a Markdown cell holds formatted text; Shift+Enter runs either one.
 
-Every cell has a type, chosen from a menu at the top of the notebook:
+Every cell has a type, chosen from a menu at the top of the **notebook** (G-1353):
 
 - **Code cell:** holds Python. Running it shows the result underneath.
 - **Markdown cell:** holds text written in **Markdown** (G-1168), a simple way to format text with symbols. Running it turns the symbols into headings, bold text and lists.
@@ -153,15 +153,15 @@ Figure 4 shows both kinds of cell, before and after running.
 > <span style="color:red">HTML also works</span>
 > ```
 
-Because Markdown cells accept HTML (Jupyter docs), a notebook can also show images and videos. Many people publish notebooks as tutorials on GitHub and Kaggle, with the explanation in Markdown cells next to the code.
+Because Markdown cells accept HTML (**Jupyter** (G-990) docs), a notebook can also show images and videos. Many people publish notebooks as tutorials on GitHub and Kaggle, with the explanation in Markdown cells next to the code.
 
 > **Extra:** Notebooks can also hold interactive **widgets**: buttons, sliders and text boxes the reader can use. The `ipywidgets` package provides them; it is not in our environment. These Notes use Plotly and Dash for interactive parts instead.
 
 ### 3.3 The kernel
 
-> **Key point:** The kernel is the running Python behind a notebook; restarting it clears every variable.
+> **Key point:** The kernel is the running Python behind a **notebook** (G-1353); restarting it clears every variable.
 
-Each open notebook is connected to a **kernel** (G-1009): a Python process that runs the code cells and keeps the variables in memory. The **Kernel** menu can:
+Each open notebook is connected to a **kernel** (G-1009): a Python process that runs the code **cells** (G-362) and keeps the variables in memory. The **Kernel** menu can:
 
 - **Interrupt** a cell that runs too long.
 - **Restart** the kernel: all variables are lost, and we run the cells again from the top.
@@ -175,9 +175,9 @@ If Python crashes, or a package is changed underneath it, the notebook reports a
 
 Most datasets for learning come from **Kaggle** (G-999) (kaggle.com), a website of datasets and ML competitions; downloading needs a free account. A downloaded dataset usually arrives as a `.zip` file, which we extract on our computer.
 
-To bring the file into the project folder, we either copy it there with the computer's file manager, or use the **upload** button (an upward arrow) in JupyterLab's file browser. Then pandas reads it into a table:
+To bring the file into the project folder, we either copy it there with the computer's file manager, or use the **upload** button (an upward arrow) in **JupyterLab** (G-991)'s file browser. Then pandas reads it into a table:
 
-> **Python:** Reading a CSV file that sits next to the notebook.
+> **Python:** Reading a CSV file that sits next to the **notebook** (G-1353).
 >
 > ```python
 > import pandas as pd
@@ -191,9 +191,9 @@ To bring the file into the project folder, we either copy it there with the comp
 
 ### 3.5 Saving and sharing a notebook
 
-> **Key point:** Notebooks save as `.ipynb` files, and can be exported as a Python script, a web page or a PDF.
+> **Key point:** **Notebooks** (G-1353) save as `.ipynb` files, and can be exported as a Python script, a web page or a PDF.
 
-JupyterLab saves the notebook as it is, as an `.ipynb` file. **File > Save and Export Notebook As** turns it into other formats:
+**JupyterLab** (G-991) saves the notebook as it is, as an `.ipynb` file. **File > Save and Export Notebook As** turns it into other formats:
 
 | Format | File | Good for |
 |---|---|---|
@@ -212,7 +212,7 @@ Uploading the `.ipynb` file to GitHub is the usual way to share a project: GitHu
 
 > **Key point:** Working in the shared base environment mixes every project's packages, which makes projects hard to move to a server.
 
-A **virtual environment** (G-2090) (in conda simply an **environment**) is a folder with its own copy of Python and its own packages. The installer creates one called **base** (G-259), which holds conda itself. With the full Anaconda distribution, base also holds all of Anaconda's libraries, and starting Jupyter from the Start menu uses base.
+A **virtual environment** (G-2090) (in **conda** (G-439) simply an **environment**) is a folder with its own copy of Python and its own packages. The installer creates one called **base** (G-259), which holds conda itself. With the full **Anaconda** (G-195) distribution, base also holds all of Anaconda's libraries, and starting Jupyter from the Start menu uses base.
 
 Working in base causes problems sooner or later:
 
@@ -230,9 +230,9 @@ For a first ML project, working in one environment for everything is fine. Separ
 
 > **Key point:** `conda create` makes the box, `conda activate` steps into it, and `conda install` fills it.
 
-We create environments from a terminal (Miniforge Prompt or Anaconda Prompt on Windows). The prompt shows the active environment in brackets, for example `(base)`.
+We create environments from a terminal (**Miniforge** (G-1224) Prompt or Anaconda Prompt on Windows). The prompt shows the active environment in brackets, for example `(base)`.
 
-> **Python:** The everyday conda commands.
+> **Python:** The everyday **conda** (G-439) commands.
 >
 > ```bash
 > # a new, nearly empty environment
@@ -249,19 +249,19 @@ We create environments from a terminal (Miniforge Prompt or Anaconda Prompt on W
 >
 > conda asks for confirmation (`Proceed ([y]/n)?`) before it changes anything; we type `y`. Without `python=3.12`, the new environment would have no Python at all.
 
-Jupyter is a package like any other. In a new environment it must be installed before `jupyter lab` works there. Once it runs from inside the environment, every notebook uses that environment's Python and packages.
+**Jupyter** (G-990) is a package like any other. In a new environment it must be installed before `jupyter lab` works there. Once it runs from inside the environment, every **notebook** (G-1353) uses that environment's Python and packages.
 
-A package can also be installed without leaving the notebook. Changing the packages under a running notebook can kill the kernel; after installing, we restart it.
+A package can also be installed without leaving the notebook. Changing the packages under a running notebook can kill the **kernel** (G-1009); after installing, we restart it.
 
-> **Python:** Installing from a notebook cell.
+> **Python:** Installing from a notebook **cell** (G-362).
 >
 > ```python
 > %pip install wordcloud
 > ```
 >
-> `%pip` installs into the environment that runs this notebook. The older form `!pip install wordcloud` sends the line to the terminal, and can install into a different Python by mistake. If the package is already there, pip answers `Requirement already satisfied`.
+> `%pip` installs into the environment that runs this notebook. The older form `!pip install wordcloud` sends the line to the terminal, and can install into a different Python by mistake. If the package is already there, **pip** (G-1497) answers `Requirement already satisfied`.
 
-Anaconda Navigator can do the same with clicks: its **Environments** tab lists every environment and its installed packages, with buttons to create, install and remove.
+**Anaconda Navigator** (G-194) can do the same with clicks: its **Environments** tab lists every environment and its installed packages, with buttons to create, install and remove.
 
 ### 4.3 Removing an environment
 
@@ -298,7 +298,7 @@ An **environment file** (G-692) (`environment.yml`) lists an environment's name,
 
 Figure 6 shows the round trip.
 
-The file has three parts: conda packages from conda-forge, a `pip:` section for packages that conda-forge does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of [Section 5.2](#52-key-versions) instead. Recreating the environment takes one long download. The third command uses `--no-deps`, which means "install just this package and do not touch anything else" (explained fully in [Section 5.3](#53-two-fixes-for-the-profiling-library)):
+The file has three parts: **conda** (G-439) packages from conda-forge, a `pip:` section for packages that **conda-forge** (G-440) does not have, and a `variables:` section (below). The file lists every package, including Linux system libraries such as `libgcc`, so it rebuilds the exact environment **on Linux only**. On macOS or Windows, create an environment with the key versions of [Section 5.2](#52-key-versions) instead. Recreating the environment takes one long download. The third command uses `--no-deps`, which means "install just this package and do not touch anything else" (explained fully in [Section 5.3](#53-two-fixes-for-the-profiling-library)):
 
 > **Python:** Building the `campusx` environment (Linux terminal).
 >
@@ -313,11 +313,11 @@ The file has three parts: conda packages from conda-forge, a `pip:` section for 
 
 The `variables:` section sets `PYTHONNOUSERSITE=1` whenever the environment is activated. Without it, Python also loads packages installed with `pip install --user` (in `~/.local`), and an old copy there can silently replace the environment's own version. With it, only the environment's packages are used.
 
-Figure 1's left side is now complete. From the project folder, `jupyter lab` opens notebooks that use exactly these versions.
+Figure 1's left side is now complete. From the project folder, `jupyter lab` opens **notebooks** (G-1353) that use exactly these versions.
 
 ### 5.2 Key versions
 
-> **Key point:** Python 3.12, pandas 3, NumPy 2 and scikit-learn 1.9 are the versions every Notebook is tested with.
+> **Key point:** Python 3.12, pandas 3, NumPy 2 and scikit-learn 1.9 are the versions every **Notebook** (G-1353) is tested with.
 
 The table lists the pinned versions that matter most for these Notes.
 
@@ -343,7 +343,7 @@ The file also holds a few tools used only to build these Notes; they are not nee
 
 > **Key point:** The profiling library asks for pandas older than 3, so we install it without its dependency rules and switch pandas' text storage before using it.
 
-The EDA (exploratory data analysis) report library from [building the report](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report) is installed with pip under the name `fg-data-profiling` (imported as `data_profiling`). Version 4.20 still declares that it needs pandas older than 3.0 and NumPy older than 2.6. A plain `pip install fg-data-profiling` would therefore quietly replace our pandas 3.0.6 with pandas 2.3.3.
+The EDA (exploratory data analysis) report library from [building the report](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#2-building-the-report) is installed with **pip** (G-1497) under the name `fg-data-profiling` (imported as `data_profiling`). Version 4.20 still declares that it needs pandas older than 3.0 and NumPy older than 2.6. A plain `pip install fg-data-profiling` would therefore quietly replace our pandas 3.0.6 with pandas 2.3.3.
 
 To keep pandas 3, we install it with pip's `--no-deps` option. The option means "install just this package, do not touch anything else".
 
@@ -367,21 +367,21 @@ The library then runs on pandas 3 with one setting. pandas 3 stores text columns
 > pd.set_option("mode.string_storage", "python")
 > ```
 >
-> The Notebook for the pandas profiling Note runs this line first. With pandas 2 it is not needed.
+> The **Notebook** (G-1353) for the pandas profiling Note runs this line first. With pandas 2 it is not needed.
 
 ## 6. Kaggle notebooks
 
-> **Key point:** Kaggle runs notebooks in the browser right next to its datasets, so a dataset is one click away from code.
+> **Key point:** Kaggle runs **notebooks** (G-1353) in the browser right next to its datasets, so a dataset is one click away from code.
 
-Instead of installing anything, we can work in the browser. **Kaggle notebooks** are Jupyter notebooks running on Kaggle's servers, with the usual libraries preinstalled. They are a good start for beginners, and for quick experiments on Kaggle datasets.
+Instead of installing anything, we can work in the browser. **Kaggle notebooks** are **Jupyter** (G-990) notebooks running on Kaggle's servers, with the usual libraries preinstalled. They are a good start for beginners, and for quick experiments on Kaggle datasets.
 
-To start one, we open any dataset on Kaggle (for example the Titanic data) and click **New Notebook** (on the dataset's **Code** tab). Kaggle creates a notebook with that dataset already attached. The Kaggle notebook has the same code and Markdown cells and the same Shift+Enter.
+To start one, we open any dataset on **Kaggle** (G-999) (for example the Titanic data) and click **New Notebook** (on the dataset's **Code** tab). Kaggle creates a notebook with that dataset already attached. The Kaggle notebook has the same code and **Markdown** (G-1168) cells and the same Shift+Enter.
 
 ![Where a Kaggle notebook reads and writes files](images/kaggle_notebook.png){width=95%}
 
 Figure 7 shows where things live on Kaggle's server; the paths come up in the code below.
 
-The first cell Kaggle writes for us imports NumPy and pandas, and prints the path of every attached file. We copy a path from its output into `read_csv`:
+The first **cell** (G-362) Kaggle writes for us imports NumPy and pandas, and prints the path of every attached file. We copy a path from its output into `read_csv`:
 
 > **Python:** Reading an attached dataset on Kaggle.
 >
@@ -411,12 +411,12 @@ Files our code writes go to `/kaggle/working/` and appear in the **Output** pane
 
 ## 7. Google Colab
 
-> **Key point:** Colab is Google's version of a Jupyter notebook in the browser: notebooks save to Google Drive, and a free GPU is one setting away.
+> **Key point:** Colab is Google's version of a Jupyter **notebook** (G-1353) in the browser: notebooks save to Google Drive, and a free GPU is one setting away.
 
-**Google Colab** (G-854) (colab.research.google.com) runs Jupyter notebooks on Google's servers, using a Google account. Colab looks and works like the notebooks above: code and text cells, Shift+Enter, and **File > Download** as `.ipynb` or `.py`. Two things set it apart:
+**Google Colab** (G-854) (colab.research.google.com) runs Jupyter notebooks on Google's servers, using a Google account. Colab looks and works like the notebooks above: code and text **cells** (G-362), Shift+Enter, and **File > Download** as `.ipynb` or `.py`. Two things set it apart:
 
 - **Google Drive:** every notebook is saved in our Drive automatically (in a folder called *Colab Notebooks*).
-- **GPU and TPU:** **Runtime > Change runtime type > Hardware accelerator** switches the notebook to a GPU or TPU. Classic ML code (scikit-learn) does not use a GPU (scikit-learn FAQ); deep learning code runs many times faster on one.
+- **GPU and TPU:** **Runtime > Change runtime type > Hardware accelerator** switches the notebook to a GPU or **TPU** (G-1996). Classic ML code (scikit-learn) does not use a GPU (scikit-learn FAQ); deep learning code runs many times faster on one.
 
 So we do not need an expensive computer to learn deep learning: Colab provides the hardware.
 
@@ -430,7 +430,7 @@ Figure 8 shows what a Colab session keeps and what it loses, which [Section 7.1]
 
 > **Key point:** Colab has no datasets of its own; we upload a file through the Files panel, or connect Google Drive.
 
-The **Files** panel (the folder icon on the left) has an upload button. An uploaded file lands in `/content/`, the notebook's working folder, so `pd.read_csv("cars.csv")` finds it. Right-clicking it and choosing **Copy path** gives the full path.
+The **Files** panel (the folder icon on the left) has an upload button. An uploaded file lands in `/content/`, the **notebook** (G-1353)'s working folder, so `pd.read_csv("cars.csv")` finds it. Right-clicking it and choosing **Copy path** gives the full path.
 
 Uploaded files disappear when the session ends. To keep data between sessions, we store it in Google Drive and connect Drive to the notebook:
 
@@ -447,7 +447,7 @@ Uploaded files disappear when the session ends. To keep data between sessions, w
 
 > **Key point:** Colab has the common libraries preinstalled, in Colab's own versions; `!pip install` adds anything missing.
 
-pandas, NumPy, scikit-learn, Plotly, seaborn and many more are already installed on Colab. Their versions are chosen by Google and change every few months, so they may differ from the pins in [Section 5.2](#52-key-versions). Running the Notebook for this Note on Colab lists the differences.
+pandas, NumPy, scikit-learn, Plotly, seaborn and many more are already installed on Colab. Their versions are chosen by Google and change every few months, so they may differ from the pins in [Section 5.2](#52-key-versions). Running the **Notebook** (G-1353) for this Note on Colab lists the differences.
 
 > **Python:** Checking and adding libraries on Colab.
 >
@@ -464,7 +464,7 @@ Most code in these Notes runs on Colab as it is. A few lines depend on new behav
 
 ## 8. Kaggle datasets on Colab
 
-> **Key point:** With a Kaggle API token, Colab downloads a Kaggle dataset straight from Kaggle's servers, however big it is.
+> **Key point:** With a **Kaggle** (G-999) API token, Colab downloads a Kaggle dataset straight from Kaggle's servers, however big it is.
 
 Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for example thousands of images) to our computer and uploading it to Colab again is slow. The Kaggle **API** (a way for programs to talk to a website) lets Colab fetch it directly, at the speed of Google's network. Figure 9 shows the steps.
 
@@ -473,7 +473,7 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 1. **Get a token.** On Kaggle, under the account settings, **Create New Token** downloads a file `kaggle.json`, the **API token** (G-206). The file holds our username and a secret key.
 2. **Upload it** to Colab through the Files panel.
 3. **Copy it** to the folder where the Kaggle tool looks for it.
-4. **Download the dataset.** On the dataset's Kaggle page, the menu (the three dots) has **Copy API command**. We paste it into a cell with `!` in front.
+4. **Download the dataset.** On the dataset's Kaggle page, the menu (the three dots) has **Copy API command**. We paste it into a **cell** (G-362) with `!` in front.
 5. **Unzip** the downloaded `.zip` file.
 6. **Use the files** with the GPU.
 
@@ -496,11 +496,11 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 >
 > `mkdir -p` makes the hidden folder `.kaggle` in the home folder `~`. `chmod 600` makes the token file readable only by us; the Kaggle tool warns otherwise. `zipfile` is part of Python's standard library: `extractall` unpacks every file in the archive into the folder `data`.
 
-> **Extra:** `kaggle.json` is a password (Kaggle API docs). The token must never be shared, put in a public notebook or uploaded to GitHub. If it leaks, we delete the token on Kaggle and create a new one.
+> **Extra:** `kaggle.json` is a password (Kaggle API docs). The token must never be shared, put in a public **notebook** (G-1353) or uploaded to GitHub. If it leaks, we delete the token on Kaggle and create a new one.
 
 ## 9. Choosing where to work
 
-> **Key point:** Kaggle and Colab for learning and quick experiments; a local conda environment for projects that will be deployed.
+> **Key point:** Kaggle and Colab for learning and quick experiments; a local **conda** (G-439) environment for projects that will be deployed.
 
 | | Local (conda + JupyterLab) | Kaggle notebook | Google Colab |
 |---|---|---|---|
@@ -511,7 +511,7 @@ Colab has the GPU, Kaggle has the datasets. Downloading a large dataset (for exa
 | Notebooks saved | On our disk | On Kaggle | In Google Drive |
 | Best for | Projects and deployment | Kaggle data, sharing work | Deep learning on a GPU |
 
-For learning, Kaggle and Colab are enough, and many people use nothing else. A real project, one that goes to a server, needs a local environment with pinned versions.
+For learning, **Kaggle** (G-999) and Colab are enough, and many people use nothing else. A real project, one that goes to a server, needs a local environment with pinned versions.
 
 ![The table above as one choice](images/where_to_work.png){width=85%}
 
@@ -529,11 +529,11 @@ Figure 10 sums up the choice.
 | Kaggle notebook | Notebook next to Kaggle's datasets | **New Notebook** on a dataset |
 | Google Colab | Notebook on Google's servers, saved in Drive | **Change runtime type** for a GPU |
 
-- One environment per project; never fill up base, because one shared box holds only one version of each package, and a server later needs exactly the packages the project used.
-- `conda activate campusx`, then `jupyter lab`, gives notebooks with exactly the versions in these Notes, because `environment.yml` pins every package and version.
+- One environment per project; never fill up **base** (G-259), because one shared box holds only one version of each package, and a server later needs exactly the packages the project used.
+- `conda activate campusx`, then `jupyter lab`, gives **notebooks** (G-1353) with exactly the versions in these Notes, because `environment.yml` pins every package and version.
 - Install fg-data-profiling with `--no-deps`, and set `mode.string_storage` to `"python"` before building a report, because a plain install would replace pandas 3 with pandas 2.3.3, and the library cannot add up pandas 3's new text columns.
-- Colab and Kaggle have their own library versions, because the platform chooses them and changes them every few months; `!pip install` adds what is missing.
-- A Kaggle API token lets Colab download Kaggle datasets directly, so a large dataset never has to pass through our own computer. Keep it secret, because `kaggle.json` works like a password.
+- Colab and **Kaggle** (G-999) have their own library versions, because the platform chooses them and changes them every few months; `!pip install` adds what is missing.
+- A Kaggle **API token** (G-206) lets Colab download Kaggle datasets directly, so a large dataset never has to pass through our own computer. Keep it secret, because `kaggle.json` works like a password.
 - Both routes give the same kind of notebook. Kaggle and Colab are enough for learning; a project that goes to a server needs a local environment, because the server needs the same pinned versions.
 
 ## 11. Sources
@@ -561,29 +561,29 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Notebook (G-1353) | A `.ipynb` file of cells, each with its output underneath. |
+| Cell (G-362) | One block of a notebook, holding either code or Markdown. |
 | conda (G-439) | A package and environment manager: it installs Python and libraries and keeps each set in a separate environment, so different projects do not clash. |
+| Jupyter (G-990) | Tool for notebooks that mix code, output and text. |
+| Google Colab (G-854) | Google's browser-based Jupyter notebooks, saved in Google Drive. |
+| Miniforge (G-1224) | A small installer with only conda and Python, using conda-forge. |
 | Anaconda (G-195) | A free bundle (distribution) for data science that installs Python, hundreds of popular libraries and tools such as Jupyter in one go, with the conda package manager to keep them working together. |
 | Package manager (G-1434) | A program that downloads and installs libraries in versions that fit together. |
 | Package (G-1435) | A library bundled so that a package manager such as pip or conda can download and install it. |
 | pip (G-1497) | Python's own package manager, which installs from PyPI. |
 | PyPI (G-1593) | The Python Package Index, the public store of Python packages. |
 | conda-forge (G-440) | A free, community-run channel (an online store of conda packages) with more packages, often newer ones, than Anaconda's default channel. |
-| Miniforge (G-1224) | A small installer with only conda and Python, using conda-forge. |
 | Anaconda Navigator (G-194) | Anaconda's point-and-click window for environments and packages. |
 | Spyder (G-1856) | A Python code editor that shows variables and tables in memory. |
-| Jupyter (G-990) | Tool for notebooks that mix code, output and text. |
-| Notebook (G-1353) | A `.ipynb` file of cells, each with its output underneath. |
-| Cell (G-362) | One block of a notebook, holding either code or Markdown. |
 | JupyterLab (G-991) | The program that runs Jupyter notebooks in a web browser. |
-| Markdown (G-1168) | A simple way to format text with symbols such as `#` and `**`. |
 | Kernel (Jupyter) (G-1009) | The running Python process behind a notebook. |
+| Markdown (G-1168) | A simple way to format text with symbols such as `#` and `**`. |
 | Kaggle (G-999) | A website for sharing datasets and notebooks and for ML competitions. |
 | Virtual environment (G-2090) | A separate folder with its own copy of Python and its own packages, one per project, so the projects' package versions do not clash. |
 | base environment (G-259) | The environment the installer creates, holding conda itself. |
 | Environment file (G-692) | A file (`environment.yml`) listing an environment's name, channel and every package with its exact version, so anyone can rebuild the same environment and get the same results. |
 | GPU (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
 | TPU (G-1996) | Google's chip built only for deep learning maths. |
-| Google Colab (G-854) | Google's browser-based Jupyter notebooks, saved in Google Drive. |
 | API token (G-206) | A secret file or key that lets a program use a website's API as us. |
 | [Distribution](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-626) | How a column's values spread over their range. |
 | [Channel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-375) | One colour layer of an image (red, green or blue). |

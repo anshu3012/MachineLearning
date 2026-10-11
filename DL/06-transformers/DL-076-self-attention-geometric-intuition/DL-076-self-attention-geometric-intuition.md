@@ -16,13 +16,13 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 ## 1. Overview
 
-> **Key point:** Drawn as arrows, self-attention does three things to a word's vector. Self-attention projects the embedding into a query, a key and a value vector; it measures how well the word's query points along every key; and it replaces the word by a weighted average of the value vectors. The new vector lies between the value vectors, pulled towards the words that got the most weight, so the same word lands in a different place in a different sentence.
+> **Key point:** Drawn as arrows, self-attention does three things to a word's vector. Self-attention projects the embedding into a query, a key and a value vector; it measures how well the word's query points along every **key** (G-1011); and it replaces the word by a weighted average of the value vectors. The new vector lies between the value vectors, pulled towards the words that got the most weight, so the same word lands in a different place in a different sentence.
 
-The [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once) and the [**scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745) gave the formula for self-attention:
+The [self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once) and the [**scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745) gave the formula for **self-attention** (G-1763):
 
 $$Y = \text{softmax}\negthinspace\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
 
-Here $Q$, $K$ and $V$ are tables with one row per word: its query, key and value vector. $d_k$ is the length of a key vector, $K^T$ is $K$ with rows and columns swapped, and the softmax turns each row of scores into weights that are positive and add up to 1. Every symbol gets a concrete value in sections 4 to 6. This Note draws what the formula does to the vectors. Real embeddings have hundreds of numbers, which we cannot draw. Here every embedding has just 2 numbers, so each vector is an arrow on a page. Figure 1 runs the whole computation for the word "bank" in the sentence "money bank".
+Here $Q$, $K$ and $V$ are tables with one row per word: its query, key and **value** (G-2068) vector. $d_k$ is the length of a key vector, $K^T$ is $K$ with rows and columns swapped, and the softmax turns each row of scores into weights that are positive and add up to 1. Every symbol gets a concrete value in sections 4 to 6. This Note draws what the formula does to the vectors. Real embeddings have hundreds of numbers, which we cannot draw. Here every embedding has just 2 numbers, so each vector is an arrow on a page. Figure 1 runs the whole computation for the word "bank" in the sentence "money bank".
 
 ![Self-attention on "money bank" in 2 dimensions: embeddings, their query (blue), key (orange) and value (green) vectors, the scores of bank's query, the value vectors scaled by the weights, their sum $y_{bank}$, and finally $y_{bank}$ in "river bank" for comparison](images/attention_2d.gif){height=60%}
 
@@ -30,11 +30,11 @@ All the numbers in this Note are hypothetical, chosen by hand so that the arrows
 
 ## 2. Prerequisites
 
-- [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value): query, key and value vectors, and the weighted sum of values.
+- [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value): query, key and **value** (G-2068) vectors, and the weighted sum of values.
 - [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745): dividing the scores by $\sqrt{d_k}$.
-- [What is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings): contextual embeddings, and the two meanings of "bank".
+- [What is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings): **contextual embeddings** (G-462), and the two meanings of "bank".
 - [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): multiplying a vector by a matrix moves the vector.
-- [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5: vectors pointing the same way have a large dot product.
+- [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5: vectors pointing the same way have a large **dot product** (G-634).
 
 ## 3. Words as arrows
 
@@ -46,7 +46,7 @@ Figure 2 does this for real word vectors. It takes 17 words from [**GloVe**](../
 
 - **Similar words sit together.** The chemistry words (chloride, sodium, magnesium, oxide) form one group, the formal linking words another, the money words a third and the river words a fourth.
 - **The 2-D picture agrees with all 100 numbers.** The mean **cosine similarity** (G-491; how closely two vectors point the same way: 1 for the same direction, 0 for perpendicular) between two words of the same group is 0.70; between words of different groups it is 0.20 (Notebook).
-- **"Bank" has one fixed place, next to the money words.** Its mean cosine similarity is 0.60 with the money words and 0.32 with the river words. A fixed embedding cannot move "bank" towards "river" when the sentence is about a river. Self-attention can, and the rest of this Note draws how.
+- **"Bank" has one fixed place, next to the money words.** Its mean cosine similarity is 0.60 with the money words and 0.32 with the river words. A fixed embedding cannot move "bank" towards "river" when the sentence is about a river. **Self-attention** (G-1763) can, and the rest of this Note draws how.
 
 ![Real GloVe vectors of 17 words (100 numbers each), projected onto their first 2 principal components. Words used in similar ways sit close together; "bank" (red star) sits beside the money words](images/real_words_pca.png){width=90%}
 
@@ -97,7 +97,7 @@ Two embeddings have become six vectors. The embeddings themselves are not used a
 
 ## 5. Step 2: compare the query with every key
 
-> **Key point:** The dot product of bank's query with each key measures how closely the two arrows point the same way. Scaling and the softmax turn these scores into weights that sum to 1.
+> **Key point:** The dot product of bank's query with each **key** (G-1011) measures how closely the two arrows point the same way. Scaling and the softmax turn these scores into weights that sum to 1.
 
 We follow the word "bank"; "money" goes through exactly the same steps. Its new vector depends on how similar "bank" is to every word of the sentence, itself included. The similarity of two arrows is their [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634): large when they point the same way, small when the angle between them is wide (the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning) (G-634), section 5).
 
@@ -119,13 +119,13 @@ We follow the word "bank"; "money" goes through exactly the same steps. Its new 
    $$w_{bank,money} = 0.397$$
    $$w_{bank,bank} = 0.603$$
 
-In Figure 1 (third frame), $q_{bank}$ points between the two keys, much closer to $k_{money}$ in direction (about 4 degrees away, against 29 degrees from $k_{bank}$), but with $k_{bank}$ longer, so $k_{bank}$ wins the larger weight (Figure 5). Once the weights are known, the queries and keys have done their job; only the value vectors are needed from here on.
+In Figure 1 (third frame), $q_{bank}$ points between the two keys, much closer to $k_{money}$ in direction (about 4 degrees away, against 29 degrees from $k_{bank}$), but with $k_{bank}$ longer, so $k_{bank}$ wins the larger weight (Figure 5). Once the weights are known, the queries and keys have done their job; only the **value** (G-2068) vectors are needed from here on.
 
 ![Step 2 as a still: bank's query (blue) against the two keys (orange), with the scores and weights](images/stills_scores.png){width=70%}
 
 ## 6. Step 3: a weighted sum of the value vectors
 
-> **Key point:** Each value vector is shrunk by its weight, and the shrunk arrows are added tip to tail. The result $y_{bank}$ is the [**contextual embedding**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) of "bank".
+> **Key point:** Each **value** (G-2068) vector is shrunk by its weight, and the shrunk arrows are added tip to tail. The result $y_{bank}$ is the [**contextual embedding**](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) of "bank".
 
 1. **In words:** form the **weighted sum** (G-2119): multiply each value vector by its weight (multiplying a vector by a number shrinks or stretches it without turning it), then add the results.
 2. **Formula:**
@@ -146,7 +146,7 @@ Adding two arrows means placing the second at the tip of the first (the triangle
 
 ### 7.1 The output sits between the value vectors
 
-Because the two weights are positive and add up to 1, the weighted sum can be rewritten:
+Because the two weights are positive and add up to 1, the **weighted sum** (G-2119) can be rewritten:
 
 With $w = w_{bank,money}$, one step per line:
 
@@ -168,7 +168,7 @@ So $y_{bank}$ starts at $v_{bank}$ and moves a fraction $w = 0.397$ of the way a
 
 Figure 7 turns the weight into a slider. Watch the purple arrow: at $w = 0$ it is $v_{bank}$ itself, at $w = 1$ it is $v_{money}$, and in between it sits exactly $w$ of the way along the dotted line. The attention weight is the strength of the pull.
 
-> **Extra:** With $n$ words the same argument holds: the weights are positive and sum to 1, so each output is a weighted average of the $n$ value vectors. A weighted average of points always lies inside the smallest region with straight edges that contains them (their **convex hull**, G-477): for 3 words, inside the triangle of their value vectors. Self-attention can only mix the value vectors of the sentence; it cannot produce a vector outside their range.
+> **Extra:** With $n$ words the same argument holds: the weights are positive and sum to 1, so each output is a weighted average of the $n$ **value** (G-2068) vectors. A weighted average of points always lies inside the smallest region with straight edges that contains them (their **convex hull**, G-477): for 3 words, inside the triangle of their value vectors. **Self-attention** (G-1763) can only mix the value vectors of the sentence; it cannot produce a vector outside their range.
 
 ### 7.2 The same word in another sentence
 
@@ -181,7 +181,7 @@ Now replace "money" by "river", with embedding $e_{river} = (8, -2)$, and keep e
 | $y_{bank}$ | $(4.97,\ 4.67)$ | $(6.68,\ 3.03)$ |
 | Distance moved from $v_{bank}$ | 1.85 | 0.77 |
 
-The word "bank" has the same embedding and the same value vector in both sentences, yet its outputs are 2.37 apart (Figure 1, last frame). In "money bank" it is pulled up towards money; in "river bank" it is pulled down towards river. Self-attention gives a word a different vector in each context, which is what the [what is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) asked for: a **contextual embedding**.
+The word "bank" has the same embedding and the same value vector in both sentences, yet its outputs are 2.37 apart (Figure 1, last frame). In "money bank" it is pulled up towards money; in "river bank" it is pulled down towards river. **Self-attention** (G-1763) gives a word a different vector in each context, which is what the [what is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) asked for: a **contextual embedding**.
 
 In a trained model the matrices, and therefore the weights and the directions of the pulls, come from the training data. Our hand-picked numbers only show the geometry.
 
@@ -189,7 +189,7 @@ In a trained model the matrices, and therefore the weights and the directions of
 
 > **Key point:** In a transformer, the attention output is not the word's new vector on its own. It is a **change**, $\Delta e$ (G-2272), that is **added** to the word's own vector: new vector $= e + \Delta e$. The addition is the residual connection of the transformer encoder.
 
-Sections [6](#6-step-3-a-weighted-sum-of-the-value-vectors) and [7.1](#71-the-output-sits-between-the-value-vectors) treated $y_{bank}$ as the new vector of "bank". Inside a transformer one more step follows. The attention output is added to the vector that went in, $e_{bank} + y_{bank}$ (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm), section 5.2, calls this the **residual connection**, G-1681; there a **layer normalisation**, G-1054, follows the addition). So the value vectors are best read as "what to add to the other word if this word is relevant to it", and their weighted sum $y_{bank}$ as the change $\Delta e$ (Sanderson 2024, Ch 6). [Section 7.1](#71-the-output-sits-between-the-value-vectors) still holds: the change itself lies between the value vectors. What moves the word is the change added on top of it.
+Sections [6](#6-step-3-a-weighted-sum-of-the-value-vectors) and [7.1](#71-the-output-sits-between-the-value-vectors) treated $y_{bank}$ as the new vector of "bank". Inside a transformer one more step follows. The attention output is added to the vector that went in, $e_{bank} + y_{bank}$ (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm), section 5.2, calls this the **residual connection**, G-1681; there a **layer normalisation**, G-1054, follows the addition). So the **value** (G-2068) vectors are best read as "what to add to the other word if this word is relevant to it", and their weighted sum $y_{bank}$ as the change $\Delta e$ (Sanderson 2024, Ch 6). [Section 7.1](#71-the-output-sits-between-the-value-vectors) still holds: the change itself lies between the value vectors. What moves the word is the change added on top of it.
 
 1. **In words:** keep the word's own arrow, and put the attention output at its tip.
 2. **Formula:**
@@ -224,12 +224,12 @@ In a real trained model the change is mostly much smaller: a nudge. The Notebook
 | Weights | divide by $\sqrt{d_k}$, softmax | $0.397$ on money, $0.603$ on bank |
 | Output | shrink each value vector by its weight, add tip to tail | $y_{bank} = (4.97, 4.67)$ |
 
-- In the table, the queries and keys only decide the weights; after step 2 only the value vectors are used, so the output is built from values alone.
-- An embedding is an arrow; similar words point to nearby places (in GloVe, mean cosine similarity 0.70 within a group of related words, 0.20 between groups), so a fixed "bank" sits beside the money words in every sentence.
-- The output of self-attention is a weighted average of the value vectors, so it lies between them, pulled towards the words with large weights; it can never land outside the range of the sentence's value vectors.
+- In the table, the queries and **keys** (G-1011) only decide the weights; after step 2 only the value vectors are used, so the output is built from values alone.
+- An embedding is an arrow; similar words point to nearby places (in **GloVe** (G-851), mean cosine similarity 0.70 within a group of related words, 0.20 between groups), so a fixed "bank" sits beside the money words in every sentence.
+- The output of **self-attention** (G-1763) is a weighted average of the value vectors, so it lies between them, pulled towards the words with large weights; it can never land outside the range of the sentence's value vectors.
 - The same word gets a different output in a different sentence, because a different neighbour pulls it a different way: "bank" moves towards money in one and towards river in the other.
 - In a transformer the attention output is a change $\Delta e$ added to the word's own vector (the residual connection), so the word keeps its own meaning and gets a nudge; in GPT-2 small most blocks add a change of 9 to 25 percent of the vector's length.
-- So, drawn as arrows, self-attention projects each word three ways, compares query with keys, and pulls the word towards the values of the words that matter.
+- So, drawn as arrows, self-attention projects each word three ways, compares query with keys, and pulls the word towards the **values** (G-2068) of the words that matter.
 
 ## 9. Sources
 
@@ -255,18 +255,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Convex hull (G-477) | The smallest region with straight edges that contains a set of points; every weighted average of the points lies inside it. |
 | Change $\Delta e$ (G-2272) | The amount attention adds to a word's vector: the attention output is added to the word's own vector (the residual connection), new vector $= e + \Delta e$, so it acts as an update to the word. |
 | Embedding vector (G-676) | The list of numbers that represents one word, drawn as an arrow from the origin; words used in similar ways get nearby arrows, so a model can compare words through their vectors. |
+| [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
 | [Scaled dot-product attention](../../../DL/06-transformers/DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#1-overview) (G-1745) | Self-attention in which every query–key dot-product score is divided by $\sqrt{d_k}$ before the softmax, so the scores do not spread so wide that the softmax saturates: $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$. |
+| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
+| [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
+| [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
 | [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) | Reducing the number of input columns while keeping the information. |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
 | [GloVe](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-851) | Word vectors learned from how often words appear near each other: training makes the dot product of two words' vectors match the log of their co-occurrence probability (Pennington et al. 2014). |
 | [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
-| [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
-| [Key](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) | In attention, the vector each word offers to be compared with a query; the dot product of the query with a key scores how much attention that word gets. |
-| [Value](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) | In self-attention, the vector each word contributes to the weighted sum that becomes a word's new vector; it comes from the word's embedding through a learned value matrix. |
-| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
-| [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
 | [Residual connection](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#1-overview) (G-1681) | A path that skips a sub-layer and adds the sub-layer's input to its output; also called a skip connection. |
 | [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
 | [Projection](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) | Dropping a point or vector straight onto an axis, a line or another vector's direction, like casting a shadow. |

@@ -15,20 +15,20 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/poisson-d
 
 ## 1. Overview
 
-> **Key point:** The Poisson distribution gives the probability of each count of events (0, 1, 2, ...) in a fixed interval of time or space, when we know only the average count $\lambda$.
+> **Key point:** The **Poisson distribution** (G-1509) gives the probability of each count of events (0, 1, 2, ...) in a fixed interval of time or space, when we know only the average count $\lambda$.
 
 ![Events on a time line, counted per day; the average count is the rate $\lambda$](images/counts_in_intervals.png)
 
 Figure 1 shows the kind of data the Poisson distribution describes. Events (here, questions from students) arrive at random moments; we cut time into equal intervals (days) and count the events in each. The counts vary from day to day, but their average, the **rate** $\lambda$ (G-1633), stays about the same.
 
-The Poisson distribution was named in one line in [famous PDFs](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs): a discrete distribution of counts, with parameter $\lambda$. This Note teaches it in full:
+The Poisson distribution was named in one line in [famous PDFs](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#6-famous-pdfs): a discrete distribution of counts, with **parameter** (G-1448) $\lambda$. This Note teaches it in full:
 
 - what kind of question it answers, and its notation;
 - its PMF, with a worked example;
 - the shape of its graph and how $\lambda$ moves it;
 - its mean and variance, which are both $\lambda$;
 - probabilities of a range of counts;
-- its link to the binomial distribution, and where it is used.
+- its link to the **binomial distribution** (G-308), and where it is used.
 
 ## 2. What the Poisson distribution describes
 
@@ -55,7 +55,7 @@ For example, a firefly lights up 3 times in 10 seconds on average. The Poisson d
 
 ### 2.2 Notation
 
-> **Key point:** $Y \sim \text{Po}(\lambda)$ reads: $Y$ follows a Poisson distribution with rate $\lambda$.
+> **Key point:** $Y \sim \text{Po}(\lambda)$ reads: $Y$ follows a **Poisson distribution** (G-1509) with rate $\lambda$.
 
 A distribution is often written as a short name with its [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) in brackets. The symbol $\sim$ reads "follows":
 
@@ -167,7 +167,7 @@ $$\lambda = 3 \times 20 / 10 = 6$$
 
 > **Key point:** One bar per count, starting at 0 and running on to the right without end; the bars are tallest near $\lambda$.
 
-The graph of a Poisson distribution plots each count $y$ against its probability. Figure 3 shows it for $\lambda = 4$:
+The graph of a **Poisson distribution** (G-1509) plots each count $y$ against its probability. Figure 3 shows it for $\lambda = 4$:
 
 - it starts at 0, since no event can happen a negative number of times;
 - it peaks at 3 and 4 (both have probability 0.195);
@@ -312,13 +312,13 @@ With 1000 trials $1 - p$ is almost 1, the variance is almost $\lambda$, and the 
 
 $$np(1-p) = 1000 \times 0.004 \times 0.996 = 3.98$$
 
-The binomial limit is where the Poisson distribution comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. The approximation needs $n$ large and $p$ small (Ross §4.7). For example, at $n = 20$ and $p = 0.05$ the notebook finds a largest gap of about 0.01, and the gap grows when $p$ is larger.
+The binomial limit is where the **Poisson distribution** (G-1509) comes from. Cut a day into many tiny moments; in each, a question arrives or not, with a tiny probability. The count is binomial with huge $n$ and tiny $p$, and in the limit it becomes Poisson. The approximation needs $n$ large and $p$ small (Ross §4.7). For example, at $n = 20$ and $p = 0.05$ the notebook finds a largest gap of about 0.01, and the gap grows when $p$ is larger.
 
 ### 7.1 Cutting the day finer
 
 > **Key point:** Treating each hour as one trial misses hours with two questions; cutting the day into ever smaller moments removes that flaw, and the binomial count becomes the Poisson count.
 
-The forum of section 3 gets 4 questions a day on average. We can try to count them with a binomial distribution, in three steps.
+The forum of section 3 gets 4 questions a day on average. We can try to count them with a **binomial distribution** (G-308), in three steps.
 
 1. **Hours as trials.** Cut the day into 24 hours and call each hour a trial: a question arrives in it or not. The mean must stay 4, so $p$ is 4 shared over 24 hours:
 
@@ -385,7 +385,7 @@ The result is the Poisson PMF of section 3, with $k$ in place of $y$. The $e^{-\
 
 > **Key point:** Events must happen one at a time, independently, at a constant average rate; then counts of arrivals, calls, clicks or defects are Poisson.
 
-A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
+A count follows a **Poisson distribution** (G-1509) when these three conditions hold (Ross §4.7):
 
 1. **Events are independent** (G-934; see [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)). One question does not make the next more or less likely.
 2. **The rate is constant.** The average count is the same for every interval of the same length; an exam week with more questions breaks this.
@@ -414,7 +414,7 @@ In machine learning, a **target** (G-1949; the output we predict) that is a coun
 | Example | 2 likes out of 3 viewers, $p = 0.5$: 3/8 | 7 questions when 4 are usual: 0.060 |
 
 - Use the table to choose: Poisson when only the average count per interval is known, binomial when the number of trials and the success probability are known.
-- The Poisson distribution needs only the average count per interval, $\lambda$; scale $\lambda$ when the interval changes, because $\lambda$ belongs to one interval length (3 flashes in 10 seconds means 6 in 20).
+- The **Poisson distribution** (G-1509) needs only the average count per interval, $\lambda$; scale $\lambda$ when the interval changes, because $\lambda$ belongs to one interval length (3 flashes in 10 seconds means 6 in 20).
 - Its graph starts at 0, peaks near $\lambda$ and has an endless right tail; a larger $\lambda$ moves it right and spreads it out, because $\lambda$ is both the mean and the variance.
 - Mean and variance are both $\lambda$, so a variance clearly larger than the mean in real count data warns that the Poisson model underestimates big counts.
 - A range of counts has the sum of the single-count probabilities, because one interval cannot hold two different counts at once.
@@ -442,15 +442,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Rate $\lambda$ (G-1633) | The average number of events per interval; the only parameter of the Poisson distribution. |
 | Poisson distribution (G-1509) | A distribution that gives the probability of each possible count of events (0, 1, 2, ...) in a fixed interval of time or space, from the average count $\lambda$; used for counts such as questions per day. |
+| Rate $\lambda$ (G-1633) | The average number of events per interval; the only parameter of the Poisson distribution. |
 | Euler's number $e$ (G-716) | A fixed number, about 2.71828, that appears in the Poisson PMF. |
 | Negative power (G-1311) | A power with a minus sign, which means one over the positive power: $a^{-n} = 1/a^{n}$, so $2^{-3} = 1/8$. |
 | Overdispersion (G-1428) | Counts that are much more spread out than their mean suggests (variance clearly larger than the mean), a sign that a Poisson model does not fit. |
 | Poisson regression (G-1510) | A model for a count target, such as bike rentals per hour: it predicts the average count $\lambda$ for each row from its features, and the Poisson distribution then gives the probability of each count. |
 | $Y \sim \text{Po}(\lambda)$ (G-45) | Notation: $Y$ follows a Poisson distribution with rate $\lambda$; likewise $\text{Bern}(p)$ and $B(n, p)$. |
-| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Binomial distribution](../../../MA/03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution) (G-308) | The distribution of the number of successes in $n$ independent trials with the same success probability. |
 | [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
 | [Expected value $E[X]$](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |

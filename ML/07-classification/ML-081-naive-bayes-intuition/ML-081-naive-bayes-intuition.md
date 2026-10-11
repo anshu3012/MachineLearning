@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/naive-bayes]
 
 ## 1. Overview
 
-> **Key point:** Naive Bayes computes, for each class, a score: the class's prior multiplied by one likelihood per feature. It predicts the class with the largest score. To make this possible, it assumes the features are independent within each class.
+> **Key point:** Naive Bayes computes, for each class, a score: the class's prior multiplied by one **likelihood** (G-1086) per feature. It predicts the class with the largest score. To make this possible, it assumes the features are independent within each class.
 
 With [**conditional probability**](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#1-overview) (G-444), [independence](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) and [**Bayes' theorem**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-269) in place, we can build the **Naive Bayes classifier** (G-1297), over three Notes: this Note develops the intuition, the next Note derives [the mathematics](../ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#3-step-1-bayes-theorem-without-the-evidence), and the one after [codes it](../ML-083-naive-bayes-code/ML-083-naive-bayes-code.md#3-two-phases).
 
@@ -24,10 +24,10 @@ This Note covers:
 
 - the whole method on one picture, with word counts (section 2);
 - a small dataset of cricket matches (section 3);
-- the strategy: compare the posteriors of the classes (section 4);
-- Bayes' theorem, and why the evidence can be dropped (section 5);
+- the strategy: compare the **posteriors** (G-1536) of the classes (section 4);
+- Bayes' theorem, and why the **evidence** (G-718) can be dropped (section 5);
 - the problem with exact combinations of feature values (section 6);
-- the naive assumption that solves the problem (section 7);
+- the **naive assumption** (G-1296) that solves the problem (section 7);
 - the scores for the new match, one factor at a time (section 8);
 - what one zero count does to a score (section 9).
 
@@ -89,7 +89,7 @@ Each is a [**posterior**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018
 
 ## 5. Applying Bayes' theorem
 
-> **Key point:** Each posterior equals likelihood × prior / evidence. The evidence is the same for every class, so it can be dropped.
+> **Key point:** Each posterior equals **likelihood** (G-1086) × prior / evidence. The evidence is the same for every class, so it can be dropped.
 
 With $A$ = the class and $B$ = the three feature values, [**Bayes' theorem**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) gives
 
@@ -101,21 +101,21 @@ The denominator, the [**evidence**](../../../MA/02-probability/MA-018-bayes-theo
 
 $$\text{score(class)} = P(\text{features} \mid \text{class}) \times P(\text{class})$$
 
-The priors, also called **class priors** (G-388), come straight from counting: 5 of the 8 matches were wins and 3 were losses.
+The **priors** (G-1565), also called **class priors** (G-388), come straight from counting: 5 of the 8 matches were wins and 3 were losses.
 
 $$P(\text{win}) = 5/8$$
 
 $$P(\text{loss}) = 3/8$$
 
-Figure 3 puts both steps in one picture. Watch the shared denominator $P(\text{f})$ being struck out in both posteriors, and the priors coming from a plain count of the eight matches.
+Figure 3 puts both steps in one picture. Watch the shared denominator $P(\text{f})$ being struck out in both **posteriors** (G-1536), and the priors coming from a plain count of the eight matches.
 
 ![Both posteriors divide by the same evidence P(f), so it can be dropped; the priors are counts, 5 wins and 3 losses out of 8 matches](images/evidence.png){height=38%}
 
 ## 6. The problem: specific combinations are rare
 
-> **Key point:** No winning match had exactly (lost, Mumbai, sunny), so the likelihood P(lost, Mumbai, sunny | win) would be 0.
+> **Key point:** No winning match had exactly (lost, Mumbai, sunny), so the **likelihood** (G-1086) P(lost, Mumbai, sunny | win) would be 0.
 
-The likelihood $P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$ is a [**joint probability**](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986), the probability of all three conditions together. It asks: among the 5 winning matches, how many had all three conditions at once? None did. So it would be 0, and the score for "win" would be 0 however strongly the other evidence pointed to a win.
+The likelihood $P(\text{lost}, \text{Mumbai}, \text{sunny} \mid \text{win})$ is a [**joint probability**](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986), the probability of all three conditions together. It asks: among the 5 winning matches, how many had all three conditions at once? None did. So it would be 0, and the score for "win" would be 0 however strongly the other **evidence** (G-718) pointed to a win.
 
 Figure 4 runs this search one condition at a time. Watch the winning matches grey out: one survives "toss lost", none survives "Mumbai", while one losing match (match 6) survives all three.
 
@@ -125,7 +125,7 @@ The rarity of exact matches is a general problem. A past observation that matche
 
 ## 7. The naive assumption
 
-> **Key point:** Assume the features are independent within each class. Then the joint likelihood becomes a product of one-feature likelihoods, each estimated from many observations.
+> **Key point:** Assume the features are independent within each class. Then the joint **likelihood** (G-1086) becomes a product of one-feature likelihoods, each estimated from many observations.
 
 The way out is to stop asking for all three conditions at once. We count each feature on its own, and multiply the results, exactly as each word was counted on its own in section 2.
 
@@ -156,7 +156,7 @@ An everyday picture: to guess whether a new dish will taste good, we cannot wait
 
 > **Key point:** Win: 5/8 × 1/5 × 2/5 × 4/5 = 0.040. Loss: 3/8 × 2/3 × 2/3 × 1/3 = 0.056. Predict loss.
 
-Figure 6 repeats the three steps of section 2 on the matches. Each bar counts the matches of one class with one feature value. The three bars of the new match light up one at a time, and each one multiplies the running product, which starts at the prior.
+Figure 6 repeats the three steps of section 2 on the matches. Each bar counts the matches of one class with one feature value. The three bars of the new match light up one at a time, and each one multiplies the running product, which starts at the **prior** (G-1565).
 
 ![The scores built one factor at a time. Each chart counts one class's matches by feature value. The bars for lost, Mumbai and sunny light up in turn and multiply the prior: win 5/8 × 1/5 × 2/5 × 4/5 = 0.040, loss 3/8 × 2/3 × 2/3 × 1/3 = 0.056. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the data are ours.](images/factor_bars.gif){height=55%}
 
@@ -184,7 +184,7 @@ Figure 7 (left) shows why: winning teams mostly won the toss, played in Chennai 
 
 ## 9. One zero count
 
-> **Key point:** A single likelihood of 0 forces the whole score to 0. Adding 1 to every count removes the zeros.
+> **Key point:** A single **likelihood** (G-1086) of 0 forces the whole score to 0. Adding 1 to every count removes the zeros.
 
 The product has one weak spot. In the word counts of section 2, "meeting" never appears in spam, so:
 
@@ -200,7 +200,7 @@ The fix is to add 1 to every count before dividing (the black boxes in Figure 8)
 
 $$P(\text{meeting} \mid \text{spam}) = 1/14$$
 
-The spam score is 0.00108 against 0.00013 for normal, and the message is classified as spam. The priors do not change, because the number of messages in each class is the same as before.
+The spam score is 0.00108 against 0.00013 for normal, and the message is classified as spam. The **priors** (G-1565) do not change, because the number of messages in each class is the same as before.
 
 ![One zero count. 1: "meeting" never appeared in spam, so the spam score of "meeting prize prize prize" is 0. 2: one count is added to every word of both classes. 3: no likelihood is 0 any more, and spam wins, 0.00108 against 0.00013. Idea after StatQuest, "Naive Bayes, Clearly Explained!!!"; the numbers are ours.](images/spam_zero.gif){height=55%}
 
@@ -217,10 +217,10 @@ Adding a count to every value is [**Laplace smoothing**](../ML-083-naive-bayes-c
 | Score (product) | 0.040 | **0.056** |
 
 - Naive Bayes picks the class with the largest $P(\text{class} \mid \text{features})$, so for the new match it predicts a loss (score 0.056 against 0.040 for a win).
-- A likelihood is a count within a class divided by the class total: a bar height, so training is just counting.
-- The evidence is shared by all classes, so only likelihood × prior is compared, because dividing every score by the same number does not change which is largest.
-- Exact combinations of feature values are rare; the naive assumption (conditional independence) splits them into one-feature probabilities, so each factor is estimated from all the observations of its class instead of from the one or two that match on every feature.
-- One zero count makes a whole score 0, because the score is a product; Laplace smoothing fixes it by adding 1 to every count.
+- A **likelihood** (G-1086) is a count within a class divided by the class total: a bar height, so training is just counting.
+- The evidence is shared by all classes, so only likelihood × **prior** (G-1565) is compared, because dividing every score by the same number does not change which is largest.
+- Exact combinations of feature values are rare; the **naive assumption** (G-1296) (conditional independence) splits them into one-feature probabilities, so each factor is estimated from all the observations of its class instead of from the one or two that match on every feature.
+- One zero count makes a whole score 0, because the score is a product; **Laplace smoothing** (G-1045) fixes it by adding 1 to every count.
 
 ## 11. Sources
 
@@ -241,15 +241,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Naive Bayes classifier (Naive Bayes) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| Naive assumption (G-1296) | The assumption that, within each class, the inputs are independent of each other (conditional independence given the class); it lets Naive Bayes multiply one probability per input instead of counting rare full combinations. |
 | Score (G-1753) | In naive Bayes, the likelihood times the prior for one class; it is not the probability of the class, only proportional to it, which is enough to pick the class with the largest score. |
 | Class prior (G-388) | The share of training rows in a class, such as 5 wins out of 8 matches; Naive Bayes uses it as the prior probability of that class. |
-| Naive assumption (G-1296) | The assumption that, within each class, the inputs are independent of each other (conditional independence given the class); it lets Naive Bayes multiply one probability per input instead of counting rare full combinations. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
 | [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
-| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
-| [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
 | [Posterior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1536) | The probability of an event after the evidence is taken into account. |
 | [Evidence](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
+| [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
 | [Joint probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986) | The probability that two events happen together, $P(A \cap B)$. |
 | [Conditional independence](../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
 | [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |

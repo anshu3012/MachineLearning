@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 
 ## 1. Overview
 
-> **Key point:** To predict, a network passes one observation forward, layer by layer. Each layer is one matrix product, one added bias and one sigmoid, however many nodes it has.
+> **Key point:** To predict, a network passes one observation forward, layer by layer. Each layer is one matrix product, one added bias and one **sigmoid** (G-1798), however many nodes it has.
 
 **Forward propagation** (G-797) is the computation that turns one [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the data table) into a prediction, moving from the input layer through every hidden layer to the output layer. Forward propagation is how a trained network predicts. The same pass is also the first half of every training step:
 
@@ -26,13 +26,13 @@ tags: [subject/deep-learning, area/dl-basics, step/model, concept/forward-propag
 
 ![Forward propagation through the 4-3-2-1 network: the values of each layer appear in its nodes, with that layer's matrix equation](images/forward_anim.gif){height=45%}
 
-Figure 1 shows the whole computation for one student. Each circle is a node (one perceptron); the number inside is that node's output for this student; the layers go from left to right, and the equation shown with each layer is the computation that produced its numbers. The rest of this Note works through it, layer by layer, with every number.
+Figure 1 shows the whole computation for one student. Each circle is a node (one **perceptron** (G-1486)); the number inside is that node's output for this student; the layers go from left to right, and the equation shown with each layer is the computation that produced its numbers. The rest of this Note works through it, layer by layer, with every number.
 
 ## 2. The network and the observation
 
 > **Key point:** The 4-3-2-1 network has 26 parameters. We feed it one student: CGPA 7.2, IQ 72, 10th marks 69, 12th marks 81.
 
-We use the 4-3-2-1 network and the notation of the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#21-numbering-the-layers): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output. The input layer holds the observation, the two hidden layers are the layers between input and output, and the output layer gives the prediction. Counting the weights and biases, which together are the [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) of the network:
+We use the 4-3-2-1 network and the notation of the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#21-numbering-the-layers): 4 inputs, hidden layers of 3 and 2 nodes, and 1 output. The input layer holds the **observation** (G-1374), the two hidden layers are the layers between input and output, and the output layer gives the prediction. Counting the weights and biases, which together are the [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) of the network:
 
 $$\text{weights} = 4 \times 3 + 3 \times 2 + 2 \times 1 = 20$$
 
@@ -40,7 +40,7 @@ $$\text{biases} = 3 + 2 + 1 = 6$$
 
 $$\text{total} = 20 + 6 = 26$$
 
-Every node is a perceptron with a sigmoid activation. The [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) is the function
+Every node is a **perceptron** (G-1486) with a sigmoid activation. The [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) is the function
 
 $$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
@@ -54,19 +54,19 @@ The data has four [**features**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-d
 
 Before it enters, we scale the observation into the range 0 to 1: CGPA divided by 10, the others by 100. So the input is $a^{0} = (0.72,\ 0.72,\ 0.69,\ 0.81)$.
 
-> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative)), is only $1.8 \times 10^{-9}$, $1.2 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. Backpropagation multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) standardizes the inputs instead (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)); dividing by 10 and 100 keeps the numbers here easy to follow.
+> **Extra:** Why scale first? With the raw values, the first hidden layer's sums are 20.1, $-13.7$ and 12.5, and the sigmoid turns them into 1.000, 0.000 and 1.000. Every node is pinned at an extreme. The sigmoid's slope there, $\sigma(z)(1 - \sigma(z))$ (see the [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#4-the-shape-of-the-derivative)), is only $1.8 \times 10^{-9}$, $1.2 \times 10^{-6}$ and $3.7 \times 10^{-6}$, so a small change to a weight hardly changes the node's output. **Backpropagation** (G-247) multiplies every gradient through a node by this slope, so these weights would barely move in training. The [data scaling](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) standardizes the inputs instead (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)); dividing by 10 and 100 keeps the numbers here easy to follow.
 
 ![Layer 1's three sums placed on the sigmoid: for the raw student (red crosses) they land on the flat tails, for the scaled student (blue dots) on the steep middle](images/scaling_sigmoid.png){height=28%}
 
 Figure 2 shows the Extra box as a picture. The horizontal axis is the sum $z$ of a node, and the height is $\sigma(z)$. Watch where the crosses sit. On the flat tails a change in $z$ barely moves $\sigma(z)$, so those nodes cannot learn; the scaled sums sit where the curve is steepest.
 
-The weights are not trained here: we set them by hand to one decimal, so that every step can be checked with a calculator. Training would find better values; forward propagation works the same either way.
+The weights are not trained here: we set them by hand to one decimal, so that every step can be checked with a calculator. Training would find better values; **forward propagation** (G-797) works the same either way.
 
 ## 3. What one node computes
 
-> **Key point:** Each node takes the outputs of the previous layer, multiplies each by its weight, adds its bias and applies the sigmoid.
+> **Key point:** Each node takes the outputs of the previous layer, multiplies each by its weight, adds its bias and applies the **sigmoid** (G-1798).
 
-Every node does what a single perceptron does (see the [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486)), with the sigmoid as its activation. For node 1 of layer 1:
+Every node does what a single perceptron does (see the [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486)), with the sigmoid as its **activation** (G-164). For node 1 of layer 1:
 
 1. **In words:** multiply each input by the weight on its connection to this node, add them up, add the node's bias, and pass the total through the sigmoid.
 2. **Formula:**
@@ -114,7 +114,7 @@ The first column, $(0.2, 0.4, -0.5, 0.3)$, is exactly the four weights node 1 us
 
 To get one sum per node, each column of $W^{1}$ must meet the input. The [**transpose**](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) $W^{1\mathsf T}$ turns the columns of $W^{1}$ into rows (a $4 \times 3$ matrix becomes $3 \times 4$), and then the product does exactly that (a matrix times a vector, see the [**linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#73-neural-network-layers-and-pca) (G-1097), section 7.3).
 
-1. **In words:** multiply the transposed weight matrix by the input vector, add the bias vector, then apply the sigmoid to every entry.
+1. **In words:** multiply the transposed weight matrix by the input vector, add the bias vector, then apply the **sigmoid** (G-1798) to every entry.
 2. **Formula:**
    $$z^{1} = W^{1\mathsf T} a^{0} + b^{1}$$
    $$a^{1} = \sigma(z^{1})$$
@@ -140,7 +140,7 @@ The first entry, 0.606, is the $O_{11}$ we computed by hand in [Section 3](#3-wh
 
 ## 5. Layers 2 and 3
 
-> **Key point:** The same step repeats: the previous layer's activation goes in, this layer's activation comes out, until the output layer gives $\hat{y}$.
+> **Key point:** The same step repeats: the previous layer's **activation** (G-164) goes in, this layer's activation comes out, until the output layer gives $\hat{y}$.
 
 ### 5.1 Layer 2
 
@@ -190,7 +190,7 @@ $$z^{3} = 0.381$$
 
 $$a^{3} = \sigma(0.381) = 0.594$$
 
-So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since 0.594 is above 0.5, the network predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and sigmoids.
+So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probability of being placed. Since 0.594 is above 0.5, the network predicts *placed*. Four input numbers became one prediction, using nothing but matrix products, additions and **sigmoids** (G-1798).
 
 ### 5.3 The shapes at a glance
 
@@ -198,13 +198,13 @@ So $\hat{y} = O_{31} = 0.594$: the network gives this student a 59.4% probabilit
 
 ![The shapes of the three layers, then the three layers nesting into one formula](images/shapes.gif){height=40%}
 
-Figure 5 lines the three layers up. Watch the two grey numbers in each row: the number of columns of the transposed weight matrix must equal the number of entries of the incoming activation (4 and 4, then 3 and 3, then 2 and 2). Those inner sizes drop out, and the outer sizes, shown in green, give the shape of the result. The second half of Figure 5 previews section 6: each layer's formula wraps around the one before it.
+Figure 5 lines the three layers up. Watch the two grey numbers in each row: the number of columns of the transposed weight matrix must equal the number of entries of the incoming **activation** (G-164) (4 and 4, then 3 and 3, then 2 and 2). Those inner sizes drop out, and the outer sizes, shown in green, give the shape of the result. The second half of Figure 5 previews section 6: each layer's formula wraps around the one before it.
 
 ## 6. The whole network in one formula
 
-> **Key point:** The whole network is one nested formula: each layer's sigmoid wraps around the layer before it. More layers only make the chain longer.
+> **Key point:** The whole network is one nested formula: each layer's **sigmoid** (G-1798) wraps around the layer before it. More layers only make the chain longer.
 
-A network works like an assembly line: each station (layer) takes what the previous station handed over, does the same kind of job on it, and passes the result on. Each layer applies the same rule to the activation of the layer before it:
+A network works like an assembly line: each station (layer) takes what the previous station handed over, does the same kind of job on it, and passes the result on. Each layer applies the same rule to the **activation** (G-164) of the layer before it:
 
 $$a^{k} = \sigma\left(W^{k\mathsf T} a^{k-1} + b^{k}\right)$$
 
@@ -214,9 +214,9 @@ Substituting each activation into the next writes the whole network as one neste
 
 $$\hat{y} = a^{3} = \sigma\Big(W^{3\mathsf T}\thinspace\underbrace{\sigma\big(W^{2\mathsf T}\thinspace\underbrace{\sigma(W^{1\mathsf T} a^{0} + b^{1})} _{a^{1}} + b^{2}\big)} _{a^{2}} + b^{3}\Big)$$
 
-The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#73-linear-layers-collapse-into-one), section 7.3), and the network would be no more powerful than one perceptron.
+The nested formula is what a neural network is, as a function: a chain of matrix products, each followed by a bias and an activation. However large the architecture, prediction stays this organised. The sigmoids between the matrices are essential: without them, the three matrices would collapse into one (see the [matrix multiplication](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#73-linear-layers-collapse-into-one), section 7.3), and the network would be no more powerful than one **perceptron** (G-1486).
 
-> **Python:** Forward propagation with NumPy.
+> **Python:** **Forward propagation** (G-797) with NumPy.
 >
 > ```python
 > import numpy as np
@@ -230,9 +230,9 @@ The nested formula is what a neural network is, as a function: a chain of matrix
 > print(a)                                # [0.594]
 > ```
 >
-> `W1` is the $4 \times 3$ array of [Section 4.1](#41-the-weight-matrix) and `b1` the bias of length 3; `W.T` is the transpose and `@` the matrix product. The same three-line loop works for any number of layers.
+> `W1` is the $4 \times 3$ array of [Section 4.1](#41-the-weight-matrix) and `b1` the bias of length 3; `W.T` is the **transpose** (G-2012) and `@` the matrix product. The same three-line loop works for any number of layers.
 
-> **Extra:** Libraries predict many observations at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957)), the first layer becomes
+> **Extra:** Libraries predict many **observations** (G-1374) at once. Stacking $n$ observations as the rows of an $n \times 4$ matrix $X$ (a 2D tensor, see the [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957)), the first layer becomes
 >
 > $$A^{1} = \sigma(XW^{1} + b^{1})$$
 > $$(n \times 4)(4 \times 3) = n \times 3$$
@@ -245,7 +245,7 @@ The nested formula is what a neural network is, as a function: a chain of matrix
 
 > **Key point:** Run the forward pass for every possible input and plot the results: each node gives a surface over the inputs, and the output node's surface is the network's prediction everywhere.
 
-So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two features CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface (a sheet over the CGPA-IQ floor).
+So far one student went through the network and one number came out. The same forward pass can be run for every student we can imagine. Figure 6 does this for the two **features** (G-772) CGPA and IQ, each from 0 to 1 after scaling, with the 10th and 12th marks held at this student's 0.69 and 0.81. For each pair (CGPA, IQ) we plot the output of one node as a height, which gives a surface (a sheet over the CGPA-IQ floor).
 
 ![The output of each node of the 4-3-2-1 network for every CGPA and IQ, one node per frame; the red dot is the student of this Note. Each frame has its own height scale. Idea after StatQuest, "Neural Networks Pt. 4: Multiple Inputs and Outputs"](images/surfaces.gif){height=40%}
 
@@ -265,11 +265,11 @@ The output surface is the whole network seen as a function: for every input it g
 | 2 | $3 \times 2$ | $\sigma(W^{2\mathsf T} a^{1} + b^{2})$ | $(2 \times 3)(3 \times 1)$ | (0.641, 0.553) |
 | 3 | $2 \times 1$ | $\sigma(W^{3\mathsf T} a^{2} + b^{3})$ | $(1 \times 2)(2 \times 1)$ | $\hat{y} = 0.594$ |
 
-- Forward propagation: one observation moves from the input layer to the output, layer by layer, because each layer needs the outputs of the layer before it.
-- Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then sigmoid, so one matrix product handles every node of a layer, however many nodes it has.
+- Forward propagation: one **observation** (G-1374) moves from the input layer to the output, layer by layer, because each layer needs the outputs of the layer before it.
+- Each layer: weighted sums ($W^{\mathsf T} a$), plus bias, then **sigmoid** (G-1798), so one matrix product handles every node of a layer, however many nodes it has.
 - $W^{k}$ has one row per node of layer $k-1$ and one column per node of layer $k$, so column $j$ holds the weights entering node $j$.
 - The whole network is one nested formula, each layer wrapped around the one before it (section 6), so more layers only make the chain longer.
-- Backpropagation, next, uses this forward pass to compute the error and update the 26 parameters.
+- Backpropagation, next, uses this forward pass to compute the error and update the 26 **parameters** (G-1448).
 
 So a network turns one observation into a prediction by repeating the same step per layer: matrix product, bias, sigmoid, from the inputs to $\hat{y}$.
 
@@ -295,15 +295,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Bias vector ($b^{k}$) (G-286) | A column holding one bias per node of layer $k$; it is added to the layer's weighted sums before the activation. |
 | Weight matrix ($W^{k}$) (G-2109) | All weights entering layer $k$: one row per node of layer $k-1$, one column per node of layer $k$. |
 | Weighted input ($z^{k}$) (G-2116) | The numbers a layer computes before its activation: each node's weighted sum of the previous layer's outputs plus its bias, $z^{k} = W^{k\mathsf T} a^{k-1} + b^{k}$. |
+| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Jacobian](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980) | The table (matrix) of all first partial derivatives of a function with several inputs and outputs, one row per output and one column per input, $J_{ij} = \partial f_i/\partial x_j$; it shows how every output changes with every input near a point. |
+| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
-| [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
-| [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |

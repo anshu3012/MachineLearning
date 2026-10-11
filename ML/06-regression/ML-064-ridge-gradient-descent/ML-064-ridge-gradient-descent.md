@@ -56,7 +56,7 @@ The symbols, with the values of Figure 2:
 
   $$w_{\text{old}} = \begin{bmatrix} b \cr m \end{bmatrix} = \begin{bmatrix} 20 \cr-5 \end{bmatrix}$$
 
-- **X** is the data with a first column of 1s, one row per observation (100 rows here), and **y** the column of targets.
+- **X** is the data with a first column of 1s, one row per **observation** (G-1374) (100 rows here), and **y** the column of **targets** (G-1949).
 - **λ** is the penalty strength, here λ = 100.
 
 The Ridge loss (see [the loss in matrix form](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#31-the-loss-in-matrix-form)), multiplied by ½:
@@ -109,13 +109,13 @@ where η is the **learning rate** (G-1068; [the size of each step](../../01-foun
 
 $$I_0 = \begin{bmatrix} 0 & 0 \cr0 & 1 \end{bmatrix}$$
 
-**One update, line by line.** The two matrix pieces add up 100 observations, so the computer builds them (the notebook). Input: the 100 pairs (x, y). Output:
+**One update, line by line.** The two matrix pieces add up 100 **observations** (G-1374), so the computer builds them (the notebook). Input: the 100 pairs (x, y). Output:
 
 $$X^{\mathsf T}X = \begin{bmatrix} 100 & 5.841 \cr5.841 & 87.186 \end{bmatrix}$$
 
 $$X^{\mathsf T}y = \begin{bmatrix} -66.938 \cr2412.823 \end{bmatrix}$$
 
-The 100 counts the observations, 5.841 is the sum of the feature values, 87.186 the sum of their squares, −66.938 the sum of the targets and 2412.823 the sum of feature times target. The rest is by hand, starting from w = (20, −5).
+The 100 counts the observations, 5.841 is the sum of the feature values, 87.186 the sum of their squares, −66.938 the sum of the **targets** (G-1949) and 2412.823 the sum of feature times target. The rest is by hand, starting from w = (20, −5).
 
 **Step 1.** The transpose of X ($X^{\mathsf T}$, X with rows and columns swapped) times X, times w, one row of the result per block:
 
@@ -200,7 +200,7 @@ $$\lambda = 0: \quad 87.19 + 0 = 87.19$$
 
 $$\lambda = 100: \quad 87.19 + 100 = 187.19$$
 
-Along the intercept b the curvature is the count of observations, 100, whatever λ is.
+Along the intercept b the curvature is the count of **observations** (G-1374), 100, whatever λ is.
 
 ## 4. Code from scratch
 
@@ -235,9 +235,9 @@ On the diabetes data (test size 0.2, random state 4) with alpha 0.001, learning 
 
 > **Key point:** A step that is too big jumps across the valley and lands higher up the other side. Each jump is then bigger than the last, and the coefficients blow up. The steeper the bowl, the smaller the step must be.
 
-This gradient adds up the errors of all observations instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here.
+This gradient adds up the errors of all **observations** (G-1374) instead of averaging them, so its size grows with the number of observations. The summed gradient is why the learning rate must be tiny here.
 
-Figure 5 shows the idea along one direction of a bowl, with the curvature of the steepest direction of the diabetes data, 353. Both runs start at distance 1 from the bottom. Watch where each step lands. With learning rate 0.005 (left) every step jumps across the bottom but lands closer. With 0.006 (right) every step jumps across and lands farther away.
+Figure 5 shows the idea along one direction of a bowl, with the **curvature** (G-521) of the steepest direction of the diabetes data, 353. Both runs start at distance 1 from the bottom. Watch where each step lands. With learning rate 0.005 (left) every step jumps across the bottom but lands closer. With 0.006 (right) every step jumps across and lands farther away.
 
 ![One direction of the loss bowl, curvature 353. Left: learning rate 0.005, each step multiplies the distance from the bottom by −0.765, so the jumps shrink. Right: learning rate 0.006, each step multiplies it by −1.118, so the jumps grow](images/overshoot.gif)
 
@@ -345,7 +345,7 @@ Think of pouring water into an ice-cube tray: stop pouring early and every cube 
 
 > **Key point:** On data where linear regression overfits badly, stopping early helps about as much as the ridge penalty.
 
-We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in [**early stopping**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
+We give the model 65 **features** (G-772) (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in [**early stopping**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656). With so many features for so few **observations** (G-1374), plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
 
 | Model | Test R² |
 |---|---|
@@ -361,7 +361,7 @@ Both regularisers rescue the badly overfitting linear regression, and by a simil
 
 > **Key point:** Gradient descent creeps along flat directions of the loss bowl, so after a few hundred steps the coefficients in those directions are still small.
 
-Back on the 10 diabetes features (353 training observations), the exact Ridge answer from [the formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w) scores test R² 0.463 (R² is the share of the variation in the targets that the model explains: 1 is perfect, 0 is no better than the mean). Figure 7 tracks gradient descent for up to a million epochs.
+Back on the 10 diabetes features (353 training **observations** (G-1374)), the exact Ridge answer from [the formula](../ML-063-ridge-regression-maths/ML-063-ridge-regression-maths.md#33-solving-for-w) scores test R² 0.463 (R² is the share of the variation in the **targets** (G-1949) that the model explains: 1 is perfect, 0 is no better than the mean). Figure 7 tracks gradient descent for up to a million epochs.
 
 ![Test R² and distance from the exact answer, per epoch](images/convergence.png){height=42%}
 
@@ -377,7 +377,7 @@ Back on the 10 diabetes features (353 training observations), the exact Ridge an
 
 The slow direction comes from s1 and s2, which are strongly correlated (see [many features: the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)). The bowl is almost flat along "raise s2, lower s1", so gradient descent creeps along it, and stopping early leaves the coefficients in that direction smaller (Goodfellow et al. §7.8). With 353 observations least squares barely overfits (see [the diabetes data](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data)), so on this data the size of the test-R² change says little; the 65-feature experiment above is the real test.
 
-> **Extra:** The numbers behind this. Along an eigenvector of the Hessian H ([Section 4.1](#41-why-the-learning-rate-has-a-limit)) with eigenvalue h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
+> **Extra:** The numbers behind this. Along an eigenvector of the Hessian H ([Section 4.1](#41-why-the-learning-rate-has-a-limit)) with **eigenvalue** (G-665) h, the error is multiplied by 1 − ηh per step. When ηh is tiny, the error needs about 1/(ηh) steps to shrink to about a third. The smallest eigenvalue here is 0.0083, so, one line at a time:
 >
 > $$\eta h = 0.005 \times 0.0083 = 0.0000415$$
 >
@@ -412,7 +412,7 @@ The slow direction comes from s1 and s2, which are strongly correlated (see [man
 
 `Ridge` has no learning-rate setting at all, even with an iterative solver (scikit-learn docs, `Ridge`). Here `sparse_cg` reaches the exact answer, 0.463.
 
-> **Extra:** `SGDRegressor` averages the loss over the observations, while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8)
+> **Extra:** `SGDRegressor` averages the loss over the **observations** (G-1374), while `Ridge` adds it up. The `SGDRegressor` objective is (scikit-learn user guide §1.5.8)
 >
 > $$\frac{1}{n}\sum \frac{1}{2}(y_i - \hat y_i)^2 + \alpha \cdot \frac{1}{2}\lVert w \rVert^2$$
 >
@@ -440,9 +440,9 @@ Figure 8 shows the three sets of coefficients side by side. The orange bars of `
 | `SGDRegressor`, l2 | stochastic gradient descent | 0.450 | its `alpha` is `Ridge`'s divided by the number of observations, so the same number penalises harder |
 
 - The Ridge gradient is $X^{\mathsf T}Xw - X^{\mathsf T}y + \lambda w$: the linear regression gradient plus $\lambda w$, so the plain gradient descent code needs only one extra term.
-- Each update shrinks the coefficients by $1 - \eta\lambda$ first, hence the name weight decay.
+- Each update shrinks the coefficients by $1 - \eta\lambda$ first, hence the name **weight decay** (G-2108).
 - The intercept is left out of the penalty, because it only shifts predictions up or down.
-- Stopping gradient descent early also regularises: with many features for few observations it rescues an overfitting fit about as well as ridge, because gradient descent creeps along flat directions and leaves those coefficients small.
+- Stopping gradient descent early also regularises: with many features for few **observations** (G-1374) it rescues an overfitting fit about as well as ridge, because gradient descent creeps along flat directions and leaves those coefficients small.
 - In scikit-learn: `SGDRegressor(penalty="l2")` or `Ridge` with an iterative solver, so Ridge can be trained step by step on data too large for the formula.
 - Together these answer the opening question: Ridge trains step by step like plain linear regression, with each step first pulling the coefficients towards 0 and then stepping downhill.
 

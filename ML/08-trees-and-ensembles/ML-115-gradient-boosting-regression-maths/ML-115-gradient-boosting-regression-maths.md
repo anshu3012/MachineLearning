@@ -16,13 +16,13 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/gradient-boo
 
 ## 1. Overview
 
-> **Key point:** Gradient boosting is one algorithm with three steps: start from the best constant, then repeatedly compute pseudo-residuals, fit a tree to them and give each leaf its best value, and finally output the sum.
+> **Key point:** Gradient boosting is one algorithm with three steps: start from the best constant, then repeatedly compute **pseudo-residuals** (G-1589), fit a tree to them and give each leaf its best value, and finally output the sum.
 
 ![The gradient boosting algorithm (after The Elements of Statistical Learning, Algorithm 10.3)](images/algorithm.png){height=46%}
 
-[Boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) ran gradient boosting by hand: the mean, residuals (actual minus predicted), trees on the residuals, a learning rate. Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. The present Note explains every line of it and runs each step on three startups.
+[Boosting passes mistakes forward](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) ran gradient boosting by hand: the mean, residuals (actual minus predicted), trees on the residuals, a **learning rate** (G-1067). Figure 1 is the same procedure written as the formal algorithm from the textbook *The Elements of Statistical Learning*. The present Note explains every line of it and runs each step on three startups.
 
-The same algorithm also solves classification; only the loss function changes (see [one algorithm, a different loss](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss)). Before the steps, we need one idea that all boosting algorithms share: additive modelling.
+The same algorithm also solves classification; only the **loss function** (G-706) changes (see [one algorithm, a different loss](../ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#2-one-algorithm-a-different-loss)). Before the steps, we need one idea that all boosting algorithms share: **additive modelling** (G-174).
 
 ## 2. A model is a function
 
@@ -40,7 +40,7 @@ Linear regression learns a straight line ([a line through the data](../../06-reg
 
 > **Key point:** A line misses curved data; high-degree polynomials swing wildly at the edges.
 
-Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([adding powers as new features](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)) can bend, but a high degree makes the curve shoot up or down at the edges of the data (**Runge's phenomenon**, G-1716), which lowers the test $R^2$ (the share of the variation in the targets that the model explains, see [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)).
+Some data follows a pattern that wiggles as it rises. A straight line cannot follow it. Polynomial regression ([adding powers as new features](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)) can bend, but a high degree makes the curve shoot up or down at the edges of the data (**Runge's phenomenon**, G-1716), which lowers the test $R^2$ (the share of the variation in the **targets** (G-1949) that the model explains, see [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)).
 
 ### 3.2 Break the function into parts
 
@@ -64,15 +64,15 @@ Figure 3 shows both sums being built. Watch the left panel first: the red curve 
 
 ![Additive modelling in motion. Left: a line plus a wave gives $y = x + \sin x$. Right: gradient boosting builds the same curve as a constant plus small trees (4 leaves each, learning rate 0.5), one tree per frame](images/additive_build.gif){height=40%}
 
-In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the training data, so the training error never rises from one stage to the next: section 8 picks each leaf value to make the loss as small as possible, and a leaf value of 0 (no change) is always one of the options.
+In gradient boosting, $f_0$ is a constant and every later $f_m$ is a regression tree, which is also a function. Each new tree moves the sum closer to the training data, so the training error never rises from one stage to the next: section 8 picks each **leaf value** (G-1061) to make the loss as small as possible, and a leaf value of 0 (no change) is always one of the options.
 
 ## 4. The ingredients: training data and a differentiable loss
 
-> **Key point:** The algorithm needs two ingredients: the training observations $(x_i, y_i)$, and a loss function $L(y, F(x))$ that we can differentiate.
+> **Key point:** The algorithm needs two ingredients: the training **observations** (G-1374) $(x_i, y_i)$, and a **loss function** (G-706) $L(y, F(x))$ that we can differentiate.
 
 ### 4.1 Three startups
 
-> **Key point:** Three observations, three features (spending), one target (profit): $n = 3$.
+> **Key point:** Three **observations** (G-1374), three features (spending), one target (profit): $n = 3$.
 
 We use three observations of the 50 Startups data, a regression dataset of US companies (amounts in thousands):
 
@@ -110,7 +110,7 @@ The $\frac{1}{2}$ is for convenience: when we differentiate, the 2 from the squa
 
 > **Key point:** $F_0$ is the single number $\gamma$ that makes the total loss smallest. For half the squared error, setting the derivative to zero gives the mean of $y$.
 
-Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one number for every observation, a leaf on its own.
+Step 1 finds the first function, $F_0$. $F_0$ does not depend on $x$: it is one number for every **observation** (G-1374), a leaf on its own.
 
 1. **In words:** choose the constant $\gamma$ (gamma) that makes the sum of the losses over all observations as small as possible. The symbol $\arg\min_\gamma$ means "the value of $\gamma$ that minimises"; the symbol is read **arg min** (G-211).
 2. **Formula:**
@@ -140,7 +140,7 @@ $$\Rightarrow 3\gamma = 427.23$$
 
 $$\Rightarrow \gamma = 142.41$$
 
-The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the target, as [the first stage of the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#4-stage-1-the-mean) claimed. With another loss, step 1 gives another constant.
+The answer, 142.41, is the mean of the profits. So, with the squared-error loss, the first model is always the mean of the **target** (G-1949), as [the first stage of the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#4-stage-1-the-mean) claimed. With another loss, step 1 gives another constant.
 
 Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the left and the dot on the right: moving $\gamma$ up shrinks one gap and stretches the others, and the total loss is smallest (2,581) at $\gamma = 142.41$, where the gaps above and below balance.
 
@@ -148,7 +148,7 @@ Figure 4 slides $\gamma$ across the three profits. Watch the red gaps on the lef
 
 ## 6. Step 2(a): pseudo-residuals are negative gradients
 
-> **Key point:** For every observation, the pseudo-residual is minus the derivative of the loss with respect to the current prediction. For half the squared error, that is exactly actual minus predicted.
+> **Key point:** For every **observation** (G-1374), the pseudo-residual is minus the derivative of the loss with respect to the current prediction. For half the squared error, that is exactly actual minus predicted.
 
 Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 trees, $f_1$ to $f_{50}$. Inside the loop, the index $m$ is the tree we are building and $i$ is the observation.
 
@@ -168,19 +168,19 @@ Step 2 is a loop that runs $M$ times, once per tree. With $M = 50$ we get 50 tre
    $$r_{21} = 144.26 - 142.41 = 1.85$$
    $$r_{31} = 90.71 - 142.41 = -51.70$$
 
-The derivative of the loss is its [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863), the same quantity gradient descent follows (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a [**pseudo-residual**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589).
+The **derivative** (G-595) of the loss is its [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863), the same quantity gradient descent follows (see [which way to move](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move)). Minus the gradient, the **negative gradient** (G-1308), points in the direction that lowers the loss fastest. For the squared error it happens to equal the ordinary residual, actual minus predicted; for other losses it does not, which is why it is called a [**pseudo-residual**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589).
 
 Figure 5 draws this for each startup. Watch the sign: where the loss slopes down (startup 1) the residual is positive and the green arrow says "predict more"; where it slopes up (startup 3) the residual is negative; startup 2 sits almost at the bottom, so its residual is almost 0.
 
 ![Each startup's loss $\frac{1}{2}(y - F)^2$ against the prediction $F$. The red line is the slope at $F_0 = 142.41$; the pseudo-residual is minus that slope, and the green arrow is the downhill direction](images/gradients.png){height=36%}
 
-> **Extra:** The negative gradient is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the learning rate) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
+> **Extra:** The negative gradient is where "gradient" in gradient boosting comes from. Gradient descent changes a parameter by a small step against the gradient. Gradient boosting changes the *predictions* by a small step against the gradient: each tree learns the negative gradient, and adding it (times the **learning rate** (G-1067)) is one step of gradient descent on the predictions. Friedman calls this gradient descent in function space (Friedman 2001).
 
 ## 7. Step 2(b): fit a tree; it creates terminal regions
 
-> **Key point:** A regression tree is trained with the features as $x$ and the pseudo-residuals as the target. Its leaves cut the feature space into terminal regions $R_{jm}$.
+> **Key point:** A **regression tree** (G-1654) is trained with the features as $x$ and the **pseudo-residuals** (G-1589) as the target. Its leaves cut the feature space into terminal regions $R_{jm}$.
 
-Next we train a regression tree: the three spends are the features, the column $r_{i1}$ is the target. With only three observations we allow a single split (`max_depth=1`); in practice gradient boosting commonly uses trees with 8 to 32 leaves (StatQuest, "Gradient Boost Part 3 (of 4)"), and ESL §10.11 finds 4 to 8 leaves work well in most cases.
+Next we train a regression tree: the three spends are the **features** (G-772), the column $r_{i1}$ is the target. With only three **observations** (G-1374) we allow a single split (`max_depth=1`); in practice gradient boosting commonly uses trees with 8 to 32 leaves (StatQuest, "**Gradient** (G-863) Boost Part 3 (of 4)"), and ESL §10.11 finds 4 to 8 leaves work well in most cases.
 
 The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startup 3 goes to one leaf; startups 1 and 2 go to the other.
 
@@ -188,13 +188,13 @@ The tree splits on R&D spend at 64.67 (halfway between 28.66 and 100.67). Startu
 
 Each leaf covers a part of the feature space, called a **terminal region** (G-1960) $R_{jm}$: region $j$ of tree $m$. In Figure 6, $R_{11}$ is "R&D spend $\le$ 64.67" and $R_{21}$ is "R&D spend $>$ 64.67". A deeper tree would cut more regions, up to $J_m$ for tree $m$.
 
-The tree's own prediction in each region is the mean of the targets there. On the left, it is $-51.70$. On the right:
+The tree's own prediction in each region is the mean of the **targets** (G-1949) there. On the left, it is $-51.70$. On the right:
 
 $$(49.85 + 1.85)/2 = 25.85$$
 
 ## 8. Step 2(c): the best value for each leaf
 
-> **Key point:** Each leaf gets the constant $\gamma_{jm}$ that best corrects the current model for the observations in that leaf. For the squared error, this is the mean of the residuals in the leaf, the same value the tree already gives.
+> **Key point:** Each leaf gets the constant $\gamma_{jm}$ that best corrects the current model for the **observations** (G-1374) in that leaf. For the squared error, this is the mean of the residuals in the leaf, the same value the tree already gives.
 
 Step 2(c) does not simply trust the tree's own leaf values; it computes a new **leaf value** (G-1061) $\gamma_{jm}$ for each leaf. For each region it solves a small version of step 1, using only the observations that fall in that region.
 
@@ -202,7 +202,7 @@ Step 2(c) does not simply trust the tree's own leaf values; it computes a new **
 2. **Formula:**
    $$\gamma_{jm} = \arg\min_{\gamma} \sum_{x_i \in R_{jm}} L\big(y_i,\thickspace F_{m-1}(x_i) + \gamma\big)$$
    Here $x_i \in R_{jm}$ says that $x_i$ lies in region $R_{jm}$, so the sum runs over the observations of that leaf only.
-3. **Example:** region $R_{11}$ holds only startup 3. Setting the derivative of $\frac{1}{2}(90.71 - 142.41 - \gamma)^2$ to zero:
+3. **Example:** region $R_{11}$ holds only startup 3. Setting the **derivative** (G-595) of $\frac{1}{2}(90.71 - 142.41 - \gamma)^2$ to zero:
    $$-(90.71 - 142.41 - \gamma) = 0$$
    $$\gamma_{11} = 90.71 - 142.41 = -51.70$$
 
@@ -216,21 +216,21 @@ $$51.70 - 2\gamma = 0$$
 
 $$\gamma_{21} = 25.85$$
 
-Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a regression tree predicts. With another loss, step 2(c) gives different values, and then the step matters.
+Both values equal the tree's own leaf values, and not by coincidence: with the squared error, the minimising $\gamma$ is always the mean of the residuals in the leaf, which is exactly what a **regression tree** (G-1654) predicts. With another loss, step 2(c) gives different values, and then the step matters.
 
 Figure 7 shows both cases for region $R_{11}$, which holds startup 3 alone. Watch the red cross: with the squared error it sits at the bottom of the curve, so the tree's own value is already the best; with the absolute error (the Extra below) it sits far up the slope, and step 2(c) moves the leaf to $-53.55$.
 
 ![Loss in region $R_{11}$ against the leaf value. Squared error (left): the tree's own value, $-51.70$, is the minimum. Absolute error (right): the tree's own value, $-1$, is far from the minimum at $-53.55$](images/leaf_values.png){height=36%}
 
-> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the [**median**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209), 144.26. The pseudo-residuals become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
+> **Extra:** With the absolute error $L = |y - F(x)|$ (scikit-learn's `loss="absolute_error"`), step 1 gives the [**median**](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209), 144.26. The **pseudo-residuals** (G-1589) become the signs of $y - F$: $+1$, 0 and $-1$, so the tree learns only the direction of each mistake. Step 2(c) then sets each leaf to the median of the actual residuals in it: $-53.55$ for startup 3, and for startups 1 and 2 (residuals 48 and 0) any value between 0 and 48 is a median; scikit-learn takes 0. The tree's own leaf values (the means of the signs, $-1$ and 0.5) are replaced. The Notebook reproduces these numbers.
 
 ## 9. Step 2(d): update the model
 
-> **Key point:** Add the leaf value of the region each observation falls in to the current model (in practice times the learning rate):
+> **Key point:** Add the **leaf value** (G-1061) of the region each observation falls in to the current model (in practice times the learning rate):
 >
 > $$F_m = F_{m-1} + \gamma_{jm}$$
 
-1. **In words:** each observation's new prediction is its old prediction plus the value of the leaf it lands in.
+1. **In words:** each **observation** (G-1374)'s new prediction is its old prediction plus the value of the leaf it lands in.
 2. **Formula:**
    $$F_m(x) = F_{m-1}(x) + \sum_{j=1}^{J_m} \gamma_{jm}\thinspace\mathbf{1}(x \in R_{jm})$$
    $\mathbf{1}(x \in R_{jm})$ is 1 if $x$ lies in region $R_{jm}$ and 0 otherwise, so the sum just picks the value of the one leaf $x$ falls in.
@@ -250,12 +250,12 @@ Figure 8 compares the two updates. Watch startup 3: with learning rate 1 it jump
 
 ![Predictions of the three startups: $F_0$ (grey), $F_1$ with learning rate 1 (red) and with learning rate 0.1 (blue); black bars mark the actual profits](images/update.png){height=36%}
 
-Then the loop goes back to step 2(a) with $m = 2$: new pseudo-residuals from $F_1$, a new tree, new leaf values, a new update.
+Then the loop goes back to step 2(a) with $m = 2$: new **pseudo-residuals** (G-1589) from $F_1$, a new tree, new leaf values, a new update.
 
 Figure 9 plays the whole round in order, with learning rate 0.1, and then repeats it. Watch four things:
 
 1. **Step 2(a):** the red gaps between each profit and the black prediction bars are the pseudo-residuals.
-2. **Step 2(b):** the dashed line at R&D spend 64.67 cuts the feature space into the terminal regions $R_{11}$ and $R_{21}$.
+2. **Step 2(b):** the dashed line at R&D spend 64.67 cuts the feature space into the **terminal regions** (G-1960) $R_{11}$ and $R_{21}$.
 3. **Step 2(c):** the dotted red lines mark each region's leaf value added in full:
    $$142.41 - 51.70 = 90.71$$
    $$142.41 + 25.85 = 168.26$$
@@ -273,7 +273,7 @@ Unrolling the updates shows the additive model of section 3:
 
 $$F_M(x) = F_0 + f_1(x) + f_2(x) + \dots + f_M(x)$$
 
-where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$). To predict for a new startup, we send it down every tree, collect one leaf value from each, and add them to $F_0$.
+where each $f_m(x)$ is tree $m$ with its **leaf values** (G-1061) $\gamma_{jm}$ (times $\eta$). To predict for a new startup, we send it down every tree, collect one leaf value from each, and add them to $F_0$.
 
 > **Python:** The loss is a parameter of `GradientBoostingRegressor`.
 >
@@ -301,11 +301,11 @@ where each $f_m(x)$ is tree $m$ with its leaf values $\gamma_{jm}$ (times $\eta$
 | 2(d) | $F_m = F_{m-1} + \eta \cdot$ leaf value | | 168.26, 168.26, 90.71 ($\eta = 1$) | moves each prediction toward its target |
 | 3 | output $F_M$ | $F_0$ + all trees | | a new startup collects one leaf value from every tree |
 
-- An ML model is a function; additive modelling builds a complex function as a sum of simple ones, and boosting adds them in stages, because a line misses curved data and a high-degree polynomial swings wildly at the edges.
-- The algorithm needs training data and a differentiable loss, because step 2(a) differentiates the loss; half the squared error is the standard choice for regression, and its half cancels the 2 from the square.
-- Step 1 and step 2(c) are both "find the best constant": over all observations for $F_0$, over one leaf's observations for $\gamma_{jm}$, so the same move (set the derivative to zero) solves both.
-- The pseudo-residual is the negative gradient of the loss; for squared error it is the ordinary residual, which is why [the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) could use actual minus predicted.
-- With squared error, the leaf values equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them, so step 2(c) only matters once the loss is not the squared error.
+- An ML model is a function; **additive modelling** (G-174) builds a complex function as a sum of simple ones, and boosting adds them in stages, because a line misses curved data and a high-degree polynomial swings wildly at the edges.
+- The algorithm needs training data and a **differentiable loss** (G-605), because step 2(a) differentiates the loss; half the squared error is the standard choice for regression, and its half cancels the 2 from the square.
+- Step 1 and step 2(c) are both "find the best constant": over all **observations** (G-1374) for $F_0$, over one leaf's observations for $\gamma_{jm}$, so the same move (set the **derivative** (G-595) to zero) solves both.
+- The pseudo-residual is the **negative gradient** (G-1308) of the loss; for squared error it is the ordinary residual, which is why [the worked example](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) could use actual minus predicted.
+- With squared error, the **leaf values** (G-1061) equal the tree's own means; with other losses (absolute, Huber, log loss) step 2(c) changes them, so step 2(c) only matters once the loss is not the squared error.
 - So every line of the textbook algorithm (Figure 1) is one of these three steps, and only the loss decides what each step computes.
 
 ## 12. Sources
@@ -327,23 +327,23 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Runge's phenomenon (G-1716) | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. |
 | Additive modelling (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
+| Runge's phenomenon (G-1716) | The large swings of a high-degree polynomial near the ends of the interval it is fitted on. |
+| Leaf value ($\gamma_{jm}$) (G-1061) | The constant a leaf adds to the model, chosen to minimise the loss of the rows in that leaf. |
 | Differentiable loss (G-605) | A loss function whose derivative exists at every point, so it can be minimised with derivatives. |
 | Arg min (argmin) (G-211) | The value of a variable that makes an expression smallest, written $\arg\min$. |
 | Negative gradient (G-1308) | The direction that lowers the loss fastest: minus the derivative of the loss with respect to the prediction. |
 | Terminal region (G-1960) | The part of the input space that ends in one leaf of a tree, written $R_{jm}$ for leaf $j$ of tree $m$; every point in it gets that leaf's output. |
-| Leaf value ($\gamma_{jm}$) (G-1061) | The constant a leaf adds to the model, chosen to minimise the loss of the rows in that leaf. |
+| [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
+| [Learning rate ($\eta$) in gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction) (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
+| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
-| [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
-| [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
 | [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
-| [Learning rate ($\eta$) in gradient boosting](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#8-the-learning-rate-small-steps-in-the-right-direction) (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
 | [Huber loss](../../../DL/01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#71-when-neither-mse-nor-mae-fits) (G-905) | A regression loss that is half the squared error for errors up to $\delta$ and grows in a straight line beyond; it acts like MSE for small errors and like MAE for large ones, so outliers pull less. |

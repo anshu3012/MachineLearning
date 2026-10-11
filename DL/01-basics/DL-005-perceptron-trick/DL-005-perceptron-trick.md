@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/models-1, step/model, concept/perceptron-tric
 
 ## 1. Overview
 
-> **Key point:** Training a perceptron means finding its weights and bias (the numbers that define its line). The perceptron trick does it by starting from any line and pulling it towards every misclassified point it picks, until a stopping rule ends the loop.
+> **Key point:** Training a perceptron means finding its weights and bias (the numbers that define its line). The perceptron trick does it by starting from any line and pulling it towards every misclassified point it picks, until a **stopping rule** (G-1894) ends the loop.
 
 ![The perceptron trick as a training loop, with its two stopping rules](images/training_loop.png){height=48%}
 
@@ -23,7 +23,7 @@ Earlier we saw how a trained [perceptron predicts](../DL-004-perceptron/DL-004-p
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
-- the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 7 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
+- the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the **learning rate** (G-1068) (its Figure 7 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
 - the [code of the trick](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#3-the-code): the code, an animation of the line moving update by update (its Figure 3), and why the final line depends on the random order.
 
 This Note has these parts:
@@ -32,7 +32,7 @@ This Note has these parts:
 2. the trick in the perceptron's own terms (section 4);
 3. the loop running on real data (section 5);
 4. when to stop (section 6);
-5. loops against epochs (section 7);
+5. loops against **epochs** (G-696) (section 7);
 6. why the trick is not enough (section 8).
 
 ## 2. Prerequisites
@@ -72,7 +72,7 @@ The update changes all three numbers at once, so the line turns and slides in on
 
 > **Key point:** The line Ax + By + C = 0 of the trick is the perceptron's z = 0. A and B are the weights, C is the bias, and the column of 1s is the bias input.
 
-The perceptron trick works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line that separates the points it calls positive from those it calls negative, is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
+The **perceptron trick** (G-1485) works on the line $Ax_1 + Bx_2 + C = 0$. The perceptron's [**decision boundary**](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line that separates the points it calls positive from those it calls negative, is $z = w_1x_1 + w_2x_2 + b = 0$. They are the same line with different names:
 
 | Perceptron trick | Perceptron | Role |
 |---|---|---|
@@ -87,7 +87,7 @@ The two cases, add or subtract, fold into one rule. With the label $y$ and the p
 
 $$w \leftarrow w + \eta\thinspace(y - \hat{y})\thinspace x$$
 
-Here $w = (w_0, w_1, w_2)$ holds the bias and the two weights, $x = (1, x_1, x_2)$ is the point with its 1, and $\eta$ is the learning rate. The four cases of $(y, \hat{y})$ show that the rule does the right thing every time:
+Here $w = (w_0, w_1, w_2)$ holds the bias and the two weights, $x = (1, x_1, x_2)$ is the point with its 1, and $\eta$ is the **learning rate** (G-1068). The four cases of $(y, \hat{y})$ show that the rule does the right thing every time:
 
 | $y$ | $\hat{y}$ | $y - \hat{y}$ | What the rule does |
 |---|---|---|---|
@@ -107,7 +107,7 @@ Training and prediction then split cleanly:
 
 > **Key point:** Each loop picks one point. A correctly classified pick leaves the line still; a misclassified pick moves it. Most picks leave the line still.
 
-Figure 3 runs the rule of section 4 on real flowers: 50 setosa (label 0) and 50 versicolor (label 1) from the Iris dataset, described by petal length (x-axis) and petal width (y-axis), with learning rate 0.1. Each dot is one flower (blue setosa, orange versicolor) and the black line is the perceptron's decision boundary.
+Figure 3 runs the rule of section 4 on real flowers: 50 setosa (label 0) and 50 versicolor (label 1) from the Iris dataset, described by petal length (x-axis) and petal width (y-axis), with **learning rate** (G-1068) 0.1. Each dot is one flower (blue setosa, orange versicolor) and the black line is the perceptron's decision boundary.
 
 ![The perceptron trick pick by pick on Iris setosa and versicolor. The ring marks the picked flower: green when it is correctly classified, red when it is misclassified](images/trick_iris.gif){height=42%}
 
@@ -127,13 +127,13 @@ The loop in Figure 1 needs a **stopping rule** (G-1894) to end it. Two are commo
 1. **A fixed number of loops**, for example 1,000. If the line is not good yet, run more, such as 10,000.
 2. **[Convergence](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick):** after every update, count the misclassified training points. Stop as soon as the count is 0, since no point can move the line any more.
 
-Rule 2 only ever stops on linearly separable data: if no line separates the classes, some point is always misclassified. Data that no line separates is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
+Rule 2 only ever stops on **linearly separable** (G-1103) data: if no line separates the classes, some point is always misclassified. Data that no line separates is why the two rules are often combined: stop at convergence, or after the maximum number of loops, whichever comes first.
 
 ![The perceptron trick on two pairs of Iris species (petal length and width, 100 flowers each, learning rate 0.1), counting the misclassified training points after every loop](images/stopping_rules.png){height=30%}
 
 Figure 4 runs the combined rule on real data. Watch the blue line: setosa and versicolor can be split by a line, so the count hits 0 at loop 146 and convergence stops training (the run of Figure 3). The red line, versicolor against virginica, never reaches 0 (its best is 6), so only the cap of 1,000 loops ends it. Six other random orders give the same picture.
 
-> **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of epochs (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron in scikit-learn](../DL-004-perceptron/DL-004-perceptron.md#8-a-perceptron-in-scikit-learn), it ended training after 7 epochs at 75% training accuracy.
+> **Extra:** scikit-learn's `Perceptron` uses a similar combination, with a looser early stop. `max_iter` caps the number of **epochs** (G-696) (default 1,000). With `tol` set (default $10^{-3}$), training also stops once the loss has failed to improve by at least `tol` for `n_iter_no_change` epochs in a row (default 5) (scikit-learn docs, `Perceptron`). This stop can fire before every point is classified correctly: in the [perceptron in scikit-learn](../DL-004-perceptron/DL-004-perceptron.md#8-a-perceptron-in-scikit-learn), it ended training after 7 epochs at 75% training accuracy.
 
 ## 7. Loops and epochs
 
@@ -165,7 +165,7 @@ In Figure 5, watch the red cells: on the right they all turn green by pick 100; 
 
 > **Key point:** The trick finds a separating line, but cannot say how good that line is, and different random orders give different lines.
 
-The perceptron trick is simple and usually works. But on the same data, different random orders give different final lines, some hugging one class (see [the weakness of the trick](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early)). Nothing in the trick measures which line is better. The trick is like a student who stops revising the moment every practice question is right: they pass, but they never learn their score, so they cannot tell a narrow pass from a safe one.
+The **perceptron trick** (G-1485) is simple and usually works. But on the same data, different random orders give different final lines, some hugging one class (see [the weakness of the trick](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early)). Nothing in the trick measures which line is better. The trick is like a student who stops revising the moment every practice question is right: they pass, but they never learn their score, so they cannot tell a narrow pass from a safe one.
 
 The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function): a number that scores every possible line, so training can look for the best one. The [**perceptron loss**](../DL-006-perceptron-loss/DL-006-perceptron-loss.md#6-the-perceptron-loss) (G-1484) builds it.
 
@@ -181,12 +181,12 @@ The fix is a [loss function](../../../ML/07-classification/ML-072-log-loss/ML-07
 | Stop: convergence | Stop when no training point is misclassified | no point is left that could move the line |
 | Epoch | One pass over the whole training set, not one pick | one random pick sees only one point, so loops and epochs count different things |
 
-- The trick's $A$, $B$, $C$ are the perceptron's $w_1$, $w_2$, $b$, so the trick trains the perceptron's own decision boundary.
+- The trick's $A$, $B$, $C$ are the perceptron's $w_1$, $w_2$, $b$, so the trick trains the perceptron's own **decision boundary** (G-555).
 - A correctly classified pick leaves the line still, because $y - \hat{y}$ is 0 for it; only misclassified picks move it.
-- Convergence is only reached on linearly separable data, so a maximum number of loops is kept as a backstop.
-- 1,000 random picks on 100 points are about 10 epochs, because an epoch is one pass over all the training points.
+- Convergence is only reached on **linearly separable** (G-1103) data, so a maximum number of loops is kept as a backstop.
+- 1,000 random picks on 100 points are about 10 **epochs** (G-696), because an epoch is one pass over all the training points.
 - The trick cannot score a line; a loss function can, so different random orders give different lines and only a loss can say which one is better.
-- So the perceptron trick trains a perceptron by pulling its line towards misclassified points until a stopping rule ends the loop, and its missing score is what the perceptron loss supplies.
+- So the perceptron trick trains a perceptron by pulling its line towards misclassified points until a stopping rule ends the loop, and its missing score is what the **perceptron loss** (G-1484) supplies.
 
 ## 10. Sources
 
@@ -208,8 +208,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Epoch (G-696) | One full update of the parameters using the whole training set. |
 | Training (a perceptron) (G-2000) | Finding its weights and bias from labelled data. |
 | [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
-| [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
+| [Linearly separable](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works) (G-1103) | Data whose classes a straight line, plane or hyperplane can split. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Stochastic gradient descent (SGD)](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | Gradient descent that uses one random row for every update, so each update is cheap and many updates happen per epoch, at the cost of a noisier path. |
 | [Perceptron loss](../../../DL/01-basics/DL-006-perceptron-loss/DL-006-perceptron-loss.md#61-the-formula) (G-1484) | A loss for the perceptron that is 0 for a point on its correct side and $\lvert f(x) \rvert$ for a point on the wrong side, so worse mistakes cost more: $\max(0, -y f(x))$ per point, labels $\pm 1$. Minimising it trains the line. |

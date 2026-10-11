@@ -15,7 +15,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/p-value]
 
 ## 1. Overview
 
-> **Key point:** The p-value is the probability, if $H_0$ (the [**null hypothesis**](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361), the claim that there is no effect) were true, of getting a sample at least as extreme as ours; the smaller it is, the stronger the evidence against $H_0$.
+> **Key point:** The **p-value** (G-1433) is the probability, if $H_0$ (the [**null hypothesis**](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#3-the-null-hypothesis) (G-1361), the claim that there is no effect) were true, of getting a sample at least as extreme as ours; the smaller it is, the stronger the evidence against $H_0$.
 
 ![P-value of 100 coin tosses under H₀ (fair coin): the red bars, at or beyond the observed number of heads, add up to the p-value](images/coin_p_value.gif){height=48%}
 
@@ -32,7 +32,7 @@ This Note covers:
 
 > **Key point:** The p-value is $P(\text{a result as or more extreme than ours} \mid H_0 \text{ true})$, where "more extreme" means "more evidence against $H_0$".
 
-The **p-value** (G-1433) is the probability of getting a sample as extreme as our own sample, or more extreme, given that the null hypothesis is true.
+The **p-value** (G-1433) is the probability of getting a sample as extreme as our own sample, or more extreme, given that the **null hypothesis** (G-1361) is true.
 
 Two words need care:
 
@@ -43,7 +43,7 @@ In simple words, the p-value is a measure of the strength of the evidence agains
 
 ### 2.1 The definition on five tosses
 
-> **Key point:** Four heads in five tosses of a fair coin: the p-value is our result plus everything more extreme: 5 outcomes out of 32, plus 1 out of 32, which is about 0.19.
+> **Key point:** Four heads in five tosses of a fair coin: the **p-value** (G-1433) is our result plus everything more extreme: 5 outcomes out of 32, plus 1 out of 32, which is about 0.19.
 
 A small case can be counted by hand. We suspect a coin favours heads, toss it 5 times and get 4 heads. $H_0$ says the coin is fair; $H_1$ says heads are more likely.
 
@@ -68,7 +68,7 @@ The direction of $H_1$ decides which bars count; section 6 does the same for the
 
 ## 3. A coin tossed 100 times
 
-> **Key point:** For 53 heads out of 100, the p-value is $P(X \ge 53) = 0.309$ under a fair coin; for 60 heads it is 0.028, for 80 heads about $6 \times 10^{-10}$.
+> **Key point:** For 53 heads out of 100, the **p-value** (G-1433) is $P(X \ge 53) = 0.309$ under a fair coin; for 60 heads it is 0.028, for 80 heads about $6 \times 10^{-10}$.
 
 ### 3.1 The experiment
 
@@ -110,7 +110,7 @@ We toss the coin 100 times and get **53 heads**. One experiment cannot settle th
 
    $$p = 0.264 + 0.044 = 0.309$$
 
-The probability of exactly 53 heads is not the p-value. The p-value is the whole tail from 53 upwards: the red bars in Figure 1.
+The probability of exactly 53 heads is not the **p-value** (G-1433). The p-value is the whole tail from 53 upwards: the red bars in Figure 1.
 
 The further the observation is from 50, the smaller the tail:
 
@@ -136,11 +136,11 @@ With 80 heads the red area is invisible: if the coin were fair, 80 heads would a
 
 ## 4. Reading a p-value correctly
 
-> **Key point:** $p = 0.309$ means: if the coin were fair, about 31% of repeated 100-toss experiments would give 53 or more heads. The p-value is not the probability that $H_0$ is true.
+> **Key point:** $p = 0.309$ means: if the coin were fair, about 31% of repeated 100-toss experiments would give 53 or more heads. The **p-value** (G-1433) is not the probability that $H_0$ is true.
 
 ### 4.1 The correct reading
 
-Imagine repeating the whole experiment, 100 tosses, many times with a fair coin. A p-value of 0.309 says that in about 31% of those experiments we would see 53 heads **or more**. A result like ours is common for a fair coin, so it is weak evidence against $H_0$. Figure 3 does the repeating: 10,000 experiments of 100 tosses with a fair coin. After 10 experiments the share with 53 or more heads is 30.0%, after 100 it is 32.0%, and after 10,000 it is 31.2%, close to the p-value 30.9%.
+Imagine repeating the whole experiment, 100 tosses, many times with a fair coin. A **p-value** (G-1433) of 0.309 says that in about 31% of those experiments we would see 53 heads **or more**. A result like ours is common for a fair coin, so it is weak evidence against $H_0$. Figure 3 does the repeating: 10,000 experiments of 100 tosses with a fair coin. After 10 experiments the share with 53 or more heads is 30.0%, after 100 it is 32.0%, and after 10,000 it is 31.2%, close to the p-value 30.9%.
 
 ![10 to 10,000 simulated experiments of 100 fair-coin tosses. Red: experiments with 53 or more heads; their share settles near the p-value, 30.9%.](images/repeat_coin.gif)
 
@@ -150,7 +150,7 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 > **Extra:** Each of these statements about $p = 0.03$ is wrong. They are among the misinterpretations listed by Greenland et al. (2016).
 >
-> - **"About 3 experiments in 100 would give exactly our result."** The p-value counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
+> - **"About 3 experiments in 100 would give exactly our result."** The **p-value** (G-1433) counts results **as or more extreme**, not exactly ours. For 53 heads, exactly 53 has probability 0.067, while the p-value is 0.309.
 > - **"There is a 3% chance that $H_0$ is true."** The p-value is computed **assuming** $H_0$ is true; it cannot also be the probability of $H_0$. The probability of $H_0$ would need [**Bayes' theorem**](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) and a prior (see [the formula of Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof)).
 > - **"There is a 97% chance that $H_1$ is true."** Same mistake, the other way round.
 > - **"The result happened by chance with probability 3%."** The p-value assumes chance alone (that is what $H_0$ says); it does not measure the probability of chance.
@@ -161,7 +161,7 @@ For 60 heads, $p = 0.028$: only about 3 experiments in 100 with a fair coin woul
 
 ## 5. Deciding with a p-value
 
-> **Key point:** If $p \le \alpha$, reject $H_0$; if $p > \alpha$, fail to reject it. Without a fixed $\alpha$, read the p-value on a scale of evidence.
+> **Key point:** If $p \le \alpha$, reject $H_0$; if $p > \alpha$, fail to reject it. Without a fixed $\alpha$, read the **p-value** (G-1433) on a scale of evidence.
 
 ### 5.1 The decision rule
 
@@ -180,7 +180,7 @@ For the coin at $\alpha = 0.05$:
 
 With 53 heads we cannot conclude that the coin is unfair. We also cannot say we proved it fair.
 
-What does the 0.05 promise? Take a case where $H_0$ is true by construction: the training-program test of section 6.1 ($H_0: \mu = 50$, $\sigma = 5$, $n = 30$, right-tailed), run on samples drawn from a population whose mean really is 50. Nothing is there to find, yet the samples differ by chance, and so do their p-values. Figure 5 collects them. With $H_0$ true, the p-values spread evenly between 0 and 1, so about 5 percent of them fall at or below 0.05: 5.3 percent of the 10,000 tests here. Each of those is a [**false positive**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748): the rule rejects a true $H_0$. So $\alpha = 0.05$ means that when there is no effect, the rule raises a false alarm in about 1 test out of 20. A stricter $\alpha$ of 0.01 would cut the false alarms to 1 in 100.
+What does the 0.05 promise? Take a case where $H_0$ is true by construction: the training-program test of section 6.1 ($H_0: \mu = 50$, $\sigma = 5$, $n = 30$, right-tailed), run on samples drawn from a population whose mean really is 50. Nothing is there to find, yet the samples differ by chance, and so do their **p-values** (G-1433). Figure 5 collects them. With $H_0$ true, the p-values spread evenly between 0 and 1, so about 5 percent of them fall at or below 0.05: 5.3 percent of the 10,000 tests here. Each of those is a [**false positive**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748): the rule rejects a true $H_0$. So $\alpha = 0.05$ means that when there is no effect, the rule raises a false alarm in about 1 test out of 20. A stricter $\alpha$ of 0.01 would cut the false alarms to 1 in 100.
 
 ![P-values of 100, 1,000 and 10,000 z-tests on samples drawn with H₀ true. The bars level out at 5 percent each (dashed line); the red bar, p ≤ 0.05, holds the false positives. Idea after StatQuest, "p-values: What they are and how to interpret them".](images/null_p_values.gif){height=32%}
 
@@ -203,9 +203,9 @@ In practice most people still use $\alpha = 0.05$, a balance between Type I and 
 
 ## 6. P-values for the z-test
 
-> **Key point:** Compute $z$ as before; the p-value is the tail area beyond $z$ in the direction of $H_1$, doubled for a two-tailed test. No critical value is needed.
+> **Key point:** Compute $z$ as before; the **p-value** (G-1433) is the tail area beyond $z$ in the direction of $H_1$, doubled for a two-tailed test. No critical value is needed.
 
-The p-value approach works for continuous distributions in the same way: the sum of bars becomes an area under the curve. We redo the two z-tests of [the training program](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#8-example-did-a-training-program-raise-productivity) and [the chips packets](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#9-example-do-chips-packets-weigh-50-g), with the same data.
+The **p-value approach** (G-1431) works for continuous distributions in the same way: the sum of bars becomes an area under the curve. We redo the two z-tests of [the training program](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#8-example-did-a-training-program-raise-productivity) and [the chips packets](../MA-039-rejection-region-and-z-test/MA-039-rejection-region-and-z-test.md#9-example-do-chips-packets-weigh-50-g), with the same data.
 
 ![P-values (red areas) of the two z-tests](images/z_p_values.png)
 
@@ -213,7 +213,7 @@ The p-value approach works for continuous distributions in the same way: the sum
 
 $H_0: \mu = 50$ (the population mean is 50), $H_1: \mu > 50$, $\sigma = 5$ (the population standard deviation), $n = 30$ (the sample size), $\bar{x} = 53$ (the sample mean), $\alpha = 0.05$. The z statistic is $z = 3.29$, as before.
 
-1. **In words:** $H_1$ points right, so "more extreme" means a larger z; the p-value is the area to the right of 3.29.
+1. **In words:** $H_1$ points right, so "more extreme" means a larger z; the **p-value** (G-1433) is the area to the right of 3.29.
 2. **Formula:** the z-table gives the area to the left of $z$ under the standard normal curve, written $\Phi(z)$, so
    $$p = P(Z \ge z) = 1 - \Phi(z)$$
 3. **Example:**
@@ -249,7 +249,7 @@ A printed z-table stops around $z = 4$, where the area is practically 1. For lar
 
 $$P(Z \ge 15) = 4 \times 10^{-51}$$
 
-> **Python:** P-values for z statistics. `sf` (survival function) is $1 - \text{CDF}$: the right-tail area.
+> **Python:** **P-values** (G-1433) for z statistics. `sf` (survival function) is $1 - \text{CDF}$: the right-tail area.
 >
 > ```python
 > from scipy import stats
@@ -270,7 +270,7 @@ $$P(Z \ge 15) = 4 \times 10^{-51}$$
 | Training program ($z = 3.29$) | $3.29 > 1.645$: reject | $p = 0.0005$: reject |
 | Chips packets ($z = -1.58$) | $\lvert -1.58 \rvert < 1.96$: fail to reject | $p = 0.114$: fail to reject |
 
-- The table's "Strength of evidence" row is the reason to prefer p-values: both approaches reach the same decision, but only $p$ shows that 0.0005 leaves no doubt while 0.045 is close to the boundary.
+- The table's "Strength of evidence" row is the reason to prefer **p-values** (G-1433): both approaches reach the same decision, but only $p$ shows that 0.0005 leaves no doubt while 0.045 is close to the boundary.
 - The p-value is the probability, under $H_0$, of a result as or more extreme than ours, so the smaller it is, the harder our sample is to explain by chance alone.
 - 53 heads in 100 tosses: $p = 0.309$, so 31% of fair-coin experiments would do at least as well, which makes it weak evidence that the coin is unfair.
 - The p-value is not the probability that $H_0$ is true, because it is computed assuming $H_0$ is true; and it does not measure the size of an effect, because with a huge sample a tiny, useless effect gives a tiny p-value.

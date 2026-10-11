@@ -31,7 +31,7 @@ This Note walks through a complete ML project on a tiny, clean dataset. Real pro
 
 Figure 1 shows the steps:
 
-1. **Clean** the data: fix missing values and outliers, remove unneeded columns. Cleaning is called **preprocessing**.
+1. **Clean** the data: fix **missing values** (G-1234) and outliers, remove unneeded columns. Cleaning is called **preprocessing**.
 2. **Explore** the data with summaries and plots, to spot patterns. Exploring is called **exploratory data analysis (EDA)**.
 3. **Choose features:** decide which features to use (feature selection, taught in [feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Here we keep both CGPA and IQ.
 4. **Split features from target:** X (the features) and y (the target).
@@ -89,7 +89,7 @@ Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. A linear split (one straight line) makes [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
+The two groups could be separated, roughly, by a straight line. A linear split (one straight line) makes [**logistic regression**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) a good choice of algorithm. Logistic regression is a **classification** (G-395) algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
 
 ## 5. Inputs and output
 
@@ -145,7 +145,7 @@ Think of comparing two runners, one timed in seconds and one in milliseconds: th
 
 CGPA ranges from about 3 to 9, while IQ ranges from about 40 to 230 (Figure 5, left). Some algorithms compare data points by measuring distances (like [KNN, which predicts from the closest points](../ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)). On raw data, a difference of 10 IQ points would count far more than a difference of 2 CGPA points, simply because IQ numbers are bigger. Features such as salary, in the lakhs (one lakh is 100,000 rupees), would be even worse.
 
-Logistic regression, the model we train here, does not measure distances, but it learns its weights by many small steps (gradient descent, Section 8). The step for each weight grows with the size of its feature's values, so on raw data the IQ weight would take big jumps while the CGPA weight crawls, and training settles much less easily (see [when to use standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#10-when-to-use-standardization)).
+**Logistic regression** (G-1120), the model we train here, does not measure distances, but it learns its weights by many small steps (gradient descent, Section 8). The step for each weight grows with the size of its feature's values, so on raw data the IQ weight would take big jumps while the CGPA weight crawls, and training settles much less easily (see [when to use standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#10-when-to-use-standardization)).
 
 So we **scale** the features: bring every feature to a similar range. A common method, **standardization**, shifts each feature to centre on 0 with a typical spread of 1. Most values then fall roughly between -2 and 2 (Figure 5, right).
 
@@ -181,7 +181,7 @@ The student is now (−0.71, −0.31): both numbers are on the same scale, and b
 
 > **Key point:** Training means calling `fit` on the training data; the algorithm finds the best separating line by itself.
 
-> **Python:** Training a logistic regression model.
+> **Python:** Training a **logistic regression** (G-1120) model.
 >
 > ```python
 > from sklearn.linear_model import LogisticRegression
@@ -247,7 +247,7 @@ We ask the trained model to predict placement for the 10 hidden test students, a
 
 ![What the trained model learned](images/decision_boundary.png)
 
-Figure 7 shows what the model learned. The pale red area is where the model predicts *not placed*, the pale green area where it predicts *placed*, and the line between them is the **decision boundary**; the dots are the real students, coloured by what happened. A dot inside the wrong colour is a student the model gets wrong. Students to the right of the boundary are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the test student it got wrong, a student with CGPA 6.0 sitting right on the boundary. The boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the weights are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
+Figure 7 shows what the model learned. The pale red area is where the model predicts *not placed*, the pale green area where it predicts *placed*, and the line between them is the **decision boundary**; the dots are the real students, coloured by what happened. A dot inside the wrong colour is a student the model gets wrong. Students to the right of the boundary are predicted *placed*, to the left *not placed*. The stars are the test students; the one cross is the test student it got wrong, a student with CGPA 6.0 sitting right on the boundary. The boundary sits at a CGPA of about 6, barely tilted by IQ. After training, the **weights** (G-2106) are $w_1 = 3.20$, $w_2 = 0.11$ and $b = 0.11$ (on the scaled features). The boundary is where the score is 0. For a student of average IQ, the IQ term is 0, so
 
 $$3.20 \times \frac{\text{CGPA} - 5.98}{1.10} + 0.11 = 0$$
 
@@ -287,7 +287,7 @@ A trained model lives in Python's memory and disappears when the program stops. 
 >     saved = pickle.load(f)
 > ```
 
-> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. The Notebook checks this: on the 10 raw test students, the model predicts *placed* for everyone, and accuracy falls from 90% to 40%. Saving both, and scaling every new input with the saved scaler, avoids the problem. **Pipelines** bundle all such steps into one object ([what a pipeline is](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)).
+> **Extra:** Save the scaler together with the model. The model was trained on scaled inputs, so a website that passes it raw CGPA and IQ values would get wrong answers. The Notebook checks this: on the 10 raw test students, the model predicts *placed* for everyone, and **accuracy** (G-162) falls from 90% to 40%. Saving both, and scaling every new input with the saved scaler, avoids the problem. **Pipelines** bundle all such steps into one object ([what a pipeline is](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)).
 
 ### 10.2 The website
 
@@ -316,8 +316,8 @@ This model is far from perfect: it learned from only 90 students and was not tun
 | Deploy | Saved scaler + model; website | `pickle`, Dash | a model in memory disappears when the program stops |
 
 - Always keep a test set hidden from training, to check the model fairly.
-- Fit the scaler on the training set only, because learning from the test set leaks test information into training (data leakage). Save it with the model, because the model was trained on scaled inputs: raw inputs dropped the test accuracy from 90% to 40%.
-- Accuracy = correct predictions / total predictions, so on the test set it is the share of unseen students the model gets right.
+- Fit the scaler on the training set only, because learning from the test set leaks test information into training (**data leakage** (G-535)). Save it with the model, because the model was trained on scaled inputs: raw inputs dropped the test accuracy from 90% to 40%.
+- **Accuracy** (G-162) = correct predictions / total predictions, so on the test set it is the share of unseen students the model gets right.
 
 ## 12. Sources
 
@@ -350,8 +350,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
-| [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
 | [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
+| [CSV file](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513) | A text file holding a table, with commas between values. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
 | [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |

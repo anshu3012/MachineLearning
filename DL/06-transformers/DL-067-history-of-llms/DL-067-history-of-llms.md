@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 
 ## 1. Overview
 
-> **Key point:** Large language models grew out of five stages, each fixing the main problem of the one before; training GPT for dialogue with human feedback then gave **ChatGPT**.
+> **Key point:** **Large language models** (G-1046) grew out of five stages, each fixing the main problem of the one before; training GPT for dialogue with human feedback then gave **ChatGPT**.
 
 The five stages:
 
@@ -25,7 +25,7 @@ The five stages:
 4. [**Transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) (2018) removed that need: pre-train once on unlabelled text, then fine-tune.
 5. Combining transformers with transfer learning at a vast scale gave **LLMs** such as GPT-3.
 
-The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves each get their own Notes later:
+The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind **machine translation** (G-1141), chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves each get their own Notes later:
 
 - the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture);
 - [**attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226);
@@ -37,7 +37,7 @@ The last block of the deep learning Notes works with **sequence-to-sequence** mo
 ## 2. Prerequisites
 
 - [Why RNNs are needed](../../05-rnn/DL-055-why-rnn/DL-055-why-rnn.md#3-sequential-data): sequential data, and why a plain ANN struggles with it.
-- [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): transfer learning in computer vision.
+- [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): **transfer learning** (G-2005) in computer vision.
 - The RNN Notes after "Why RNNs are needed", especially the [LSTM](../../05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory): a network that reads a sequence step by step and keeps a memory.
 
 ## 3. Sequence-to-sequence problems
@@ -77,23 +77,23 @@ A simple RNN or GRU cell would also work inside each part; the paper used the [*
 
 The weak point is the context vector. However long the input, everything must pass through one fixed-size vector. An analogy: reading a whole paragraph once and then translating it from memory. A short sentence fits in memory; a long paragraph does not, and the start is the first part to fade.
 
-The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases". Our own data shows the same drop for the plain encoder–decoder: its BLEU falls from 14.3 on 1–4-word sentences to 5.9 on 14–16-word sentences ([attention against no attention by sentence length](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#7-attention-against-no-attention-by-sentence-length)). The attention model of the next section loses less on the same sentences.
+The measurements agree. Bahdanau, Cho and Bengio (2015, Figure 2) plotted translation quality, measured by the **BLEU score** (G-315) (how many word sequences of a translation match a human reference translation), against sentence length. For the plain encoder–decoder, quality "dramatically drops as the length of the sentences increases". Our own data shows the same drop for the plain encoder–decoder: its BLEU falls from 14.3 on 1–4-word sentences to 5.9 on 14–16-word sentences ([attention against no attention by sentence length](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#7-attention-against-no-attention-by-sentence-length)). The **attention** (G-226) model of the next section loses less on the same sentences.
 
 ## 5. Stage 2: attention (2014–15)
 
-> **Key point:** Instead of one context vector, the decoder gets a fresh context vector for every output word: a weighted mix of all the encoder's states, with the weights learned. The decoder can therefore always look at the right input words. The price is speed.
+> **Key point:** Instead of one context vector, the **decoder** (G-564) gets a fresh context vector for every output word: a weighted mix of all the encoder's states, with the weights learned. The decoder can therefore always look at the right input words. The price is speed.
 
-Dzmitry Bahdanau, Kyunghyun Cho and Yoshua Bengio proposed the fix in "Neural Machine Translation by Jointly Learning to Align and Translate" (on arXiv in 2014, published at ICLR 2015). Their abstract names the problem directly: the encoder–decoder "needs to be able to compress all the necessary information of a source sentence into a fixed-length vector", which makes long sentences hard.
+Dzmitry Bahdanau, Kyunghyun Cho and Yoshua Bengio proposed the fix in "Neural **Machine Translation** (G-1141) by Jointly Learning to Align and Translate" (on arXiv in 2014, published at ICLR 2015). Their abstract names the problem directly: the encoder–decoder "needs to be able to compress all the necessary information of a source sentence into a fixed-length vector", which makes long sentences hard.
 
-**Attention** keeps every state the encoder produced, one per input word. When the decoder is about to write an output word, a small neural network, trained together with the rest, scores how useful each encoder state is for that word. The scores become weights, and the weighted mix of encoder states becomes the context vector for that one step (Figure 3, bottom). When the decoder writes "Bharat", most of the weight goes to the state for "India".
+**Attention** keeps every state the **encoder** (G-682) produced, one per input word. When the decoder is about to write an output word, a small neural network, trained together with the rest, scores how useful each encoder state is for that word. The scores become weights, and the weighted mix of encoder states becomes the context vector for that one step (Figure 3, bottom). When the decoder writes "Bharat", most of the weight goes to the state for "India".
 
-Because no word has to survive a long trip through one vector, the beginning of a long sentence is no longer lost. In the same Figure 2 of Bahdanau et al., the attention model trained on sentences of up to 50 words shows "no performance deterioration" as sentences get longer.
+Because no word has to survive a long trip through one vector, the beginning of a long sentence is no longer lost. In the same Figure 2 of Bahdanau et al., the **attention** (G-226) model trained on sentences of up to 50 words shows "no performance deterioration" as sentences get longer.
 
 Attention has two costs:
 
 1. **More computation.** With $n$ input words and $m$ output words, the model scores every input word for every output word: $n \times m$ scores per sentence pair. Doubling both lengths quadruples the work (Figure 4).
 
-2. **Still sequential.** The encoder and decoder are still LSTMs, which must process word 1 before word 2 before word 3. Training cannot spread one sentence across many processors at once.
+2. **Still sequential.** The encoder and decoder are still **LSTMs** (G-1123), which must process word 1 before word 2 before word 3. Training cannot spread one sentence across many processors at once.
 
 The second cost turned out to be the real limit.
 
@@ -101,9 +101,9 @@ The second cost turned out to be the real limit.
 
 ## 6. Stage 3: the transformer (2017)
 
-> **Key point:** The transformer removes the RNN completely and uses attention alone. Every word of the input is processed at the same time, so training runs in parallel and is far faster.
+> **Key point:** The **transformer** (G-2007) removes the RNN completely and uses attention alone. Every word of the input is processed at the same time, so training runs in parallel and is far faster.
 
-In 2017 a team at Google Brain and Google Research published "Attention Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no LSTM. It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called [**self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763), where the words of one sentence attend to each other), plus three parts:
+In 2017 a team at Google Brain and Google Research published "**Attention** (G-226) Is All You Need" (Vaswani et al. 2017). The paper points to the bottleneck: an RNN's "inherently sequential nature precludes parallelization within training examples". Their **transformer** keeps the encoder–decoder shape but contains no **LSTM** (G-1123). It is built from parts the earlier Notes already know or will introduce soon: attention (in a new form called [**self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763), where the words of one sentence attend to each other), plus three parts:
 
 - **dense layers** (every node connected to every input, as in the [MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#42-the-architecture));
 - **normalization layers** (they rescale each word's numbers to a standard range; see [normalisation in deep learning](../DL-080-layer-normalization/DL-080-layer-normalization.md#3-normalisation-in-deep-learning));
@@ -126,7 +126,7 @@ One problem remained. Trained from scratch, a transformer needs a great deal of 
 1. **Pre-training:** train a model on a huge general dataset, such as the millions of images of ImageNet, so that it learns general features such as edges and shapes.
 2. **Fine-tuning:** keep the early layers, replace the last ones, and train on our own small dataset, for example 100 photos of cats and dogs.
 
-For text, transfer learning had not taken hold. One reason was the choice of pre-training task: translation was tried, but it needs pairs of sentences in two languages, which are scarce.
+For text, **transfer learning** (G-2005) had not taken hold. One reason was the choice of pre-training task: translation was tried, but it needs pairs of sentences in two languages, which are scarce.
 
 In January 2018 Jeremy Howard and Sebastian Ruder published ULMFiT, "Universal Language Model Fine-tuning for Text Classification" (Howard and Ruder 2018). Their pre-training task was **language modelling** (G-1042): predicting the next word of a text, as in "the capital of India is ___". Language modelling suits pre-training for two reasons:
 
@@ -139,11 +139,11 @@ In Figure 6, every green target comes from the sentence itself: that is why any 
 
 ULMFiT pre-trained an LSTM-based language model on Wikipedia articles, then fine-tuned it on classification datasets such as IMDB reviews. The paper's headline result: "with only 100 labeled examples, it matches the performance of training from scratch on 100× more data" (Howard and Ruder 2018, abstract).
 
-ULMFiT still used an LSTM, not a transformer. Joining the two ideas was the next step.
+ULMFiT still used an **LSTM** (G-1123), not a transformer. Joining the two ideas was the next step.
 
 ## 8. Stage 5: large language models (2018 onward)
 
-> **Key point:** Transformers pre-trained as language models on enormous text collections became general-purpose models that can be fine-tuned for almost any language task. Scaled up to billions of parameters (GPT-2, GPT-3), they became **large language models** (G-1046) (LLMs).
+> **Key point:** **Transformers** (G-2007) pre-trained as language models on enormous text collections became general-purpose models that can be fine-tuned for almost any language task. Scaled up to billions of parameters (GPT-2, GPT-3), they became **large language models** (G-1046) (LLMs).
 
 The first two pre-trained transformer language models appeared in 2018. With 117 million (GPT) and 340 million (BERT-Large) parameters they were not yet "large"; the scaling came next.
 
@@ -152,7 +152,7 @@ The first two pre-trained transformer language models appeared in 2018. With 117
 | GPT | OpenAI | June 2018 | decoder only | predict the next word |
 | BERT | Google | October 2018 | encoder only | predict hidden (masked) words from both sides |
 
-GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on a transformer. BERT (Devlin et al. 2019) used a different pre-training task, a **masked language model** (G-1170): some words of the input are hidden, and the model predicts them using the words on both sides. Both could be fine-tuned with little data for sentiment analysis, question answering, named entity recognition (finding names of people, places and organisations in text) and more, and both set new records. The two keep different halves of the transformer:
+GPT (Radford et al. 2018) was a language model in the ULMFiT sense, but built on a transformer. BERT (Devlin et al. 2019) used a different pre-training task, a **masked language model** (G-1170): some words of the input are hidden, and the model predicts them using the words on both sides. Both could be fine-tuned with little data for **sentiment analysis** (G-1769), question answering, named entity recognition (finding names of people, places and organisations in text) and more, and both set new records. The two keep different halves of the transformer:
 
 - **decoder only** (GPT): reads the text left to right and writes the next word; see [from the transformer decoder to GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt);
 - **encoder only** (BERT): reads the whole sentence at once, both sides of every word, and writes no new text.
@@ -208,7 +208,7 @@ GPT and ChatGPT are often confused. GPT is a model; ChatGPT is a chat applicatio
 
 In Figure 8, the inner box is the part that does the computing and the outer box is what the user sees and names.
 
-**A chatbot is a next-word predictor in a script.** A language model only continues text. A chat application turns it into an assistant in three steps (Sanderson 2024, "Large Language Models explained briefly" and "Transformers, the tech behind LLMs"):
+**A chatbot is a next-word predictor in a script.** A language model only continues text. A chat application turns it into an assistant in three steps (Sanderson 2024, "**Large Language Models** (G-1046) explained briefly" and "Transformers, the tech behind LLMs"):
 
 1. **The script.** Write a text around the user's message: a short setup ("What follows is a conversation between a user and a helpful AI assistant"), then the user's words after "User:", then "Assistant:".
 2. **The loop.** The model predicts the next word, the word is appended, and the loop repeats.
@@ -246,9 +246,9 @@ Steps 2 and 3 together are **RLHF** (G-1695). Through the human rankings, the mo
 
 - Sequence-to-sequence tasks map an input sequence to an output sequence of a different length, so the model cannot simply emit one output word per input word.
 - Each stage of the history fixed the main problem of the stage before.
-- Language modelling makes pre-training possible on any text, because the next word is its own label.
+- **Language modelling** (G-1042) makes pre-training possible on any text, because the next word is its own label.
 - "Large" means huge data, clusters of GPUs, weeks of training, high cost and high energy use, so only large companies, governments and large research institutes can train one.
-- ChatGPT is a GPT model fine-tuned on dialogue and then with RLHF, because a pre-trained language model only continues text and is not yet a helpful assistant.
+- ChatGPT is a GPT model fine-tuned on dialogue and then with **RLHF** (G-1695), because a pre-trained language model only continues text and is not yet a helpful assistant.
 
 ## 11. Sources
 
@@ -283,6 +283,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Large language model (LLM) (G-1046) | A transformer language model with billions of parameters, trained on a vast amount of text. |
 | Transformer (G-2007) | A neural network that turns one sequence into another (a seq2seq architecture) built from attention and dense layers, with no RNN, that processes all words in parallel. |
 | Sequence-to-sequence (seq2seq) task (G-1772) | A task with a sequence as input and a sequence as output, possibly of different lengths, such as translation. |
 | Context vector (G-461) | The summary of the input that the decoder works from; one fixed vector in the plain encoder–decoder, a new one per output word with attention. |
@@ -291,15 +292,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | BLEU score (G-315) | A measure of translation quality: how many word sequences of a translation match a human reference. |
 | Language modelling (G-1042) | Training a model to predict the next word of a text. |
 | Self-supervised learning (G-2279) | Learning where the labels are made from the data itself, such as the next word of a text; it lets a model learn from any amount of unlabelled data, with no human labelling. |
-| Large language model (LLM) (G-1046) | A transformer language model with billions of parameters, trained on a vast amount of text. |
 | Masked language model (G-1170) | A pre-training task that hides some words and asks the model to predict them from both sides (BERT). |
 | RLHF (G-1695) | Reinforcement learning from human feedback: improving a model with a reward model trained on human rankings of its outputs. |
 | Pre-training (G-1546) | The first, general training of a model on a large dataset, such as ImageNet or a huge amount of unlabelled text, so that it learns general features; fine-tuning then adapts it to a task with little labelled data. |
 | [Attention](../../../DL/06-transformers/DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226) | A mechanism that lets each output step weigh all input positions and focus on the useful ones. |
 | [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
 | [Image captioning](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#4-one-to-many) (G-918) | Producing a sentence that describes an image. |
-| [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [Long short-term memory (LSTM)](../../../DL/05-rnn/DL-061-lstm/DL-061-lstm.md#6-the-core-idea-a-second-path-for-long-term-memory) (G-1123) | A recurrent network (RNN) that carries two memories from one time step to the next, a long-term one (the cell state) and a short-term one (the hidden state), with gates that control what each memory keeps and passes on. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Parameters (of a model)](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#42-the-training-data-is-no-longer-needed) (G-1450) | The numbers inside a model that training learns from the data, such as a line's slope and intercept; once learned, they turn inputs into predictions. |

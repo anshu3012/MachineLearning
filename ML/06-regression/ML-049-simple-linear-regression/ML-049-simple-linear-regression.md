@@ -46,14 +46,14 @@ Our data describes 200 students from one college who were placed in campus recru
 | 5.12 | 1.98 |
 | 7.82 | 3.25 |
 
-- `cgpa`: the student's grade point average, out of 10. This is the feature, the **input**.
-- `package`: the salary offered, in **LPA** (G-1135) (lakh rupees per year). This is the target, the **output**: it depends on the CGPA.
+- `cgpa`: the student's grade point average, out of 10. This is the **feature** (G-772), the **input**.
+- `package`: the salary offered, in **LPA** (G-1135) (lakh rupees per year). This is the **target** (G-1949), the **output**: it depends on the CGPA.
 
 The goal is a model that takes a new student's CGPA and predicts their package. Such a model could sit behind a small website where a student types in their CGPA.
 
 ### 2.1 Without the data: guess the average
 
-> **Key point:** With no model, the best single guess is the average package, 3.00 LPA. The average is the same answer for every student, which is clearly poor.
+> **Key point:** With no model, the best single guess is the average package, 3.00 **LPA** (G-1135). The average is the same answer for every student, which is clearly poor.
 
 Suppose someone asks what package a student from this college gets. Without looking at CGPA, the most reasonable answer is the average of all packages: **3.00 LPA**.
 
@@ -61,7 +61,7 @@ The average ignores everything that makes one student different from another. A 
 
 ## 3. A line through the data
 
-> **Key point:** The points rise roughly along a straight line. Linear regression finds the line that fits them best.
+> **Key point:** The points rise roughly along a straight line. **Linear regression** (G-1094) finds the line that fits them best.
 
 ### 3.1 Plotting the data
 
@@ -95,13 +95,13 @@ Real data is almost never perfectly linear. Two students with the same CGPA may 
 - one may have joined a company that pays more;
 - one may have had a bad day in the test.
 
-None of these can be captured as a feature in the data. Such hard-to-measure, random influences are called **stochastic errors** (G-1891), and they scatter the points around the trend.
+None of these can be captured as a **feature** (G-772) in the data. Such hard-to-measure, random influences are called **stochastic errors** (G-1891), and they scatter the points around the trend.
 
 ### 3.4 The best-fit line
 
 > **Key point:** We still draw one line: the one whose total error over all points is the smallest.
 
-Since no line can pass through every point, linear regression draws the line that is wrong by the least overall: the **best-fit line** (G-280). A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
+Since no line can pass through every point, **linear regression** (G-1094) draws the line that is wrong by the least overall: the **best-fit line** (G-280). A tailor making one ready-made shirt size for a group does the same: no one gets a perfect fit, but the size is chosen so that the total misfit is as small as possible.
 
 For each student, the error is the vertical gap between their real package and the line's prediction. The standard name for this gap is the **residual** (G-705):
 
@@ -109,7 +109,7 @@ $$\text{residual} = \text{actual} - \text{predicted}$$
 
 Two students show how the sign works (both appear in the table of [Section 4.2](#42-training-and-predicting)):
 
-- CGPA 8.58: actual 4.10 LPA, predicted 3.89.
+- CGPA 8.58: actual 4.10 **LPA** (G-1135), predicted 3.89.
 
   $$\text{residual} = 4.10 - 3.89 = +0.21$$
 
@@ -125,7 +125,7 @@ Two students show how the sign works (both appear in the table of [Section 4.2](
 
 $$(1 + 3 + 2)/3 = 2$$
 
-The average CGPA is 7. We try lines through the centre $(7, 2)$ with four different slopes. A line through the centre with slope $m$ predicts:
+The average CGPA is 7. We try lines through the centre $(7, 2)$ with four different **slopes** (G-1823). A line through the centre with slope $m$ predicts:
 
 $$2 + m \times (\text{CGPA} - 7)$$
 
@@ -172,13 +172,13 @@ The total used is the [**sum of squared errors**](../ML-051-regression-metrics/M
 
 ### 3.5 Turning the line to find the lowest total
 
-> **Key point:** As the line turns, the sum of squared residuals first falls and then rises. The best-fit line is at the bottom of this valley.
+> **Key point:** As the line turns, the sum of squared residuals first falls and then rises. The **best-fit line** (G-280) is at the bottom of this valley.
 
 Figure 4 looks for the best line step by step.
 
-1. Start with the flat line at the average package, 3.00. Its sum of squared residuals is 73.0.
+1. Start with the flat line at the average package, 3.00. Its sum of squared **residuals** (G-705) is 73.0.
 2. Turn the line a little about the centre of the data (the black cross). The residuals shrink: the sum falls to 54.6, then 39.8, then 28.6.
-3. Keep turning. At slope 0.558 the sum reaches 16.6, its lowest value.
+3. Keep turning. At **slope** (G-1823) 0.558 the sum reaches 16.6, its lowest value.
 4. Turn further and the line becomes too steep. The residuals grow again: at slope 1.05 the sum is back up at 60.5.
 
 ![The line turns about the centre of the 160 training students (left). Each slope tried adds one point to the right panel: its sum of squared residuals. The points trace a valley; its lowest point, 16.6 at slope 0.558, is the best-fit line. Idea after StatQuest, "The Main Ideas of Fitting a Line to Data".](images/rotate_valley.gif)
@@ -193,7 +193,7 @@ Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, 
 
 ### 4.1 Inputs, output and split
 
-> **Key point:** X holds the CGPA feature, y the package (the target); 80% of students train the model and 20% test it (a **train-test split**, G-1998: part of the data is held back to check the model on students it has never seen).
+> **Key point:** X holds the CGPA feature, y the package (the **target** (G-1949)); 80% of students train the model and 20% test it (a **train-test split**, G-1998: part of the data is held back to check the model on students it has never seen).
 
 > **Python:** Separating the columns and splitting.
 >
@@ -214,7 +214,7 @@ Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, 
 
 ### 4.2 Training and predicting
 
-> **Key point:** `fit` finds the best-fit line from the training set; `predict` reads the line at a new CGPA.
+> **Key point:** `fit` finds the **best-fit line** (G-280) from the training set; `predict` reads the line at a new CGPA.
 
 > **Python:** Training and predicting.
 >
@@ -230,7 +230,7 @@ Figure 4 changes only the slope. A line has two numbers to choose, $m$ and $b$, 
 >
 > `X_test.iloc[[0]]` (double brackets) keeps the student as a one-row table. A single row with single brackets would be 1-D, and scikit-learn would refuse it.
 
-The first test student has a CGPA of 8.58 and was offered 4.10 LPA. The model predicts 3.89 LPA. A few more test students:
+The first test student has a CGPA of 8.58 and was offered 4.10 **LPA** (G-1135). The model predicts 3.89 LPA. A few more test students:
 
 | CGPA | Actual (LPA) | Predicted (LPA) |
 |---|---|---|
@@ -240,21 +240,21 @@ The first test student has a CGPA of 8.58 and was offered 4.10 LPA. The model pr
 | 6.22 | 2.33 | 2.57 |
 | 4.57 | 1.94 | 1.65 |
 
-The predictions are close, but not exact: the stochastic errors of [Section 3.3](#33-why-real-data-is-not-on-a-line) cannot be predicted from CGPA. Figure 5 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
+The predictions are close, but not exact: the **stochastic errors** (G-1891) of [Section 3.3](#33-why-real-data-is-not-on-a-line) cannot be predicted from CGPA. Figure 5 shows all 40 test students: every prediction (orange diamond) sits on the line at the student's CGPA, and the grey segment is the gap to the real package.
 
 ![The 40 test students: real packages (blue), predictions on the best-fit line (orange), and the gap between them (grey). The first test student, CGPA 8.58, is 0.21 LPA above the line.](images/test_predictions.png)
 
-How to measure a regression model's accuracy properly is covered by the regression metrics, starting with the [**mean absolute error**](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194).
+How to measure a **regression** (G-1655) model's accuracy properly is covered by the regression metrics, starting with the [**mean absolute error**](../ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194).
 
 ## 5. What the model learned: m and b
 
-> **Key point:** The trained model is just two numbers: the slope $m = 0.558$ and the intercept $b = -0.896$.
+> **Key point:** The trained model is just two numbers: the **slope** (G-1823) $m = 0.558$ and the **intercept** (G-960) $b = -0.896$.
 
 ### 5.1 Reading m and b
 
-> **Key point:** `coef_` holds the slope and `intercept_` holds the intercept.
+> **Key point:** `coef_` holds the **slope** (G-1823) and `intercept_` holds the **intercept** (G-960).
 
-The best-fit line is fully described by its slope and intercept. scikit-learn stores them after `fit`.
+The **best-fit line** (G-280) is fully described by its slope and intercept. scikit-learn stores them after `fit`.
 
 > **Python:** The line's two numbers.
 >
@@ -277,11 +277,11 @@ The result is exactly the prediction from `lr.predict`. All `predict` does is pu
 
 ### 5.2 The slope m: how much the output depends on the input
 
-> **Key point:** Each extra CGPA point adds 0.56 LPA to the predicted package.
+> **Key point:** Each extra CGPA point adds 0.56 **LPA** (G-1135) to the predicted package.
 
 ![The slope and the intercept of the best-fit line](images/slope_intercept.png)
 
-The slope is the change in the output for one unit of change in the input (the green triangle in Figure 6). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
+The **slope** (G-1823) is the change in the output for one unit of change in the input (the green triangle in Figure 6). Here, every extra CGPA point adds 0.56 LPA to the predicted package.
 
 So $m$ acts like a **weight**: it says how strongly the output depends on the input.
 
@@ -290,9 +290,9 @@ So $m$ acts like a **weight**: it says how strongly the output depends on the in
 
 ### 5.3 The intercept b: the starting value
 
-> **Key point:** The intercept is the line's value when the input is 0. Sometimes it has a real meaning, sometimes it does not.
+> **Key point:** The **intercept** (G-960) is the line's value when the input is 0. Sometimes it has a real meaning, sometimes it does not.
 
-The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ LPA at CGPA 0 (the red point in Figure 6).
+The intercept is where the line crosses the vertical axis: the prediction for an input of 0. Here, $b = -0.90$ **LPA** (G-1135) at CGPA 0 (the red point in Figure 6).
 
 An intercept of $-0.90$ has no real meaning: no student has a CGPA of 0, and a negative salary is impossible. The intercept is just where the line has to start so that it fits the students we do have, between CGPA 4 and 10.
 
@@ -313,12 +313,12 @@ Take years of experience and salary: a fresher has 0 years of experience but sti
 | Intercept $b$ | $-0.90$, meaningless here (no CGPA of 0) | it sets the line's height so it fits the CGPAs we have |
 | Total squared error, training set | 73.0 for the average; 16.6 for the best-fit line | the line cuts the error of the average guess to less than a quarter |
 
-- Linear regression is supervised and predicts a number; simple linear regression uses one input, so it is the starting point for the multiple, polynomial and regularised versions.
-- Real data is "sort of linear": a linear trend plus scatter from stochastic errors, so no line passes through every point and some error always remains.
-- A residual is actual minus predicted: positive above the line, negative below, so the residuals must be squared before adding, or they cancel.
-- The best-fit line is the line with the smallest sum of squared errors (least squares): the bottom of the valley in Figure 4, so "best" has one exact meaning that a computer can find.
+- **Linear regression** (G-1094) is supervised and predicts a number; simple linear regression uses one input, so it is the starting point for the multiple, polynomial and regularised versions.
+- Real data is "sort of linear": a linear trend plus scatter from **stochastic errors** (G-1891), so no line passes through every point and some error always remains.
+- A **residual** (G-705) is actual minus predicted: positive above the line, negative below, so the residuals must be squared before adding, or they cancel.
+- The best-fit line is the line with the smallest **sum of squared errors** (G-1684) (least squares): the bottom of the valley in Figure 4, so "best" has one exact meaning that a computer can find.
 - In scikit-learn: `LinearRegression().fit(X_train, y_train)`, then `predict`; the test students, held back from `fit`, check the model on data it has not seen.
-- The trained model is two numbers: `coef_` (slope, the input's weight) and `intercept_` (the starting value), so the whole model can be written down and read.
+- The trained model is two numbers: `coef_` (**slope** (G-1823), the input's weight) and `intercept_` (the starting value), so the whole model can be written down and read.
 - The line keeps going beyond the data; predictions far outside the training range are unreliable, because there are no students there to check the line against.
 - Together these answer the opening question: linear regression fits the straight line with the smallest squared error through the data and reads predictions off it.
 

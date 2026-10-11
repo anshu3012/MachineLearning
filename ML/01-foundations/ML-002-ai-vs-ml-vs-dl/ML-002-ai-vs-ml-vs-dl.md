@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/foundations, step/foundations, concept/ai,
 
 ## 1. Overview
 
-> **Key point:** Deep Learning is a part of Machine Learning, and Machine Learning is a part of Artificial Intelligence.
+> **Key point:** Deep Learning is a part of **Machine Learning** (G-1140), and Machine Learning is a part of Artificial Intelligence.
 
 ![AI, ML and DL as nested fields](images/big_picture.png)
 
@@ -69,13 +69,13 @@ Figure 4 is a timeline, read from left to right: it shows how approaches to AI c
 
 The first approach was **symbolic AI** (G-1931): humans write down the knowledge a machine needs, as explicit rules. The machine then follows those rules.
 
-> **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, *artificial intelligence* (Russell and Norvig 2020, §1.3.1).
+> **Extra:** Two dates mark the start of AI. In 1950 Alan Turing asked "Can machines think?" (Turing 1950), and in 1956 a summer workshop at Dartmouth gave the field its name, ***artificial intelligence** (G-215)* (Russell and Norvig 2020, §1.3.1).
 
 ### 3.1 How an expert system works
 
 > **Key point:** An expert system stores an expert's knowledge as rules and uses a program to apply them.
 
-The best-known product of symbolic AI is the **expert system** (G-726). Figure 5 shows how one is built and used.
+The best-known product of **symbolic AI** (G-1931) is the **expert system** (G-726). Figure 5 shows how one is built and used.
 
 ![How an expert system works](images/expert_system.png)
 
@@ -87,11 +87,11 @@ Chess-playing computers are a classic example.
 
 ### 3.2 Why expert systems fail
 
-> **Key point:** Expert systems need clear, fixed rules. Most real-world problems do not have them.
+> **Key point:** **Expert systems** (G-726) need clear, fixed rules. Most real-world problems do not have them.
 
 Expert systems work well when a problem has clear, fixed rules, as in chess or logic puzzles. They fail when the rules are fuzzy.
 
-Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, angles and lights make the rules impossible to write down (see [when there are too many cases: recognising dogs](../ML-001-what-is-ml/ML-001-what-is-ml.md#42-when-there-are-too-many-cases-recognising-dogs)). Speech recognition fails for the same reason, and Machine Learning was developed to solve exactly this kind of problem.
+Take the question: *does this photo contain a dog?* Hundreds of breeds, looks, angles and lights make the rules impossible to write down (see [when there are too many cases: recognising dogs](../ML-001-what-is-ml/ML-001-what-is-ml.md#42-when-there-are-too-many-cases-recognising-dogs)). Speech recognition fails for the same reason, and **Machine Learning** (G-1140) was developed to solve exactly this kind of problem.
 
 ## 4. Machine Learning
 
@@ -126,10 +126,10 @@ An ML model learns what a dog looks like from labelled photos, as children do (s
 Figure 7 shows what the data looks like. The steps are:
 
 1. We show the system many photos, each with its label: "this is a dog", "this is not a dog".
-2. The system searches the photos for what the dog photos have in common. This search is the learning.
+2. The system searches the photos for what the dog photos have in common. This search is the **learning** (G-1073).
 3. After enough photos, the system can classify a photo it has never seen (put it in a category: "dog" or "not a dog").
 
-Compared with symbolic AI:
+Compared with **symbolic AI** (G-1931):
 
 | Approach | What we do | Result |
 |---|---|---|
@@ -138,11 +138,11 @@ Compared with symbolic AI:
 
 ## 5. Deep Learning
 
-> **Key point:** DL is ML that uses neural networks. Its big advantage: it finds the features by itself, and it keeps improving as we give it more data.
+> **Key point:** DL is ML that uses **neural networks** (G-1316). Its big advantage: it finds the features by itself, and it keeps improving as we give it more data.
 
 **Deep Learning (DL)** (G-568) is a subset of ML that took off after about 2010.
 
-The process is the same as in ML. We give data to an algorithm and [**train**](../ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to predict on new data. What changes is the algorithm.
+The process is the same as in ML. We give data to an algorithm and [**train**](../ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) it: the algorithm makes predictions, measures how wrong they are, and adjusts itself to be less wrong. Then we use it to **predict** (G-1548) on new data. What changes is the algorithm.
 
 ### 5.1 Neural networks
 
@@ -156,7 +156,7 @@ The smallest unit of a neural network is the [**perceptron**](../../../DL/01-bas
 
 > **Key point:** In ML, we choose the features. In DL, the network learns them.
 
-A **feature** (G-772) is an input variable: one piece of information that a model uses to make its decision, stored as one column of the data table. For example, to predict whether a student will get a job in campus placements, our data might look like this:
+A **feature** (G-772) is an input variable: one piece of information that a model uses to make its decision, stored as one column of the data table. For example, to **predict** (G-1548) whether a student will get a job in campus placements, our data might look like this:
 
 | Student | CGPA | IQ | Certifications | Placed? |
 |---|---|---|---|---|
@@ -173,11 +173,11 @@ Figure 8 shows the difference:
 - **ML:** we decide which features matter and supply them. Choosing well requires a good understanding of the data. A useful feature we leave out can never be used by the model.
 - **DL:** we supply the raw data, and the network works out which information matters.
 
-Learning its own features makes DL valuable when nobody knows what the right features are. For example, to tell dogs from cats with ML we would have to describe each animal by hand-made features, such as the shape of the ears, the whiskers and the tail. Nobody can list all the features that make a photo a dog photo. A DL network takes the raw pixels (the brightness numbers that make up a photo) and finds them itself. In the placement example, the same holds for a résumé: instead of counting certifications and backlogs by hand, we give the network the raw text.
+**Learning** (G-1073) its own features makes DL valuable when nobody knows what the right features are. For example, to tell dogs from cats with ML we would have to describe each animal by hand-made features, such as the shape of the ears, the whiskers and the tail. Nobody can list all the features that make a photo a dog photo. A DL network takes the raw pixels (the brightness numbers that make up a photo) and finds them itself. In the placement example, the same holds for a résumé: instead of counting certifications and backlogs by hand, we give the network the raw text.
 
 ### 5.3 Layers build up understanding
 
-> **Key point:** Each layer of a neural network combines what the previous layer found into something bigger.
+> **Key point:** Each layer of a **neural network** (G-1316) combines what the previous layer found into something bigger.
 
 A neural network is organised in **layers** (G-1056) of neurons. Each layer works on the output of the layer before it. Adding layers lets the network detect more complex patterns, and a network with many layers is called *deep*.
 
@@ -202,7 +202,7 @@ Figure 10 draws both curves: the horizontal axis is the amount of data and the v
 - **ML** improves at first, then levels off.
 - **DL** keeps improving as data grows.
 
-Why the two curves differ: a model's [**capacity**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344), how wide a range of patterns it can fit. A simple ML model can fit only simple patterns, so once it has learned all it can hold, more data adds nothing and its curve levels off. A neural network has very many weights, so it can fit far more complex patterns. With few examples, it fits their noise too and does badly on new data: it **overfits** (G-1429; see [**overfitting**](../ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). With more examples, it has enough to learn the real pattern, and it keeps improving. The more data we have, the larger the capacity that works best (Goodfellow et al. 2016, §5.2, Fig. 5.4).
+Why the two curves differ: a model's [**capacity**](../../../DL/02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#3-why-neural-networks-overfit) (G-344), how wide a range of patterns it can fit. A simple ML model can fit only simple patterns, so once it has learned all it can hold, more data adds nothing and its curve levels off. A **neural network** (G-1316) has very many weights, so it can fit far more complex patterns. With few examples, it fits their noise too and does badly on new data: it **overfits** (G-1429; see [**overfitting**](../ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). With more examples, it has enough to learn the real pattern, and it keeps improving. The more data we have, the larger the capacity that works best (Goodfellow et al. 2016, §5.2, Fig. 5.4).
 
 The steady gain with more data is why DL now outperforms ML on tasks with very large datasets:
 
@@ -238,9 +238,9 @@ A saying sums up the choice: where a needle is needed, we do not use a sword. DL
 | Strong at | Problems with clear rules | Tables of data | Images, text, speech |
 
 - AI $\supset$ ML $\supset$ DL, so every DL system is also an ML system, and every ML system is also an AI system.
-- Expert systems fail on problems whose rules cannot be written down (no rule fits every dog photo), so ML was developed for exactly these problems.
+- **Expert systems** (G-726) fail on problems whose rules cannot be written down (no rule fits every dog photo), so ML was developed for exactly these problems.
 - ML: data + answers $\rightarrow$ rules. No explicit programming, so a new problem needs labelled examples, not new hand-written rules.
-- DL learns its own features, so it helps when nobody knows the right features, as with the raw pixels of a photo.
+- DL learns its own **features** (G-772), so it helps when nobody knows the right features, as with the raw pixels of a photo.
 - With more data, DL keeps improving while ML levels off, because a network's many weights can fit far more complex patterns, so DL wins on very large image, text and speech datasets.
 - With little data, use ML, because a large network overfits a small dataset and performs worse than ML, and most organisations have small data.
 
@@ -275,8 +275,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Inference engine (G-942) | The part of an expert system that applies the rules to answer a question. |
 | Learning (G-1073) | Finding rules (patterns) from examples. |
 | Predict (prediction, inference) (G-1548) | Use a trained model to give an answer for new data it has not seen, with no correct output available. |
-| Deep Learning (DL) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
 | Neural network (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| Deep Learning (DL) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
 | Feature (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | Layer (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
 | [Machine Learning (ML)](../../../ML/01-foundations/ML-001-what-is-ml/ML-001-what-is-ml.md#2-defining-machine-learning) (G-1140) | Using statistics to let a machine find patterns (rules) in data by itself. |

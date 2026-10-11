@@ -33,7 +33,7 @@ The Notebook (`ML-098-voting-regressor.ipynb`) runs every experiment. The Dash a
 
 > **Key point:** Train every regressor on the same data; to predict, average their numerical outputs.
 
-We have base models M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their mean ([regression: the mean](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#33-regression-the-mean) works an example). With weights, it returns the weighted mean, exactly as in soft voting (see [weights in the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#43-weights)).
+We have **base models** (G-260) M1, M2 and M3, all regression algorithms, trained on the same dataset D. For a new query point $x_q$, each returns a number, and the voting regressor returns their **mean** (G-1203) ([regression: the mean](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#33-regression-the-mean) works an example). With weights, it returns the weighted mean, exactly as in soft voting (see [weights in the voting classifier](../ML-097-voting-classifier/ML-097-voting-classifier.md#43-weights)).
 
 1. **In words:** add the base models' predictions and divide by how many there are.
 2. **Formula:** with $n$ base models predicting $f_1, \dots, f_n$ for the query point, and optional weights $w_1, \dots, w_n$ ($\sum$ means "add up the terms for $i = 1, \dots, n$"),
@@ -58,11 +58,11 @@ We have base models M1, M2 and M3, all regression algorithms, trained on the sam
 
 ![A query point sweeps across the sine data of section 3; at each position the three base regressors give a number each (coloured dots), and the vote is their mean (blue star)](images/voting_scan.gif){height=60%}
 
-In Figure 1, watch the star: at every $x_q$ it sits at the mean of the three dots, and its trail is the voting regressor's curve.
+In Figure 1, watch the star: at every $x_q$ it sits at the mean of the three dots, and its trail is the **voting regressor** (G-2097)'s curve.
 
 ## 3. Seeing it on a curve
 
-> **Key point:** The voting regressor's curve runs between its base models' curves and smooths out the extremes of each. Its score is never below the average score of its members.
+> **Key point:** The voting regressor's curve runs between its **base models'** (G-260) curves and smooths out the extremes of each. Its score is never below the average score of its members.
 
 The demo data is a sine wave of 80 points between 0 and 5, with every fifth point pushed up or down at random: a non-linear pattern with a few outliers. We train on 72 points and keep 8 for testing. Figure 2 adds three base regressors one at a time and redraws the voting regressor after each.
 
@@ -77,7 +77,7 @@ The picture shows the same thing:
 - **A decision tree** (depth 5) jumps to reach many single points, outliers included.
 - **The voting curve** runs between them. With two models it sits exactly halfway between the line and the SVR curve; with three, it follows the tree's jumps only a third of the way, so it is much smoother than the tree.
 
-A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages the **R² score** (G-1717; 1 means perfect predictions, 0 means no better than always predicting the mean; see [$R^2$](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) on their test points:
+A score from 8 test points depends heavily on which 8 points we drew. So the Notebook draws 30 fresh datasets with the same recipe and averages the **R² score** (G-1717; 1 means perfect predictions, 0 means no better than always predicting the **mean** (G-1203); see [$R^2$](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) on their test points:
 
 | Base models | Each model's mean $R^2$ | Average of the members | Voting regressor (G-2097) |
 |---|---|---|---|
@@ -123,7 +123,7 @@ The vote is always well above the average of its members. It does not beat SVR h
 
 ## 4. VotingRegressor on the Boston housing data
 
-> **Key point:** Three base models with R² 0.71, 0.73 and 0.67 combine into a voting regressor with R² 0.81, better than each; weights lift it to 0.82.
+> **Key point:** Three base models with R² 0.71, 0.73 and 0.67 combine into a **voting regressor** (G-2097) with R² 0.81, better than each; weights lift it to 0.82.
 
 ### 4.1 The data and the base models
 
@@ -134,10 +134,10 @@ The Boston housing data (see [the Boston data and a first tree](../ML-093-regres
 We score each model under three conditions:
 
 - **shuffled folds:** the observations are stored town by town, so we shuffle them before cutting the 10 folds (section 4.5 shows why);
-- **five repeats:** the whole 10-fold **cross-validation** (G-510; the data is cut into 10 parts, and the model is tested on each part after training on the other nine) is repeated with 5 different shuffles, and we report the mean;
+- **five repeats:** the whole 10-fold **cross-validation** (G-510; the data is cut into 10 parts, and the model is tested on each part after training on the other nine) is repeated with 5 different shuffles, and we report the **mean** (G-1203);
 - **scaled SVR:** SVR measures distances between observations, so it gets standardized features (see [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) through a pipeline (see [what a pipeline is](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is)).
 
-> **Python:** Each base model alone.
+> **Python:** Each **base model** (G-260) alone.
 >
 > ```python
 > boston = pd.read_csv("data/boston.csv")
@@ -165,7 +165,7 @@ The three models are about equally good, and they work in very different ways: a
 
 > **Key point:** Passing the same three models to `VotingRegressor` lifts R² from the best member's 0.73 to 0.81.
 
-> **Python:** The voting regressor.
+> **Python:** The **voting regressor** (G-2097).
 >
 > ```python
 > from sklearn.ensemble import VotingRegressor
@@ -182,7 +182,7 @@ In Figure 3, compare the green bars with the blue ones: the plain vote already g
 
 The vote scores **0.81**, clearly above every member (0.71, 0.73 and 0.67). Where the tree makes a jump that the line does not, and the SVR smooths both, the errors partly cancel in the average.
 
-`n_jobs=-1` trains the base models in parallel on all CPU cores. On small data like this it does not pay: in the Notebook one fit takes about 0.1 seconds on one core but several seconds with `n_jobs=-1`, because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
+`n_jobs=-1` trains the **base models** (G-260) in parallel on all CPU cores. On small data like this it does not pay: in the Notebook one fit takes about 0.1 seconds on one core but several seconds with `n_jobs=-1`, because starting parallel work has a cost of its own (scikit-learn User Guide §10.3.1).
 
 ### 4.3 Weights
 
@@ -232,7 +232,7 @@ With folds in order (and the older unscaled SVR), the same models score far lowe
 
 In Figure 6, watch every orange bar fall far below its blue partner; the tree and the unscaled SVR drop below zero.
 
-A negative $R^2$ means worse than always predicting the mean price.
+A negative $R^2$ means worse than always predicting the **mean** (G-1203) price.
 
 > **Extra:** Holding out whole towns picked at random (`GroupKFold`, with the town names from the corrected data) gives scores in between: linear regression 0.55, decision tree 0.36, scaled SVR 0.61, vote 0.68. So predicting for unseen towns is genuinely harder, and the vote still beats every member there.
 
@@ -245,8 +245,8 @@ A negative $R^2$ means worse than always predicting the mean price.
 | Weights | `weights=[...]` | `weights=[...]` (weighted mean) |
 | scikit-learn class | `VotingClassifier` | `VotingRegressor` |
 
-- A voting regressor predicts the mean (or weighted mean) of its base regressors' predictions, because a regressor outputs a number, so there is no label to vote on.
-- The vote's squared error is never worse than the average member's; the more the members disagree, the bigger the gain, because the vote's error equals the members' mean squared error minus their spread around the mean (the ambiguity).
+- A voting regressor predicts the **mean** (G-1203) (or weighted mean) of its base regressors' predictions, because a regressor outputs a number, so there is no label to vote on.
+- The vote's squared error is never worse than the average member's; the more the members disagree, the bigger the gain, because the vote's error equals the members' mean squared error minus their spread around the mean (the **ambiguity** (G-2155)).
 - On the noisy sine data, the voting curve smooths out the tree's jumps and scores well above the average member (0.72 against 0.58), because it follows each member only a third of the way. It does not beat SVR, so a vote is not guaranteed to beat its best member.
 - On Boston, three different models (0.71, 0.73, 0.67) give a vote of 0.81 (0.82 with weights 2, 3, 1), because they are about equally good and make different mistakes that partly cancel; five trees of different depths give only 0.76, because trees grown on the same data make more similar mistakes.
 - Shuffle the observations before cross-validation when the data is stored in a meaningful order, because folds cut in order test on whole towns the model never saw, and every score collapses.

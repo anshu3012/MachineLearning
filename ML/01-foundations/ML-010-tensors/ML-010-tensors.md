@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/foundations, step/foundations, concept/ten
 
 ## 1. Overview
 
-> **Key point:** A tensor is a container for numbers, organised along one or more axes. All ML data, from tables to videos, is stored as tensors.
+> **Key point:** A **tensor** (G-1957) is a container for numbers, organised along one or more axes. All ML data, from tables to videos, is stored as tensors.
 
 
 Every ML library, such as scikit-learn, TensorFlow and PyTorch, stores data in the same basic structure: the **tensor**. The tensor is so central that Google's deep learning library, TensorFlow, is named after it.
@@ -42,7 +42,7 @@ But what do we call a stack of matrices, or a stack of those? Rather than invent
 
 ## 3. Tensors from 0D to 5D
 
-> **Key point:** A tensor of one dimension higher is a collection of tensors of the dimension below.
+> **Key point:** A **tensor** (G-1957) of one dimension higher is a collection of tensors of the dimension below.
 
 ### 3.1 Scalars, vectors and matrices
 
@@ -52,7 +52,7 @@ But what do we call a stack of matrices, or a stack of those? Rather than invent
 - **1D tensor (vector):** a list of numbers, e.g. [1, 2, 3, 4].
 - **2D tensor (matrix):** rows and columns of numbers, e.g. [[1, 2, 3], [4, 5, 6]].
 
-> **Python:** Creating tensors in NumPy.
+> **Python:** Creating **tensors** (G-1957) in NumPy.
 >
 > ```python
 > import numpy as np
@@ -70,14 +70,14 @@ But what do we call a stack of matrices, or a stack of those? Rather than invent
 
 ### 3.2 Each tensor is built from the one below
 
-> **Key point:** Stack scalars to get a vector, vectors to get a matrix, matrices to get a 3D tensor, and so on.
+> **Key point:** Stack scalars to get a vector, vectors to get a **matrix** (G-1180), matrices to get a 3D tensor, and so on.
 
 ![Building tensors up, one dimension at a time](images/tensor_buildup.gif)
 
-Figure 2 shows the pattern that runs through all tensors:
+Figure 2 shows the pattern that runs through all **tensors** (G-1957):
 
-1. Line up scalars: a vector (1D).
-2. Stack vectors: a matrix (2D).
+1. Line up **scalars** (G-1743): a vector (1D).
+2. Stack **vectors** (G-2081): a matrix (2D).
 3. Stack matrices: a 3D tensor.
 4. Line up 3D tensors: a 4D tensor.
 
@@ -85,7 +85,7 @@ The pattern never stops: a 5D tensor is a collection of 4D tensors, and so on.
 
 ### 3.3 Higher dimensions
 
-> **Key point:** We cannot picture 4D or 5D directly, but we can always picture them as collections of 3D tensors.
+> **Key point:** We cannot picture 4D or 5D directly, but we can always picture them as collections of 3D **tensors** (G-1957).
 
 - **3D tensor:** several matrices stacked one behind another, like a cube of numbers.
 - **4D tensor:** a list of 3D tensors, like several cubes in a row.
@@ -97,12 +97,12 @@ In ML, we almost always work with tensors from 0D to 5D. [Section 6](#6-tensors-
 
 > **Key point:** Rank = number of axes; shape = items along each axis; size = total items.
 
-Four words describe any tensor (Figure 3):
+Four words describe any **tensor** (G-1957) (Figure 3):
 
 ![Rank, axes, shape and size of a matrix](images/rank_shape_size.png)
 
-- An **axis** (G-242) is one direction along which the numbers are arranged. A matrix has two: down the rows (axis 0) and across the columns (axis 1).
-- The **rank** (G-1629) is the number of axes. The rank is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. Scalar: 0, vector: 1, matrix: 2.
+- An **axis** (G-242) is one direction along which the numbers are arranged. A **matrix** (G-1180) has two: down the rows (axis 0) and across the columns (axis 1).
+- The **rank** (G-1629) is the number of axes. The rank is the same as the number of dimensions of the tensor, and NumPy calls it `ndim`. **Scalar** (G-1743): 0, vector: 1, matrix: 2.
 - The **shape** (G-1787) lists how many items lie along each axis. The matrix in Figure 3 has shape (2, 3): 2 rows and 3 columns.
 - The **size** (G-1816) is the total number of items in the tensor.
 
@@ -116,15 +116,15 @@ Four words describe any tensor (Figure 3):
    Shape (3, 2, 4):
    $$3 \times 2 \times 4 = 24 \text{ items}$$
 
-A scalar has shape () and size 1. A vector of 4 numbers has shape (4,) and size 4.
+A scalar has shape () and size 1. A **vector** (G-2081) of 4 numbers has shape (4,) and size 4.
 
 ## 5. A 1D tensor can be a 3-dimensional vector
 
-> **Key point:** "Dimensions of a tensor" = number of axes. "Dimensions of a vector" = number of items in it. They are different things.
+> **Key point:** "Dimensions of a **tensor** (G-1957)" = number of axes. "Dimensions of a vector" = number of items in it. They are different things.
 
 The word *dimension* is used in two different ways, and mixing them up is a common source of confusion.
 
-- **Dimensions of a tensor:** the number of axes. [1, 2, 3, 4] has one axis, so it is a 1D tensor.
+- **Dimensions of a tensor:** the number of axes. [1, 2, 3, 4] has one **axis** (G-242), so it is a 1D tensor.
 - **Dimensions of a vector:** the number of items in it. [1, 2, 3, 4] has four items, so it is a 4-dimensional vector.
 
 Both statements are true at the same time: [1, 2, 3, 4] is a 1D tensor and a 4-dimensional vector.
@@ -147,18 +147,18 @@ With 50 features, each student would be a 50-dimensional vector, and still a 1D 
 
 ## 6. Tensors in real ML data
 
-> **Key point:** Tables are 2D, text and time series are 3D, images are 4D, and videos are 5D.
+> **Key point:** Tables are 2D, text and **time series** (G-1975) are 3D, images are 4D, and videos are 5D.
 
 ### 6.1 1D and 2D: tabular data
 
-> **Key point:** One observation's features form a 1D tensor; the whole table of features is a 2D tensor.
+> **Key point:** One observation's features form a 1D **tensor** (G-1957); the whole table of features is a 2D tensor.
 
 Most ML data starts as a table (Figure 6). Each student is an **observation** (G-1374; one record, one row of the table). Suppose we have 1,000 students with three features (CGPA, IQ, state) and a [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output we predict (placed or not):
 
 ![Tabular data as tensors](images/tabular.png)
 
-- **One student's features:** [8.1, 91, 0], a 1D tensor of shape (3,).
-- **All students' features:** a 2D tensor of shape (1000, 3). The matrix is a collection of 1,000 rows, each a 1D tensor.
+- **One student's features:** [8.1, 91, 0], a 1D tensor of **shape** (G-1787) (3,).
+- **All students' features:** a 2D tensor of shape (1000, 3). The **matrix** (G-1180) is a collection of 1,000 rows, each a 1D tensor.
 - **The target column:** a 1D tensor of shape (1000,).
 
 Whenever we work with tabular data, we are working with 1D and 2D tensors.
@@ -167,23 +167,23 @@ Whenever we work with tabular data, we are working with 1D and 2D tensors.
 
 ### 6.2 3D: text
 
-> **Key point:** Each word becomes a vector, each sentence a matrix, and a set of sentences a 3D tensor.
+> **Key point:** Each word becomes a vector, each sentence a **matrix** (G-1180), and a set of sentences a 3D tensor.
 
-ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into vectors is called **vectorization** (G-2084).
+ML algorithms work only with numbers, so text must be turned into numbers first. Converting text into **vectors** (G-2081) is called **vectorization** (G-2084).
 
 One simple method is **one-hot encoding** (G-1379; see [how one-hot encoding works](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works), where it is applied to categorical columns):
 
 1. List every unique word: the [**vocabulary**](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092). For "Hi Riya", "Hi Rahul" and "Hi Ankit", it is: hi, riya, rahul, ankit.
 2. Give each word a vector with a 1 in its own position and 0 everywhere else: hi = [1, 0, 0, 0], riya = [0, 1, 0, 0], and so on.
-3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its shape is (2, 4).
+3. Each sentence becomes a matrix with one row per word. "Hi Rahul" has 2 words, so its **shape** (G-1787) is (2, 4).
 
 ![Sentences as a 3D tensor](images/nlp_tensor.png)
 
-All three sentences together form a 3D tensor of shape (3, 2, 4), with size 24 (Figure 7).
+All three sentences together form a 3D tensor of shape (3, 2, 4), with **size** (G-1816) 24 (Figure 7).
 
 ### 6.3 3D: time series
 
-> **Key point:** Measurements taken at regular times stack into a 3D tensor, with one axis for time.
+> **Key point:** Measurements taken at regular times stack into a 3D **tensor** (G-1957), with one axis for time.
 
 A **time series** (G-1975) is data recorded at regular intervals, such as a stock's price every day.
 
@@ -191,19 +191,19 @@ A **time series** (G-1975) is data recorded at regular intervals, such as a stoc
 
 Figure 8 builds it up:
 
-- **One year:** the daily high and low prices for 365 days form a 2D tensor of shape (365, 2).
+- **One year:** the daily high and low prices for 365 days form a 2D tensor of **shape** (G-1787) (365, 2).
 - **Ten years:** ten of those yearly tables stacked together form a 3D tensor of shape (10, 365, 2).
 
-The middle axis here is the **time axis**. Much medical and sensor data has this same form.
+The middle **axis** (G-242) here is the **time axis**. Much medical and sensor data has this same form.
 
 ### 6.4 4D: images
 
-> **Key point:** One colour image is a 3D tensor; a batch of images is a 4D tensor.
+> **Key point:** One colour image is a 3D **tensor** (G-1957); a batch of images is a 4D tensor.
 
 An image is a grid of tiny dots called **pixels** (G-1501), and each pixel is stored as numbers.
 
 - **Black and white:** one number per pixel, so the image is a 2D tensor (height x width).
-- **Colour:** each pixel has three numbers, for red, green and blue. These form three layers called **channels** (G-375), so a colour image is a 3D tensor of shape (height, width, 3).
+- **Colour:** each pixel has three numbers, for red, green and blue. These form three layers called **channels** (G-375), so a colour image is a 3D tensor of **shape** (G-1787) (height, width, 3).
 
 ![Images as tensors](images/image_tensor.png)
 
@@ -213,15 +213,15 @@ A colour image 600 pixels high and 800 wide has shape (600, 800, 3). A batch of 
 
 ### 6.5 5D: video
 
-> **Key point:** A video is a sequence of images, so a batch of videos is a 5D tensor, and an enormous one.
+> **Key point:** A video is a sequence of images, so a batch of videos is a 5D **tensor** (G-1957), and an enormous one.
 
 A video is a series of images, called **frames** (G-801), shown quickly one after another. Our eyes can tell apart only about 12 separate images per second, so faster sequences look like smooth motion. Videos are usually recorded at 30, 60 or 120 frames per second.
 
-Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 x 720 pixels in colour (Figure 10):
+Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 x 720 **pixels** (G-1501) in colour (Figure 10):
 
 ![Videos as a 5D tensor](images/video_tensor.png)
 
-- **One frame:** a 3D tensor of shape (480, 720, 3).
+- **One frame:** a 3D tensor of **shape** (G-1787) (480, 720, 3).
 - **One video:** 60 seconds at 30 frames per second gives 1800 frames:
   $$60 \times 30 = 1800$$
   So a video is a 4D tensor of shape (1800, 480, 720, 3).
@@ -232,7 +232,7 @@ Take 4 videos, each 60 seconds long at 30 frames per second, with frames of 480 
 1. **In words:** count the numbers in the tensor, then multiply by the bytes each number takes. A common format stores each number in 32 bits (a bit is one 0-or-1 digit), which is 4 bytes (8 bits make a byte).
 2. **Formula:**
    $$\text{storage (bytes)} = \text{size} \times 4$$
-3. **Example:** the size of the four-video tensor:
+3. **Example:** the **size** (G-1816) of the four-video tensor:
    $$4 \times 1800 \times 480 \times 720 \times 3$$
    $$= 7{,}464{,}960{,}000 \text{ numbers}$$
    The storage:
@@ -256,7 +256,7 @@ One raw video is a quarter of the four-video total, about 7.5 billion bytes, so 
 
 $$7{,}464{,}960{,}000 / 18{,}750{,}000 \approx 400$$
 
-The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this Note in NumPy: from a scalar to a real photo (shape (427, 640, 3)) and the video storage calculation.
+The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this Note in NumPy: from a **scalar** (G-1743) to a real photo (shape (427, 640, 3)) and the video storage calculation.
 
 ## 7. Summary
 
@@ -269,10 +269,10 @@ The Notebook for this Note (`ML-010-tensors.ipynb`) builds every tensor in this 
 | 4D | 4D tensor | A batch of colour images | (32, 600, 800, 3) |
 | 5D | 5D tensor | A batch of videos | (4, 1800, 480, 720, 3) |
 
-- A tensor is a container for numbers; scalars, vectors and matrices are all tensors, so one name covers all ML data, from tables to videos.
-- Each tensor is a collection of tensors one dimension lower, so a 4D or 5D tensor, which we cannot picture directly, can be pictured as a collection of 3D tensors.
-- Rank = number of axes (`ndim`); shape = items per axis; size = product of the shape. So the shape tells at once how much data a tensor holds: four one-minute raw videos need about 28 GB, which is why video is compressed.
-- A 1D tensor with *n* items is an *n*-dimensional vector: two different meanings of "dimension". So always ask which meaning is used: a student with 50 features is a 50-dimensional vector and still a 1D tensor.
+- A tensor is a container for numbers; **scalars** (G-1743), vectors and matrices are all tensors, so one name covers all ML data, from tables to videos.
+- Each **tensor** (G-1957) is a collection of tensors one dimension lower, so a 4D or 5D tensor, which we cannot picture directly, can be pictured as a collection of 3D tensors.
+- **Rank** (G-1629) = number of axes (`ndim`); **shape** (G-1787) = items per axis; size = product of the shape. So the shape tells at once how much data a tensor holds: four one-minute raw videos need about 28 GB, which is why video is compressed.
+- A 1D tensor with *n* items is an *n*-dimensional **vector** (G-2081): two different meanings of "dimension". So always ask which meaning is used: a student with 50 features is a 50-dimensional vector and still a 1D tensor.
 
 ## 8. Sources
 
@@ -305,9 +305,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Rank (of a tensor) (G-1629) | The number of axes of a tensor (ndim in NumPy). |
 | Shape (G-1787) | The number of items along each axis of a tensor, such as (2, 3) for a matrix with 2 rows and 3 columns; it tells how the data is laid out. |
 | Size (G-1816) | The total number of items in an array: the numbers in its shape multiplied together. |
+| Time series (G-1975) | Data recorded at regular time intervals. |
 | X, y (G-2129) | Usual names for the input table and the output column. |
 | Vectorization (of data) (G-2084) | Converting data such as text into vectors of numbers, because ML algorithms work only with numbers. |
-| Time series (G-1975) | Data recorded at regular time intervals. |
 | Pixel (G-1501) | One dot of an image, stored as one or more numbers. |
 | Channel (G-375) | One colour layer of an image (red, green or blue). |
 | Frame (G-801) | One image in a video. |

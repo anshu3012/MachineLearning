@@ -17,11 +17,11 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 
 ## 1. Overview
 
-> **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
+> **Key point:** Deep learning is the part of ML that uses neural networks: **layers** (G-1056) of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
 The [**deep learning**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) already placed [**deep learning (DL)**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
-1. What a neural network looks like, and the technical definition of DL built on **representation learning** (G-1670).
+1. What a **neural network** (G-1316) looks like, and the technical definition of DL built on **representation learning** (G-1670).
 2. Five practical differences between DL and ML.
 3. Why DL took off only after about 2012, although its ideas are much older.
 
@@ -31,7 +31,7 @@ Figure 1 shows the idea that runs through this Note: in DL the features come fro
 
 ## 2. Two definitions of deep learning
 
-> **Key point:** The simple definition: DL is ML with neural networks, inspired by the brain. The technical one: DL learns its own representations, layer by layer, from raw data.
+> **Key point:** The simple definition: DL is ML with neural networks, inspired by the brain. The technical one: DL learns its own representations, **layer** (G-1056) by layer, from raw data.
 
 ### 2.1 The simple definition: ML with neural networks
 
@@ -54,7 +54,7 @@ Figure 2 shows the simplest kind of network, the **artificial neural network (AN
 - Neurons in one column form a [**layer**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056). The **input layer** (G-952) takes the data, one node per **feature** (G-772; an input variable, one column of the data table). The **output layer** (G-1424) gives the prediction.
 - Every layer in between is a **hidden layer** (G-890). We can add as many as we like.
 
-A network with many hidden layers is called **deep**, and this is where the name "deep learning" comes from.
+A network with many hidden layers is called **deep**, and this is where the name "**deep learning** (G-568)" comes from.
 
 The ANN is only one type of network. Three others:
 
@@ -66,7 +66,7 @@ The [types of neural networks](../DL-003-nn-types-history-applications/DL-003-nn
 
 ### 2.3 The technical definition: representation learning
 
-> **Key point:** Representation learning means the algorithm finds the useful features in raw data by itself, instead of us engineering them by hand.
+> **Key point:** **Representation learning** (G-1670) means the algorithm finds the useful features in raw data by itself, instead of us engineering them by hand.
 
 Start with a task that looks easy: read a handwritten 3. Figure 3 shows three 3s written by three people.
 
@@ -82,7 +82,7 @@ We see the same digit three times. The pixels do not agree:
 
 A rule on raw pixels does not work. We need descriptions that stay the same when the handwriting changes, such as "a curve open to the left, twice". Such a description is a **feature**, and a set of features that describes the data well is a **representation** (G-2260). Writing these features by hand for every digit, face or word is not practical, so we let the algorithm find them.
 
-A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial neural networks **with representation learning**. Its algorithms use multiple layers to progressively extract higher-level features from the raw input.
+A more technical definition reads: deep learning is part of the broader family of ML methods based on artificial **neural networks** (G-1316) **with representation learning**. Its algorithms use multiple **layers** (G-1056) to progressively extract higher-level features from the raw input.
 
 **Representation learning** (also called **feature learning**) is a set of techniques that let a system discover, from raw data, the features it needs for a task. Representation learning replaces manual [feature engineering](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-761): the machine both learns the features and uses them.
 
@@ -93,19 +93,19 @@ Take a dog-vs-cat classifier:
 
 ### 2.4 Layers extract features of rising complexity
 
-> **Key point:** Early layers find edges, middle layers find shapes, late layers find whole objects such as faces.
+> **Key point:** Early **layers** (G-1056) find edges, middle layers find shapes, late layers find whole objects such as faces.
 
 The second half of the technical definition says how the layers share the work. In a dog-vs-cat or face classifier:
 
-1. The first hidden layers detect **primitive features**: edges.
+1. The first **hidden layers** (G-890) detect **primitive features**: edges.
 2. The next layers combine edges into **shapes**.
 3. The deepest layers combine shapes into **high-level concepts**: a face, a digit, a letter.
 
-How can a neuron detect an edge at all? Its weights are positive on a short strip of pixels and negative around the strip, so its weighted sum is large only when that strip is bright and its surroundings are dark. [Detecting an edge with one hidden node](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#45-what-a-hidden-node-can-detect) shows one such neuron.
+How can a **neuron** (G-1317) detect an edge at all? Its weights are positive on a short strip of pixels and negative around the strip, so its weighted sum is large only when that strip is bright and its surroundings are dark. [Detecting an edge with one hidden node](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#45-what-a-hidden-node-can-detect) shows one such neuron.
 
-The output layer then gives the answer. [Layers building up understanding](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) animates the same idea for a handwritten 7.
+The **output layer** (G-1424) then gives the answer. [Layers building up understanding](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) animates the same idea for a handwritten 7.
 
-We can watch representation learning happen. Figure 4 trains a small network on the MNIST handwritten digits (LeCun et al. 1998) and looks inside it.
+We can watch **representation learning** (G-1670) happen. Figure 4 trains a small network on the MNIST handwritten digits (LeCun et al. 1998) and looks inside it.
 
 ![Representation learning on MNIST. Each dot is one test image of a 3, 5 or 8. First frame: the raw pixels; later frames: the 32 numbers of the network's last hidden layer after 0 to 10 epochs. Each view is squeezed to two dimensions with PCA, a method that keeps the directions in which the points spread most.](images/hidden_rep.gif)
 
@@ -115,7 +115,7 @@ We can watch representation learning happen. Figure 4 trains a small network on 
 4. **Training.** After each [**epoch**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696), one pass over the 60,000 training images, the hidden layer's 32 numbers group the digits better: 64, 69 and 78 percent after 1, 2 and 5 epochs.
 5. **After 10 epochs.** The three digits form three clear groups (87 percent), and the network labels 96.9 percent of the test images correctly.
 
-Nobody told the network which features to compute. It changed its hidden layer, step by step, into numbers that keep similar digits together: the representation it learned.
+Nobody told the network which features to compute. It changed its hidden layer, step by step, into numbers that keep similar digits together: the **representation** (G-2260) it learned.
 
 ## 3. Why deep learning became famous
 
@@ -168,7 +168,7 @@ DL is **data hungry** (G-534): its results become reliable only with a lot of da
 
 > **Key point:** ML trains on an ordinary CPU; DL needs a GPU, because it multiplies very large matrices.
 
-A neural network does huge numbers of matrix multiplications. A **GPU** (G-856; graphics processing unit, a chip built for many small calculations at once) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
+A **neural network** (G-1316) does huge numbers of matrix multiplications. A **GPU** (G-856; graphics processing unit, a chip built for many small calculations at once) with plenty of memory does them in parallel, while a CPU does them slowly. So ML runs on cheap hardware, and DL needs costly hardware.
 
 Figure 7 measures the difference on one laptop. Each point is the time to multiply two square matrices of random numbers, the operation a network repeats millions of times.
 
@@ -197,7 +197,7 @@ Suppose we predict whether a student will be placed from the content of their re
 - **With ML**, we extract features first: 12th marks, 10th marks, number of achievements, number of courses, quality of college. Choosing them needs domain experts, such as HR staff or teachers.
 - **With DL**, we give the whole resume, in a suitable form, to the network. The network extracts the features behind the scenes and predicts.
 
-Letting the network extract the features is representation learning (section 2.3), and it is one of DL's biggest practical benefits.
+Letting the network extract the features is **representation learning** (G-1670) (section 2.3), and it is one of DL's biggest practical benefits.
 
 ### 4.5 Interpretability
 
@@ -209,7 +209,7 @@ Interpretability matters wherever we must justify a decision. Suppose a social n
 
 ML models are often much easier to explain:
 
-- [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
+- [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) on CGPA and IQ learns one **weight** (G-2106) for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
 - [**A decision tree**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [**decision trees**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
@@ -231,9 +231,9 @@ Since DL is so strong, why not use it everywhere? Because on small or tabular da
 
 ## 5. Why deep learning took off after 2010
 
-> **Key point:** Five forces: large public datasets, faster hardware, easy frameworks, ready-made architectures, and a large community.
+> **Key point:** Five forces: large **public datasets** (G-1590), faster hardware, easy frameworks, ready-made architectures, and a large community.
 
-The core ideas of neural networks are decades old (the [history of deep learning](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#3-history-of-deep-learning) tells the story), yet DL became famous only around 2012. Figure 8 shows the five forces behind the change.
+The core ideas of **neural networks** (G-1316) are decades old (the [history of deep learning](../DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#3-history-of-deep-learning) tells the story), yet DL became famous only around 2012. Figure 8 shows the five forces behind the change.
 
 ![The five forces that made deep learning practical](images/why_now.png){height=42%}
 
@@ -252,7 +252,7 @@ Raw data alone is not enough. To train a dog-vs-cat classifier we need photos **
 | Text | SQuAD | about 150,000 questions and answers on Wikipedia articles |
 | Audio | Google AudioSet | about 2 million labelled sound clips in over 600 categories |
 
-Thousands more are available today, for example on Kaggle. Without data there would be no deep learning, so datasets are the biggest single reason.
+Thousands more are available today, for example on Kaggle. Without data there would be no **deep learning** (G-568), so datasets are the biggest single reason.
 
 ### 5.2 Hardware
 
@@ -280,7 +280,7 @@ Which hardware to use depends on the job:
 
 > **Key point:** Libraries do the hard maths behind the scenes, as scikit-learn does for ML: TensorFlow with Keras in industry, PyTorch in research.
 
-Writing a network's training code from scratch takes longer than the problem it solves. Deep learning needed libraries that handle this code, just as scikit-learn does for ML. Two families dominate:
+Writing a network's training code from scratch takes longer than the problem it solves. **Deep learning** (G-568) needed libraries that handle this code, just as scikit-learn does for ML. Two families dominate:
 
 - [**TensorFlow (Google)**](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1959): Google built an internal framework, DistBelief, in 2011, and released TensorFlow publicly in 2015. TensorFlow was powerful but hard to use, so [**Keras**](../DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras) (G-1003), a simpler library running on top of it, became popular. Since TensorFlow 2.0 (2019), Keras is built in.
 - [**PyTorch (Facebook, now Meta)**](../DL-001-dl-scope-and-prerequisites/DL-001-dl-scope-and-prerequisites.md#23-the-software) (G-1595): released in 2016, it became the favourite of researchers. Facebook's Caffe2, a library for running models on servers, was merged into it in 2018.
@@ -291,7 +291,7 @@ Today TensorFlow with Keras is used more in industry, and PyTorch more in resear
 
 > **Key point:** Researchers publish trained state-of-the-art networks; we download one and apply it to our problem instead of designing our own.
 
-A network's **architecture** (G-209) is how its nodes are connected by weights: how many nodes, what kind, and which connections. Different problems need different architectures, and finding a good one takes many experiments, which cost time, effort and money.
+A network's **architecture** (G-209) is how its nodes are connected by **weights** (G-2106): how many nodes, what kind, and which connections. Different problems need different architectures, and finding a good one takes many experiments, which cost time, effort and money.
 
 Instead, we can reuse an architecture that researchers already designed and trained on a big dataset. Downloading such a trained network and applying it to our own problem is called **transfer learning** (G-2005), taught in detail later. Well-known ready-made architectures:
 
@@ -308,7 +308,7 @@ These models reach the best known accuracy, in some tasks above human level, and
 
 ### 5.5 Community
 
-> **Key point:** People who believed in neural networks through decades of failure, plus today's engineers, teachers, students and communities like Kaggle.
+> **Key point:** People who believed in **neural networks** (G-1316) through decades of failure, plus today's engineers, teachers, students and communities like Kaggle.
 
 None of the above would exist without people. Researchers worked on neural networks from the 1960s and failed several times before succeeding around 2012. Today engineers, teachers, students and communities such as Kaggle keep the field moving.
 
@@ -322,12 +322,12 @@ None of the above would exist without people. Researchers worked on neural netwo
 | Architectures | ready-made trained networks (ResNet, BERT, YOLO) and transfer learning | finding a good architecture takes many costly experiments; a downloaded one skips them |
 | Community | researchers, engineers, teachers, students, Kaggle | people kept the field moving through decades of failure |
 
-- DL is ML with neural networks: neurons in an input layer, hidden layers and an output layer, joined by weights; the brain is the model because, to build intelligent machines, we copy the most intelligent thing we know.
-- Many hidden layers make a network deep, which is where the name "deep learning" comes from.
-- Representation learning: the network learns its own features, edges first and whole objects last, so no one has to write features by hand (rules on raw pixels fail as soon as the handwriting changes).
-- DL needs more data, a GPU and longer training, because it multiplies very large matrices; it predicts fast, because a prediction is a fixed series of matrix products; and it is a black box, because its learned features are numbers no one chose.
+- DL is ML with neural networks: neurons in an input layer, hidden **layers** (G-1056) and an output layer, joined by weights; the brain is the model because, to build intelligent machines, we copy the most intelligent thing we know.
+- Many hidden layers make a network deep, which is where the name "**deep learning** (G-568)" comes from.
+- **Representation learning** (G-1670): the network learns its own features, edges first and whole objects last, so no one has to write features by hand (rules on raw pixels fail as soon as the handwriting changes).
+- DL needs more data, a GPU and longer training, because it multiplies very large matrices; it predicts fast, because a prediction is a fixed series of matrix products; and it is a **black box** (G-311), because its learned features are numbers no one chose.
 - ML stays the better choice for small or tabular data and when decisions must be explained, so we pick ML or DL to fit the problem.
-- So DL is the part of ML that learns its own features with neural networks: costly in data, hardware and time, hard to explain, and far stronger on images, text and speech.
+- So DL is the part of ML that learns its own features with **neural networks** (G-1316): costly in data, hardware and time, hard to explain, and far stronger on images, text and speech.
 
 ## 7. Sources
 
@@ -367,12 +367,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Transfer learning (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
 | Deep network (deep neural network) (G-570) | A neural network with many hidden layers. |
 | Edge TPU (G-660) | A small Google chip for running networks on drones, watches and glasses. |
+| [Layer](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
 | [Deep Learning (DL)](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) | Machine Learning that uses neural networks with many layers; finds features by itself. |
-| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Neural network](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316) | A model made of many simple connected units (neurons) in layers, loosely inspired by the brain; it learns the weights of its connections from data and is the model deep learning uses. |
+| [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
 | [Weight (in a network)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) | A number the network learns on the connection between two neurons; it sets how strongly one neuron's output counts in the next neuron's sum. |
-| [Layer](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#53-layers-build-up-understanding) (G-1056) | A group of neurons in a neural network that all work on the output of the layer before; stacking layers lets the network find more complex patterns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Recurrent neural network (RNN)](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-1647) | A network whose hidden-layer output is fed back in, so it remembers earlier steps of a sequence. |

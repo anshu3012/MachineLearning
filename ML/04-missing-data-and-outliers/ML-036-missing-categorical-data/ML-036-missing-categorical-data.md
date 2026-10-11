@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/data, step/clean, concept/missing-values, 
 
 ## 1. Overview
 
-> **Key point:** A gap in a categorical feature is filled either with the most frequent category (mode imputation) or with a new category called "Missing".
+> **Key point:** A gap in a categorical feature is filled either with the most frequent category (**mode** (G-1251) imputation) or with a new category called "Missing".
 
 [Where each technique is covered](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#33-where-each-technique-is-covered) mapped the techniques for missing data, and [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) filled gaps (missing values) in numerical features. A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). A categorical feature (one whose values are labels, such as a city name) has no mean or median, so it needs its own techniques. This Note covers the two main ones.
 
@@ -33,7 +33,7 @@ Both are [**univariate imputation**](../ML-034-complete-case-analysis/ML-034-com
 
 ## 2. Most frequent value imputation
 
-> **Key point:** Mode imputation replaces every missing value with the category that appears most often in the column.
+> **Key point:** **Mode** (G-1251) imputation replaces every missing value with the category that appears most often in the column.
 
 ### 2.1 The idea
 
@@ -47,17 +47,17 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 ### 2.2 When to use it
 
-> **Key point:** Use mode imputation when the data is missing completely at random, few values are missing, and one category clearly dominates.
+> **Key point:** Use **mode** (G-1251) imputation when the data is missing completely at random, few values are missing, and one category clearly dominates.
 
-Mode imputation rests on three conditions:
+**Mode imputation** (G-1264) rests on three conditions:
 
-1. [**The data is MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) (missing completely at random, see [**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)). The gaps have no pattern, so the observations with a gap look like the others.
-2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
+1. [**The data is MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) (missing completely at random, see [**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)). The gaps have no pattern, so the **observations** (G-1374) with a gap look like the others.
+2. **Few values are missing**, as a rule of thumb up to about 5% of the **feature** (G-772). The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
 ### 2.3 Advantages and disadvantages
 
-> **Key point:** Mode imputation is quick and easy to deploy, but it inflates the most frequent category and so changes the distribution.
+> **Key point:** **Mode** (G-1251) imputation is quick and easy to deploy, but it inflates the most frequent category and so changes the distribution.
 
 **Advantages:**
 
@@ -66,13 +66,13 @@ Mode imputation rests on three conditions:
 
 **Disadvantage:** it changes the distribution of the column. Every gap adds to the mode's count, so the most frequent category grows and all others shrink. The more values are missing, the bigger the change, as [Section 5](#5-mode-imputation-on-real-data) shows with real numbers.
 
-Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Sections [4](#4-the-house-price-data) and [5](#5-mode-imputation-on-real-data)) with its mode, Gd, a batch at a time. Watch the green bar grow past its grey outline while every other bar shrinks; the curve on the right shows Gd's share climbing from 49.1% to 72.9% as more gaps are filled.
+Figure 2 fills the 547 gaps of the `FireplaceQu` **feature** (G-772) in the training set (Sections [4](#4-the-house-price-data) and [5](#5-mode-imputation-on-real-data)) with its mode, Gd, a batch at a time. Watch the green bar grow past its grey outline while every other bar shrinks; the curve on the right shows Gd's share climbing from 49.1% to 72.9% as more gaps are filled.
 
 ![Mode imputation gap by gap on FireplaceQu: each filled gap adds to Gd, so Gd's share rises from 49.1% to 72.9% and every other category shrinks](images/mode_fill.gif)
 
 ## 3. Missing category imputation
 
-> **Key point:** Missing category imputation gives every gap the same new label, "Missing", so the model can learn that the value was absent.
+> **Key point:** **Missing category imputation** (G-1232) gives every gap the same new label, "Missing", so the model can learn that the value was absent.
 
 ### 3.1 The idea
 
@@ -101,13 +101,13 @@ So the "Missing" category suits two cases:
 
 **Advantages:**
 
-1. **Easy to apply and deploy**, like mode imputation.
+1. **Easy to apply and deploy**, like **mode** (G-1251) imputation.
 2. **Keeps the existing categories' counts** exactly as they were.
 3. **Captures the missingness itself**, which helps when the gaps are not random.
 
 **Disadvantage:** it does not estimate the missing value; it only labels it, so the results are not always good.
 
-> **Extra:** After [**one-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per category), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233; see [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) for this feature.
+> **Extra:** After [**one-hot encoding**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) (one 0/1 column per category), the "Missing" category becomes its own 0/1 column. That column is the same as a **missing indicator** (G-1233; see [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)) for this **feature** (G-772).
 
 ## 4. The house price data
 
@@ -117,7 +117,7 @@ The data is the training file of Kaggle's *House Prices: Advanced Regression Tec
 
 - `GarageQual`: quality of the garage.
 - `FireplaceQu`: quality of the fireplaces.
-- `SalePrice`: the price the house sold for, in dollars. `SalePrice` is the target; since the target is a number, the task is regression (predicting a number).
+- `SalePrice`: the price the house sold for, in dollars. `SalePrice` is the **target** (G-1949); since the target is a number, the task is regression (predicting a number).
 
 Both quality columns use the same five categories:
 
@@ -152,11 +152,11 @@ The file `data/house_prices.csv` keeps these three columns and two more used in 
 
 ## 5. Mode imputation on real data
 
-> **Key point:** Mode imputation barely changes `GarageQual`, where one category dominates and few values are missing, but badly distorts `FireplaceQu`.
+> **Key point:** **Mode** (G-1251) imputation barely changes `GarageQual`, where one category dominates and few values are missing, but badly distorts `FireplaceQu`.
 
 ### 5.1 Split first
 
-> **Key point:** We split the data before imputing, and learn the mode from the training set alone.
+> **Key point:** We split the data before imputing, and learn the **mode** (G-1251) from the training set alone.
 
 An imputer learns something from the data: here, the mode of each column. Like a scaler ([scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)), it must learn only from the training set, or information from the test set leaks into training (**data leakage**, G-535). So we split first, with 80% of the houses for training.
 
@@ -177,7 +177,7 @@ All numbers in the rest of this Note come from these 1,168 training houses.
 
 > **Key point:** TA makes up 95% of the garages, so giving the 64 gaps the value TA hardly changes anything.
 
-The mode of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. Two of the three conditions of [Section 2.2](#22-when-to-use-it) hold: few gaps (5.5%) and one dominant category. The third, MCAR, is tested below with the sale prices.
+The **mode** (G-1251) of `GarageQual` is TA: 1,050 of the 1,104 known garages are rated "typical/average". Figure 4 (left) shows how strongly it dominates. Two of the three conditions of [Section 2.2](#22-when-to-use-it) hold: few gaps (5.5%) and one dominant category. The third, MCAR, is tested below with the sale prices.
 
 The share of a category, step by step:
 
@@ -204,17 +204,17 @@ The share of a category, step by step:
 
 No share moves by more than 0.3 percentage points.
 
-A second check looks at the target. If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (**KDE**, G-1005; a smooth curve over a histogram, see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)).
+A second check looks at the **target** (G-1949). If the houses with a gap were like the TA houses, their sale prices should look alike. Figure 5 (top left) compares the two as density curves (**KDE**, G-1005; a smooth curve over a histogram, see [the density plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot)).
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
 In Figure 5 the houses with a gap are labelled NaN, as in Figure 1. In the left curves, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value ([**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
 
-For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
+For `GarageQual`, **mode imputation** (G-1264) is acceptable. Few values are missing, so even a poor guess cannot change much.
 
 ### 5.3 `FireplaceQu`: two categories nearly tied
 
-> **Key point:** Gd and TA are nearly equal, and almost half the values are missing, so mode imputation turns Gd from 49% into 73% of the column.
+> **Key point:** Gd and TA are nearly equal, and almost half the values are missing, so **mode** (G-1251) imputation turns Gd from 49% into 73% of the column.
 
 The mode of `FireplaceQu` is Gd, but TA is close behind: 49.1% against 40.6% of the known values (Figure 4, right). No category dominates, and 46.8% of the training rows are missing. Two of the three conditions fail.
 
@@ -237,13 +237,13 @@ Every other category loses close to half its share.
 
 The sale prices tell the same story. Houses with a gap sold for a mean of 143,000 dollars, against 225,000 for Gd houses (Figure 5, bottom left). After imputation, 547 cheaper houses join the 305 Gd houses, and the Gd curve moves left: its mean falls from 225,000 to 172,000 dollars (Figure 5, bottom right).
 
-For `FireplaceQu`, mode imputation is the wrong choice. The "Missing" category of [Section 6](#6-missing-category-imputation-on-real-data) suits it better.
+For `FireplaceQu`, **mode imputation** (G-1264) is the wrong choice. The "Missing" category of [Section 6](#6-missing-category-imputation-on-real-data) suits it better.
 
 ### 5.4 Mode imputation with `SimpleImputer`
 
-> **Key point:** `SimpleImputer(strategy="most_frequent")` learns each column's mode with `fit` and fills the gaps with `transform`.
+> **Key point:** `SimpleImputer(strategy="most_frequent")` learns each column's **mode** (G-1251) with `fit` and fills the gaps with `transform`.
 
-> **Python:** Mode imputation, fitted on the training set.
+> **Python:** **Mode imputation** (G-1264), fitted on the training set.
 >
 > ```python
 > from sklearn.impute import SimpleImputer
@@ -299,7 +299,7 @@ Every original category keeps exactly the count it had: 305 Gd, 252 TA and so on
 
 ## 7. Choosing between the two
 
-> **Key point:** Few gaps and one dominant category: mode. Many gaps, no dominant category, or gaps with a reason: "Missing".
+> **Key point:** Few gaps and one dominant category: **mode** (G-1251). Many gaps, no dominant category, or gaps with a reason: "Missing".
 
 | | Mode imputation | "Missing" category |
 |---|---|---|
@@ -326,11 +326,11 @@ Figure 7 turns the table into three questions asked in order. Watch where each c
 
 ## 8. Summary
 
-- A categorical column has no mean or median, so its gaps are filled with the mode or with a new category.
-- **Mode imputation** fills every gap with the most frequent category. Mode imputation suits MCAR data with few gaps (about 5% or less) and one dominant category, because if the categories are nearly tied, guessing the mode for every gap is often wrong; the method is easy to deploy but inflates the mode.
-- **Missing category imputation** fills every gap with "Missing". The "Missing" category suits features with many gaps or gaps that are not random, because the model can then learn whether a missing value itself matters. Existing categories keep their counts.
+- A categorical column has no mean or median, so its gaps are filled with the **mode** (G-1251) or with a new category.
+- **Mode imputation** fills every gap with the most frequent category. Mode imputation suits **MCAR** (G-1192) data with few gaps (about 5% or less) and one dominant category, because if the categories are nearly tied, guessing the mode for every gap is often wrong; the method is easy to deploy but inflates the mode.
+- **Missing category imputation** fills every gap with "Missing". The "Missing" category suits **features** (G-772) with many gaps or gaps that are not random, because the model can then learn whether a missing value itself matters. Existing categories keep their counts.
 - After imputing, compare each category's share before and after, because a large jump shows the imputation changed the column. On the house data, TA in `GarageQual` moved from 95.1% to 95.4%, but Gd in `FireplaceQu` jumped from 49.1% to 72.9%.
-- Also compare the target for the most frequent category against the observations with gaps, because a clear difference shows the gaps are not MCAR: here the gaps marked cheaper houses, because a gap means the house has no garage or no fireplace.
+- Also compare the target for the most frequent category against the **observations** (G-1374) with gaps, because a clear difference shows the gaps are not MCAR: here the gaps marked cheaper houses, because a gap means the house has no garage or no fireplace.
 - Split first, then fit `SimpleImputer` on the training set and transform both sets with it, so the mode is learned from the training set alone and no test information leaks into training.
 - So a gap in a categorical feature gets the mode when few values are missing and one category dominates, and a "Missing" category otherwise.
 
@@ -357,13 +357,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `strategy="constant"` (SimpleImputer) (G-147) | The `SimpleImputer` setting that fills every gap with `fill_value`. |
 | `strategy="most_frequent"` (SimpleImputer) (G-148) | The `SimpleImputer` setting for mode imputation: `fit` learns each column's most frequent value and `transform` fills the gaps with it. |
 | Category share (G-355) | The rows in one category divided by the rows that have a value. |
+| [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Univariate imputation](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) (G-2051) | Filling the gaps in a column (imputation) using only that column's other values. |
 | [SimpleImputer](../../../ML/03-feature-engineering/ML-027-column-transformer/ML-027-column-transformer.md#41-fever-fill-the-missing-values) (G-1809) | scikit-learn's class that fills missing values, by default with the column's mean. |
 | [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
-| [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [MCAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) | Missing completely at random: the gaps have no relation to any value in the data. |
 | [Arbitrary value imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) | Filling every gap with one fixed value that never occurs, such as 99 or $-1$. |
 | [MAR](../../../ML/04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158) | Missing at random: the gaps depend on another, recorded column. |

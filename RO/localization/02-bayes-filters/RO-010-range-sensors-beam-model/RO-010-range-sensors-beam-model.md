@@ -5,13 +5,13 @@ tags: [subject/robotics, area/localization, concept/measurement-model, concept/b
 
 ## 1. Overview
 
-> **Key point:** A robot judges a guess about its pose by asking how likely its laser readings would be from there. The beam model gives that number for one reading as a mix of four causes, so that a person walking past does not make the right pose look impossible.
+> **Key point:** A robot judges a guess about its **pose** (G-2280) by asking how likely its laser readings would be from there. The beam model gives that number for one reading as a mix of four causes, so that a person walking past does not make the right pose look impossible.
 
 ![A 5 m by 4 m room seen from above. The robot at (2, 2), facing along x, sends four laser beams. The forward beam should reach the wall 3 m away but stops at a person 1 m ahead; the other three read 1.97, 2.04 and 1.99 m](images/scan_room.png)
 
 So far the robot has a [grid map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#3-feature-based-and-grid-maps) of its room: the room split into small cells, each marked free or occupied. The map does not say where the robot is on it; the robot can only guess poses and test each guess against what its sensors report. Figure 1 shows where that test breaks. The robot stands at pose (2, 2, 0) in a 5 m by 4 m room; its laser measures the distance to the nearest surface in four directions. A person stands 1 m in front of it, so the forward beam reads 1.00 m, although the map says the wall is 3 m away. Is the robot at (2, 2, 0), or one metre further along at (3, 2, 0)? This Note adds the rule that answers it.
 
-The room is smaller and emptier than the [7 m by 4 m room with poles and furniture](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview) used for maps: a laser needs only walls, and bare walls keep every expected range a round number we can check by hand.
+The room is smaller and emptier than the [7 m by 4 m room with poles and furniture](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview) used for maps: a laser needs only walls, and bare walls keep every **expected range** (G-2375) a round number we can check by hand.
 
 A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317): what the sensors report about the world at one moment. To test a guessed pose we need a rule that answers one question: how likely are these four readings if the robot stood at that pose? This Note builds the standard rule for range sensors:
 
@@ -19,11 +19,11 @@ A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-w
 - why a Gaussian around the expected range is not enough ([Section 3](#3-why-a-gaussian-alone-fails));
 - the four causes of a reading and the shape each one gives, with the reason for every shape ([Section 4](#4-the-four-causes-of-a-reading));
 - how the four shapes combine into one model, and what the model says about Figure 1 ([Section 5](#5-the-beam-model-one-mixture-of-four-shapes));
-- how to learn the model's numbers from recorded readings, by maximum likelihood and the EM algorithm ([Section 6](#6-learning-the-models-numbers-from-data));
+- how to learn the model's numbers from recorded readings, by maximum likelihood and the **EM algorithm** (G-675) ([Section 6](#6-learning-the-models-numbers-from-data));
 - the other kinds of sensor models a robot uses ([Section 7](#7-a-catalogue-of-sensor-models)).
 ## 2. What a range sensor measures
 
-> **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed pose by how likely those distances are from there.
+> **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed **pose** (G-2280) by how likely those distances are from there.
 
 ### 2.1 Range finders and scans
 
@@ -71,7 +71,7 @@ A scan has many beams, and writing one density for all of them at once is hard. 
 
 $$p(z \mid x, m) = \prod_{k=1}^{K} p(z^k \mid x, m)$$
 
-The product sign $\prod$ means "multiply the terms for $k = 1$ to $K$". Multiplying is allowed when the beams are independent: knowing one beam's error tells us nothing about another's. That is not true in general, but it is close to true once the pose and the map are known (Thrun §6.3.1):
+The product sign $\prod$ means "multiply the terms for $k = 1$ to $K$". Multiplying is allowed when the beams are independent: knowing one beam's error tells us nothing about another's. That is not true in general, but it is close to true once the **pose** (G-2280) and the map are known (Thrun §6.3.1):
 
 - **Without a map**, beams are linked: if one beam hits something at 2 m, the beam half a degree away probably hits the same object at about 2 m.
 - **With the map and the pose given**, that shared object is already in the map, so each beam's remaining error is its own sensor noise, and the beams are close to independent.
@@ -82,9 +82,9 @@ Independence that holds only once a third thing is known is [conditional indepen
 
 ## 3. Why a Gaussian alone fails
 
-> **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true pose outright.
+> **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true **pose** (G-2280) outright.
 
-The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the expected range plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). A good laser's readings typically lie about 0.05 m from the true distance: its [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) is $\sigma = 0.05$ m. The density of a reading $z$ is:
+The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the **expected range** (G-2375) plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). A good laser's readings typically lie about 0.05 m from the true distance: its [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) is $\sigma = 0.05$ m. The density of a reading $z$ is:
 
 $$\mathcal{N}(z;\ z^{\ast}, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\ e^{-\frac{1}{2}\left(\frac{z - z^{\ast}}{\sigma}\right)^2}$$
 
@@ -116,9 +116,9 @@ The cure is not a wider Gaussian: that would make every reading near the wall le
 
 ## 4. The four causes of a reading
 
-> **Key point:** A reading is a correct hit with small noise, a hit on something not in the map, a failure that reports the maximum range, or plain junk. Each cause has its own density shape, and each shape follows from how that cause works.
+> **Key point:** A reading is a correct hit with small noise, a hit on something not in the map, a failure that reports the **maximum range** (G-2373), or plain junk. Each cause has its own density shape, and each shape follows from how that cause works.
 
-The person's reading is one of four ways a beam can come back. Figure 4 shows the shape each gives for the forward beam at pose A ($z^{\ast} = 3$ m, $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
+The person's reading is one of four ways a beam can come back. Figure 4 shows the shape each gives for the forward beam at **pose** (G-2280) A ($z^{\ast} = 3$ m, $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
 
 ![The four densities of the beam model for an expected range of 3 m: a narrow Gaussian at 3 m (measurement noise), a curve that starts high at 0 and falls off until it stops at 3 m (unexpected objects), a spike at 5 m (failures), and a flat line at height 0.2 from 0 to 5 m (random readings)](images/four_parts.png)
 
@@ -136,7 +136,7 @@ $$\text{area inside} = 0.655$$
 
 $$\eta = 1 / 0.655 = 1.53$$
 
-**Worked example.** At pose A the forward beam expects 3 m. A reading of 3.02 m has the density:
+**Worked example.** At **pose** (G-2280) A the forward beam expects 3 m. A reading of 3.02 m has the density:
 
 $$\frac{3.02 - 3.00}{0.05} = 0.4$$
 
@@ -233,7 +233,7 @@ The uniform part $p_{\text{rand}}$ has a job: no reading between 0 and 5 m ever 
 
 ## 5. The beam model: one mixture of four shapes
 
-> **Key point:** The beam model adds the four densities with weights that sum to 1. With it, the person's reading costs pose A a factor, not everything, and the true pose wins.
+> **Key point:** The beam model adds the four densities with weights that sum to 1. With it, the person's reading costs **pose** (G-2280) A a factor, not everything, and the true pose wins.
 
 ### 5.1 The mixture
 
@@ -243,7 +243,7 @@ $$p(z^k \mid x, m) = w_{\text{hit}}\ p_{\text{hit}} + w_{\text{short}}\ p_{\text
 
 $$\qquad + w_{\max}\ p_{\max} + w_{\text{rand}}\ p_{\text{rand}}$$
 
-The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a range finder, also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections [5](#5-the-beam-model-one-mixture-of-four-shapes) and [6](#6-learning-the-models-numbers-from-data):
+The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a **range finder** (G-2371), also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections [5](#5-the-beam-model-one-mixture-of-four-shapes) and [6](#6-learning-the-models-numbers-from-data):
 
 | Cause | Weight | Shape |
 |---|---|---|
@@ -270,7 +270,7 @@ Small, because a short reading is less common than a hit, but not zero.
 
 ### 5.2 Back to the opening scan
 
-Now score both poses with the beam model. Ray casting gives the expected ranges of the four beams:
+Now score both **poses** (G-2280) with the beam model. Ray casting gives the expected ranges of the four beams:
 
 | Beam | Reading (m) | $z^{\ast}$ at A (m) | $z^{\ast}$ at B (m) |
 |---|---|---|---|
@@ -295,7 +295,7 @@ $$\frac{6.26}{0.029} = 215$$
 
 So the scan says pose A is about 215 times more likely than pose B, the right answer. The Gaussian alone gave A exactly 0.
 
-> **Python:** the beam model for a whole scan, as in the UChicago class 05 algorithm.
+> **Python:** the **beam model** (G-2377) for a whole scan, as in the UChicago class 05 algorithm.
 > ```python
 > def beam_model(readings, expected):  # metres
 >     q = 1.0
@@ -313,13 +313,13 @@ So the scan says pose A is about 215 times more likely than pose B, the right an
 
 ### 6.1 Why the numbers must be learned
 
-The answer of [Section 5.2](#52-back-to-the-opening-scan), pose A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
+The answer of [Section 5.2](#52-back-to-the-opening-scan), **pose** (G-2280) A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$. These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
 
 The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 8 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of [Section 5](#5-the-beam-model-one-mixture-of-four-shapes), so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
 
 ![1000 readings of a wall 3 m away as counts per 0.05 m bin. Left: a tall peak at 3 m. Right, zoomed to counts up to 25: a falling pile of short readings near 0, a thin uniform layer of random readings, and a bar of 47 readings at the maximum range of 5 m](images/wall_data.png)
 
-Some numbers are easy. With nobody around, the readings scatter only by measurement noise, and $\sigma_{\text{hit}}$ is their standard deviation, the [MLE of a normal distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation) (G-1242). The weights cannot be read off like that: a reading of 2.95 m could be a hit or a short reading, and nothing in the reading says which.
+Some numbers are easy. With nobody around, the readings scatter only by **measurement noise** (G-2378), and $\sigma_{\text{hit}}$ is their **standard deviation** (G-1870), the [MLE of a normal distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation) (G-1242). The weights cannot be read off like that: a reading of 2.95 m could be a hit or a short reading, and nothing in the reading says which.
 
 ### 6.2 Maximum likelihood, and why it needs a search
 
@@ -373,7 +373,7 @@ The 3.02 m reading is mostly a hit, the 1.00 m reading mostly a short reading, t
 
 This last formula ignores the cut at $z^{\ast}$. That is safe when the curve has nearly died out before $z^{\ast}$, as here, where only $e^{-6} = 0.0025$ of the exponential lies beyond 3 m.
 
-Figure 9 plays the rounds. After round 1 the Gaussian has already narrowed onto the wall; after a few rounds the curve follows the bars, and the log-likelihood has stopped rising. EM never lowers the log-likelihood from one round to the next ([why the log-likelihood never decreases](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#6-why-the-log-likelihood-never-decreases)).
+Figure 9 plays the rounds. After round 1 the Gaussian has already narrowed onto the wall; after a few rounds the curve follows the bars, and the **log-likelihood** (G-1113) has stopped rising. EM never lowers the log-likelihood from one round to the next ([why the log-likelihood never decreases](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#6-why-the-log-likelihood-never-decreases)).
 
 ![Animation of EM fitting the beam model. Each frame is one round: blue bars are the 1000 readings, the black line is how many readings the current model expects per bin, the right panel is the log-likelihood. Round 0 is a flat, wide guess with log-likelihood −932; by round 60 the weights are hit 0.733, short 0.150, max 0.047, rand 0.070, sigma 0.051 m, lambda 1.75 per m, log-likelihood 448](images/em_fit.gif)
 
@@ -390,7 +390,7 @@ Random readings below 3 m look exactly like short ones, because there the two sh
 
 > **Key point:** Every sensor needs its own $p(z \mid x, m)$, because each reports a different kind of number. Four kinds cover most mobile robots: landmark, range, boundary and odometry sensors.
 
-The beam model answers the question of Figure 1 for a laser; it is one entry in a family. A model is needed for every sensor the robot uses, and its shape follows from what the sensor reports. LaValle collects the common kinds (LaValle §11.5.1); Figure 10 draws four of them in our room.
+The **beam model** (G-2377) answers the question of Figure 1 for a laser; it is one entry in a family. A model is needed for every sensor the robot uses, and its shape follows from what the sensor reports. LaValle collects the common kinds (LaValle §11.5.1); Figure 10 draws four of them in our room.
 
 ![Four kinds of sensors in the 5 m by 4 m room: a landmark sensor measures range or bearing to a known point; a depth sensor measures distances to the nearest surface along many beams; a boundary sensor says whether the robot touches or is near a wall; an odometry sensor reports how far the wheels say the robot moved](images/catalogue.png)
 
@@ -410,14 +410,14 @@ The beam model answers the question of Figure 1 for a laser; it is one entry in 
 | failure | spike at $z_{\max}$ | a lost pulse is reported as the maximum range |
 | random | uniform, $1 / z_{\max}$ | no reading may ever have density 0 |
 
-- The four readings of Figure 1 are about 215 times more likely from pose A than from pose B, even though a person blocks the forward beam, because the beam model lets a short reading cost a pose a factor instead of everything; the six numbers behind that answer can be learned from a thousand readings of one wall.
-- A range finder reports the distance to the first surface along each beam, so a guessed pose can be tested by ray casting the map to get the expected ranges and comparing.
-- The measurement model $p(z \mid x, m)$ scores a pose by how likely the readings are from there; read over poses it is the likelihood that a localization filter multiplies into its belief.
+- The four readings of Figure 1 are about 215 times more likely from **pose** (G-2280) A than from pose B, even though a person blocks the forward beam, because the beam model lets a short reading cost a pose a factor instead of everything; the six numbers behind that answer can be learned from a thousand readings of one wall.
+- A **range finder** (G-2371) reports the distance to the first surface along each beam, so a guessed pose can be tested by ray casting the map to get the expected ranges and comparing.
+- The **measurement model** (G-2374) $p(z \mid x, m)$ scores a pose by how likely the readings are from there; read over poses it is the **likelihood** (G-1086) that a localization filter multiplies into its belief.
 - A scan's density is the product of its beams' densities, because once the pose and map are known the beams are nearly independent; the leftover dependence makes the product overconfident, so implementations use a subset of beams.
 - A Gaussian alone fails, because one reading caused by a passer-by gets density 0 and the product then rejects the true pose.
-- The beam model mixes four causes with weights that add up to 1, so a short reading costs a pose a factor instead of everything; in our scan it makes the true pose 215 times more likely than the wrong one.
+- The **beam model** (G-2377) mixes four causes with weights that add up to 1, so a short reading costs a pose a factor instead of everything; in our scan it makes the true pose 215 times more likely than the wrong one.
 - The short-reading curve is exponential because the beam stops at the first of many evenly spread blockers, which halves (or shrinks by a fixed factor) the chance with every extra stretch of beam.
-- The weights and widths are learned by maximum likelihood from recorded readings; the causes are hidden, so EM alternates responsibilities and weighted refits, and it never lowers the log-likelihood.
+- The weights and widths are learned by maximum likelihood from recorded readings; the causes are hidden, so EM alternates responsibilities and weighted refits, and it never lowers the **log-likelihood** (G-1113).
 - Each sensor kind (landmark, range, boundary, odometry) needs its own model, because each reports a different kind of number.
 
 Now the robot can score a guessed pose from a laser scan on a grid map, even with a person in the way. Still missing is speed: every guessed pose needs a ray cast per beam, and a filter tries hundreds of poses per scan, so the next step is a [score that looks only at where each beam ends](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#1-overview).
@@ -447,10 +447,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Expected range $z^{*}$ (G-2375) | The distance a beam would read with a perfect sensor, if the robot were at a given pose in the map; the measurement model compares each real reading with it. |
 | Range finder (G-2371) | A sensor that measures the distance to the nearest surface in one direction, for example by timing a laser or sound pulse; robots use it to compare what they see with a map. |
 | Range scan (G-2372) | The list of readings from one sweep of a scanning range finder, one distance per beam direction, such as $z = (1.00, 1.97, 2.04, 1.99)$; it is the measurement a laser-based robot tests poses against. |
 | Maximum range $z_{\max}$ (G-2373) | The longest distance a range sensor can report, such as 5 m; when no pulse returns, the sensor reports this value, so a reading of $z_{\max}$ usually means a failure, not a wall. |
-| Expected range $z^{*}$ (G-2375) | The distance a beam would read with a perfect sensor, if the robot were at a given pose in the map; the measurement model compares each real reading with it. |
 | Ray casting (G-2376) | Finding the expected range by walking along a beam's direction through the map until the first occupied cell; it turns a guessed pose and a map into the readings the robot should see. |
 | Measurement model $p(z \mid x, m)$ (G-2374) | The density of getting sensor readings $z$ if the robot were at pose $x$ in map $m$ (also sensor or observation model); read over poses it is a likelihood that tells a filter which poses fit the readings. |
 | Hit part $p_{\text{hit}}$ (measurement noise in the beam model) (G-2378) | The small scatter of a reading around the true distance when the beam does hit the mapped surface; modelled as a Gaussian around $z^{*}$ cut to $[0, z_{\max}]$. |
@@ -465,9 +465,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Depth-mapping sensor (G-2386) | A sensor that reports the distance to the nearest surface along each of many directions, such as a laser scanner or a ring of sonars; the beam model describes its readings. |
 | Boundary sensor (G-2387) | A sensor that reports whether the robot touches, or is close to, an obstacle, such as a bumper or a proximity sensor; it gives yes/no readings. |
 | Odometry sensor (G-2388) | A sensor that reports how far the robot has moved, from counting wheel turns; robots usually feed it into the motion model rather than the measurement model. |
-| [Measurement $z_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317) | What a robot's sensors report about the world at time $t$, such as "door", a laser scan or a camera image; it does not change the state but tells the robot something about it, which narrows its distribution. |
-| [LiDAR](../../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#41-mainstream-applications) (G-1083) | A sensor that measures distances to nearby objects with laser light. |
 | [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
+| [Measurement $z_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317) | What a robot's sensors report about the world at time $t$, such as "door", a laser scan or a camera image; it does not change the state but tells the robot something about it, which narrows its distribution. |
+| [EM algorithm (expectation maximization)](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) (G-675) | A method for finding the maximum likelihood when some variables are hidden (latent): it repeats two steps, an E-step and an M-step, until the fit settles. |
+| [LiDAR](../../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#41-mainstream-applications) (G-1083) | A sensor that measures distances to nearby objects with laser light. |
 | [Likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
 | [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) | The algorithm that keeps a robot's belief up to date one step at a time: a prediction step after each command and a correction step after each reading; it gives the exact belief without storing the history, under the Markov assumption. |
 | [Probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
@@ -482,7 +483,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Maximum likelihood estimation (MLE)](../../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
 | [Log-likelihood](../../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
 | [Latent variable](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#52-the-latent-variable) (G-1050) | A variable in a model that is never observed, such as the component that produced a point. |
-| [EM algorithm (expectation maximization)](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) (G-675) | A method for finding the maximum likelihood when some variables are hidden (latent): it repeats two steps, an E-step and an M-step, until the fit settles. |
 | [Responsibility $r_{nk}$](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-1687) | In a mixture model, how likely it is that component $k$ produced point $n$, given that point (the posterior probability). |
 | [E-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | [M-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |

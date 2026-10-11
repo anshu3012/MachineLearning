@@ -17,7 +17,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/vector-norm
 
 ## 1. Overview
 
-> **Key point:** Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any number of dimensions; adding or multiplying by a scalar shifts or scales a vector.
+> **Key point:** Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any number of dimensions; adding or multiplying by a **scalar** (G-1743) shifts or scales a vector.
 
 ![Left: the length of a vector. Right: the distance between two points. Both are Pythagoras' theorem](images/magnitude_distance.png)
 
@@ -25,7 +25,7 @@ Figure 1 shows the two measurements this Note builds on. The length of $[3, 4]$ 
 
 - works out the length in 2D, 3D and $n$ dimensions (section 2);
 - does the same for the distance, and shows where ML uses it (section 3);
-- turns to the simplest operation on a vector, adding a scalar (section 4), and its main use in ML, mean centring (section 5);
+- turns to the simplest operation on a vector, adding a scalar (section 4), and its main use in ML, **mean centring** (G-1195) (section 5);
 - ends with multiplying by a scalar (section 6).
 
 A **vector** is a list of numbers such as $[3, 4]$; each number is a **component**, and the number of components is the vector's **dimension**. A **scalar** is a single number such as 5. All are defined in [what a vector is](../MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
@@ -145,7 +145,7 @@ $$\sqrt{125} \approx 11.18$$
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
-A lot of ML algorithms compute Euclidean distances inside. The clearest example is [**K-nearest neighbours**](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
+A lot of ML algorithms compute **Euclidean distances** (G-715) inside. The clearest example is [**K-nearest neighbours**](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
 
 ![Five labelled vectors in 3D and a query vector; the query takes the class of the nearest one](images/knn_3d.png){height=45%}
 
@@ -155,13 +155,13 @@ The same distance appears in [K-means clustering](../../../ML/09-clustering-and-
 
 ## 4. Operations with a scalar
 
-> **Key point:** A scalar operation applies the same number to every component; adding or subtracting a scalar shifts the vector.
+> **Key point:** A **scalar** (G-1743) operation applies the same number to every component; adding or subtracting a scalar shifts the vector.
 
 A vector and a scalar can be combined in two ways: by adding (or subtracting, which works the same way) and by multiplying (or dividing). In both, the scalar is applied to every component in turn.
 
 ### 4.1 Adding or subtracting a scalar: shifting
 
-> **Key point:** Adding a scalar adds it to every component, which moves the point; this is called shifting.
+> **Key point:** Adding a **scalar** (G-1743) adds it to every component, which moves the point; this is called shifting.
 
 1. **In words:** add the scalar to every component of the vector.
 2. **Formula:** for $v = [v_1, v_2, \dots, v_n]$ and a scalar $s$,
@@ -182,9 +182,9 @@ Changing every component moves the point to a new place in the coordinate system
 
 ## 5. Mean centring: shifting in ML
 
-> **Key point:** Mean centring is a scalar subtraction on vectors: each feature minus its own mean.
+> **Key point:** Mean centring is a **scalar** (G-1743) subtraction on vectors: each feature minus its own mean.
 
-**Mean centring** (G-1195), the first half of standardization (see [what standardization does to the data](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#5-what-standardization-does-to-the-data)), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is shifting. Each **feature** (G-772; an input variable, one column of the data table) is a vector of values, and its mean is a scalar. Mean centring subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5:
+**Mean centring** (G-1195), the first half of standardization (see [what standardization does to the data](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#5-what-standardization-does-to-the-data)), slides the cloud of points until its mean sits at the origin, without changing its shape. As a vector operation, mean centring is **shifting** (G-1791). Each **feature** (G-772; an input variable, one column of the data table) is a vector of values, and its mean is a scalar. Mean centring subtracts that scalar from every component, the way moving every house on a street by the same distance leaves the street's shape unchanged. For the feature $[3, 5, 7]$, with mean 5:
 
 $$[3, 5, 7] - 5 = [-2, 0, 2]$$
 
@@ -269,8 +269,8 @@ $$[3, 4] / 5 = [0.6, 0.8]$$
 - Pythagoras' theorem gives both the length of a vector and the distance between two vectors, in any dimension, so a 50-component vector that cannot be drawn still has a length.
 - Distance = magnitude of the difference: `np.linalg.norm(p - q)`, so one function measures both.
 - KNN, K-means and recommender systems all decide by distance, because a new point takes the class, group or match of the vectors nearest to it.
-- Shifting moves a vector, scaling stretches it; mean centring is shifting applied to whole features, so the data cloud slides to the origin as one piece.
-- So one rule, Pythagoras, measures vectors in any dimension, and two scalar operations move and stretch them.
+- Shifting moves a vector, scaling stretches it; **mean centring** (G-1195) is shifting applied to whole features, so the data cloud slides to the origin as one piece.
+- So one rule, Pythagoras, measures vectors in any dimension, and two **scalar** (G-1743) operations move and stretch them.
 
 ## 8. Sources
 
@@ -291,14 +291,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Mean centring (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
 | L2 norm (norm, magnitude, length of a vector) (G-1028) | The usual magnitude of a vector, its distance from the origin: the square root of the sum of squared components, $\lVert w \rVert = \sqrt{w_1^2 + w_2^2 + \dots}$. |
 | L1 norm (G-1025) | The sum of the absolute values of the components. |
 | Shifting (G-1791) | Adding or subtracting the same scalar to every component of a vector, such as $[2, 3] + 1 = [3, 4]$; it moves the point to a new place. |
 | Broadcasting (G-333) | NumPy stretching a single number (a scalar) or a smaller array to match a bigger array before an operation. |
-| Mean centring (G-1195) | Subtracting the mean from every value, so the column's mean becomes 0. |
 | Scaling (a vector) (G-1746) | Multiplying or dividing every component of a vector by the same scalar, such as $2 \times [1, 3] = [2, 6]$; it makes the arrow longer or shorter along the same line. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Unit vector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2048) | A vector of length 1, used to describe a direction. |

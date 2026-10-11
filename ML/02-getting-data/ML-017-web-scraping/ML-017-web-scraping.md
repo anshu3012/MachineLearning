@@ -22,7 +22,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/web-scraping]
 Figure 1 shows the whole process. The rest of this Note goes through it box by box:
 
 1. `requests.get` downloads one page as **HTML** (G-904) text.
-2. `BeautifulSoup` turns that text into a tree of tags we can search. (A tag is one labelled box of the page, such as a heading or a paragraph; [Section 4](#4-html-tags-classes-and-nesting) shows what they look like.)
+2. `BeautifulSoup` turns that text into a tree of **tags** (G-1941) we can search. (A tag is one labelled box of the page, such as a heading or a paragraph; [Section 4](#4-html-tags-classes-and-nesting) shows what they look like.)
 3. `find` and `find_all` pick out the tags we want, and `.text` gives the values inside them.
 4. The values go into lists, and the lists become a DataFrame.
 5. We repeat for every page and join the pages into one table.
@@ -48,7 +48,7 @@ The site has no API and no download button. So our task is to visit the pages on
 
 ## 3. Downloading a page with requests
 
-> **Key point:** `requests.get(url).text` downloads a page's HTML; if the server refuses, we send a User-Agent header so the request looks like it comes from a browser.
+> **Key point:** `requests.get(url).text` downloads a page's HTML; if the server refuses, we send a User-Agent header so the **request** (G-1673) looks like it comes from a browser.
 
 ### 3.1 The request and the status code
 
@@ -81,11 +81,11 @@ The [**status code**](../ML-016-fetching-data-from-api/ML-016-fetching-data-from
 
 ### 3.2 Looking like a browser
 
-> **Key point:** A User-Agent header tells the server which browser is asking; sending a browser's User-Agent gets past simple bot checks.
+> **Key point:** A User-Agent header tells the **server** (G-1779) which browser is asking; sending a browser's User-Agent gets past simple bot checks.
 
-A browser announces itself with a short text called the [**User-Agent**](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url) (G-2064) (see [opening a file from a URL](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url)). Many sites refuse requests that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
+A browser announces itself with a short text called the [**User-Agent**](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url) (G-2064) (see [opening a file from a URL](../ML-014-working-with-csv/ML-014-working-with-csv.md#5-opening-a-file-from-a-url)). Many sites refuse **requests** (G-1673) that look like they come from a program (a **bot** (G-325)), and a plain `requests.get` gives itself away by sending `python-requests/2.x`.
 
-So we send a browser's User-Agent ourselves, in the request's **headers** (G-885) (extra information sent along with a request):
+So we send a browser's User-Agent ourselves, in the **request** (G-1674)'s **headers** (G-885) (extra information sent along with a request):
 
 > **Python:** Sending a browser User-Agent.
 >
@@ -110,13 +110,13 @@ Figure 2 puts the two requests side by side. Watch the User-Agent line: it is th
 > **Extra:** What changed since this code was written (checked October 2026).
 >
 > - **The site blocks scripts.** AmbitionBox no longer answers `requests` at all, with or without a User-Agent: the connection simply waits until it times out. Even `robots.txt` gets no answer. Sites like this use bot-detection services that look at more than the User-Agent.
-> - **The site was redesigned.** The class names this Note relies on (`company-content-wrapper`, `rating`, `infoEntity`) are gone. Today each company sits in a `div` with class `companyCardWrapper`, and the page no longer shows company type, age or employees.
+> - **The site was redesigned.** The **class** (G-389) names this Note relies on (`company-content-wrapper`, `rating`, `infoEntity`) are gone. Today each company sits in a `div` with class `companyCardWrapper`, and the page no longer shows company type, age or employees.
 > - **What we use instead.** The **Wayback Machine** (G-2101) (`web.archive.org`) keeps copies of web pages as they were. `data/` holds real copies of list pages 1 and 2 from August 2022, which have the layout used here, and page 1 from August 2026. `data/fetch_archive.py` downloads them; it removes only the `<script>` and `<style>` blocks to save space.
 > - **The Notebook** tries the live site first, with a 10-second time limit, and falls back to the saved copies. Its last section runs the same method on the 2026 page with the new class names.
 
 ## 4. HTML: tags, classes and nesting
 
-> **Key point:** An HTML page is a tree of tags; each tag has a name, may have a class, and holds text or other tags.
+> **Key point:** An **HTML** (G-904) page is a tree of tags; each tag has a name, may have a class, and holds text or other tags.
 
 To pull values out of a page, we need to read its structure. **HTML** (HyperText Markup Language) is the language web pages are written in. HTML is made of **tags** (G-1941):
 
@@ -139,9 +139,9 @@ Figure 3 shows the HTML of one company on the list page. Everything about TCS si
 
 ## 5. Parsing the page with BeautifulSoup
 
-> **Key point:** `BeautifulSoup(webpage, "html.parser")` turns the HTML text into an object we can search tag by tag.
+> **Key point:** `BeautifulSoup(webpage, "html.parser")` turns the HTML text into an object we can search **tag** (G-1941) by tag.
 
-`webpage` is just a long string. To search it by tag and class, we hand it to **BeautifulSoup** (G-273), a library for reading HTML. BeautifulSoup **parses** (G-1454) the text: it reads the text and builds the tree of tags.
+`webpage` is just a long string. To search it by tag and **class** (G-389), we hand it to **BeautifulSoup** (G-273), a library for reading **HTML** (G-904). BeautifulSoup **parses** (G-1454) the text: it reads the text and builds the tree of tags.
 
 > **Python:** Parsing HTML.
 >
@@ -160,14 +160,14 @@ Figure 3 shows the HTML of one company on the list page. Everything about TCS si
 
 ## 6. Finding the right tags with Inspect
 
-> **Key point:** The browser's Inspect tool shows which tag, and which class, holds any part of the page.
+> **Key point:** The browser's Inspect tool shows which **tag** (G-1941), and which class, holds any part of the page.
 
 The page source is thousands of lines long, so we do not read it top to bottom. Instead we let the browser point us to the right tag:
 
-1. Open the page in a browser, right-click anywhere and choose **Inspect** (G-953). A panel opens with the page's HTML.
+1. Open the page in a browser, right-click anywhere and choose **Inspect** (G-953). A panel opens with the page's **HTML** (G-904).
 2. Click the **element picker** (the arrow-in-a-box button at the panel's top left).
 3. Move the mouse over any part of the page. The tag that draws it is highlighted in the panel.
-4. Click to select it, and read its tag name and class.
+4. Click to select it, and read its tag name and **class** (G-389).
 
 Hovering over the whole TCS box highlights its `div` with class `company-content-wrapper`. Hovering over the next box, Accenture, highlights another `div` with the same class.
 
@@ -179,7 +179,7 @@ Figure 4 shows the first three containers (company boxes) of page 1 and the tag 
 
 ## 7. find_all and .text
 
-> **Key point:** `soup.find_all("h2")` returns a list of every `h2` tag; `.text.strip()` gives the clean text inside one tag.
+> **Key point:** `soup.find_all("h2")` returns a list of every `h2` **tag** (G-1941); `.text.strip()` gives the clean text inside one tag.
 
 To collect every tag of one kind, we use **`find_all`** (G-83): it takes a tag name and returns a list of every tag with that name in the page.
 
@@ -194,7 +194,7 @@ To collect every tag of one kind, we use **`find_all`** (G-83): it takes a tag n
 >
 > `[0]` takes the first tag in the list. `.text` gives the text inside a tag, without the tags themselves.
 
-The company names are in `h2` tags, and the page has exactly 30 of them. Their text, though, comes padded with tabs and newlines from the way the HTML was written: `'\n\t\t\t\tTCS\n\t\t\t'`. The string method `.strip()` removes such spaces from both ends.
+The company names are in `h2` tags, and the page has exactly 30 of them. Their text, though, comes padded with tabs and newlines from the way the **HTML** (G-904) was written: `'\n\t\t\t\tTCS\n\t\t\t'`. The string method `.strip()` removes such spaces from both ends.
 
 > **Python:** All company names on the page.
 >
@@ -207,7 +207,7 @@ The company names are in `h2` tags, and the page has exactly 30 of them. Their t
 
 ## 8. Selecting tags by class
 
-> **Key point:** When a tag name is used for many things, adding `class_="..."` keeps only the tags with that class.
+> **Key point:** When a **tag** (G-1941) name is used for many things, adding `class_="..."` keeps only the tags with that **class** (G-389).
 
 The rating is in a `p` tag. But `p` is used all over the page: menus, notices, the company details. `soup.find_all("p")` returns 221 tags, most of them nothing to do with ratings.
 
@@ -236,7 +236,7 @@ Figure 5 counts what each query finds on the saved pages. Watch the drop from 22
 
 > **Key point:** A page-wide list of values breaks as soon as one company is missing a value: we can no longer tell which value belongs to whom.
 
-Company type, headquarters, age and employees are four `p` tags that all share the class `infoEntity` (Figure 3). On page 1, `find_all("p", class_="infoEntity")` returns 120 tags: 30 companies times 4. We could take them in groups of four.
+Company type, headquarters, age and employees are four `p` **tags** (G-1941) that all share the class `infoEntity` (Figure 3). On page 1, `find_all("p", class_="infoEntity")` returns 120 tags: 30 companies times 4. We could take them in groups of four.
 
 On page 2 the same line returns only 117. Some companies do not list all four details, and a flat list does not say which ones.
 
@@ -248,11 +248,11 @@ The same problem can hit any field that some companies lack. We need values that
 
 ## 10. Working one company box at a time
 
-> **Key point:** First find the 30 containers (one `div` per company), then search inside each container; whatever we find there belongs to that company.
+> **Key point:** First find the 30 **containers** (G-458) (one `div` per company), then search inside each container; whatever we find there belongs to that company.
 
 The fix is to change the order of the search. Instead of searching the whole page for each field, we:
 
-1. find the 30 containers, the `div` tags with class `company-content-wrapper`;
+1. find the 30 containers, the `div` **tags** (G-1941) with class `company-content-wrapper`;
 2. loop over the containers, and inside each one find the name, rating and details.
 
 A search inside one container can only find that company's tags. Figure 6B shows the result: Infosys BPM still has 3 details, but BYJU'S and every company after it are untouched.
@@ -278,13 +278,13 @@ A search inside one container can only find that company's tags. Figure 6B shows
 | `find(...)` | the first matching tag, or `None` if there is none | exactly one such tag is expected |
 | `find_all(...)` | a list of all matching tags (possibly empty) | several are expected; pick one with `[0]`, `[1]`, ... |
 
-Inside one box there is only one `h2` and one `p` with class `rating`, so `find` is enough, and we can use `.text` on it directly. There are four `infoEntity` tags, so we use `find_all` and pick them by position.
+Inside one box there is only one `h2` and one `p` with **class** (G-389) `rating`, so `find` is enough, and we can use `.text` on it directly. There are four `infoEntity` tags, so we use `find_all` and pick them by position.
 
 ## 11. Building the DataFrame for one page
 
 > **Key point:** One list per column; the loop appends one value to each list per company; a dictionary of the lists becomes the DataFrame.
 
-Figure 7 shows the loop at work. Each pass takes one container, reads its values, and adds one row to the table. Each company becomes one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table), and each detail we collect becomes a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (a variable describing the company, one column of the table).
+Figure 7 shows the loop at work. Each pass takes one **container** (G-458), reads its values, and adds one row to the table. Each company becomes one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, one row of the table), and each detail we collect becomes a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (a variable describing the company, one column of the table).
 
 ![The loop turns each company box into one row](images/container_loop.gif)
 
@@ -331,7 +331,7 @@ The first rows of `df`, in two parts:
 
 Every value is still text, such as `"(44.9k Reviews)"` or `"54 years old"` (a lakh in `"1 Lakh+ Employees"` is 100,000). Turning these into numbers is a cleaning job for later; scraping only collects them.
 
-> **Extra:** Long names are cut short on the page: `"Mahindra & Mahin..."`. The full name is in the `h2` tag's `title` attribute, `<h2 title="Mahindra & Mahindra">`. A tag's attribute is read like a dictionary: `i.find("h2")["title"]`. The Notebook uses it for the final table.
+> **Extra:** Long names are cut short on the page: `"Mahindra & Mahin..."`. The full name is in the `h2` **tag** (G-1941)'s `title` **attribute** (G-228), `<h2 title="Mahindra & Mahindra">`. A tag's attribute is read like a dictionary: `i.find("h2")["title"]`. The Notebook uses it for the final table.
 
 ## 12. Scraping every page
 
@@ -340,7 +340,7 @@ Every value is still text, such as `"(44.9k Reviews)"` or `"54 years old"` (a la
 Each page's address differs only in its number, so a loop over `page=1, 2, 3, ...` reaches every page. For each page we:
 
 1. download it;
-2. parse it;
+2. **parse** (G-1454) it;
 3. build a small DataFrame;
 4. collect that DataFrame in a list.
 
@@ -405,14 +405,14 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 
 > **Extra:** Older code joins pages with `final = final.append(df, ignore_index=True)`. `DataFrame.append` was removed in pandas 2.0 (pandas release notes), so this now fails with an `AttributeError`. Collecting the pieces in a list and calling `pd.concat` once is the current way, and faster.
 
-> **Extra:** Padding the details to four values stops the crash, but it hides a subtler error. Infosys BPM's three details are headquarters, age and employees; taken by position, its headquarters lands in `company_type`, its age in `head_quarters`, and so on. Each detail has an icon tag inside it (`<i class="icon-pin-drop">` for headquarters, `icon-access-time` for age, and so on). Matching each detail by its icon instead of its position puts every value in the right column; the Notebook shows how. The general lesson: always look at a few rows of scraped data, especially rows with NaN.
+> **Extra:** Padding the details to four values stops the crash, but it hides a subtler error. Infosys BPM's three details are headquarters, age and employees; taken by position, its headquarters lands in `company_type`, its age in `head_quarters`, and so on. Each detail has an icon **tag** (G-1941) inside it (`<i class="icon-pin-drop">` for headquarters, `icon-access-time` for age, and so on). Matching each detail by its icon instead of its position puts every value in the right column; the Notebook shows how. The general lesson: always look at a few rows of scraped data, especially rows with NaN.
 
 > **Extra:** Scraping politely.
 >
-> - **robots.txt:** read `site.com/robots.txt` first. Lines like `Disallow: /search` list the paths the site asks bots not to visit. Python's `urllib.robotparser` can check a URL against it.
+> - **robots.txt:** read `site.com/robots.txt` first. Lines like `Disallow: /search` list the paths the site asks **bots** (G-325) not to visit. Python's `urllib.robotparser` can check a URL against it.
 > - **Terms of use:** many sites forbid scraping in their terms, and some data (personal details, copyrighted text) has legal limits on reuse. Prefer an official API or dataset when one exists.
-> - **Rate limits:** pause between requests (`time.sleep`), download each page only once and save it, and stop on 403, 429 or 503 instead of retrying in a fast loop. Hundreds of rapid requests look like an attack, and get our address blocked.
-> - **Expect breakage:** sites change their layout without notice, as AmbitionBox did ([Section 3](#3-downloading-a-page-with-requests)). Saving the raw HTML lets us re-parse it later without downloading again.
+> - **Rate limits:** pause between **requests** (G-1673) (`time.sleep`), download each page only once and save it, and stop on 403, 429 or 503 instead of retrying in a fast loop. Hundreds of rapid **requests** (G-1674) look like an attack, and get our address blocked.
+> - **Expect breakage:** sites change their layout without notice, as AmbitionBox did ([Section 3](#3-downloading-a-page-with-requests)). Saving the raw **HTML** (G-904) lets us re-parse it later without downloading again.
 
 ## 13. Summary
 
@@ -429,10 +429,10 @@ Figure 8 draws `final` cell by cell. Watch where the NaN cells sit: always in th
 | All pages | loop, `time.sleep`, `pd.concat` | `(60, 7)` for 2 pages |
 
 - Scrape only when the data has no file and no API, because scraping is the last resort: sites block scripts and change their layout without notice.
-- Search inside each repeated container (one company box), not across the whole page; values then stay with their own company.
-- Missing tags give `None` or short lists: turn them into NaN, because `.text` on `None` stops the program with an `AttributeError`. Then check the rows that have NaN, because padding by position can put a value in the wrong column.
-- Websites block bots and change their layout. Send a User-Agent, because a plain request announces itself as `python-requests` and can get a 403. Pause between requests, because hundreds of rapid requests look like an attack and get our address blocked.
-- Respect robots.txt and the terms of use, and save the HTML you download, so it can be parsed again later without downloading it again.
+- Search inside each repeated **container** (G-458) (one company box), not across the whole page; values then stay with their own company.
+- Missing **tags** (G-1941) give `None` or short lists: turn them into NaN, because `.text` on `None` stops the program with an `AttributeError`. Then check the rows that have NaN, because padding by position can put a value in the wrong column.
+- Websites block bots and change their layout. Send a User-Agent, because a plain **request** (G-1673) announces itself as `python-requests` and can get a 403. Pause between **requests** (G-1674), because hundreds of rapid requests look like an attack and get our address blocked.
+- Respect **robots.txt** (G-1698) and the terms of use, and save the HTML you download, so it can be parsed again later without downloading it again.
 
 ## 14. Sources
 
@@ -455,15 +455,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Web scraping (G-2105) | Writing code that extracts data from web pages. |
 | HTML (G-904) | The language web pages are written in: a tree of nested tags. |
+| Tag (G-1941) | One labelled box of a web page in HTML, such as a heading or a paragraph (`<h2>TCS</h2>`); a scraper finds the values it wants by their tags. |
 | Request, response (G-1673) | What we send to a server, and what it sends back. |
 | Bot (G-325) | A program that visits websites automatically. |
 | Headers (HTTP) (G-885) | Extra information sent with a request, such as the User-Agent. |
 | View Page Source (G-2089) | Browser option that shows a page's raw HTML. |
 | robots.txt (G-1698) | A file at a site's root listing what bots are asked not to visit. |
-| Wayback Machine (G-2101) | A web archive that keeps copies of web pages as they were. |
-| Tag (G-1941) | One labelled box of a web page in HTML, such as a heading or a paragraph (`<h2>TCS</h2>`); a scraper finds the values it wants by their tags. |
-| Attribute (G-228) | An extra setting written inside an HTML opening tag as `name="value"`, such as a class; scrapers use attributes to pick out the right tags. |
 | Class (HTML) (G-389) | An attribute that labels tags; used to select the right ones. |
+| Wayback Machine (G-2101) | A web archive that keeps copies of web pages as they were. |
+| Attribute (G-228) | An extra setting written inside an HTML opening tag as `name="value"`, such as a class; scrapers use attributes to pick out the right tags. |
 | BeautifulSoup (G-273) | Python library that parses HTML into a searchable tree. |
 | Parse, parser (G-1454) | Read text and build a structure from it; the part that does this. |
 | Inspect (G-953) | Browser tool that shows which tag draws each part of a page. |

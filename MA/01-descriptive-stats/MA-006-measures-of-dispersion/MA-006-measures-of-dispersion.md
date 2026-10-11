@@ -17,16 +17,16 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/bessel, co
 
 ## 1. Overview
 
-> **Key point:** A **measure of dispersion** (G-1206) says how spread out a feature is around its centre: range, [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
+> **Key point:** A **measure of dispersion** (G-1206) says how spread out a **feature** (G-772) is around its centre: range, [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), **mean absolute deviation** (G-1193) and **coefficient of variation** (G-408) each do this differently.
 
 ![Variance of 3, 2, 1, 5, 4: each value's distance from the mean, squared and averaged](images/deviations.png)
 
-Figure 1 shows the idea behind the most used measure, the variance. This Note works five measures of spread with small numbers, and the sample version of the variance:
+Figure 1 shows the idea behind the most used measure, the variance. This Note works five measures of spread with small numbers, and the **sample** (G-1731) version of the variance:
 
 - range (section 3);
 - variance, and why we square the distances (section 4);
 - standard deviation, the variance brought back to the data's units (section 5);
-- the sample variance, and why it divides by $n - 1$ (section 6);
+- the **sample variance** (G-2229), and why it divides by $n - 1$ (section 6);
 - mean absolute deviation (section 7);
 - coefficient of variation (section 8).
 
@@ -51,7 +51,7 @@ The simplest way to measure spread is to look at the two extremes and measure th
    $$5 - (-5) = 10$$
    For $-10, 0, 10$:
    $$10 - (-10) = 20$$
-   The range tells the two features apart where the mean could not.
+   The range tells the two **features** (G-772) apart where the mean could not.
 3. **Formula:**
    $$\text{range} = \max(x) - \min(x)$$
 
@@ -80,7 +80,7 @@ When the data is the whole [**population**](../MA-004-what-is-statistics/MA-004-
 5. **Divide by the number of values:**
    $$10 / 5 = 2$$
 
-So the variance of 3, 2, 1, 5, 4 is 2. The same steps give 16.7 for $-5, 0, 5$ and 66.7 for $-10, 0, 10$: the wider feature has the larger variance.
+So the variance of 3, 2, 1, 5, 4 is 2. The same steps give 16.7 for $-5, 0, 5$ and 66.7 for $-10, 0, 10$: the wider **feature** (G-772) has the larger variance.
 
 **Formula.** The five steps, written once for a population of $N$ values $x_1, \dots, x_N$ with mean $\mu$:
 $$\sigma^2 = \frac{1}{N}\sum_{i=1}^{N} (x_i - \mu)^2$$
@@ -93,7 +93,7 @@ Variance is in squared units, so doubling the spread multiplies it by four (work
 
 > **Key point:** The plain distances from the mean always add up to zero, so we need squares (or absolute values) to stop them cancelling.
 
-In Figure 1 the distances are $0, -1, -2, 2, 1$: the values below the mean give negative distances, those above give positive ones, and they add up to 0. Spread should add up, never cancel. Squaring makes every distance positive. The absolute value does the same, and gives the mean absolute deviation of section 7.
+In Figure 1 the distances are $0, -1, -2, 2, 1$: the values below the mean give negative distances, those above give positive ones, and they add up to 0. Spread should add up, never cancel. Squaring makes every distance positive. The absolute value does the same, and gives the **mean absolute deviation** (G-1193) of section 7.
 
 The zero total is not a coincidence.
 
@@ -109,7 +109,7 @@ The zero total is not a coincidence.
 
 ### 4.2 Variance and outliers
 
-> **Key point:** Squaring makes a far-away value count enormously, so variance is very sensitive to outliers.
+> **Key point:** Squaring makes a far-away value count enormously, so **variance** (G-2074) is very sensitive to outliers.
 
 A value far from the mean has a large distance, and its square is larger still. Add 50 to the five values above: the data becomes 3, 2, 1, 5, 4, 50, six values. One step per line:
 
@@ -129,11 +129,11 @@ $$61.4 + 78.0 + 96.7 + 34.0 + 46.7 + 1534.0$$
 $$= 1850.8$$
 $$\sigma^2 = \frac{1850.8}{6} = 308.5$$
 
-The population variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
+The **population** (G-1525) variance jumps from 2 to 308.5. One value multiplied the variance by about 150.
 
 ## 5. Standard deviation
 
-> **Key point:** The standard deviation is the square root of the variance; unlike the variance, it is in the same units as the data.
+> **Key point:** The standard deviation is the square root of the **variance** (G-2074); unlike the variance, it is in the same units as the data.
 
 The variance has one annoying property: because every distance is squared, its units are squared too. Four people earn 16, 17, 13 and 14 LPA (lakh rupees per annum). The mean is 15 LPA, the distances are $1, 2, -2, -1$ LPA, and
 
@@ -149,7 +149,7 @@ This square root is the [**standard deviation**](../../../ML/02-getting-data/ML-
 
 ![Salaries of 16, 17, 13 and 14 LPA: the standard deviation, 1.58 LPA, is a length on the same axis](images/salary_sd.png)
 
-**Formula:** the standard deviation is the square root of the variance, for a population (symbol $\sigma$) and for a sample (symbol $s$, section 6):
+**Formula:** the standard deviation is the square root of the variance, for a **population** (G-1525) (symbol $\sigma$) and for a **sample** (G-1731) (symbol $s$, section 6):
 $$\sigma = \sqrt{\sigma^2}$$
 $$s = \sqrt{s^2}$$
 
@@ -159,11 +159,11 @@ $$\sqrt{2} \approx 1.41$$
 
 ## 6. The sample variance: divide by n - 1
 
-> **Key point:** Dividing by $n$ makes a sample's variance too small on average; dividing by $n - 1$ makes it right on average.
+> **Key point:** Dividing by $n$ makes a **sample** (G-1731)'s variance too small on average; dividing by $n - 1$ makes it right on average.
 
 ### 6.1 The sample version
 
-We almost never have the whole population. We have a sample, and we use it to estimate the population's variance. Two things change in the formula:
+We almost never have the whole **population** (G-1525). We have a sample, and we use it to estimate the population's variance. Two things change in the formula:
 
 1. we do not know $\mu$, so we measure the distances from the sample mean $\bar{x}$ instead;
 2. we divide by $n - 1$ instead of $n$.
@@ -172,7 +172,7 @@ With both changes, the **sample variance** (G-2229) is
 
 $$s^2 = \frac{1}{n - 1}\sum_{i=1}^{n} (x_i - \bar{x})^2$$
 
-If 3, 2, 1, 5, 4 are a sample, the squared distances still add up to 10, and
+If 3, 2, 1, 5, 4 are a **sample** (G-1731), the squared distances still add up to 10, and
 
 $$s^2 = \frac{10}{5 - 1}$$
 
@@ -213,7 +213,7 @@ Take five Titanic ages, 53, 30, 19, 41 and 28, a random sample of the 714 known 
    $$542.9 + 0.1 + 114.5 + 127.7 + 2.9 = 788.1$$
    $$788.1 / 5 = 157.6$$
    Dividing by $n$ around $\bar{x}$ gave 137.4, less than the 157.6 that the same five ages give around the true mean $\mu$.
-4. **A new sample gives the same picture.** The second sample, 30, 40, 36, 28, 30, has its own U with its bottom at its own mean, 32.8 (20.2), while $\mu$ again gives more (29.8).
+4. **A new sample gives the same picture.** The second **sample** (G-1731), 30, 40, 36, 28, 30, has its own U with its bottom at its own mean, 32.8 (20.2), while $\mu$ again gives more (29.8).
 
 **Why the bottom is always at $\bar{x}$.** Write the variance around $v$ as a function of $v$:
 $$f(v) = \frac{1}{n}\sum_{i=1}^{n} (x_i - v)^2$$
@@ -238,15 +238,15 @@ This holds for any $n$ values, so around the sample mean the average squared dis
 
 ### 6.3 How much too small
 
-> **Key point:** Dividing by $n$ gives, on average, $(n-1)/n$ of the true variance; multiplying by $n/(n-1)$, which is the same as dividing by $n - 1$, removes the gap.
+> **Key point:** Dividing by $n$ gives, on average, $(n-1)/n$ of the true **variance** (G-2074); multiplying by $n/(n-1)$, which is the same as dividing by $n - 1$, removes the gap.
 
-A tiny example shows the gap exactly. Take the population 1, 2, 3, 4. Its mean is 2.5 and its variance is
+A tiny example shows the gap exactly. Take the **population** (G-1525) 1, 2, 3, 4. Its mean is 2.5 and its variance is
 
 $$\sigma^2 = \frac{(-1.5)^2 + (-0.5)^2 + 0.5^2 + 1.5^2}{4}$$
 
 $$\sigma^2 = \frac{5}{4} = 1.25$$
 
-Now draw every possible sample of two values, picking with replacement: (1, 1), (1, 2), ..., (4, 4), 16 samples in all. For a sample $(a, b)$ the mean is $(a+b)/2$ and both values lie $|a - b|/2$ from it, so the squared distances add up to $(a-b)^2/2$. The table counts the 16 samples by their difference:
+Now draw every possible **sample** (G-1731) of two values, picking with replacement: (1, 1), (1, 2), ..., (4, 4), 16 samples in all. For a sample $(a, b)$ the mean is $(a+b)/2$ and both values lie $|a - b|/2$ from it, so the squared distances add up to $(a-b)^2/2$. The table counts the 16 samples by their difference:
 
 | Difference $\lvert a - b \rvert$ | Samples | Squared distances, summed | Divide by $n = 2$ | Divide by $n - 1 = 1$ |
 |---|---|---|---|---|
@@ -262,7 +262,7 @@ Figure 6 repeats the experiment on real data. We treat the 714 known Titanic age
 
 ![Average sample variance of Titanic ages, dividing by n or by n - 1; the dotted curve is (n - 1)/n of the true variance](images/bessel.png)
 
-Dividing by $n - 1$ (green) lands on the true variance at every sample size. Dividing by $n$ (red) is too small, and it follows a clear pattern, the dotted curve: on average it gives 0.495 of the true variance at $n = 2$, 0.666 at $n = 3$ and 0.747 at $n = 4$, close to $1/2$, $2/3$ and $3/4$. In general it gives $(n-1)/n$ of $\sigma^2$ (pattern after Khan Academy, "Simulation showing bias in sample variance"). Multiplying by $n/(n-1)$ cancels that factor:
+Dividing by $n - 1$ (green) lands on the true variance at every sample size. Dividing by $n$ (red) is too small, and it follows a clear pattern, the dotted curve: on average it gives 0.495 of the true variance at $n = 2$, 0.666 at $n = 3$ and 0.747 at $n = 4$, close to $1/2$, $2/3$ and $3/4$. In general it gives $(n-1)/n$ of $\sigma^2$ (pattern after Khan Academy, "Simulation showing bias in **sample variance** (G-2229)"). Multiplying by $n/(n-1)$ cancels that factor:
 
 $$\frac{n}{n-1} \times \frac{1}{n}\sum_{i=1}^{n}(x_i - \bar{x})^2$$
 
@@ -298,7 +298,7 @@ The gap shrinks as $n$ grows, because $n$ and $n - 1$ become almost equal. In th
 
 ## 7. Mean absolute deviation
 
-> **Key point:** The mean absolute deviation averages the absolute distances from the mean; it is less sensitive to outliers than variance, but harder to work with mathematically.
+> **Key point:** The mean absolute deviation averages the absolute distances from the mean; it is less sensitive to outliers than **variance** (G-2074), but harder to work with mathematically.
 
 Squaring is one way to stop the distances cancelling (section 4.1). The other is to drop their sign: take each distance's absolute value, then average. The result is the **mean absolute deviation** (G-1193) (see also [why squares, not absolute distances](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#54-why-squares-not-absolute-distances)).
 
@@ -314,8 +314,8 @@ Its strength is that a far value counts in proportion to its distance, not its d
 
 Its weaknesses are mathematical.
 
-- **Calculus.** The last panel of Figure 5 replaces the squares by absolute distances. The U becomes a V made of straight pieces, with a sharp corner at the bottom. A sharp corner has no derivative, so the trick of section 6.2, setting the slope to zero, does not work; the absolute value has no derivative at zero (see [why squares, not absolute distances](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#54-why-squares-not-absolute-distances)).
-- **Inference.** A sample's variance lets us estimate the population's variance (section 6); a sample's mean absolute deviation is not used that way.
+- **Calculus.** The last panel of Figure 5 replaces the squares by absolute distances. The U becomes a V made of straight pieces, with a sharp corner at the bottom. A sharp corner has no **derivative** (G-595), so the trick of section 6.2, setting the slope to zero, does not work; the absolute value has no derivative at zero (see [why squares, not absolute distances](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#54-why-squares-not-absolute-distances)).
+- **Inference.** A sample's variance lets us estimate the **population** (G-1525)'s variance (section 6); a sample's mean absolute deviation is not used that way.
 
 So inferential statistics is built on the variance, and the mean absolute deviation is rarely used.
 
@@ -323,9 +323,9 @@ So inferential statistics is built on the variance, and the mean absolute deviat
 
 ## 8. Coefficient of variation
 
-> **Key point:** The coefficient of variation divides the standard deviation by the mean, so we can compare the spread of features measured in different units.
+> **Key point:** The coefficient of variation divides the **standard deviation** (G-1871) by the mean, so we can compare the spread of features measured in different units.
 
-Salary in lakhs and experience in years cannot be compared directly: their means and standard deviations are in different units, like apples and oranges. Dividing each feature's standard deviation by its own mean removes the units and leaves a pure number. That number is the **coefficient of variation** (CV) (G-408), the unit-free spread met in [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age); here we write it as a percentage, $\sigma / \mu \times 100$ percent.
+Salary in lakhs and experience in years cannot be compared directly: their means and standard deviations are in different units, like apples and oranges. Dividing each **feature** (G-772)'s standard deviation by its own mean removes the units and leaves a pure number. That number is the **coefficient of variation** (CV) (G-408), the unit-free spread met in [a numerical column](../../../ML/02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#42-a-numerical-column-age); here we write it as a percentage, $\sigma / \mu \times 100$ percent.
 
 For the 714 known Titanic ages, the mean is 29.70 years and the standard deviation 14.53 years; for the 891 fares, the mean is 32.20 and the standard deviation 49.69. (The computer finds each standard deviation by the steps of section 5: distances from the mean, squares, their average, square root.) Then
 
@@ -365,10 +365,10 @@ The bigger the CV, the further the data spreads from its mean; the smaller, the 
 | Mean absolute deviation | $\sum \lvert x_i - \bar{x} \rvert / n$ | 1.2 | data units | less sensitive | its V-shaped curve has a sharp corner with no derivative, so it is rarely used |
 | Coefficient of variation | $\sigma / \mu \times 100$ percent | 47% | none | sensitive | has no units, so it compares features in different units |
 
-- Distances from the mean always add up to 0, so variance squares them.
-- The standard deviation is the variance brought back to the data's units, so it can be drawn on the data's own axis, where the variance cannot.
-- The sample mean is the point closest to its own sample, so dividing by $n$ is too small on average, by the factor $(n-1)/n$; the sample variance divides by $n - 1$ (Bessel's correction).
-- The CV compares the spread of features in different units, because dividing by the mean removes the units.
+- Distances from the mean always add up to 0, so **variance** (G-2074) squares them.
+- The **standard deviation** (G-1871) is the variance brought back to the data's units, so it can be drawn on the data's own axis, where the variance cannot.
+- The sample mean is the point closest to its own **sample** (G-1731), so dividing by $n$ is too small on average, by the factor $(n-1)/n$; the **sample variance** (G-2229) divides by $n - 1$ (**Bessel's correction** (G-279)).
+- The CV compares the spread of **features** (G-772) in different units, because dividing by the mean removes the units.
 - Two features with the same mean can be spread very differently, so a measure of spread is needed beside the centre.
 
 ## 10. Sources
@@ -393,19 +393,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Measure of dispersion (G-1206) | A number that describes how spread out a column is around its centre. |
 | Mean absolute deviation (G-1193) | The average absolute distance of the points from their mean. Sometimes also abbreviated MAD, which clashes with the median absolute deviation. |
 | Coefficient of variation (CV) (G-408) | Standard deviation divided by mean: spread relative to the average. |
-| Range (G-1626) | The simplest measure of spread: the largest value minus the smallest. |
 | Sample variance $s^2$ (G-2229) | The variance computed from a sample, $s^2$: the squared distances from the sample mean, summed and divided by $n - 1$; dividing by $n - 1$ instead of $n$ makes it right on average as an estimate of the population variance. |
+| Range (G-1626) | The simplest measure of spread: the largest value minus the smallest. |
 | Bessel's correction (G-279) | Dividing by $n - 1$ instead of $n$, so the sample variance is right on average. |
 | Variance around a point $v$ (G-2228) | The average squared distance of the values to $v$; smallest when $v$ is the sample mean. |
 | ddof (G-549) | The NumPy and pandas argument that sets the number subtracted from $n$ in the variance's denominator: `ddof=1` divides by $n - 1$ (sample variance), `ddof=0` by $n$. NumPy defaults to 0, pandas to 1. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
 | [Population mean ($\mu$)](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (G-1524) | The mean of every value in the population. |
-| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Sample mean ($\bar{x}$)](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (G-1725) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Biased estimator](../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#52-biased-but-consistent) (G-289) | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |

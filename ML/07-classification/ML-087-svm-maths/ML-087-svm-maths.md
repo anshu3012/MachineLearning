@@ -163,7 +163,7 @@ The scaling effect is why the $\pm 1$ equations are useful. While an optimiser a
 
 ### 4.1 Green points above $\pi^+$, red points below $\pi^-$
 
-> **Key point:** Green: $w^T x + b \geq 1$. Red: $w^T x + b \leq -1$. Support vectors give exactly ±1.
+> **Key point:** Green: $w^T x + b \geq 1$. Red: $w^T x + b \leq -1$. **Support vectors** (G-1923) give exactly ±1.
 
 Each training point $x_i$ is one **observation** (G-1374; one record, a row of the data table). Its coordinates are its **features** (G-772; input variables, one column each), and its class is the **target** (G-1949; the output we predict).
 
@@ -187,7 +187,7 @@ Both become one **constraint** (G-456), for every training point $i = 1, \dots, 
 
 $$y_i\thinspace(w^T x_i + b) \geq 1$$
 
-with equality for the support vectors. Figure 4 checks this on the data of [the margin of a line](../ML-086-svm-intuition/ML-086-svm-intuition.md#5-measuring-the-margin-of-a-line), whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$, whose target is $y_i = -1$, the steps are:
+with equality for the **support vectors** (G-1923). Figure 4 checks this on the data of [the margin of a line](../ML-086-svm-intuition/ML-086-svm-intuition.md#5-measuring-the-margin-of-a-line), whose best line is $w = (0.049, 0.898)$, $b = -4.485$. For the red point $(2.5, 3)$, whose target is $y_i = -1$, the steps are:
 
 $$w^T x + b = 0.049 \times 2.5 + 0.898 \times 3 - 4.485$$
 
@@ -203,7 +203,7 @@ The whole formula for the margin relies on these constraints. If a red point ent
 
 ## 5. The margin in terms of w
 
-> **Key point:** Project the vector between two support vectors onto the unit vector $w / \lVert w \rVert$. The result is d = $2/\lVert w \rVert$.
+> **Key point:** Project the vector between two **support vectors** (G-1923) onto the unit vector $w / \lVert w \rVert$. The result is d = $2/\lVert w \rVert$.
 
 ### 5.1 The derivation
 
@@ -211,7 +211,7 @@ The whole formula for the margin relies on these constraints. If a red point ent
 >
 > $$d = (x_2 - x_1) \cdot w / \lVert w \rVert$$
 
-Take one support vector on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
+Take one **support vector** (G-1923) on each edge: $x_1$ on $\pi^-$ and $x_2$ on $\pi^+$ (Figure 5). The vector from $x_1$ to $x_2$ is $x_2 - x_1$. The vector crosses the margin, but at a slant, so its length is not the margin.
 
 ![The margin is the projection of $x_2 - x_1$ onto the unit vector $w / \lVert w \rVert$](images/distance.png){height=38%}
 
@@ -254,13 +254,13 @@ $$d = \frac{2}{0.899} = 2.22$$
 
 The value 2.22 is the margin $d$ measured in [the margin of a line](../ML-086-svm-intuition/ML-086-svm-intuition.md#5-measuring-the-margin-of-a-line). The $b$ cancelled out: the margin depends only on $w$. The margin $d$ is the full width between $\pi^+$ and $\pi^-$; the one-sided distance from $\pi$ to the nearest point, called the margin in [the weakness of the perceptron](../ML-070-perceptron-code/ML-070-perceptron-code.md#6-the-weakness-the-decision-boundary-stops-too-early), is half of it, $1/\lVert w \rVert$.
 
-> **Extra:** The derivation also answers "why 1?". With $\pi^\pm: w^T x + b = \pm k$, the same steps give $d = 2k / \lVert w \rVert$. The new margin is the old one times a constant, so the same $w$ and $b$ are best. Equivalently, dividing $w$ and $b$ by $k$ turns $\pm k$ back into $\pm 1$ without moving any line. Fixing the support vectors at exactly $\pm 1$ simply picks one scale for $w$ and $b$.
+> **Extra:** The derivation also answers "why 1?". With $\pi^\pm: w^T x + b = \pm k$, the same steps give $d = 2k / \lVert w \rVert$. The new margin is the old one times a constant, so the same $w$ and $b$ are best. Equivalently, dividing $w$ and $b$ by $k$ turns $\pm k$ back into $\pm 1$ without moving any line. Fixing the **support vectors** (G-1923) at exactly $\pm 1$ simply picks one scale for $w$ and $b$.
 
 ## 6. The optimisation problem
 
 > **Key point:** Find w and b that maximise $2/\lVert w \rVert$, subject to $y_i (w^T x_i + b) \geq 1$ for every point.
 
-Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its constraint. Two symbols need an instance first:
+Putting the pieces together, SVM looks for the $w$ and $b$ that make the margin as large as possible while every point respects its **constraint** (G-456). Two symbols need an instance first:
 
 - **max versus arg max.** $\max$ returns the largest value of a function; $\arg\max$ returns the input that produces it. For the margin $2/\lVert w \rVert$, the best $w$ is $(0.049, 0.898)$:
 
@@ -290,7 +290,7 @@ Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the 
 
 ![The optimisation as a search over directions of w, on the 16 points of the earlier example. Left: for one direction, the line in the middle of the widest gap it allows (dashed: $\pi^+$ and $\pi^-$). Right: that widest margin against the angle of w; the maximum, 2.22, is at the direction of the SVM's w.](images/margin_sweep.gif)
 
-> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the hard-margin SVM. `kernel="linear"` keeps the straight hyperplane of this Note; other kernels first lift the data into more dimensions, where a flat hyperplane can separate classes that no straight line separates in the original features. That lifting is the **[**kernel trick**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) (G-1008)** (taught in full later).
+> **Python:** scikit-learn solves this problem for us. A very large `C` makes `SVC` behave like the **hard-margin SVM** (G-879). `kernel="linear"` keeps the straight hyperplane of this Note; other kernels first lift the data into more dimensions, where a flat hyperplane can separate classes that no straight line separates in the original features. That lifting is the **[**kernel trick**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick) (G-1008)** (taught in full later).
 >
 > ```python
 > import numpy as np
@@ -306,7 +306,7 @@ Maximising $2/\lVert w \rVert$ is the same as minimising $\lVert w \rVert$: the 
 
 ## 7. The limit: hard-margin SVM
 
-> **Key point:** The formulation needs perfectly separable data. A single point on the wrong side makes the constraints impossible to meet.
+> **Key point:** The formulation needs perfectly separable data. A single point on the wrong side makes the **constraints** (G-456) impossible to meet.
 
 Real data is often not perfectly separable (ISL §9.1.5). Usually such data is **almost** linearly separable, with a few points on the wrong side, or not linearly separable at all.
 
@@ -328,8 +328,8 @@ The formulation of this Note is called the **hard-margin SVM** (G-879): it works
 
 - $w$ is perpendicular to all three hyperplanes, because they are parallel; $b$ shifts them.
 - Scaling $w$ and $b$ leaves $\pi$ in place but moves $\pi^+$ and $\pi^-$: a smaller $\lVert w \rVert$ means a wider margin, so the search for the best line becomes a search over $w$ and $b$ alone.
-- The target values $\pm 1$ merge the two class rules into one constraint, so one formula covers every point.
-- Hard-margin SVM fails as soon as one point is on the wrong side, because then no $w$ and $b$ satisfy every constraint; the soft margin fixes this.
+- The target values $\pm 1$ merge the two class rules into one **constraint** (G-456), so one formula covers every point.
+- **Hard-margin SVM** (G-879) fails as soon as one point is on the wrong side, because then no $w$ and $b$ satisfy every constraint; the soft margin fixes this.
 - So the picture of the widest band becomes a problem a computer can solve: find the shortest $w$ that keeps every point on its correct side.
 
 ## 9. Sources

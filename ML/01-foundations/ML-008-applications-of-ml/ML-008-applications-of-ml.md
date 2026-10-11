@@ -260,7 +260,7 @@ The same idea works in any factory, not only Tesla's. Predictive maintenance is 
 
 ## 7. Social media
 
-> **Key point:** Sentiment analysis turns millions of tweets into a measure of what people think. That measure can be sold as a forecast.
+> **Key point:** **Sentiment analysis** (G-1769) turns millions of tweets into a measure of what people think. That measure can be sold as a forecast.
 
 ### 7.1 Sentiment analysis
 
@@ -292,7 +292,7 @@ Figure 8 shows three real reviews of *Dunkirk* and the labels the model gave the
 
 ### 7.2 Turning tweets into profit
 
-> **Key point:** Sentiment analysis of tweets about an event can predict its result. The prediction is worth the most to people who trade shares.
+> **Key point:** **Sentiment analysis** (G-1769) of tweets about an event can predict its result. The prediction is worth the most to people who trade shares.
 
 For many years, Twitter earned very little money. Facebook and Google had become profitable within a few years, and Twitter's investors feared the company would have to shut down for lack of income. One reported plan to earn money was to use the tweets themselves, through sentiment analysis.
 

@@ -32,7 +32,7 @@ The Notebook (`DL-023-data-scaling-in-ann.ipynb`) runs every step.
 
 ## 2. Prerequisites
 
-- [**Standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) and [**normalization**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1349): the two ways to put features on one scale.
+- [**Standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) and [**normalization**](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1349): the two ways to put **features** (G-772) on one scale.
 - [**Gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling) (G-862): what unscaled inputs do to the shape of the loss.
 - [Customer churn](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set): a Keras network and its validation accuracy.
 
@@ -42,7 +42,7 @@ The Notebook (`DL-023-data-scaling-in-ann.ipynb`) runs every step.
 
 ### 3.1 The data and the network
 
-> **Key point:** 400 users, two features on very different scales, one 0/1 target; one hidden layer of 128 ReLU nodes.
+> **Key point:** 400 users, two features on very different scales, one 0/1 **target** (G-1949); one hidden layer of 128 ReLU nodes.
 
 The data is `Social_Network_Ads.csv`, also used in the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#61-the-data) (G-1874). It holds 400 users of a social network, and we keep three columns:
 
@@ -52,7 +52,7 @@ The data is `Social_Network_Ads.csv`, also used in the [**standardization**](../
 | EstimatedSalary | 15,000 to 150,000 | estimated yearly salary |
 | Purchased | 0 or 1 | **target:** 1 if the user bought the advertised product |
 
-Age is in tens and salary in tens of thousands: the salary feature is about 2,000 times larger. We split 80/20, leaving 320 users for training and 80 for validation.
+Age is in tens and salary in tens of thousands: the salary **feature** (G-772) is about 2,000 times larger. We split 80/20, leaving 320 users for training and 80 for validation.
 
 The network has an input layer of 2 nodes, one hidden layer of 128 ReLU nodes and one sigmoid output node, since this is binary classification. ReLU is the activation that returns its input if positive and 0 otherwise; sigmoid squeezes any number into the range 0 to 1, so the output is the probability of buying. The network is compiled with **Adam** (G-169; an optimizer, the rule that turns gradients into weight updates), the loss binary cross-entropy (the usual loss for two classes) and the metric accuracy, and trained for 100 **epochs** (full passes over the training data).
 
@@ -92,7 +92,7 @@ In Figure 2, watch how almost every point lands on one of the two dashed lines: 
 
 > **Key point:** For a first-layer weight, gradient = (error signal of its node) × (its input).
 
-Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. [**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) computes the gradient $\partial L/\partial w$ of each weight (how much the loss $L$ changes when that weight changes). Gradient descent then moves each weight against its gradient, by a step scaled by the learning rate $\eta$:
+Call the two inputs $x_1$ (age) and $x_2$ (salary), and their weights into one hidden node $w_1$ and $w_2$. [**Backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) computes the gradient $\partial L/\partial w$ of each weight (how much the loss $L$ changes when that weight changes). **Gradient descent** (G-862) then moves each weight against its gradient, by a step scaled by the learning rate $\eta$:
 
 $$w_{\text{new}} = w_{\text{old}} - \eta\thinspace\frac{\partial L}{\partial w}$$
 
@@ -125,11 +125,11 @@ $$69{,}742 / 38 \approx 1{,}835$$
 
 After standardizing, both are around 0.01, within a factor of 2.
 
-> **Extra:** The Notebook tests this by scaling one feature at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
+> **Extra:** The Notebook tests this by scaling one **feature** (G-772) at a time. Standardizing only salary gives 85% to 86% validation accuracy over the last 10 epochs; standardizing only age leaves the accuracy jumping between 35% and 85%. A 100 times smaller [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) on the raw features does not help either: the network then predicts "did not buy" for everyone (65%).
 
 ### 4.2 The shape of the loss
 
-> **Key point:** Unscaled inputs make the loss a long, narrow valley that gradient descent zigzags across or crawls along; scaled inputs make it round.
+> **Key point:** Unscaled inputs make the loss a long, narrow valley that **gradient descent** (G-862) zigzags across or crawls along; scaled inputs make it round.
 
 The same effect has a geometric picture, taught in [the effect of feature scaling](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#9-the-effect-of-feature-scaling). With inputs on very different scales, the [contours](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) of the loss are long, narrow ellipses: steep in one direction, flat in the other. A step large enough to make progress along the flat direction makes gradient descent oscillate across the valley; a step small enough for the steep direction makes it crawl along the valley floor. Either way it is slow. With inputs on the same scale, the contours are nearly circles, and gradient descent heads straight for the minimum (LeCun et al. 1998, §4.3 and §5.3).
 
@@ -149,11 +149,11 @@ Figure 5 shows both pictures for our data on the simplest model, a single sigmoi
 
 ## 5. The fix: scale the inputs
 
-> **Key point:** Standardize (or normalize) every input feature, fitting the scaler on the training rows only. The same network then reaches 94%.
+> **Key point:** Standardize (or normalize) every input **feature** (G-772), fitting the scaler on the training rows only. The same network then reaches 94%.
 
 ### 5.1 Standardization or normalization
 
-> **Key point:** Either works; standardization is the usual choice, normalization when a feature's minimum and maximum are known.
+> **Key point:** Either works; standardization is the usual choice, normalization when a **feature** (G-772)'s minimum and maximum are known.
 
 Both techniques put the features on one scale (see the [feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief)):
 
@@ -195,13 +195,13 @@ Figure 6 lets each panel choose its own axis numbers, which hides how different 
 
 ![The 320 training users while each feature has its mean removed and is divided by its standard deviation. One unit has the same length on both axes. The title gives the standard deviation (spread) of each feature](images/rescale.gif){height=45%}
 
-In Figure 7, watch the shape of the cloud. In raw numbers the spread of salary is 34,377 and the spread of age is 10.2, about 3,400 times smaller, so the cloud is a thin vertical line: to the network, only salary varies. As both features are standardized, the line widens into a round cloud with spread 1 in both directions, and both features vary by the same amount.
+In Figure 7, watch the shape of the cloud. In raw numbers the spread of salary is 34,377 and the spread of age is 10.2, about 3,400 times smaller, so the cloud is a thin vertical line: to the network, only salary varies. As both **features** (G-772) are standardized, the line widens into a round cloud with spread 1 in both directions, and both features vary by the same amount.
 
 The result is Figure 1 (left, blue). The validation accuracy climbs steadily: 80% after 2 epochs, 94% after 20, and it stays there. The training loss falls smoothly from 0.67 to 0.24.
 
 ### 5.3 When to scale
 
-> **Key point:** Scale the inputs of every network; features already on the same known range need only a simple division to bring them to 0 to 1.
+> **Key point:** Scale the inputs of every network; **features** (G-772) already on the same known range need only a simple division to bring them to 0 to 1.
 
 Scaling is a standard pre-processing step whenever data goes into a neural network: LeCun et al. (1998, §4.3) recommend shifting every input to mean about 0 and giving all inputs about the same spread. In cases like this one, scaling decides whether the network learns at all. Data whose features already share one range, such as the pixels of an image, which all run from 0 to 255, needs only the simplest scaling: divide by 255 (see [scaling the pixels](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels)).
 
@@ -216,7 +216,7 @@ Scaling is a standard pre-processing step whenever data goes into a neural netwo
 | Training loss after 100 epochs | 55 | 0.24 |
 
 - A weight's gradient is proportional to its input, so large inputs dominate the updates.
-- Geometrically, unscaled inputs stretch the loss into a narrow valley that gradient descent zigzags across or crawls along.
+- Geometrically, unscaled inputs stretch the loss into a narrow valley that **gradient descent** (G-862) zigzags across or crawls along.
 - Standardize (or normalize) every input, so every weight gets gradients of a similar size (0.016 and 0.009 in the table).
 - Fit the scaler on the training data only, so nothing from the test rows leaks into training and the test score stays a fair check.
 - Make it a habit: scale before any data reaches a network.

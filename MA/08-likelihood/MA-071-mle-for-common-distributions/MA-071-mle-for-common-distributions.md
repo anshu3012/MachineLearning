@@ -16,9 +16,9 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/exponential-dis
 
 > **Key point:** Following the maximum likelihood recipe by hand gives three famous answers: the binomial's $\hat p$ is the share of successes, the exponential's $\hat\lambda$ is one over the average waiting time, and the normal's $\hat\mu$ and $\hat\sigma$ are the mean and standard deviation of the data.
 
-This Note follows three explanations by Starmer (StatQuest, statquest.org): "Maximum Likelihood for the Binomial Distribution", "Maximum Likelihood for the Exponential Distribution" and "Maximum Likelihood For the Normal Distribution".
+This Note follows three explanations by Starmer (StatQuest, statquest.org): "Maximum Likelihood for the Binomial Distribution", "Maximum Likelihood for the **Exponential Distribution** (G-733)" and "Maximum Likelihood For the Normal Distribution".
 
-[The maximum likelihood recipe](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#101-the-recipe) is: write the likelihood, take the log, differentiate, set the derivative to 0, solve. This Note runs it on three distributions, each in three steps (words, formula, small numbers):
+[The maximum likelihood recipe](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#101-the-recipe) is: write the likelihood, take the log, differentiate, set the **derivative** (G-595) to 0, solve. This Note runs it on three distributions, each in three steps (words, formula, small numbers):
 
 - binomial: a share of yes answers ([Section 2](#2-the-binomial-distribution), Figure 1);
 - exponential: waiting times ([Section 3](#3-the-exponential-distribution));
@@ -88,13 +88,13 @@ The likelihood there is 0.294, higher than at every $p$ in the table.
 > **Key point:** The same steps with letters give $\hat p = x/n$: successes divided by trials.
 
 1. **In words:** for $x$ successes in $n$ trials, the **MLE of a binomial $p$** (G-1241) is the observed share of successes.
-2. **Formula:** the log-likelihood and its derivative are
+2. **Formula:** the **log-likelihood** (G-1113) and its derivative are
    $$\ell(p) = \log\binom{n}{x} + x\log p$$
 
    $$\qquad + (n - x)\log(1 - p)$$
 
    $$\frac{d\ell}{dp} = \frac{x}{p} - \frac{n - x}{1 - p}$$
-   Setting the derivative to 0 and multiplying by $p(1 - p)$:
+   Setting the **derivative** (G-595) to 0 and multiplying by $p(1 - p)$:
    $$x(1 - p) - (n - x)p = 0$$
    The terms $-xp$ and $+xp$ cancel, leaving
    $$x - np = 0$$
@@ -122,7 +122,7 @@ In Figure 3, watch the width, not the peak: ten times more data leaves $\hat p$ 
 
 > **Key point:** $f(x) = \lambda e^{-\lambda x}$ for $x \ge 0$. The rate $\lambda$ is how many events happen per unit time on average; the average wait is $1/\lambda$.
 
-The **exponential distribution** (G-733) models the time between random events: the wait for the next text message, the time until the next person opens a web page. The distribution is right-skewed: short waits are common, long waits rare. The [**sampling distribution**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1736) used it as a skewed population.
+The **exponential distribution** (G-733) models the time between random events: the wait for the next text message, the time until the next person opens a web page. The distribution is right-skewed: short waits are common, long waits rare. The [**sampling distribution**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1736) used it as a skewed **population** (G-1525).
 
 1. **In words:** the density starts at height $\lambda$ at $x = 0$ and falls off exponentially. The **rate parameter** (G-1636) $\lambda$ is the average number of events per unit of time.
 2. **Formula:**
@@ -154,7 +154,7 @@ In Figure 5, watch the trade-off in the top panel. A small rate gives a flat, lo
 
 ### 3.3 The derivation
 
-> **Key point:** $\ell(\lambda) = n\log\lambda - \lambda\sum x_i$; its derivative $n/\lambda - \sum x_i$ is 0 at $\hat\lambda = n/\sum x_i$.
+> **Key point:** $\ell(\lambda) = n\log\lambda - \lambda\sum x_i$; its **derivative** (G-595) $n/\lambda - \sum x_i$ is 0 at $\hat\lambda = n/\sum x_i$.
 
 1. **In words:** the log turns $\lambda^n$ into $n\log\lambda$ and the exponential into its exponent. Then differentiate and set to 0.
 2. **Formula:**
@@ -203,11 +203,11 @@ The likelihood of the $n$ mice is the product of their heights:
 
 $$L(\mu, \sigma \mid x_1, \dots, x_n) = \prod_{i=1}^{n} f(x_i \mid \mu, \sigma)$$
 
-We need two derivatives of $L$: one with respect to $\mu$ (holding $\sigma$ constant) and one with respect to $\sigma$ (holding $\mu$ constant). Each MLE is where its derivative is 0. As for the binomial, we take the log first.
+We need two **derivatives** (G-595) of $L$: one with respect to $\mu$ (holding $\sigma$ constant) and one with respect to $\sigma$ (holding $\mu$ constant). Each MLE is where its derivative is 0. As for the binomial, we take the log first.
 
 ### 4.2 The log-likelihood, one step at a time
 
-> **Key point:** The log of one normal density is $-\tfrac12\log(2\pi) - \log\sigma - (x - \mu)^2/(2\sigma^2)$; summing over $n$ points gives the log-likelihood.
+> **Key point:** The log of one normal density is $-\tfrac12\log(2\pi) - \log\sigma - (x - \mu)^2/(2\sigma^2)$; summing over $n$ points gives the **log-likelihood** (G-1113).
 
 1. **In words:** the log splits each density into three pieces: a constant, minus $\log\sigma$, and minus the squared distance from the mean divided by $2\sigma^2$.
 2. **The steps**, for one density. First rewrite the constant in front. Since
@@ -252,7 +252,7 @@ Figure 7 is that surface seen from above, a **contour map** (see [contour maps](
 > **Key point:** Differentiating with respect to $\mu$ (with $\sigma$ held constant) and setting to 0 gives $\hat\mu = \bar{x}$.
 
 1. **In words:** only the last term of $\ell$ contains $\mu$. Treat $\sigma$ as a constant, take the partial derivative with respect to $\mu$ (see [partial derivatives](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives)), set it to 0.
-2. **Formula:** by the chain rule, the derivative of $(x_i - \mu)^2$ with respect to $\mu$ is $2(x_i - \mu) \times (-1)$, so
+2. **Formula:** by the chain rule, the **derivative** (G-595) of $(x_i - \mu)^2$ with respect to $\mu$ is $2(x_i - \mu) \times (-1)$, so
    $$\frac{\partial\ell}{\partial\mu} = \frac{1}{\sigma^2}\sum_{i=1}^{n}(x_i - \mu)$$
    Split the sum into the two pieces:
    $$\frac{1}{\sigma^2}\Big(\sum_{i=1}^{n} x_i - n\mu\Big)$$
@@ -271,7 +271,7 @@ The answer does not depend on $\sigma$: whatever the width, the best centre is t
 > **Key point:** Differentiating with respect to $\sigma$ (with $\mu$ held at $\hat\mu$) gives $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$.
 
 1. **In words:** now treat $\mu$ as a constant. Two terms of $\ell$ contain $\sigma$: $-n\log\sigma$ and the sum divided by $2\sigma^2$.
-2. **Formula:** the derivative of $-n\log\sigma$ is $-n/\sigma$. Writing $1/(2\sigma^2)$ as $\tfrac12\sigma^{-2}$, its derivative is $-\sigma^{-3}$, so the minus sign in front makes the second term positive:
+2. **Formula:** the **derivative** (G-595) of $-n\log\sigma$ is $-n/\sigma$. Writing $1/(2\sigma^2)$ as $\tfrac12\sigma^{-2}$, its derivative is $-\sigma^{-3}$, so the minus sign in front makes the second term positive:
    $$\frac{\partial\ell}{\partial\sigma} = -\frac{n}{\sigma} + \frac{1}{\sigma^3}\sum_{i=1}^{n}(x_i - \mu)^2 = 0$$
    Multiply by $\sigma^3$:
    $$-n\sigma^2 + \sum_{i=1}^{n}(x_i - \mu)^2 = 0$$
@@ -327,7 +327,7 @@ An estimator is **unbiased** (G-2034) if its average over many samples equals th
 2. **Formula:**
    $$\text{average of } \hat\sigma^2_{\text{ML}} = \frac{n - 1}{n}\thinspace\sigma^2$$
    $$\text{average of } s^2 = \sigma^2$$
-3. **Example:** for samples of 5 mice from a population with $\sigma^2 = 4$, the MLE variance averages
+3. **Example:** for samples of 5 mice from a **population** (G-1525) with $\sigma^2 = 4$, the MLE variance averages
    $$\frac{4}{5} \times 4 = 3.2$$
    while $s^2$ averages 4. With $n = 100$ the factor is 0.99, and the difference hardly matters. The Notebook draws 100,000 samples of 5 and gets 3.21 and 4.01.
 
@@ -356,11 +356,11 @@ So maximum likelihood does not promise an unbiased estimate. Maximum likelihood 
 | Normal | $\mu$ | $-n\log\sigma - \sum(x_i - \mu)^2/(2\sigma^2) + \text{const}$ | $\hat\mu = \bar{x}$ | mice: 32 |
 | Normal | $\sigma$ | same | $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$ | mice: $\hat\sigma = 2$ |
 
-- Every derivation follows the same recipe: product of densities, log, derivative, set to 0, solve. So each familiar answer below is proved, not guessed.
+- Every derivation follows the same recipe: product of densities, log, **derivative** (G-595), set to 0, solve. So each familiar answer below is proved, not guessed.
 - The binomial MLE is the observed share of successes, so the everyday guess (4 of 7 people) is also the maximum likelihood answer.
-- The exponential distribution $\lambda e^{-\lambda x}$ models waiting times; its MLE rate is one over the average wait, because a rate of $\lambda$ events per second means one event every $1/\lambda$ seconds on average.
+- The **exponential distribution** (G-733) $\lambda e^{-\lambda x}$ models waiting times; its MLE rate is one over the average wait, because a rate of $\lambda$ events per second means one event every $1/\lambda$ seconds on average.
 - The normal MLEs are the sample mean and the standard deviation with $n$ in the denominator, so `stats.norm.fit` and NumPy's default `std` give the same numbers for the mice.
-- The MLE variance is biased low by the factor $(n - 1)/n$, because the data sit a little closer to their own mean $\bar x$ than to the true mean; the sample variance with $n - 1$ is unbiased. Both agree for large $n$, because the factor goes to 1.
+- The MLE variance is **biased** (G-289) low by the factor $(n - 1)/n$, because the data sit a little closer to their own mean $\bar x$ than to the true mean; the sample variance with $n - 1$ is **unbiased** (G-2034). Both agree for large $n$, because the factor goes to 1.
 - SciPy's `fit` methods compute maximum likelihood estimates by default, so they reproduce the hand formulas (the Notebook checks each one).
 
 ## 7. Sources
@@ -382,15 +382,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| MLE of a binomial $p$ (G-1241) | The success probability of a binomial that makes the observed data most likely: the observed share of successes, $\hat p = x/n$. |
 | Exponential distribution (G-733) | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |
+| MLE of a binomial $p$ (G-1241) | The success probability of a binomial that makes the observed data most likely: the observed share of successes, $\hat p = x/n$. |
 | Rate parameter $\lambda$ (G-1636) | The average number of events per unit time; the average wait is $1/\lambda$. |
 | MLE of an exponential rate (G-1243) | The rate of an exponential distribution that makes the observed waiting times most likely: one over their mean, $\hat\lambda = n/\sum x_i = 1/\bar{x}$. |
 | Scale (in SciPy) (G-1744) | SciPy's parameter for the exponential distribution, the average wait $1/\lambda$. |
 | MLE of a normal distribution (G-1242) | The normal curve that makes the data most likely: its mean is the sample mean and its variance the average squared distance from that mean (dividing by $n$), $\hat\mu = \bar{x}$ and $\hat\sigma^2 = \sum(x_i - \bar{x})^2/n$. |
 | Unbiased estimator (G-2034) | A formula that guesses a true value from a sample (an estimator) and is right on average: its average over many samples equals the true value. |
 | Biased estimator (G-289) | A formula for estimating a value from data (an estimator) that is systematically too high or too low on average. |
-| [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
 | [Sampling distribution](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#1-overview) (G-1736) | The distribution of a statistic (such as the mean) computed from many independent samples of the same size from one population; it shows how much that statistic varies from sample to sample. |
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |

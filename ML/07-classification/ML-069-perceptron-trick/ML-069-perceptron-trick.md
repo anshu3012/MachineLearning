@@ -25,7 +25,7 @@ Logistic regression can be explained in two ways:
 - **Geometric:** find a line that separates the classes.
 - **Probabilistic:** predict the probability that a point belongs to a class.
 
-These Notes build it step by step. This Note starts with the **perceptron trick** (G-1485), a very simple geometric method. The perceptron trick does not give the best possible line (Bishop §4.1.7), but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and gradient descent.
+These Notes build it step by step. This Note starts with the **perceptron trick** (G-1485), a very simple geometric method. The perceptron trick does not give the best possible line (Bishop §4.1.7), but it explains the idea that the later Notes improve on: the sigmoid function, the loss function and **gradient descent** (G-862).
 
 ## 2. When logistic regression works
 
@@ -37,7 +37,7 @@ Take a dataset of students. Each student is one **observation** (G-1374; one rec
 
 In Figure 1 each dot is one observation. In the left panel the green dots (placed) and blue dots (not placed) sit in two groups, and the black line has one group on each side. In the right panel one class forms a ring around the other. Data is **linearly separable** (G-1103) when a straight line can split the two classes (Figure 1, left). With 3 features the divider is a plane, and with more features a [**hyperplane**](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911). The divider between the two classes is the model's [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): points on one side are predicted placed, points on the other side not placed. A few points on the wrong side are fine: the data only needs to be almost separable.
 
-Logistic regression draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
+**Logistic regression** (G-1120) draws a straight divider, just as linear regression fits a straight line. So on data like Figure 1 (right), where one class surrounds the other, it cannot do well.
 
 ## 3. The line and its two sides
 
@@ -79,7 +79,7 @@ It is negative: negative side.
 
 > **Key point:** Changing C shifts the line without turning it. Changing A or B turns it.
 
-The perceptron trick moves the line by changing $A$, $B$ and $C$. Each one has its own effect (Figure 3):
+The **perceptron trick** (G-1485) moves the line by changing $A$, $B$ and $C$. Each one has its own effect (Figure 3):
 
 ![Changing C, A or B, one at a time](images/abc.png){height=50%}
 
@@ -120,7 +120,7 @@ An everyday picture: a farmer builds a fence between sheep and goats. Each time 
 
 ## 6. Moving the line towards a point
 
-> **Key point:** Add a 1 to the point's coordinates. For a negative point on the positive side, subtract them from (A, B, C). For a positive point on the negative side, add them.
+> **Key point:** Add a 1 to the point's coordinates. For a negative point on the positive side, subtract them from (A, B, C). For a positive point on the **negative side** (G-1529), add them.
 
 ### 6.1 A negative point on the positive side
 
@@ -144,7 +144,7 @@ Now the point gives:
 
 $$-3 \times 5 + 1 \times 2 + 4 = -9$$
 
-The value is below 0: it is on the negative side, as it should be (Figure 6, left).
+The value is below 0: it is on the **negative side** (G-1529), as it should be (Figure 6, left).
 
 ### 6.2 A positive point on the negative side
 
@@ -195,7 +195,7 @@ $$\eta\thinspace(p \cdot p) = 0.1 \times (5 \times 5 + 2 \times 2 + 1 \times 1)$
 $$\eta\thinspace(p \cdot p) = 0.1 \times 30 = 3$$
 $$(w - \eta p) \cdot p = 21 - 3 = 18$$
 
-Here $\cdot$ is the dot product: multiply matching entries and add ([Section 7.1](#71-notation) spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give the same 18:
+Here $\cdot$ is the **dot product** (G-634): multiply matching entries and add ([Section 7.1](#71-notation) spells it out). The new coefficients $(1.5, 2.8, 4.9)$ give the same 18:
 
 $$1.5 \times 5 + 2.8 \times 2 + 4.9 \times 1 = 18$$
 
@@ -251,7 +251,7 @@ Figure 8 applies it to the three points of Sections [3](#3-the-line-and-its-two-
 
 > **Key point:** w_new = w_old + η (y − ŷ) x. The factor (y − ŷ) is 0, +1 or −1 and picks the right action automatically.
 
-The algorithm so far needs two checks: a negative point on the positive side, and a positive point on the negative side. Both fit into a single rule, where $y$ is the true class and $\hat{y}$ the predicted one:
+The algorithm so far needs two checks: a negative point on the positive side, and a positive point on the **negative side** (G-1529). Both fit into a single rule, where $y$ is the true class and $\hat{y}$ the predicted one:
 
 $$w_{\text{new}} = w_{\text{old}} + \eta\thinspace(y - \hat{y})\thinspace x$$
 
@@ -266,7 +266,7 @@ So the loop needs no if-statements: for each random point, compute $\hat{y}$ and
 
 Figure 5 shows all four rows at work. Every frame where the line stays is one of the first two rows ($y - \hat y = 0$). Picks 1 to 3, where a not-placed student sits on the green side, are the last row ($-1$, subtract). Picks 4 and 7, where a placed student sits on the blue side, are the third row ($+1$, add).
 
-> **Python:** The perceptron trick.
+> **Python:** The **perceptron trick** (G-1485).
 >
 > ```python
 > def step(z):
@@ -286,9 +286,9 @@ Figure 5 shows all four rows at work. Every frame where the line stays is one of
 
 ## 8. Summary
 
-- Logistic regression needs (almost) linearly separable classes, because it draws a straight divider; data where one class surrounds the other defeats it.
-- A line $Ax + By + C = 0$ has a positive and a negative side; plug a point in to find which, so the sign of the value is the model's prediction.
-- Perceptron trick: pick random points; move the line towards each misclassified one, so each mistake pulls the line until that point is on its correct side.
+- Logistic regression needs (almost) **linearly separable** (G-1103) classes, because it draws a straight divider; data where one class surrounds the other defeats it.
+- A line $Ax + By + C = 0$ has a positive and a **negative side** (G-1529); plug a point in to find which, so the sign of the value is the model's prediction.
+- **Perceptron trick** (G-1485): pick random points; move the line towards each misclassified one, so each mistake pulls the line until that point is on its correct side.
 - Update: $w \leftarrow w + \eta(y - \hat{y})x$, with a column of 1s in $x$; because $y - \hat{y}$ is 0, +1 or −1, one rule covers do nothing, add and subtract, and the small $\eta$ keeps one point from undoing what others taught.
 - The perceptron trick finds a separating line, but not necessarily the best one; which line it finds depends on the starting line and the order of the points (Bishop §4.1.7). The next Notes fix this.
 
@@ -314,13 +314,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Positive and negative side (G-1529) | The two halves of the plane on either side of a line $Ax + By + C = 0$: where $Ax + By + C$ is above 0 and where it is below 0; the perceptron predicts one class on each side. |
 | Step function (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Perceptron](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron) (G-1486) | The smallest building block of a neural network, one artificial neuron: it multiplies each input by a weight, adds the results and turns the sum into an output. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Converge](../../../DL/01-basics/DL-017-backpropagation-why/DL-017-backpropagation-why.md#9-when-to-stop-convergence) (G-469) | To settle at a minimum, with steps becoming negligible. |
-| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
-| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |

@@ -15,7 +15,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/pareto]
 
 ## 1. Overview
 
-> **Key point:** The Pareto distribution models quantities where a few items hold most of the total, such as wealth; it follows a power law, and with the right parameter it gives the famous 80-20 rule.
+> **Key point:** The **Pareto distribution** (G-1453) models quantities where a few items hold most of the total, such as wealth; it follows a power law, and with the right parameter it gives the famous 80-20 rule.
 
 ![Share of total wealth held by each fifth of the population under a Pareto distribution, for two values of $\alpha$](images/pareto_80_20.png)
 
@@ -23,7 +23,7 @@ Figure 1 shows what the Pareto distribution is known for. On the left, the riche
 
 The Pareto distribution is the third of the famous **non-Gaussian** (G-1334; not shaped like the bell-shaped normal curve) continuous distributions (see Figure 1 of [the uniform distribution](../MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution)). The Pareto distribution is common in financial and economic data. This Note covers:
 
-- the power law behind it (section 2);
+- the **power law** (G-1538) behind it (section 2);
 - its PDF and parameters (section 3);
 - how to recognise it in data (section 4);
 - how non-normal data is made normal (section 5).
@@ -32,7 +32,7 @@ The Pareto distribution is the third of the famous **non-Gaussian** (G-1334; not
 
 > **Key point:** A power law is a relationship $y = k\thinspace x^{a}$ in which one variable is proportional to a power of the other.
 
-The Pareto distribution is a special case of a **power law** (G-1538). The idea in plain words: every time the first quantity doubles, the second quantity is divided by the same fixed factor, however far along we are.
+The **Pareto distribution** (G-1453) is a special case of a **power law** (G-1538). The idea in plain words: every time the first quantity doubles, the second quantity is divided by the same fixed factor, however far along we are.
 
 A small case: let the first quantity be $x$ and the second be $y$, and suppose each doubling of $x$ divides $y$ by 4. Start at $x = 1$ with $y = 1$.
 
@@ -74,7 +74,7 @@ so each doubling divides $y$ by 4.
 
 > **Key point:** The Pareto principle says that roughly 20% of the causes produce 80% of the results, for example 20% of the people hold 80% of the wealth.
 
-The best-known consequence of a power law is the **80-20 rule**, or **Pareto principle** (G-54): about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
+The best-known consequence of a **power law** (G-1538) is the **80-20 rule**, or **Pareto principle** (G-54): about 20% of something accounts for about 80% of the result. In wealth, it says that 20% of the population controls 80% of the wealth, and the other 80% of the people share the remaining 20%.
 
 The Italian economist Vilfredo Pareto found this pattern while studying income and wealth data, and published it in his *Cours d'économie politique* (Pareto 1896–97); the distribution is named after him. The 80-20 split is not a law of nature, though: it holds only for one particular value of the distribution's parameter ([Section 3.4](#34-the-cdf-and-the-80-20-rule)).
 
@@ -93,7 +93,7 @@ In plain words, picture the savings of a town. Nobody has less than a floor amou
 - **$x_m$, the minimum value (scale):** the point on the x axis where the curve starts. No value is smaller than $x_m$.
 - **$\alpha$, the shape (tail index):** a positive number that controls the tail.
 
-The Pareto distribution is sometimes described as having one parameter, $\alpha$, because $x_m$ only sets the starting point and the units. But both are needed to write the PDF.
+The **Pareto distribution** (G-1453) is sometimes described as having one parameter, $\alpha$, because $x_m$ only sets the starting point and the units. But both are needed to write the PDF.
 
 ### 3.2 The Pareto PDF
 
@@ -113,7 +113,7 @@ $$f(x) = \frac{\alpha\thinspace x_m^{\alpha}}{x^{\alpha + 1}}$$
 
 The formula holds for $x \ge x_m$.
 
-Below $x_m$ the density is 0. The formula is a power law $k\thinspace x^{a}$ with $k = \alpha x_m^{\alpha}$ and $a = -(\alpha + 1)$; for the table, $k = 3$ and $a = -4$, which matches the rows above.
+Below $x_m$ the density is 0. The formula is a **power law** (G-1538) $k\thinspace x^{a}$ with $k = \alpha x_m^{\alpha}$ and $a = -(\alpha + 1)$; for the table, $k = 3$ and $a = -4$, which matches the rows above.
 
 Figure 3 shows the PDF (left) and the CDF (right) for three values of $\alpha$; section 3.3 reads it. The **CDF** (cumulative distribution function, see [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable)) gives, for each $x$, the share of values at or below $x$.
 
@@ -139,7 +139,7 @@ In wealth terms, a fat tail (small $\alpha$) means a few individuals hold huge a
 
 > **Key point:** The CDF is $1 - (x_m/x)^{\alpha}$; the 80-20 split holds only for $\alpha \approx 1.16$.
 
-The idea: pick a value $x$ and ask what share of the population lies above it. For a Pareto distribution that share falls by a fixed recipe, and the share at or below $x$ is what remains.
+The idea: pick a value $x$ and ask what share of the population lies above it. For a **Pareto distribution** (G-1453) that share falls by a fixed recipe, and the share at or below $x$ is what remains.
 
 Take $x_m = 1$ and $\alpha = 3$, and look at $x = 2$:
 
@@ -208,7 +208,7 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 >
 > $$\text{share held by the top } p = p^{\thinspace1 - 1/\alpha}$$
 >
-> Check against the 80-20 rule, with $\alpha = 1.16$:
+> Check against the **80-20 rule** (G-54), with $\alpha = 1.16$:
 >
 > $$1 - 1/1.16 = 0.139$$
 >
@@ -232,7 +232,7 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 - **Human settlements:** many people crowd into a small share of the land, and a few live spread over remote areas. Very roughly, 20% of the area holds 80% of the population.
 - **File sizes in internet traffic:** most files are small and a few are huge, so a small share of the files makes up most of the gigabytes transferred. Measured web file sizes follow a heavy, Pareto-like tail (Crovella and Bestavros 1997).
 
-> **Python:** The Pareto distribution in scipy.
+> **Python:** The **Pareto distribution** (G-1453) in scipy.
 >
 > ```python
 > from scipy import stats
@@ -248,13 +248,13 @@ In Figure 3 (right), a smaller $\alpha$ makes the CDF climb to 1 more slowly. Th
 
 ## 4. How to check whether data is Pareto
 
-> **Key point:** Two checks: a log-log plot, where a power law becomes a straight line, and a Q-Q plot against a fitted Pareto distribution.
+> **Key point:** Two checks: a log-log plot, where a power law becomes a straight line, and a Q-Q plot against a fitted **Pareto distribution** (G-1453).
 
 "Given a distribution, how would we know that it is Pareto?" is another common interview question. There are two answers.
 
 ### 4.1 The log-log plot
 
-> **Key point:** Taking logs of both sides turns a power law into a straight line, with the power as its slope.
+> **Key point:** Taking logs of both sides turns a **power law** (G-1538) into a straight line, with the power as its slope.
 
 The idea: a power law falls by a fixed factor at each doubling, so after taking the log of both quantities each doubling is the same step. Plot $\ln y$ against $\ln x$ ($\ln$ is the natural logarithm; this is a **log-log plot**, G-1114) and the points lie on a straight line.
 
@@ -288,11 +288,11 @@ $$\alpha \ln x_m - \alpha \ln x$$
 
 again a straight line, now with slope $-\alpha$.
 
-Figure 5 (middle) does this for 1,000 values from a Pareto distribution ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
+Figure 5 (middle) does this for 1,000 values from a **Pareto distribution** (G-1453) ($\alpha = 3$, blue) and 1,000 values from a log-normal distribution (orange). Both are right-skewed, but only the Pareto values give a straight line; the log-normal ones bend downwards. The scattered points at the far right are the few largest values; the next paragraph measures how much they vary.
 
 ### 4.2 The Q-Q plot against a Pareto distribution
 
-> **Key point:** Fit a Pareto distribution to the data, then draw a Q-Q plot against it; points on the line mean Pareto.
+> **Key point:** Fit a **Pareto distribution** (G-1453) to the data, then draw a Q-Q plot against it; points on the line mean Pareto.
 
 A **Q-Q plot** compares the quantiles (cut points) of the data with those of a distribution; points on a straight line mean a match. It can be drawn for any distribution (see [building a Q-Q plot](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#7-building-a-q-q-plot)). Here the theoretical distribution is a Pareto whose $\alpha$ is estimated from the data itself.
 
@@ -345,10 +345,10 @@ Figure 6 shows why step 3 matters, on the 1,000 Pareto values of section 3.5. Th
 | Log-log PDF | slope $-(\alpha + 1)$ | slope $-4$ | a straight line on log-log axes is the sign of a power law |
 
 - Larger $\alpha$: higher peak at $x_m$, thinner tail, less inequality. Smaller $\alpha$: fatter tail, more inequality, because a fat tail means a few items hold huge amounts.
-- The 80-20 rule holds only for $\alpha \approx 1.16$, so "Pareto" does not by itself mean an 80-20 split ($\alpha = 3$ gives 34%).
+- The **80-20 rule** (G-54) holds only for $\alpha \approx 1.16$, so "Pareto" does not by itself mean an 80-20 split ($\alpha = 3$ gives 34%).
 - Check for Pareto with a log-log plot (straight line) or a Q-Q plot against a fitted Pareto, because right skew alone does not separate Pareto from log-normal data, whose log-log line bends.
-- Non-normal features are brought close to normal with the transformations of the function and power transformer Notes, because models such as linear and logistic regression work better on normal-looking features.
-- This answers the opening question: the Pareto distribution follows a power law in which a few items hold most of the total, and $\alpha \approx 1.16$ gives the 80-20 rule.
+- Non-normal features are brought close to normal with the transformations of the function and **power transformer** (G-1542) Notes, because models such as linear and logistic regression work better on normal-looking features.
+- This answers the opening question: the **Pareto distribution** (G-1453) follows a power law in which a few items hold most of the total, and $\alpha \approx 1.16$ gives the 80-20 rule.
 
 ## 7. Sources
 
@@ -368,9 +368,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Pareto distribution (G-1453) | A distribution of values that start at a smallest value $x_m$ and become rarer the larger they are, in a long right tail (a right-skewed power law); used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
 | Power law (G-1538) | A relationship $y = k\thinspace x^{a}$: one variable proportional to a power of the other. |
 | 80-20 rule (Pareto principle) (G-54) | About 20% of the causes produce about 80% of the results, e.g. 20% of people hold 80% of the wealth. |
-| Pareto distribution (G-1453) | A distribution of values that start at a smallest value $x_m$ and become rarer the larger they are, in a long right tail (a right-skewed power law); used to model wealth and income. PDF $\alpha x_m^{\alpha}/x^{\alpha + 1}$. |
 | Log-log plot (G-1114) | A plot with both axes on a log scale: it plots $\ln y$ against $\ln x$. On it a power law shows as a straight line. |
 | $\alpha$ (Pareto shape) (G-2) | The number that sets how fat the tail of a Pareto distribution is (its shape parameter, also called the tail index). A larger $\alpha$ gives a thinner tail and fewer extreme values. |
 | $x_m$ (Pareto) (G-43) | The minimum possible value, where the Pareto curve starts and peaks. |

@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/scaled-d
 
 ## 1. Overview
 
-> **Key point:** The transformer divides every attention score by $\sqrt{d_k}$, the square root of the length of the key vectors, before the softmax (the function that turns scores into weights that add up to 1). Without that step, long vectors give scores so spread out that one word takes almost all the weight and almost no gradient (the signal that tells each weight how to change) flows back.
+> **Key point:** The transformer divides every **attention score** (G-223) by $\sqrt{d_k}$, the square root of the length of the key vectors, before the softmax (the function that turns scores into weights that add up to 1). Without that step, long vectors give scores so spread out that one word takes almost all the weight and almost no gradient (the signal that tells each weight how to change) flows back.
 
 Dividing by $\sqrt{d_k}$ brings the **variance** (G-2074; how spread out the scores are) back to about 1, whatever the length.
 
@@ -103,7 +103,7 @@ A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far 
 
 ### 4.1 The variance grows exactly like $d$
 
-> **Key point:** If the numbers in $q$ and $k$ are independent with mean 0 and variance 1, then $q \cdot k$ has mean 0 and variance exactly $d_k$ (Vaswani et al. 2017, footnote 4).
+> **Key point:** If the numbers in $q$ and $k$ are independent with mean 0 and **variance** (G-2074) 1, then $q \cdot k$ has mean 0 and variance exactly $d_k$ (Vaswani et al. 2017, footnote 4).
 
 1. **In words:** each product $q_ik_i$ has variance 1, the $d$ products are independent, and variances of independent terms add up.
 2. **Formula:** here $E[x]$ means the average value of $x$ and $\text{Var}(x)$ its variance. With $E[q_i] = E[k_i] = 0$ and $\text{Var}(q_i) = \text{Var}(k_i) = 1$, all independent,
@@ -119,7 +119,7 @@ A sum of 3 random terms stays small; a sum of 1,000 random terms can wander far 
 
 ### 4.2 Why high-dimensional vectors are used anyway
 
-> **Key point:** Short vectors would keep the variance low, but they hold too little information about each word. We keep long vectors and fix the variance instead.
+> **Key point:** Short vectors would keep the **variance** (G-2074) low, but they hold too little information about each word. We keep long vectors and fix the variance instead.
 
 One way to avoid the problem would be short embeddings. But a vector of a few numbers cannot capture much about a word's meaning; the transformer paper uses embeddings of 512 numbers (Vaswani et al. 2017, section 3.1). So the vectors stay long, and the variance of the scores must be brought down some other way.
 
@@ -174,7 +174,7 @@ The same effect shows on a real sentence. Figure 6 is a grid for each case (rows
 
 ## 6. Choosing the scaling factor
 
-> **Key point:** Multiplying a random variable by $c$ multiplies its variance by $c^2$. Since the variance of the scores is $d_k$, dividing by $\sqrt{d_k}$ brings it back to $d_k / d_k = 1$.
+> **Key point:** Multiplying a random variable by $c$ multiplies its **variance** (G-2074) by $c^2$. Since the variance of the scores is $d_k$, dividing by $\sqrt{d_k}$ brings it back to $d_k / d_k = 1$.
 
 To lower the variance of a set of numbers, we divide all of them by the same number.
 
@@ -206,13 +206,13 @@ $$c = \frac{1}{\sqrt{d_k}}$$
 
 We divide by $\sqrt{2}$ when $d_k = 2$, by $\sqrt{3}$ when $d_k = 3$, and by 8 when $d_k = 64$. The Notebook confirms it: after scaling, the variance is 0.99, 0.98, 1.00, ..., 1.02 for $d = 1$ to $1{,}024$ (Figure 4, left), and the three histograms of Figure 3 (right) lie on top of each other.
 
-> **Extra:** Before the transformer, two kinds of attention score were common: additive (a small neural network, Bahdanau's) and dot-product (Luong's), compared in [the two attention scores side by side](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared). Vaswani et al. (2017, section 3.2.1) report that the two perform similarly for small $d_k$, but additive attention does better than unscaled dot-product attention for larger $d_k$. Dot-product attention is "much faster and more space-efficient in practice", because it is one matrix multiplication. Scaling keeps that speed and removes the weakness.
+> **Extra:** Before the transformer, two kinds of **attention score** (G-223) were common: additive (a small neural network, Bahdanau's) and dot-product (Luong's), compared in [the two attention scores side by side](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared). Vaswani et al. (2017, section 3.2.1) report that the two perform similarly for small $d_k$, but additive attention does better than unscaled dot-product attention for larger $d_k$. Dot-product attention is "much faster and more space-efficient in practice", because it is one matrix multiplication. Scaling keeps that speed and removes the weakness.
 
 ## 7. The full formula in code
 
 > **Key point:** $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$ computed by hand in NumPy gives exactly the weights and outputs of Keras' `MultiHeadAttention` layer with one head.
 
-Keras implements scaled dot-product attention inside `keras.layers.MultiHeadAttention` (G-121). With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#52-the-matrix-form) (G-1268) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
+Keras implements **scaled dot-product attention** (G-1745) inside `keras.layers.MultiHeadAttention` (G-121). With `num_heads=1` it is a single attention: its weights are $W_Q$, $W_K$, $W_V$ and one extra output matrix that [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#52-the-matrix-form) (G-1268) needs. Setting the output matrix to the identity makes the layer compute exactly the formula of this Note.
 
 > **Python:** Scaled dot-product attention by hand, checked against Keras ("money bank grows", 8 numbers per word).
 >
@@ -253,7 +253,7 @@ The outputs agree too: the largest difference over the $3 \times 8$ numbers is $
 | Output | weights $\times\thinspace V$ | contextual embeddings |
 
 - $d_k$ is the length of the key (and query) vectors, so it sets how many terms each score adds up.
-- The variance of a dot product of independent numbers with mean 0 and variance 1 equals the length of the vectors, because each of the $d_k$ products adds its own unit of variance: 3, 100 and 1,000 gave measured variances 2.9, 96.7 and 1,015.6.
+- The variance of a dot product of independent numbers with mean 0 and **variance** (G-2074) 1 equals the length of the vectors, because each of the $d_k$ products adds its own unit of variance: 3, 100 and 1,000 gave measured variances 2.9, 96.7 and 1,015.6.
 - Widely spread scores saturate the softmax: one weight near 1, a gradient near 0, so $W_Q$ and $W_K$ hardly learn. At $d = 1{,}024$ the largest weight averaged 0.97 and the gradient was 7.6 times smaller than with scaling.
 - $\text{Var}(cX) = c^2\thinspace\text{Var}(X)$, so dividing by $\sqrt{d_k}$ makes the variance 1 for every $d_k$, which lets the vectors stay long without saturating the softmax.
 - Keras' `MultiHeadAttention` with one head computes exactly $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, so the hand formula is the one real libraries use.
@@ -285,8 +285,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Scaling factor (G-1747) | The number $1/\sqrt{d_k}$ that multiplies every attention score; it shrinks the spread of the scores so the softmax does not saturate. |
 | `MultiHeadAttention` (G-121) | The Keras layer that computes multi-head attention: it learns $W_Q$, $W_K$, $W_V$ and an output matrix and applies scaled dot-product attention; with `num_heads=1` it is a single attention. |
 | $d_k$ (G-24) | The length of each key vector (and query vector); attention divides its scores by $\sqrt{d_k}$ so that long vectors do not give scores so spread out that the softmax puts almost all the weight on one word. |
+| [Attention score](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-223) | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
-| [Attention score](../../../DL/06-transformers/DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#42-softmax-turns-scores-into-weights) (G-223) | A number that measures how strongly one word relates to another: the dot product of the first word's query with the second word's key. The softmax turns one word's scores into its attention weights. |
 | [Vanishing gradient](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#1-overview) (G-2070) | Gradients shrinking towards 0 as they pass through many layers, which slows learning. |
 | [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |

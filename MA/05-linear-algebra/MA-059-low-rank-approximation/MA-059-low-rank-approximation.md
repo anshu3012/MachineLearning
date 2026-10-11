@@ -30,14 +30,14 @@ The SVD (singular value decomposition) writes a matrix (a table of numbers) as a
 This Note covers:
 
 - a table that is one column times one row ([Section 2.1](#21-a-table-that-is-a-column-times-a-row)), and any matrix as a sum of such layers ([Section 2.2](#22-splitting-any-matrix-into-layers));
-- keeping only the first $k$ layers, the rank $k$ approximation ([Section 3](#3-the-rank-k-approximation));
-- why it is the best one possible, the Eckart–Young theorem ([Section 4](#4-the-best-approximation-eckartyoung));
+- keeping only the first $k$ layers, the **rank** (G-1627) $k$ approximation ([Section 3](#3-the-rank-k-approximation));
+- why it is the best one possible, the **Eckart–Young theorem** (G-657) ([Section 4](#4-the-best-approximation-eckartyoung));
 - compressing an image ([Section 5](#5-compressing-an-image)) and choosing $k$ ([Section 6](#6-how-many-singular-values-to-keep));
 - removing noise ([Section 7](#7-removing-noise)).
 
 ## 2. A matrix as a sum of rank-1 layers
 
-> **Key point:** The simplest kind of table is one column of numbers times one row of numbers. The SVD writes every matrix as a sum of such tables, each scaled by a singular value, biggest first.
+> **Key point:** The simplest kind of table is one column of numbers times one row of numbers. The SVD writes every matrix as a sum of such tables, each scaled by a **singular value** (G-1812), biggest first.
 
 ### 2.1 A table that is a column times a row
 
@@ -97,7 +97,7 @@ An outer product needs only $m + n$ numbers to describe, instead of $m \times n$
 
 ### 2.2 Splitting any matrix into layers
 
-> **Key point:** A real table is not exactly one outer product. The SVD splits it into a big outer product plus smaller ones, each weighted by a singular value.
+> **Key point:** A real table is not exactly one **outer product** (G-1418). The SVD splits it into a big outer product plus smaller ones, each weighted by a singular value.
 
 **The idea in plain words.** Real sales never follow the plan exactly. Suppose the large branch, which sits next to a park, sold one extra box on Saturday and on Sunday. Its row is now $[6, 6, 13, 19]$, and that row is no longer a multiple of $[2, 2, 4, 6]$. The table is no longer a single outer product. But it is still almost one: a big pattern plus a small correction.
 
@@ -168,7 +168,7 @@ $$= \begin{bmatrix} 3 & 0 \cr4 & 5 \end{bmatrix} = A$$
 
 The first layer already has the right overall size: its bottom row $[4.5, 4.5]$ is close to $A$'s $[4, 5]$. The second layer is a smaller correction.
 
-**The formal version.** A matrix of rank $r$ is the sum of $r$ rank-1 layers (MML §4.6):
+**The formal version.** A matrix of **rank** (G-1627) $r$ is the sum of $r$ rank-1 layers (MML §4.6):
 
 $$A = U\Sigma V^{\mathsf T} = \sum_{i=1}^{r} \sigma_i\thinspace\mathbf u_i\mathbf v_i^{\mathsf T}$$
 
@@ -196,7 +196,7 @@ Figure 4 shows the first four layers of the photo of Figure 1. Each is a column 
 
 ## 3. The rank $k$ approximation
 
-> **Key point:** Keep the first $k$ layers and drop the rest. The result has rank $k$ and needs only $k(m + n + 1)$ numbers.
+> **Key point:** Keep the first $k$ layers and drop the rest. The result has **rank** (G-1627) $k$ and needs only $k(m + n + 1)$ numbers.
 
 **The idea in plain words.** Go back to Figure 3 and throw away layer 2, the park correction. What is left is layer 1 alone. Round its entries to whole boxes:
 
@@ -208,7 +208,7 @@ Figure 4 shows the first four layers of the photo of Figure 1. Each is a column 
 
 The rounded layer 1 is exactly the real table, park extras included. One layer was enough here because the dropped layer was tiny ($\sigma_2 = 0.33$ against $\sigma_1 = 30.03$).
 
-**The standard term.** Keeping the $k$ largest singular values with their vectors and dropping the rest gives the **rank $k$ approximation** of $A$, also called the **truncated SVD** (G-1630). It is written $\hat A_k$, read "A hat k".
+**The standard term.** Keeping the $k$ largest **singular values** (G-1812) with their vectors and dropping the rest gives the **rank $k$ approximation** of $A$, also called the **truncated SVD** (G-1630). It is written $\hat A_k$, read "A hat k".
 
 **Worked example on the 2 × 2 matrix.** For $A$, the rank-1 approximation is its first layer:
 
@@ -254,11 +254,11 @@ so from $k = 256$ on, the layers cost more than the matrix itself.
 
 ## 4. The best approximation: Eckart–Young
 
-> **Key point:** No matrix of rank $k$ is closer to $A$ than $\hat A_k$. Its error, measured as the most the leftover can stretch an arrow, is exactly $\sigma_{k+1}$, the first singular value left out.
+> **Key point:** No matrix of **rank** (G-1627) $k$ is closer to $A$ than $\hat A_k$. Its error, measured as the most the leftover can stretch an arrow, is exactly $\sigma_{k+1}$, the first **singular value** (G-1812) left out.
 
 ### 4.1 Measuring the size of a matrix
 
-> **Key point:** The size of a matrix can be measured by the most it can stretch an arrow of length 1. That stretch is its largest singular value.
+> **Key point:** The size of a matrix can be measured by the most it can stretch an arrow of length 1. That stretch is its largest **singular value** (G-1812).
 
 **The idea in plain words.** To say which approximation is "closest", we need to measure how big the leftover (the matrix minus its approximation) is. A vector has a length. A matrix is a machine that turns arrows into arrows (see [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture)). So measure a matrix by feeding it every arrow of length 1 and seeing how long the longest output is.
 
@@ -298,7 +298,7 @@ Read it as: over all arrows $\mathbf x$ of length 1, the longest output $M\mathb
 
 ### 4.2 The Eckart–Young theorem
 
-> **Key point:** Among all rank $k$ matrices, the truncated SVD leaves the smallest leftover, and the size of that leftover is $\sigma_{k+1}$.
+> **Key point:** Among all **rank** (G-1627) $k$ matrices, the **truncated SVD** (G-1630) leaves the smallest leftover, and the size of that leftover is $\sigma_{k+1}$.
 
 **The idea in plain words.** When we keep the first $k$ layers, the leftover is exactly the layers we dropped. The biggest of those is layer $k + 1$, so the leftover can stretch an arrow by $\sigma_{k+1}$ at most. The surprising part is that no other way of picking a rank $k$ matrix, however clever, leaves a smaller leftover.
 
@@ -340,9 +340,9 @@ The third line holds for every matrix $B$ of rank $k$.
 
 Check: for $A$ and $k = 1$, the first line is layer 2, the second gives 2.24, and the third holds for $B$ because $2.24 \le 3$.
 
-The second line follows from the first. The leftover $A - \hat A_k$ is itself written in SVD form, with singular values $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the spectral norm of a matrix is its largest singular value. The harder part is the third line: that no other $B$ wins.
+The second line follows from the first. The leftover $A - \hat A_k$ is itself written in SVD form, with **singular values** (G-1812) $\sigma_{k+1}, \sigma_{k+2}, \dots$. Its largest one is $\sigma_{k+1}$, and the **spectral norm** (G-1852) of a matrix is its largest singular value. The harder part is the third line: that no other $B$ wins.
 
-> **Extra:** Why no other rank $k$ matrix can win, in outline. Write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 3)$. A rank $k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ right singular vectors span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
+> **Extra:** Why no other rank $k$ matrix can win, in outline. Write $\mathbb{R}^n$ for the space of all lists of $n$ numbers: $\mathbb{R}^2$ holds pairs such as $(2, 3)$. A rank $k$ matrix $B$ sends at least an $(n - k)$-dimensional set of inputs to zero; on those inputs $A - B$ acts exactly like $A$. The first $k + 1$ **right singular vectors** (G-1692) span a $(k + 1)$-dimensional set on which $A$ stretches every vector by at least $\sigma_{k+1}$. Two subspaces of $\mathbb{R}^n$ with dimensions adding up to more than $n$ must share a non-zero vector $\mathbf{x}$. On that $\mathbf{x}$, $(A - B)\mathbf{x} = A\mathbf{x}$, which is at least $\sigma_{k+1}$ times as long as $\mathbf{x}$, so $\lVert A - B\rVert_2 \ge \sigma_{k+1}$.
 
 > **Extra:** The theorem also holds for a second common size measure (Eckart and Young 1936), the **Frobenius norm** (G-809), written $\lVert M\rVert_F$: the square root of the sum of all squared entries, the L2 norm of the matrix read as one long vector. It also equals the square root of the sum of the squared singular values. For $A$:
 > $$\lVert A\rVert_F = \sqrt{3^2 + 0^2 + 4^2 + 5^2}$$
@@ -353,9 +353,9 @@ The second line follows from the first. The leftover $A - \hat A_k$ is itself wr
 
 ## 5. Compressing an image
 
-> **Key point:** A grayscale image is a table of brightness values; its singular values fall fast, so a few layers carry most of the picture.
+> **Key point:** A grayscale image is a table of brightness values; its **singular values** (G-1812) fall fast, so a few layers carry most of the picture.
 
-A grayscale photo is a matrix: one row per pixel row, one column per pixel column, each entry a brightness between 0 (black) and 1 (white). The photo of Figure 1 is scikit-learn's sample image `china.jpg` turned to grayscale: a $427 \times 640$ matrix of rank 427. Like the sales table, it has big patterns (a dark lower half, a bright sky) and small details on top.
+A grayscale photo is a matrix: one row per pixel row, one column per pixel column, each entry a brightness between 0 (black) and 1 (white). The photo of Figure 1 is scikit-learn's sample image `china.jpg` turned to grayscale: a $427 \times 640$ matrix of **rank** (G-1627) 427. Like the sales table, it has big patterns (a dark lower half, a bright sky) and small details on top.
 
 Reading Figure 1 in order of $k$:
 
@@ -381,7 +381,7 @@ $$\text{error} = \frac{\sigma_{k+1}}{\sigma_1}$$
 
 ## 6. How many singular values to keep
 
-> **Key point:** Plot the singular values: they usually fall steeply and then flatten. Keep the steep part, or keep enough to reach a chosen share of the sum of squared singular values.
+> **Key point:** Plot the **singular values** (G-1812): they usually fall steeply and then flatten. Keep the steep part, or keep enough to reach a chosen share of the sum of squared singular values.
 
 ![Singular values of the photo, and the share of $\sum\sigma_i^2$ kept by the first $k$](images/singular_decay.png)
 
@@ -397,7 +397,7 @@ Figure 9 (left) plots all 427 singular values of the photo on a log scale, where
 A few directions carry most of the picture. Two common ways to choose $k$:
 
 - **The elbow.** Keep the singular values before the curve flattens: the steep part is structure, the flat part detail or noise.
-- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the Frobenius norm squared, Section 4.2). Keep enough layers to reach a chosen share of it.
+- **A share of the total.** The sum of the squared singular values equals the sum of all squared entries of the matrix (the **Frobenius norm** (G-809) squared, Section 4.2). Keep enough layers to reach a chosen share of it.
 
 For the sales table the share is easy to read off:
 
@@ -417,7 +417,7 @@ For the photo, Figure 9 (right) shows the share kept by the first $k$:
 
 The share rule is the same rule as choosing the number of principal components by explained variance in [how many components to keep](../../../ML/05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#7-how-many-components-to-keep). The match is not a coincidence: [**PCA through the SVD**](../MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#2-pca-through-the-svd) (G-1468) shows that PCA is the SVD of the centred data matrix (each column minus its mean).
 
-> **Python:** The rank $k$ approximation of the photo.
+> **Python:** The **rank** (G-1627) $k$ approximation of the photo.
 >
 > ```python
 > from sklearn.datasets import load_sample_image
@@ -430,17 +430,17 @@ The share rule is the same rule as choosing the number of principal components b
 > s[k] / s[0]                             # 0.023
 > ```
 >
-> `U[:, :k] * s[:k]` scales column $i$ of $U_k$ by $\sigma_i$, which is $U_k\Sigma_k$ without building the diagonal matrix. The grayscale weights 0.299, 0.587 and 0.114 are the standard ones for red, green and blue (ITU-R BT.601). The Notebook has a slider that moves through the ranks.
+> `U[:, :k] * s[:k]` scales column $i$ of $U_k$ by $\sigma_i$, which is $U_k\Sigma_k$ without building the **diagonal matrix** (G-601). The grayscale weights 0.299, 0.587 and 0.114 are the standard ones for red, green and blue (ITU-R BT.601). The Notebook has a slider that moves through the ranks.
 
 ## 7. Removing noise
 
-> **Key point:** Random noise spreads thinly over all singular values, while structure piles up in a few large ones. Keeping only the large ones removes most of the noise.
+> **Key point:** Random noise spreads thinly over all **singular values** (G-1812), while structure piles up in a few large ones. Keeping only the large ones removes most of the noise.
 
 **The idea in plain words.** Picture a clean drawing covered in random speckles. The drawing is made of a few big patterns, so it lives in a few big layers. The speckles have no pattern at all, so they spread a little into every layer. Keeping only the big layers keeps the drawing and throws away most of the speckles.
 
 ![Noise reduction: a rank-3 picture, the same with noise, and the rank-3 approximation of the noisy one](images/denoise.png)
 
-Figure 10 starts from a simple $120 \times 160$ picture made of a square and two bars (top left). Each shape is a rectangle of constant brightness, which is an outer product (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel, normal with standard deviation 0.3 (top middle).
+Figure 10 starts from a simple $120 \times 160$ picture made of a square and two bars (top left). Each shape is a rectangle of constant brightness, which is an **outer product** (G-1418) (a column of 1s and 0s times a row of 1s and 0s), so the picture has rank 3. We add random noise to every pixel, normal with standard deviation 0.3 (top middle).
 
 The singular values of the noisy picture (Figure 10, bottom left) split into two groups:
 
@@ -467,7 +467,7 @@ the top of the observed floor.
 
 Keeping more than 3 layers makes it worse again (Figure 10, bottom right), because each extra layer adds back mostly noise.
 
-**The formula.** With $A_{\text{clean}}$ the clean picture and both sizes in the Frobenius norm:
+**The formula.** With $A_{\text{clean}}$ the clean picture and both sizes in the **Frobenius norm** (G-809):
 
 $$\text{error} = \frac{\lVert \hat A_k - A_{\text{clean}}\rVert_F}{\lVert A_{\text{clean}}\rVert_F}$$
 
@@ -485,8 +485,8 @@ The same idea, keeping only the singular values above the noise floor, is a stan
 | Eckart–Young | $\lVert A - \hat A_k\rVert_2 = \sigma_{k+1}$, the smallest possible | error of $\hat A_1$: 2.24; another rank-1 guess: 3 | no rank $k$ matrix does better |
 | Noise reduction | keep the $\sigma_i$ above the noise floor | error 87 percent to 19 percent at $k = 3$ | structure sits in a few large $\sigma_i$, noise spreads thinly over all |
 
-- Every matrix is a weighted sum of rank-1 layers, largest weight first, so the first layers carry the main pattern.
-- Dropping the small layers gives the best rank $k$ approximation, with error $\sigma_{k+1}$, so the first singular value left out says exactly how much is lost.
+- Every matrix is a weighted sum of **rank-1 layers** (G-1631), largest weight first, so the first layers carry the main pattern.
+- Dropping the small layers gives the best **rank** (G-1627) $k$ approximation, with error $\sigma_{k+1}$, so the first **singular value** (G-1812) left out says exactly how much is lost.
 - Fast-falling singular values mean a matrix can be compressed well, because a few layers then carry most of it.
 - Noise forms a flat floor of small singular values; truncating below it removes most of the noise, because noise has no special direction while the structure piles up in a few large layers.
 - So keeping only the big layers of the SVD gives the best small summary of a table, whether the goal is to compress it or to clean it.
@@ -510,17 +510,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Eckart–Young theorem (G-657) | The theorem that the truncated SVD (keeping the $k$ largest singular values) is the closest rank $k$ matrix to $A$, so it is the best way to compress $A$ to rank $k$; its spectral error is $\sigma_{k+1}$. |
 | Rank-1 layer (G-1631) | One piece of a matrix split by the SVD: a column times a row, $\sigma_i\mathbf u_i\mathbf v_i^{\mathsf T}$, weighted by its singular value $\sigma_i$; adding all the layers gives back the matrix. |
 | Rank $k$ approximation (truncated SVD) (G-1630) | The approximation of a matrix that keeps only its $k$ largest singular values with their vectors and drops the rest, $\hat A_k = U_k\Sigma_kV_k^{\mathsf T}$; it is the best small summary of the matrix and needs far fewer numbers. |
 | Spectral norm (G-1852) | The largest stretch a matrix gives to any input of length 1, $\lVert M\rVert_2 = \sigma_1$; it is one way to measure the size of a matrix. |
-| Eckart–Young theorem (G-657) | The theorem that the truncated SVD (keeping the $k$ largest singular values) is the closest rank $k$ matrix to $A$, so it is the best way to compress $A$ to rank $k$; its spectral error is $\sigma_{k+1}$. |
 | Frobenius norm (G-809) | One number for the size of a matrix: the square root of the sum of all its squared entries, also equal to $\sqrt{\sum\sigma_i^2}$ over its singular values $\sigma_i$. |
 | Noise floor (G-1328) | The flat run of small singular values that random noise produces; the few singular values standing above it carry the real structure, so keeping only those removes most of the noise. |
+| [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
+| [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
 | [Outer product](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#62-higher-orders-tensors-and-outer-products) (G-1418) | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
-| [Rank (of a matrix)](../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
 | [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
-| [Singular value ($\sigma_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#33-the-ellipse) (G-1812) | A stretch factor of a matrix: the length of $A\mathbf v_i$; never negative, listed largest first. |
 | [Left singular vector ($\mathbf u_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1079) | One of the output directions of the SVD: the unit vector that a right singular vector lands on, stretched by its singular value ($A\mathbf v_i = \sigma_i \mathbf u_i$); the columns of $U$. |
 | [Right singular vector ($\mathbf v_i$)](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#41-from-the-singular-value-equation-to-the-factorisation) (G-1692) | A column $\mathbf v_i$ of $V$ in the SVD: a unit-length input direction that the matrix sends to $\sigma_i$ times the matching left singular vector $\mathbf u_i$. |
 | [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |

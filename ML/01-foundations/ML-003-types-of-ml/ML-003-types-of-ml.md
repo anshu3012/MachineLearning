@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/foundations, area/models-2, step/foundatio
 
 ## 1. Overview
 
-> **Key point:** Based on how much supervision they need, ML algorithms fall into four types: supervised, unsupervised, semi-supervised and reinforcement learning.
+> **Key point:** Based on how much supervision they need, ML algorithms fall into four types: supervised, unsupervised, semi-supervised and **reinforcement learning** (G-1660).
 
 ML algorithms can be grouped in three different ways:
 
@@ -31,7 +31,7 @@ ML algorithms can be grouped in three different ways:
 
 ## 2. Supervised learning
 
-> **Key point:** In supervised learning, the data has both inputs and outputs. The algorithm learns how the output depends on the inputs, then predicts the output for new inputs.
+> **Key point:** In **supervised learning** (G-1919), the data has both inputs and outputs. The algorithm learns how the output depends on the inputs, then predicts the output for new inputs.
 
 ### 2.1 Learning from inputs and outputs
 
@@ -61,7 +61,7 @@ After learning, the algorithm can take a new student, say IQ 73 and CGPA 7.3, an
 
 > **Key point:** Data is either numerical (numbers) or categorical (categories).
 
-Before splitting supervised learning further, we need the two basic types of data:
+Before splitting **supervised learning** (G-1919) further, we need the two basic types of data:
 
 | Type | What it holds | Examples |
 |---|---|---|
@@ -72,9 +72,9 @@ Before splitting supervised learning further, we need the two basic types of dat
 
 > **Key point:** Numerical output: regression. Categorical output: classification.
 
-Supervised learning has two sub-types. Which one we have depends only on the **target**:
+**Supervised learning** (G-1919) has two sub-types. Which one we have depends only on the **target**:
 
-- **Regression** (G-1655): the target is numerical (**numerical data**, G-1367). *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
+- **Regression** (G-1655): the **target** (G-1949) is numerical (**numerical data**, G-1367). *Example:* predicting a student's salary package (4.5 LPA, 3.0 LPA, ...) from IQ and CGPA.
 - **Classification** (G-395): the target is categorical (**categorical data**, G-351). *Example:* predicting placed / not placed from IQ and CGPA.
 
 ![Regression vs classification](images/reg_vs_cls.png)
@@ -93,13 +93,13 @@ The last two rows have the same input, an image. Only the target decides the typ
 
 ## 3. Unsupervised learning
 
-> **Key point:** In unsupervised learning, the data has features only. There is no target to predict, so the algorithm finds structure instead: groups, fewer features, oddities or links.
+> **Key point:** In unsupervised learning, the data has features only. There is no **target** (G-1949) to predict, so the algorithm finds structure instead: groups, fewer features, oddities or links.
 
 ### 3.1 Learning from inputs only
 
-> **Key point:** No target means no prediction. The algorithm describes the data instead.
+> **Key point:** No **target** (G-1949) means no prediction. The algorithm describes the data instead.
 
-In **unsupervised learning** (G-2058), the data has only features. For example, we have the IQ and CGPA of students, but no placement target. Figure 4 shows the same table as Figure 2 with the target column removed.
+In **unsupervised learning** (G-2058), the data has only **features** (G-772). For example, we have the IQ and CGPA of students, but no placement target. Figure 4 shows the same table as Figure 2 with the target column removed.
 
 ![The same table with and without the target column](images/unsupervised_data.png)
 
@@ -109,18 +109,18 @@ Figure 5 shows the same change on a scatter plot (a graph where each dot is one 
 
 1. **Supervised.** Every dot has a colour: placed or not placed. The colour is the target, so an algorithm can learn to predict it.
 2. **Target removed.** Every dot is grey. Only IQ and CGPA are left, and there is nothing to predict.
-3. **Unsupervised.** A clustering algorithm ([Section 3.2](#32-clustering)) looks only at IQ and CGPA and colours the three groups it finds. The groups are not "placed" and "not placed": the algorithm never saw that column.
+3. **Unsupervised.** A **clustering** (G-401) algorithm ([Section 3.2](#32-clustering)) looks only at IQ and CGPA and colours the three groups it finds. The groups are not "placed" and "not placed": the algorithm never saw that column.
 
 Without a target, we cannot predict anything. Unsupervised learning performs four other jobs:
 
 - clustering ([Section 3.2](#32-clustering));
-- dimensionality reduction ([Section 3.3](#33-dimensionality-reduction));
-- anomaly detection ([Section 3.4](#34-anomaly-detection));
-- association rule learning ([Section 3.5](#35-association-rule-learning)).
+- **dimensionality reduction** (G-611) ([Section 3.3](#33-dimensionality-reduction));
+- **anomaly detection** (G-201) ([Section 3.4](#34-anomaly-detection));
+- **association rule learning** (G-218) ([Section 3.5](#35-association-rule-learning)).
 
 ### 3.2 Clustering
 
-> **Key point:** Clustering finds groups of similar observations, without being told what the groups are.
+> **Key point:** Clustering finds groups of similar **observations** (G-1374), without being told what the groups are.
 
 **Clustering** (G-401) splits the data into groups (**clusters**, G-399) of similar observations. Figure 6 shows students plotted by IQ and CGPA; the algorithm found three groups on its own.
 
@@ -129,21 +129,21 @@ Without a target, we cannot predict anything. Unsupervised learning performs fou
 What the groups give us:
 
 - **A category for each student:** for example, high IQ but low CGPA. A new student can be placed in one of the groups.
-- **Labels for free:** we can number the groups (0, 1, 2) and then use them as a target for supervised learning.
+- **Labels for free:** we can number the groups (0, 1, 2) and then use them as a target for **supervised learning** (G-1919).
 - **Customer segments:** an e-commerce site can group its customers by how they behave and treat each group differently.
 
-With two features we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
+With two **features** (G-772) we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
 
 **Hierarchical clustering** (G-893; see [**hierarchical clustering**](../../09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering) (G-893)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
 
 ### 3.3 Dimensionality reduction
 
-> **Key point:** Dimensionality reduction cuts down the number of features while keeping the information. Fewer features speed up learning and let us plot high-dimensional data.
+> **Key point:** Dimensionality reduction cuts down the number of **features** (G-772) while keeping the information. Fewer features speed up learning and let us plot high-dimensional data.
 
 Each feature is a **dimension** (G-610). (A tensor's dimensions mean something else, its number of axes: see [rank, axes, shape and size](../ML-010-tensors/ML-010-tensors.md#4-rank-axes-shape-and-size).) Images and text can have thousands of features, which causes two problems:
 
 1. Algorithms become **slow**.
-2. After a point, extra features **stop improving** the results, because the same number of observations gets spread more and more thinly over the extra dimensions (the curse of dimensionality, see [why more dimensions cause trouble](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
+2. After a point, extra features **stop improving** the results, because the same number of **observations** (G-1374) gets spread more and more thinly over the extra dimensions (the curse of dimensionality, see [why more dimensions cause trouble](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
 
 [**Dimensionality reduction**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) removes the extra features.
 
@@ -169,7 +169,7 @@ The technique used for Figure 8 is **PCA** (principal component analysis, G-1469
 
 > **Key point:** Anomaly detection learns what normal data looks like and flags anything far from it.
 
-**Anomaly detection** (G-201) finds observations that do not fit the pattern of the rest. Typical uses:
+**Anomaly detection** (G-201) finds **observations** (G-1374) that do not fit the pattern of the rest. Typical uses:
 
 - spotting defects in manufacturing,
 - catching credit card fraud,
@@ -205,11 +205,11 @@ A famous case: an analysis of shopping baskets at a US store chain found that cu
 
 ## 4. Semi-supervised learning
 
-> **Key point:** Semi-supervised learning labels a few observations by hand and lets the algorithm label the rest.
+> **Key point:** Semi-supervised learning **labels** (G-1032) a few observations by hand and lets the algorithm label the rest.
 
 Labels are **expensive**. Collecting inputs is easy; for example, we can download thousands of images in minutes. But someone has to look at each image and write down what is in it, which costs time and money.
 
-**Semi-supervised learning** (G-1768) works with data where only a small part is labelled. We label a few observations, and the algorithm labels the rest automatically.
+**Semi-supervised learning** (G-1768) works with data where only a small part is labelled. We label a few **observations** (G-1374), and the algorithm labels the rest automatically.
 
 *Example: Google Photos* (Figure 11).
 
@@ -236,7 +236,7 @@ A related idea needs no hand labels at all. In [**self-supervised learning**](..
 
 ## 5. Reinforcement learning
 
-> **Key point:** In reinforcement learning, there is no ready-made dataset. An agent collects its own experience by acting, gets rewards or punishments, and improves its rules.
+> **Key point:** In **reinforcement learning** (G-1660), there is no ready-made dataset. An agent collects its own experience by acting, gets rewards or punishments, and improves its rules.
 
 ### 5.1 Agent, environment, policy and reward
 
@@ -264,9 +264,9 @@ The goal is to collect as much reward and as little punishment as possible.
 
 ### 5.2 Example: fire or water
 
-> **Key point:** A bad result changes the policy, so the next choice is better.
+> **Key point:** A bad result changes the **policy** (G-1512), so the next choice is better.
 
-Figure 14 shows an agent that can walk to fire or to water.
+Figure 14 shows an **agent** (G-179) that can walk to fire or to water.
 
 ![An agent learning to choose water over fire](images/rl_fire_water.gif)
 
@@ -291,7 +291,7 @@ People learn many things the same way: nobody hands us a dataset for living in a
 > **Key point:** RL beat the world champion at Go and is used for self-driving cars, but it is harder to build than the other types.
 
 - **Self-driving cars:** the car learns to drive by acting on the road and receiving feedback.
-- **Games:** Go is far more complex than chess, and beating top humans was thought to be years away. In March 2016, DeepMind's agent **AlphaGo** beat world champion Lee Sedol in four out of five games (DeepMind 2016).
+- **Games:** Go is far more complex than chess, and beating top humans was thought to be years away. In March 2016, DeepMind's **agent** (G-179) **AlphaGo** beat world champion Lee Sedol in four out of five games (DeepMind 2016).
 
 RL is harder to set up than the other types, but its use is growing fast.
 
@@ -308,10 +308,10 @@ RL is harder to set up than the other types, but its use is growing fast.
 | Semi-supervised | A few labels, many unlabelled observations | Label the rest | Google Photos faces | labels are expensive; one human label replaced hundreds |
 | Reinforcement | No ready-made data; experience and rewards collected from an environment | Learn the best actions | AlphaGo | it learns where nobody can hand over a table of correct answers |
 
-- To identify a supervised problem, look at the **target**: number $\rightarrow$ regression, category $\rightarrow$ classification. The input does not decide it: the same image can feed either type.
-- No target $\rightarrow$ unsupervised, because without a target there is nothing to predict, so the algorithm finds structure instead.
-- Few labels $\rightarrow$ semi-supervised, because similar observations sit close together, so a few hand labels can spread to the rest.
-- No ready-made data, only feedback on the agent's own actions $\rightarrow$ reinforcement, because the agent collects its own experience by acting.
+- To identify a supervised problem, look at the **target**: number $\rightarrow$ **regression** (G-1655), category $\rightarrow$ **classification** (G-395). The input does not decide it: the same image can feed either type.
+- No **target** (G-1949) $\rightarrow$ unsupervised, because without a target there is nothing to predict, so the algorithm finds structure instead.
+- Few **labels** (G-1032) $\rightarrow$ semi-supervised, because similar **observations** (G-1374) sit close together, so a few hand labels can spread to the rest.
+- No ready-made data, only feedback on the **agent** (G-179)'s own actions $\rightarrow$ reinforcement, because the agent collects its own experience by acting.
 
 ## 7. Sources
 
@@ -334,10 +334,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Reinforcement learning (G-1660) | Learning by acting and receiving rewards or punishments. |
 | Supervision (G-1920) | Correct answers that guide an algorithm while it learns. |
+| Supervised learning (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | Target (G-1949) | The output column we predict, such as the class; also called the label. |
 | Observation (G-1374) | One record of a dataset: one row of the data table. |
-| Supervised learning (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | Label (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
 | Labelled data (G-1034) | Data that includes the output column. |
 | Regression (G-1655) | Supervised learning with a numerical output. |
@@ -346,13 +347,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Categorical data (categorical column) (G-351) | Data made of categories: labels rather than numbers. |
 | Unsupervised learning (G-2058) | Learning from inputs only, to find structure. |
 | Clustering (G-401) | Splitting data into groups of similar rows. |
-| Cluster (G-399) | One group found by clustering. |
-| Dimension (G-610) | One feature (input column) of the data, seen as one axis of the space the observations live in: 10 features give 10 dimensions. A tensor's dimensions mean something else, its number of axes. |
 | Anomaly detection (G-201) | Finding rows that do not fit the pattern of the rest. |
 | Association rule learning (G-218) | Finding items that tend to occur together. |
+| Cluster (G-399) | One group found by clustering. |
+| Dimension (G-610) | One feature (input column) of the data, seen as one axis of the space the observations live in: 10 features give 10 dimensions. A tensor's dimensions mean something else, its number of axes. |
 | Semi-supervised learning (G-1768) | Learning from a few labelled rows and many unlabelled ones: the algorithm labels the rest from the few labels, which saves the cost of labelling everything by hand. |
 | Label propagation (G-2172) | Semi-supervised method in which labels hop from labelled observations to their nearest neighbours, step by step. |
-| Reinforcement learning (G-1660) | Learning by acting and receiving rewards or punishments. |
 | Agent (G-179) | The learner in reinforcement learning, such as a self-driving car or a game-playing program: it acts in an environment, gets rewards or punishments, and improves its rules for acting. |
 | Environment (G-694) | In reinforcement learning, the world the agent acts in, such as the road or a game board; it rewards or punishes each action, and the agent learns from that. |
 | Policy (G-1512) | The agent's rules for which action to take. |
@@ -361,8 +361,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
-| [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#1-overview) (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
 | [Dimensionality reduction](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#6-the-solution-dimensionality-reduction) (G-611) | Reducing the number of input columns while keeping the information. |
+| [Hierarchical clustering](../../../ML/09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#1-overview) (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
 | [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
 | [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |

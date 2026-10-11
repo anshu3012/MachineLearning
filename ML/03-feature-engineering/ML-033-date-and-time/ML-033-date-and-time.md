@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/datetime]
 
 ## 1. Overview
 
-> **Key point:** A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a datetime type and pull each one out with `.dt`.
+> **Key point:** A date or time column hides many useful features (year, month, weekday, hour, time passed); we convert the column to a **datetime** (G-545) type and pull each one out with `.dt`.
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). A single value such as `2019-12-10 23:40:00` looks like one piece of information. The value actually holds a dozen, like a train ticket that also tells the day, the season and whether you travel at night: the year, the month, the weekday, whether it is a weekend, the hour, and more.
 
@@ -41,7 +41,7 @@ Consider an expense-tracker app that reports how a user spends money. The raw da
 - In which month does the user spend the most?
 - At what time of day does most spending happen?
 
-Each question needs one extracted feature: a weekend flag, the month, the hour. Building such columns is a kind of feature engineering.
+Each question needs one extracted **feature** (G-772): a weekend flag, the month, the hour. Building such columns is a kind of feature engineering.
 
 ![Each expense question needs one extracted feature](images/questions_features.png){width=70%}
 
@@ -128,7 +128,7 @@ The table itself looks the same before and after: only `orders.info()` shows the
 
 > **Key point:** `column.dt.<part>` returns one part of every date in the column at once.
 
-The **`.dt` accessor** (G-46) gives a datetime column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per observation. We store each one as a new feature. Figure 5 adds the features of this section one at a time to the first five orders.
+The **`.dt` accessor** (G-46) gives a **datetime** (G-545) column its date tools, the way `.str` gives a text column its text tools. Each tool returns a new column with one value per **observation** (G-1374). We store each one as a new feature. Figure 5 adds the features of this section one at a time to the first five orders.
 
 ![The first five order dates, with one extracted feature added per step: year, month, day, weekday, weekend flag, week of the year, quarter and semester. The newest column is orange.](images/extract_steps.gif)
 
@@ -246,7 +246,7 @@ Older code writes `orders["date"].dt.week`. `.dt.week` was deprecated in pandas 
 > orders["quarter"] = orders["date"].dt.quarter
 > ```
 
-December and October fall in quarter 4, August in quarter 3, January in quarter 1. Companies often report sales by quarter, so this feature matches how business data is usually grouped.
+December and October fall in quarter 4, August in quarter 3, January in quarter 1. Companies often report sales by quarter, so this **feature** (G-772) matches how business data is usually grouped.
 
 Figure 7 lays out the 2019 orders as a calendar: each column is one week of the year, each row a weekday, and the dashed lines start each quarter. Every date's week and quarter can be read off its position.
 
@@ -277,9 +277,9 @@ pandas has no semester tool, so we build it from the quarter.
 
 ## 6. Time passed since a date
 
-> **Key point:** Subtracting two datetimes gives a Timedelta; dividing it by a unit turns it into a number of days, hours or months.
+> **Key point:** Subtracting two datetimes gives a **Timedelta** (G-1977); dividing it by a unit turns it into a number of days, hours or months.
 
-How long ago an order was placed is often a useful feature, for example "days since the last purchase". We get it by subtracting the date from today's date.
+How long ago an order was placed is often a useful **feature** (G-772), for example "days since the last purchase". We get it by subtracting the date from today's date.
 
 ### 6.1 Fixing "today"
 
@@ -293,13 +293,13 @@ How long ago an order was placed is often a useful feature, for example "days si
 > today = pd.Timestamp("2021-04-21 16:02:16")
 > ```
 >
-> A **Timestamp** (G-1978) is pandas' type for one single point in time; a datetime column is a column of Timestamps.
+> A **Timestamp** (G-1978) is pandas' type for one single point in time; a **datetime** (G-545) column is a column of Timestamps.
 
 ### 6.2 The Timedelta
 
 > **Key point:** `today - orders["date"]` gives one Timedelta per row: a length of time in days, hours, minutes and seconds.
 
-A **Timedelta** (G-1977) is a length of time, such as `498 days 16:02:16`. Subtracting one Timestamp from another gives one. Figure 8 shows it for one order, row 11 (2 August 2019), which section 6.3 comes back to.
+A **Timedelta** (G-1977) is a length of time, such as `498 days 16:02:16`. Subtracting one **Timestamp** (G-1978) from another gives one. Figure 8 shows it for one order, row 11 (2 August 2019), which section 6.3 comes back to.
 
 ![The time between an order and "today", and three ways to turn it into a number](images/elapsed.png){width=100%}
 
@@ -414,17 +414,17 @@ The two ways agree on the first five rows, but disagree on 205 of the 1,000. Row
 
 `.dt.time` keeps only the time of day and drops the date. The time of day is useful when only the clock time matters.
 
-The hour feature already tells a story. Figure 6 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
+The hour **feature** (G-772) already tells a story. Figure 6 (right) shows that 998 of the 1,000 messages were sent between 22:00 and 03:00: the app is used for night-time chat.
 
 ![The same night-time pattern on a 24-hour clock: almost every message falls in the shaded arc](images/night_clock.png){width=45%}
 
 Figure 9 wraps the hours around a clock, so the arc from 22:00 to 03:00 reads as one stretch of night.
 
-> **Extra:** `.dt.time` returns a column of Python `datetime.time` objects (dtype `object`), not a datetime column. The `.dt` tools no longer work on it, and a model cannot use it directly. For a model, the `hour` and `min` numbers are the better features.
+> **Extra:** `.dt.time` returns a column of Python `datetime.time` objects (dtype `object`), not a **datetime** (G-545) column. The `.dt` tools no longer work on it, and a model cannot use it directly. For a model, the `hour` and `min` numbers are the better features.
 
 ## 8. Time passed in seconds, minutes and hours
 
-> **Key point:** Divide the Timedelta by one second, one minute or one hour to get the time passed in that unit.
+> **Key point:** Divide the **Timedelta** (G-1977) by one second, one minute or one hour to get the time passed in that unit.
 
 The subtraction works as in [Section 6](#6-time-passed-since-a-date), now with times included. Only the unit we divide by changes.
 
@@ -487,16 +487,16 @@ The unit letters are case-sensitive:
 | Months passed | `/ pd.Timedelta(days=30.436875)`, rounded | 16 |
 | Hour, minute, second | `.dt.hour`, `.dt.minute`, `.dt.second` | (messages) 0, 50, 0 |
 
-- Each extracted part in the table is worth a feature of its own, because it answers its own question (weekend spending, the busiest month, the time of day) that the raw date cannot.
+- Each extracted part in the table is worth a **feature** (G-772) of its own, because it answers its own question (weekend spending, the busiest month, the time of day) that the raw date cannot.
 - Dates arrive as text; convert them with `pd.to_datetime` (or `parse_dates` in `read_csv`) before anything else, because as text `2019-12-10` is just ten characters and the date tools do not work.
 - The `.dt` accessor pulls out each part of a date or time as a new feature, for every row of the column at once.
 - Weekend and semester flags are built from the weekday and the quarter, because pandas has no ready-made tool for them.
 - `.dt.week` was removed: use `.dt.isocalendar().week`, because older code with `.dt.week` now fails with an `AttributeError`.
-- Subtracting datetimes gives a Timedelta; divide it by a unit to get a number, so a model can use the time passed, such as days since the last purchase.
+- Subtracting datetimes gives a **Timedelta** (G-1977); divide it by a unit to get a number, so a model can use the time passed, such as days since the last purchase.
 - A month has no fixed length: use an average month of 30.436875 days, or count calendar months. That is why current pandas refuses `np.timedelta64(1, "M")`, and why the two ways disagree on 205 of the 1,000 orders.
 - Fix "today" as a constant so that results do not change between runs, because `pd.Timestamp.now()` gives a different moment every time the code runs.
 - Give `pd.to_datetime` a `format` when dates are written day first, because pandas guesses one format from the first value: `10/12/2019` is read as 12 October, and `25/12/2019` stops with an error.
-- So one date or time column becomes many useful features once it is converted to a datetime type and its parts are pulled out with `.dt`.
+- So one date or time column becomes many useful features once it is converted to a **datetime** (G-545) type and its parts are pulled out with `.dt`.
 
 ## 10. Sources
 
@@ -515,13 +515,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| pd.to_datetime (G-1472) | The pandas function that converts text to datetime values. |
 | Datetime (G-545) | A value pandas understands as a point in time, with date and time parts, so we can pull out parts such as the year or weekday and compute the time between two dates. |
+| pd.to_datetime (G-1472) | The pandas function that converts text to datetime values. |
 | NaT (G-1304) | "Not a time": the missing value of a datetime column. |
 | .dt accessor (G-46) | The pandas tool that applies date and time methods to every value of a datetime column. |
 | ISO week (G-975) | The week number of the ISO calendar, from `.dt.isocalendar().week`; week 1 holds the year's first Thursday. |
-| Timestamp (G-1978) | pandas' type for a single point in time. |
 | Timedelta (G-1977) | A length of time, the result of subtracting two datetimes. |
+| Timestamp (G-1978) | pandas' type for a single point in time. |
 | datetime64 (G-546) | The pandas column type for datetimes; `[us]` means microsecond resolution. |
 | Day of week (G-547) | The weekday as a number, Monday = 0 to Sunday = 6 (`.dt.dayofweek`). |
 | Format string (G-795) | A pattern such as `"%d/%m/%Y"` telling `pd.to_datetime` how dates are written. |

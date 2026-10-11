@@ -19,11 +19,11 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 ![The four modules of statistics for ML](images/roadmap.png){height=60%}
 
-Figure 1 shows the whole map. Each coloured box is one module; the white box under it lists its topics. An arrow means "is needed by": descriptive statistics comes first, and probability distributions are needed by inferential statistics. Hypothesis testing, in the inferential module, depends on the probability distributions module. This Note says what each module covers, why ML needs it, and where each topic is taught.
+Figure 1 shows the whole map. Each coloured box is one module; the white box under it lists its topics. An arrow means "is needed by": descriptive statistics comes first, and probability distributions are needed by inferential statistics. **Hypothesis testing** (G-913), in the inferential module, depends on the probability distributions module. This Note says what each module covers, why ML needs it, and where each topic is taught.
 
 ## 2. Why ML needs statistics
 
-> **Key point:** Statistics is how we summarise data and draw conclusions from it, and many ML algorithms are built on it.
+> **Key point:** **Statistics** (G-1884) is how we summarise data and draw conclusions from it, and many ML algorithms are built on it.
 
 Statistics turns raw data into summaries and decisions. In data work it shows up in three places (Figure 2):
 
@@ -35,11 +35,11 @@ Statistics turns raw data into summaries and decisions. In data work it shows up
 
 ## 3. The four modules
 
-> **Key point:** Descriptive statistics summarises the data we have; probability distributions describe the shapes data can take; inferential statistics draws conclusions about data we do not have.
+> **Key point:** Descriptive statistics summarises the data we have; **probability distributions** (G-1571) describe the shapes data can take; inferential statistics draws conclusions about data we do not have.
 
 ![One key figure from each module: box plots of Titanic ages (MA-008), a kernel density estimate built from bumps (MA-023), 100 confidence intervals (MA-036) and a Q-Q plot of iris sepal lengths (MA-028)](images/module_gallery.png){width=95%}
 
-Figure 3 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a population with its uncertainty, and a diagnostic plot.
+Figure 3 previews what each module produces: summaries of the data in hand, a smooth shape for a distribution, a statement about a **population** (G-1525) with its uncertainty, and a diagnostic plot.
 
 ### 3.1 Descriptive statistics
 
@@ -61,7 +61,7 @@ This module describes data that is already in our hands. Its topics, and where e
 
 ### 3.2 Probability distributions
 
-> **Key point:** A probability distribution describes how likely each value of a feature is; the hypothesis tests of the next module depend on it.
+> **Key point:** A **probability distribution** (G-1571) describes how likely each value of a feature is; the hypothesis tests of the next module depend on it.
 
 This module studies the shapes data can take. Here a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table, and an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of that table:
 
@@ -106,7 +106,7 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 
 > **Extra:** Good resources for this roadmap:
 >
-> - **Books:** *An Introduction to Statistical Learning* (James, Witten, Hastie, Tibshirani; statistics through ML), *Practical Statistics for Data Scientists* (Bruce, Bruce, Gedeck; practical, with Python and R), *Think Stats* (Downey; short, Python-based).
+> - **Books:** *An Introduction to Statistical Learning* (James, Witten, Hastie, Tibshirani; **statistics** (G-1884) through ML), *Practical Statistics for Data Scientists* (Bruce, Bruce, Gedeck; practical, with Python and R), *Think Stats* (Downey; short, Python-based).
 > - **Online lessons:** Starmer, J., StatQuest, *Statistics Fundamentals*, statquest.org.
 > - **Revision:** a one-page statistics cheat sheet, once the topics are learned.
 
@@ -119,9 +119,9 @@ The whole roadmap takes roughly 60 hours. At 2 to 2.5 hours a day, that is about
 | Inferential statistics | What can a sample tell us about the population? | central limit theorem, confidence intervals, hypothesis tests | deciding whether a new medicine or website design really works better needs a test |
 | Miscellaneous | Extra tools | Q-Q plot, sampling, resampling, moments, Bayes | some are studied when an algorithm needs them |
 
-- Descriptive statistics comes first; inferential statistics depends on probability distributions, so study the modules in the order of the map.
+- Descriptive statistics comes first; inferential statistics depends on **probability distributions** (G-1571), so study the modules in the order of the map.
 - About 60 hours covers the whole roadmap, so it fits in about a month at 2 to 2.5 hours a day.
-- Together the four modules are what ML needs from statistics: summarise the data, describe its shape, and draw conclusions from it.
+- Together the four modules are what ML needs from **statistics** (G-1884): summarise the data, describe its shape, and draw conclusions from it.
 
 ## 6. Sources
 
@@ -144,15 +144,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Descriptive statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
 | [Probability distribution](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | [Inferential statistics](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#3-descriptive-and-inferential-statistics) (G-944) | Statistics that draws conclusions about a population from a sample. |
+| [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
+| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
 | [Range](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#3-range) (G-1626) | The simplest measure of spread: the largest value minus the smallest. |
 | [Covariance](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) | A number that says how two numerical features move together: positive if they rise together, negative if one rises as the other falls. Its size depends on the units. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Random variable](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
-| [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
 | [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Central limit theorem](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
-| [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
 | [Statistical moments](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882) | Averages of distances from the mean raised to a power: mean, variance, skewness, kurtosis. |
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |

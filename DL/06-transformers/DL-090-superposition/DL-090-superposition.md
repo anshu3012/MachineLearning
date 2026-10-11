@@ -16,13 +16,13 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/superpos
 
 ## 1. Overview
 
-> **Key point:** A space of $d$ dimensions holds only $d$ exactly perpendicular directions but far more **nearly** perpendicular ones, and the **superposition hypothesis** (G-1916) says neural networks use this room to store more features than they have dimensions, accepting a little interference between them.
+> **Key point:** A space of $d$ dimensions holds only $d$ exactly perpendicular directions but far more **nearly** perpendicular ones, and the **superposition hypothesis** (G-1916) says neural networks use this room to store more **features** (G-772) than they have dimensions, accepting a little interference between them.
 
 [Differences between words are directions](../DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#4-the-difference-between-two-words-is-a-direction) showed that an embedding (a word's list of numbers) stores ideas such as "female" or "plural" as directions. [Rows ask questions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate) and [columns write directions](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#5-columns-write-directions) showed that the feed-forward block reads directions with the rows of its first matrix and writes directions with the columns of its second. Both raise a question: how many such directions can a vector of 768 or 12,288 numbers hold without the ideas getting mixed up?
 
 This Note answers it in four steps:
 
-1. Random directions in high dimensions are almost always nearly perpendicular (section 4).
+1. Random directions in high dimensions are almost always **nearly perpendicular** (G-1307) (section 4).
 2. There is a hard limit on how perpendicular many directions can be, and a generous count of how many fit (sections 5 and 6).
 3. The token vectors of a real transformer, GPT-2 small, spread out in the same way (section 7).
 4. A small trained model shows superposition happening, and when it does not (section 8).
@@ -60,7 +60,7 @@ Figure 1 shows the first fact. It is a histogram: the horizontal axis is an angl
 
 ## 3. Perpendicular directions do not interfere, but only $d$ of them fit
 
-> **Key point:** If each feature is a direction and we read a feature with a dot product, every other active feature leaks into the reading in proportion to the cosine between their directions. Perpendicular directions leak nothing, but a $d$-dimensional space has room for only $d$ of them.
+> **Key point:** If each **feature** (G-772) is a direction and we read a feature with a dot product, every other active feature leaks into the reading in proportion to the cosine between their directions. Perpendicular directions leak nothing, but a $d$-dimensional space has room for only $d$ of them.
 
 Suppose a vector $h$ stores several features, each as a unit direction $f_i$ (a vector of length 1) scaled by how strongly the feature is present, $x_i$:
 
@@ -152,7 +152,7 @@ The mean square matches $1/d$ in every row. The spread matches $57.3/\sqrt{d}$ o
 
 ![Left: the measured spread of the angle between random directions (dots) against the prediction $57.3/\sqrt{d}$ (dashed). Right: the share of pairs within 5 degrees of perpendicular rises from 6 percent in 2 dimensions to 100 percent in 12,288](images/spread_vs_d.png){width=100%}
 
-In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all nearly perpendicular. This is one more way in which high-dimensional space is unlike the space we can picture (see [why more dimensions cause trouble](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
+In 2 or 3 dimensions random directions point anywhere; in thousands of dimensions they are almost all **nearly perpendicular** (G-1307). This is one more way in which high-dimensional space is unlike the space we can picture (see [why more dimensions cause trouble](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)).
 
 ## 5. How perpendicular can many directions be made?
 
@@ -202,7 +202,7 @@ Watch the red lines move in while the middle of the histogram stays put. The roo
 
 ## 6. The room grows exponentially with the dimension
 
-> **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ nearly perpendicular directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.
+> **Key point:** The Johnson–Lindenstrauss lemma implies that the dimension needed for $n$ **nearly perpendicular** (G-1307) directions grows only with $\log n$. Turned around, the number of directions that fit grows exponentially with the dimension: going from about 5,900 to 11,800 dimensions raises the guaranteed count from a thousand to a million.
 
 [Section 5](#5-how-perpendicular-can-many-directions-be-made) fixed the number of directions and the dimension and asked how perpendicular they can be. The opposite question is how many directions fit if we allow every angle to be a few degrees off 90, and how that count grows with the dimension. A classic result answers it.
 
@@ -288,7 +288,7 @@ Each extra 5,920 or so dimensions multiplies the guaranteed number of directions
 
 ![The Johnson–Lindenstrauss guarantee with $\varepsilon = 0.1$: the number of directions that fit, every cosine below 0.222, against the dimension. On a log scale the line is straight: the count grows exponentially with the dimension](images/jl_growth.png){width=90%}
 
-The guarantee is cautious: in the Notebook, 10,000 *random* directions in 768 dimensions already have every pair within 12.1 degrees of perpendicular, and in 12,288 dimensions within 2.9 degrees. Elhage et al. (2022, "The Superposition Hypothesis") point to the same lemma: only $n$ orthogonal vectors fit in $n$ dimensions, but $\exp(n)$ many "almost orthogonal" ones do.
+The guarantee is cautious: in the Notebook, 10,000 *random* directions in 768 dimensions already have every pair within 12.1 degrees of perpendicular, and in 12,288 dimensions within 2.9 degrees. Elhage et al. (2022, "The **Superposition Hypothesis** (G-1916)") point to the same lemma: only $n$ orthogonal vectors fit in $n$ dimensions, but $\exp(n)$ many "almost orthogonal" ones do.
 
 ## 7. Real token vectors spread out the same way
 
@@ -308,13 +308,13 @@ As stored, every token vector shares a common component, the table's mean vector
 
 ## 8. The superposition hypothesis and a toy model
 
-> **Key point:** The superposition hypothesis says networks represent more features than they have dimensions, as nearly perpendicular directions. In a toy model with 5 features and 2 hidden numbers, a ReLU model stores only the 2 most important features when features are always active, but all 5 when each is active only 5 percent of the time (as a regular pentagon when the 5 are equally important). Without the ReLU it never stores more than 2.
+> **Key point:** The superposition hypothesis says networks represent more features than they have dimensions, as **nearly perpendicular** (G-1307) directions. In a toy model with 5 features and 2 hidden numbers, a ReLU model stores only the 2 most important features when features are always active, but all 5 when each is active only 5 percent of the time (as a regular pentagon when the 5 are equally important). Without the ReLU it never stores more than 2.
 
-**The hypothesis.** Elhage et al. (2022) name the idea: "the superposition hypothesis". Neural networks "want to represent more features than they have neurons", so they exploit the room of section 6 to simulate a larger network. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) here is a property of the input the network represents, such as "this token refers to a specific famous person" or "this clause describes music" (the paper's examples). Superposition is offered as a *hypothesis*: it explains observations, and toy models show it can happen, but it is not proven for large models. It explains one observation in particular: many neurons are **polysemantic** (G-1517), responding to several unrelated features.
+**The hypothesis.** Elhage et al. (2022) name the idea: "the **superposition hypothesis** (G-1916)". Neural networks "want to represent more features than they have neurons", so they exploit the room of section 6 to simulate a larger network. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) here is a property of the input the network represents, such as "this token refers to a specific famous person" or "this clause describes music" (the paper's examples). Superposition is offered as a *hypothesis*: it explains observations, and toy models show it can happen, but it is not proven for large models. It explains one observation in particular: many neurons are **polysemantic** (G-1517), responding to several unrelated features.
 
 ### 8.1 The toy model
 
-> **Key point:** Squeeze 5 features into 2 numbers with a matrix $W$, unsqueeze with $W^T$, add a bias and apply ReLU. Training decides which features get a direction.
+> **Key point:** Squeeze 5 **features** (G-772) into 2 numbers with a matrix $W$, unsqueeze with $W^T$, add a bias and apply **ReLU** (G-1668). Training decides which features get a direction.
 
 The setup follows Elhage et al. (2022, "Demonstrating Superposition"):
 
@@ -337,13 +337,13 @@ The setup follows Elhage et al. (2022, "Demonstrating Superposition"):
   For example, with $I_1 = 1$, a stored $x_1 = 0.8$ read back as $x'_1 = 0.5$ adds to the loss:
 
   $$1 \times (0.8 - 0.5)^2 = 0.09$$
-- **Training (Notebook):** Adam, 6,000 steps of 1,024 random observations, 5 random starts per setting; we keep the run with the lowest loss (for its 10-feature, 5-neuron figures the paper keeps the best of 1,000 runs).
+- **Training (Notebook):** **Adam** (G-169), 6,000 steps of 1,024 random observations, 5 random starts per setting; we keep the run with the lowest loss (for its 10-feature, 5-neuron figures the paper keeps the best of 1,000 runs).
 
 ### 8.2 Sparse features are stored in superposition
 
-> **Key point:** As the features get sparser, the model stores 2, then 4, then all 5 of them in its 2 numbers.
+> **Key point:** As the **features** (G-772) get sparser, the model stores 2, then 4, then all 5 of them in its 2 numbers.
 
-Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.7^i$ (feature 1 matters most). Each panel is the plane of the 2 hidden numbers; each coloured line from the centre is one feature's direction $W_i$ (the legend gives the colour of each feature). A short or missing line means the feature is not stored. A feature counts as stored when its direction has length above 0.5.
+Figure 7 shows the trained directions $W_i$ with **importance** (G-925) falling as $I_i = 0.7^i$ (feature 1 matters most). Each panel is the plane of the 2 hidden numbers; each coloured line from the centre is one feature's direction $W_i$ (the legend gives the colour of each feature). A short or missing line means the feature is not stored. A feature counts as stored when its direction has length above 0.5.
 
 ![Toy model of superposition: the 2-number direction of each of 5 features after training, as features get sparser. Last panel: no ReLU](images/toy_sparsity.png){width=100%}
 
@@ -355,7 +355,7 @@ Figure 7 shows the trained directions $W_i$ with importance falling as $I_i = 0.
 | ReLU | 0.95 | 5 | all five, spread around the circle |
 | no ReLU | 0.95 | 2 | features 1 and 2 at 90 degrees |
 
-With dense features the model does what a linear method such as PCA would do: it keeps the two most important features on perpendicular directions and drops the rest (PCA, principal component analysis, keeps the directions along which the data varies most). Elhage et al. (2022) describe the same result: "With dense features, the model learns to represent an orthogonal basis of the most important two features". As features get sparser, more of them share the 2 numbers. Without the ReLU, the model keeps only 2 even when features are sparse: "the linear model always learns the top $m$ most important features" (Elhage et al. 2022).
+With dense features the model does what a linear method such as PCA would do: it keeps the two most important features on perpendicular directions and drops the rest (PCA, principal component analysis, keeps the directions along which the data varies most). Elhage et al. (2022) describe the same result: "With dense features, the model learns to represent an orthogonal basis of the most important two features". As features get sparser, more of them share the 2 numbers. Without the **ReLU** (G-1668), the model keeps only 2 even when features are sparse: "the linear model always learns the top $m$ most important features" (Elhage et al. 2022).
 
 With 5 equally important features ($I_i = 1$) at $S = 0.95$, the directions spread out evenly. Figure 8 shows the training. Watch the 5 arrows push apart until the angles between neighbours are all close to 72 degrees, the angles of a regular pentagon. The paper reports the same regular pentagon for this setting (Elhage et al. 2022, "Perturbing a Single Feature").
 
@@ -363,24 +363,24 @@ With 5 equally important features ($I_i = 1$) at $S = 0.95$, the directions spre
 
 ### 8.3 Why sparsity and the ReLU make it work
 
-> **Key point:** In the pentagon, one active feature leaks a little into its two near neighbours and a lot of negative into the two far ones; the negative bias and the ReLU cut most of it away. When two features are active at once, the leaks add up and the outputs go wrong, so superposition only pays when features are rarely active together.
+> **Key point:** In the pentagon, one active feature leaks a little into its two near neighbours and a lot of negative into the two far ones; the negative bias and the **ReLU** (G-1668) cut most of it away. When two features are active at once, the leaks add up and the outputs go wrong, so superposition only pays when features are rarely active together.
 
-From the trained pentagon (Notebook): every bias is about $-0.24$, and the cosine-like products $W_i \cdot W_j$ are about $1.28$ for a feature with itself, $0.39$ for its two neighbours, and $-1.04$ for the two far features. Feed in feature 1 alone, $x = (1, 0, 0, 0, 0)$:
+From the trained pentagon (Notebook): every bias is about $-0.24$, and the cosine-like products $W_i \cdot W_j$ are about $1.28$ for a **feature** (G-772) with itself, $0.39$ for its two neighbours, and $-1.04$ for the two far features. Feed in feature 1 alone, $x = (1, 0, 0, 0, 0)$:
 
 | Output for feature | 1 | 2 (far) | 3 (near) | 4 (near) | 5 (far) |
 |---|---|---|---|---|---|
 | $W^TWx + b$ | 1.02 | −1.26 | 0.16 | 0.14 | −1.29 |
 | After ReLU | **1.02** | 0 | 0.16 | 0.14 | 0 |
 
-Feature 1 is read back almost exactly. The interference into the far features is negative, and the ReLU removes it entirely; the interference into the near features (0.39 before the bias) is reduced by the negative bias to about 0.15. Elhage et al. (2022) summarise this: superposition works "at the cost of 'interference' that requires nonlinear filtering". A linear output has no ReLU to remove the negative leaks, which is why the no-ReLU model never stores more than 2.
+Feature 1 is read back almost exactly. The **interference** (G-962) into the far features is negative, and the ReLU removes it entirely; the interference into the near features (0.39 before the bias) is reduced by the negative bias to about 0.15. Elhage et al. (2022) summarise this: superposition works "at the cost of 'interference' that requires nonlinear filtering". A linear output has no ReLU to remove the negative leaks, which is why the no-ReLU model never stores more than 2.
 
 Now make features 1 and 2 active together, $x = (1, 1, 0, 0, 0)$: the outputs become $0.01, 0.04, 0.59, 0, 0$. Both active features are nearly lost, and feature 3, which is absent, reads 0.59. With $S = 0.95$ two features are active together only rarely, so the model accepts these rare errors in exchange for storing all 5. With dense features they would happen all the time, which is why the dense model stores only 2.
 
 ### 8.4 What this means for neurons
 
-> **Key point:** If a model stores features in superposition, a feature is a direction across many neurons, not one neuron, and one neuron takes part in many features.
+> **Key point:** If a model stores **features** (G-772) in superposition, a feature is a direction across many neurons, not one neuron, and one neuron takes part in many features.
 
-The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([the MLP block in one formula](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#3-the-mlp-block-in-one-formula)). Each neuron's activation measures how well the vector aligns with one row of the first matrix. If the model stores more features than it has neurons, as nearly perpendicular directions, then a feature cannot be one neuron lighting up: it is a particular combination of neurons, and each neuron is shared by several features. That is the polysemantic behaviour the superposition hypothesis sets out to explain (Elhage et al. 2022). It also makes models hard to read neuron by neuron.
+The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([the MLP block in one formula](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#3-the-mlp-block-in-one-formula)). Each neuron's activation measures how well the vector aligns with one row of the first matrix. If the model stores more features than it has neurons, as **nearly perpendicular** (G-1307) directions, then a feature cannot be one neuron lighting up: it is a particular combination of neurons, and each neuron is shared by several features. That is the polysemantic behaviour the superposition hypothesis sets out to explain (Elhage et al. 2022). It also makes models hard to read neuron by neuron.
 
 ## 9. Summary
 
@@ -394,10 +394,10 @@ The MLP of GPT-2 has 4 times as many hidden neurons as the vector has numbers ([
 | Sparse features are stored in superposition | toy model: 2 of 5 features stored when dense, all 5 (a pentagon) at 95 percent sparsity; never more than 2 without ReLU |
 
 - Perpendicular directions never interfere, because every cosine between them is 0, but only $d$ of them fit, because perpendicular vectors are linearly independent.
-- Nearly perpendicular directions interfere a little, because each leak is weighted by a small cosine, and exponentially many of them fit, so a 768-number vector has room for far more than 768 ideas.
-- The superposition hypothesis: networks store more features than dimensions this way, filtering the interference with non-linearities such as ReLU; without the ReLU, the toy model never stored more than 2 features.
-- It pays only when features are sparse, so that few of them are active at once, because two features active together add their leaks and the readings go wrong.
-- If models work this way, a feature is a direction across many neurons, so reading a model neuron by neuron is hard (polysemantic neurons).
+- **Nearly perpendicular** (G-1307) directions interfere a little, because each leak is weighted by a small cosine, and exponentially many of them fit, so a 768-number vector has room for far more than 768 ideas.
+- The superposition hypothesis: networks store more features than dimensions this way, filtering the interference with non-linearities such as **ReLU** (G-1668); without the ReLU, the toy model never stored more than 2 features.
+- It pays only when **features** (G-772) are sparse, so that few of them are active at once, because two features active together add their leaks and the readings go wrong.
+- If models work this way, a feature is a direction across many neurons, so reading a model neuron by neuron is hard (**polysemantic neurons** (G-1517)).
 - So the answer to the opening question: a vector holds only $d$ ideas with no mixing, but far more with a little mixing, as long as the ideas are rarely active together.
 
 ## 10. Sources
@@ -419,16 +419,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Superposition hypothesis (G-1916) | The proposal that real neural networks store features in superposition (Elhage et al. 2022). |
-| Interference (G-962) | The part of a feature's reading that comes from other active features, in proportion to the cosines between their directions. |
 | Nearly perpendicular (G-1307) | Two directions whose angle is close to 90 degrees, so their cosine (and dot product) is close to 0; letting feature directions be only nearly perpendicular lets a vector of $d$ numbers store more than $d$ features, at the price of a little interference. |
+| Interference (G-962) | The part of a feature's reading that comes from other active features, in proportion to the cosines between their directions. |
 | Johnson–Lindenstrauss lemma (G-984) | A cloud of $n$ points in many dimensions can be copied into far fewer dimensions, about $\log n/\varepsilon^2$, with every squared distance kept within a factor $1 \pm \varepsilon$. |
 | Polysemantic neuron (G-1517) | A neuron that responds to several unrelated features. |
 | Importance $I_i$ (G-925) | The weight of feature $i$ in the toy model's loss. |
 | Sparsity $S$ (G-1848) | The probability that a feature is 0 in an observation; high sparsity means the feature is rarely active. |
 | Superposition (G-1917) | A network storing more features than it has dimensions by giving each feature its own nearly perpendicular direction. |
 | Toy model of superposition (G-1994) | A tiny network that squeezes more features than it has hidden numbers and is trained to rebuild its input, $x' = \text{ReLU}(W^TWx + b)$; it shows when a network stores more features than dimensions (superposition). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Linearly independent](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence) (G-1102) | Said of a set of vectors in which none can be built from the others, so each one adds a new direction to the span. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

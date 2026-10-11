@@ -16,14 +16,14 @@ tags: [subject/machine-learning, area/likelihood, area/models-1, step/model, con
 
 ## 1. Overview
 
-> **Key point:** To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called binary cross entropy or log loss.
+> **Key point:** To find the best decision boundary, we need a loss function: one number that says how good a boundary is. For logistic regression it comes from maximum likelihood, and it is called **binary cross entropy** (G-303) or log loss.
 
 The sigmoid perceptron of the [previous lesson](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#7-does-it-help) improved the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555): the line where the model's probability is exactly 0.5, with one class predicted on each side. But we still had no way to say which decision boundary is **best**, or when to stop nudging. Both perceptron versions pick random points and nudge the decision boundary, without a number that measures how good the line is.
 
 Machine learning normally works differently, as in linear regression:
 
 1. Define a [**loss function**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706): a formula that measures how wrong a model is.
-2. Find the coefficients where the loss is smallest, with a formula or with gradient descent.
+2. Find the coefficients where the loss is smallest, with a formula or with **gradient descent** (G-862).
 
 This Note builds the loss function for [**logistic regression**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120). The next lessons minimise it with [gradient descent](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#6-the-update-rule).
 
@@ -33,11 +33,11 @@ This Note builds the loss function for [**logistic regression**](../ML-069-perce
 
 Imagine four points, two green and two red, and two candidate decision boundaries. If model 1 misclassifies points and model 2 separates them perfectly, model 2 is clearly better.
 
-But when two models both classify everything correctly, or both make one mistake, it is not obvious which is better. A loss function settles this: it gives each model a number, and the model with the better number wins.
+But when two models both classify everything correctly, or both make one mistake, it is not obvious which is better. A **loss function** (G-706) settles this: it gives each model a number, and the model with the better number wins.
 
 ![The four points of the table in Section 3.1 under the two models. Each label is the probability the model gives to the point's true colour; a cross marks a point on the wrong side of the decision boundary (black line). The background shades from red to green as P(green) grows.](images/toy_models.png){height=45%}
 
-In Figure 1, watch the two crosses: model 1's decision boundary leaves points 2 and 3 on the wrong side, while model 2's separates all four.
+In Figure 1, watch the two crosses: model 1's **decision boundary** (G-555) leaves points 2 and 3 on the wrong side, while model 2's separates all four.
 
 ## 3. Maximum likelihood
 
@@ -89,7 +89,7 @@ In Figure 2, the left bars are the four factors of each product: model 1 has two
 
 > **Key point:** 10,000 probabilities of 0.7 multiply to about 10⁻¹⁵⁴⁹.
 
-With 4 points the product is already only 0.09. A real dataset may have 10,000 observations. If each point got probability 0.7, the product would be 0.7 multiplied by itself 10,000 times:
+With 4 points the product is already only 0.09. A real dataset may have 10,000 **observations** (G-1374). If each point got probability 0.7, the product would be 0.7 multiplied by itself 10,000 times:
 
 $$0.7^{10{,}000} = 10^{10{,}000 \times \log_{10} 0.7}$$
 
@@ -109,7 +109,7 @@ The logarithm turns multiplication into addition:
 
 $$\log(a \times b) = \log a + \log b$$
 
-So instead of the likelihood, we compute its log, the **log-likelihood** (G-1113). The **log** of a number $a$ is the power to which a fixed base must be raised to give $a$ (see [why we take the log](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#8-why-we-take-the-log)); for example $\log 1 = 0$, and the log of a number below 1 is negative. Every log in this Note is the natural log (base $e = 2.718$), which is what `np.log` computes; any other base gives different numbers but the same best model.
+So instead of the **likelihood** (G-1086), we compute its log, the **log-likelihood** (G-1113). The **log** of a number $a$ is the power to which a fixed base must be raised to give $a$ (see [why we take the log](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#8-why-we-take-the-log)); for example $\log 1 = 0$, and the log of a number below 1 is negative. Every log in this Note is the natural log (base $e = 2.718$), which is what `np.log` computes; any other base gives different numbers but the same best model.
 
 $$\log(0.7 \times 0.4 \times 0.4 \times 0.8)$$
 
@@ -129,14 +129,14 @@ Since log grows whenever its input grows, the model with the larger likelihood a
 
 > **Key point:** Logs of numbers below 1 are negative. Putting a minus sign in front gives a positive number to minimise: the cross entropy.
 
-Every probability is between 0 and 1, and the log of such a number is negative. So the log-likelihood is always negative. Putting a minus sign in front makes it positive:
+Every probability is between 0 and 1, and the log of such a number is negative. So the **log-likelihood** (G-1113) is always negative. Putting a minus sign in front makes it positive:
 
 | Model | Likelihood | Log-likelihood | Cross entropy |
 |---|---|---|---|
 | 1 | 0.090 | $-2.41$ | 2.41 |
 | 2 | 0.176 | $-1.74$ | 1.74 |
 
-This negative log-likelihood is the **cross entropy** (G-505). Because of the sign change, the direction flips too: we **maximise** the likelihood but **minimise** the cross entropy. The better model, model 2, has the smaller cross entropy.
+This negative log-likelihood is the **cross entropy** (G-505). Because of the sign change, the direction flips too: we **maximise** the **likelihood** (G-1086) but **minimise** the cross entropy. The better model, model 2, has the smaller cross entropy.
 
 ![From probabilities to cross entropy](images/chain.png){width=100%}
 
@@ -146,7 +146,7 @@ Figure 3 lays out the whole chain for model 1, with the number at each step.
 
 > **Key point:** Each point costs −log p. A confident correct prediction costs almost nothing; a confident wrong one costs a lot.
 
-The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the probability given to the true class. Figure 4 shows how this cost behaves.
+The **cross entropy** (G-505) is a sum of one cost per point, $-\log p$, where $p$ is the probability given to the true class. Figure 4 shows how this cost behaves.
 
 ![The cost −log p of one point](images/neg_log.png){height=40%}
 
@@ -155,13 +155,13 @@ The cross entropy is a sum of one cost per point, $-\log p$, where $p$ is the pr
 - $p = 0.4$ (on the wrong side): cost 0.92.
 - $p = 0.1$ (confident and wrong): cost 2.30, and it grows without limit as $p$ approaches 0.
 
-So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. The second effect matters for points close to the decision boundary: a correct point with $p = 0.6$ still costs 0.51, so lowering the loss means moving the decision boundary further away from it.
+So the loss punishes confident mistakes very heavily, and keeps rewarding the model a little for making correct points even more certain. The second effect matters for points close to the **decision boundary** (G-555): a correct point with $p = 0.6$ still costs 0.51, so lowering the loss means moving the decision boundary further away from it.
 
 ### 5.1 Why not the squared error?
 
-> **Key point:** For a badly wrong prediction, the log loss curve is far steeper than the squared error curve, so the model gets a much stronger push to correct itself.
+> **Key point:** For a badly wrong prediction, the **log loss** (G-303) curve is far steeper than the squared error curve, so the model gets a much stronger push to correct itself.
 
-Linear regression used the squared error, so a natural question is why logistic regression does not. For one point, the squared error would be $(1 - p)^2$: the gap between the probability given to the true class and 1, squared.
+Linear regression used the squared error, so a natural question is why **logistic regression** (G-1120) does not. For one point, the squared error would be $(1 - p)^2$: the gap between the probability given to the true class and 1, squared.
 
 Figure 5 slides one point from a good prediction to a bad one and draws both costs. Watch the two black **tangent lines** (G-1945; a straight line that touches a curve at one point and has the curve's slope there): the steepness of each tangent is the slope of that cost.
 
@@ -174,9 +174,9 @@ Figure 5 slides one point from a good prediction to a bad one and draws both cos
 | 0.1 | 2.30 | $-10.0$ | 0.81 | $-1.8$ |
 | 0.03 | 3.51 | $-33.3$ | 0.94 | $-1.9$ |
 
-Gradient descent (section 7) takes steps whose size depends on the slope of the loss. With the squared error, a terrible prediction ($p = 0.03$) gives almost the same slope as a mediocre one ($p = 0.1$). With log loss, the worse the prediction, the steeper the slope, so the worst mistakes are corrected with the largest steps.
+**Gradient descent** (G-862) (section 7) takes steps whose size depends on the slope of the loss. With the squared error, a terrible prediction ($p = 0.03$) gives almost the same slope as a mediocre one ($p = 0.1$). With log loss, the worse the prediction, the steeper the slope, so the worst mistakes are corrected with the largest steps.
 
-> **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the decision boundary towards the one with the widest gap (Soudry et al. 2018).
+> **Extra:** On perfectly separable data, gradient descent on this loss slowly turns the **decision boundary** (G-555) towards the one with the widest gap (Soudry et al. 2018).
 
 ## 6. One formula for both classes
 
@@ -209,11 +209,11 @@ $$-\log 0.4 = 0.92$$
 
 > **Key point:** Average the costs over all n points.
 
-Summing over all points and dividing by $n$ to get an average gives the loss function of logistic regression. The symbol $\sum_{i=1}^{n}$ means: add the term for $i = 1$, then $i = 2$, and so on up to $i = n$. For model 1 ($n = 4$) the four terms are the costs of the four points:
+Summing over all points and dividing by $n$ to get an average gives the loss function of **logistic regression** (G-1120). The symbol $\sum_{i=1}^{n}$ means: add the term for $i = 1$, then $i = 2$, and so on up to $i = n$. For model 1 ($n = 4$) the four terms are the costs of the four points:
 
 $$0.357 + 0.916 + 0.916 + 0.223 = 2.41$$
 
-The loss function is then:
+The **loss function** (G-706) is then:
 
 $$L = -\frac{1}{n}\sum_{i=1}^{n}\left[y_i \log \hat y_i + (1 - y_i)\log(1 - \hat y_i)\right]$$
 
@@ -239,15 +239,15 @@ $$\frac{2.41}{4} = 0.603$$
 
 ## 7. Minimising the loss
 
-> **Key point:** There is no formula for the best w, so logistic regression is trained with gradient descent.
+> **Key point:** There is no formula for the best w, so **logistic regression** (G-1120) is trained with gradient descent.
 
-The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For log loss there is no such [**closed-form solution**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
+The task is now precise: find the coefficients $w$ that make $L$ as small as possible. For linear regression's squared error, setting the derivative to zero gave a formula (OLS). For **log loss** (G-303) there is no such [**closed-form solution**](../../06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398), a formula that gives the answer in one step, because $w$ sits inside the sigmoid and the logs (Bishop §4.3.3).
 
 ### 7.1 The search in a picture
 
-> **Key point:** Try a curve, score it with the log loss, change the curve a little so that the score improves, and repeat until the score stops falling.
+> **Key point:** Try a curve, score it with the **log loss** (G-303), change the curve a little so that the score improves, and repeat until the score stops falling.
 
-Without a formula, the best model has to be searched for. Figure 7 shows the search on one feature: the CGPA of 30 students and whether each was placed. A candidate model is an S-shaped sigmoid curve giving P(placed) for every CGPA.
+Without a formula, the best model has to be searched for. Figure 7 shows the search on one **feature** (G-772): the CGPA of 30 students and whether each was placed. A candidate model is an S-shaped sigmoid curve giving P(placed) for every CGPA.
 
 ![Thirty students (green: placed, blue: not placed) and a candidate sigmoid curve. Each red bar is the gap between a student and the curve: 1 minus the probability the curve gives to the student's true class. From curve to curve the bars shrink and the log loss falls from 1.190 to 0.138, where it stops falling. Idea after StatQuest, "Logistic Regression Details Pt 2: Maximum Likelihood"; the data and curves are our own](images/curve_search.gif)
 
@@ -268,7 +268,7 @@ The method that chooses each next curve is [**gradient descent**](../../06-regre
 
 ![Gradient descent on the log loss of the four points, starting from model 1 (dotted line). Left: the decision boundary (P(green) = 0.5) turns; the labels give each point's probability for its true colour. Right: the log loss per step, with model 2's 0.434 dashed. Key frames: steps 0, 3 and 40.](images/gd_four.gif){height=80%}
 
-In Figure 8, watch the loss pass model 2's value by step 3 and keep falling while the decision boundary turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0: every point's probability can still be pushed closer to 1 (where the decision boundary heads meanwhile is the Extra of section 5.1). The [next lesson](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#1-overview) works out the derivative of the sigmoid, and the [one after](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) derives the gradient and codes logistic regression from scratch.
+In Figure 8, watch the loss pass model 2's value by step 3 and keep falling while the **decision boundary** (G-555) turns to put all four points on their correct side. On these four perfectly separable points the loss keeps shrinking towards 0: every point's probability can still be pushed closer to 1 (where the decision boundary heads meanwhile is the Extra of section 5.1). The [next lesson](../ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#1-overview) works out the derivative of the sigmoid, and the [one after](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) derives the gradient and codes **logistic regression** (G-1120) from scratch.
 
 ## 8. Summary
 
@@ -280,12 +280,12 @@ In Figure 8, watch the loss pass model 2's value by step 3 and keep falling whil
 | Change sign: cross entropy (minimise) | 2.41 |
 | Divide by n: log loss | 0.603 |
 
-- The perceptron versions had no measure of "best"; a loss function provides one, so two boundaries that both classify every point correctly can still be compared and training knows what to minimise.
+- The perceptron versions had no measure of "best"; a **loss function** (G-706) provides one, so two boundaries that both classify every point correctly can still be compared and training knows what to minimise.
 - Maximum likelihood: choose the model that gives the observed classes the highest probability, so the better model is the one with the larger product (0.176 against 0.090).
-- Logs avoid tiny products, because a product of thousands of probabilities underflows and every model then looks the same; the minus sign gives a positive loss to minimise.
-- Compared with the squared error, log loss has a much steeper slope for badly wrong predictions, so they are corrected with larger steps.
-- Log loss is the average cost over the points; it has no closed-form minimum, because $w$ sits inside the sigmoid and the logs, so logistic regression is trained with gradient descent.
-- So log loss is the one number that says which decision boundary is best, which the perceptron trick lacked.
+- Logs avoid tiny products, because a product of thousands of probabilities **underflows** (G-2036) and every model then looks the same; the minus sign gives a positive loss to minimise.
+- Compared with the squared error, **log loss** (G-303) has a much steeper slope for badly wrong predictions, so they are corrected with larger steps.
+- Log loss is the average cost over the points; it has no closed-form minimum, because $w$ sits inside the sigmoid and the logs, so **logistic regression** (G-1120) is trained with gradient descent.
+- So log loss is the one number that says which **decision boundary** (G-555) is best, which the perceptron trick lacked.
 
 ## 9. Sources
 
@@ -306,12 +306,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Binary cross entropy (log loss) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | Underflow (G-2036) | A number too close to 0 for the computer to store, which then becomes 0 or loses precision. |
 | Log-likelihood (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
 | Cross entropy (G-505) | A loss for classifiers that grows when the model gives a low probability to the true class. It is the negative log-likelihood, so minimising it maximises the likelihood; smaller is better. |
-| Binary cross entropy (log loss) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
@@ -320,4 +321,3 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
 | [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | [Closed-form solution](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) | An answer given directly by a formula of ordinary operations. |
-| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

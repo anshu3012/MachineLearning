@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/feature-i
 
 ## 1. Overview
 
-> **Key point:** A trained random forest gives every **feature** (input variable, one column of the data table) a score, its feature importance: the share of all the impurity reduction its splits achieved, averaged over the trees. The scores add up to 1.
+> **Key point:** A trained random forest gives every **feature** (input variable, one column of the data table) a score, its **feature importance** (G-764): the share of all the impurity reduction its splits achieved, averaged over the trees. The scores add up to 1.
 
 ![MNIST: (a) one handwritten digit; (b) the random forest's feature importance of each of the 784 pixels. Darker means more important. A heatmap shows each number of a grid as a colour](images/mnist_importance.png){height=40%}
 
@@ -28,13 +28,13 @@ For a single tree, `feature_importances_` was introduced in [feature importance 
 - why feature importance is useful (section 2);
 - how a tree computes it, step by step (section 4);
 - how a random forest combines its trees (section 5);
-- the method's main weakness (section 6), with permutation importance as the alternative (section 7).
+- the method's main weakness (section 6), with **permutation importance** (G-1490) as the alternative (section 7).
 
 The Notebook (`ML-108-feature-importance.ipynb`) runs every example.
 
 ## 2. What feature importance is for
 
-> **Key point:** Feature importance tells us which features a model relies on: useful for dropping weak features (feature selection) and for explaining the model's decisions.
+> **Key point:** Feature importance tells us which features a model relies on: useful for dropping weak features (**feature selection** (G-768)) and for explaining the model's decisions.
 
 [**Feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) is a number for each input feature that says how much the model relied on it. Two uses stand out.
 
@@ -42,7 +42,7 @@ The Notebook (`ML-108-feature-importance.ipynb`) runs every example.
 
 > **Key point:** Keep the features with high importance and drop the rest.
 
-Too many features hurt: training slows down, and useless features can mislead the model. [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps only the useful features (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
+Too many features hurt: training slows down, and useless features can mislead the model. [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps only the useful features (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). **Feature importance** (G-764) is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
 
 Take MNIST (see [the MNIST data](../../05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)): 42,000 images of handwritten digits, each 28 × 28 = 784 pixels, stored as one row of 784 pixel columns plus a label. Digits are written in the middle of the image, so the pixels near the border are almost always blank. Border pixels cannot help tell a 0 from a 4; the central pixels can.
 
@@ -54,7 +54,7 @@ We expect a model to rank the central pixels high and the border pixels near zer
 
 Suppose a bank's model rejects a loan application. The customer will ask why. If the model reports which features matter most, say income, existing debt and credit history, those are the main factors behind its decisions, and the bank can explain them.
 
-A model whose decisions can be explained in this way is **interpretable**; the property is **interpretability** (G-965). Feature importance gives an overall view: which features matter to the model in general, not why one particular application was rejected.
+A model whose decisions can be explained in this way is **interpretable**; the property is **interpretability** (G-965). **Feature importance** (G-764) gives an overall view: which features matter to the model in general, not why one particular application was rejected.
 
 ## 3. Feature importance in code
 
@@ -77,7 +77,7 @@ The forest was trained on all 42,000 images, with no test set: here we only want
 
 ## 4. How a decision tree computes feature importance
 
-> **Key point:** Each split's weighted impurity decrease is credited to the feature it splits on; a feature's importance is its total, divided by the total over all features.
+> **Key point:** Each split's **weighted impurity decrease** (G-2115) is credited to the feature it splits on; a feature's importance is its total, divided by the total over all features.
 
 The scikit-learn documentation defines a feature's importance as "the (normalized) total reduction of the criterion brought by that feature", also called **Gini importance** or **mean decrease in impurity (MDI)** (G-1196). The steps make this concrete.
 
@@ -217,7 +217,7 @@ A single tree's importances can change a lot when the data changes slightly (hig
 
 > **Key point:** Impurity-based importance favours features with many different values: a feature of pure noise with 1,000 unique values gets 10% of the importance.
 
-The scikit-learn documentation warns that impurity-based feature importances "can be misleading for high cardinality features (many unique values)". **High cardinality** (flagged by the profiling report, see [dataset statistics](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#31-dataset-statistics)) here means a feature with very many different values, numeric or categorical. A test shows why.
+The scikit-learn documentation warns that impurity-based **feature importances** (G-764) "can be misleading for high cardinality features (many unique values)". **High cardinality** (flagged by the profiling report, see [dataset statistics](../../02-getting-data/ML-021-pandas-profiling/ML-021-pandas-profiling.md#31-dataset-statistics)) here means a feature with very many different values, numeric or categorical. A test shows why.
 
 ![Two useless features added to four real ones: random_id (1,000 unique values) and random_coin (2 values). (a) Impurity-based importance; (b) permutation importance on the test set](images/mdi_vs_permutation.png){height=36%}
 
@@ -275,13 +275,13 @@ If the data has no high-cardinality features, the impurity-based importance of `
 | Cost | free | many extra predictions |
 | Noise feature with 1,000 values | 0.100 (misleading) | −0.003 (correct) |
 
-- Feature importance scores how much a model relies on each feature, so we can drop features near zero (feature selection, as for the MNIST border pixels) and explain which factors drive the model's decisions (interpretability).
-- In a tree, each split's weighted impurity decrease $\Delta$ is credited to its feature, weighted by the share of observations reaching the node, so a split near the root counts more than one deep down; a feature's importance is its share of the total. For feature 0 of the 5-observation tree:
+- **Feature importance** (G-764) scores how much a model relies on each feature, so we can drop features near zero (feature selection, as for the MNIST border pixels) and explain which factors drive the model's decisions (interpretability).
+- In a tree, each split's **weighted impurity decrease** (G-2115) $\Delta$ is credited to its feature, weighted by the share of observations reaching the node, so a split near the root counts more than one deep down; a feature's importance is its share of the total. For feature 0 of the 5-observation tree:
 
   $$0.30 / 0.48 = 0.625$$
 
 - A random forest averages its trees' importances, which makes them more stable, because one tree's importances change a lot when the data changes slightly, and the mean over many trees smooths that out.
-- Impurity-based importance favours high-cardinality features, because it is computed on the training data, where a feature with many values can split off the last few observations by chance; permutation importance on a test set does not, because shuffling a feature the model never truly used changes nothing on unseen data. So use permutation importance when the data has high-cardinality features.
+- Impurity-based importance favours high-cardinality features, because it is computed on the training data, where a feature with many values can split off the last few observations by chance; **permutation importance** (G-1490) on a test set does not, because shuffling a feature the model never truly used changes nothing on unseen data. So use permutation importance when the data has high-cardinality features.
 - So a trained forest tells us which features it relied on, at no extra cost, as long as we know when that number can mislead.
 
 ## 9. Sources
@@ -301,10 +301,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Interpretability (G-965) | How well people can understand why a model makes its decisions. |
-| Mean decrease in impurity (MDI) (G-1196) | A score of how much a column helps the trees: its share of the total drop in impurity from all splits made on it, weighted and averaged over the trees (impurity-based feature importance, also called Gini importance). |
-| Weighted impurity decrease (G-2115) | How much a split lowers the impurity, weighted by the share of rows that reach the node; trees use it to judge splits (the $\Delta$ of `min_impurity_decrease`) and to score feature importance. |
 | Permutation importance (G-1490) | A feature's importance measured as the drop in a model's test score when that column's values are shuffled; a big drop means the model relies on it, and unlike impurity-based importance it is not fooled by columns with many unique values. |
+| Interpretability (G-965) | How well people can understand why a model makes its decisions. |
+| Weighted impurity decrease (G-2115) | How much a split lowers the impurity, weighted by the share of rows that reach the node; trees use it to judge splits (the $\Delta$ of `min_impurity_decrease`) and to score feature importance. |
+| Mean decrease in impurity (MDI) (G-1196) | A score of how much a column helps the trees: its share of the total drop in impurity from all splits made on it, weighted and averaged over the trees (impurity-based feature importance, also called Gini importance). |
 | Normalized importances (G-1350) | Importances divided by their total, so they add up to 1. |
 | permutation_importance (G-1491) | scikit-learn function (in `sklearn.inspection`) that computes permutation importance. |
 | [Feature importance](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) | How much a column helped a tree: its share of all the impurity reduction (how much purer the nodes became) achieved by the tree's splits; the shares add up to 1. It shows which columns the tree relied on and helps with feature selection. |

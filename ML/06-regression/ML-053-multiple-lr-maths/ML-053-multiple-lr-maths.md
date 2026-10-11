@@ -17,31 +17,31 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/normal-equat
 
 ## 1. Overview
 
-> **Key point:** With several features we still find the best coefficients the same way as with one: measure the total squared error, and find where its slope is zero in every direction. Matrices let us do that for every coefficient at once, and the answer is one formula, the normal equation.
+> **Key point:** With several features we still find the best coefficients the same way as with one: measure the total squared error, and find where its slope is zero in every direction. Matrices let us do that for every coefficient at once, and the answer is one formula, the **normal equation** (G-1344).
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Our running example predicts a student's package (the target) from CGPA (a feature).
 
-For [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808), with one feature, we found two formulas, one for the slope and one for the intercept (see [the two formulas](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas)). [**Multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) has several features (see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)). Each feature gets its own weight, and there is one intercept on top. These numbers are the [**coefficients**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407). Writing a separate formula for each coefficient is hopeless when there are ten or a hundred features.
+For [**simple linear regression**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808), with one feature, we found two formulas, one for the **slope** (G-1823) and one for the intercept (see [the two formulas](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#45-the-two-formulas)). [**Multiple linear regression**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) has several features (see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)). Each feature gets its own weight, and there is one **intercept** (G-960) on top. These numbers are the [**coefficients**](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407). Writing a separate formula for each coefficient is hopeless when there are ten or a hundred features.
 
-Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a matrix lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
+Matrices solve the problem. Like a spreadsheet formula dragged down a whole column instead of typed into every cell, a **matrix** (G-1180) lets us write one equation for all observations at once. We write all the data, all the predictions and all the coefficients as matrices. Then the same three steps as before give one formula for every coefficient at once:
 
 1. write the error (Sections [2](#2-the-model-in-matrix-form) and [3](#3-the-error-in-matrix-form));
 2. multiply it out and differentiate it (Sections [4](#4-expanding-the-error) and [5](#5-setting-the-derivative-to-zero));
 3. set the derivative to zero and solve ([Section 6](#6-the-normal-equation)).
 
-The result, at the end of [Section 6](#6-the-normal-equation), is the **normal equation**. [Section 6.1](#61-a-worked-example) runs it by hand on four students, with every sum and the inverse worked out on paper. [Our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class) then codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
+The result, at the end of [Section 6](#6-the-normal-equation), is the **normal equation**. [Section 6.1](#61-a-worked-example) runs it by hand on four students, with every sum and the **inverse** (G-968) worked out on paper. [Our own class](../ML-054-multiple-lr-code/ML-054-multiple-lr-code.md#4-our-own-class) then codes it from scratch. Each rule about matrices is checked on small numbers before it is used.
 
 **A note on letters.** In this Note the letter m counts the features (for example m = 3 for CGPA, IQ and gender). In [the error function of simple linear regression](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#3-the-error-function), m was the slope. Here every slope is a coefficient, written $\beta$ (the Greek letter beta).
 
 ## 2. The model in matrix form
 
-> **Key point:** Put the data in one table with an extra first column of 1s, and the coefficients in one column. One multiplication of the two then gives every prediction at once.
+> **Key point:** Put the data in one table with an extra first column of 1s, and the **coefficients** (G-407) in one column. One multiplication of the two then gives every prediction at once.
 
 ### 2.1 One equation per student
 
-> **Key point:** Every student gets the same equation with the same coefficients; only the feature values change.
+> **Key point:** Every student gets the same equation with the same **coefficients** (G-407); only the feature values change.
 
-Suppose we predict a student's package from three features: CGPA, IQ and gender. The model multiplies each feature by its coefficient and adds the intercept:
+Suppose we predict a student's package from three **features** (G-772): CGPA, IQ and gender. The model multiplies each feature by its coefficient and adds the intercept:
 
 $$\hat y = \beta_0 + \beta_1 \cdot \text{cgpa} + \beta_2 \cdot \text{iq} + \beta_3 \cdot \text{gender}$$
 
@@ -58,7 +58,7 @@ $$\hat y_2 = \beta_0 + \beta_1 x_{21} + \beta_2 x_{22} + \beta_3 x_{23}$$
 
 and so on, down to $\hat y_{100}$. The coefficients are the same in every line.
 
-In general, with n observations and m features (for example n = 100 students and m = 3 features), observation i has the prediction
+In general, with n **observations** (G-1374) and m features (for example n = 100 students and m = 3 features), observation i has the prediction
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
@@ -66,11 +66,11 @@ and there are $n$ such equations.
 
 ### 2.2 Stacking the equations
 
-> **Key point:** The $n$ equations split into a table of numbers, $X$, times a column of coefficients, $\beta$.
+> **Key point:** The $n$ equations split into a table of numbers, $X$, times a column of **coefficients** (G-407), $\beta$.
 
 A [**matrix**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) is a table of numbers, and a [**vector**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) is a single column of numbers. They let us write the $n$ equations as one.
 
-Figure 1 does it for four students with one feature, CGPA (the students of [Section 6.1](#61-a-worked-example)). Watch three things move:
+Figure 1 does it for four students with one **feature** (G-772), CGPA (the students of [Section 6.1](#61-a-worked-example)). Watch three things move:
 
 1. the four left sides stack into one vector, $\hat y$;
 2. the numbers stack into one matrix, $X$: a column of 1s and a column of CGPAs;
@@ -78,11 +78,11 @@ Figure 1 does it for four students with one feature, CGPA (the students of [Sect
 
 ![Four prediction equations become one matrix equation: the predictions stack into a vector, the numbers into the matrix X with a first column of 1s, and the coefficients are written once](images/stack_equations.gif)
 
-Figure 2 shows the same split for $n$ observations and $m$ features.
+Figure 2 shows the same split for $n$ **observations** (G-1374) and $m$ features.
 
 ![All predictions as one matrix product](images/matrix_form.png)
 
-- **$X$**, the **design matrix** (G-597), holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the intercept is treated like any other coefficient.
+- **$X$**, the **design matrix** (G-597), holds the data: one row per observation, one column per feature, plus a first column of 1s. The 1s multiply $\beta_0$, so the **intercept** (G-960) is treated like any other coefficient.
 - **$\beta$**, the **coefficient vector** (G-410), holds the $m + 1$ coefficients, $\beta_0$ to $\beta_m$.
 - **$\hat{y}$** holds the $n$ predictions.
 
@@ -114,9 +114,9 @@ So 3.08 is the predicted package of that student.
 
 ## 3. The error in matrix form
 
-> **Key point:** Subtract each prediction from the real value to get one error per student. Square the errors and add them up: that one number measures how bad the coefficients are.
+> **Key point:** Subtract each prediction from the real value to get one error per student. Square the errors and add them up: that one number measures how bad the **coefficients** (G-407) are.
 
-For each student, the error is the real package minus the predicted one. This error on one observation is called a [**residual**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705). The residuals of all observations form a vector:
+For each student, the error is the real package minus the predicted one. This error on one **observation** (G-1374) is called a [**residual**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705). The residuals of all observations form a **vector** (G-2081):
 
 $$e = y - \hat{y} = y - X\beta$$
 
@@ -152,7 +152,7 @@ In ordinary algebra a square multiplies out into three parts:
 
 $$(a - b)^2 = a^2 - 2ab + b^2$$
 
-The error E is the matrix version of a square, and it multiplies out to the same three-part shape. To see every step on numbers, we use a tiny made-up example with two observations and one feature:
+The error E is the **matrix** (G-1180) version of a square, and it multiplies out to the same three-part shape. To see every step on numbers, we use a tiny made-up example with two observations and one feature:
 
 $$X = \begin{bmatrix} 1 & 2 \cr1 & 3 \end{bmatrix}$$
 
@@ -160,7 +160,7 @@ $$y = \begin{bmatrix} 4 \cr5 \end{bmatrix}$$
 
 $$\beta = \begin{bmatrix} 1 \cr1 \end{bmatrix}$$
 
-The first column of X is the column of 1s; the feature values are 2 and 3; the targets are 4 and 5; and we try the coefficients 1 and 1. The predictions and errors are
+The first column of X is the column of 1s; the feature values are 2 and 3; the **targets** (G-1949) are 4 and 5; and we try the coefficients 1 and 1. The predictions and errors are
 
 $$X\beta = \begin{bmatrix} 1 \times 1 + 2 \times 1 \cr1 \times 1 + 3 \times 1 \end{bmatrix}$$
 
@@ -174,7 +174,7 @@ $$E = e^{\mathsf T}e = 1 \times 1 + 1 \times 1 = 2$$
 
 ### 4.1 Two rules about transposes
 
-> **Key point:** Transposing a product reverses its order, and a single number is its own transpose.
+> **Key point:** Transposing a product reverses its order, and a single number is its own **transpose** (G-2012).
 
 Figure 4 shows both rules on the tiny example.
 
@@ -202,11 +202,11 @@ $$\beta^{\mathsf T}X^{\mathsf T} = \begin{bmatrix} 3 & 4 \end{bmatrix}$$
 
 The two sides match.
 
-**Rule 2: a single number is its own transpose.** A 1 × 1 matrix has nothing to flip. The two terms below are each a single number, and each is the transpose of the other (by Rule 1), so they are equal:
+**Rule 2: a single number is its own transpose.** A 1 × 1 **matrix** (G-1180) has nothing to flip. The two terms below are each a single number, and each is the transpose of the other (by Rule 1), so they are equal:
 
 $$y^{\mathsf T}X\beta = \beta^{\mathsf T}X^{\mathsf T}y$$
 
-Check on the tiny example. The left side is the row of targets times the column of predictions:
+Check on the tiny example. The left side is the row of **targets** (G-1949) times the column of predictions:
 
 $$y^{\mathsf T}X\beta = 4 \times 3 + 5 \times 4 = 12 + 20 = 32$$
 
@@ -224,7 +224,7 @@ Both are 32.
 
 > **Key point:** Four products come out, and the two middle ones are equal, so the error has three parts.
 
-Multiply the two brackets of E term by term, as with (a − b)(a − b). Rule 1 turns the transpose of y − Xβ into the transpose of y minus the row from Figure 4:
+Multiply the two brackets of E term by term, as with (a − b)(a − b). Rule 1 turns the **transpose** (G-2012) of y − Xβ into the transpose of y minus the row from Figure 4:
 
 $$(y - X\beta)^{\mathsf T} = y^{\mathsf T} - \beta^{\mathsf T}X^{\mathsf T}$$
 
@@ -266,17 +266,17 @@ Together:
 
 $$E = 41 - 64 + 25 = 2$$
 
-the same 2 as the direct sum of squared errors above.
+the same 2 as the direct **sum of squared errors** (G-1684) above.
 
 ## 5. Setting the derivative to zero
 
-> **Key point:** At the best coefficients the error bowl is flat in every direction: its slope along each coefficient is zero. Two small rules turn that into one matrix equation.
+> **Key point:** At the best coefficients the error bowl is flat in every direction: its slope along each coefficient is zero. Two small rules turn that into one **matrix** (G-1180) equation.
 
-As in simple linear regression, the best coefficients sit at the bottom of the error bowl, where the slope is zero. Now there is one slope per coefficient. Figure 5 shows the two slopes on the four students of [Section 6.1](#61-a-worked-example). Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent shows the slope there. Watch both slopes shrink as $\beta$ walks to (−0.81, 0.57): there both tangents lie flat at the same moment.
+As in **simple linear regression** (G-1808), the best coefficients sit at the bottom of the error bowl, where the slope is zero. Now there is one slope per coefficient. Figure 5 shows the two slopes on the four students of [Section 6.1](#61-a-worked-example). Each panel cuts the error bowl along one coefficient while the other is held fixed, and the orange tangent shows the **slope** (G-1823) there. Watch both slopes shrink as $\beta$ walks to (−0.81, 0.57): there both tangents lie flat at the same moment.
 
 ![The gradient $-2X^{\mathsf T}y + 2X^{\mathsf T}X\beta$ on the four students: each panel is the error $E$ along one coefficient, the orange tangent's slope is one entry of the gradient, and both reach 0 together at $\beta = (-0.81, 0.57)$](images/gradient_zero.gif)
 
-The slope along one coefficient, with the others held fixed, is a [**partial derivative**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457). Stacking all of them into one column gives the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863). With two coefficients:
+The slope along one **coefficient** (G-407), with the others held fixed, is a [**partial derivative**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457). Stacking all of them into one column gives the [**gradient**](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863). With two coefficients:
 
 $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} \partial E / \partial \beta_0 \cr\partial E / \partial \beta_1 \end{bmatrix}$$
 
@@ -284,9 +284,9 @@ $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} \partial E / \partial \bet
 
 ### 5.1 Three rules of matrix calculus, each checked on numbers
 
-> **Key point:** The matrix rules are the old rules "the derivative of a constant is 0", "of aβ is a" and "of aβ² is 2aβ", applied to every coefficient at once.
+> **Key point:** The **matrix** (G-1180) rules are the old rules "the derivative of a constant is 0", "of aβ is a" and "of aβ² is 2aβ", applied to every coefficient at once.
 
-Rules for differentiating with vectors and matrices are called **matrix calculus** (G-1176). E has three parts, and each needs one rule. We check each rule by writing the part out for two coefficients, $\beta_0$ and $\beta_1$, taking the two ordinary partial derivatives, and comparing.
+Rules for differentiating with **vectors** (G-2081) and matrices are called **matrix calculus** (G-1176). E has three parts, and each needs one rule. We check each rule by writing the part out for two **coefficients** (G-407), $\beta_0$ and $\beta_1$, taking the two ordinary **partial derivatives** (G-1457), and comparing.
 
 **Rule A: a part without β has derivative 0.** The first part, $y^{\mathsf T}y$, is 41 in the tiny example whatever β is. A constant does not change when β changes, so
 
@@ -342,7 +342,7 @@ The same two lines. In general:
 
 $$\frac{\partial}{\partial \beta}\left(\beta^{\mathsf T}X^{\mathsf T}X\beta\right) = 2X^{\mathsf T}X\beta$$
 
-The rule works because $X^{\mathsf T}X$ is a [**symmetric matrix**](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932): it equals its own transpose, so the two 5s above are equal and add up to the 10 (MML §5.5).
+The rule works because $X^{\mathsf T}X$ is a [**symmetric matrix**](../../../MA/05-linear-algebra/MA-057-svd-geometry/MA-057-svd-geometry.md#7-svd-and-eigen-decomposition-compared) (G-1932): it equals its own **transpose** (G-2012), so the two 5s above are equal and add up to the 10 (MML §5.5).
 
 > **Extra:** For any square matrix $B$ the general rule is (MML eq. 5.107, which writes the gradient as a row):
 >
@@ -354,7 +354,7 @@ The rule works because $X^{\mathsf T}X$ is a [**symmetric matrix**](../../../MA/
 
 ### 5.2 The gradient, then zero
 
-> **Key point:** Adding the three derivatives gives the gradient; setting it to zero gives the normal equations.
+> **Key point:** Adding the three derivatives gives the gradient; setting it to zero gives the **normal equations** (G-1344).
 
 Apply Rules A, B and C to the three parts of E, one per line:
 
@@ -380,13 +380,13 @@ $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -18 + 14 \cr-46 + 36 \end{
 
 $$\frac{\partial E}{\partial \beta} = \begin{bmatrix} -4 \cr-10 \end{bmatrix}$$
 
-The same slopes come from the simple-regression derivatives of [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum), minus two times the sum of the errors, and minus two times the sum of error times feature:
+The same **slopes** (G-1823) come from the simple-regression derivatives of [the error function](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum), minus two times the sum of the errors, and minus two times the sum of error times **feature** (G-772):
 
 $$-2(1 + 1) = -4$$
 
 $$-2(1 \times 2 + 1 \times 3) = -10$$
 
-At the best coefficients the gradient is zero:
+At the best **coefficients** (G-407) the gradient is zero:
 
 $$-2X^{\mathsf T}y + 2X^{\mathsf T}X\beta = 0$$
 
@@ -398,7 +398,7 @@ These are the **normal equations** (G-1345): m + 1 equations, one for each coeff
 
 ## 6. The normal equation
 
-> **Key point:** To get the coefficients alone, we "divide" both sides by the matrix XᵀX. For matrices, dividing means multiplying by the inverse.
+> **Key point:** To get the coefficients alone, we "divide" both sides by the **matrix** (G-1180) XᵀX. For matrices, dividing means multiplying by the inverse.
 
 With ordinary numbers, "2 times a number is 6" is solved by dividing by 2, which is the same as multiplying by one half, the number that undoes 2. Matrices have no division; instead we multiply by the **inverse** (G-968), the matrix that undoes $X^{\mathsf T}X$. A matrix times its inverse gives the [**identity matrix**](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915), the matrix with 1s on the diagonal and 0s elsewhere, which changes nothing it multiplies.
 
@@ -412,7 +412,7 @@ For a 2 × 2 matrix the inverse has a three-step recipe (MML §2.2.2), shown in 
 
 The number in step 3 is the [**determinant**](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598). For bigger matrices the computer does the work; the idea is the same.
 
-On the tiny example (bottom of Figure 6), the determinant of the transpose of X times X is
+On the tiny example (bottom of Figure 6), the determinant of the **transpose** (G-2012) of X times X is
 
 $$2 \times 13 - 5 \times 5 = 26 - 25 = 1$$
 
@@ -428,21 +428,21 @@ $$\beta_0 = 13 \times 9 + (-5) \times 23 = 117 - 115 = 2$$
 
 $$\beta_1 = (-5) \times 9 + 2 \times 23 = -45 + 46 = 1$$
 
-The line "prediction = 2 + 1 × feature" passes through both points:
+The line "prediction = 2 + 1 × **feature** (G-772)" passes through both points:
 
 $$2 + 1 \times 2 = 4$$
 
 $$2 + 1 \times 3 = 5$$
 
-In general, multiplying both sides of the normal equations by the inverse leaves β alone:
+In general, multiplying both sides of the **normal equations** (G-1345) by the inverse leaves β alone:
 
 $$\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$$
 
-The formula is the **normal equation** (G-1344). A formula that gives the answer directly is a [**closed-form solution**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398); this one gives all coefficients of multiple linear regression at once, and the method is called **ordinary least squares**, OLS (G-1406). scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
+The formula is the **normal equation** (G-1344). A formula that gives the answer directly is a [**closed-form solution**](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398); this one gives all coefficients of **multiple linear regression** (G-1279) at once, and the method is called **ordinary least squares**, OLS (G-1406). scikit-learn's `LinearRegression` reaches the same solution with a numerically safer method than a literal inverse (scikit-learn docs, LinearRegression; LAPACK, DGELSD).
 
 ### 6.1 A worked example
 
-> **Key point:** On four students with one feature, the normal equation gives the same slope and intercept as the simple formulas.
+> **Key point:** On four students with one feature, the **normal equation** (G-1344) gives the same slope and intercept as the simple formulas.
 
 Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 7.42 and packages 3.26, 1.98, 3.25, 3.67.
 
@@ -488,7 +488,7 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    $$X^{\mathsf T}y = \begin{bmatrix} 12.16 \cr85.2454 \end{bmatrix}$$
 
-4. **Invert with the recipe of Figure 6.** The determinant:
+4. **Invert with the recipe of Figure 6.** The **determinant** (G-598):
 
    $$4 \times 189.8953 - 27.25 \times 27.25$$
 
@@ -502,7 +502,7 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    $$= \begin{bmatrix} 11.158 & -1.601 \cr-1.601 & 0.235 \end{bmatrix}$$
 
-   Check the top-left entry of the inverse times the matrix, which should be 1:
+   Check the top-left entry of the inverse times the **matrix** (G-1180), which should be 1:
 
    $$\frac{189.8953 \times 4 - 27.25 \times 27.25}{17.0187}$$
 
@@ -522,22 +522,22 @@ Take the first four students of the placement data, with CGPA 6.89, 5.12, 7.82, 
 
    $$\beta_1 = 9.622 / 17.0187 = 0.565$$
 
-So $\beta_0 = -0.81$, the [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960), and $\beta_1 = 0.57$, the [**slope**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823): exactly what the simple linear regression formulas give for these four points. The simple formulas are the normal equation with a single feature.
+So $\beta_0 = -0.81$, the [**intercept**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960), and $\beta_1 = 0.57$, the [**slope**](../ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823): exactly what the simple linear regression formulas give for these four points. The simple formulas are the **normal equation** (G-1345) with a single feature.
 
 ### 6.2 The picture: a projection
 
 > **Extra:** This section goes beyond the derivation: a second, geometric way to see the same equation.
 
-> **Key point:** Every possible set of predictions lies on one flat plane, and the real targets stick out of it. The best predictions are the point of the plane closest to the targets, where the error meets the plane at a right angle; that right angle gives the normal equation.
+> **Key point:** Every possible set of predictions lies on one flat plane, and the real targets stick out of it. The best predictions are the point of the plane closest to the targets, where the error meets the plane at a right angle; that right angle gives the **normal equation** (G-1344).
 
-The normal equation also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ targets as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the [**column space**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it. The point of the plane straight below $y$ is the [**projection**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) of $y$ onto the plane.
+The **normal equation** (G-1345) also has a geometric meaning (ESL §3.2, Figure 3.2; MML §3.8). Treat the $n$ **targets** (G-1949) as one vector $y$ with $n$ entries, and each column of $X$ the same way. A prediction $X\beta$ is a weighted sum of the columns, so all possible predictions fill the flat space the columns span, called the [**column space**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) of $X$. Unless the data lie exactly on a line, $y$ is not in it. The point of the plane straight below $y$ is the [**projection**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) of $y$ onto the plane.
 
-With three observations every vector has three entries, so we can draw it. Figure 7 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
+With three **observations** (G-1374) every vector has three entries, so we can draw it. Figure 7 uses the first three students of the worked example: $X$ has the columns $\mathbf 1 = [1, 1, 1]$ and cgpa $= [6.89, 5.12, 7.82]$, and $y = [3.26, 1.98, 3.25]$. Watch the error length as the green point moves through the plane, and the angle at the point where it stops.
 
 ![The column space of X for three students is a plane (the two blue columns span it). The target y (orange) sticks out of it. Moving the prediction Xβ through the plane, the error length is smallest, 0.36, at the foot of the perpendicular from y, where the residual meets the plane at a right angle](images/projection.gif)
 
 - **Closest point:** the error $\lVert y - X\beta\rVert$ is the length of the dashed line, and its square is $E$ of [Section 3](#3-the-error-in-matrix-form). It is smallest, 0.36 (its square, 0.13, is $E$ for these three students), at $\hat y = X\hat\beta = [2.97, 2.08, 3.44]$, with $\hat\beta = [-0.50, 0.50]$.
-- **Right angle:** there the residual [0.29, −0.10, −0.19] is perpendicular to both columns: its [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) with each column is 0.
+- **Right angle:** there the **residual** (G-705) [0.29, −0.10, −0.19] is perpendicular to both columns: its [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) with each column is 0.
 
 The two dot products, one per line:
 
@@ -555,7 +555,7 @@ $$(-0.19) \times 7.82 = -1.486$$
 
 $$1.998 - 0.512 - 1.486 = 0.00$$
 
-Stacked as one equation (the transpose of X holds the two columns as rows):
+Stacked as one equation (the **transpose** (G-2012) of X holds the two columns as rows):
 
 $$X^{\mathsf T}(y - X\hat\beta) = 0$$
 
@@ -567,15 +567,15 @@ So the calculus of [Section 5](#5-setting-the-derivative-to-zero) and the right 
 
 ## 7. The cost of the inverse
 
-> **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of features. With very many features, gradient descent is used instead.
+> **Key point:** Inverting $X^{\mathsf T}X$ takes time that grows roughly with the cube of the number of **features** (G-772). With very many features, gradient descent is used instead.
 
-The normal equation has one expensive step: the inverse. The more features, the bigger the matrix to invert. $X^{\mathsf T}X$ is a square matrix with one row and one column per coefficient, $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
+The normal equation has one expensive step: the inverse. The more features, the bigger the **matrix** (G-1180) to invert. $X^{\mathsf T}X$ is a square matrix with one row and one column per **coefficient** (G-407), $(m+1) \times (m+1)$. Inverting an $m \times m$ matrix takes on the order of $m^3$ operations: doubling the features makes the work about 8 times larger.
 
 Figure 8 measures it on this computer.
 
 ![Time to invert a matrix as its size grows](images/inverse_cost.png)
 
-From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.56 seconds (Figure 8). With tens of thousands of features, as with text or image data, the inverse becomes very slow and memory-hungry. With numbers, for 20,000 features:
+From 1,000 to 2,000 features, the time grows about 7 times, from 0.08 to 0.56 seconds (Figure 8). With tens of thousands of features, as with text or image data, the **inverse** (G-968) becomes very slow and memory-hungry. With numbers, for 20,000 features:
 
 $$20{,}000 / 1{,}000 = 20 \text{ times the features}$$
 
@@ -587,14 +587,14 @@ The matrix alone would hold one number per entry, 8 bytes each:
 
 $$20{,}000 \times 20{,}000 \times 8 \text{ bytes} = 3.2 \text{ GB}$$
 
-The cost of the inverse is why there is a second method, [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862): it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the normal equation's. In scikit-learn:
+The cost of the inverse is why there is a second method, [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862): it does not compute any inverse, but approaches the best coefficients step by step. Its answer is very close to the **normal equation** (G-1344)'s. In scikit-learn:
 
 - `LinearRegression` uses the closed-form (OLS) solution;
 - **`SGDRegressor`** (G-1783) uses gradient descent.
 
 For most tabular data the number of features is small, and `LinearRegression` is the usual choice. [**Gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) is taught next.
 
-> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#3-the-dummy-variable-trap)). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation ([penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)). scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
+> **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#3-the-dummy-variable-trap)). Then the **normal equation** (G-1345) has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation ([penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)). scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 
 ## 8. Summary
 
@@ -607,10 +607,10 @@ For most tabular data the number of features is small, and `LinearRegression` is
 | Derivative set to zero | $X^{\mathsf T}X\beta = X^{\mathsf T}y$ | the error bowl is flat in every direction only at its bottom |
 | Normal equation | $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$ | multiplying by the inverse is the matrix version of dividing |
 
-- A column of 1s in $X$ lets the intercept be treated like any other coefficient, so one formula covers the intercept too.
-- One formula gives all $m + 1$ coefficients at once; with one feature it reduces to the simple formulas, so nothing from simple linear regression is lost (four students gave the same $-0.81$ and $0.57$ both ways).
-- The inverse costs about $m^3$ operations, so very wide data uses gradient descent instead (20,000 features would take about 11 minutes and 3.2 GB for the inverse alone).
-- Together these answer the opening question: with matrices, setting the slope of the total squared error to zero in every direction gives one formula for every coefficient, the normal equation.
+- A column of 1s in $X$ lets the intercept be treated like any other **coefficient** (G-407), so one formula covers the intercept too.
+- One formula gives all $m + 1$ coefficients at once; with one feature it reduces to the simple formulas, so nothing from **simple linear regression** (G-1808) is lost (four students gave the same $-0.81$ and $0.57$ both ways).
+- The **inverse** (G-968) costs about $m^3$ operations, so very wide data uses gradient descent instead (20,000 **features** (G-772) would take about 11 minutes and 3.2 GB for the inverse alone).
+- Together these answer the opening question: with matrices, setting the slope of the total squared error to zero in every direction gives one formula for every coefficient, the **normal equation** (G-1344).
 
 
 ## 9. Sources
@@ -632,18 +632,20 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Normal equation (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
+| Inverse matrix (G-968) | The matrix that undoes another: their product is the identity matrix. |
 | Design matrix ($X$) (G-597) | The data as a matrix, one row per observation and one column per feature, plus a first column of 1s; the 1s multiply the intercept, so it is treated like any other coefficient. |
 | Coefficient vector ($\beta$) (G-410) | All the coefficients of the model, $\beta_0$ to $\beta_m$, as one column. |
 | Transpose (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | Matrix calculus (G-1176) | Rules for differentiating expressions that contain vectors and matrices, such as a loss written in matrix form, so all the partial derivatives come out in one formula. |
 | Normal equations (G-1345) | A set of equations, one per coefficient, whose solution is the best-fit (least-squares) coefficients: $X^{\mathsf T}X\beta = X^{\mathsf T}y$. |
-| Inverse matrix (G-968) | The matrix that undoes another: their product is the identity matrix. |
-| Normal equation (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
+| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Multiple linear regression](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#1-overview) (G-1279) | Linear regression with several input columns. |
+| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
 | [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
 | [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
@@ -656,8 +658,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Determinant](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#32-when-can-a-matrix-send-a-non-zero-vector-to-zero) (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
 | [Closed-form solution](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) | An answer given directly by a formula of ordinary operations. |
 | [Ordinary least squares (OLS, least squares)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-1406) | The way linear regression finds its line with one formula (a closed-form method): the line with the smallest sum of squared errors. |
-| [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
-| [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Column space](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture) (G-414) | Every output a matrix can produce: all the vectors made by scaling and adding its columns (the span of its columns). |
 | [Projection](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-1583) | Dropping a point or vector straight onto an axis, a line or another vector's direction, like casting a shadow. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |

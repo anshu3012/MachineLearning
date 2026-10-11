@@ -17,15 +17,15 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ## 1. Overview
 
-> **Key point:** A bagging regressor works exactly like a bagging classifier, except that aggregation takes the mean of the base models' numbers instead of a majority vote.
+> **Key point:** A bagging regressor works exactly like a bagging classifier, except that aggregation takes the mean of the base models' numbers instead of a **majority vote** (G-1146).
 
 The **bagging regressor** (G-252) applies **bagging** (G-251; training many models on random samples of the data and combining their answers, see [the core idea](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)) to regression, where the answer is a number. Everything carries over from [the bagging classifier](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#3-baggingclassifier-in-code): the four sampling types and every hyperparameter. This Note covers:
 
-- the one difference, in the aggregation step;
+- the one difference, in the **aggregation** (G-183) step;
 - a demo with curves: one tree against a bagged ensemble;
 - `BaggingRegressor` on the Boston housing data, tuned with `GridSearchCV`.
 
-The Notebook (`ML-101-bagging-regressor.ipynb`) runs every experiment. The Dash app `app.py` lets us change the base model and the bagging settings and redraws both curves.
+The Notebook (`ML-101-bagging-regressor.ipynb`) runs every experiment. The Dash app `app.py` lets us change the **base model** (G-260) and the bagging settings and redraws both curves.
 
 <!-- playground: images/bagging_regressor_playground.html -->
 
@@ -33,9 +33,9 @@ The Notebook (`ML-101-bagging-regressor.ipynb`) runs every experiment. The Dash 
 
 > **Key point:** Bootstrapping is unchanged; aggregation averages the predictions.
 
-In the **bootstrapping** step, each [**base model**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260), one of the models being combined, is trained on its own [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319): observations drawn at random with replacement, as in the classifier. The other sampling types carry over too, so pasting, random subspaces and random patches are all available.
+In the **bootstrapping** step, each [**base model**](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260), one of the models being combined, is trained on its own [**bootstrap sample**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319): observations drawn at random with replacement, as in the classifier. The other sampling types carry over too, so **pasting** (G-1463), random subspaces and random patches are all available.
 
-In the [**aggregation**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) step, each base model returns a number, since this is regression. The bagging regressor returns their **mean**. Taking the mean is the only change.
+In the [**aggregation**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) step, each base model returns a number, since this is regression. The **bagging regressor** (G-252) returns their **mean**. Taking the mean is the only change.
 
 ![Aggregation in a bagging regressor: at three inputs x, each of the 50 bagged trees of section 3 returns a number (grey dots); the bagging prediction is their mean (blue diamond)](images/aggregation_mean.png){height=30%}
 
@@ -61,7 +61,7 @@ scikit-learn's `BaggingRegressor` (G-254) has exactly the same hyperparameters a
 
 > **Key point:** One fully grown tree passes through every training point (test R² 0.92); 50 bagged trees give a smooth curve that follows the pattern (0.95).
 
-The demo data has one **feature** (input variable, one column of the data table). Its **target** (the output we predict) is two Gaussian bumps (a small one at 0 and a larger one at 2) plus a little noise, with 150 training **observations** (points, one row of the table each) and 100 test points. With a single feature there are no features to sample, so the app only offers observation settings: the base model (decision tree, SVR or KNN), `n_estimators`, `max_samples` and `bootstrap`.
+The demo data has one **feature** (input variable, one column of the data table). Its **target** (the output we predict) is two Gaussian bumps (a small one at 0 and a larger one at 2) plus a little noise, with 150 training **observations** (points, one row of the table each) and 100 test points. With a single feature there are no features to sample, so the app only offers observation settings: the **base model** (G-260) (decision tree, SVR or KNN), `n_estimators`, `max_samples` and `bootstrap`.
 
 ![(a) One fully grown regression tree; (b) a bagging regressor of 50 trees, each trained on 25 observations drawn with replacement](images/tree_vs_bagging.png){height=40%}
 
@@ -73,16 +73,16 @@ Figure 2 compares a single decision tree with bagging (50 trees, 25 observations
 Why the mean is smoother, step by step:
 
 1. A regression tree predicts one constant value per leaf, so its prediction is a [**step function**](../../07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889): flat inside each leaf, with a jump at every split.
-2. Each bagged tree saw a different bootstrap sample, so it puts its jumps at different values of x (Figure 3, grey trees).
+2. Each bagged tree saw a different **bootstrap sample** (G-319), so it puts its jumps at different values of x (Figure 3, grey trees).
 3. The mean of 50 step functions with jumps in different places has many small steps instead of a few large ones, which looks like a smooth curve.
 
 In the terms of the bias-variance trade-off (G-288), each tree keeps its low bias, and averaging removes much of its [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074), the swing of its prediction from one training sample to another (Breiman, 1996, section 1).
 
-Figure 3 builds the bagging regressor of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77, below the 0.92 of Figure 2a because this tree saw only 25 of the 150 points) into a smooth curve (0.95 with 50 trees).
+Figure 3 builds the **bagging regressor** (G-252) of Figure 2b one tree at a time. Each new tree (green) sees only its 25 drawn points, so its steps fall in different places from the trees before it (grey). Watch the blue mean: wherever the trees disagree, their steps cancel out, and the mean turns from one tree's jagged staircase (test $R^2$ 0.77, below the 0.92 of Figure 2a because this tree saw only 25 of the 150 points) into a smooth curve (0.95 with 50 trees).
 
 ![The bagging regressor built one tree at a time: every tree so far (grey), the newest tree and its 25 drawn points (green), and the mean of the trees, the bagging prediction (blue)](images/bagging_curve_grows.gif){height=55%}
 
-Changing the settings makes little difference on this easy data: 100 trees score 0.952, and pasting (75 observations, `bootstrap=False`) scores 0.947.
+Changing the settings makes little difference on this easy data: 100 trees score 0.952, and **pasting** (G-1463) (75 observations, `bootstrap=False`) scores 0.947.
 
 > **Extra:** Bagging helps unstable models, whose fit swings with small changes in the data, such as trees; it can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3; [other base models](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#22-other-base-models)). The bumps data agrees. With the 25-observation samples of Figure 2, bagged KNN (0.832) and bagged SVR (0.871) both do worse than a single KNN (0.954) or SVR (0.894), because each copy sees only 25 points. With full-size samples of 150, bagging brings no gain: KNN 0.956 against 0.954, SVR 0.894 against 0.894 (app `fit` function, `max_samples=150`).
 
@@ -104,13 +104,13 @@ A test set of 102 observations is small, so one split gives a noisy score: on ou
 
 ![Test R² of five regressors on the same 100 random splits of the Boston data: each dot is one split, the box holds the middle half, and the number on top is the mean](images/boston_splits.png){height=36%}
 
-Figure 4 shows all 100 scores per model, including the two bagging regressors of sections 4.2 and 4.3. Watch the single tree's spread: from about 0.0 to 0.86 depending on the split, while both bagging boxes sit higher and tighter.
+Figure 4 shows all 100 scores per model, including the two **bagging regressors** (G-252) of sections 4.2 and 4.3. Watch the single tree's spread: from about 0.0 to 0.86 depending on the split, while both bagging boxes sit higher and tighter.
 
 ### 4.2 A bagging regressor with default settings
 
 > **Key point:** Ten bagged trees, nothing tuned: mean test R² 0.84, above every single model.
 
-> **Python:** A bagging regressor with every setting at its default.
+> **Python:** A **bagging regressor** (G-252) with every setting at its default.
 >
 > ```python
 > from sklearn.ensemble import BaggingRegressor
@@ -123,15 +123,15 @@ Figure 4 shows all 100 scores per model, including the two bagging regressors of
 >
 > The defaults: `estimator=None` (a decision tree), `n_estimators=10`, as many observations per model as the training set (`max_samples=None`), drawn with replacement, and every feature. `score` returns $R^2$ for a regressor.
 
-Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.841** over the 100 splits (Figure 4, blue), well above all three single models (0.708, 0.716 and 0.504). The ten trees are each as unstable as the single tree, but their average is far steadier. On the first split, the gap between training (0.98) and test (0.83) shows some overfitting remains.
+Without tuning anything, the bagging regressor scores a mean test $R^2$ of **0.841** over the 100 splits (Figure 4, blue), well above all three single models (0.708, 0.716 and 0.504). The ten trees are each as unstable as the single tree, but their average is far steadier. On the first split, the gap between training (0.98) and test (0.83) shows some **overfitting** (G-1429) remains.
 
 ### 4.3 Tuning with GridSearchCV
 
-> **Key point:** A grid search over 144 combinations picks 50 bagged trees on full bootstrap samples; over the 100 splits these settings score 0.857, above the default's 0.841.
+> **Key point:** A grid search over 144 combinations picks 50 bagged trees on full **bootstrap samples** (G-319); over the 100 splits these settings score 0.857, above the default's 0.841.
 
 Instead of trying [**pasting**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463), [**random subspaces**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1618) and [**random patches**](../ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1614) by hand, we let `GridSearchCV`, a [**grid search**](../../04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872), try them all (as in [experiments: try every k](../../07-classification/ML-085-knn/ML-085-knn.md#42-experiments-try-every-k)):
 
-> **Python:** Searching over the base model and the sampling settings.
+> **Python:** Searching over the **base model** (G-260) and the sampling settings.
 >
 > ```python
 > params = {
@@ -163,7 +163,7 @@ Each has 3-fold **cross-validation** (G-510; the training data is cut into 3 par
 - `max_samples=1.0`: every model gets as many observations as the training set;
 - `n_estimators=50`.
 
-Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, these settings score a mean test $R^2$ of **0.857** (Figure 4, green), close to the cross-validation estimate and above the default bagging regressor (0.841); they beat the default on 79 of the 100 splits.
+Their cross-validation $R^2$ is **0.871**. On the same 100 splits as above, these settings score a mean test $R^2$ of **0.857** (Figure 4, green), close to the cross-validation estimate and above the default **bagging regressor** (G-252) (0.841); they beat the default on 79 of the 100 splits.
 
 | Model | Linear regression | Decision tree | KNN | Bagging, default | Bagging, tuned |
 |---|---|---|---|---|---|
@@ -187,11 +187,11 @@ The [**out-of-bag score**](../ML-107-oob-score/ML-107-oob-score.md#1-overview) (
 | `score` and `oob_score_` | accuracy | $R^2$ |
 | Hyperparameters | `estimator`, `n_estimators`, `max_samples`, `max_features`, `bootstrap`, `bootstrap_features`, `oob_score` | the same |
 
-- Only aggregation changes for regression: the mean replaces the vote, because each base model returns a number, so everything learned for the classifier carries over.
-- On the bumps data, bagging smooths one overfitting tree into a curve that follows the pattern: test $R^2$ 0.92 to 0.95, because each tree puts its jumps in different places, and the mean of many such step functions has many small steps instead of a few large ones.
-- On Boston (mean over 100 splits), default bagged trees score 0.84 against 0.72 for the best single model, because the average of ten unstable trees is far steadier than one; a grid search picks plain bagging of 50 trees, which scores 0.86. We average over 100 splits because one 102-observation test score can land far from the average.
-- Bagging helps unstable models such as trees; for stable KNN and SVR it brings no gain (full-size samples) or a loss (25-observation samples), because their fit barely swings with the data, so there is little variance to average away.
-- So a bagging regressor is the bagging classifier with a mean in place of a vote, and it cuts the variance of an overfitting regression tree.
+- Only **aggregation** (G-183) changes for regression: the mean replaces the vote, because each base model returns a number, so everything learned for the classifier carries over.
+- On the bumps data, bagging smooths one **overfitting** (G-1429) tree into a curve that follows the pattern: test $R^2$ 0.92 to 0.95, because each tree puts its jumps in different places, and the mean of many such **step functions** (G-1889) has many small steps instead of a few large ones.
+- On Boston (mean over 100 splits), default bagged trees score 0.84 against 0.72 for the best single model, because the average of ten unstable trees is far steadier than one; a **grid search** (G-872) picks plain bagging of 50 trees, which scores 0.86. We average over 100 splits because one 102-observation test score can land far from the average.
+- Bagging helps unstable models such as trees; for stable KNN and SVR it brings no gain (full-size samples) or a loss (25-observation samples), because their fit barely swings with the data, so there is little **variance** (G-2074) to average away.
+- So a bagging regressor is the bagging classifier with a mean in place of a vote, and it cuts the variance of an overfitting **regression tree** (G-1654).
 
 ## 6. Sources
 
@@ -211,11 +211,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Bagging regressor (G-252) | A bagging ensemble of regressors that predicts the mean of their predictions. |
 | BaggingRegressor (G-254) | scikit-learn class for bagging, pasting, random subspaces and random patches in regression. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
+| [Aggregation (in an ensemble)](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
 | [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
 | [Bootstrap sample](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#41-building-one-tree) (G-319) | A sample of the same size as the data, drawn with replacement so some rows repeat and others are left out; each tree of a random forest gets its own, so the trees differ. |
-| [Aggregation (in an ensemble)](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
-| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
+| [Pasting](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463) | Training several models, each on its own random sample of rows drawn without replacement (no row twice), and combining their predictions; it is bagging with this sample instead of a bootstrap sample. |
 | [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [Low bias, high variance algorithm](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#31-the-bias-variance-problem) (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
@@ -223,7 +224,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
 | [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
-| [Pasting](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1463) | Training several models, each on its own random sample of rows drawn without replacement (no row twice), and combining their predictions; it is bagging with this sample instead of a bootstrap sample. |
 | [Random subspaces](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1618) | Training several models, each on all rows but a random subset of columns, and combining their predictions (a kind of bagging). |
 | [Random patches](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#24-pasting-random-subspaces-and-random-patches) (G-1614) | Training several models, each on a random subset of rows and a random subset of columns, and combining their predictions (a kind of bagging). |
 | [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |

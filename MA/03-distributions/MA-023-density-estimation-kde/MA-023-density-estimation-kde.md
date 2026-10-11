@@ -16,7 +16,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/density-es
 
 ## 1. Overview
 
-> **Key point:** Density estimation builds a PDF from data: either assume a famous distribution and estimate its parameters, or build the curve from every data point with a kernel density estimate.
+> **Key point:** **Density estimation** (G-586) builds a PDF from data: either assume a famous distribution and estimate its parameters, or build the curve from every data point with a kernel density estimate.
 
 ![The two routes from data to an estimated PDF](images/estimation_paths.png){height=55%}
 
@@ -137,7 +137,7 @@ Figure 4 shows the failure on the two-peaked data of section 5.2 (300 values aro
 
 ![1,000 two-peaked values. Red: the fitted normal PDF, one hump centred between the groups. Orange: the KDE with bandwidth 3, which follows both peaks.](images/normal_fails.png)
 
-**Non-parametric density estimation** (G-1338) estimates the PDF of a random variable without assuming any underlying distribution. The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
+**Non-parametric density estimation** (G-1338) estimates the PDF of a random variable without assuming any **underlying distribution** (G-2037). The method needs no predefined distribution function. Instead of summarising the data by a few parameters (a mean and a standard deviation), it uses **every data point** to build the curve.
 
 - **Advantage:** no assumption about the shape, so it works for any data.
 - **Disadvantages:** it is **computationally intensive**, since every point takes part in every density value, and it needs **more data** to give an accurate estimate. With no assumed shape to lean on, every rise and dip of the curve comes from where the points happen to fall, so with few points the gaps between them show up as false dips and peaks (the Extra of section 5.4 counts them).
@@ -146,7 +146,7 @@ The most common non-parametric method is the kernel density estimate.
 
 ## 5. Kernel density estimation (KDE)
 
-> **Key point:** KDE places a small bump (a kernel) on every data point and adds the bumps up; the sum, divided by the number of points, is the estimated PDF.
+> **Key point:** KDE places a small bump (a **kernel** (G-2273)) on every data point and adds the bumps up; the sum, divided by the number of points, is the estimated PDF.
 
 The **kernel density estimate** (KDE, G-1005) is the smooth curve drawn over a histogram (a bar chart of how many values fall in each range) in [the density plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot). **Kernel density estimation** is the technique behind it: it uses a kernel function to smooth out the data into a continuous estimate of the density.
 
@@ -196,7 +196,7 @@ The result has two peaks, matching the two groups. No formula was assumed anywhe
 
 ### 5.2 The bandwidth
 
-> **Key point:** A small bandwidth gives thin bumps and a spiky curve; a large one gives wide bumps and a smooth curve that can blur real features. The right value is found by trying.
+> **Key point:** A small **bandwidth** (G-257) gives thin bumps and a spiky curve; a large one gives wide bumps and a smooth curve that can blur real features. The right value is found by trying.
 
 Figure 6 first builds the KDE of the six points one bump at a time, then turns the bandwidth. Watch the orange sum: with thin bumps it becomes six separate spikes, and with wide bumps the two groups melt into one hill.
 
@@ -205,7 +205,7 @@ Figure 6 first builds the KDE of the six points one bump at a time, then turns t
 The bandwidth sets how wide each bump is, and so how smooth the KDE is:
 
 - **Small bandwidth:** thin, tall bumps. Each point shows up as its own spike, and the curve is irregular. The curve follows the noise of this particular sample.
-- **Large bandwidth:** wide, low bumps that overlap a lot. The curve is smooth, but too much smoothing hides real features.
+- **Large bandwidth:** wide, low bumps that overlap a lot. The curve is smooth, but too much smoothing hides real **features** (G-772).
 
 Figure 7 shows this on 1,000 values with two peaks: 300 values around 20 and 700 around 40.
 
@@ -217,7 +217,7 @@ Figure 7 shows this on 1,000 values with two peaks: 300 values around 20 and 700
 
 There is no single correct bandwidth. We try a few values and keep the one that shows the shape without the noise, as with the number of bins of a histogram.
 
-> **Extra:** The Gaussian is not the only kernel. scikit-learn also offers `"tophat"` (a flat box), `"epanechnikov"` (a downward parabola), `"exponential"`, `"linear"` (a triangle) and `"cosine"`. The choice of kernel matters much less than the bandwidth: the common kernels are all close in quality, the Gaussian reaching about 95% of the best one, Epanechnikov (Silverman 1986, Table 3.1). The Gaussian is scikit-learn's default.
+> **Extra:** The Gaussian is not the only **kernel** (G-2273). scikit-learn also offers `"tophat"` (a flat box), `"epanechnikov"` (a downward parabola), `"exponential"`, `"linear"` (a triangle) and `"cosine"`. The choice of kernel matters much less than the bandwidth: the common kernels are all close in quality, the Gaussian reaching about 95% of the best one, Epanechnikov (Silverman 1986, Table 3.1). The Gaussian is scikit-learn's default.
 
 ### 5.3 KDE in scikit-learn
 
@@ -240,12 +240,12 @@ There is no single correct bandwidth. We try a few values and keep the one that 
 Three details matter:
 
 - **Two settings:** the `kernel` (default `"gaussian"`) and the `bandwidth` (default 1.0).
-- **2D input:** scikit-learn models expect a table, one row per sample and one column per feature, so a single column must be reshaped with `reshape(-1, 1)`.
+- **2D input:** scikit-learn models expect a table, one row per sample and one column per **feature** (G-772), so a single column must be reshaped with `reshape(-1, 1)`.
 - **Log densities:** `score_samples` returns the **logarithm** of the density, not the density. Far from the data a density can be too small for the computer to store, while its log stays an ordinary number: for the six points, the log density at 60 is $-1328.8$, but $e^{-1328.8}$ comes back as exactly 0 (the Notebook shows it). Applying `np.exp`, which undoes a logarithm, gives the densities. For the six points, the KDE at 3 comes back as $\log(0.206) = -1.58$, and $e^{-1.58} = 0.206$.
 
 ### 5.4 KDE in seaborn
 
-> **Key point:** seaborn's `bw_adjust` multiplies a bandwidth seaborn chooses itself; it is not the bandwidth.
+> **Key point:** seaborn's `bw_adjust` multiplies a **bandwidth** (G-257) seaborn chooses itself; it is not the bandwidth.
 
 seaborn draws a KDE with `sns.kdeplot(x=data)`, or `so.KDE()` in the objects interface. Its smoothness setting is `bw_adjust`, with default 1.
 
@@ -277,7 +277,7 @@ Figure 8 draws four samples of 200 values from the same two-peaked population. W
 A good estimate needs the right ingredients:
 
 - **Parametric:** a correct assumption about the family, and enough data to estimate the parameters well. The bin count of the histogram plays no part in the fitted curve.
-- **KDE:** a sensible bandwidth, which plays the role the bins play in a histogram, and enough data.
+- **KDE:** a sensible **bandwidth** (G-257), which plays the role the bins play in a histogram, and enough data.
 - **Both:** outliers affect the estimate. In a parametric fit an outlier pulls the mean and inflates the standard deviation; in a KDE it adds a small bump of its own.
 
 If the sample does not represent the population, for example because of **sampling bias** (G-1734; see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)), no density estimate can repair that.
@@ -294,10 +294,10 @@ If the sample does not represent the population, for example because of **sampli
 | Example | $\hat{f}(50) = 0.0807$ | $\hat{f}(3) = 0.206$ |
 
 - Use the table to choose: parametric when the histogram looks like a named family, because two estimated numbers then give the whole curve cheaply; KDE when it does not, because one normal curve puts its peak in the empty valley of two-peaked data.
-- Density estimation turns data into an estimated PDF $\hat{f}(x)$, because the goal is the population's shape, while a histogram shows only this sample and changes with the bins.
+- **Density estimation** (G-586) turns data into an estimated PDF $\hat{f}(x)$, because the goal is the population's shape, while a histogram shows only this sample and changes with the bins.
 - Parametric: histogram, assume a family, estimate its parameters, plug them into the PDF formula, so the curve is only as good as the assumed family and the estimates (more data, better estimates).
-- KDE: a kernel on every point, bandwidth = kernel width, add and divide by $n$, because dividing by $n$ keeps the total area at 1, as every PDF needs.
-- Small bandwidth: spiky; large bandwidth: smooth, may hide peaks, so try a few bandwidths and keep the one that shows the shape without the noise.
+- KDE: a **kernel** (G-2273) on every point, bandwidth = kernel width, add and divide by $n$, because dividing by $n$ keeps the total area at 1, as every PDF needs.
+- Small **bandwidth** (G-257): spiky; large bandwidth: smooth, may hide peaks, so try a few bandwidths and keep the one that shows the shape without the noise.
 - scikit-learn: `score_samples` returns log densities, so apply `np.exp`; seaborn: `bw_adjust` multiplies a default bandwidth, so the same number gives different curves in the two libraries.
 - Either route answers the opening question: it builds a PDF from data, by assuming a famous distribution or by adding a bump on every point.
 
@@ -332,6 +332,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-829) | A model for data made of several overlapping groups: one normal curve per group, combined as a weighted sum $\sum_k \pi_k N(x \mid \mu_k, \sigma_k^2)$. Each point is shared among the curves by probabilities instead of being given to one group. |
-| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
 | [Kernel (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-2273) | A small symmetric bump with area 1, placed on each point to build a KDE curve. |
+| [Kernel density estimate (KDE)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#7-density-plot) (G-1005) | A smooth curve that estimates a column's PDF from its values, built by adding a kernel centred on every data point; a KDE plot draws it. |
 | [Sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734) | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |

@@ -28,7 +28,7 @@ Figure 1 recalls the difference on a made-up model of house prices with two usef
 
 **The problem.** Choosing between Ridge and Lasso needs knowledge of the features: are most of them useful, or only a few? With four features we can tell. With hundreds or thousands of features, nobody can check them one by one, so there is no way to choose in advance.
 
-**The fix.** There is no need to choose. **Elastic Net regression** (G-667) adds both penalties to the loss at once, each with its own strength, and the two strengths are tuned like any other hyperparameter.
+**The fix.** There is no need to choose. **Elastic Net regression** (G-667) adds both penalties to the loss at once, each with its own strength, and the two strengths are tuned like any other **hyperparameter** (G-910).
 
 ## 2. The loss function
 
@@ -36,7 +36,7 @@ Figure 1 recalls the difference on a made-up model of house prices with two usef
 
 In plain words: start from the squared error of linear regression, add the Ridge penalty with its own strength $a$, and add the Lasso penalty with its own strength $b$.
 
-**Worked example.** Three houses, two features: area ($x_1$, in hundreds of square feet) and rooms ($x_2$). The target $y$ is the price in lakh rupees. A model with coefficients $\beta_1 = 2$ and $\beta_2 = 1$ predicts the price $\hat y$ from the area and the rooms:
+**Worked example.** Three houses, two **features** (G-772): area ($x_1$, in hundreds of square feet) and rooms ($x_2$). The **target** (G-1949) $y$ is the price in lakh rupees. A model with coefficients $\beta_1 = 2$ and $\beta_2 = 1$ predicts the price $\hat y$ from the area and the rooms:
 
 $$\hat y = 2 x_1 + 1 x_2$$
 
@@ -179,7 +179,7 @@ For two coefficients, called $w_1$ and $w_2$ in Figure 4, the figure draws all t
 - **Lasso** gives a diamond with sharp corners on the axes, where one coefficient is 0. Those corners are why Lasso answers often land exactly on 0 ([the diamond and the circle](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#52-the-picture-a-diamond-and-a-circle) grows the loss ellipse, a ring of equal loss around the least-squares answer, until it touches the diamond).
 - **Elastic Net** is between the two. Its sides bulge outwards like the circle, but it keeps the corners, so it can still produce exact zeros (Zou and Hastie 2005, Fig. 1).
 
-Figure 5 turns the shape from diamond into circle on real data: two diabetes features, bmi and s1, from the training split of [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes. Each shape is the **feasible region** (G-759, see [the diamond and the circle](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#52-the-picture-a-diamond-and-a-circle)): the set of coefficient pairs inside the budget (its formula is below). Every shape except the circle at `l1_ratio` 0 keeps corners on the axes. In each frame the left panel shows the shape (red diamond to blue circle) and one orange arc of the loss ellipse; watch the dot where the arc touches the shape (the least-squares answer is the black dot), and the s1 coefficient traced in green against `l1_ratio` on the right.
+Figure 5 turns the shape from diamond into circle on real data: two diabetes **features** (G-772), bmi and s1, from the training split of [feature selection](../ML-066-lasso-regression/ML-066-lasso-regression.md#4-feature-selection), each scaled to standard deviation 1. The budget is fixed and only `l1_ratio` changes. Each shape is the **feasible region** (G-759, see [the diamond and the circle](../ML-067-lasso-sparsity/ML-067-lasso-sparsity.md#52-the-picture-a-diamond-and-a-circle)): the set of coefficient pairs inside the budget (its formula is below). Every shape except the circle at `l1_ratio` 0 keeps corners on the axes. In each frame the left panel shows the shape (red diamond to blue circle) and one orange arc of the loss ellipse; watch the dot where the arc touches the shape (the least-squares answer is the black dot), and the s1 coefficient traced in green against `l1_ratio` on the right.
 
 ![The feasible region morphs from Lasso's diamond (l1_ratio 1) to Ridge's circle (l1_ratio 0) on two diabetes features. The s1 coefficient, where the loss ellipse first touches the region, stays exactly 0 down to l1_ratio 0.6 and then grows to 4.28](images/shape_morph.gif)
 
@@ -220,7 +220,7 @@ The picture follows the estimation picture of ESL Figure 3.11 and the shapes of 
 
 ## 5. Correlated features: the grouping effect
 
-> **Key point:** When features are strongly correlated, Lasso keeps one or two and drops the rest, with little regard for which. Elastic Net shares the weight among them and still drops the useless features.
+> **Key point:** When **features** (G-772) are strongly correlated, Lasso keeps one or two and drops the rest, with little regard for which. Elastic Net shares the weight among them and still drops the useless features.
 
 Elastic Net is especially recommended when features are strongly correlated with each other: **multicollinearity** (G-1273; see [no multicollinearity](../ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#3-assumption-2-no-multicollinearity)). Height and weight are a typical pair: when one rises, the other usually does too.
 
@@ -253,13 +253,13 @@ This sharing of weight among correlated features is called the **grouping effect
 
 ## 6. Elastic Net on the diabetes data
 
-> **Key point:** When the training set is small, all three penalties beat plain linear regression. Elastic Net, tuned by cross-validation, lands between Ridge and Lasso, and close to the better of the two.
+> **Key point:** When the training set is small, all three penalties beat plain linear regression. Elastic Net, tuned by **cross-validation** (G-510), lands between Ridge and Lasso, and close to the better of the two.
 
-A penalty is like a seatbelt. On a smooth road (plenty of data) it changes little. On a bumpy road (few observations, correlated features) it keeps the coefficients from flying around. The diabetes data has bumps of the second kind: the features s1 and s2 have a correlation of 0.90.
+A penalty is like a seatbelt. On a smooth road (plenty of data) it changes little. On a bumpy road (few **observations** (G-1374), correlated features) it keeps the coefficients from flying around. The diabetes data has bumps of the second kind: the features s1 and s2 have a correlation of 0.90.
 
 We give each model only 80 training observations of the diabetes data and test on the remaining 362. Every penalty strength (and, for Elastic Net, the l1_ratio) is chosen by 5-fold cross-validation on the training part only, never on the test set: the training part is cut into 5 folds, each fold in turn scores a model trained on the other 4, and the setting with the best average score wins. The table averages 40 random splits:
 
-Test R² (see [the R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) is how much of the target's variation the model explains on data it has not seen: 1 is perfect.
+Test R² (see [the R² score](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) is how much of the **target** (G-1949)'s variation the model explains on data it has not seen: 1 is perfect.
 
 | Model | Mean test R² |
 |---|---|
@@ -272,8 +272,8 @@ Figure 8 sets these results beside the full-data results of the Extra below. Wat
 
 ![Mean test R² over 40 random splits of the diabetes data, with every penalty tuned by 5-fold cross-validation on the training part. Red: 80 training observations, where all penalties beat linear regression (0.412). Blue: 353 training observations, where all four tie (0.455 to 0.457).](images/small_data.png)
 
-- All three penalties beat plain linear regression. With few observations and correlated features, the least squares coefficients vary a lot from sample to sample, and shrinking them trades a small increase in bias for a large drop in variance (see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); ISL §6.2.1).
-- Elastic Net beats Lasso. Lasso tends to keep one feature of a correlated group (Zou and Hastie 2005, §1): averaged over the splits, it sets 1.35 of the two correlated features s1 and s2 to zero, against 0.75 for Elastic Net, which shares the weight (the grouping effect of [Section 5](#5-correlated-features-the-grouping-effect)).
+- All three penalties beat plain linear regression. With few observations and correlated **features** (G-772), the least squares coefficients vary a lot from sample to sample, and shrinking them trades a small increase in bias for a large drop in variance (see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); ISL §6.2.1).
+- Elastic Net beats Lasso. Lasso tends to keep one feature of a correlated group (Zou and Hastie 2005, §1): averaged over the splits, it sets 1.35 of the two correlated features s1 and s2 to zero, against 0.75 for Elastic Net, which shares the weight (the **grouping effect** (G-874) of [Section 5](#5-correlated-features-the-grouping-effect)).
 - Ridge edges out Elastic Net slightly. Ridge does best when most features carry some signal (ISL §6.2.2), and most diabetes features do: even Lasso keeps about 7 of the 10 (it sets 3.3 to zero on average). Elastic Net does not know that in advance, but cross-validation steers it close.
 
 > **Python:** Tuning alpha and l1_ratio with cross-validation.
@@ -296,7 +296,7 @@ Grid search and randomised search (later Notes) do the same tuning job for any m
 
 ## 7. When to use which
 
-> **Key point:** Ridge when all features matter, Lasso when only some do, Elastic Net when unsure or when features are strongly correlated.
+> **Key point:** Ridge when all **features** (G-772) matter, Lasso when only some do, Elastic Net when unsure or when features are strongly correlated.
 
 | Situation | Choice |
 |---|---|
@@ -305,16 +305,16 @@ Grid search and randomised search (later Notes) do the same tuning job for any m
 | Many features, unclear which kind | Elastic Net |
 | Strongly correlated features | Elastic Net (or Ridge) |
 
-The first two rows follow ISL §6.2.2; the last follows the grouping effect above (Zou and Hastie 2005).
+The first two rows follow ISL §6.2.2; the last follows the **grouping effect** (G-874) above (Zou and Hastie 2005).
 
-In practice, Elastic Net with l1_ratio tuned by cross-validation covers all three cases: the search can land on Ridge-like or Lasso-like settings if those fit best.
+In practice, Elastic Net with l1_ratio tuned by **cross-validation** (G-510) covers all three cases: the search can land on Ridge-like or Lasso-like settings if those fit best.
 
 ## 8. Summary
 
-- Elastic Net loss = squared error + L2 penalty + L1 penalty, so there is no need to choose between Ridge and Lasso before knowing which features are useful.
+- Elastic Net loss = squared error + L2 penalty + L1 penalty, so there is no need to choose between Ridge and Lasso before knowing which **features** (G-772) are useful.
 - `alpha` sets the total strength; `l1_ratio` sets the L1 (Lasso) share: 0 is Ridge, 1 is Lasso; so one model covers both ends and everything in between.
-- Elastic Net can still set coefficients to 0, because its penalty shape keeps the corners on the axes, but shares weight among correlated features (the grouping effect), where Lasso keeps one copy and drops the others almost at random.
-- Tune alpha and l1_ratio with cross-validation, for example with `ElasticNetCV`, so the search can land on Ridge-like or Lasso-like settings when those fit best.
+- Elastic Net can still set coefficients to 0, because its penalty shape keeps the corners on the axes, but shares weight among correlated features (the **grouping effect** (G-874)), where Lasso keeps one copy and drops the others almost at random.
+- Tune alpha and l1_ratio with **cross-validation** (G-510), for example with `ElasticNetCV`, so the search can land on Ridge-like or Lasso-like settings when those fit best.
 - So Elastic Net is the safe choice when there are many features of unknown usefulness, or strongly correlated ones.
 
 ## 9. Sources
@@ -344,9 +344,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [L2 regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) | Another name for the squared-coefficient penalty used by Ridge. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [L1 regularisation](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1026) | Another name for the absolute-value penalty used by Lasso. |
-| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Feasible region](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-759) | All the points that obey every rule (constraint) of an optimisation problem; the answer must be one of them. |
 | [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

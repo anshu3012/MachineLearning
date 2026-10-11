@@ -81,7 +81,7 @@ In Figure 4, we collected data only from one narrow range (blue points), so the 
 
 ### 4.2 Sampling noise and sampling bias
 
-> **Key point:** A sample can be unrepresentative because it is too small (noise) or because of how it was collected (bias).
+> **Key point:** A **sample** (G-1731) can be unrepresentative because it is too small (noise) or because of how it was collected (bias).
 
 The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which team will win the T20 World Cup?* Figure 5 shows three ways to do it.
 
@@ -91,7 +91,7 @@ The two names come from Géron (2019, Ch. 1). Suppose we run a survey: *which te
 - **Sampling bias** (G-1734): the way we collect the data favours some answers. Asking 1000 fans, all of them Indian, gives a large sample, but almost all will say "India". Asking fans abroad does not fix this if most of the fans we reach are still Indian.
 - **Representative:** ask, say, 100 local fans in every country that is playing. Every team gets a fair chance.
 
-Figure 6 runs both kinds of survey on real data: the 891 passengers of the Titanic training set, of whom 38.4 percent survived. Each survey estimates that share from a sample, and we repeat each survey 40 times.
+Figure 6 runs both kinds of survey on real data: the 891 passengers of the Titanic **training set** (G-2002), of whom 38.4 percent survived. Each survey estimates that share from a sample, and we repeat each survey 40 times.
 
 ![Sampling noise and sampling bias on the Titanic passengers. Blue: surveys of passengers picked at random from everyone. Red: surveys of first-class passengers only. Dashed line: the true share who survived.](images/sampling_survey.gif)
 
@@ -122,7 +122,7 @@ Fixing data quality is called **data cleaning** (G-532). Data cleaning takes mos
 
 > **Key point:** Features that say nothing about the output only add noise. Remove them, or combine features into more useful ones.
 
-Data often contains **features** (G-772; input variables, one column each in the data table) that have nothing to do with the target (the output we want to predict). They do not help the model, and can make it worse: garbage in, garbage out again.
+Data often contains **features** (G-772; input variables, one column each in the data table) that have nothing to do with the **target** (G-1949) (the output we want to predict). They do not help the model, and can make it worse: garbage in, garbage out again.
 
 *Example: predicting who will run a marathon.* We have each person's weight, height, age and location.
 
@@ -143,7 +143,7 @@ Figure 8 shows the result. Choosing, removing and creating features like this is
 
 ## 7. Overfitting and underfitting
 
-> **Key point:** A good model learns the pattern, not the noise. Too simple misses the pattern (underfitting); too complex memorises the noise (overfitting).
+> **Key point:** A good model learns the pattern, not the noise. Too simple misses the pattern (underfitting); too complex memorises the noise (**overfitting** (G-1429)).
 
 ### 7.1 Overfitting
 
@@ -177,7 +177,7 @@ This is the **root mean squared error** (RMSE, G-1705), taken up in [**root mean
 
 ![Underfitting, a good fit and overfitting on the same 12 points](images/fitting.gif)
 
-Figure 9 fits three curves of rising degree to the same 12 points. Its last stage shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the good fit.
+Figure 9 fits three curves of rising degree to the same 12 points. Its last stage shows an overfit model: its curve passes exactly through all 12 training points, so its error on the training data is 0. But it twists wildly between them, and its error on new data is twice that of the **good fit** (G-852).
 
 Why does a perfect score on the training data go with a bad score on new data? Figure 10 answers by raising the model's complexity one step at a time, from degree 1 to degree 11, on the same 12 points.
 
@@ -268,7 +268,7 @@ The best way to learn these challenges is to go one step further than building a
 | 9 | Retraining and deployment | Keeping a live model updated is hard | batch retraining repeats the whole upload; online learning is riskier to run |
 | 10 | Cost | The model is a small part of an expensive system (MLOps) | servers, pipelines, monitoring and testing are easy to miss while building the model |
 
-- Most challenges are about **data**: getting it, getting enough, getting a fair sample, cleaning it, choosing its features. So most of a project's time goes into the data, not the model.
+- Most challenges are about **data**: getting it, getting enough, getting a fair **sample** (G-1731), cleaning it, choosing its features. So most of a project's time goes into the data, not the model.
 - A model must learn the **pattern**, not the noise, so a model is judged by its error on data it did not train on, never by its training error.
 - A model creates value only once it runs inside a product that real users can reach.
 
@@ -303,8 +303,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Data cleaning (G-532) | Fixing errors, gaps and inconsistencies in data. |
 | BMI (G-316) | Body mass index: weight (kg) divided by height (m) squared. |
 | Overfitting (G-1429) | Learning the training data too closely, noise included; fails on new data. |
-| Underfitting (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | Good fit (G-852) | Capturing the pattern while ignoring the noise. |
+| Underfitting (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | MLOps (G-1244) | Running and maintaining ML models in production. |
 | Software integration (G-1835) | Building a model into the software that users use. |
 | [Web scraping](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-2105) | Writing code that extracts data from web pages. |
@@ -312,13 +312,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Label](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1032) | The answer an example comes with, the value a model learns to predict, such as the digit an image shows; another name for the target or output. |
+| [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
 | [Missing value](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#9-loading-only-some-columns-usecols) (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
 | [Degree](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#4-choosing-the-degree) (G-577) | The highest power used in a polynomial, such as 2 for $x^2$. It sets the model's complexity: a higher degree lets the curve bend more, and too high a degree overfits. |
 | [Root mean squared error (RMSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
-| [Training set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-2002) | The part of the data the model learns from. |
 | [Test set](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets) (G-1962) | The part hidden during training, used to check the model. |
 | [Integration](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
 | [Batch learning](../../../ML/01-foundations/ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265) | Training on the whole dataset at once, offline, then deploying. |

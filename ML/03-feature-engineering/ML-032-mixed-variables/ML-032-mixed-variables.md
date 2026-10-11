@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/features, step/features, concept/mixed-var
 
 ## 1. Overview
 
-> **Key point:** A mixed variable holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.
+> **Key point:** A **mixed variable** (G-1237) holds numbers and categories in the same column; we split it into one numerical feature and one categorical feature.
 
 A [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row). Every feature so far has been either numerical or categorical. Some real features are both at once. This Note shows the two ways a feature can be mixed and how to split each one.
 
@@ -30,7 +30,7 @@ Figure 1 shows both types and what splitting produces. The work is all done with
 
 > **Key point:** In Type 1, one cell holds a category and a number together; in Type 2, some cells hold a number and others a category.
 
-A **mixed variable** (G-1237) is a feature whose values contain both numerical and categorical data. A model cannot use such a feature as it is: the values are neither clean numbers nor a short list of categories.
+A **mixed variable** (G-1237) is a **feature** (G-772) whose values contain both numerical and categorical data. A model cannot use such a feature as it is: the values are neither clean numbers nor a short list of categories.
 
 Mixed variables come in two types.
 
@@ -49,7 +49,7 @@ Indian Railways coach labels work the same way: in `S5` or `B2`, the letter give
 
 Figure 2 pulls the two parts of each value apart.
 
-Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number. Breaking one feature into one new feature per fact it holds is called **[**feature splitting**](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature) (G-769)** (G-769, taught in full later).
+Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new **features** (G-772): a categorical feature for the letter and a numerical feature for the number. Breaking one feature into one new feature per fact it holds is called **[**feature splitting**](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature) (G-769)** (G-769, taught in full later).
 
 ### 2.2 Type 2: number in some rows, category in others
 
@@ -157,9 +157,9 @@ The result on the first six rows:
 
 ## 5. Splitting a Type 1 column: Cabin
 
-> **Key point:** A regular expression pulls out the digits; the first character gives the deck letter.
+> **Key point:** A **regular expression** (G-1656) pulls out the digits; the first character gives the deck letter.
 
-`Cabin` has 147 different values, and 687 of the 891 passengers have no cabin at all (NaN). With 147 categories for only 204 known cabins, the feature is useless as it stands.
+`Cabin` has 147 different values, and 687 of the 891 passengers have no cabin at all (NaN). With 147 categories for only 204 known cabins, the **feature** (G-772) is useless as it stands.
 
 ### 5.1 The number part
 
@@ -295,7 +295,7 @@ The first five rows, with all the new columns filled:
 
 `cabin_num` is left unfilled here: no single number stands for "no cabin". Filling it is a missing-values question: see [imputing, filling in the gaps](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps).
 
-The new features are then ready for the usual tools: [**one-hot encoding**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) for the categorical ones, [**standardization**](../ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874) for the numerical ones.
+The new **features** (G-772) are then ready for the usual tools: [**one-hot encoding**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) for the categorical ones, [**standardization**](../ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874) for the numerical ones.
 
 > **Extra:** The split features carry information the raw ones hid. Survival rate by deck:
 >
@@ -316,11 +316,11 @@ The new features are then ready for the usual tools: [**one-hot encoding**](../M
 | Category column | the letters of every value | the value where it is not a number, else NaN |
 | pandas tools | `.str.extract`, `.str[0]`, `.str.split()` | `pd.to_numeric(errors="coerce")`, `.where` |
 
-- A mixed variable holds numerical and categorical data in one feature; we split it into one numerical and one categorical feature, because a model cannot use values that are neither clean numbers nor a short list of categories.
+- A **mixed variable** (G-1237) holds numerical and categorical data in one feature; we split it into one numerical and one categorical feature, because a model cannot use values that are neither clean numbers nor a short list of categories.
 - `pd.to_numeric(errors="coerce")` keeps what is a number and turns the rest into NaN, so the rows that failed mark exactly where the categorical part goes.
 - The `.str` accessor applies text methods (extract, split, first character) to a whole column at once, so one line splits every value of the column.
 - Use the nullable `Int64` type for whole numbers with gaps, because a NumPy integer column cannot hold NaN and would turn 5 into 5.0.
-- Splitting cut `Cabin` from 147 values to 8 decks, and `Ticket` from 681 values to 43 prefixes, so the categorical parts become usable features (deck survival rates range from 30% with no cabin to 76%).
+- Splitting cut `Cabin` from 147 values to 8 decks, and `Ticket` from 681 values to 43 prefixes, so the categorical parts become usable **features** (G-772) (deck survival rates range from 30% with no cabin to 76%).
 - Splitting leaves NaNs: fill numbers with a sensible value and categories with `"missing"`, because many scikit-learn models do not accept missing values.
 - Check the unusual values, because no simple rule fits every one (`C23 C25 C27` keeps only 23, `F G73` gives deck F).
 - So a column that mixes numbers and categories becomes two clean features, ready for the usual encoding and scaling.
@@ -347,8 +347,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | pd.to_numeric (G-1473) | The pandas function that converts values to numbers. |
 | errors="coerce" (G-707) | The `pd.to_numeric` option that turns values it cannot convert into NaN instead of stopping. |
 | Nullable integer (Int64) (G-1363) | The pandas integer type that can also hold a missing value, `<NA>`. |
-| .str accessor (G-47) | The pandas tool that applies a text method to every value of a column. |
 | Regular expression (G-1656) | A short pattern that describes text, such as `\d+` for "one or more digits". |
+| .str accessor (G-47) | The pandas tool that applies a text method to every value of a column. |
 | Raw string (G-1638) | A Python string written `r"..."`, in which a backslash is kept as it is. |
 | str dtype (G-1895) | The pandas 3 type for text columns, replacing `object`. |
 | str.extract (G-1896) | The pandas method that returns the part of each value matching a regular expression. |

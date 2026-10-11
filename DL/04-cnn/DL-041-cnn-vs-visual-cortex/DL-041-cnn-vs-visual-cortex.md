@@ -16,25 +16,25 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn]
 
 ## 1. Overview
 
-> **Key point:** In the visual cortex, simple cells each respond to an edge of one orientation in a small patch of the image, and complex cells respond to the same kind of edge anywhere in a larger patch. A CNN copies both: filters play the simple cells and pooling plays the complex cells.
+> **Key point:** In the visual cortex, simple cells each respond to an edge of one orientation in a small patch of the image, and complex cells respond to the same kind of edge anywhere in a larger patch. A CNN copies both: filters play the simple cells and **pooling** (G-1521) plays the complex cells.
 
 The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image) said that CNNs are inspired by the part of the brain that handles vision. This Note tells that story in three parts:
 
 1. how visual information flows through the brain (section 3);
 2. the experiments of Hubel and Wiesel on cats (sections 4 and 5);
-3. how their findings led to the Neocognitron, to LeCun's networks and to today's CNNs (section 6).
+3. how their findings led to the **Neocognitron** (G-1314), to LeCun's networks and to today's CNNs (section 6).
 
 ![From Hubel and Wiesel's recordings to AlexNet: the main steps in the history of CNNs](images/timeline.png){width=100%}
 
 Figure 1 places these steps on one timeline, with time running from left to right.
 
-Two CNN parts are named in the key point above. A **filter** is a small grid of weights slid over the image; its output is large where its pattern is present ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). **Pooling** keeps the largest value of each small window of a filter's output ([**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182)).
+Two CNN parts are named in the key point above. A **filter** is a small grid of weights slid over the image; its output is large where its pattern is present ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). **Pooling** keeps the largest value of each small window of a **filter** (G-777)'s output ([**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182)).
 
 ## 2. Prerequisites
 
 - The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-recognises-an-image): early layers find edges, later layers combine them.
-- The [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481): a filter is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
-- The [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521): max pooling keeps the largest value of each window.
+- The [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481): a **filter** (G-777) is a small grid of weights slid over the image; its output is large where its pattern is present. (Only this one-line idea is needed here.)
+- The [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521): **max pooling** (G-1182) keeps the largest value of each window.
 
 ## 3. How visual information flows
 
@@ -69,7 +69,7 @@ Their work was later recognised with a Nobel prize (Goodfellow et al. 2016, §9.
 
 Take one recorded cell. A horizontal bar gives no response. As the bar is rotated, there is still nothing at first; past a certain angle the cell starts to fire a little, more as the bar tilts further, and most when the bar is vertical. Rotated further, the response falls again and disappears at horizontal. This cell detects vertical edges.
 
-Figure 3 replays the experiment with a model cell from the Notebook (section 5.3 describes it): a small grid of weights that answers a bright vertical line inside its receptive field, the orange square.
+Figure 3 replays the experiment with a model cell from the Notebook (section 5.3 describes it): a small grid of weights that answers a bright vertical line inside its **receptive field** (G-1642), the orange square.
 
 ![The Hubel and Wiesel experiment, replayed with a model cell. Left: the screen, with a bar of light rotating from horizontal (0°) to vertical (90°) and back; the orange square is the cell's receptive field. Right: the cell's response at each angle.](images/hubel_wiesel.gif)
 
@@ -82,7 +82,7 @@ Another cell behaves the same way but prefers horizontal bars, another a slant, 
 
 ## 5. Simple cells and complex cells
 
-> **Key point:** A simple cell responds to an edge of one orientation at one place in a small receptive field. A complex cell responds to the same kind of edge, but anywhere within a larger region: it does not care about small shifts.
+> **Key point:** A simple cell responds to an edge of one orientation at one place in a small **receptive field** (G-1642). A complex cell responds to the same kind of edge, but anywhere within a larger region: it does not care about small shifts.
 
 ### 5.1 Simple cells
 
@@ -96,44 +96,44 @@ Why does nature start with edges? Because every image is made of edges. A face i
 
 ### 5.2 Complex cells
 
-> **Key point:** Same preferred orientation, larger receptive field, and invariant to small shifts in position.
+> **Key point:** Same preferred orientation, larger **receptive field** (G-1642), and invariant to small shifts in position.
 
-Complex cells "respond to features that are similar to those detected by simple cells, but complex cells are invariant to small shifts in the position of the feature" (Goodfellow et al. 2016, §9.10). A complex cell that prefers vertical edges fires for a vertical edge anywhere within its larger receptive field. A complex cell works on the output of simple cells and passes its information on to the next stages.
+Complex cells "respond to features that are similar to those detected by **simple cells** (G-1807), but complex cells are invariant to small shifts in the position of the feature" (Goodfellow et al. 2016, §9.10). A complex cell that prefers vertical edges fires for a vertical edge anywhere within its larger receptive field. A complex cell works on the output of simple cells and passes its information on to the next stages.
 
-As we pass through further areas of the brain, the same strategy, detection followed by pooling, is applied again and again, and cells respond to more and more complex patterns (Goodfellow et al. 2016, §9.10). Deep inside the visual system some cells respond to a specific concept, such as one particular face, whatever its position, size or lighting. So the brain builds the image up in stages: edges, then combinations of edges, then whole objects.
+As we pass through further areas of the brain, the same strategy, detection followed by **pooling** (G-1521), is applied again and again, and cells respond to more and more complex patterns (Goodfellow et al. 2016, §9.10). Deep inside the visual system some cells respond to a specific concept, such as one particular face, whatever its position, size or lighting. So the brain builds the image up in stages: edges, then combinations of edges, then whole objects.
 
 ### 5.3 The same behaviour in a filter and a max
 
-> **Key point:** A small vertical-bar filter, at one position, is tuned to orientation like a simple cell. The maximum of that filter's responses over a neighbourhood keeps the tuning but ignores shifts of the bar, like a complex cell.
+> **Key point:** A small vertical-bar filter, at one position, is tuned to orientation like a **simple cell** (G-1807). The maximum of that filter's responses over a neighbourhood keeps the tuning but ignores shifts of the bar, like a complex cell.
 
-The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle three columns and negative on both sides, so it answers a bright vertical line; its response is the [**filter**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) applied at one fixed position, followed by **ReLU** (G-1668; keep a positive value, set a negative one to 0). A "complex cell" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182; keep the largest value in a window) over a neighbourhood.
+The Notebook builds a model, not a brain recording. A "simple cell" is a 7 × 7 filter that is positive in its middle three columns and negative on both sides, so it answers a bright vertical line; its response is the [**filter**](../DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) applied at one fixed position, followed by **ReLU** (G-1668; keep a positive value, set a negative one to 0). A "**complex cell** (G-428)" is the maximum of the same filter's responses over all positions within 8 pixels of that point, which is **max pooling** (G-1182; keep the largest value in a window) over a neighbourhood.
 
 ![A model simple cell (one filter position, blue) and a model complex cell (maximum over a neighbourhood, orange). Left: both are tuned to orientation, strongest for a vertical bar and silent for a horizontal one. Right: shifting the vertical bar sideways by 2 pixels silences the simple cell, while the complex cell keeps responding](images/cell_models.png){width=100%}
 
 Figure 4 shows both effects:
 
 - **Orientation.** As the bar rotates from horizontal (0°) to vertical (90°), both responses rise from 0 to their maximum, then fall back to 0 at 180°: the tuning Hubel and Wiesel recorded.
-- **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0. The bar is still inside the 7 × 7 receptive field, but it now lies mostly on the negative side of the filter, so the weighted sum is negative and ReLU sets it to 0. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
+- **Position.** Shifting a vertical bar 2 pixels to the side drops the simple cell's response to 0. The bar is still inside the 7 × 7 **receptive field** (G-1642), but it now lies mostly on the negative side of the filter, so the weighted sum is negative and ReLU sets it to 0. The complex cell's response stays at its maximum for every shift from −8 to +8 pixels.
 
-These two models are exactly the two main layers of a CNN. The filter of a [**convolution layer**](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the pooling units of convolutional networks".
+These two models are exactly the two main layers of a CNN. The filter of a [**convolution layer**](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) plays the simple cell, and max pooling plays the complex cell. Goodfellow et al. (2016, §9.10) say the same: the detector units of a CNN "are designed to emulate these properties of simple cells", and complex cells inspire "the **pooling** (G-1521) units of convolutional networks".
 
 ## 6. From the visual cortex to CNNs
 
-> **Key point:** Fukushima's Neocognitron (1980) copied simple and complex cells as S-cells and C-cells. LeCun's networks (from 1989) added training by backpropagation. AlexNet's ImageNet win in 2012 started today's wave of CNNs.
+> **Key point:** Fukushima's **Neocognitron** (G-1314) (1980) copied simple and complex cells as S-cells and C-cells. LeCun's networks (from 1989) added training by backpropagation. AlexNet's ImageNet win in 2012 started today's wave of CNNs.
 
 ### 6.1 The Neocognitron
 
-> **Key point:** Alternating layers of S-cells (like simple cells) and C-cells (like complex cells); it recognised patterns regardless of their position, but learned without backpropagation.
+> **Key point:** Alternating layers of S-cells (like **simple cells** (G-1807)) and C-cells (like complex cells); it recognised patterns regardless of their position, but learned without backpropagation.
 
-The first model built on these findings was the **Neocognitron** (G-1314) of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to complex cells. Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
+The first model built on these findings was the **Neocognitron** (G-1314) of the Japanese scientist Kunihiko Fukushima (Fukushima 1980). The Neocognitron is a cascade of modules, each of two layers: **S-cells**, similar to simple cells, followed by **C-cells**, similar to **complex cells** (G-428). Its structure follows "the hierarchy model of the visual nervous system proposed by Hubel and Wiesel", and it recognised stimulus patterns "without affected by their positions" (Fukushima 1980). In the paper it was trained on five stimulus patterns, the numerals 0 to 4.
 
 Like the brain, its first layers recognise simple features such as edges, and later layers combine them into more complex patterns. The Neocognitron was an inspiration for CNNs, but it did not work well enough in practice. The Neocognitron had most of the design elements of a modern convolutional network but relied on a layer-wise unsupervised **clustering** (G-401; grouping similar examples without labels) algorithm, not on [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) and [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) (Goodfellow et al. 2016, §9.10).
 
 ### 6.2 LeCun's CNNs
 
-> **Key point:** Convolution layers, pooling layers and training by backpropagation: the first working CNNs, used to read handwritten digits and bank cheques.
+> **Key point:** Convolution layers, **pooling** (G-1521) layers and training by backpropagation: the first working CNNs, used to read handwritten digits and bank cheques.
 
-In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [**LeNet-5**](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) (G-1080)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
+In 1989 Yann LeCun introduced convolutional networks trained with **backpropagation** (G-247) (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [**LeNet-5**](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) (G-1080)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
 
 ### 6.3 AlexNet and after
 
@@ -151,10 +151,10 @@ The current wave of commercial interest in deep learning began when Krizhevsky e
 | Complex cell: same orientation, invariant to small shifts | pooling |
 | Deeper areas: more complex patterns | deeper layers: more complex features |
 
-- Visual signals travel from the retina through the optic nerve and the LGN to V1; V1 is a 2D map that mirrors the image, which is why a CNN's feature maps are 2D grids too.
+- Visual signals travel from the **retina** (G-1688) through the optic nerve and the LGN to V1; V1 is a 2D map that mirrors the image, which is why a CNN's feature maps are 2D grids too.
 - Hubel and Wiesel found cells tuned to the orientation of edges, so seeing starts with edges, because every image is made of edges.
-- Simple cells detect oriented edges in a small field; complex cells detect them anywhere in a larger field, which is why a CNN pairs filters (simple cells) with pooling (complex cells).
-- The Neocognitron copied simple and complex cells but learned without backpropagation, so it did not work well enough in practice; LeCun added backpropagation, which gave the first working CNNs; AlexNet (2012) made CNNs famous.
+- Simple cells detect oriented edges in a small field; complex cells detect them anywhere in a larger field, which is why a CNN pairs filters (simple cells) with **pooling** (G-1521) (complex cells).
+- The **Neocognitron** (G-1314) copied simple and complex cells but learned without backpropagation, so it did not work well enough in practice; LeCun added backpropagation, which gave the first working CNNs; AlexNet (2012) made CNNs famous.
 
 ## 8. Sources
 
@@ -176,20 +176,20 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Neocognitron (G-1314) | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
 | Retina (G-1688) | The 2D sheet of light-sensitive cells at the back of the eye. |
 | Lateral geniculate nucleus (LGN) (G-1051) | A region of the thalamus that passes visual signals on to V1. |
 | Primary visual cortex (V1) (G-1560) | The first area of the cortex that processes visual signals. |
+| Receptive field (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | Simple cell (G-1807) | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |
 | Complex cell (G-428) | A nerve cell in the brain's first visual area (V1) that responds to its preferred edge anywhere inside a larger patch of view (receptive field). |
-| Receptive field (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | Preferred stimulus (G-1554) | The pattern, such as an edge of one orientation, that a cell responds to most. |
-| Neocognitron (G-1314) | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
+| [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
+| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
-| [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
-| [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) | Splitting data into groups of similar rows. |

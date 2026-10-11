@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/adagrad]
 
 ## 1. Overview
 
-> **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of sparse features) get large ones. The price: the sum only grows, so the steps keep shrinking.
+> **Key point:** AdaGrad gives every parameter its own learning rate: the global rate divided by the square root of the sum of that parameter's past squared gradients. Parameters with large gradients get small steps, parameters with small gradients (such as the weights of **sparse features** (G-1841)) get large ones. The price: the sum only grows, so the steps keep shrinking.
 
 **AdaGrad** (G-168), short for *adaptive gradient* (Duchi et al. 2011), does not keep the learning rate fixed. AdaGrad adapts the [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) to the situation, separately for every parameter. Every optimizer so far, from [**batch gradient descent**](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) to [momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule) (G-1258; moves by a running average of past steps) and [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#5-the-update-rule) (G-1315; momentum that measures the slope after its jump), uses one learning rate for all parameters; AdaGrad is the first that does not.
 
@@ -35,13 +35,13 @@ Figure 1 shows where this matters: a loss shaped like a stretched bowl, produced
 > **Key point:** Two situations: features on very different scales, and sparse features, which are mostly zeros. Scaling fixes the first, so the second is the real use.
 
 1. **Features on very different scales.** For example CGPA (0 to 10) and salary (up to lakhs of rupees) as two **features** (G-772; input variables, the columns of the data table). In practice we first [standardise such features](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#5-the-fix-scale-the-inputs) (rescale each to mean 0 and spread 1), so this case matters less.
-2. **Sparse features.** A **sparse feature** (G-1841) is one whose values are mostly zero. Take students described by IQ, CGPA and whether they studied at an IIT, with the salary package as the **target** (G-1949; the output we predict). Very few students go to an IIT, so the IIT feature is 0 for almost everyone. Yet it is an important feature: an IIT student tends to get a much higher package. On data with such features, AdaGrad gives better results.
+2. **Sparse features.** A **sparse feature** (G-1841) is one whose values are mostly zero. Take students described by IQ, CGPA and whether they studied at an IIT, with the salary package as the **target** (G-1949; the output we predict). Very few students go to an IIT, so the IIT feature is 0 for almost everyone. Yet it is an important feature: an IIT student tends to get a much higher package. On data with such features, **AdaGrad** (G-168) gives better results.
 
 AdaGrad performs larger updates for infrequent features and smaller updates for frequent ones, which is why it is well suited to **sparse data** (G-1840; Ruder 2016, §4.3).
 
 ## 4. The problem: a sparse feature stretches the loss
 
-> **Key point:** With a sparse feature, the loss changes slowly along that feature's weight and quickly along the others. The bowl becomes elongated, and gradient descent wastes time moving along the steep direction first.
+> **Key point:** With a **sparse feature** (G-1841), the loss changes slowly along that feature's weight and quickly along the others. The bowl becomes elongated, and gradient descent wastes time moving along the steep direction first.
 
 We use a small made-up dataset, since no real dataset shows the effect this cleanly in two parameters: 100 students, each an **observation** (G-1374; one record, one row of the table), with one feature, IIT (1 for 10 students, 0 for the other 90), and the package in lakh rupees as target. The model is a single node, $\hat{y} = m \cdot \text{IIT} + b$, with the squared error as loss. Its best values are $m = 6.01$ and $b = 2.96$: about 3 lakh rupees, plus 6 for an IIT student.
 
@@ -111,9 +111,9 @@ To head straight for the minimum, the two updates must be of comparable size.
 
 ## 5. The idea: shrink the learning rate where the gradients are large
 
-> **Key point:** The gradient cannot be changed, but the learning rate can. Give each parameter its own learning rate: small where its gradients have been large, large where they have been small.
+> **Key point:** The gradient cannot be changed, but the **learning rate** (G-1068) can. Give each parameter its own learning rate: small where its gradients have been large, large where they have been small.
 
-The update is learning rate times gradient. The gradient is what it is, so AdaGrad changes the other factor: a **separate learning rate for every parameter**.
+The update is learning rate times gradient. The gradient is what it is, so **AdaGrad** (G-168) changes the other factor: a **separate learning rate for every parameter**.
 
 - A parameter whose gradients are large, like $b$, gets a small learning rate, so its update stays moderate.
 - A parameter whose gradients are small, like $m$, keeps a large learning rate, so its update is not tiny.
@@ -126,7 +126,7 @@ Figure 4 shows the idea at work. Watch the right-hand bars: $b$'s gradient is th
 
 ## 6. The update rule
 
-> **Key point:** For every parameter separately, add the square of each new gradient to a running sum, and divide the learning rate by the square root of that sum before the usual gradient step.
+> **Key point:** For every parameter separately, add the square of each new gradient to a running sum, and divide the **learning rate** (G-1068) by the square root of that sum before the usual gradient step.
 
 1. **In words:** for each parameter, keep a running sum $v$ of its squared gradients. Divide the learning rate by the square root of that sum before making the usual gradient step.
 2. **Formula:**
@@ -149,7 +149,7 @@ The parts of the formula:
 - **$\epsilon$** is a tiny number, such as $10^{-7}$, that only prevents division by zero when $v_t = 0$.
 - **$v_t$** is the sum of all the past squared gradients of this parameter.
 - **Why square?** Gradients can be positive or negative; we want their size, not their direction, so every gradient adds a positive amount.
-- **Why the square root?** It brings the sum of squares back to the size of a gradient: on the first step $\sqrt{v_1}$ is exactly the size of the gradient, which is why every parameter moved by exactly $\eta$ in the example above. Without the square root, AdaGrad performs much worse (Ruder 2016, §4.3).
+- **Why the square root?** It brings the sum of squares back to the size of a gradient: on the first step $\sqrt{v_1}$ is exactly the size of the gradient, which is why every parameter moved by exactly $\eta$ in the example above. Without the square root, **AdaGrad** (G-168) performs much worse (Ruder 2016, §4.3).
 
 AdaGrad changes only one thing in the gradient descent update: it divides the learning rate by $\sqrt{v_t}$. A parameter with large past gradients is divided by a large number and gets a small learning rate; one with small past gradients is divided by a small number and keeps most of it.
 
@@ -157,14 +157,14 @@ With this rule, AdaGrad reaches the minimum of Figure 1 in 44 steps, against 61 
 
 ## 7. Sparse features in real data: movie reviews
 
-> **Key point:** In text data most words are rare. On movie reviews, AdaGrad's learning rate for the rarest words ended 11 times larger than for the most common ones, and their weights 11 times larger than with SGD.
+> **Key point:** In text data most words are rare. On movie reviews, AdaGrad's **learning rate** (G-1068) for the rarest words ended 11 times larger than for the most common ones, and their weights 11 times larger than with SGD.
 
 The [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923) of movie reviews (Maas et al. 2011) is labelled positive or negative. The setup:
 
 - **features:** each review becomes 5,000 features; feature $j$ is 1 if the review contains the $j$-th most common word, else 0;
 - **data:** 10,000 reviews for training and 10,000 for validation; 97.5% of all feature values are 0, and 63% of the words appear in fewer than 1% of the reviews (Notebook);
 - **model:** **logistic regression** (G-1120; a yes/no classifier), one **sigmoid** (G-1798; squashes the node's sum to a probability between 0 and 1) node;
-- **training:** 10 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) with [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64 and learning rate 0.1, by [**SGD**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) and by AdaGrad, 3 seeds each; AdaGrad's sums start at 0, as in the formula.
+- **training:** 10 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) with [**batch size**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#2-a-family-that-contains-the-other-two) (G-267) 64 and learning rate 0.1, by [**SGD**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) and by **AdaGrad** (G-168), 3 seeds each; AdaGrad's sums start at 0, as in the formula.
 
 ![IMDB, 5,000 words. Left: AdaGrad's learning rate for each word after 10 epochs against the share of reviews containing the word; the rarer the word, the larger its learning rate. Right: mean size of the learned weights per frequency band; with SGD the rare words barely move](images/imdb_lr.png){width=100%}
 
@@ -185,7 +185,7 @@ AdaGrad also fits the training data much faster: training loss 0.099 after 10 ep
 
 ## 8. The weakness: the learning rate only goes down
 
-> **Key point:** $v_t$ is a sum of squares, so it never shrinks. Every step makes the learning rates smaller. Large early gradients cut them for good, and on long runs the updates can become too small to reach the minimum.
+> **Key point:** $v_t$ is a sum of squares, so it never shrinks. Every step makes the **learning rates** (G-1068) smaller. Large early gradients cut them for good, and on long runs the updates can become too small to reach the minimum.
 
 The sum $v_t$ can only grow. So each parameter's learning rate $\eta/\sqrt{v_t}$ can only fall, and it never recovers. Large gradients early in training, when the weights are far from good values, fill $v_t$ quickly and cut the learning rates for the rest of training.
 
@@ -193,7 +193,7 @@ The sum $v_t$ can only grow. So each parameter's learning rate $\eta/\sqrt{v_t}$
 
 In Figure 6 the left panel shows how each parameter's learning rate changes with the step, and the right panel the distance from the minimum on a log scale (here each gridline is 100 times the one below it); a curve that goes lower is closer to the minimum.
 
-Figure 6 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps AdaGrad is still 0.35 away from the minimum (Notebook).
+Figure 6 shows the effect. With $\eta = 0.5$, the first large gradients cut $m$'s learning rate from 0.147 to 0.055 within 10 steps and to 0.029 by step 500; $b$'s falls from 0.031 to 0.007. The steps become so small that after 500 steps **AdaGrad** (G-168) is still 0.35 away from the minimum (Notebook).
 
 For training deep networks, the accumulation of squared gradients from the beginning of training can cause a premature and excessive decrease in the **effective learning rate** (G-662; the learning rate after AdaGrad's division); AdaGrad performs well for some deep learning models but not all (Goodfellow et al. 2016, §8.5.1). Once the learning rate has become infinitesimally small, the algorithm can no longer learn anything new (Ruder 2016, §4.3). This is why AdaGrad is rarely used for complex neural networks. Its idea survives in [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) and [**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169), which fix the shrinking.
 
@@ -203,7 +203,7 @@ For training deep networks, the accumulation of squared gradients from the begin
 
 > **Key point:** `keras.optimizers.Adagrad(learning_rate=...)`. Keras starts every sum at 0.1 instead of 0.
 
-> **Python:** AdaGrad in Keras.
+> **Python:** **AdaGrad** (G-168) in Keras.
 >
 > ```python
 > import keras
@@ -224,11 +224,11 @@ Keras' defaults are `learning_rate=0.001`, `initial_accumulator_value=0.1` (the 
 | Sparse features | rare features learn slowly | rare features get larger steps |
 | Long runs | fixed step size | steps keep shrinking, may stall |
 
-- AdaGrad divides the learning rate by the square root of the sum of past squared gradients, per parameter, because the gradient cannot be changed but the learning rate can.
+- AdaGrad divides the **learning rate** (G-1068) by the square root of the sum of past squared gradients, per parameter, because the gradient cannot be changed but the learning rate can.
 - Large past gradients mean a small learning rate; small ones keep it large. Updates in all directions become comparable, so the path heads for the minimum instead of making an "L".
 - It suits sparse data, where rare features need larger updates: a rare feature's gradient is usually 0, so its sum stays small and its learning rate stays large.
 - Its learning rates only fall, because $v_t$ is a sum of squares and never shrinks; large early gradients cut them for good, which makes it unsuited to most deep networks.
-- RMSProp and Adam keep the idea and fix the shrinking, so AdaGrad itself is rarely used for complex neural networks.
+- RMSProp and Adam keep the idea and fix the shrinking, so **AdaGrad** (G-168) itself is rarely used for complex neural networks.
 
 ## 11. Sources
 
@@ -250,8 +250,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| AdaGrad (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
 | Sparse feature (G-1841) | A feature whose values are mostly zero, such as "studied at an IIT". |
+| AdaGrad (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
 | Elongated bowl (G-673) | A loss surface stretched far more in one direction than another, with long elliptical contours, as a sparse feature produces. Gradient descent on it wastes steps moving along the steep direction and crawls along the flat one. |
 | Effective learning rate (G-662) | The learning rate a parameter actually gets after AdaGrad's division: $\eta/(\sqrt{v_t}+\epsilon)$. |
 | Adaptive learning rate (G-171) | A learning rate that changes during training according to the gradients seen so far. |

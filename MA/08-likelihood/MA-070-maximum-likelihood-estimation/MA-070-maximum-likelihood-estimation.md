@@ -15,7 +15,7 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/mle]
 
 ## 1. Overview
 
-> **Key point:** Maximum likelihood estimation picks the parameter values under which the data we actually observed is most likely. We slide the parameters, compute the likelihood of the fixed data, and keep the peak.
+> **Key point:** Maximum likelihood estimation picks the parameter values under which the data we actually observed is most likely. We slide the parameters, compute the **likelihood** (G-1086) of the fixed data, and keep the peak.
 
 [Likelihood from the event back to the parameter](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) showed that a likelihood fixes the data and lets the distribution move. This Note turns that idea into a method, in this order:
 
@@ -24,9 +24,9 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/mle]
 3. the likelihood of one measurement: the height of the curve ([Section 4](#4-the-likelihood-of-one-measurement));
 4. the likelihood of many measurements: multiply the heights ([Section 5](#5-the-likelihood-of-many-measurements));
 5. searching for the best mean, then the best standard deviation ([Section 6](#6-searching-for-the-best-parameters));
-6. the general names: likelihood function and maximum likelihood estimate ([Section 7](#7-the-likelihood-function-and-the-mle));
+6. the general names: **likelihood function** (G-1085) and maximum likelihood estimate ([Section 7](#7-the-likelihood-function-and-the-mle));
 7. why we take the log ([Section 8](#8-why-we-take-the-log)) and flip the sign ([Section 9](#9-the-negative-log-likelihood));
-8. finding the peak with a derivative ([Section 10](#10-finding-the-peak-with-a-derivative));
+8. finding the peak with a **derivative** (G-595) ([Section 10](#10-finding-the-peak-with-a-derivative));
 9. how good the estimate is ([Section 11](#11-how-good-is-the-mle)).
 
 [MLE for the binomial, exponential and normal distributions](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#1-overview) applies the method to those three distributions.
@@ -60,7 +60,7 @@ Now slide the curve to the right (Figure 1, top):
 
 In Figure 1, watch the bottom panel: each position of the curve adds one point to a plot of likelihood against the curve's centre. The points form a hump. The centre at the top of the hump, $\mu = 32$, is the **maximum likelihood estimate** (G-1190) of the mean. How the likelihood number is computed comes in Sections [4](#4-the-likelihood-of-one-measurement) and [5](#5-the-likelihood-of-many-measurements).
 
-The estimate is the mean of the distribution, not the mean of the data. For the normal distribution the two agree here: the average of 29, 31, 32, 33 and 35 is also 32. The width $\sigma$ is found the same way, by sliding it with the centre held still ([Section 6.2](#62-the-best-standard-deviation)).
+The estimate is the mean of the distribution, not the mean of the data. For the **normal distribution** (G-1343) the two agree here: the average of 29, 31, 32, 33 and 35 is also 32. The width $\sigma$ is found the same way, by sliding it with the centre held still ([Section 6.2](#62-the-best-standard-deviation)).
 
 > **Another way to see it:** [A bag of balls](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#3-a-bag-of-balls) drew five balls from a bag and got five greens. The likelihood of "2 of 5 balls are green", with $p$ equal to 2/5, was:
 >
@@ -74,15 +74,15 @@ The estimate is the mean of the distribution, not the mean of the data. For the 
 
 ## 4. The likelihood of one measurement
 
-> **Key point:** The likelihood of a curve, given one measurement, is the height of the curve above that measurement.
+> **Key point:** The **likelihood** (G-1086) of a curve, given one measurement, is the height of the curve above that measurement.
 
 ### 4.1 One mouse, three curves
 
-We start with the smallest dataset: one mouse that weighs 32 grams. Put a normal curve with $\mu = 28$ and $\sigma = 2$ over it. The likelihood of this curve, given the mouse, is the curve's height at 32. The height comes from the normal **probability density function** (G-1568; the curve whose height is the density, see [the PDF of the normal distribution](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#5-the-pdf-of-the-normal-distribution)):
+We start with the smallest dataset: one mouse that weighs 32 grams. Put a normal curve with $\mu = 28$ and $\sigma = 2$ over it. The **likelihood** (G-1086) of this curve, given the mouse, is the curve's height at 32. The height comes from the normal **probability density function** (G-1568; the curve whose height is the density, see [the PDF of the normal distribution](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#5-the-pdf-of-the-normal-distribution)):
 
 $$f(x \mid \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{(x - \mu)^2}{2\sigma^2}}$$
 
-1. **In words:** plug the measurement in for $x$ and the curve's parameters in for $\mu$ and $\sigma$; the number that comes out is the likelihood.
+1. **In words:** plug the measurement in for $x$ and the curve's **parameters** (G-1449) in for $\mu$ and $\sigma$; the number that comes out is the likelihood.
 2. **Example:** with $x = 32$ and $\sigma = 2$,
    - $\mu = 28$: $f(32 \mid 28, 2) = 0.027$;
    - $\mu = 30$: $f(32 \mid 30, 2) = 0.121$;
@@ -91,7 +91,7 @@ $$f(x \mid \mu, \sigma) = \frac{1}{\sigma\sqrt{2\pi}}\thinspace e^{-\frac{(x - \
 
 ### 4.2 The peak is where the slope is zero
 
-Hold $\sigma = 2$ fixed, like the data, and try every mean from 24 to 40 (Figure 2). Each mean gives one height, and plotting the heights against $\mu$ gives the likelihood curve.
+Hold $\sigma = 2$ fixed, like the data, and try every mean from 24 to 40 (Figure 2). Each mean gives one height, and plotting the heights against $\mu$ gives the **likelihood** (G-1086) curve.
 
 ![One mouse at 32 grams. Top: the curve N(μ, 2²) slides and the orange bar is its height above the mouse. Bottom: that height traced against μ; the red line is the tangent at the current μ, flat at the peak μ = 32. Idea after StatQuest, "Maximum Likelihood For the Normal Distribution, step-by-step!!!"](images/one_point_sweep.gif)
 
@@ -107,13 +107,13 @@ With one point, the best curve is centred on the point. One point is not enough 
 
 ## 5. The likelihood of many measurements
 
-> **Key point:** For independent data, the likelihood of the dataset is the product of the likelihoods of the single points.
+> **Key point:** For independent data, the **likelihood** (G-1086) of the dataset is the product of the likelihoods of the single points.
 
 ### 5.1 Two mice: multiply
 
 > **Key point:** Weighing one mouse does not change another, so their heights multiply.
 
-Add a second mouse of 34 grams. Under the curve with $\mu = 28$, $\sigma = 2$ the two heights are 0.027 (for 32 grams) and 0.0022 (for 34 grams). The likelihood of the curve given both mice is their product:
+Add a second mouse of 34 grams. Under the curve with $\mu = 28$, $\sigma = 2$ the two heights are 0.027 (for 32 grams) and 0.0022 (for 34 grams). The **likelihood** (G-1086) of the curve given both mice is their product:
 
 $$L(\mu = 28, \sigma = 2 \mid 32, 34)$$
 $$= 0.027 \times 0.0022$$
@@ -131,7 +131,7 @@ In Figure 3 (right), watch the mouse at 34 grams: under the curve with mean 28 i
 
 The mice are [**independent and identically distributed**](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) (i.i.d., see [the conditions of the CLT](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions)): each weight comes from the same curve, and none affects another. For i.i.d. data the joint density factorises into a product of one density per point (MML, the book *Mathematics for Machine Learning* in Sources, §8.3.1, equation 8.16).
 
-1. **In words:** the likelihood of the parameters, given all the data, is the product of the heights of the curve above each observation.
+1. **In words:** the **likelihood** (G-1086) of the parameters, given all the data, is the product of the heights of the curve above each observation.
 2. **Example:** under $\mu = 28$, $\sigma = 2$ the five mice get heights 0.176, 0.065, 0.027, 0.009 and 0.0004. The mouse at 35 grams is far in the tail, so its height is almost 0. The likelihood is
    $$L = 0.176 \times 0.065 \times 0.027$$
    $$\quad \times\ 0.009 \times 0.0004$$
@@ -154,11 +154,11 @@ In Figure 4, watch the 35-gram mouse: under the left curve its height is 0.0004,
 
 ## 6. Searching for the best parameters
 
-> **Key point:** Move one parameter at a time, compute the likelihood at each value, and keep the value at the peak.
+> **Key point:** Move one parameter at a time, compute the **likelihood** (G-1086) at each value, and keep the value at the peak.
 
 ### 6.1 The best mean
 
-> **Key point:** With $\sigma$ fixed at 2, the likelihood is largest when the curve's mean is 32, the average of the five weights.
+> **Key point:** With $\sigma$ fixed at 2, the **likelihood** (G-1086) is largest when the curve's mean is 32, the average of the five weights.
 
 Now we can put numbers on Figure 1. Hold $\sigma = 2$ and slide the curve's mean from left to right. For each position we compute the product of the five heights:
 
@@ -166,7 +166,7 @@ Now we can put numbers on Figure 1. Hold $\sigma = 2$ and slide the curve's mean
 |---|---|---|---|---|
 | Likelihood | $1.2 \times 10^{-9}$ | $2.1 \times 10^{-6}$ | $2.6 \times 10^{-5}$ | $2.1 \times 10^{-6}$ |
 
-Far to the left, most mice sit in the right-hand tail and the likelihood is tiny. As the curve moves under the data, the heights grow; past the middle they shrink again. The peak is at $\mu = 32$, the maximum likelihood estimate of the mean.
+Far to the left, most mice sit in the right-hand tail and the likelihood is tiny. As the curve moves under the data, the heights grow; past the middle they shrink again. The peak is at $\mu = 32$, the **maximum likelihood estimate** (G-1190) of the mean.
 
 ### 6.2 The best standard deviation
 
@@ -176,7 +176,7 @@ Now fix $\mu = 32$ and vary $\sigma$ (Figure 5).
 
 ![The curve N(32, σ²) widens from σ = 0.8 to 5 over the five mice. Top: the five heights. Bottom: their product, the likelihood, traced against σ; highest at σ = 2. Idea after StatQuest, "Maximum Likelihood, clearly explained!!!"](images/sigma_sweep.gif)
 
-- **Too narrow** ($\sigma = 1$): the curve is tall at 32, but the mice at 29 and 35 fall almost outside it. Likelihood $0.05 \times 10^{-5}$.
+- **Too narrow** ($\sigma = 1$): the curve is tall at 32, but the mice at 29 and 35 fall almost outside it. **Likelihood** (G-1086) $0.05 \times 10^{-5}$.
 - **Too wide** ($\sigma = 4$): every mouse is inside the curve, but a wide curve must be low, because the area under a PDF is always 1 (see [area under the curve is probability](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)). Likelihood $0.53 \times 10^{-5}$.
 - **Just right** ($\sigma = 2$): likelihood $2.59 \times 10^{-5}$, the peak of the bottom curve.
 
@@ -186,21 +186,21 @@ So the normal curve fitted by maximum likelihood is $N(32, 2^2)$. The width 2 is
 
 ## 7. The likelihood function and the MLE
 
-> **Key point:** The likelihood function treats the data as fixed and the parameters as the variable. The MLE is the parameter value where this function is highest.
+> **Key point:** The **likelihood function** (G-1085) treats the data as fixed and the parameters as the variable. The MLE is the parameter value where this function is highest.
 
 ### 7.1 One symbol for all parameters
 
-> **Key point:** We collect all parameters of a model in one symbol, $\theta$.
+> **Key point:** We collect all **parameters** (G-1449) of a model in one symbol, $\theta$.
 
-A normal distribution has two parameters, a Poisson distribution one, a regression model many. To talk about all of them at once, we write $\theta$ (theta, G-21) for "all the parameters". For the normal curve, $\theta = (\mu, \sigma)$.
+A **normal distribution** (G-1343) has two parameters, a Poisson distribution one, a regression model many. To talk about all of them at once, we write $\theta$ (theta, G-21) for "all the parameters". For the normal curve, $\theta = (\mu, \sigma)$.
 
-The density of one observation under parameters $\theta$ is written $p(x \mid \theta)$. With fixed $\theta$ it describes how data spreads; with fixed $x$ and moving $\theta$ it is a likelihood (see [the two definitions](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#5-the-two-definitions)). In everyday speech "probability" and "likelihood" mean the same thing; in statistics "likelihood" names exactly this second reading, used to find the best parameters for observed data.
+The density of one observation under parameters $\theta$ is written $p(x \mid \theta)$. With fixed $\theta$ it describes how data spreads; with fixed $x$ and moving $\theta$ it is a **likelihood** (G-1086) (see [the two definitions](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#5-the-two-definitions)). In everyday speech "probability" and "likelihood" mean the same thing; in statistics "likelihood" names exactly this second reading, used to find the best parameters for observed data.
 
 ### 7.2 The maximum likelihood estimate
 
-> **Key point:** $\hat\theta = \arg\max_\theta L(\theta)$: the parameter value that makes the likelihood largest.
+> **Key point:** $\hat\theta = \arg\max_\theta L(\theta)$: the parameter value that makes the **likelihood** (G-1086) largest.
 
-1. **In words:** the [**likelihood function**](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) multiplies the density of every observation, for a given $\theta$. The maximum likelihood estimate is the $\theta$ that makes this product largest.
+1. **In words:** the [**likelihood function**](../MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) multiplies the density of every observation, for a given $\theta$. The **maximum likelihood estimate** (G-1190) is the $\theta$ that makes this product largest.
 2. **Example:** for the mice with $\sigma = 2$, the largest likelihood is $2.59 \times 10^{-5}$, and the $\mu$ that reaches it is 32. The MLE is 32, not $2.59 \times 10^{-5}$.
 3. **Formula:**
    $$L(\theta) = \prod_{i=1}^{n} p(x_i \mid \theta)$$
@@ -213,13 +213,13 @@ The approach is called **maximum likelihood estimation** (G-1191). MML (§8.3.4)
 
 ## 8. Why we take the log
 
-> **Key point:** The log keeps the peak in the same place, turns the product into a sum, and makes the derivative easy.
+> **Key point:** The log keeps the peak in the same place, turns the product into a sum, and makes the **derivative** (G-595) easy.
 
 ### 8.1 The log does not move the peak
 
-> **Key point:** The log always grows when its input grows, so the largest likelihood also has the largest log.
+> **Key point:** The log always grows when its input grows, so the largest **likelihood** (G-1086) also has the largest log.
 
-[From products to sums: the log](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log) introduced the [**log-likelihood**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113), the log of the likelihood, to avoid products too small for a computer. For maximum likelihood estimation the log-likelihood has a second, more important property.
+[From products to sums: the log](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#4-from-products-to-sums-the-log) introduced the [**log-likelihood**](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113), the log of the likelihood, to avoid products too small for a computer. For **maximum likelihood estimation** (G-1191) the log-likelihood has a second, more important property.
 
 The log is an **increasing function** (G-930): if $a > b$, then $\log a > \log b$. So whichever $\theta$ gives the largest likelihood also gives the largest log-likelihood. Figure 6 shows the two curves for the mice: they have different shapes, but both peak at $\mu = 32$.
 
@@ -229,7 +229,7 @@ Throughout, $\log$ means the natural log, $\ln$, the log to base $e$. Any other 
 
 $$\log_b a = \frac{\ln a}{\ln b}$$
 
-So the peak stays where it is; with base $e$ the derivative of $\ln\theta$ is simply $1/\theta$.
+So the peak stays where it is; with base $e$ the **derivative** (G-595) of $\ln\theta$ is simply $1/\theta$.
 
 ### 8.2 What the log does to the formula
 
@@ -241,7 +241,7 @@ Three rules of logs do all the work:
 - $\log a^{k} = k \log a$: an exponent comes down as a multiplier;
 - $\log e^{a} = a$: the exponential inside the normal and Poisson formulas disappears.
 
-1. **In words:** the log-likelihood is the sum, over the observations, of the log of each point's density.
+1. **In words:** the **log-likelihood** (G-1113) is the sum, over the observations, of the log of each point's density.
 2. **Formula:**
    $$\ell(\theta) = \log L(\theta) = \sum_{i=1}^{n} \log p(x_i \mid \theta)$$
 3. **Example:** for the 29-gram mouse under $N(32, 2^2)$, the normal PDF and its log are
@@ -257,22 +257,22 @@ Three rules of logs do all the work:
    $$-2.737 - 1.737 - 1.612$$
    $$\quad -\ 1.737 - 2.737$$
    $$= -10.56$$
-   This matches the log of the likelihood:
+   This matches the log of the **likelihood** (G-1086):
    $$\log(2.59 \times 10^{-5}) = -10.56$$
 
 ### 8.3 Why this helps the derivative
 
-> **Key point:** The derivative of a sum is the sum of the derivatives; the derivative of a product of $n$ factors is a mess.
+> **Key point:** The **derivative** (G-595) of a sum is the sum of the derivatives; the derivative of a product of $n$ factors is a mess.
 
 To find the peak we will set a derivative to zero ([Section 10](#10-finding-the-peak-with-a-derivative)). MML (§9.2.1, remark on the log-transformation) gives this reason: the derivative of a product of $n$ factors needs the product rule over and over, while the derivative of a sum is just the sum of the derivatives of its terms, one per observation.
 
-In Figure 6 the log-likelihood for the mean is even an exact upside-down parabola, $-\sum(x_i - \mu)^2/8$ plus a constant: in the log of each density ([Section 8.2](#82-what-the-log-does-to-the-formula)), only the squared-distance term contains $\mu$.
+In Figure 6 the **log-likelihood** (G-1113) for the mean is even an exact upside-down parabola, $-\sum(x_i - \mu)^2/8$ plus a constant: in the log of each density ([Section 8.2](#82-what-the-log-does-to-the-formula)), only the squared-distance term contains $\mu$.
 
 ## 9. The negative log-likelihood
 
-> **Key point:** Optimisation tools minimise. Putting a minus sign in front of the log-likelihood turns "find the highest point" into "find the lowest point".
+> **Key point:** Optimisation tools minimise. Putting a minus sign in front of the **log-likelihood** (G-1113) turns "find the highest point" into "find the lowest point".
 
-1. **In words:** the **negative log-likelihood** (G-1310) is minus the log-likelihood. Its lowest point is at the same $\theta$ as the likelihood's highest point.
+1. **In words:** the **negative log-likelihood** (G-1310) is minus the log-likelihood. Its lowest point is at the same $\theta$ as the **likelihood** (G-1086)'s highest point.
 2. **Formula:**
    $$\text{NLL}(\theta) = -\ell(\theta)$$
    $$= -\sum_{i=1}^{n} \log p(x_i \mid \theta)$$
@@ -289,17 +289,17 @@ In Figure 7, watch the green points: the top of the hill and the bottom of the v
 
 The minus sign is a convention, not new maths. MML (§8.3.1, remark) calls it a historical artifact: statistics talks about maximising likelihood, while the optimisation literature, including [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862), is written for minimising.
 
-The negative log-likelihood is a loss function: one number per parameter setting, lower is better. [The Bernoulli model behind the log loss](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#43-the-bernoulli-model-behind-the-log-loss) called it the cross entropy for a classifier. [A model as a distribution of the target](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#2-a-model-as-a-distribution-of-the-target) shows that the usual ML losses are negative log-likelihoods of different models.
+The negative log-likelihood is a loss function: one number per **parameter** (G-1449) setting, lower is better. [The Bernoulli model behind the log loss](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#43-the-bernoulli-model-behind-the-log-loss) called it the cross entropy for a classifier. [A model as a distribution of the target](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#2-a-model-as-a-distribution-of-the-target) shows that the usual ML losses are negative log-likelihoods of different models.
 
 ## 10. Finding the peak with a derivative
 
-> **Key point:** At the top of a smooth hill the slope is zero. So we differentiate the log-likelihood, set the derivative to zero, and solve for the parameter.
+> **Key point:** At the top of a smooth hill the slope is zero. So we differentiate the **log-likelihood** (G-1113), set the derivative to zero, and solve for the parameter.
 
 ### 10.1 The recipe
 
-> **Key point:** Write the likelihood, take the log, differentiate, set to zero, solve, check it is a maximum.
+> **Key point:** Write the **likelihood** (G-1086), take the log, differentiate, set to zero, solve, check it is a maximum.
 
-Trying many values on a grid works, but it is slow and only as precise as the grid. At the peak of a smooth curve the tangent line is flat, so the derivative is zero there, as the flat red tangent of Figure 2 showed for one mouse. Figure 8 shows this on a log-likelihood: positive slope before the peak, zero at it, negative after.
+Trying many values on a grid works, but it is slow and only as precise as the grid. At the peak of a smooth curve the tangent line is flat, so the derivative is zero there, as the flat red tangent of Figure 2 showed for one mouse. Figure 8 shows this on a **log-likelihood** (G-1113): positive slope before the peak, zero at it, negative after.
 
 ![Log-likelihood of a Poisson rate for five call counts, with tangent lines: slope +5 before the peak, 0 at the peak, −2.14 after it](images/slope_zero.png)
 
@@ -307,8 +307,8 @@ The recipe:
 
 1. Write the likelihood $L(\theta) = \prod_i p(x_i \mid \theta)$.
 2. Take the log: $\ell(\theta) = \sum_i \log p(x_i \mid \theta)$, and simplify with the log rules.
-3. Differentiate with respect to the parameter.
-4. Set the derivative to 0 and solve for the parameter. The solution is $\hat\theta$.
+3. Differentiate with respect to the **parameter** (G-1449).
+4. Set the **derivative** (G-595) to 0 and solve for the parameter. The solution is $\hat\theta$.
 5. Check it is a maximum and not a minimum: the second derivative (the derivative of the derivative) should be negative there, meaning the slope goes from positive to negative.
 
 With several parameters, step 3 takes one partial derivative per parameter (see [partial derivatives](../../06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#3-partial-derivatives): the slope along one parameter with the others held still), and step 4 sets all of them to 0 at once.
@@ -332,7 +332,7 @@ $$= 2 \times 0.135 = 0.27$$
    $$x_i \log\lambda - \lambda - \log x_i!$$
    Adding the five terms:
    $$\ell(\lambda) = \Big(\sum_i x_i\Big)\log\lambda - n\lambda - \sum_i \log x_i!$$
-3. **Derivative:** the last sum does not contain $\lambda$, so its derivative is 0. The derivative of $\log\lambda$ is $1/\lambda$:
+3. **Derivative:** the last sum does not contain $\lambda$, so its **derivative** (G-595) is 0. The derivative of $\log\lambda$ is $1/\lambda$:
    $$\frac{d\ell}{d\lambda} = \frac{\sum_i x_i}{\lambda} - n$$
 4. **Set to zero and solve:**
    $$\frac{\sum_i x_i}{\lambda} = n$$
@@ -353,17 +353,17 @@ $$10/3.5 - 5 = -2.14$$
 
 The answer matches intuition: the best guess of the average rate is the average count. The value of the derivation is that it proves it, and that the same steps work where intuition has no answer.
 
-> **Extra:** Step 5 showed that the second derivative, $-\sum_i x_i/\lambda^2$, is negative for every $\lambda > 0$. So the slope only ever falls: it is positive before $\hat\lambda$ and negative after it, and $\hat\lambda = 2$ is the highest point of the whole curve, not just a local peak. Such an upside-down-bowl function is called concave (see [convex functions](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#3-convex-functions-and-their-sets)). Not every log-likelihood is concave: for Gaussian mixtures, MML (§11.4.5) warns that the search can end at a local maximum; [local maxima and starting points](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#7-local-maxima-and-starting-points) meets this.
+> **Extra:** Step 5 showed that the second derivative, $-\sum_i x_i/\lambda^2$, is negative for every $\lambda > 0$. So the slope only ever falls: it is positive before $\hat\lambda$ and negative after it, and $\hat\lambda = 2$ is the highest point of the whole curve, not just a local peak. Such an upside-down-bowl function is called concave (see [convex functions](../../07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#3-convex-functions-and-their-sets)). Not every **log-likelihood** (G-1113) is concave: for Gaussian mixtures, MML (§11.4.5) warns that the search can end at a local maximum; [local maxima and starting points](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#7-local-maxima-and-starting-points) meets this.
 
 ### 10.3 When there is no formula
 
-> **Key point:** If "derivative = 0" cannot be solved by algebra, we climb the log-likelihood (or descend the NLL) step by step.
+> **Key point:** If "derivative = 0" cannot be solved by algebra, we climb the **log-likelihood** (G-1113) (or descend the NLL) step by step.
 
-For the Poisson rate and for the normal distribution, step 4 can be solved by hand and gives a [**closed-form**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) answer: a formula in the data. For many models it cannot (MML §8.3.1). Logistic regression is one: its parameters sit inside the sigmoid, and [minimising the loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#7-minimising-the-loss) had to use gradient descent on the NLL instead.
+For the Poisson rate and for the **normal distribution** (G-1343), step 4 can be solved by hand and gives a [**closed-form**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) answer: a formula in the data. For many models it cannot (MML §8.3.1). Logistic regression is one: its **parameters** (G-1449) sit inside the sigmoid, and [minimising the loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#7-minimising-the-loss) had to use **gradient descent** (G-862) on the NLL instead.
 
 So in practice MLE means one of two things:
 
-- **closed form:** solve derivative = 0 by algebra (this Note, [the MLE of the mean](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#43-the-mle-of-the-mean), linear regression);
+- **closed form:** solve **derivative** (G-595) = 0 by algebra (this Note, [the MLE of the mean](../MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#43-the-mle-of-the-mean), linear regression);
 - **numerical:** minimise the NLL with gradient descent or another optimiser (logistic regression, neural networks), or with a special iterative scheme such as [the EM algorithm](../MA-074-expectation-maximization/MA-074-expectation-maximization.md#32-the-algorithm).
 
 > **Python:** Minimising the NLL numerically gives the same answer as the formula.
@@ -389,7 +389,7 @@ So in practice MLE means one of two things:
 
 > **Extra:** Two standard properties (stated, not proved, in MML §8.3.2):
 >
-> - **Consistency.** (G-452) As the number of observations $n$ grows, the MLE gets closer and closer to the true parameter value.
+> - **Consistency.** (G-452) As the number of observations $n$ grows, the MLE gets closer and closer to the true **parameter** (G-1449) value.
 > - **Shrinking error.** The variance of the estimate falls like $1/n$: four times as much data halves its typical error. For a normal mean this is the standard error $\sigma/\sqrt n$ ([the mean and variance of the sample means](../../04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means)).
 >
 > The Notebook checks both by simulation for the Poisson rate: the spread of the MLE halves each time $n$ is multiplied by 4 (0.63, 0.32, 0.16, 0.08 for $n$ = 5, 20, 80, 320). The same remark in the book adds that in the small-data regime maximum likelihood can overfit; [maximum likelihood overfits](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#6-maximum-likelihood-overfits) shows this happening, and [MAP estimation](../MA-072-mle-in-machine-learning/MA-072-mle-in-machine-learning.md#7-map-estimation-maximum-likelihood-plus-a-prior) adds a prior against it.
@@ -410,11 +410,11 @@ Figure 9 runs the Notebook's simulation for more sample sizes. Watch the orange 
 | Negative log-likelihood | 10.56 | 6.94 |
 | Derivative = 0 gives | $\hat\mu = \bar{x} = 32$ | $\hat\lambda = \bar{x} = 2$ |
 
-- Choose a family of distributions by looking at the data; maximum likelihood chooses its parameters, because it is one rule for the parameters that works the same way for any family.
-- For i.i.d. data, the likelihood is the product of the densities of the single points, because probabilities of independent events multiply; so one point far in the tail shrinks the whole product.
+- Choose a family of distributions by looking at the data; maximum likelihood chooses its **parameters** (G-1449), because it is one rule for the parameters that works the same way for any family.
+- For i.i.d. data, the **likelihood** (G-1086) is the product of the densities of the single points, because probabilities of independent events multiply; so one point far in the tail shrinks the whole product.
 - The MLE is $\arg\max_\theta L(\theta)$: the parameters under which the observed data is most likely, so a curve sitting on the data beats a curve far from it.
-- The log keeps the peak, because it is an increasing function; it turns products into sums, so the derivative is a sum of one simple term per observation.
-- Minimising the negative log-likelihood is the same as maximising the likelihood; the minus sign is there because optimisation tools such as gradient descent minimise, and it makes the NLL a loss function.
+- The log keeps the peak, because it is an increasing function; it turns products into sums, so the **derivative** (G-595) is a sum of one simple term per observation.
+- Minimising the **negative log-likelihood** (G-1310) is the same as maximising the likelihood; the minus sign is there because optimisation tools such as gradient descent minimise, and it makes the NLL a loss function.
 - Recipe: log, differentiate, set to 0, solve, check the second derivative, because the slope is zero at the top of a smooth hill. Without a closed form (logistic regression), optimise numerically.
 - The MLE becomes accurate with much data; with little data it can overfit (five green draws gave the estimate "every ball is green"), so small-data estimates need care, and MAP estimation adds a prior against this.
 
@@ -440,15 +440,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Increasing function (G-930) | A function whose output grows whenever its input grows, such as the log; it keeps the position of a maximum. |
 | Negative log-likelihood (NLL) (G-1310) | The log-likelihood with its sign flipped, so a better fit gives a smaller number; fitting minimises it, which is the same as maximising the likelihood. |
 | Consistency (of an estimator) (G-452) | Getting closer to the true parameter value as the amount of data grows. |
+| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
+| [Likelihood function $L(\theta \mid \text{data})$](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
+| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Parameters (of a distribution)](../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#8-parameters-of-a-distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
 | [Parametric density estimation](../../../MA/03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#3-parametric-density-estimation) (G-1451) | Estimating how the data is spread (its probability density) by assuming it follows a named distribution and estimating that distribution's parameters from the data. |
-| [Likelihood](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
 | [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
-| [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
-| [Likelihood function $L(\theta \mid \text{data})$](../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#43-the-likelihood-function-slide-the-parameter) (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
 | [Log-likelihood](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#42-taking-logs) (G-1113) | The logarithm of the likelihood, which turns the product of probabilities into a sum of log probabilities; it peaks at the same parameters as the likelihood and is easier to compute and maximise. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Closed-form solution](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#2-two-ways-to-find-m-and-b) (G-398) | An answer given directly by a formula of ordinary operations. |

@@ -51,7 +51,7 @@ Two small examples with numbers:
   1.85 / 3 = 0.617
   $$
 
-Those two steps are the whole algorithm. A voting ensemble works like an election, which is where the name comes from.
+Those two steps are the whole algorithm. A **voting ensemble** (G-2096) works like an election, which is where the name comes from.
 
 ## 3. The puzzle
 
@@ -260,7 +260,7 @@ Figure 6b tests assumption 1. Eleven models of accuracy 0.7 vote, but each answe
 | Fully correlated | 0.7 | 0.7 (no gain) |
 
 - The table rows differ because voting amplifies whatever the models are: good independent models get better, bad ones get worse, and copies of one model add nothing.
-- A voting ensemble trains several models on the same data; classification takes the majority vote, regression the mean, so the whole algorithm is two steps, like an election.
+- A **voting ensemble** (G-2096) trains several models on the same data; classification takes the majority vote, regression the mean, so the whole algorithm is two steps, like an election.
 - It needs two assumptions: independent (different) models, and every model better than 50%. Together they guarantee a gain when the models have equal accuracy; with unequal accuracies the vote can trail its best member (0.673 against 0.7 in section 3), because the two weaker models can outvote the best one.
 - For three models, the chance that the vote is right is 0.784 for $p = 0.7$, because the vote is wrong only when two or three models are wrong at the same time, which is rarer than one model being wrong:
 

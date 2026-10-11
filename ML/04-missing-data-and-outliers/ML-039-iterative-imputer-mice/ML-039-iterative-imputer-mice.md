@@ -27,7 +27,7 @@ The algorithm behind it is **MICE** (G-1216), short for **Multivariate Imputatio
 
 - **Step 0:** fill every gap with the mean of its feature.
 - **One iteration:** for each feature in turn, put its gaps back to NaN ("not a number", how pandas marks a gap), train a model on the observations without a gap, and predict the gaps.
-- **Stop** when the fills hardly change from one iteration to the next.
+- **Stop** when the fills hardly change from one **iteration** (G-976) to the next.
 
 ![The MICE loop: a mean fill, then one model per column, repeated until the fills settle](images/overview.png){width=100%}
 
@@ -35,12 +35,12 @@ Each model is one "equation" that predicts one feature. The equations are "chain
 
 ## 2. When to use MICE
 
-> **Key point:** MICE suits data that is missing at random (MAR): the gaps can be predicted from the other features.
+> **Key point:** **MICE** (G-1216) suits data that is missing at random (MAR): the gaps can be predicted from the other features.
 
 Data goes missing in [three ways](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#5-why-data-goes-missing-mcar-mar-and-mnar):
 
 - [**MCAR (missing completely at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192): the value was never collected, for no reason related to the data.
-- [**MAR (missing at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158): whether a value is missing depends on other features we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
+- [**MAR (missing at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1158): whether a value is missing depends on other **features** (G-772) we can see. For example, older people skip an income question more often, and age is recorded. The other features carry information about the missing value.
 - [**MNAR (missing not at random)**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#52-the-other-two-kinds-mar-and-mnar) (G-1248): whether a value is missing depends on the value itself, for example high earners hiding their income. The other features cannot fully account for the gaps.
 
 MICE predicts a missing value from the other features, so it needs those features to be related to it. Imputation methods such as MICE commonly assume MAR, and checking that MAR is plausible is the first step of a MICE analysis (van Buuren and Groothuis-Oudshoorn 2011, §3.1 and §6.2). We can run MICE on any data, but it gives its best results under MAR.
@@ -51,16 +51,16 @@ Figure 2 shows what "related" looks like in the 50 Startups data of [Section 4](
 
 ## 3. Advantages and disadvantages
 
-> **Key point:** MICE is usually more accurate than simpler imputers, but it is slow and its fitted models must be kept for production.
+> **Key point:** **MICE** (G-1216) is usually more accurate than simpler imputers, but it is slow and its fitted models must be kept for production.
 
 **Advantage:**
 
-- **Accurate.** The fills come from a model that uses every other feature, so they are usually closer to the truth than mean or median fills. [Section 8.4](#84-fitting-on-the-training-set-only) measures the gap on real data.
+- **Accurate.** The fills come from a model that uses every other **feature** (G-772), so they are usually closer to the truth than mean or median fills. [Section 8.4](#84-fitting-on-the-training-set-only) measures the gap on real data.
 
 **Disadvantages:**
 
-1. **Slow.** Every iteration trains one model per feature with gaps, and we run several iterations. On large data this takes time.
-2. **More to keep in production.** A new observation with a gap must be filled the same way, so the fitted models are kept on the server: one model per feature and iteration, in the attribute `imputation_sequence_` (scikit-learn docs, IterativeImputer). Filling a new observation means running those models again. Mean imputation keeps only one number per feature.
+1. **Slow.** Every **iteration** (G-976) trains one model per feature with gaps, and we run several iterations. On large data this takes time.
+2. **More to keep in production.** A new **observation** (G-1374) with a gap must be filled the same way, so the fitted models are kept on the server: one model per feature and iteration, in the attribute `imputation_sequence_` (scikit-learn docs, **IterativeImputer** (G-98)). Filling a new observation means running those models again. Mean imputation keeps only one number per feature.
 
 Figure 3 counts both on the 5-row table of [Section 4](#4-the-example-table). Watch the right side: one model per feature for every iteration the imputer ran.
 
@@ -68,14 +68,14 @@ Figure 3 counts both on the 5-row table of [Section 4](#4-the-example-table). Wa
 
 ## 4. The example table
 
-> **Key point:** Five startups, three spend features, one gap in each.
+> **Key point:** Five startups, three spend **features** (G-772), one gap in each.
 
-The data is the "50 Startups" dataset: for 50 companies, the money spent on R&D, administration and marketing, and the profit. We keep only the three spend features, because imputation is done on the inputs, not on the target `Profit`.
+The data is the "50 Startups" dataset: for 50 companies, the money spent on R&D, administration and marketing, and the profit. We keep only the three spend features, because imputation is done on the inputs, not on the **target** (G-1949) `Profit`.
 
 To follow every step by hand, we:
 
 1. Divide all amounts by 10,000 dollars and round to whole numbers.
-2. Keep 5 random observations.
+2. Keep 5 random **observations** (G-1374).
 3. Hide one value in each feature.
 
 | Row | R&D | Administration | Marketing |
@@ -90,9 +90,9 @@ The numbers in brackets are the hidden true values. The algorithm never sees the
 
 ## 5. Step 0: fill with the column means
 
-> **Key point:** The first guess for every gap is the mean of its feature: 9.25, 11.25 and 29.25.
+> **Key point:** The first guess for every gap is the mean of its **feature** (G-772): 9.25, 11.25 and 29.25.
 
-MICE needs a complete table to train its first models, so it starts with the simplest fill (see [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)):
+**MICE** (G-1216) needs a complete table to train its first models, so it starts with the simplest fill (see [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)):
 
 - **R&D:**
 
@@ -111,9 +111,9 @@ The mean-filled table is **iteration 0** (G-977). The mean ignores the other fea
 
 ## 6. Iteration 1: one feature at a time
 
-> **Key point:** For each feature, left to right: put its gap back to NaN, train a linear regression on the other four observations, predict the gap.
+> **Key point:** For each feature, left to right: put its gap back to NaN, train a linear regression on the other four **observations** (G-1374), predict the gap.
 
-Figure 4 runs the whole process on the table. Iteration 1 goes through the three features in order. In each frame, orange cells hold the mean fills, the red cell is the gap being predicted, green cells are the training outputs (the known values of the feature being predicted) and blue cells are the training inputs (the other features).
+Figure 4 runs the whole process on the table. Iteration 1 goes through the three **features** (G-772) in order. In each frame, orange cells hold the mean fills, the red cell is the gap being predicted, green cells are the training outputs (the known values of the feature being predicted) and blue cells are the training inputs (the other features).
 
 ![MICE on the 5-row table: mean fill, iteration 1 column by column, the change after each iteration, and the settled values](images/mice_steps.gif)
 
@@ -123,8 +123,8 @@ Any regression model can do the predicting: linear regression, a decision tree, 
 
 > **Key point:** R&D of row 2 is predicted from its Administration (5) and Marketing (20): 23.14.
 
-1. Put the R&D gap of row 2 back to NaN. The mean fills in the other features (11.25, 29.25) stay.
-2. The four observations with an R&D value become training data. Inputs: Administration and Marketing. Output: R&D.
+1. Put the R&D gap of row 2 back to NaN. The mean fills in the other **features** (G-772) (11.25, 29.25) stay.
+2. The four **observations** (G-1374) with an R&D value become training data. Inputs: Administration and Marketing. Output: R&D.
 
 | Row | Administration (input) | Marketing (input) | R&D (output) |
 |---|---|---|---|
@@ -251,7 +251,7 @@ Put the Administration gap of row 4 back to NaN. The training rows are rows 1, 2
 | 3 | 15 | 41 | 10 |
 | 5 | 2 | 29.25 | 15 |
 
-Row 2 already uses its new R&D fill, 23.14. The coefficients come from the same five steps as in [Section 6.1](#61-the-rd-column), with Administration as the output. Steps 1 and 2 (means, deviations and their products) repeat [Section 6.1](#61-the-rd-column) row by row; the Notebook adds them up. The sums of squared and crossed deviations:
+Row 2 already uses its new R&D fill, 23.14. The **coefficients** (G-407) come from the same five steps as in [Section 6.1](#61-the-rd-column), with Administration as the output. Steps 1 and 2 (means, deviations and their products) repeat [Section 6.1](#61-the-rd-column) row by row; the Notebook adds them up. The sums of squared and crossed deviations:
 
 | Sum | $\sum a^2$ (R&D) | $\sum a m$ | $\sum m^2$ (Marketing) | $\sum a r$ | $\sum m r$ |
 |---|---|---|---|---|---|
@@ -373,7 +373,7 @@ $$8.12 + 0.386 \times 2 + 1.511 \times 15$$
 
 $$= 8.12 + 0.77 + 22.67 = 31.56$$
 
-One pass that re-predicts the gaps of every feature once, in order, is one **iteration** (G-976). After the last feature, iteration 1 is complete and the table has no gaps:
+One pass that re-predicts the gaps of every **feature** (G-772) once, in order, is one **iteration** (G-976). After the last feature, iteration 1 is complete and the table has no gaps:
 
 | Gap | Iteration 0 (mean) | Iteration 1 |
 |---|---|---|
@@ -383,11 +383,11 @@ One pass that re-predicts the gaps of every feature once, in order, is one **ite
 
 ## 7. Repeating until the fills settle
 
-> **Key point:** We subtract each iteration's table from the previous one and repeat until every change is close to 0.
+> **Key point:** We subtract each **iteration** (G-976)'s table from the previous one and repeat until every change is close to 0.
 
 ### 7.1 The change between iterations
 
-> **Key point:** After iteration 1, the changes are +13.89, -0.19 and +2.31: still large, so we continue.
+> **Key point:** After **iteration** (G-976) 1, the changes are +13.89, -0.19 and +2.31: still large, so we continue.
 
 Subtracting the iteration-0 table from the iteration-1 table gives 0 for every known value, since those never change. Only the three gaps show a change:
 
@@ -408,7 +408,7 @@ These differences measure how far the regression fills moved away from the mean 
 
 ### 7.2 Why one iteration is not enough
 
-> **Key point:** The first models were trained on mean fills, which may be wrong; each new iteration trains on better fills and gets closer to a stable answer.
+> **Key point:** The first models were trained on mean fills, which may be wrong; each new **iteration** (G-976) trains on better fills and gets closer to a stable answer.
 
 In iteration 1, the R&D model was trained with Administration 11.25 and Marketing 29.25 in its rows: the rough mean fills. Its prediction inherits that error.
 
@@ -424,7 +424,7 @@ The R&D and Administration changes shrank. The Marketing change grew: the fills 
 
 ### 7.3 When to stop
 
-> **Key point:** Stop when all changes are close to 0, or after a fixed number of iterations such as 10.
+> **Key point:** Stop when all changes are close to 0, or after a fixed number of **iterations** (G-976) such as 10.
 
 Two stopping rules are common:
 
@@ -437,11 +437,11 @@ Figure 5 continues the example for 10 iterations at full precision. With linear 
 
 > **Extra:** Rounding to two decimals at each step makes the hand numbers differ slightly from the full-precision ones (31.56 against 31.60 for Marketing in iteration 1, and 38.87 against 39.39 in iteration 2); the settled values are the same.
 
-> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four observations and two inputs. At the settled values, all three linear models fit their four training observations exactly: every [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is [**extrapolation**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a feature whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its coefficients a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth ([Section 8.4](#84-fitting-on-the-training-set-only)).
+> **Extra:** Settled is not the same as correct. The true values are 4, 16 and 3, and the linear-regression fills end far from them. Each model learns from only four **observations** (G-1374) and two inputs. At the settled values, all three linear models fit their four training observations exactly: every [**residual**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705), the actual value minus the predicted one, is 0.00. Two of the gaps are also predicted from inputs outside the training range: the R&D gap uses Administration 5, below the training values 10 to 15, and the Marketing gap uses R&D 2, below the training values 8 to 26.72. Predicting outside the training range is [**extrapolation**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#53-the-intercept-b-the-starting-value) (G-738): a linear model then simply extends its plane, far beyond any value it was trained on (70.69 for a **feature** (G-772) whose known values run from 20 to 41). With scikit-learn's default model, **`BayesianRidge`** (G-65, orange), a linear regression that pulls its **coefficients** (G-407) a little towards 0, the fills settle at 10.71, 6.33 and 12.99: closer for R&D and Marketing. On real data with more observations, the fills come much closer to the truth ([Section 8.4](#84-fitting-on-the-training-set-only)).
 
 ## 8. The iterative imputer in scikit-learn
 
-> **Key point:** **`IterativeImputer`** (G-98) runs the whole MICE loop; it is still experimental, so it needs an extra import first.
+> **Key point:** **`IterativeImputer`** (G-98) runs the whole **MICE** (G-1216) loop; it is still experimental, so it needs an extra import first.
 
 > **Extra:** The rest of this section goes beyond the hand calculation: it covers the scikit-learn class, its settings, and a test on the full 50-row data.
 
@@ -449,7 +449,7 @@ Figure 5 continues the example for 10 iterations at full precision. With linear 
 
 > **Key point:** `from sklearn.experimental import enable_iterative_imputer` must run before `IterativeImputer` can be imported.
 
-scikit-learn marks `IterativeImputer` as **experimental**: its settings may still change without a deprecation cycle between versions. As of scikit-learn 1.9, importing it directly raises an error (scikit-learn docs, IterativeImputer).
+scikit-learn marks `IterativeImputer` as **experimental**: its settings may still change without a deprecation cycle between versions. As of scikit-learn 1.9, importing it directly raises an error (scikit-learn docs, **IterativeImputer** (G-98)).
 
 > **Python:** The extra import switches the class on.
 >
@@ -463,7 +463,7 @@ scikit-learn marks `IterativeImputer` as **experimental**: its settings may stil
 
 ### 8.2 The main parameters
 
-> **Key point:** The defaults are a `BayesianRidge` model, a mean fill to start, up to 10 iterations, and a stop when the changes are tiny.
+> **Key point:** The defaults are a `BayesianRidge` model, a mean fill to start, up to 10 **iterations** (G-976), and a stop when the changes are tiny.
 
 | Parameter | Meaning | Default |
 |---|---|---|
@@ -483,7 +483,7 @@ After fitting, `n_iter_` holds the number of iterations actually run. On the toy
 
 > **Key point:** With `estimator=LinearRegression()`, `IterativeImputer` gives exactly the full-precision numbers of [Section 7](#7-repeating-until-the-fills-settle).
 
-> **Python:** One iteration, then ten.
+> **Python:** One **iteration** (G-976), then ten.
 >
 > ```python
 > from sklearn.linear_model import LinearRegression
@@ -499,7 +499,7 @@ After fitting, `n_iter_` holds the number of iterations actually run. On the toy
 
 > **Key point:** Fit the imputer on the training set, then use it to fill both the training and the test set.
 
-As with every imputer, the models must learn only from training observations. If test observations took part in `fit`, information about the test set would leak into training.
+As with every imputer, the models must learn only from training **observations** (G-1374). If test observations took part in `fit`, information about the test set would leak into training.
 
 > **Python:** Fit on training observations, fill test observations.
 >
@@ -523,9 +523,9 @@ The error is the [**root mean squared error**](../../06-regression/ML-051-regres
 | KNN (`KNNImputer`, k = 5) | 6.69 |
 | Iterative (`IterativeImputer`) | 5.88 |
 
-The iterative imputer comes closest to the hidden values, because the features are related: R&D and Marketing have a **correlation** ([G-490](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); how closely two features rise and fall together) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the MAR case of [Section 2](#2-when-to-use-mice). The Extra below tests this reason directly.
+The iterative imputer comes closest to the hidden values, because the **features** (G-772) are related: R&D and Marketing have a **correlation** ([G-490](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation); how closely two features rise and fall together) of 0.72 on a scale from $-1$ to $+1$, so each helps to predict the other. Gaps that can be predicted from other features are the **MAR** (G-1158) case of [Section 2](#2-when-to-use-mice). The Extra below tests this reason directly.
 
-Figure 6 puts the two experiments side by side. Watch the iterative imputer: lowest error on the real data, but no longer the best once the links between the features are broken.
+Figure 6 puts the two experiments side by side. Watch the **iterative imputer** (G-978): lowest error on the real data, but no longer the best once the links between the features are broken.
 
 ![Error of each imputer over 100 random splits, on the real data and on columns shuffled one by one](images/imputer_error.png){width=100%}
 
@@ -541,7 +541,7 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 
 ### 8.5 Several imputations
 
-> **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; these copies are the "multiple" when MICE is read as Multiple Imputation by Chained Equations.
+> **Key point:** With `sample_posterior=True`, each seed gives a different, equally plausible filled table; these copies are the "multiple" when **MICE** (G-1216) is read as Multiple Imputation by Chained Equations.
 
 > **Extra:** In statistics, MICE is mainly used for **multiple imputation** (G-1278): making several filled copies of the data, analysing each one, and combining the results (Rubin 1987; van Buuren and Groothuis-Oudshoorn 2011). The spread between the copies shows how unsure the fills are. With `sample_posterior=True` and a different `random_state` each time, `IterativeImputer` produces such copies. With the default `False`, it gives one best-guess table, which is what a machine learning pipeline usually needs.
 
@@ -557,11 +557,11 @@ Figure 6 puts the two experiments side by side. Watch the iterative imputer: low
 | Error on 50 Startups | 7.54 | 6.69 | 5.88 |
 | scikit-learn | `SimpleImputer` | `KNNImputer` | `IterativeImputer` (experimental import) |
 
-- MICE starts with a mean fill (iteration 0), because it needs a complete table to train its first models.
-- In each iteration, every feature in turn gets its gaps back to NaN, a model trained on the observations without a gap, and new predictions for its gaps, so each fill comes from a model that uses every other feature.
-- Each model uses the latest fills of the other features: the equations are chained, so every model trains on better fills than the one before it.
-- After each iteration, we subtract the previous table; when the changes are near 0, or after a fixed number of iterations, we stop. One iteration is not enough, because the first models were trained on the rough mean fills.
-- MICE works best when data is MAR, because it predicts a gap from the other features and needs them to be related to it: with the links between features broken, it did worse than the plain mean (8.10 against 7.78). MICE is accurate but slow, and needs its fitted models in production, because a new observation with a gap must be filled the same way.
+- **MICE** (G-1216) starts with a mean fill (iteration 0), because it needs a complete table to train its first models.
+- In each iteration, every feature in turn gets its gaps back to NaN, a model trained on the **observations** (G-1374) without a gap, and new predictions for its gaps, so each fill comes from a model that uses every other feature.
+- Each model uses the latest fills of the other **features** (G-772): the equations are chained, so every model trains on better fills than the one before it.
+- After each **iteration** (G-976), we subtract the previous table; when the changes are near 0, or after a fixed number of iterations, we stop. One iteration is not enough, because the first models were trained on the rough mean fills.
+- MICE works best when data is **MAR** (G-1158), because it predicts a gap from the other features and needs them to be related to it: with the links between features broken, it did worse than the plain mean (8.10 against 7.78). MICE is accurate but slow, and needs its fitted models in production, because a new observation with a gap must be filled the same way.
 - `IterativeImputer` needs `from sklearn.experimental import enable_iterative_imputer`, because the class is still experimental and a direct import raises an error; defaults are `BayesianRidge`, mean start, `max_iter=10`, `tol=0.001`.
 - Fit on the training set only, then transform both sets, so no information about the test set leaks into training.
 - So MICE turns each feature with gaps into a small prediction problem from the other features, and repeats the predictions until the fills stop changing.
@@ -586,12 +586,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Iterative imputer (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
 | MICE (G-1216) | A way to fill gaps: each column's missing values are predicted by a model trained on the other columns, and the rounds repeat until the filled values settle (Multivariate Imputation by Chained Equations, the algorithm behind the iterative imputer). |
-| Chained equations (G-373) | A way to fill gaps in several columns at once: each column gets its own prediction model, which fills its gaps using the latest fills of the other columns (the method behind MICE). |
-| Iteration 0 (G-977) | The starting table, with every gap filled by its column mean. |
 | Iteration (MICE) (G-976) | One pass that re-predicts the gaps of every column once, in order. |
+| Chained equations (G-373) | A way to fill gaps in several columns at once: each column gets its own prediction model, which fills its gaps using the latest fills of the other columns (the method behind MICE). |
+| `IterativeImputer` (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
+| Iteration 0 (G-977) | The starting table, with every gap filled by its column mean. |
 | Convergence (MICE) (G-472) | The point where the fills hardly change between two iterations. |
 | `BayesianRidge` (G-65) | A linear regression that keeps its weights small (built-in shrinkage); the default model of `IterativeImputer`. |
-| `IterativeImputer` (G-98) | scikit-learn's class that fills missing values by predicting each feature with gaps from the other features, repeating until the fills settle (MICE). Still experimental, so it needs an extra import. |
 | `max_iter` (IterativeImputer) (G-112) | The largest number of rounds `IterativeImputer` runs; default 10. |
 | `tol` (G-152) | The size of change below which `IterativeImputer` stops early; default 0.001. |
 | `sample_posterior` (G-141) | The `IterativeImputer` setting that draws each fill at random from the model's spread instead of using its single best prediction, so different seeds give several plausible filled tables. |

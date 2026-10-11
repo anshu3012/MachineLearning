@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/svm]
 
 ## 1. Overview
 
-> **Key point:** A support vector machine (SVM) separates two classes with the line that leaves the widest possible gap between them. The points that touch the edges of that gap are the support vectors.
+> **Key point:** A support vector machine (SVM) separates two classes with the line that leaves the widest possible gap between them. The points that touch the edges of that gap are the **support vectors** (G-1923).
 
 A **support vector machine (SVM)** (G-1921) is a classification algorithm (it assigns each observation to one of a few classes; see [**classification**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395)) from the same family as logistic regression. SVM is a strong, widely used algorithm that works in many situations, often called one of the best "out of the box" classifiers (ISL §9). It builds directly on logistic regression, so [logistic regression](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#1-overview) is the best preparation for it.
 
@@ -42,7 +42,7 @@ To classify a new flower we pick a **threshold**: below it we say setosa, above 
 
 In Figure 2, watch the two coloured bars: the distance from the threshold to the nearest flower on each side. The lower panel plots the smaller of the two. Move the threshold left or right of the midpoint and one bar shrinks, so the smaller distance falls. At the midpoint both bars are 0.55 cm, the largest value the smaller distance can reach.
 
-The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest margin is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. [Section 4](#4-the-margin) gives the exact definition of the margin SVM uses: the full width of the empty band, here 1.1 cm, which is the gap of 0.55 cm on each side added together.
+The empty room around the threshold is the **margin** (G-1160). The classifier that picks the threshold with the largest **margin** (G-1159) is the **maximal margin classifier** (G-2217); an SVM is this idea extended to any number of features. [Section 4](#4-the-margin) gives the exact definition of the margin SVM uses: the full width of the empty band, here 1.1 cm, which is the gap of 0.55 cm on each side added together.
 
 With more features the separator changes shape, but the idea stays the same:
 
@@ -117,25 +117,25 @@ So a line that keeps every point far away classifies every point with high confi
 
 > **Key point:** Separate the classes, and among all lines that do, choose the one that keeps the points as far away as possible.
 
-SVM classifies the data with the hyperplane that separates the classes **as widely as possible**. SVM wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points (ISL §9.1.3). The perceptron [tested this on the iris flowers](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression): lines that hugged one class made more mistakes on new flowers.
+SVM classifies the data with the **hyperplane** (G-911) that separates the classes **as widely as possible**. SVM wants to make the gap between the line and the points as large as it can. The hope is that such a line generalises better: it performs better on new, unseen data than a line that squeezes past the points (ISL §9.1.3). The perceptron [tested this on the iris flowers](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression): lines that hugged one class made more mistakes on new flowers.
 
 ## 4. The margin
 
 > **Key point:** The margin is the width of the empty gap around the line. SVM looks for the margin-maximising hyperplane.
 
-The gap around the separating line is called the **margin** (G-1160). In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The perceptron code used "[**margin**](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression) (G-1159)" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the hyperplane that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane** (G-1163).
+The gap around the separating line is called the **margin** (G-1160). In SVM, the margin is the **full width** of the empty band: the distance from the nearest green point to the nearest red point, measured across the line. The perceptron code used "[**margin**](../ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression) (G-1159)" for the one-sided distance from the line to the nearest point of one class; the SVM margin is the two one-sided gaps added together, so for a line in the middle of the band it is **twice** that distance. SVM searches for the **hyperplane** (G-911) that makes this full width as large as possible. For this reason, the SVM line is also called the **margin-maximising hyperplane** (G-1163).
 
 A wide margin makes the model more general: it leaves room for new points that vary a little from the training points. An everyday picture: a driver who keeps to the middle of the lane, as far as possible from both kerbs, has the most room for a small wobble. A wide margin is the whole goal of SVM; everything else in the following Notes is about how to compute it.
 
 ## 5. Measuring the margin of a line
 
-> **Key point:** Slide two copies of the line outwards until each touches the first point of its class. The distance between the copies is the margin d.
+> **Key point:** Slide two copies of the line outwards until each touches the first point of its class. The distance between the copies is the **margin** (G-1159) d.
 
 ### 5.1 The procedure
 
 > **Key point:** Pick a line, build $\pi^+$ and $\pi^-$, measure d, repeat for many lines, keep the line with the largest d.
 
-To measure the margin of a candidate hyperplane $\pi$ (Figure 4):
+To measure the margin of a candidate **hyperplane** (G-911) $\pi$ (Figure 4):
 
 1. **Pick a hyperplane** $\pi$ that separates the classes.
 2. **Find $\pi^+$:** move a copy of $\pi$ parallel to itself in the positive direction. Stop as soon as it touches the first green point. This copy is the **positive hyperplane** $\pi^+$ (G-1531).
@@ -150,9 +150,9 @@ In 2D, $\pi$, $\pi^+$ and $\pi^-$ are all straight lines. The same procedure wor
 
 ### 5.2 Comparing two lines by their margin
 
-> **Key point:** $\pi_1$ has margin d = 2.22, $\pi_2$ only $d'$ = 0.96, so SVM chooses $\pi_1$.
+> **Key point:** $\pi_1$ has **margin** (G-1159) d = 2.22, $\pi_2$ only $d'$ = 0.96, so SVM chooses $\pi_1$.
 
-Applying the procedure to the two lines of Figure 3 gives Figure 5. The parallel copies of $\pi_2$ hit a green point and a red point very quickly, so its margin is narrow.
+Applying the procedure to the two lines of Figure 3 gives Figure 5. The parallel copies of $\pi_2$ hit a green point and a red point very quickly, so its **margin** (G-1160) is narrow.
 
 ![The margin of each line: the dashed lines are $\pi^+$ and $\pi^-$, the ringed points are the first points they touch](images/margins.png){height=45%}
 
@@ -208,7 +208,7 @@ The next Note turns $d$ into a formula in $w$ and $b$, so that the best line can
 
 When $\pi^+$ and $\pi^-$ are moved outwards, they stop at the first points of each class. These points, lying exactly on $\pi^+$ or $\pi^-$, are the **support vectors** (G-1923). In Figure 1 there is one green support vector and two red ones; for $\pi_1$ in Figure 5 it is the same.
 
-The idea is so central that it gives the algorithm its name. The support vectors "support" the two edges of the margin: move one of them and the best line moves too.
+The idea is so central that it gives the algorithm its name. The support vectors "support" the two edges of the **margin** (G-1159): move one of them and the best line moves too.
 
 The other points have no say at all. If we delete every point except the three support vectors and train again, we get the same line (ISL §9.1.3). Figure 6 does exactly that: trained on all 16 points or on the 3 support vectors alone, the SVM finds $w = (0.049, 0.898)$ and $b = -4.49$ both times. For the same reason, a trained SVM can discard the other points and keep only its support vectors (Bishop §7.1).
 
@@ -216,15 +216,15 @@ The other points have no say at all. If we delete every point except the three s
 
 ## 7. Strengths of SVM
 
-> **Key point:** SVM copes with outliers (in its soft-margin form), handles non-linear data through kernels, and works for both classification and regression.
+> **Key point:** SVM copes with outliers (in its soft-margin form), handles non-linear data through kernels, and works for both **classification** (G-395) and regression.
 
 1. **Outliers:** SVM handles outliers well, provided we use the [soft-margin version](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#2-why-the-hard-margin-is-not-enough).
 2. **Non-linear data:** when no single straight line can separate the classes, SVM uses **kernels** to draw curved boundaries. The [**kernel trick**](../ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) explains how.
 3. **Classification and regression:** the same ideas give a classifier (SVC) and a regression model (**support vector regression**, SVR, G-1922).
 
-> **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. The hard-margin SVM is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector (ISL §9.2.1). The robustness comes from the soft margin, which lets a few points break the rules at a cost.
+> **Extra:** The version described in this Note, which demands a perfect separation, is called the hard-margin SVM. The hard-margin SVM is actually **sensitive** to outliers: a single point on the wrong side makes it impossible, and a single extreme point near the boundary changes the line, because that point becomes a support vector (ISL §9.2.1). The robustness comes from the soft **margin** (G-1159), which lets a few points break the rules at a cost.
 >
-> Figure 7 tests this with one extra green point placed at $(4.5, 4.2)$, close to the red class. The hard-margin SVM must keep it on the green side, so its line drops and its margin shrinks from 2.22 to 0.56. A soft-margin SVM (`C = 1`) lets that one point sit on the wrong side and keeps the line and the margin of 2.22 it had without it.
+> Figure 7 tests this with one extra green point placed at $(4.5, 4.2)$, close to the red class. The hard-margin SVM must keep it on the green side, so its line drops and its **margin** (G-1160) shrinks from 2.22 to 0.56. A soft-margin SVM (`C = 1`) lets that one point sit on the wrong side and keeps the line and the margin of 2.22 it had without it.
 
 ![One outlier (star) added to the 16 points. Left: the hard-margin SVM squeezes past it, and the margin falls from 2.22 to 0.56 (dotted: the line without the outlier). Right: the soft-margin SVM with C = 1 keeps its original line and margin.](images/outlier.png)
 
@@ -238,10 +238,10 @@ The other points have no say at all. If we delete every point except the three s
 | Non-linear data | needs extra features | kernels |
 
 - In one dimension the separator is a threshold; the best one is the midpoint between the edge points of the two classes (iris petal lengths: 2.45 cm), because there its distance to the nearest flower of either species is largest, so a new flower gets the species it is closer to.
-- SVM picks, among all separating hyperplanes, the margin-maximising one, hoping it generalises better, because a line that keeps every point far away classifies each with high confidence and leaves room for new points that vary a little.
+- SVM picks, among all separating **hyperplanes** (G-911), the margin-maximising one, hoping it generalises better, because a line that keeps every point far away classifies each with high confidence and leaves room for new points that vary a little.
 - Positive and negative hyperplanes $\pi^+$ and $\pi^-$ are copies of $\pi$ moved out to the first point of each class, so the empty band between them can be measured.
-- The margin $d$ is the distance between $\pi^+$ and $\pi^-$. SVM chooses $w$ and $b$ to make $d$ as large as possible, so two lines that are both 100% correct on the training data can still be ranked ($\pi_1$ with 2.22 beats $\pi_2$ with 0.96).
-- The points on $\pi^+$ and $\pi^-$ are the support vectors; they alone decide the line, so retraining on the 3 support vectors gives the same line as on all 16 points.
+- The **margin** (G-1159) $d$ is the distance between $\pi^+$ and $\pi^-$. SVM chooses $w$ and $b$ to make $d$ as large as possible, so two lines that are both 100% correct on the training data can still be ranked ($\pi_1$ with 2.22 beats $\pi_2$ with 0.96).
+- The points on $\pi^+$ and $\pi^-$ are the **support vectors** (G-1923); they alone decide the line, so retraining on the 3 support vectors gives the same line as on all 16 points.
 - So SVM answers the question logistic regression leaves open: of all the lines that separate the classes, which is best.
 
 ## 9. Sources
@@ -262,18 +262,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Support vectors (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
 | Support vector machine (SVM) (G-1921) | A classifier that separates the classes with the line, or flat surface in more dimensions (a hyperplane), that leaves the widest gap (margin) between the classes. |
 | Margin (SVM) (G-1160) | The full width of the empty band around an SVM's separating line, from the nearest point of one class to the nearest point of the other (later shown to be $2/\lVert w \rVert$); the SVM picks the line that makes this band widest. |
 | Maximal margin classifier (G-2217) | The classifier that separates the classes with the largest possible margin; the hard-margin SVM. |
 | Margin-maximising hyperplane (G-1163) | The flat boundary (hyperplane) that splits the classes while staying as far as possible from the nearest points of each (the largest margin); it is the decision boundary an SVM learns. |
 | Positive hyperplane ($\pi^+$) (G-1531) | A copy of the separating hyperplane moved out, parallel to itself, until it touches the first positive point; with the negative hyperplane it marks the two edges of the SVM's margin. |
 | Negative hyperplane ($\pi^-$) (G-1309) | In an SVM, the copy of the separating hyperplane pushed out, parallel to it, until it touches the first negative-class point; with $\pi^+$ on the other side it marks the edges of the margin. |
-| Support vectors (G-1923) | The training points that lie on the two margin lines, $\pi^+$ or $\pi^-$; they alone fix the SVM line. |
 | Support vector regression (SVR) (G-1922) | The regression version of SVM: the same ideas, used to predict a number instead of a class. |
 | [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Margin (gap)](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#61-comparing-with-logistic-regression) (G-1159) | The distance from a separating line to the nearest point of a class. |
+| [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Kernel trick](../../../ML/07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#1-overview) (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |

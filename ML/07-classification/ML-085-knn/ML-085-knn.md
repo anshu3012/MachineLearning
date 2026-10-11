@@ -19,9 +19,9 @@ tags: [subject/machine-learning, area/models-1, area/production, step/model, ste
 
 > **Key point:** KNN predicts a new point's class from the classes of the k training points closest to it. KNN is simple and often accurate, but slow on big data and unreliable when distances stop meaning much.
 
-**K-nearest neighbours (KNN)** (G-998) is a classification algorithm built on one idea: a point is probably like its neighbours. A popular saying puts it the same way: "you are the average of the five people you spend the most time with". Despite its simplicity, KNN often comes surprisingly close to the best possible classifier (ISL §2.2.3).
+**K-nearest neighbours (KNN)** (G-998) is a classification algorithm built on one idea: a point is probably like its **neighbours** (G-1306). A popular saying puts it the same way: "you are the average of the five people you spend the most time with". Despite its simplicity, KNN often comes surprisingly close to the best possible classifier (ISL §2.2.3).
 
-This Note covers how KNN predicts, how to run it in scikit-learn, how to choose k, what k does to the decision surface, and the six situations where KNN works badly. The Notebook (`ML-085-knn.ipynb`) runs every example, and `app.py` lets us move k with a slider.
+This Note covers how KNN predicts, how to run it in scikit-learn, how to choose k, what k does to the **decision surface** (G-560), and the six situations where KNN works badly. The Notebook (`ML-085-knn.ipynb`) runs every example, and `app.py` lets us move k with a slider.
 
 ## 2. How KNN predicts
 
@@ -87,7 +87,7 @@ Figure 1 runs these steps on one test tumour from the breast cancer data of sect
 
 Nothing in the steps needs exactly two features. With 30 features, every observation is a point in 30-dimensional space, that is, a **vector** of 30 numbers. The Euclidean distance simply gets one squared term per feature.
 
-We cannot draw 30 dimensions, but the computer does not need to. KNN treats the query point as a vector, computes its distance to every training vector, keeps the k closest, and votes.
+We cannot draw 30 dimensions, but the computer does not need to. KNN treats the **query point** (G-1605) as a vector, computes its distance to every training vector, keeps the k closest, and votes.
 
 ## 3. KNN in scikit-learn: the breast cancer data
 
@@ -195,13 +195,13 @@ That is 90%. Here, 111 of 114 correct gives 97.4%.
 
 Without scaling, the same model gets only 104 of 114 right (91.2%). The gap of 6 points is the cost of letting the big-number features dominate the distances.
 
-Figure 2 shows where the gap comes from. Its left panel has a **log scale** on the vertical axis: each gridline is ten times the one below it (0.01, 0.1, 1, 10, 100, 1000), so bars that differ by a factor of 100,000 fit on one chart. Before scaling, the spread of the 30 features runs from about 0.002 to over 500: `worst area` alone varies more than a hundred thousand times more than the smallest feature, so it decides most distances. After standardization every feature has a spread of 1 and gets an equal say.
+Figure 2 shows where the gap comes from. Its left panel has a **log scale** on the vertical axis: each gridline is ten times the one below it (0.01, 0.1, 1, 10, 100, 1000), so bars that differ by a factor of 100,000 fit on one chart. Before scaling, the spread of the 30 features runs from about 0.002 to over 500: `worst area` alone varies more than a hundred thousand times more than the smallest feature, so it decides most distances. After **standardization** (G-1874) every feature has a spread of 1 and gets an equal say.
 
 ![Left: the standard deviation of each of the 30 breast cancer features on the training set, raw (orange bars, log scale) and after standardization (blue line, all 1). Right: test accuracy with k = 5, raw 0.912 and scaled 0.974.](images/scaling.png)
 
 ## 4. Choosing k
 
-> **Key point:** There is no universally right k. A rough start is $\sqrt{n}$, made odd; the reliable way is to try many values with cross-validation.
+> **Key point:** There is no universally right k. A rough start is $\sqrt{n}$, made odd; the reliable way is to try many values with **cross-validation** (G-510).
 
 k (`n_neighbors`, G-992) is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose before training (the [**pipelines**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-1499)). Different datasets need different k, so we must find a good value for each one. There are two approaches: a rule of thumb and experiments.
 
@@ -222,7 +222,7 @@ k (`n_neighbors`, G-992) is a [**hyperparameter**](../../03-feature-engineering/
 
    So $k$ is about 21.
 
-Why the square root: theory says k should grow as the training set grows, so each vote averages more neighbours, but stay a tiny fraction of n, so the neighbours stay close to the new point. With both, KNN's error approaches the best error possible as n grows (Anava and Levy 2016, §1). The square root does both:
+Why the square root: theory says k should grow as the training set grows, so each vote averages more **neighbours** (G-1306), but stay a tiny fraction of n, so the neighbours stay close to the new point. With both, KNN's error approaches the best error possible as n grows (Anava and Levy 2016, §1). The square root does both:
 
 | n | k = √n | k as a share of n |
 |---|---|---|
@@ -233,7 +233,7 @@ With two classes, an even k can produce a tie. With k = 4, the vote can end 2 ag
 
 > **Extra:** If a tie does happen, scikit-learn does not flip a coin. The classifier picks the class that comes first in its sorted list of classes (here, 0 = malignant), as a small test in the notebook shows. An odd k avoids the question entirely for two classes.
 
-The square-root rule is only a starting point: on a dataset of fixed size it often gives poor results, so k is usually chosen by cross-validation (Anava and Levy 2016, §1). The experiments below test many values of k directly.
+The square-root rule is only a starting point: on a dataset of fixed size it often gives poor results, so k is usually chosen by **cross-validation** (G-510) (Anava and Levy 2016, §1). The experiments below test many values of k directly.
 
 ### 4.2 Experiments: try every k
 
@@ -281,7 +281,7 @@ The red line in Figure 3 shows the result. The best test accuracy is at **k = 3:
 
 ## 5. Decision surfaces
 
-> **Key point:** A decision surface colours every point of the input space by the class the model would predict there. The surface is built by predicting on a dense grid of points.
+> **Key point:** A **decision surface** (G-560) colours every point of the input space by the class the model would predict there. The surface is built by predicting on a dense grid of points.
 
 ### 5.1 What it shows
 
@@ -293,7 +293,7 @@ To get two features, we use only the first two breast cancer measurements: `mean
 
 ![KNN (k = 5) on two breast cancer features: the decision regions and the decision boundary](images/decision_surface.png){height=42%}
 
-The surface answers "what would the model predict here?" for every point at once. A new tumour with radius 12 and texture 15 falls in the blue region, so KNN predicts benign; one with radius 20 falls in the orange region: malignant. KNN's boundary is not a straight line: it bends wherever the neighbours change.
+The surface answers "what would the model predict here?" for every point at once. A new tumour with radius 12 and texture 15 falls in the blue region, so KNN predicts benign; one with radius 20 falls in the orange region: malignant. KNN's boundary is not a straight line: it bends wherever the **neighbours** (G-1306) change.
 
 ### 5.2 How it is built
 
@@ -310,7 +310,7 @@ The surface answers "what would the model predict here?" for every point at once
 
 With 90,000 points packed together, the coloured dots merge into solid areas, and the boundary appears where blue meets orange.
 
-> **Python:** A decision surface with NumPy and Plotly.
+> **Python:** A **decision surface** (G-560) with NumPy and Plotly.
 >
 > ```python
 > import numpy as np
@@ -326,11 +326,11 @@ With 90,000 points packed together, the coloured dots merge into solid areas, an
 > go.Figure(go.Heatmap(x=xs, y=ys, z=Z))
 > ```
 >
-> `X2` holds the two features and `model` is a pipeline of `StandardScaler` and KNN trained on them. `meshgrid(xs, ys)` returns every combination of an x value and a y value: `XX` holds the x coordinates and `YY` the y coordinates. `ravel()` flattens each grid into one long column, `np.c_` puts the two columns side by side, and `reshape` folds the predictions back into a 300 by 300 grid for the heatmap.
+> `X2` holds the two features and `model` is a **pipeline** (G-1499) of `StandardScaler` and KNN trained on them. `meshgrid(xs, ys)` returns every combination of an x value and a y value: `XX` holds the x coordinates and `YY` the y coordinates. `ravel()` flattens each grid into one long column, `np.c_` puts the two columns side by side, and `reshape` folds the predictions back into a 300 by 300 grid for the heatmap.
 
 ## 6. How k controls overfitting and underfitting
 
-> **Key point:** Small k follows every point, outliers included (overfitting); k = n always predicts the majority class (underfitting). A middle k is best.
+> **Key point:** Small k follows every point, outliers included (overfitting); k = n always predicts the majority class (**underfitting** (G-2035)). A middle k is best.
 
 [**Overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) and underfitting, and their link to [high variance and high bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), show up clearly in KNN. Figure 5 trains KNN on the same two features with four values of k.
 
@@ -342,15 +342,15 @@ Figure 6 sweeps k through 14 values from 1 to n. The accuracy panel on the right
 
 ### 6.1 k = 1: overfitting
 
-> **Key point:** With one neighbour, every training point, even an outlier, claims a small region of its own.
+> **Key point:** With one **neighbour** (G-1306), every training point, even an outlier, claims a small region of its own.
 
-With k = 1, the query point takes the class of its single nearest neighbour. Take a lone orange (malignant) point sitting among blue ones, an outlier. A query point next to it is copied as malignant, even though everything else around says benign.
+With k = 1, the **query point** (G-1605) takes the class of its single nearest neighbour. Take a lone orange (malignant) point sitting among blue ones, an outlier. A query point next to it is copied as malignant, even though everything else around says benign.
 
 So the surface for k = 1 (Figure 5, top left) is full of small islands: orange patches inside the blue region and blue patches inside the orange one. The model has memorised small accidents of this particular sample. Another sample would place the islands elsewhere, so predictions change a lot from sample to sample: **high variance**, **overfitting** (G-1429; ISL §2.2.3).
 
 ### 6.2 k = n: underfitting
 
-> **Key point:** If k equals the number of training observations, every query point consults all of them, and the majority class always wins.
+> **Key point:** If k equals the number of training observations, every **query point** (G-1605) consults all of them, and the majority class always wins.
 
 The largest possible k is n, the number of training observations; here n = 455. Then the "neighbourhood" of any query point is the whole training set, so the vote is always the same: 288 benign against 167 malignant.
 
@@ -364,13 +364,13 @@ At k = 5 the islands shrink, and at k = 20 the boundary is a smooth curve (Figur
 
 So:
 
-- **very small k** (1 or 2): overfitting;
-- **very large k** (up to n): underfitting;
+- **very small k** (1 or 2): **overfitting** (G-1429);
+- **very large k** (up to n): **underfitting** (G-2035);
 - **in between**: the best k, found by experiment as in section 4.
 
 ### 6.4 Trying it: the k slider app
 
-> **Key point:** `app.py` redraws the decision surface for any k from 1 to 455.
+> **Key point:** `app.py` redraws the **decision surface** (G-560) for any k from 1 to 455.
 
 The folder of this Note contains `app.py`, a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Move the slider and the surface of Figure 5 is redrawn for that k, with its test accuracy.
 
@@ -409,21 +409,21 @@ Figure 7 measures the two times on random data with 30 features. "Training" on 5
 
 With many features, say 500, the **curse of dimensionality** (G-520; the [**curse of dimensionality**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble) (G-520)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of [that section](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble): 67 times farther in 2 features, only 1.1 times in 1,000).
 
-When every point is about equally far, the "nearest" neighbours are not really near, so their votes say little about the query point. KNN relies on nothing but distances, so once distances are distorted, its predictions are too (ISL §3.5). For very high-dimensional data, we either avoid KNN or first reduce the number of features.
+When every point is about equally far, the "nearest" **neighbours** (G-1306) are not really near, so their votes say little about the query point. KNN relies on nothing but distances, so once distances are distorted, its predictions are too (ISL §3.5). For very high-dimensional data, we either avoid KNN or first reduce the number of features.
 
 ### 7.3 Outliers
 
 > **Key point:** With a small k, a few outliers carve out wrong regions around themselves.
 
-Suppose two pink points sit deep inside the blue region: noise or outliers. With k = 3, a query point next to them has both as neighbours and is called pink. A pink island appears in the decision surface where the region should be blue.
+Suppose two pink points sit deep inside the blue region: noise or outliers. With k = 3, a query point next to them has both as **neighbours** (G-1306) and is called pink. A pink island appears in the decision surface where the region should be blue.
 
-The outlier island is the k = 1 picture of Figure 5 again: KNN is sensitive to outliers, and a k that is too small leads to overfitting. A larger, well-chosen k outvotes them.
+The outlier island is the k = 1 picture of Figure 5 again: KNN is sensitive to outliers, and a k that is too small leads to **overfitting** (G-1429). A larger, well-chosen k outvotes them.
 
 ### 7.4 Imbalanced data
 
 > **Key point:** If one class is rare, its points are usually outvoted, so predictions lean towards the common class.
 
-In **imbalanced data** (G-921; see [when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), one class is much rarer than the other, for example 98% "yes" and 2% "no". Around almost any query point, most neighbours belong to the common class, so the vote is biased towards it.
+In **imbalanced data** (G-921; see [when accuracy misleads](../ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#6-when-accuracy-misleads-imbalanced-data)), one class is much rarer than the other, for example 98% "yes" and 2% "no". Around almost any query point, most **neighbours** (G-1306) belong to the common class, so the vote is biased towards it.
 
 A quick test on synthetic data with 98% of observations in class 0 and 2% in class 1 (5,000 observations, 10 features) shows the effect (Figure 8). KNN with k = 5 scores 98% accuracy on the test set, yet finds only 1 of the 30 rare-class observations: a [**recall**](../ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) of 0.03. The accuracy looks excellent because almost everything is predicted as the common class.
 
@@ -435,7 +435,7 @@ A quick test on synthetic data with 98% of observations in class 0 and 2% in cla
 
 Sometimes we want **inference** (G-941) rather than prediction: we want to learn how the features affect the target. For example, does CGPA or IQ matter more for placement?
 
-KNN cannot answer such a question. KNN labels a query point by its neighbours, but never builds a function that shows how each feature moves the target. Linear or logistic regression, by contrast, gives one coefficient per feature, and can be preferred for that reason even when KNN predicts slightly better (ISL §3.5). For this purpose KNN acts as a **black box model** (G-311): it gives an answer, but not the reasons behind it.
+KNN cannot answer such a question. KNN labels a query point by its **neighbours** (G-1306), but never builds a function that shows how each feature moves the target. Linear or logistic regression, by contrast, gives one coefficient per feature, and can be preferred for that reason even when KNN predicts slightly better (ISL §3.5). For this purpose KNN acts as a **black box model** (G-311): it gives an answer, but not the reasons behind it.
 
 ## 8. Summary
 
@@ -449,10 +449,10 @@ KNN cannot answer such a question. KNN labels a query point by its neighbours, b
 | Imbalanced classes | no | the common class wins most votes |
 | Need to know which feature matters | no | no coefficients: a black box |
 
-- KNN predicts by majority vote among the k training points nearest to the query point, usually by Euclidean distance, because a point is probably like its neighbours.
+- KNN predicts by majority vote among the k training points nearest to the query point, usually by Euclidean distance, because a point is probably like its **neighbours** (G-1306).
 - Scale the features first: on the breast cancer data, 91.2% unscaled against 97.4% scaled (k = 5), because otherwise the features with big numbers decide the distance alone.
-- Choose k by cross-validation on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy, because picking the best of many test scores leaks the test set and gives an optimistic number. $\sqrt{n}$, made odd, is only a rough start, because k should grow with n yet stay a small share of it, but on real data of fixed size it often misses; odd avoids ties between two classes.
-- A decision surface colours a dense grid of predicted points (`meshgrid`, predict, colour), so you can see what the model would predict everywhere at once, for 1, 2 or 3 features.
+- Choose k by **cross-validation** (G-510) on the training set (here k = 10, test accuracy 97.4%), not by test-set accuracy, because picking the best of many test scores leaks the test set and gives an optimistic number. $\sqrt{n}$, made odd, is only a rough start, because k should grow with n yet stay a small share of it, but on real data of fixed size it often misses; odd avoids ties between two classes.
+- A **decision surface** (G-560) colours a dense grid of predicted points (`meshgrid`, predict, colour), so you can see what the model would predict everywhere at once, for 1, 2 or 3 features.
 - Small k overfits (islands, high variance), because every point, outliers included, claims a region of its own; k = n underfits (always the majority class), because every query consults the whole training set. So the best k lies in between.
 - So KNN is a simple, often accurate classifier for small, scaled, low-dimensional data; the table above says when to reach for another model.
 
@@ -476,31 +476,31 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | K-nearest neighbours (KNN) (G-998) | Predicting from the answers of the k closest stored points. |
+| Decision surface (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | Query point (G-1605) | The new point whose class we want to predict. |
 | Majority vote (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | Minkowski distance (G-1227) | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |
 | k (n_neighbors) (G-992) | The number of neighbours that vote; KNN's main hyperparameter. |
-| Decision surface (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | Latency (G-1048) | The delay between a request and its answer; high for KNN on large data. |
 | Inference (vs prediction) (G-941) | Learning how the inputs affect the output, rather than only predicting it; not the deployment sense (running a trained model) nor inferential statistics. |
 | Black box model (black box) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |
 | KNeighborsClassifier (G-1016) | scikit-learn's KNN classifier; `n_neighbors=5` by default. |
 | meshgrid (G-1211) | NumPy function that builds every combination of x and y values: the grid for a decision surface. |
 | Square-root rule (G-1862) | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
 | [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Euclidean distance](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [KNN imputer](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#2-univariate-and-multivariate-imputation) (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
-| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Accuracy](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model) (G-162) | The fraction of predictions that are correct. |
+| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) | One object that chains preprocessing steps and a model, each step's output feeding the next; every input, including new ones after deployment, then gets exactly the same preprocessing. |
-| [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) | Testing a model by training and testing it several times on different parts of the training data. |
-| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Lazy learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training) (G-1057) | Another name for instance-based learning: no work until a question arrives. |
 | [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
 | [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |

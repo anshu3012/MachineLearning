@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/gradient-boo
 
 ## 1. Overview
 
-> **Key point:** Classification uses the same gradient boosting algorithm with the log loss. The model works in log-odds: it starts from the log-odds of class 1, turns log-odds into probabilities with the sigmoid, fits trees to the residuals $y - p$, and adds each leaf's value in log-odds.
+> **Key point:** Classification uses the same gradient boosting algorithm with the log loss. The model works in **log-odds** (G-1116): it starts from the log-odds of class 1, turns log-odds into probabilities with the sigmoid, fits trees to the residuals $y - p$, and adds each leaf's value in log-odds.
 
 ![Gradient boosting for classification: everything is added in log-odds; the sigmoid turns log-odds into probabilities for the residuals](images/stage_loop.png){height=36%}
 
@@ -30,11 +30,11 @@ Gradient boosting adds small models in stages, each learning from the mistakes o
 
 For classification, the loss is the **log loss** (G-303; [the log loss](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)) instead of the squared error. Three things change:
 
-- the first model is the log-odds of class 1, not the mean;
+- the first model is the **log-odds** (G-1116) of class 1, not the mean;
 - the residuals are computed from probabilities;
 - each leaf's value is computed with a new formula, so that it is in log-odds.
 
-The trees themselves are still [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#32-a-leaf-predicts-the-mean) (G-1654) (trees whose leaves predict a number): their targets, the residuals, are numbers.
+The trees themselves are still [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#32-a-leaf-predicts-the-mean) (G-1654) (trees whose leaves predict a number): their **targets** (G-1949), the residuals, are numbers.
 
 ## 3. The toy data: eight students
 
@@ -53,7 +53,7 @@ Each student is an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-
 | 7 | 8.3 | 141 | 1 |
 | 8 | 8.9 | 93 | 1 |
 
-We build three models: $F_0$, a simple starting value, then two regression trees. At each stage we compute the combined model's output for every student.
+We build three models: $F_0$, a simple starting value, then two **regression trees** (G-1654). At each stage we compute the combined model's output for every student.
 
 ## 4. Stage 1: the log-odds of class 1
 
@@ -80,7 +80,7 @@ The **log-odds** (G-1116) is the natural logarithm of the odds (logarithms are e
 
 So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and IQ.
 
-> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds. The Extra in section 8 shows that the derivative of one observation's log loss is $p - y$, so the best constant $\gamma$ satisfies:
+> **Extra:** Log-odds of 0 means even odds (1 to 1, a probability of 0.5). Positive log-odds mean class 1 is more likely, negative ones mean class 0 is more likely. Log-odds can be any number, which is why the trees can safely add to them; probabilities must stay between 0 and 1. Step 1 of the general algorithm, applied to the log loss, gives exactly this log-odds. The Extra in section 8 shows that the derivative of one **observation** (G-1374)'s log loss is $p - y$, so the best constant $\gamma$ satisfies:
 >
 > $$\sum_i (\sigma(\gamma) - y_i) = 0$$
 >
@@ -92,7 +92,7 @@ So stage 1 predicts a log-odds of 0.51 for every student, whatever the CGPA and 
 
 ## 5. From log-odds back to a probability
 
-> **Key point:** The sigmoid turns log-odds into a probability:
+> **Key point:** The sigmoid turns **log-odds** (G-1116) into a probability:
 >
 > $$p = 1/(1 + e^{-F})$$
 >
@@ -124,7 +124,7 @@ Figure 2 marks the conversion for $F_0$ and for the three log-odds the students 
 
 ## 6. Pseudo-residuals: class minus probability
 
-> **Key point:** Each observation's mistake is its class (0 or 1) minus the predicted probability: $r = y - p$.
+> **Key point:** Each **observation** (G-1374)'s mistake is its class (0 or 1) minus the predicted probability: $r = y - p$.
 
 As in regression, we measure each observation's mistake as actual minus predicted, now with the probability as the prediction.
 
@@ -144,9 +144,9 @@ Every placed student has residual 0.375, every student not placed $-0.625$. Thes
 
 ## 7. Stage 2: a regression tree on the residuals
 
-> **Key point:** Tree 1 learns the residuals from CGPA and IQ. Tree 1 is a regression tree, even though the problem is classification, because its target is a number.
+> **Key point:** Tree 1 learns the residuals from CGPA and IQ. Tree 1 is a **regression tree** (G-1654), even though the problem is classification, because its target is a number.
 
-We train a regression tree with CGPA and IQ as features and the residuals as the target, allowing 3 leaves. The tree splits twice on CGPA:
+We train a regression tree with CGPA and IQ as features and the residuals as the **target** (G-1949), allowing 3 leaves. The tree splits twice on CGPA:
 
 - **leaf 1, CGPA $\le$ 6.8:** students 1 and 2 (both not placed);
 - **leaf 2, 6.8 $<$ CGPA $\le$ 7.85:** students 3, 4 and 5 (two placed, one not);
@@ -157,11 +157,11 @@ Figure 4 draws the three leaves as bands of CGPA. Watch the middle band: it is t
 
 ![Tree 1's three leaves as bands of CGPA over the eight students (numbered); orange students have residual $-0.625$, blue ones $+0.375$](images/tree1_regions.png){height=36%}
 
-The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. But that number is a difference of probabilities, and $F_0$ is in log-odds. We cannot add a probability to a log-odds. So each leaf gets a new value, its **leaf value in log-odds** (G-1062).
+The tree's own leaf value is the mean residual, for example $-0.625$ in leaf 1. But that number is a difference of probabilities, and $F_0$ is in **log-odds** (G-1116). We cannot add a probability to a log-odds. So each leaf gets a new value, its **leaf value in log-odds** (G-1062).
 
 ## 8. Leaf values in log-odds
 
-> **Key point:** A leaf's value is the sum of its residuals divided by the sum of $p(1-p)$ over its observations, where $p$ is each observation's previous probability.
+> **Key point:** A leaf's value is the sum of its residuals divided by the sum of $p(1-p)$ over its **observations** (G-1374), where $p$ is each observation's previous probability.
 
 ![Tree 1 with the log-odds value of each leaf](images/tree1.png){height=32%}
 
@@ -183,7 +183,7 @@ and for leaf 3 (students 6, 7 and 8, all placed, residual $+0.375$ each):
 
    $$\gamma_3 = \frac{1.125}{0.703} = 1.60$$
 
-Figure 5 draws all three leaf values. Leaf 1 pushes the log-odds of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
+Figure 5 draws all three leaf values. Leaf 1 pushes the **log-odds** (G-1116) of its students strongly down (towards "not placed"), leaf 3 pushes them up, and the mixed leaf 2 barely moves them.
 
 > **Extra:** Where the formula comes from. Write one observation's log loss in terms of its log-odds $z$, with $p = \sigma(z)$: since $\ln p = -\ln(1 + e^{-z})$ and $\ln(1-p) = -z - \ln(1 + e^{-z})$,
 > $$L = -\big[y \ln p + (1-y)\ln(1-p)\big] = \ln(1 + e^{-z}) + (1-y)\thinspace z$$
@@ -191,7 +191,7 @@ Figure 5 draws all three leaf values. Leaf 1 pushes the log-odds of its students
 >
 > $$-(1-p) + (1-y) = p - y$$
 >
-> So the pseudo-residual, minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([the derivative of the sigmoid](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)).
+> So the **pseudo-residual** (G-1589), minus the derivative, is $y - p$. The second derivative is the sigmoid's derivative, $p(1-p)$ ([the derivative of the sigmoid](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#33-the-result)).
 >
 > Step 2(c) of the algorithm asks for the $\gamma$ that minimises $\sum L(y_i, F_i + \gamma)$ over the leaf. The log loss gives no exact formula for this $\gamma$, so we approximate each $L$ by its first two Taylor terms ([the Taylor series](../ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) approximates a curve near a point by a polynomial):
 >
@@ -209,7 +209,7 @@ Figure 6 shows what the formula does for leaf 2. The grey curve is the log loss 
 
 ## 9. The combined model after stage 2
 
-> **Key point:** Add each observation's leaf value to $F_0$ to get its new log-odds, then apply the sigmoid to get its new probability. The probabilities move towards the true classes.
+> **Key point:** Add each **observation** (G-1374)'s leaf value to $F_0$ to get its new **log-odds** (G-1116), then apply the sigmoid to get its new probability. The probabilities move towards the true classes.
 
 1. **In words:** new log-odds = old log-odds + the value of the leaf the observation lands in; then convert to a probability.
 2. **Formula:**
@@ -242,7 +242,7 @@ The jump from $-0.625$ to $-0.10$ in one stage is large. As in regression, we ca
 
 $$F_1 = F_0 + \eta\thinspace\gamma_j$$
 
-With $\eta = 0.1$, student 1's log-odds becomes:
+With $\eta = 0.1$, student 1's **log-odds** (G-1116) becomes:
 
 $$0.51 + 0.1 \times (-2.67) = 0.24$$
 
@@ -254,7 +254,7 @@ Figure 7 puts the two learning rates side by side for all eight students. Watch 
 
 ## 10. Stage 3: a second tree
 
-> **Key point:** Tree 2 learns the residuals of the combined model; its leaf values use the probabilities of stage 2; the new log-odds is $F_0$ plus both leaf values.
+> **Key point:** Tree 2 learns the residuals of the combined model; its leaf values use the probabilities of stage 2; the new **log-odds** (G-1116) is $F_0$ plus both leaf values.
 
 Tree 2 is trained on the new residuals. Tree 2 splits on IQ:
 
@@ -264,7 +264,7 @@ Tree 2 is trained on the new residuals. Tree 2 splits on IQ:
 | B | 100.5 $<$ IQ $\le$ 144 | 2, 4, 6, 7 | $-0.553$ | 0.508 | $-1.09$ |
 | C | IQ $>$ 144 | 5 | 0.334 | 0.223 | 1.50 |
 
-The formula is the same as in section 8, but $p$ is now each observation's probability after stage 2. Leaf C holds only student 5, so its value is:
+The formula is the same as in section 8, but $p$ is now each **observation** (G-1374)'s probability after stage 2. Leaf C holds only student 5, so its value is:
 
 $$\frac{0.334}{0.666 \times 0.334} = \frac{1}{0.666} = 1.50$$
 
@@ -293,9 +293,9 @@ Figure 8 plays the stages, and continues for two more trees built the same way. 
 
 ## 11. Predicting a new student
 
-> **Key point:** Add $F_0$ and the leaf values of every tree to get the log-odds, apply the sigmoid, and compare with the threshold.
+> **Key point:** Add $F_0$ and the leaf values of every tree to get the **log-odds** (G-1116), apply the sigmoid, and compare with the threshold.
 
-1. **In words:** follow the new observation down each tree, add up $F_0$ and the leaf values (times $\eta$), and convert to a probability.
+1. **In words:** follow the new **observation** (G-1374) down each tree, add up $F_0$ and the leaf values (times $\eta$), and convert to a probability.
 2. **Formula:**
    $$F(x) = F_0 + \eta\thinspace\gamma^{(1)}(x)$$
 
@@ -333,7 +333,7 @@ Figure 9 shows the two halves of the prediction. Watch the order: all adding hap
 
 > **Key point:** Lift each point to height 0 or 1 by its class. The model is a surface between 0 and 1; each tree raises it over the 1s and lowers it over the 0s, and after many trees its 0.5 level traces a curved [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555), the line where the predicted class changes.
 
-To see what the stages do, we use a harder dataset of 1,500 points with two features, $x_1$ and $x_2$. Class 1 forms a ring around a disc of class 0, and next to it lies a small disc of class 1 inside a ring of class 0. No straight line separates them.
+To see what the stages do, we use a harder dataset of 1,500 points with two **features** (G-772), $x_1$ and $x_2$. Class 1 forms a ring around a disc of class 0, and next to it lies a small disc of class 1 inside a ring of class 0. No straight line separates them.
 
 ![The data lifted to height 0 (class 0) or 1 (class 1), with the model's probability surface after one tree](images/view3d.png){height=42%}
 
@@ -367,10 +367,10 @@ Each tree splits on one feature at a time, an [**axis-parallel split**](../ML-09
 | Toy example | $F_0 = 4.8$ | $F_0 = 0.51$, $p = 0.625$ | |
 
 - Classification uses the same algorithm as regression, with the log loss, so only the first model, the residuals and the leaf values change.
-- Everything is added in log-odds, because log-odds can be any number; the sigmoid converts log-odds to probabilities whenever we need residuals or predictions.
-- The trees are regression trees; their leaf values are converted to log-odds with $\sum r / \sum p(1-p)$, a Newton step on the log loss, because the log loss gives no exact formula for the best leaf value.
+- Everything is added in **log-odds** (G-1116), because log-odds can be any number; the sigmoid converts log-odds to probabilities whenever we need residuals or predictions.
+- The trees are **regression trees** (G-1654); their leaf values are converted to log-odds with $\sum r / \sum p(1-p)$, a **Newton step** (G-1320) on the log loss, because the log loss gives no exact formula for the best leaf value.
 - The learning rate scales every leaf value, turning big jumps into gradual steps.
-- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible decision boundary, so the model can separate classes that no straight line separates.
+- Geometrically, each tree raises or lowers a probability surface over rectangles of the feature space; many trees give a curved, flexible **decision boundary** (G-555), so the model can separate classes that no straight line separates.
 - So gradient boosting classifies with the regression algorithm and one swap of loss: start from the log-odds, fit trees to $y - p$, add leaf values in log-odds, and apply the sigmoid at the end.
 
 ## 14. Sources
@@ -393,17 +393,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Odds (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | Log-odds (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
+| Odds (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | Leaf value in log-odds (G-1062) | The amount a leaf adds to the log-odds in gradient boosting for classification, converted from the leaf's residuals because a probability cannot be added to log-odds: $\sum r / \sum p(1-p)$ over the leaf's rows. |
 | Newton step (G-1320) | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. |
 | [Differentiable loss](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#42-the-loss-function) (G-605) | A loss function whose derivative exists at every point, so it can be minimised with derivatives. |
 | [Weak learner](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104) | A model whose accuracy is only a little better than random guessing. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Pseudo-residual](../../../ML/08-trees-and-ensembles/ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#5-pseudo-residuals-the-mistakes-of-the-current-model) (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |

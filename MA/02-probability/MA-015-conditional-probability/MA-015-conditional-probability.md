@@ -17,7 +17,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/condition
 
 > **Key point:** The probability of A given B, P(A | B), is the probability of A once we know B has happened. P(A | B) equals P(A ∩ B) / P(B).
 
-Later, these ideas build the [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture) (G-1297) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and Bayes' theorem. This Note covers the first.
+Later, these ideas build the [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#2-the-method-on-one-picture) (G-1297) classifier, a very fast classification algorithm that works well on text, famously for document classification and spam filtering (scikit-learn user guide §1.9). It rests on a few ideas from probability: conditional probability, independent events, and **Bayes' theorem** (G-269). This Note covers the first.
 
 **Conditional probability** (G-444) answers questions of the form "how likely is A, now that we know B is true?". Conditional probability is used throughout probability and machine learning, and Bayes' theorem is built directly on it.
 
@@ -100,7 +100,7 @@ Figure 3 shows the shrinking as motion, after the geometric picture of Bayes' ru
 
 > **Key point:** P(A ∩ B) = 5/36 and P(B) = 33/36; dividing gives 5/33.
 
-Using the formula instead, with the full sample space of 36:
+Using the formula instead, with the full **sample space** (G-1729) of 36:
 
 - $P(A \cap B)$: die 1 is 5 **and** the sum is at most 10. These are the same 5 outcomes.
 
@@ -113,7 +113,7 @@ Using the formula instead, with the full sample space of 36:
 
   $$P(A \mid B) = \frac{5/36}{33/36} = \frac{5}{33}$$
 
-The 36s cancel, leaving exactly the count in the reduced sample space. The formula and the counting say the same thing.
+The 36s cancel, leaving exactly the count in the **reduced sample space** (G-1649). The formula and the counting say the same thing.
 
 > **Python:** Counting all 36 outcomes.
 >
@@ -194,11 +194,11 @@ Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [*
 
 ## 6. Summary
 
-- Conditional probability: $P(A \mid B) = P(A \cap B) / P(B)$, because once $B$ has happened, $B$ is the whole world and we ask what share of it is also $A$.
-- Knowing B shrinks the sample space to B; count A's share inside it. The formula gives the same answer, because the full total cancels.
-- Multiplication rule: $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$, so the chance of both can be built from either side; setting the two sides equal gives Bayes' theorem.
+- **Conditional probability** (G-444): $P(A \mid B) = P(A \cap B) / P(B)$, because once $B$ has happened, $B$ is the whole world and we ask what share of it is also $A$.
+- Knowing B shrinks the **sample space** (G-1729) to B; count A's share inside it. The formula gives the same answer, because the full total cancels.
+- **Multiplication rule** (G-2212): $P(A \cap B) = P(A \mid B) \times P(B) = P(B \mid A) \times P(A)$, so the chance of both can be built from either side; setting the two sides equal gives **Bayes' theorem** (G-269).
 - Two dice: the chance of a 5 on die 1 given a sum of at most 10 is 5 in 33; the chance of a sum of at most 10 given a 5 on die 1 is 5 in 6. Swapping the condition changes the world we divide by, so $P(A \mid B)$ is not $P(B \mid A)$; Bayes' theorem converts one into the other.
-- Conditional probability answers "how likely is A, now that we know B?", and Bayes' theorem, and through it Naive Bayes, is built directly on it.
+- Conditional probability answers "how likely is A, now that we know B?", and Bayes' theorem, and through it **Naive Bayes** (G-1297), is built directly on it.
 
 ## 7. Sources
 
@@ -223,7 +223,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Reduced sample space (G-1649) | The outcomes that remain possible once the condition is known. |
 | Multiplication rule (G-2212) | The chance that both A and B happen is the chance of B times the chance of A given B: $P(A \cap B) = P(A \mid B) \times P(B)$. |
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
+| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Event](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717) | A set of outcomes, such as "the sum is at most 10". |
 | [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
-| [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Dependent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590) | Events that are not independent: knowing one changes the probability of the other. |

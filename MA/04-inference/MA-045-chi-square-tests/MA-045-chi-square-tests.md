@@ -19,16 +19,16 @@ tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-
 
 ![The chi-square test in four steps](images/observed_expected.png)
 
-The chi-square test was named earlier as [the tool of inferential statistics for categorical data](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics). When [choosing a hypothesis test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#5-two-categorical-features-the-chi-square-test), the chi-square test is the test for two categorical **features** (G-772; a feature is a variable of the data, one column of the data table, such as gender). Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the chi-square distribution is the p-value.
+The chi-square test was named earlier as [the tool of inferential statistics for categorical data](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#5-the-tools-of-inferential-statistics). When [choosing a hypothesis test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#5-two-categorical-features-the-chi-square-test), the chi-square test is the test for two categorical **features** (G-772; a feature is a variable of the data, one column of the data table, such as gender). Figure 1 shows how every chi-square test works: observed counts and expected counts go into one number, $\chi^2$, and its tail area under the **chi-square distribution** (G-378) is the p-value.
 
 Two words recur. $H_0$ is the null hypothesis, the claim that nothing special is going on (for example, that the two features are unrelated). The **p-value** is the probability of a mismatch at least as large as ours if $H_0$ were true; a small p-value is evidence against $H_0$ (see [one logic for every test](../MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#2-one-logic-for-every-test)).
 
 This Note covers:
 
-- the chi-square statistic and the chi-square distribution;
+- the **chi-square statistic** (G-379) and the chi-square distribution;
 - the **goodness-of-fit test**: does one categorical feature match claimed proportions?
 - the **test of independence**: are two categorical features related?
-- a case study on the Titanic, the conditions the test needs, and its strength measure, Cramér's V.
+- a case study on the Titanic, the conditions the test needs, and its strength measure, **Cramér's V** (G-500).
 
 > **Extra:** All of this Note is extra material beyond the "which test when" guide; the guide only names the chi-square test.
 
@@ -68,7 +68,7 @@ Figure 2 builds it for the example. Each category has its observed and expected 
 
 ## 3. The chi-square distribution
 
-> **Key point:** If $H_0$ is true, $\chi^2$ follows a chi-square distribution: never negative, skewed to the right, with one parameter, the degrees of freedom.
+> **Key point:** If $H_0$ is true, $\chi^2$ follows a **chi-square distribution** (G-378): never negative, skewed to the right, with one parameter, the degrees of freedom.
 
 ### 3.1 Built from squared normal draws
 
@@ -89,7 +89,7 @@ The distribution of a sum of $k$ squared standard normal draws is the **chi-squa
 
 ![Chi-square densities for four degrees of freedom](images/chi2_curves.png){height=35%}
 
-The chi-square distribution is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [**t-procedure**](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1938)), it has one parameter, the degrees of freedom. Figure 4 shows four of them:
+The **chi-square distribution** (G-378) is a continuous distribution on the positive numbers. Like Student's t-distribution (see the [**t-procedure**](../MA-037-t-procedure/MA-037-t-procedure.md#5-students-t-distribution) (G-1938)), it has one parameter, the degrees of freedom. Figure 4 shows four of them:
 
 - with 1 or 2 df, the density is highest at 0 and falls steadily;
 - with more df, the peak moves right and the curve spreads out;
@@ -169,7 +169,7 @@ With 1 df this gives $p = 0.302$. The [**one-sample proportion test**](../MA-044
 
 $$(-1.033)^2 = 1.067$$
 
-The p-value is the same too, 0.302. The goodness-of-fit test is the proportion test extended to any number of categories.
+The p-value is the same too, 0.302. The **goodness-of-fit test** (G-853) is the proportion test extended to any number of categories.
 
 > **Extra:** Goodness of fit also checks whether counts follow a named distribution, such as Poisson (see the [**Poisson distribution**](../../03-distributions/MA-032-poisson-distribution/MA-032-poisson-distribution.md#3-the-poisson-pmf) (G-1509)). The expected counts then come from the PMF, and every parameter estimated from the data (such as $\lambda$ from the mean) removes one more degree of freedom:
 >
@@ -179,7 +179,7 @@ The p-value is the same too, 0.302. The goodness-of-fit test is the proportion t
 
 ## 5. The test of independence
 
-> **Key point:** Two categorical features in a contingency table: if they are independent, each expected count is row total $\times$ column total $/$ grand total, and $df = (r - 1)(c - 1)$.
+> **Key point:** Two categorical features in a **contingency table** (G-464): if they are independent, each expected count is row total $\times$ column total $/$ grand total, and $df = (r - 1)(c - 1)$.
 
 ### 5.1 The question and the table
 
@@ -345,7 +345,7 @@ We reject $H_0$: survival depended on class.
 
 1. **Counts, not percentages.** The formula needs the number of observations in each cell. Percentages or means give a wrong $\chi^2$, because $\chi^2$ grows with the number of observations (section 7.2): percentages act as if every sample had exactly 100 observations, whatever its real size.
 2. **Independent observations.** Each observation is counted in exactly one cell, and observations do not influence each other. The same person measured twice breaks this.
-3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the chi-square distribution is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (G-782) (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
+3. **Large enough expected counts.** The usual rule is that every expected count should be at least 5 (Cochran 1954), because the **chi-square distribution** (G-378) is only a large-sample approximation. All six expected counts of section 5.2 are above 5 (the smallest is 6.07). For small 2 by 2 tables, **Fisher's exact test** (G-782) (`stats.fisher_exact`) avoids the approximation; for bigger tables, merging rare categories helps.
 
 > **Extra:** What goes wrong below the rule. A ruler marked in metres is fine for a room but useless for a grain of rice; the chi-square curve is likewise only a good ruler for large counts. The notebook draws 200,000 samples with $H_0$ true, so a correct 5% test should reject 5% of them:
 >
@@ -389,7 +389,7 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 
 > **Key point:** Feature selection with `SelectKBest(chi2)` ranks categorical features by how strongly they are related to the target.
 
-[**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) with **`SelectKBest`** (G-1762; keeps the $k$ features with the highest scores) `(score_func=chi2)` (see the [**pipelines**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1499)) scores each feature against the **target** (G-1949; the output we predict) with a chi-square statistic: a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
+[**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) with **`SelectKBest`** (G-1762; keeps the $k$ features with the highest scores) `(score_func=chi2)` (see the [**pipelines**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#56-step-4-feature-selection) (G-1499)) scores each feature against the **target** (G-1949; the output we predict) with a **chi-square statistic** (G-379): a feature whose counts differ strongly between the classes gets a high score. scikit-learn's version treats each feature's values as counts, which is why it needs values of 0 or more (scikit-learn docs, `chi2`). The score is not the same number as the test of independence. For a one-hot column it compares only the rows where the column is 1. In the notebook, Titanic sex one-hot encoded gets the scores 170.3 (female) and 92.7 (male); only their sum, 263.1, equals the $\chi^2$ of section 6.1.
 
 ## 8. Summary
 
@@ -403,8 +403,8 @@ Figure 9 shows why the rescaling is needed. The Titanic sex-by-survival table is
 | Example here | age groups vs census: $\chi^2 = 3.48$, $p = 0.175$ | gender vs age group: $\chi^2 = 2.50$, $p = 0.29$ |
 
 - The table's expected counts are what $H_0$ predicts: $n$ times the claimed share, or, under independence, $P(A)\thinspace P(B)$ times $n$. Both examples give $p > 0.05$, so neither sample shows a departure from $H_0$.
-- Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a chi-square distribution; the p-value is the right-tail area, because only a large total mismatch between observed and expected counts counts against $H_0$.
-- With two categories, goodness of fit is the one-sample proportion test: $\chi^2 = z^2$, so the two tests give identical p-values.
+- Under $H_0$, $\chi^2 = \sum (O - E)^2/E$ follows a **chi-square distribution** (G-378); the p-value is the right-tail area, because only a large total mismatch between observed and expected counts counts against $H_0$.
+- With two categories, goodness of fit is the **one-sample proportion test** (G-1381): $\chi^2 = z^2$, so the two tests give identical p-values.
 - The test needs raw counts, independent observations and expected counts of at least 5, because $\chi^2$ grows with the number of observations, so percentages give a wrong $\chi^2$, and with tiny expected counts the chi-square curve no longer fits, so the p-value cannot be trusted.
 - This answers the opening question: a chi-square test compares observed counts with the counts $H_0$ predicts, and the bigger the total mismatch $\chi^2$, the smaller the p-value.
 
@@ -432,16 +432,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Chi-square distribution (G-378) | The shape the chi-square statistic $\chi^2$ follows when the null hypothesis $H_0$ is true: never negative, skewed to the right, with one parameter, the degrees of freedom. |
+| Chi-square statistic $\chi^2$ (G-379) | A number that measures the total mismatch between observed and expected counts, $\sum (O - E)^2 / E$; it is 0 when every count matches and grows as they differ. |
+| Cramér's V (G-500) | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |
 | Observed count $O$ (G-1375) | The number of sample rows in a category or table cell. |
 | Expected count $E$ (G-723) | The number of rows a category or cell would hold on average if the null hypothesis $H_0$ were true. |
-| Chi-square statistic $\chi^2$ (G-379) | A number that measures the total mismatch between observed and expected counts, $\sum (O - E)^2 / E$; it is 0 when every count matches and grows as they differ. |
-| Chi-square distribution (G-378) | The shape the chi-square statistic $\chi^2$ follows when the null hypothesis $H_0$ is true: never negative, skewed to the right, with one parameter, the degrees of freedom. |
 | Right-tailed and left-tailed test (G-1693) | One-tailed tests that count only one tail as evidence against $H_0$: a right-tailed test rejects for large values of the test statistic (as for $H_1: \mu > \mu_0$), a left-tailed test for small ones (as for $H_1: \mu < \mu_0$). |
 | Goodness-of-fit test (G-853) | A check of whether the counts in one categorical column match the shares we claimed (a chi-square test against claimed proportions); $df = k - 1$ for $k$ categories. |
 | Chi-square test of independence (G-380) | A chi-square test of whether two categorical columns are related; $df = (r - 1)(c - 1)$. |
 | Yates' continuity correction (G-2135) | A small adjustment to $\chi^2$ for 2 by 2 tables, applied by default in `chi2_contingency`. |
 | Fisher's exact test (G-782) | A test for small 2 by 2 count tables that computes the p-value exactly instead of approximating it; used when expected counts fall below 5. |
-| Cramér's V (G-500) | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |
 | Chi-square test (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

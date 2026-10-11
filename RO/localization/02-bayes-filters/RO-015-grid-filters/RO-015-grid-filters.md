@@ -15,9 +15,9 @@ We go back to the hallway of [**belief**](../RO-013-belief/RO-013-belief.md#1-ov
 
 The Note covers:
 
-- the histogram filter: one probability per cell, updated by multiplying (sensing) and sliding (moving) ([Section 2](#2-the-histogram-filter));
+- the **histogram filter** (G-2461): one probability per cell, updated by multiplying (sensing) and sliding (moving) ([Section 2](#2-the-histogram-filter));
 - how to cut a real, continuous space into cells: fixed cells or cells that adapt to the belief ([Section 3](#3-cutting-a-real-space-into-cells));
-- the binary Bayes filter for a yes-or-no state that does not change, run in log odds ([Section 4](#4-the-binary-bayes-filter));
+- the binary Bayes filter for a yes-or-no state that does not change, run in **log odds** (G-1116) ([Section 4](#4-the-binary-bayes-filter));
 - looking back: the smoothed belief at an earlier time, and the most likely whole path ([Section 5](#5-looking-back-smoothing-and-the-most-likely-path)).
 
 ## 2. The histogram filter
@@ -26,9 +26,9 @@ The Note covers:
 
 ### 2.1 Why cells
 
-A continuous position, such as "3.42 m along the hallway", can take infinitely many values, and a computer can only store a finite list. So we cut the hallway into cells, here 10 cells of 1 m, and keep one probability for each: the probability that the robot is somewhere in that cell. This is the same move as [discretization](../../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization) (G-619) of a feature into bins, and the list of probabilities, drawn as bars, is a [histogram](../../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) of the belief.
+A continuous position, such as "3.42 m along the hallway", can take infinitely many values, and a computer can only store a finite list. So we cut the hallway into cells, here 10 cells of 1 m, and keep one probability for each: the probability that the robot is somewhere in that cell. This is the same move as [discretization](../../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization) (G-619) of a feature into bins, and the list of probabilities, drawn as bars, is a [histogram](../../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) of the **belief** (G-2433).
 
-The Bayes filter run on such a list of cells is the **histogram filter** (G-2461) (PR §4.1). When the states are finite to begin with, as in the door world, the same algorithm is called the discrete Bayes filter (Labbe ch.2). The sum of the prediction step now has only 10 terms, so it can be done exactly.
+The **Bayes filter** (G-2446) run on such a list of cells is the **histogram filter** (G-2461) (PR §4.1). When the states are finite to begin with, as in the door world, the same algorithm is called the discrete Bayes filter (Labbe ch.2). The sum of the prediction step now has only 10 terms, so it can be done exactly.
 
 ### 2.2 Sense: multiply, then rescale
 
@@ -52,11 +52,11 @@ $$\text{door cell: } 0.06 / 0.32 = 0.1875$$
 
 $$\text{wall cell: } 0.02 / 0.32 = 0.0625$$
 
-This is the correction step of the Bayes filter, done cell by cell (Labbe ch.2). The robot reads "door" three times as often at a door as at a wall, and after the update each door cell holds three times the belief of a wall cell.
+This is the correction step of the Bayes filter, done cell by cell (Labbe ch.2). The robot reads "door" three times as often at a door as at a wall, and after the update each door cell holds three times the **belief** (G-2433) of a wall cell.
 
 ### 2.3 Move: shift, then blur
 
-Next the robot moves 2 cells. If the move were exact, every probability would simply travel 2 cells to the right, wrapping round the loop (Figure 3, middle). But the move is 1 cell with probability 0.1 and 3 cells with probability 0.1, so some belief also lands one cell short or one cell too far (Figure 3, right).
+Next the robot moves 2 cells. If the move were exact, every probability would simply travel 2 cells to the right, wrapping round the loop (Figure 3, middle). But the move is 1 cell with probability 0.1 and 3 cells with probability 0.1, so some **belief** (G-2433) also lands one cell short or one cell too far (Figure 3, right).
 
 ![Left: the belief after reading door, 0.1875 at cells 1, 3 and 7. Middle: shifted exactly 2 cells, 0.1875 at cells 3, 5 and 9. Right: shifted and blurred by the 0.1/0.8/0.1 move, 0.1625 at cells 3, 5 and 9 and 0.0875 at cell 4](images/move_step.png)
 
@@ -70,7 +70,7 @@ $$+\ 0.1 \times 0.0625$$
 
 $$= 0.1625$$
 
-This is the prediction step of the Bayes filter: the [law of total probability](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability) (G-1053) with three terms instead of ten, because only three old cells can reach each new one.
+This is the prediction step of the **Bayes filter** (G-2446): the [law of total probability](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#4-the-evidence-total-probability) (G-1053) with three terms instead of ten, because only three old cells can reach each new one.
 
 Every new cell is built the same way, with the same three weights, slid along the hallway. Figure 4 builds the whole predicted belief this way, one cell at a time.
 
@@ -84,7 +84,7 @@ What if the robot keeps moving and never reads its sensor? Figure 5 starts it su
 
 ![After 1 move the highest cell holds 0.80, after 3 moves 0.56, after 10 moves 0.29, after 80 moves 0.11: the belief flattens towards 0.1 in every cell](images/lose_info.gif)
 
-Each move spreads the belief of every cell over three cells, so the highest cell's belief shrinks:
+Each move spreads the **belief** (G-2433) of every cell over three cells, so the highest cell's belief shrinks:
 
 | Moves without a reading | 0 | 1 | 3 | 10 | 80 |
 |---|---|---|---|---|---|
@@ -106,11 +106,11 @@ The tallest bar at each step:
 | Tallest bar | 1, 3, 7 (tied) | 3 | 5 | 7 | 3 | 1 | 3 |
 | Its belief | 0.19 | 0.31 | 0.30 | 0.42 | 0.32 | 0.37 | 0.47 |
 
-The wrong reading at $t = 5$ moves the tallest bar to cell 3, a door. But the true cell 9 keeps a belief of 0.24, because one reading never sets a cell to zero. Two correct readings later the filter is back on the true cell with 0.47. A filter that kept only one best guess would have been lost at $t = 5$ (Labbe ch.2).
+The wrong reading at $t = 5$ moves the tallest bar to cell 3, a door. But the true cell 9 keeps a **belief** (G-2433) of 0.24, because one reading never sets a cell to zero. Two correct readings later the filter is back on the true cell with 0.47. A filter that kept only one best guess would have been lost at $t = 5$ (Labbe ch.2).
 
 ### 2.6 The formal version
 
-With the cells numbered $k = 0, \ldots, 9$, let $p_{k,t}$ be the belief in cell $k$ at time $t$ and $\bar p_{k,t}$ the predicted belief. The histogram filter is (PR §4.1.1):
+With the cells numbered $k = 0, \ldots, 9$, let $p_{k,t}$ be the **belief** (G-2433) in cell $k$ at time $t$ and $\bar p_{k,t}$ the predicted belief. The **histogram filter** (G-2461) is (PR §4.1.1):
 
 $$\bar p_{k,t} = \sum_{i} p(x_k \mid u_t,\ x_i)\ p_{i,t-1}$$
 
@@ -139,7 +139,7 @@ The notebook `RO-015-grid-filters.ipynb` runs every example in this Note. Ten ce
 
 ## 3. Cutting a real space into cells
 
-> **Key point:** Fine cells give an accurate belief but their number explodes with the size of the space and the number of state variables. A static decomposition fixes the cells in advance; an adaptive one makes cells small only where the belief needs them.
+> **Key point:** Fine cells give an accurate **belief** (G-2433) but their number explodes with the size of the space and the number of state variables. A static decomposition fixes the cells in advance; an adaptive one makes cells small only where the belief needs them.
 
 ### 3.1 Why the number of cells explodes
 
@@ -157,7 +157,7 @@ Halving the cell size multiplies the count by 4 for the position alone, and each
 
 ### 3.2 Static and adaptive decomposition
 
-Most of those millions of cells hold a belief close to zero: the robot is not inside a wall or at the far end of the building. Two ways of cutting the space follow from that (PR §4.1.4):
+Most of those millions of cells hold a **belief** (G-2433) close to zero: the robot is not inside a wall or at the far end of the building. Two ways of cutting the space follow from that (PR §4.1.4):
 
 - A **static decomposition** (G-2464) fixes the cells before the robot starts, whatever the belief turns out to be. A regular grid of equal cells is the usual choice (Fox 1999). It is simple, and every cell is updated the same way, but it spends as much work on empty regions as on the region where the robot is.
 - An **adaptive decomposition** (G-2465), also called a dynamic decomposition, changes the cells as the belief changes: small cells where the belief is high, large cells where it is near zero. A common way is a quadtree, which splits a square into four only where more detail is needed (ShanghaiTech slides; Fox 1999, §6).
@@ -168,11 +168,11 @@ Figure 7 compares the two on an 8 m by 8 m floor. The fixed grid uses 64 cells o
 
 ## 4. The binary Bayes filter
 
-> **Key point:** For a yes-or-no state that never changes, each reading multiplies the odds by a fixed factor. In log odds that becomes adding a fixed number, which is fast and does not round to 0 or 1.
+> **Key point:** For a yes-or-no state that never changes, each reading multiplies the odds by a fixed factor. In **log odds** (G-1116) that becomes adding a fixed number, which is fast and does not round to 0 or 1.
 
 ### 4.1 A state that does not change
 
-The smallest grid has 2 cells, open and closed. Go back to the [door world](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world), but now nobody touches the door: it is open or closed, and it stays that way while the robot reads its sensor again and again. A state that the robot's commands do not change is a **static state** (G-2467) (PR §4.2). With a static state the prediction step does nothing (the belief before a step equals the belief after it), so only the correction step is left.
+The smallest grid has 2 cells, open and closed. Go back to the [door world](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world), but now nobody touches the door: it is open or closed, and it stays that way while the robot reads its sensor again and again. A state that the robot's commands do not change is a **static state** (G-2467) (PR §4.2). With a static state the prediction step does nothing (the **belief** (G-2433) before a step equals the belief after it), so only the correction step is left.
 
 The same situation appears in mapping: whether one small square of the floor is occupied by an obstacle is a yes-or-no question about something that does not move. A map built this way keeps one such filter per square (PR §4.2; Freiburg mapping slides).
 
@@ -220,7 +220,7 @@ the same 0.9 as in the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-fi
 
 ### 4.3 Log odds turn the products into sums
 
-Taking the logarithm turns a product into a sum. The natural log of the odds is the [log odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116):
+Taking the logarithm turns a product into a sum. The natural log of the **odds** (G-1376) is the [log odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116):
 
 $$l = \ln \frac{p}{1 - p}$$
 
@@ -264,22 +264,22 @@ This filter, a static binary state updated in log odds, is the **binary Bayes fi
 
 Two reasons:
 
-1. **Adding is cheaper than multiplying and rescaling.** A map can hold millions of cells, each updated at every scan; one addition per cell is the cheapest update possible, and every cell can be updated at the same time (Freiburg mapping slides: the log odds update "only requires to compute sums").
-2. **Probabilities near 0 or 1 round off.** Run 40 readings of "open" in ordinary probabilities. The odds become 3 to the power 40, about 12 billion billion, and the computer stores $p(\text{open})$ as exactly 1.0. After that, a reading of "closed" changes nothing, because 1.0 times anything, divided by itself, is still 1.0. In log odds the same run reaches 43.94, and a "closed" reading moves it to 43.25, as it should. The notebook shows both.
+1. **Adding is cheaper than multiplying and rescaling.** A map can hold millions of cells, each updated at every scan; one addition per cell is the cheapest update possible, and every cell can be updated at the same time (Freiburg mapping slides: the **log odds** (G-1116) update "only requires to compute sums").
+2. **Probabilities near 0 or 1 round off.** Run 40 readings of "open" in ordinary probabilities. The **odds** (G-1376) become 3 to the power 40, about 12 billion billion, and the computer stores $p(\text{open})$ as exactly 1.0. After that, a reading of "closed" changes nothing, because 1.0 times anything, divided by itself, is still 1.0. In log odds the same run reaches 43.94, and a "closed" reading moves it to 43.25, as it should. The notebook shows both.
 
 Every filter so far answers where the robot is now; the same numbers can also say where it was.
 
 ## 5. Looking back: smoothing and the most likely path
 
-> **Key point:** Later readings also say where the robot was earlier. The forward-backward algorithm combines readings from before and after a time step into the smoothed belief; the Viterbi algorithm finds the single most likely path.
+> **Key point:** Later readings also say where the robot was earlier. The forward-backward algorithm combines readings from before and after a time step into the smoothed **belief** (G-2433); the Viterbi algorithm finds the single most likely path.
 
 ### 5.1 Three questions about a run
 
 Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [**belief**](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach) (G-2433): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
 
-1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the histogram filter of [Section 2](#2-the-histogram-filter) does it.
+1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the **histogram filter** (G-2461) of [Section 2](#2-the-histogram-filter) does it.
 2. **Where was the robot at an earlier time, given all readings, including later ones?** This is **smoothing** (G-2470).
-3. **Which whole path of cells is most likely, given all readings?** This is the **most likely path** (G-2476), found by the Viterbi algorithm.
+3. **Which whole path of cells is most likely, given all readings?** This is the **most likely path** (G-2476), found by the **Viterbi algorithm** (G-2474).
 
 Filtering is what a robot needs while it drives. Smoothing and the most likely path are for looking back over a recorded run, for example to draw the path it took.
 
@@ -289,12 +289,12 @@ At $t = 1$ the filter knew only the first reading, so cells 1, 3 and 7 were equa
 
 The **forward-backward algorithm** (G-2471) makes this exact. It combines two quantities for every cell $x$ and time $t$ (J&M App. A):
 
-- the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the histogram filter before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls ([Section 2.2](#22-sense-multiply-then-rescale));
+- the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the **histogram filter** (G-2461) before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls ([Section 2.2](#22-sense-multiply-then-rescale));
 - the **backward probability** (G-2473) $\beta_t(x)$: the probability of the readings **after** $t$, given cell $x$ at $t$. It is computed from the end backwards, starting from 1 at the last step.
 
 ![The chain x1, x2, x3 with readings door, door, wall. A forward arrow alpha_1 brings the evidence of readings up to t = 1; a backward arrow beta_1 brings the evidence of readings after t = 1; their product, rescaled, is the smoothed belief](images/fwd_bwd.png)
 
-Figure 10 shows the idea: $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed belief:
+Figure 10 shows the idea: $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed **belief** (G-2433):
 
 $$\gamma_t(x) = \eta\ \alpha_t(x)\ \beta_t(x)$$
 
@@ -350,7 +350,7 @@ Figure 11 compares the two. Using the later readings nearly doubles the belief i
 
 ### 5.3 The most likely path: the Viterbi algorithm
 
-Smoothing gives a probability for each cell at each time. Sometimes we want one answer instead: the single path of cells that best explains all readings. Trying every path is hopeless for long runs: with 10 cells and $T$ steps there are 10 to the power $T$ paths, 1000 for our 3 steps but a 1 followed by 100 zeros for 100 steps (J&M App. A).
+**Smoothing** (G-2470) gives a probability for each cell at each time. Sometimes we want one answer instead: the single path of cells that best explains all readings. Trying every path is hopeless for long runs: with 10 cells and $T$ steps there are 10 to the power $T$ paths, 1000 for our 3 steps but a 1 followed by 100 zeros for 100 steps (J&M App. A).
 
 The **Viterbi algorithm** (G-2474) avoids this with one observation: the best path to a cell at time $t$ must continue the best path to some cell at time $t - 1$. So for each cell it keeps only the probability of the best path ending there, $m_t(x)$, and which cell that path came from, the **back-pointer** (G-2477) (CS188 §8.3). It is the forward algorithm with the sum replaced by a maximum:
 
@@ -394,13 +394,13 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 | Forward-backward | where the robot was at an earlier time | multiply forward $\alpha$ and backward $\beta$, rescale | two passes over the run |
 | Viterbi | the single most likely path | maximum instead of sum, then follow back-pointers | 10 × 10 per step, not 10 to the power $T$ |
 
-- The histogram filter runs the Bayes filter exactly on a list of cells, because the sum over previous states has only as many terms as there are cells: 10 on the hallway instead of infinitely many, and only 3 of them count for each new cell.
-- Sensing multiplies each cell by $p(z \mid x)$ and rescales, so cells that explain the reading gain belief; moving convolves the belief with the motion kernel, because the same move error applies in every cell.
+- The histogram filter runs the **Bayes filter** (G-2446) exactly on a list of cells, because the sum over previous states has only as many terms as there are cells: 10 on the hallway instead of infinitely many, and only 3 of them count for each new cell.
+- Sensing multiplies each cell by $p(z \mid x)$ and rescales, so cells that explain the reading gain **belief** (G-2433); moving convolves the belief with the motion kernel, because the same move error applies in every cell.
 - Moving without reading flattens the belief, so a robot must keep reading its sensors to stay localized.
 - A wrong reading moves the tallest bar but never removes the true cell, so the filter recovers after a few correct readings.
-- Fine cells explode in number with the space size and the number of state variables (7.2 million for a 30 m floor), so adaptive decompositions put small cells only where the belief is high.
-- For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in log odds it adds a fixed number; this is fast and does not round to 0 or 1.
-- Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
+- Fine cells explode in number with the space size and the number of state variables (7.2 million for a 30 m floor), so **adaptive decompositions** (G-2465) put small cells only where the belief is high.
+- For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in **log odds** (G-1116) it adds a fixed number; this is fast and does not round to 0 or 1.
+- Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the **Viterbi algorithm** (G-2474) recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
 
 The robot can now run the Bayes filter on a computer, one number per cell, and look back over a recorded run. Still missing: cells multiply with every extra state variable, 7.2 million for one 30 m floor; the [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#1-overview) (G-2492) keeps samples only where the belief is, and the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2506) keeps a belief shaped like a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), as two numbers.
 
@@ -441,14 +441,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Filtering (state estimation) (G-2469) | Estimating the current state from the readings so far, $p(x_t \mid z_{1:t})$; what a robot needs while it drives, and what the Bayes filter computes. |
 | Smoothing (G-2470) | Estimating the state at an earlier time using all readings, including later ones, $p(x_t \mid z_{1:T})$; later readings often settle where the robot was, such as raising the true starting cell from 0.19 to 0.36. |
 | Most likely path (G-2476) | The one sequence of hidden states with the highest probability given all readings, such as cells 1, 3, 5; one consistent answer for a whole run, found by the Viterbi algorithm. |
+| Viterbi algorithm (G-2474) | The method that finds the single most likely sequence of hidden states in an HMM by keeping, for each state and time, only the best path ending there and where it came from, then tracing back; it costs states squared times steps instead of trying every path. |
 | Forward-backward algorithm (G-2471) | The method that computes smoothed beliefs in an HMM by multiplying a forward pass (evidence up to $t$) by a backward pass (evidence after $t$) and rescaling; it uses every reading of a recorded run for each time step. |
 | Forward probability $\alpha_t$ (G-2472) | The probability of the readings up to time $t$ together with being in state $x$ at $t$; the histogram filter before rescaling, carrying the evidence from the past. |
 | Backward probability $\beta_t$ (G-2473) | The probability of the readings after time $t$, given state $x$ at $t$, computed from the last step backwards starting at 1; it carries the evidence from the future. |
-| Viterbi algorithm (G-2474) | The method that finds the single most likely sequence of hidden states in an HMM by keeping, for each state and time, only the best path ending there and where it came from, then tracing back; it costs states squared times steps instead of trying every path. |
 | Back-pointer (G-2477) | The note the Viterbi algorithm keeps for each state and time of which earlier state the best path came from; following them backwards from the best end recovers the most likely path. |
 | Trellis (G-2475) | A grid drawing of an HMM run with one column of states per time step and lines for the possible moves between columns; every path through it is one guess at the hidden states. |
 | [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) | The algorithm that keeps a robot's belief up to date one step at a time: a prediction step after each command and a correction step after each reading; it gives the exact belief without storing the history, under the Markov assumption. |
 | [Belief](../../../../RO/localization/02-bayes-filters/RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
+| [Log-odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | [Discretization](../../../../ML/03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals. |
 | [Histogram](../../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
 | [Law of total probability](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
@@ -456,7 +457,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
 | [Odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | [Bayes factor](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#61-the-size-of-the-update-the-bayes-factor) (G-2215) | A number that says how strongly the evidence favours yes over no: how many times more likely the evidence is if the answer is yes than if it is no, $P(\text{evidence} \mid \text{yes}) / P(\text{evidence} \mid \text{no})$. Multiplying the prior odds by it gives the posterior odds. |
-| [Log-odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | [Sigmoid function](../../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Hidden Markov model (HMM)](../../../../RO/localization/02-bayes-filters/RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
 | [Markov property](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316) | The property of a sequence of states that the future depends on the past only through the present state; it lets a filter forget the history and work from the latest state alone. |

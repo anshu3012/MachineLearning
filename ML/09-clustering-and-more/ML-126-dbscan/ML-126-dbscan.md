@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/dbscan]
 
 ## 1. Overview
 
-> **Key point:** DBSCAN grows clusters through dense regions of points and labels points in sparse regions as noise. DBSCAN finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
+> **Key point:** DBSCAN grows clusters through **dense regions** (G-584) of points and labels points in sparse regions as noise. DBSCAN finds the number of clusters by itself and handles any shape, but needs two well-chosen settings: eps and MinPts.
 
 **DBSCAN** (G-548; density-based spatial clustering of applications with noise) is a clustering algorithm that groups points lying in dense regions and marks lonely points as noise. Each point is an **observation** (G-1374; one record of the data, a row of the table). Figure 1 shows why it matters: on two moons and two circles, where k-means (a method that groups points around centroids, the means of the groups) cuts straight across the shapes (see [where k-means struggles](../ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#3-where-k-means-struggles)), DBSCAN finds them exactly.
 
@@ -68,7 +68,7 @@ So k-means works well on some datasets and badly on many others. DBSCAN addresse
 
 Density does not care about shape. A dense crescent is a cluster just as much as a dense round blob. DBSCAN is one density-based algorithm; another one is **OPTICS** (G-1396; Ankerst et al. 1999).
 
-The name DBSCAN lists its features: **density-based**, **spatial** (it works on points in space), **clustering of applications with noise** (it labels noise points as noise).
+The name DBSCAN lists its features: **density-based**, **spatial** (it works on points in space), **clustering of applications with noise** (it labels **noise points** (G-1329) as noise).
 
 ## 5. Measuring density: eps and MinPts
 
@@ -85,15 +85,15 @@ For example, with eps = 1 and MinPts = 3, we draw a circle of radius 1 around a 
 
 eps and MinPts are DBSCAN's only two hyperparameters, and choosing them well is most of the work of using it.
 
-> **Extra:** Whether the point itself is counted differs between explanations. The original paper counts it: the eps-neighbourhood of a point p holds every point within eps of p, p included (Ester et al. 1996, Def. 1). scikit-learn counts it too (scikit-learn `DBSCAN` docs), and section 9.1 shows the effect: with `min_samples=2`, the points (8, 7) and (8, 8) each have only one other point within eps, yet both are core points. So with `min_samples=4`, a point needs 3 neighbours within eps, plus itself.
+> **Extra:** Whether the point itself is counted differs between explanations. The original paper counts it: the eps-neighbourhood of a point p holds every point within eps of p, p included (Ester et al. 1996, Def. 1). scikit-learn counts it too (scikit-learn `DBSCAN` docs), and section 9.1 shows the effect: with `min_samples=2`, the points (8, 7) and (8, 8) each have only one other point within eps, yet both are **core points** (G-486). So with `min_samples=4`, a point needs 3 neighbours within eps, plus itself.
 
 ## 6. Core, border and noise points
 
-> **Key point:** Core points sit in dense regions; border points are not dense themselves but lie within eps of a core point; noise points are neither.
+> **Key point:** Core points sit in **dense regions** (G-584); border points are not dense themselves but lie within eps of a core point; noise points are neither.
 
 Using eps and MinPts, DBSCAN puts every point into one of three types (Figure 4):
 
-- A **core point** (G-486) has at least MinPts points in its eps-neighbourhood (equal to MinPts is enough). In Figure 4, with eps = 1 and MinPts = 5, the blue point has exactly 5. Core points form the inside of a cluster and make up its shape.
+- A **core point** (G-486) has at least MinPts points in its **eps-neighbourhood** (G-698) (equal to MinPts is enough). In Figure 4, with eps = 1 and MinPts = 5, the blue point has exactly 5. Core points form the inside of a cluster and make up its shape.
 - A **border point** (G-323) meets two conditions: it has fewer than MinPts points in its eps-neighbourhood, but at least one of them is a core point. The circled orange point has only 3, fewer than 5, so it is not a core point; one of the 3 is the blue core point. Border points sit on the edge of a cluster.
 - A **noise point** (G-1329) is neither a core point nor a border point. The circled grey cross has only 2 points within eps, so it is not a core point, and neither of them is a core point, so it is not a border point either. Noise points are the outliers far from the dense areas.
 
@@ -101,15 +101,15 @@ Using eps and MinPts, DBSCAN puts every point into one of three types (Figure 4)
 
 ## 7. Density-connected points
 
-> **Key point:** Two points are density-connected if a chain of core points links them, each step no longer than eps; density-connected points belong to the same cluster.
+> **Key point:** Two points are density-connected if a chain of **core points** (G-486) links them, each step no longer than eps; density-connected points belong to the same cluster.
 
-If two points A and B are **density-connected** (G-589), we can put them in the same cluster. They can be far apart: what matters is whether we can walk from A to B through the dense region.
+If two points A and B are **density-connected** (G-589), we can put them in the same cluster. They can be far apart: what matters is whether we can walk from A to B through the **dense region** (G-584).
 
 A and B are density-connected if they are linked, possibly indirectly, by a sequence of core points in which every two neighbouring points are at most eps apart.
 
 The chain breaks in two cases:
 
-- **A non-core point in the middle:** there is no core point at some step, only a border point or a noise point. A border point can end a chain but cannot pass it on.
+- **A non-core point in the middle:** there is no core point at some step, only a border point or a **noise point** (G-1329). A border point can end a chain but cannot pass it on.
 - **A gap:** two neighbouring core points in the chain are more than eps apart.
 
 If either case happens, A and B are not density-connected and go in different clusters. Figure 5 draws the chains on the 14 points with eps = 1 and MinPts = 4: two groups of linked core points, and no chain across the gap.
@@ -118,15 +118,15 @@ If either case happens, A and B are not density-connected and go in different cl
 
 ## 8. The DBSCAN algorithm step by step
 
-> **Key point:** Label every point; grow one cluster from each unclustered core point through all density-connected core points; attach each border point to its nearest core point's cluster; leave noise alone.
+> **Key point:** Label every point; grow one cluster from each unclustered core point through all density-connected core points; attach each **border point** (G-323) to its nearest core point's cluster; leave noise alone.
 
 Figure 6 runs DBSCAN on 14 points with eps = 1 and MinPts = 4.
 
 0. **Choose eps and MinPts.**
 1. **Label every point** as core, border or noise (Figure 6, frame "Step 1: core, border or noise").
-2. **Grow the clusters.** Take a core point that is not yet in a cluster and start a new cluster with it. Add every core point that is density-connected to it. When no more core points can be added, the cluster is complete; take the next unclustered core point and start the next cluster (Figure 6, frames "Step 2: cluster 1 grows" and "cluster 2 grows").
+2. **Grow the clusters.** Take a **core point** (G-486) that is not yet in a cluster and start a new cluster with it. Add every core point that is density-connected to it. When no more core points can be added, the cluster is complete; take the next unclustered core point and start the next cluster (Figure 6, frames "Step 2: cluster 1 grows" and "cluster 2 grows").
 3. **Attach the border points.** Each border point joins the cluster of its nearest core point (Figure 6, frame "Step 3"; the dotted lines join each border point to its nearest core point). A border point joins a cluster but never extends it: a point that is within eps of a border point only, and of no core point, is not pulled in.
-4. **Leave the noise.** Noise points join no cluster (Figure 6, frame "Step 4: noise points stay unclustered").
+4. **Leave the noise.** **Noise points** (G-1329) join no cluster (Figure 6, frame "Step 4: noise points stay unclustered").
 
 ![DBSCAN step by step: label points, grow clusters through core points, attach border points, leave noise](images/dbscan_steps.gif){height=48%}
 
@@ -140,7 +140,7 @@ The result is 2 clusters and 2 noise points. Nobody told DBSCAN there were 2 clu
 
 ### 9.1 A six-point example
 
-> **Key point:** With eps = 3 and min_samples = 2, six points give two clusters and one noise point.
+> **Key point:** With eps = 3 and min_samples = 2, six points give two clusters and one **noise point** (G-1329).
 
 scikit-learn calls the two settings `eps` and `min_samples` (MinPts). After `fit`, the attribute `labels_` holds the cluster of every point, and **noise points get the label -1**.
 
@@ -157,7 +157,7 @@ scikit-learn calls the two settings `eps` and `min_samples` (MinPts). After `fit
 > db.core_sample_indices_   # [0, 1, 2, 3, 4]
 > ```
 >
-> `core_sample_indices_` lists which points are core points. scikit-learn's defaults are `eps=0.5` and `min_samples=5`; the right values always depend on the data.
+> `core_sample_indices_` lists which points are **core points** (G-486). scikit-learn's defaults are `eps=0.5` and `min_samples=5`; the right values always depend on the data.
 
 The first three points form cluster 0, the next two cluster 1, and the far-away point (25, 80) is noise (Figure 7, left).
 
@@ -167,7 +167,7 @@ The first three points form cluster 0, the next two cluster 1, and the far-away 
 
 > **Key point:** A larger min_samples turns small groups into noise; a larger eps merges groups.
 
-- **min_samples = 3** (Figure 7, middle): (8, 7) and (8, 8) have only 2 points within eps, so neither is a core point, and neither is near one. Both become noise. Only the first three points remain a cluster.
+- **min_samples = 3** (Figure 7, middle): (8, 7) and (8, 8) have only 2 points within eps, so neither is a **core point** (G-486), and neither is near one. Both become noise. Only the first three points remain a cluster.
 - **eps = 10, min_samples = 3** (Figure 7, right): the bigger circle around (2, 3) reaches (8, 7), 7.2 away. The two groups become one cluster of five points. (25, 80) is still noise.
 
 ### 9.3 Shapes k-means cannot handle
@@ -187,7 +187,7 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 
 > **Key point:** Robust to outliers, no k to choose, any cluster shape, and only two hyperparameters.
 
-- **Robust to outliers:** noise points are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (see [**anomaly detection**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201)).
+- **Robust to outliers:** **noise points** (G-1329) are detected and labelled -1 instead of being forced into a cluster. Labelling noise makes DBSCAN useful for anomaly detection (see [**anomaly detection**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201)).
 - **No k:** DBSCAN finds the number of clusters by itself. In Figure 6 it found 2 without being told.
 - **Any shape:** clusters can be rings, crescents or any other shape, because only density matters.
 - **Few settings:** just two hyperparameters, eps and MinPts.
@@ -205,8 +205,8 @@ DBSCAN does not care about the shape or size of a cluster, only about density.
 Figure 8 shows the same on the two moons of Figure 1, with MinPts fixed at 5 and eps growing from 0.05 to 0.8. Watch the left panel:
 
 - **eps too small (0.05 to 0.1):** few points have 5 neighbours within eps, so the moons break into many small clusters (33 at eps = 0.08) and many points are noise (136).
-- **eps about right (0.2 to 0.5):** the two moons, with at most one noise point.
-- **eps too large (0.6 and above):** the gap between the moons is now shorter than eps, so the chain of core points crosses it and everything becomes one cluster.
+- **eps about right (0.2 to 0.5):** the two moons, with at most one **noise point** (G-1329).
+- **eps too large (0.6 and above):** the gap between the moons is now shorter than eps, so the chain of **core points** (G-486) crosses it and everything becomes one cluster.
 
 ![DBSCAN on the two moons as eps grows from 0.05 to 0.8, MinPts = 5. Left: the clusters found (grey crosses: noise). Right: the number of clusters for every eps tried so far.](images/eps_sweep.gif)
 
@@ -225,7 +225,7 @@ Figure 9 has a tightly packed group on the left and a loosely spread group on th
 
 > **Key point:** DBSCAN only labels the data it was trained on; scikit-learn's `DBSCAN` has no `predict` method.
 
-DBSCAN labels the points it was given and stops. If a new point arrives tomorrow, it cannot say which cluster the point belongs to: we would have to add the point and run the whole algorithm again, because the new point may itself change which points are core points. So scikit-learn offers `fit` and `fit_predict`, but no `predict`.
+DBSCAN labels the points it was given and stops. If a new point arrives tomorrow, it cannot say which cluster the point belongs to: we would have to add the point and run the whole algorithm again, because the new point may itself change which points are **core points** (G-486). So scikit-learn offers `fit` and `fit_predict`, but no `predict`.
 
 ## 12. Choosing eps: the k-distance plot
 
@@ -237,7 +237,7 @@ DBSCAN labels the points it was given and stops. If a new point arrives tomorrow
 > 2. For every point, compute the distance to its MinPts-th nearest point (counting the point itself, as scikit-learn does).
 > 3. Sort these distances and plot them (Figure 10).
 >
-> Points inside clusters have small distances; noise points have large ones. The curve stays low and then shoots up. A value of eps at the bend treats the points with a larger k-distance as noise and puts all others in some cluster (Ester et al. 1996, §4.2). On the standardized moons, the bend is at about 0.2, and any eps from 0.2 to 0.4 gives the two moons exactly.
+> Points inside clusters have small distances; **noise points** (G-1329) have large ones. The curve stays low and then shoots up. A value of eps at the bend treats the points with a larger k-distance as noise and puts all others in some cluster (Ester et al. 1996, §4.2). On the standardized moons, the bend is at about 0.2, and any eps from 0.2 to 0.4 gives the two moons exactly.
 >
 > ```python
 > from sklearn.neighbors import NearestNeighbors
@@ -252,7 +252,7 @@ DBSCAN labels the points it was given and stops. If a new point arrives tomorrow
 
 > **Key point:** The best way to build intuition is to move eps and MinPts and watch the clusters change.
 
-`app.py`, in this Note's folder, is a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Choose a dataset and move the two sliders; the plot shows the clusters, the noise points and their counts.
+`app.py`, in this Note's folder, is a small Dash app. Run `python app.py` and open `http://127.0.0.1:8050`. Choose a dataset and move the two sliders; the plot shows the clusters, the **noise points** (G-1329) and their counts.
 
 <!-- playground: images/dbscan_playground.html -->
 
@@ -275,9 +275,9 @@ Things to try:
 | Predict new points | yes (`predict`) | no | a new point can change which points are core points, so DBSCAN must run again |
 | Settings | k | eps, MinPts (`min_samples`) | small changes in eps or MinPts can change the clustering a lot |
 
-- A core point has at least MinPts points within eps (itself included); a border point has fewer but is within eps of a core point; everything else is noise. So core points make the inside of a cluster, border points its edge, and noise points are the outliers.
-- Points linked by a chain of core points, each step at most eps, are density-connected and share a cluster, so a cluster can take any shape as long as its dense region is unbroken.
-- Algorithm: label points, grow clusters from core points, attach border points, leave noise, so the number of clusters comes out of the data instead of being given.
+- A core point has at least MinPts points within eps (itself included); a border point has fewer but is within eps of a core point; everything else is noise. So core points make the inside of a cluster, border points its edge, and **noise points** (G-1329) are the outliers.
+- Points linked by a chain of **core points** (G-486), each step at most eps, are density-connected and share a cluster, so a cluster can take any shape as long as its dense region is unbroken.
+- Algorithm: label points, grow clusters from core points, attach **border points** (G-323), leave noise, so the number of clusters comes out of the data instead of being given.
 - In scikit-learn: `DBSCAN(eps, min_samples).fit(X).labels_`, with -1 for noise, so outliers are marked instead of being forced into a cluster.
 - Choose eps with care, for example from the bend of the k-distance plot, because too small an eps breaks clusters into pieces and noise, and too large an eps merges them into one.
 - So DBSCAN fixes k-means' three flaws (k in advance, outliers, round shapes), at the price of choosing eps and MinPts well.
@@ -303,17 +303,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Dense region, sparse region (G-584) | An area with many points close together; an area with few points. |
 | DBSCAN (G-548) | A clustering method that groups points lying in crowded (dense) regions and labels lonely points as noise. The name stands for density-based spatial clustering of applications with noise. |
 | Centroid-based clustering (G-368) | Clustering in which each group has a centre point (a centroid) and every point belongs to the group whose centre is nearest, as in k-means. |
 | Density-based clustering (G-588) | Clustering that finds dense regions of points separated by sparse regions. |
-| Dense region, sparse region (G-584) | An area with many points close together; an area with few points. |
 | OPTICS (G-1396) | A density-based clustering algorithm, like DBSCAN: it groups points that lie in dense areas, so clusters can have any shape (Ankerst et al. 1999). |
+| Noise point (G-1329) | In DBSCAN, a point in a sparse area that is neither a core point nor a border point; it is treated as an outlier and labelled -1. |
 | eps (epsilon) (G-697) | The radius of the neighbourhood DBSCAN examines around each point. |
 | eps-neighbourhood (G-698) | All points within distance eps of a point (the circle of radius eps around it); DBSCAN counts the points in it to judge how dense the data is there. |
 | MinPts (min_samples) (G-1231) | The DBSCAN setting for how many points a point's eps-neighbourhood (the circle of radius eps around it) must hold for the region to count as dense, which makes the point a core point. |
 | Core point (G-486) | In DBSCAN, a point with at least MinPts points within distance eps of it; core points form the inside of a cluster and give it its shape. |
 | Border point (G-323) | In DBSCAN, a point with fewer than MinPts points within eps but with a core point among them; it sits on the edge of a cluster and joins its nearest core point's cluster. |
-| Noise point (G-1329) | In DBSCAN, a point in a sparse area that is neither a core point nor a border point; it is treated as an outlier and labelled -1. |
 | Density-connected (G-589) | Two points linked by a chain of core points with every step at most eps, so we can walk from one to the other through the dense region; DBSCAN puts density-connected points in the same cluster. |
 | k-distance plot (G-994) | A plot of every point's distance to its k-th nearest point, sorted from small to large; the bend where it shoots up gives a good eps for DBSCAN. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

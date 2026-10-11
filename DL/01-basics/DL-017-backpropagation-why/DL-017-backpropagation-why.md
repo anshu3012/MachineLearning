@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/calculus, area/dl-basics, area/models-1, area
 
 ## 1. Overview
 
-> **Key point:** The loss of a network is one function of all its weights and biases. Each derivative tells how the loss responds to one parameter, in size and sign. Stepping against it, by a small enough learning rate times its size, walks every parameter downhill until the slope reaches zero.
+> **Key point:** The loss of a network is one function of all its weights and biases. Each **derivative** (G-595) tells how the loss responds to one parameter, in size and sign. Stepping against it, by a small enough learning rate times its size, walks every parameter downhill until the slope reaches zero.
 
 The [steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) and the [backpropagation code](../DL-016-backpropagation-how/DL-016-backpropagation-how.md#4-the-regression-code) showed what backpropagation does and how to code it. All the learning happens in one line, the update
 
@@ -66,7 +66,7 @@ Figure 2 turns each knob on its own: in each panel the horizontal axis is the va
 
 ## 4. What the gradient is
 
-> **Key point:** One derivative per parameter, each with the others held fixed. For our loss that is 9 partial derivatives; together they are the gradient.
+> **Key point:** One **derivative** (G-595) per parameter, each with the others held fixed. For our loss that is 9 partial derivatives; together they are the gradient.
 
 For a function of one variable, such as $y = x^2 + x$, the derivative is $dy/dx = 2x + 1$. For a function of several variables, such as $z = x^2 + y^2$, we take one **partial derivative** per variable, holding the others fixed: $\partial z/\partial x = 2x$ and $\partial z/\partial y = 2y$. The **gradient** collects them all (see [collecting the partial derivatives](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#41-collecting-the-partial-derivatives)).
 
@@ -81,11 +81,11 @@ With many parameters there is no picture of the whole loss surface, but each num
 
 In Figure 3, read the first frame as a list of instructions. All nine bars are negative, so every parameter should rise. The output weights have the longest bars ($-16.89$) and the hidden biases the shortest ($-1.03$): at this point a small change to an output weight changes the loss about 16 times as much as the same change to a hidden bias. Then watch the bars over the epochs: by epoch 10 they are small and positive, and they are all within $\pm 0.1$ after 1,000 epochs. A gradient near zero means no parameter has a direction left that lowers the loss: training has stopped moving, usually at the bottom of a valley (section 9; section 9.1 shows a flat hilltop, where the slope is also zero).
 
-> **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (see [the gradient as an arrow on the contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#42-the-gradient-as-an-arrow-on-the-contour-map)). Gradient descent steps along the opposite arrow, which is where its name comes from.
+> **Extra:** A gradient is more than "a fancy word for a derivative". The gradient is the vector of all partial derivatives, and as an arrow it points in the direction in which the loss rises fastest (see [the gradient as an arrow on the contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#42-the-gradient-as-an-arrow-on-the-contour-map)). **Gradient descent** (G-862) steps along the opposite arrow, which is where its name comes from.
 
 ## 5. What a derivative tells us
 
-> **Key point:** A derivative is a rate of change. Its size says how strongly the loss reacts, and its sign says in which direction.
+> **Key point:** A **derivative** (G-595) is a rate of change. Its size says how strongly the loss reacts, and its sign says in which direction.
 
 A derivative is a **rate of change**: $dy/dx = 2$ means that increasing $x$ by a small amount increases $y$ by twice that amount; $dy/dx = -2$ means $y$ decreases by twice that amount. Both the size and the sign carry information (see [what the sign of the derivative tells us](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#43-what-the-sign-of-the-derivative-tells-us)).
 
@@ -101,7 +101,7 @@ Figure 4 slides the tangent along the loss curve of $W_{11}^{1}$. Watch the slop
 
 > **Key point:** At a minimum every slope is zero. For $z = x^2 + y^2$ we can solve that by hand; for a network's loss we cannot, so we walk downhill instead.
 
-At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial derivatives must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figures 5 and 6).
+At the lowest point of a smooth curve the slope is zero. For $y = x^2$, $dy/dx = 2x = 0$ gives $x = 0$. With two variables, $z = x^2 + y^2$, both partial **derivatives** (G-595) must be zero: $2x = 0$ and $2y = 0$, so the minimum is at $(0, 0)$ (Figures 5 and 6).
 
 The function $z = x^2 + y^2$ gives one height for every pair $(x, y)$:
 
@@ -205,11 +205,11 @@ The algorithm has **converged** (**convergence**, G-469) when the updates stop c
 
 Figure 10 shows convergence on $L(b_{21})$. On the right panel's log scale each gridline down is ten times smaller than the one above (1, 0.1, 0.01, 0.001). Each change is 0.8 times the one before, so on this scale the changes fall on a straight line, from 1.7 at the first update to 0.0003 at the 40th, while $b_{21}$ flattens onto 3.68.
 
-So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the [stopping rules](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop) of gradient descent).
+So the "right" loop is "repeat until convergence". In practice we write a loop over a fixed number of epochs, such as 100 or 1,000, chosen large enough for the loss to settle (the [stopping rules](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop) of **gradient descent** (G-862)).
 
 ### 9.1 Where we end depends on where we start
 
-> **Key point:** A network's loss can have more than one valley. Gradient descent rolls into the valley on whose side it starts, and it cannot move at all from a point where the slope is exactly zero.
+> **Key point:** A network's loss can have more than one valley. **Gradient descent** (G-862) rolls into the valley on whose side it starts, and it cannot move at all from a point where the slope is exactly zero.
 
 The parabola of section 7 has one valley. A network's loss can have several. To see this on our network, tie all six weights to one shared value $a$ and keep the biases at 0. For student 1 each hidden node outputs $8a + 8a = 16a$, so the prediction is
 
@@ -244,11 +244,11 @@ So a slope of zero means "no direction is downhill from here", which is true at 
 | When to stop? | When updates no longer change the parameters; in practice after a fixed number of epochs |
 
 - Writing $\hat{y}$ out shows $L$ as one function of the 9 parameters, so training is a search over those 9 numbers for the lowest loss.
-- We cannot solve "all derivatives = 0" for a network, so we walk downhill.
+- We cannot solve "all **derivatives** (G-595) = 0" for a network, so we walk downhill.
 - The minus sign moves each parameter the right way; the slope's size makes steps shrink near the minimum.
 - On $L(b_{21}) = (3.68 - b_{21})^2$ each update multiplies the distance to the minimum by $1 - 2\eta$, which is why $\eta = 0.1$ converges, $\eta = 1$ zigzags and $\eta = 1.1$ diverges.
 - Each gradient component's sign says which way to move that parameter, and its size says how much that parameter matters right now.
-- A loss can have several valleys; where gradient descent ends depends on where it starts.
+- A loss can have several valleys; where **gradient descent** (G-862) ends depends on where it starts.
 
 So the update line works because it steps every parameter against its own slope, by a step small enough not to overshoot.
 
@@ -270,8 +270,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Converge (G-469) | To settle at a minimum, with steps becoming negligible. |
-| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Tangent line](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#1-overview) (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |

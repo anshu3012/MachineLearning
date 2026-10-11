@@ -16,7 +16,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/probabili
 
 ## 1. Overview
 
-> **Key point:** A probability can be counted from data (empirical) or from the sample space (theoretical); as the number of trials grows, the empirical value settles on the theoretical one.
+> **Key point:** A **probability** (G-1574) can be counted from data (empirical) or from the sample space (theoretical); as the number of trials grows, the empirical value settles on the theoretical one.
 
 ![A fair coin tossed up to 100,000 times in three runs: the share of heads so far (left) and run 1's head and tail counts (right) settle on the theoretical 0.5](images/coin_flips.gif){height=40%}
 
@@ -44,7 +44,7 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 
 ## 3. Empirical probability
 
-> **Key point:** Empirical probability is the share of trials in which the event actually happened: count it, then divide by the number of trials.
+> **Key point:** **Empirical probability** (G-678) is the share of trials in which the event actually happened: count it, then divide by the number of trials.
 
 **Empirical probability** (also called **experimental probability**) is based on observed data rather than on theoretical assumptions. We run the experiment, or look at data from past runs, and count.
 
@@ -54,11 +54,11 @@ Probability is always computed for an event: "getting a head", "rolling a 3", "t
 3. **Example:** a coin tossed 100 times landed heads 55 times and tails 45 times:
    $$P(\text{head}) = \frac{55}{100} = 0.55$$
 
-Empirical probability is the **relative frequency** (G-1664; [a value's count divided by the total](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency)), and the estimated PMF (probability mass function, the probability of each value; [estimating a PMF](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation)), read as the probability of an event.
+Empirical probability is the **relative frequency** (G-1664; [a value's count divided by the total](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#22-relative-frequency)), and the estimated PMF (probability mass function, the **probability** (G-1574) of each value; [estimating a PMF](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation)), read as the probability of an event.
 
 ### 3.1 A bag of marbles
 
-> **Key point:** Each colour's empirical probability is its count divided by the 200 draws, whatever the bag holds.
+> **Key point:** Each colour's **empirical probability** (G-678) is its count divided by the 200 draws, whatever the bag holds.
 
 A bag holds 50 marbles: 20 red, 15 blue and 15 green. We draw one marble, note its colour and put it back (**with replacement**, G-2125), 200 times. Red came up 80 times, blue 70 times and green 50 times.
 
@@ -72,7 +72,7 @@ Only the draws enter the calculation, not the contents of the bag. [Section 4](#
 
 ### 3.2 Titanic passengers
 
-> **Key point:** On a dataset, the empirical probability of a value is its share of the **observations** (records, one row of the data table each).
+> **Key point:** On a dataset, the **empirical probability** (G-678) of a value is its share of the **observations** (records, one row of the data table each).
 
 The Titanic dataset of [drawing a passenger](../MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#33-drawing-a-titanic-passenger) has 891 passengers: 216 in class 1, 184 in class 2 and 491 in class 3. For one passenger drawn at random:
 
@@ -82,7 +82,7 @@ $$P(\text{class 2}) = \frac{184}{891} \approx 0.207$$
 
 $$P(\text{class 3}) = \frac{491}{891} \approx 0.551$$
 
-Here there is no formula to fall back on: the data is all we have, so the empirical probability is the probability. Figure 3 draws the three shares against the "1 out of 3" that a careless count of the sample space would give (the Extra of section 4 explains why that count is wrong).
+Here there is no formula to fall back on: the data is all we have, so the empirical probability is the **probability** (G-1574). Figure 3 draws the three shares against the "1 out of 3" that a careless count of the sample space would give (the Extra of section 4 explains why that count is wrong).
 
 ![The empirical probability of each Titanic class, from 891 passengers, against the wrong "1 out of 3" (dashed).](images/titanic_classes.png){height=34%}
 
@@ -100,7 +100,7 @@ Here there is no formula to fall back on: the data is all we have, so the empiri
 
 ## 4. Theoretical probability
 
-> **Key point:** When every outcome is equally likely, the theoretical probability of an event is its number of outcomes divided by the size of the sample space; no trials are needed.
+> **Key point:** When every outcome is equally likely, the **theoretical probability** (G-1966) of an event is its number of outcomes divided by the size of the sample space; no trials are needed.
 
 **Theoretical probability** (also called **classical probability**) is worked out from the sample space instead of from data. Theoretical probability applies when each outcome in the sample space is **equally likely** (G-702), as with a fair die: a 3 is as likely as a 2, a 4 or any other face.
 
@@ -120,7 +120,7 @@ More events, all by counting:
 | Toss a coin twice | two heads | $\lbrace HH\rbrace$ | 4 | $1/4$ |
 | Toss a coin twice | at least one head | $\lbrace HH, HT, TH\rbrace$ | 4 | $3/4$ |
 
-No trial was run for any of these. The probability comes from the structure of the experiment alone.
+No trial was run for any of these. The **probability** (G-1574) comes from the structure of the experiment alone.
 
 For the marble bag, each of the 50 marbles is equally likely to be drawn, so the theory gives:
 
@@ -161,7 +161,7 @@ A gap of 0.05 is about 1.5 of these standard deviations, well within the usual s
 
 ## 5. From empirical to theoretical
 
-> **Key point:** The more trials we run, the closer the empirical probability gets to the theoretical one; with few trials they can be far apart.
+> **Key point:** The more trials we run, the closer the **empirical probability** (G-678) gets to the theoretical one; with few trials they can be far apart.
 
 The empirical and theoretical probabilities of the same event are rarely equal after a few trials. As the number of trials grows, the empirical value closes in on the theoretical one. This settling is the [**law of large numbers**](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation) (G-1052), met in [estimating a PMF by simulation](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#5-estimating-a-pmf-by-simulation).
 
@@ -203,24 +203,24 @@ A die behaves the same way. In 10 simulated rolls, the face 3 did not appear at 
 
 ### 5.1 Which one to use
 
-> **Key point:** Theoretical probability needs a known sample space of equally likely outcomes; empirical probability needs only data.
+> **Key point:** **Theoretical probability** (G-1966) needs a known sample space of equally likely outcomes; empirical probability needs only data.
 
-- **Theoretical:** when we know the sample space and its outcomes are equally likely (coins, dice, cards). Theoretical probability shows how the event behaves in principle, before any data exists.
+- **Theoretical:** when we know the sample space and its outcomes are **equally likely** (G-702) (coins, dice, cards). Theoretical probability shows how the event behaves in principle, before any data exists.
 - **Empirical:** when the outcomes are not equally likely or the sample space is not fully known, which is the usual case with real data. Statistics and hypothesis testing work with empirical probabilities.
 
 Machine learning models learn from data, and many of their probabilities are counted from it. The class priors of [Naive Bayes](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#3-the-data) (the share of each class), such as 5 wins in 8 matches, are counted from the training observations.
 
 ## 6. The rules every probability follows
 
-> **Key point:** Three rules, the axioms, define every probability; from them follow the complement rule $P(\text{not } A) = 1 - P(A)$ and the addition rule $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
+> **Key point:** Three rules, the axioms, define every **probability** (G-1574); from them follow the complement rule $P(\text{not } A) = 1 - P(A)$ and the addition rule $P(A \cup B) = P(A) + P(B) - P(A \cap B)$.
 
 > **Extra:** This whole section is added material: the basic rules that later Notes use without proof.
 
 ### 6.1 The axioms of probability
 
-> **Key point:** Probabilities are never negative, the whole sample space has probability 1, and the probabilities of events with no shared outcomes add up.
+> **Key point:** Probabilities are never negative, the whole sample space has **probability** (G-1574) 1, and the probabilities of events with no shared outcomes add up.
 
-Every probability, empirical or theoretical, obeys three rules called the **axioms of probability** (G-240). Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (MML §6.1.2); the three below, and the complement and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell (1997, §1.2).
+Every probability, empirical or theoretical, obeys three rules called the **axioms of probability** (G-240). Everything else about probability is derived from them. Modern probability rests on axioms of this kind, due to Kolmogorov (MML §6.1.2); the three below, and the **complement** (G-422) and general addition rules of sections 6.2 and 6.3, are Theorems 1.1 and 1.4 of Grinstead and Snell (1997, §1.2).
 
 1. **Non-negative:** $P(A) \ge 0$ for every event $A$.
 2. **The sure event has probability 1:** $P(S) = 1$.
@@ -244,7 +244,7 @@ Together these give the 0-to-1 scale of Figure 2.
 
 ### 6.2 The complement rule
 
-> **Key point:** The probability that $A$ does not happen is 1 minus the probability that it does.
+> **Key point:** The **probability** (G-1574) that $A$ does not happen is 1 minus the probability that it does.
 
 The **complement** (G-422) of an event $A$, written $A^c$ (or $\bar{A}$, "not $A$"), is the event made of every outcome in the sample space that is not in $A$. On a die, the complement of "odd" $= \lbrace1, 3, 5\rbrace$ is "even" $= \lbrace2, 4, 6\rbrace$.
 
@@ -270,7 +270,7 @@ Take one die, with $A$ = "odd" $= \lbrace1, 3, 5\rbrace$ and $B$ = "greater than
 
 $$P(A) + P(B) = 3/6 + 3/6 = 1$$
 
-Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its probability must be below 1. Two signs name the parts: $A \cup B$ (read: $A$ or $B$) is every outcome in at least one of the two events, and $A \cap B$ (read: $A$ and $B$) is the overlap, the outcomes in both. Here $A \cap B = \lbrace5\rbrace$.
+Yet $A \cup B = \lbrace1, 3, 4, 5, 6\rbrace$ misses 2, so its **probability** (G-1574) must be below 1. Two signs name the parts: $A \cup B$ (read: $A$ or $B$) is every outcome in at least one of the two events, and $A \cap B$ (read: $A$ and $B$) is the overlap, the outcomes in both. Here $A \cap B = \lbrace5\rbrace$.
 
 ![The general addition rule on one die: the overlap $\lbrace5\rbrace$ is counted twice by $P(A) + P(B)$](images/addition.png)
 
@@ -294,7 +294,7 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 | Coin, head | $55/100 = 0.55$ | $1/2$ |
 | Changes with more data? | Yes, settles on the theoretical value | No |
 
-- Use theoretical probability when the sample space is known and its outcomes are equally likely (coins, dice, cards); use empirical probability otherwise, which is the usual case with real data.
+- Use **theoretical probability** (G-1966) when the sample space is known and its outcomes are equally likely (coins, dice, cards); use empirical probability otherwise, which is the usual case with real data.
 
 | Rule | Formula | Die example | Why it matters |
 |---|---|---|---|
@@ -302,9 +302,9 @@ For mutually exclusive events $P(A \cap B) = 0$, and the general rule shrinks ba
 | Addition, mutually exclusive | $P(A \cup B) = P(A) + P(B)$ | $P(1 \text{ or } 2) = 2/6$ | no shared outcome, so nothing is counted twice |
 | Addition, general | $P(A \cup B) = P(A) + P(B) - P(A \cap B)$ | $P(\text{odd or} > 3) = 5/6$ | adding counts the overlap twice, so it is subtracted once |
 
-- A probability lies between 0 (impossible) and 1 (sure), because the axioms allow no negative probability and give the whole sample space probability 1.
-- Theoretical probability fails when the outcomes are not equally likely; then only data can tell.
-- With many trials, the empirical probability approaches the theoretical one; with few, it can be far off, so trust a probability counted from data more when it comes from many trials.
+- A **probability** (G-1574) lies between 0 (impossible) and 1 (sure), because the axioms allow no negative probability and give the whole sample space probability 1.
+- Theoretical probability fails when the outcomes are not **equally likely** (G-702); then only data can tell.
+- With many trials, the **empirical probability** (G-678) approaches the theoretical one; with few, it can be far off, so trust a probability counted from data more when it comes from many trials.
 - Probabilities such as Naive Bayes class priors are estimated empirically, from the training data, because real data rarely has equally likely outcomes.
 
 ## 8. Sources
@@ -325,9 +325,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Probability (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
 | Empirical (experimental) probability (G-678) | The share of trials in which an event happened, counted from data. It estimates the probability when it cannot be worked out from the sample space. |
 | Theoretical (classical) probability (G-1966) | Favourable outcomes divided by all outcomes, for equally likely outcomes. |
-| Probability (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
 | Equally likely outcomes (G-702) | Outcomes that all have the same probability, such as the faces of a fair die. |
 | Favourable outcome (G-758) | An outcome that belongs to the event we are measuring. |
 | Axioms of probability (G-240) | The three rules every probability obeys: non-negative, $P(S) = 1$, mutually exclusive events add. |

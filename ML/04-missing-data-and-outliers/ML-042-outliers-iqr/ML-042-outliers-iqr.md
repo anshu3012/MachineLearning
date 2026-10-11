@@ -16,35 +16,35 @@ tags: [subject/machine-learning, area/data, step/clean, concept/iqr]
 
 ## 1. Overview
 
-> **Key point:** For a skewed feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an outlier; we then trim those rows or cap the values at the fences.
+> **Key point:** For a **skewed** (G-1817) feature, every value beyond the box-plot fences ($Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$) is an **outlier** (G-1420); we then trim those rows or cap the values at the fences.
 
 The [three rules for detecting outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) were listed earlier, and the [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139) put the first one to work on a normal feature. This Note covers the second rule: the [**IQR method**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-972), also called the **IQR proximity rule**. The IQR method is the rule to use when a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) is skewed. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
 1. check that the feature is skewed;
-2. compute the two fences from the quartiles;
-3. treat the values outside them by trimming or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
+2. compute the two fences from the **quartiles** (G-1602);
+3. treat the values outside them by **trimming** (G-2019) or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
 
 ![The IQR method: check the feature is skewed, compute the fences, then trim or cap](images/overview.png){width=100%}
 
 ## 2. The condition: a skewed feature
 
-> **Key point:** The IQR method is meant for a feature that is skewed, not normal.
+> **Key point:** The IQR method is meant for a **feature** (G-772) that is skewed, not normal.
 
 A feature is [**skewed**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) when its values have a long tail on one side (see [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)). The [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) (G-2139) does not fit such a feature, because it assumes a bell shape.
 
-The IQR method makes no such assumption. The IQR method is built only on [**percentiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050): the [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the outliers, and the IQR.
+The **IQR method** (G-972) makes no such assumption. The IQR method is built only on [**percentiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050): the [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the **outliers** (G-1420), and the IQR.
 
 ## 3. The fences
 
-> **Key point:** The lower fence is $Q_1 - 1.5 \times \text{IQR}$ and the upper fence is $Q_3 + 1.5 \times \text{IQR}$; values outside them are outliers.
+> **Key point:** The lower **fence** (G-776) is $Q_1 - 1.5 \times \text{IQR}$ and the upper fence is $Q_3 + 1.5 \times \text{IQR}$; values outside them are **outliers** (G-1420).
 
 ### 3.1 Quartiles and the IQR, by hand
 
 > **Key point:** Sort the values; the median splits them into two halves; $Q_1$ and $Q_3$ are the middles of the halves, and the IQR is the distance between them.
 
-Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050), section 8).
+Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th **percentile** (G-1483)), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050), section 8).
 
 Figure 2 finds them by hand for the exam marks of the first nine students of [Section 5](#5-the-placement-data). Watch each step add one line:
 
@@ -63,7 +63,7 @@ Figure 2 finds them by hand for the exam marks of the first nine students of [Se
    $$38.5 - 14 = 24.5$$
 
 
-The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the fences of [Section 3.2](#32-from-the-iqr-to-the-fences).
+The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its two arms reach to the smallest and the largest mark, 8 and 40, because no mark lies beyond the **fences** (G-776) of [Section 3.2](#32-from-the-iqr-to-the-fences).
 
 ![Quartiles by hand on the marks of nine students: sort, mark the median, take the middle of each half, and draw the box (idea after Khan Academy, "How to calculate interquartile range IQR")](images/quartiles_by_hand.gif)
 
@@ -73,7 +73,7 @@ The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its 
 
 > **Key point:** Step 1.5 IQR out from each side of the box; a value beyond either point is an outlier.
 
-The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) come from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-2050) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
+The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) come from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-2050) (section 8.1). The **IQR method** (G-972) uses exactly those fences as its lower and upper limits. Step by step:
 
 1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
 2. **Formula:**
@@ -95,25 +95,25 @@ A mark below $-23.5$ or above 84.5 is an [**outlier**](../../02-getting-data/ML-
 
 ![The IQR fences built step by step on the 1,000 exam marks: Q1 and Q3, the IQR of 27, arms of 1.5 IQR, then the 15 outliers beyond 84.5](images/fences_build.gif)
 
-The plan for any skewed feature is therefore short:
+The plan for any **skewed** (G-1817) feature is therefore short:
 
 1. compute $Q_1$, $Q_3$ and the IQR;
 2. compute the two fences;
 3. trim or cap every value outside them.
 
-> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of the [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139). The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
+> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of the [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139). The factor 1.5 comes from John Tukey, who introduced the **box plot** (G-329) (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 
-> **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the fence it crossed.
+> **Key point:** Trimming deletes the **outlier** (G-1420) rows; capping replaces each outlier with the fence it crossed.
 
-Both treatments are explained in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers): [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) deletes the rows outside the limits, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) moves each value beyond a limit onto the limit. Here the fences are the limits.
+Both treatments are explained in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers): [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) deletes the rows outside the limits, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) moves each value beyond a limit onto the limit. Here the **fences** (G-776) are the limits.
 
 ## 5. The placement data
 
-> **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (skewness 0.84), so the marks feature is the one for the IQR method.
+> **Key point:** The data has 1,000 students; their placement exam marks are right-skewed (**skewness** (G-1817) 0.84), so the marks feature is the one for the IQR method.
 
-The data is the [placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) of the z-score method: one observation per student of a college, 1,000 students, three columns.
+The data is the [placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) of the z-score method: one **observation** (G-1374) per student of a college, 1,000 students, three columns.
 
 | cgpa | placement_exam_marks | placed |
 |---|---|---|
@@ -126,9 +126,9 @@ The data is the [placement data](../ML-041-outliers-zscore/ML-041-outliers-zscor
 - `placement_exam_marks`: marks out of 100 in the aptitude test held before placement.
 - `placed`: 1 if the student got a job offer, 0 if not; the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output a model would predict.
 
-The [histograms of the placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the IQR method.
+The [histograms of the placement data](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#6-the-placement-data) showed the shapes: `cgpa` is a bell (skewness $-0.01$), while `placement_exam_marks` has a long tail to the right (skewness 0.84). So `placement_exam_marks` is the candidate for the **IQR method** (G-972).
 
-The summary numbers of the marks feature tell the same story:
+The summary numbers of the marks **feature** (G-772) tell the same story:
 
 | Count | Mean | Std | Min | 25% | 50% | 75% | Max |
 |---|---|---|---|---|---|---|---|
@@ -150,14 +150,14 @@ A quarter of the students scored below 17, half below 28 and three quarters belo
 
 ## 6. Finding the fences and the outliers
 
-> **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and fences of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
+> **Key point:** $Q_1 = 17$ and $Q_3 = 44$ give an IQR of 27 and **fences** (G-776) of $-23.5$ and 84.5; 15 students lie above the upper fence and none below the lower one.
 
-Figure 4 shows the box plot of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 ([Section 3](#3-the-fences)).
+Figure 4 shows the **box plot** (G-329) of the marks above their histogram. The box runs from $Q_1 = 17$ to $Q_3 = 44$, so the IQR is 27, and the fences sit at $-23.5$ and 84.5 ([Section 3](#3-the-fences)).
 
 ![The placement exam marks: box plot with Q1, median and Q3, the two fences, and the 15 outliers in red](images/fences.png){width=100%}
 
 - **Upper fence, 84.5:** 15 students scored above it, with marks from 86 to 100. In the box plot they are the red dots on the right.
-- **Lower fence, $-23.5$:** marks cannot be negative, so no student lies below it. With a right-skewed feature, all the outliers sit on the long-tail side.
+- **Lower fence, $-23.5$:** marks cannot be negative, so no student lies below it. With a right-skewed feature, all the **outliers** (G-1420) sit on the long-tail side.
 
 The 15 outliers:
 
@@ -168,7 +168,7 @@ The 15 outliers:
 | 90 | 3 | 162, 324, 730 |
 | 93, 94, 96, 97, 100 | 1 each | 134, 9, 630, 846, 917 |
 
-> **Python:** The quartiles, the IQR and the fences.
+> **Python:** The **quartiles** (G-1602), the IQR and the fences.
 >
 > ```python
 > marks = df["placement_exam_marks"]
@@ -184,13 +184,13 @@ The 15 outliers:
 > df[marks < lower_limit]   # 0 rows
 > ```
 >
-> **`quantile(0.25)`** (G-127) returns the 25th percentile; `quantile` takes the fraction (0.25), not the percent (25).
+> **`quantile(0.25)`** (G-127) returns the 25th **percentile** (G-1483); `quantile` takes the fraction (0.25), not the percent (25).
 
 ## 7. Trimming in code
 
-> **Key point:** Keeping only the rows inside the fences removes the 15 outliers and leaves 985 rows.
+> **Key point:** Keeping only the rows inside the fences removes the 15 **outliers** (G-1420) and leaves 985 rows.
 
-Trimming is a filter: keep the rows whose mark lies between the two fences. Since no mark is below the lower fence, keeping the marks below 84.5 is enough here.
+**Trimming** (G-2019) is a filter: keep the rows whose mark lies between the two fences. Since no mark is below the lower fence, keeping the marks below 84.5 is enough here.
 
 > **Python:** Trimming.
 >
@@ -200,15 +200,15 @@ Trimming is a filter: keep the rows whose mark lies between the two fences. Sinc
 > new_df.shape    # (985, 3)
 > ```
 
-Figure 6 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The box plot loses its row of red dots.
+Figure 6 (middle row) shows the result. The histogram barely changes: only its thin right tail is gone. The **box plot** (G-329) loses its row of red dots.
 
-The mean drops from 32.23 to 31.34 and the skewness from 0.84 to 0.65.
+The mean drops from 32.23 to 31.34 and the **skewness** (G-1817) from 0.84 to 0.65.
 
 ### 7.1 Why a new outlier appears after trimming
 
-> **Key point:** The box plot of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
+> **Key point:** The **box plot** (G-329) of the trimmed data computes new fences from the 985 remaining rows, so a value that was inside before can now be outside.
 
-The trimmed box plot in Figure 6 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its fences from the data it is given.
+The trimmed box plot in Figure 6 still shows one red dot, at a mark of 83. The dot is not a mistake. A box plot always computes its **fences** (G-776) from the data it is given.
 
 For the 985 trimmed rows, $Q_3$ drops from 44 to 43, so the new upper fence is:
 
@@ -216,7 +216,7 @@ $$43 + 1.5 \times (43 - 17) = 82$$
 
 The mark 83, safely inside the old fence of 84.5, is now just outside the new one.
 
-In this Note we detect once, with the fences of the original data, and treat once. (Trimming again here would remove the 83 and then stop: a third round finds nothing. The last cell of the Notebook shows this.)
+In this Note we detect once, with the fences of the original data, and treat once. (**Trimming** (G-2019) again here would remove the 83 and then stop: a third round finds nothing. The last cell of the Notebook shows this.)
 
 ![Detecting again after each trim: the fence moves from 84.5 to 82, catches the 83, and then stays at 82 with nothing outside](images/trim_rounds.png)
 
@@ -226,9 +226,9 @@ In Figure 5, watch the dashed fence step left between rounds 1 and 2 and then st
 
 > **Key point:** Each mark above 84.5 becomes 84.5 (and each mark below $-23.5$ would become $-23.5$); all 1,000 rows stay.
 
-Capping goes through the column value by value, exactly as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code):
+**Capping** (G-345) goes through the column value by value, exactly as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code):
 
-- above the upper fence: replace it with the upper fence;
+- above the upper **fence** (G-776): replace it with the upper fence;
 - below the lower fence: replace it with the lower fence;
 - otherwise: leave it as it is.
 
@@ -261,7 +261,7 @@ The result, compared with the original and the trimmed column:
 | Maximum | 100 | 83 | 84.5 |
 | Skewness | 0.84 | 0.65 | 0.76 |
 
-Figure 6 (bottom row) shows the capped column. The 15 outliers now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
+Figure 6 (bottom row) shows the capped column. The 15 **outliers** (G-1420) now all sit at 84.5, so the histogram rises in that one spot (the orange bar). The box plot has no dots: its whisker ends exactly at the fence.
 
 ![Before and after: the original column, the trimmed column (985 rows) and the capped column (1,000 rows, outliers moved onto 84.5); histograms on the left, box plots on the right, the upper fence dashed](images/before_after.png){width=100%}
 
@@ -273,7 +273,7 @@ Figure 6 (bottom row) shows the capped column. The 15 outliers now all sit at 84
 
 ## 9. Learning the fences on the training set
 
-> **Key point:** The fences are learned from the data, so they should be learned on the training set only and then applied to the test set.
+> **Key point:** The **fences** (G-776) are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
 The fences follow the same train-only rule as the z-score limits: [learn the limits on the training set](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#11-learning-the-limits-on-the-training-set), then apply the same limits to the test set, so no information from the test set leaks into the model.
 
@@ -284,23 +284,23 @@ The fences follow the same train-only rule as the z-score limits: [learn the lim
 > | Training set | 800 | 14: marks 86 to 97 |
 > | Test set | 200 | 1: mark 100 |
 >
-> Quartiles move very little between 800 and 1,000 rows, so here the result is the same. Trimming the training set leaves 786 rows; the Notebook shows both steps.
+> **Quartiles** (G-1602) move very little between 800 and 1,000 rows, so here the result is the same. Trimming the training set leaves 786 rows; the Notebook shows both steps.
 
 ## 10. Strengths and limits of the IQR method
 
-> **Key point:** The method is simple, works on skewed features and is not pulled by the outliers it looks for; it is only a rule of thumb.
+> **Key point:** The method is simple, works on skewed features and is not pulled by the **outliers** (G-1420) it looks for; it is only a rule of thumb.
 
-- **Simple:** two percentiles give both fences.
-- **Shape-free:** it needs no bell shape, so it fits skewed features.
-- **Robust:** the quartiles are not pulled by extreme values ([Section 3.2](#32-from-the-iqr-to-the-fences), Extra).
+- **Simple:** two **percentiles** (G-1483) give both fences.
+- **Shape-free:** it needs no bell shape, so it fits **skewed** (G-1817) features.
+- **Robust:** the **quartiles** (G-1602) are not pulled by extreme values ([Section 3.2](#32-from-the-iqr-to-the-fences), Extra).
 
-To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit chases the typo from 89.6 up to 141.2, while the IQR fence never leaves 84.5.
+To see the robustness, we replace the top mark, 100, by a typo that grows up to 1,000 and recompute both upper limits (Figure 7). Watch the two lines: the z-score limit chases the typo from 89.6 up to 141.2, while the IQR **fence** (G-776) never leaves 84.5.
 
 ![One typed-in extreme value: the z-score upper limit (mean + 3 std) climbs with it, the IQR upper fence stays at 84.5](images/robust_fence.png)
 
 > **Extra:** Two things to keep in mind.
 >
-> - **On a long tail, real values get flagged.** In a strongly skewed feature the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in [when to remove and when to keep outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#4-when-to-remove-and-when-to-keep-outliers), whether those values are errors or real.
+> - **On a long tail, real values get flagged.** In a strongly skewed **feature** (G-772) the far tail can be perfectly genuine (a few very high incomes, a few toppers; here, 15 real exam marks between 86 and 100). The fences flag it all the same. So we still decide, as in [when to remove and when to keep outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#4-when-to-remove-and-when-to-keep-outliers), whether those values are errors or real.
 > - **One side may never be used.** For a right-skewed feature with a natural lower bound, such as marks starting at 0, the lower fence can lie below every possible value, as it does here ($-23.5$). An unused fence is expected, not a bug.
 
 ## 11. Summary
@@ -321,14 +321,14 @@ To see the robustness, we replace the top mark, 100, by a typo that grows up to 
 | Limits | $\mu \pm 3\sigma$ | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ |
 | Pulled by outliers | yes | hardly |
 
-- Pick the method by the shape of the feature: the IQR fences hardly move when one value is extreme (84.5 stays put while the z-score limit climbs), because the quartiles depend only on the middle values.
-- The IQR method is for skewed features; the z-score method is for normal ones, because the z-score limits assume a bell shape and the IQR fences do not.
-- The IQR is $Q_3 - Q_1$, the width of a box plot's box, so it measures the spread of the middle half, which a few extreme values cannot drag out.
-- The fences are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots, so the red dots of a box plot are exactly the outliers this method flags.
+- Pick the method by the shape of the feature: the IQR fences hardly move when one value is extreme (84.5 stays put while the z-score limit climbs), because the **quartiles** (G-1602) depend only on the middle values.
+- The IQR method is for **skewed** (G-1817) features; the z-score method is for normal ones, because the z-score limits assume a bell shape and the IQR fences do not.
+- The IQR is $Q_3 - Q_1$, the width of a **box plot** (G-329)'s box, so it measures the spread of the middle half, which a few extreme values cannot drag out.
+- The **fences** (G-776) are $Q_1 - 1.5\thinspace\text{IQR}$ and $Q_3 + 1.5\thinspace\text{IQR}$: the same limits a box plot uses for its dots, so the red dots of a box plot are exactly the **outliers** (G-1420) this method flags.
 - Values outside the fences are outliers; we trim them (drop the rows) or cap them (set them to the fence, so no row is lost).
 - A box plot of trimmed data computes new fences, so a new dot can appear; we do not trim again, because the new dot comes from the fence moving, not from a new extreme value.
 - The fences should be learned on the training set only, so no information from the test set leaks into the model.
-- Together these steps answer the opening question: on a skewed feature, flag every value beyond the box-plot fences, then trim or cap it.
+- Together these steps answer the opening question: on a skewed **feature** (G-772), flag every value beyond the box-plot fences, then trim or cap it.
 
 
 ## 12. Sources
@@ -350,21 +350,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | `quantile` (G-127) | pandas method that returns a percentile, given as a fraction (0.25 for the 25th). |
+| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Z-score method](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2139) | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. |
 | [IQR method (IQR rule, IQR proximity rule)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-972) | Outlier detection that flags values beyond 1.5 IQR outside the box ($Q_1$ to $Q_3$); for skewed columns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |
+| [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
 | [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
 | [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
 | [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
-| [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
+| [Fence (fences)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
 | [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
 | [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
 | [Linear interpolation](../../../ML/04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#22-from-percentiles-to-limits) (G-1092) | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. |
-| [Fence (fences)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
-| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
-| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
 | [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [`np.where`](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |

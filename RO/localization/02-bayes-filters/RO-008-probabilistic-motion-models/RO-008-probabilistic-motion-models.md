@@ -5,7 +5,7 @@ tags: [subject/robotics, area/localization, concept/motion-model, concept/odomet
 
 ## 1. Overview
 
-> **Key point:** A command or an odometry reading does not fix where the robot ends up; it fixes a probability distribution over likely end poses. A probabilistic motion model describes that distribution, so that a filter can both score any end pose and draw likely end poses at random.
+> **Key point:** A command or an odometry reading does not fix where the robot ends up; it fixes a probability distribution over likely end poses. A probabilistic **motion model** (G-2319) describes that distribution, so that a filter can both score any end pose and draw likely end poses at random.
 
 ![The robot at (2, 1) facing 30 degrees drives 0.5 m/s while turning 1 rad/s for 1 s. The kinematic model predicts one end pose, (2.249, 1.409); 300 sampled end poses form a cloud around it, each with a slightly different heading](images/drive_cloud.png)
 
@@ -14,10 +14,10 @@ So far the robot can predict where a command takes it, with the [kinematic model
 This Note adds the models that say how far off the robot ends, and in which directions:
 
 - motion as a probability distribution over end poses, and why its value is a density ([Section 2](#2-motion-as-a-distribution));
-- wheel odometry: how wheel encoders measure the motion, and why it drifts ([Section 3](#3-wheel-odometry-measuring-the-motion));
-- the odometry motion model: turn, drive, turn, each with its own noise ([Section 4](#4-the-odometry-motion-model));
+- wheel odometry: how **wheel encoders** (G-2320) measure the motion, and why it drifts ([Section 3](#3-wheel-odometry-measuring-the-motion));
+- the **odometry motion model** (G-2323): turn, drive, turn, each with its own noise ([Section 4](#4-the-odometry-motion-model));
 - drawing random end poses from a motion model ([Section 5](#5-drawing-sample-poses));
-- the velocity motion model, for when only the commanded speeds are known ([Section 6](#6-the-velocity-motion-model));
+- the **velocity motion model** (G-2324), for when only the commanded speeds are known ([Section 6](#6-the-velocity-motion-model));
 - using a map to rule out end poses inside walls ([Section 7](#7-ruling-out-poses-inside-walls)).
 
 ## 2. Motion as a distribution
@@ -33,7 +33,7 @@ Why does the robot of Figure 1 end a little off, and a different amount off ever
 - a bump, such as a cable on the floor, makes a wheel skip part of a turn;
 - the two wheels differ slightly in diameter, or a load presses one side harder, so the robot drifts to one side.
 
-The last two are listed for wheeled robots in the Freiburg slides on motion models. Their effects add up from move to move: a robot that counts only its own moves through a maze slowly drifts away from its true path, the [dead reckoning](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311) drift of the previous Note. So no rule can give the one end pose; what we can give is how likely each end pose is.
+The last two are listed for wheeled robots in the Freiburg slides on **motion models** (G-2319). Their effects add up from move to move: a robot that counts only its own moves through a maze slowly drifts away from its true path, the [dead reckoning](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311) drift of the previous Note. So no rule can give the one end pose; what we can give is how likely each end pose is.
 
 ### 2.2 The motion model and its density
 
@@ -75,7 +75,7 @@ A filter uses a motion model in two ways, and this Note builds both:
 
 ### 3.1 From encoder ticks to a new pose
 
-The motion model needs a control $u_t$, the command or an odometry reading. To see how far off a move went, the robot can measure what its wheels really did instead of trusting the command. A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned (Figure 3).
+The **motion model** (G-2319) needs a control $u_t$, the command or an odometry reading. To see how far off a move went, the robot can measure what its wheels really did instead of trusting the command. A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned (Figure 3).
 
 ![Left: an optical encoder, a slotted disc on the wheel shaft between a light and a sensor; each passing slot gives one tick. Right: the three steps of wheel odometry with the Note's numbers: 191 and 127 ticks give wheel distances 60.0 mm and 39.9 mm, which give a forward move of 49.95 mm and a turn of 0.1005 rad, which move the pose from (2, 1, 0.5236) to (2.0433, 1.0250, 0.6241)](images/encoder.png)
 
@@ -113,7 +113,7 @@ The step repeats every 0.1 s, each one starting from the last result. The tick c
 
 ### 3.2 Why odometry drifts, and why it needs calibration
 
-Wheel odometry adds a small increment to its previous estimate again and again, so every small error stays in the sum and the estimate drifts. The errors are of two kinds:
+**Wheel odometry** (G-2321) adds a small increment to its previous estimate again and again, so every small error stays in the sum and the estimate drifts. The errors are of two kinds:
 
 - **Random errors**, different every time: wheel slip, bumps, the step-by-step approximation. When a wheel slips, the encoder still counts ticks but the robot does not move as far.
 - **Systematic errors**, the same every time: the model's wheel radius or wheel separation is slightly wrong. No two real robots are identical, even when built to the same drawing.
@@ -132,7 +132,7 @@ The true robot ends at (9.64 m, 2.46 m), 2.49 m from where odometry puts it. Fin
 
 ### 4.1 Odometry or commands: which data to use
 
-Now the cloud of Figure 1 itself: which end poses around (2.249, 1.409) are likely, and which are not? There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own motion model: the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of [Section 6](#6-the-velocity-motion-model) (Freiburg slides):
+Now the cloud of Figure 1 itself: which end poses around (2.249, 1.409) are likely, and which are not? There are two common choices for the control $u_t$ of a wheeled robot, and each gives its own **motion model** (G-2319): the **odometry motion model** (G-2323), built in this section, and the **velocity motion model** (G-2324) of [Section 6](#6-the-velocity-motion-model) (Freiburg slides):
 
 | | Odometry model | Velocity model |
 |---|---|---|
@@ -183,7 +183,7 @@ $$= 0.500 \text{ rad}$$
 
 ### 4.3 Noise on each of the three parts
 
-The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. [Section 5.2](#52-sampling-the-odometry-model) shows the shapes this gives. Each noise has a standard deviation that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
+The true motion is odometry's motion plus noise. We could put one Gaussian around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. [Section 5.2](#52-sampling-the-odometry-model) shows the shapes this gives. Each noise has a **standard deviation** (G-1870) that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
 
 $$\sigma_{\text{rot1}} = \alpha_1 \lvert\delta_{\text{rot1}}\rvert + \alpha_2\thinspace\delta_{\text{trans}}$$
 
@@ -217,7 +217,7 @@ So the first turn is 0.500 rad give or take about 0.1 rad (6°), and the drive 0
 The question a grid filter asks: how likely is it that the robot, starting at (2, 1, 0.524), really ended at the pose (2.27, 1.38, 1.50)? The odometry model answers in three steps (Freiburg slides, `motion_model_odometry`):
 
 1. Work out the turn, drive and turn that would take the start pose to this pose, with the formulas of [Section 4.2](#42-turn-drive-turn). We mark them with hats; for this pose they are $\hat\delta_{\text{rot1}} = 0.429$, $\hat\delta_{\text{trans}} = 0.466$ and $\hat\delta_{\text{rot2}} = 0.547$.
-2. Compare each with what odometry reported, using the normal density with the standard deviations of [Section 4.3](#43-noise-on-each-of-the-three-parts).
+2. Compare each with what odometry reported, using the normal density with the **standard deviations** (G-1870) of [Section 4.3](#43-noise-on-each-of-the-three-parts).
 3. Multiply the three densities, because the three noises are taken as [independent](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934).
 
 The three comparisons:
@@ -242,7 +242,7 @@ Scoring every pose on a fine grid around the start and shading each by its densi
 
 ## 5. Drawing sample poses
 
-> **Key point:** Particle filters need random end poses that follow the motion model. We get them by drawing a random noise for each of the three parts and driving turn, drive, turn.
+> **Key point:** Particle filters need random end poses that follow the **motion model** (G-2319). We get them by drawing a random noise for each of the three parts and driving turn, drive, turn.
 
 ### 5.1 Why sample instead of scoring
 
@@ -295,11 +295,11 @@ Figure 6 draws 500 such samples for three noise settings. With the Note's noise 
 
 ## 6. The velocity motion model
 
-> **Key point:** When only the commanded speeds are known, the robot is taken to drive an arc of a circle. Noise on the commanded linear and angular velocity, plus an extra noise on the final heading, gives the distribution of end poses.
+> **Key point:** When only the commanded speeds are known, the robot is taken to drive an arc of a circle. Noise on the commanded linear and **angular velocity** (G-2292), plus an extra noise on the final heading, gives the distribution of end poses.
 
 ### 6.1 The exact arc from the commanded speeds
 
-A robot without encoders knows only the command of Figure 1. The velocity model takes the control to be the commanded linear velocity $v$ (how fast the robot drives forward) and angular velocity $\omega$ (how fast its heading turns) (Freiburg slides):
+A robot without encoders knows only the command of Figure 1. The velocity model takes the control to be the commanded **linear velocity** (G-2291) $v$ (how fast the robot drives forward) and **angular velocity** (G-2292) $\omega$ (how fast its heading turns) (Freiburg slides):
 
 $$u_t = (v,\ \omega) = (0.5 \text{ m/s},\ 1 \text{ rad/s})$$
 
@@ -353,7 +353,7 @@ $$\hat v = v + \text{sample}(\alpha_1 \lvert v\rvert + \alpha_2 \lvert\omega\rve
 
 $$\hat\omega = \omega + \text{sample}(\alpha_3 \lvert v\rvert + \alpha_4 \lvert\omega\rvert)$$
 
-where $\text{sample}(b)$ draws normal noise with standard deviation $b$. With $\alpha_1 = 0.1$, $\alpha_2 = 0.02$, $\alpha_3 = 0.1$ and $\alpha_4 = 0.1$, the linear velocity varies by about 0.07 m/s and the angular velocity by about 0.15 rad/s.
+where $\text{sample}(b)$ draws normal noise with **standard deviation** (G-1870) $b$. With $\alpha_1 = 0.1$, $\alpha_2 = 0.02$, $\alpha_3 = 0.1$ and $\alpha_4 = 0.1$, the **linear velocity** (G-2291) varies by about 0.07 m/s and the angular velocity by about 0.15 rad/s.
 
 These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 8, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, $\hat\gamma$, a small extra turn at the end (Freiburg slides):
 
@@ -387,7 +387,7 @@ A faster, gentler drive: the sample ends 4.4 cm further right and 2.2 cm higher 
 
 ## 7. Ruling out poses inside walls
 
-> **Key point:** A map tells the robot where it cannot be. For small steps we multiply the motion model by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
+> **Key point:** A map tells the robot where it cannot be. For small steps we multiply the **motion model** (G-2319) by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
 
 The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 9, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
 
@@ -402,11 +402,11 @@ $$\approx \eta\thinspace p(x_t \mid u_t, x_{t-1})\thinspace\pi(x_t)$$
 - $\pi(x_t)$ is 1 if the pose $x_t$ is free in the map and 0 if it is inside an obstacle;
 - $\eta$ is a number that rescales the result so that it adds up to 1 again.
 
-This is the **map-consistent motion model** (G-2329). When sampling, it becomes a simple rule: draw a sample with the motion model; if it lies inside an obstacle, throw it away and draw again. Keeping only the draws that pass a test, and drawing again otherwise, is **rejection sampling** (G-2330) (Freiburg slides).
+This is the **map-consistent motion model** (G-2329). When **sampling** (G-2326), it becomes a simple rule: draw a sample with the motion model; if it lies inside an obstacle, throw it away and draw again. Keeping only the draws that pass a test, and drawing again otherwise, is **rejection sampling** (G-2330) (Freiburg slides).
 
 ![Left: one big step of 0.48 m; of 500 samples, 95 land inside a wall and are rejected, but 14 land beyond the wall in free space and are kept, though the robot could not have driven through the wall. Right: the same motion in twenty small steps, rejecting and redrawing at each step: no sample gets beyond the wall](images/map_reject.png)
 
-The approximation checks only where a sample ends, not the path to it. That is why it needs small steps. In Figure 9, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the final cloud has the same standard deviation, and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter.
+The approximation checks only where a sample ends, not the path to it. That is why it needs small steps. In Figure 9, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the final cloud has the same **standard deviation** (G-1870), and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter.
 
 ## 8. Summary
 
@@ -416,11 +416,11 @@ The approximation checks only where a sample ends, not the path to it. That is w
 | Velocity model | commanded $v$, $\omega$ for $\Delta t$ | $v$, $\omega$ and an extra end turn $\gamma$ | no encoders, or predicting before the move (planning) |
 | Map-consistent model | either of the above, plus a map | as above; poses inside obstacles get 0 | a map is known and steps are small |
 
-- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a motion model $p(x_t \mid u_t, x_{t-1})$ describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
-- Wheel odometry turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
-- The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one Gaussian on the end pose; its standard deviations grow with the motion, because bigger motions slip more.
+- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a **motion model** (G-2319) $p(x_t \mid u_t, x_{t-1})$ describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
+- **Wheel odometry** (G-2321) turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
+- The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one Gaussian on the end pose; its **standard deviations** (G-1870) grow with the motion, because bigger motions slip more.
 - Scoring a pose multiplies three normal densities (76.7 for a close pose, $8.7 \times 10^{-7}$ for a far one), so filters can compare poses on a grid.
-- Sampling draws noisy turn, drive, turn and moves the robot.
+- **Sampling** (G-2326) draws noisy turn, drive, turn and moves the robot.
 - Rotation noise bends the cloud into a banana, because a wrong turn sends the robot the same distance in a wrong direction; with no readings the cloud keeps growing.
 - The velocity model drives an exact arc about the ICC, $R = v/\omega$ to the robot's left; it needs a third noise $\gamma$, because two noisy speeds alone tie the end heading to the end position.
 - A map rules out poses inside obstacles by rejecting samples there, which is safe only for small steps, because the check looks at where a sample ends, not at the path to it.
@@ -450,10 +450,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Motion model $p(x_t \mid u_t, x_{t-1})$ (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
 | Wheel encoder (G-2320) | A sensor that counts how far a wheel turns, for example a slotted disc on the shaft that gives one tick per slot passing a light sensor; its counts are the raw data of wheel odometry. |
-| Wheel odometry (G-2321) | Working out a robot's pose by adding up the wheel motion its encoders measure: ticks to wheel distances, to the robot's move and turn, to a new pose; accurate over short distances but it drifts, because every error stays in the sum. |
-| Odometry calibration (G-2322) | Measuring one robot's real wheel radii and wheel separation, for example by driving known paths, so that odometry has no systematic error; a 1 percent radius error alone puts a robot 2.49 m off after 10 m. |
 | Odometry motion model (G-2323) | A motion model that splits the pose change reported by odometry into a first turn, a straight drive and a second turn, and adds independent noise to each, with a standard deviation that grows with the motion; used when wheel encoders exist. |
 | Velocity motion model (G-2324) | A motion model that takes the commanded linear velocity $v$ and angular velocity $\omega$, moves the robot along the exact arc about the ICC that they give, and adds noise to both speeds plus an extra final turn; used without encoders or to predict before a move. |
+| Wheel odometry (G-2321) | Working out a robot's pose by adding up the wheel motion its encoders measure: ticks to wheel distances, to the robot's move and turn, to a new pose; accurate over short distances but it drifts, because every error stays in the sum. |
+| Odometry calibration (G-2322) | Measuring one robot's real wheel radii and wheel separation, for example by driving known paths, so that odometry has no systematic error; a 1 percent radius error alone puts a robot 2.49 m off after 10 m. |
 | atan2 (G-2325) | A function atan2(rise, run) that returns the direction of a line over the full circle from its rise and run given separately; needed because the plain inverse tangent of the ratio cannot tell opposite directions apart. |
 | Banana-shaped distribution (G-2328) | The curved cloud of end positions a motion model gives when turning noise is large: a wrong first turn sends the robot the right distance in a wrong direction, so the positions spread along an arc around the start. |
 | Sampling (from a distribution) (G-2326) | Drawing random values so that, over many draws, each value comes up as often as a given distribution says; it turns a motion model into a cloud of possible poses for particle filters. |

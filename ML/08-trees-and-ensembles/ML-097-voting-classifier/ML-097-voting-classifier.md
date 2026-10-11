@@ -16,16 +16,16 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 ## 1. Overview
 
-> **Key point:** A voting classifier combines several classifiers trained on the same data. Hard voting counts their predicted labels; soft voting averages their predicted probabilities. Weights let some models count more.
+> **Key point:** A voting classifier combines several classifiers trained on the same data. **Hard voting** (G-878) counts their predicted labels; soft voting averages their predicted probabilities. Weights let some models count more.
 
 In voting, several models answer the same question and the most common answer wins ([the core idea](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#2-the-core-idea); the probability behind it is in [why voting works](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability)). This Note applies voting to classification:
 
-- a demo of decision surfaces, showing what voting does to the decision boundary (section 2);
+- a demo of decision surfaces, showing what voting does to the **decision boundary** (G-555) (section 2);
 - the two kinds of voting, **hard** and **soft**, and how they differ (section 3);
 - scikit-learn's `VotingClassifier` on a real dataset, with its `weights` hyperparameter (section 4);
 - voting over one algorithm with different settings (section 5).
 
-The Notebook (`ML-097-voting-classifier.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every decision surface.
+The Notebook (`ML-097-voting-classifier.ipynb`) runs every experiment. The Dash app `app.py` lets us pick a dataset, base models and the voting type, and redraws every **decision surface** (G-560).
 
 <!-- playground: images/voting_playground.html -->
 
@@ -42,7 +42,7 @@ A **decision surface** (G-560; the feature plane coloured by the class a model p
 
 The app trains the chosen models and the voting classifier on 80% of the **observations** (the points, one row of the table each) and reports accuracy on the other 20%.
 
-On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression (a model with a straight boundary) and Gaussian naive Bayes (a model that assumes each feature is bell-shaped within a class), using hard voting:
+On the concentric-circles data, one class forms rings around the other, so no straight line separates them. With logistic regression (a model with a straight boundary) and Gaussian naive Bayes (a model that assumes each feature is bell-shaped within a class), using **hard voting** (G-878):
 
 | Base models | Each model's test accuracy | Voting classifier (G-2095) |
 |---|---|---|
@@ -65,7 +65,7 @@ In such a case we drop the weak members, or switch to soft voting, below, which 
 
 ## 3. Hard voting and soft voting
 
-> **Key point:** Hard voting takes the most common predicted label. Soft voting averages the predicted probabilities of each class and picks the highest average.
+> **Key point:** **Hard voting** (G-878) takes the most common predicted label. Soft voting averages the predicted probabilities of each class and picks the highest average.
 
 Almost every classification algorithm can give its answer as probabilities: for example, class 0 with probability 0.6 and class 1 with probability 0.4. The predicted label is the class with the highest probability.
 
@@ -105,7 +105,7 @@ The same works for more classes. Five classifiers on a three-class problem give 
 | C5 | 25 | 55 | 20 |
 | **Average** | **35** | **51.6** | **13.4** |
 
-Class 2 has the highest average, so soft voting predicts **class 2**. Hard voting agrees here: four of the five classifiers pick class 2.
+Class 2 has the highest average, so soft voting predicts **class 2**. **Hard voting** (G-878) agrees here: four of the five classifiers pick class 2.
 
 ### 3.3 When the two disagree
 
@@ -113,7 +113,7 @@ Class 2 has the highest average, so soft voting predicts **class 2**. Hard votin
 
 ![Hard and soft voting reach different answers when one model is very sure and the others are not](images/hard_vs_soft.png){height=30%}
 
-In the examples above both kinds of voting agree. Figure 2 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). Hard voting counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
+In the examples above both kinds of voting agree. Figure 2 shows a case where they do not. M1 is very sure of class 0 (0.9); M2 and M3 lean only slightly to class 1 (0.6 and 0.55). **Hard voting** (G-878) counts two votes for class 1 and answers **1**. Soft voting averages 0.583 for class 0 against 0.417 for class 1 and answers **0**.
 
 ### 3.4 Which one to use
 
@@ -135,7 +135,7 @@ Figure 3 replays the count for three of those 30 test points. Watch the two weak
 
 ![Decision surfaces on the concentric-circles data: three base models, then hard and soft voting. Titles give test accuracy](images/hard_soft_surfaces.png){height=58%}
 
-Soft voting also tends to give a smoother decision surface, and that smoothing is sometimes why it does better. Soft voting does not always win, though: on the hard iris problem in section 4.3, soft voting does slightly worse than hard (0.64 against 0.67). The voting type is a hyperparameter like any other, so we try both and keep the better.
+Soft voting also tends to give a smoother **decision surface** (G-560), and that smoothing is sometimes why it does better. Soft voting does not always win, though: on the hard iris problem in section 4.3, soft voting does slightly worse than hard (0.64 against 0.67). The voting type is a hyperparameter like any other, so we try both and keep the better.
 
 > **Extra:** Soft voting needs every base model to give probabilities, through a `predict_proba` method. Most classifiers have one. An SVM does not by default: older code wrote `SVC(probability=True)`, which is deprecated in scikit-learn 1.9 and due to be removed in 1.11. The current way is to wrap the SVM: `CalibratedClassifierCV(SVC(), ensemble=False)` (scikit-learn 1.9 deprecation message for `SVC`).
 
@@ -179,7 +179,7 @@ Each score is 10-fold cross-validation (see [cross-validation with a pipeline](.
 
 ### 4.2 Hard and soft voting
 
-> **Key point:** Hard voting 0.834, soft voting 0.841: both beat every base model.
+> **Key point:** **Hard voting** (G-878) 0.834, soft voting 0.841: both beat every base model.
 
 > **Python:** The voting classifier.
 >
@@ -209,7 +209,7 @@ Both votes beat the best single model. The gain is about one to two points: the 
 
 > **Key point:** `weights` gives each model's vote a different importance. With members this close, the best weights (3, 3, 2) add almost nothing: 0.844 against 0.841.
 
-By default every model's vote counts the same, as in a democracy. The `weights` (G-2120) hyperparameter changes that: `weights=[5, 1]` makes the first model's vote count five times as much as the second's. In hard voting it multiplies the votes; in soft voting it gives a weighted average of the probabilities.
+By default every model's vote counts the same, as in a democracy. The `weights` (G-2120) hyperparameter changes that: `weights=[5, 1]` makes the first model's vote count five times as much as the second's. In **hard voting** (G-878) it multiplies the votes; in soft voting it gives a weighted average of the probabilities.
 
 1. **In words:** each model's probability is multiplied by its weight, and the sum is divided by the total weight.
 2. **Formula:** with weights $w_1, \dots, w_n$,
@@ -313,13 +313,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Voting classifier (G-2095) | A classifier that combines several trained classifiers by voting. |
 | Hard voting (G-878) | Predicting the label that most base models predict. |
+| Voting classifier (G-2095) | A classifier that combines several trained classifiers by voting. |
 | Soft voting (G-1828) | Predicting the class with the highest average predicted probability across the base models. |
 | weights (G-2120) | VotingClassifier and VotingRegressor setting that gives each base model's vote a different importance. |
 | CalibratedClassifierCV (G-340) | scikit-learn wrapper that makes a classifier with no probabilities by default, such as an SVM, give calibrated probabilities. |
-| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Decision surface](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#51-what-it-shows) (G-560) | A plot colouring every point of the input space by the class the model would predict there. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

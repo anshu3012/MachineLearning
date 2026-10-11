@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/bagging]
 
 ## 1. Overview
 
-> **Key point:** Bagging trains many copies of one algorithm, each on a different random sample of the observations (bootstrapping), and combines their predictions by vote or mean (aggregation). Bagging keeps the low bias of a flexible model and cuts its variance.
+> **Key point:** Bagging trains many copies of one algorithm, each on a different random sample of the observations (bootstrapping), and combines their predictions by vote or mean (aggregation). Bagging keeps the low bias of a flexible model and cuts its **variance** (G-2073).
 
 **Bagging**, short for **bootstrap aggregation**, is one of the two most important ensemble techniques, with boosting (see [the four types of ensemble](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging)). The name joins its two steps: **B**ootstrapping and **AGG**regation.
 
@@ -121,7 +121,7 @@ The method works for any statistic, not only the mean: in step 2 we could calcul
 
 ## 3. Why bagging works
 
-> **Key point:** Bagging takes low-bias, high-variance models, such as fully grown trees, and averages away much of their variance, leaving a model with low bias and low variance.
+> **Key point:** Bagging takes low-bias, high-variance models, such as fully grown trees, and averages away much of their **variance** (G-2073), leaving a model with low bias and low variance.
 
 ### 3.1 The bias-variance problem
 
@@ -140,11 +140,11 @@ Bagging uses base models that are **low bias, high variance**:
 - a **fully grown decision tree** (`max_depth=None`, see [**max_depth**](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#43-max_depth) (G-1184)), which fits its training data perfectly but overfits;
 - other **unstable** models, whose fit changes a lot when the data changes a little: Breiman (1996, section 1) found trees and neural networks unstable, and nearest-neighbour methods stable.
 
-Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the variance (ESL §8.7, §15.2; Breiman, 1996, section 4).
+Their bias is already low, and averaging leaves it about where it was; what averaging cuts is the **variance** (G-2073) (ESL §8.7, §15.2; Breiman, 1996, section 4).
 
 Suppose we replace 100 of the 10,000 observations with very different, noisy ones. A single tree trained on all the data would change its logic completely because of those 100 observations. In bagging, each tree sees its own random 1,000 observations, so the 100 new ones are spread out: one tree gets 12 of them, another 5, another none, another 9.
 
-No single tree absorbs all the change, so the behaviour of each tree changes less, and the average changes even less. The ensemble gives consistent results: **low variance**. Since its base models were already accurate (low bias), we end up with the combination we wanted: **low bias, low variance**.
+No single tree absorbs all the change, so the behaviour of each tree changes less, and the average changes even less. The ensemble gives consistent results: **low variance**. Since its base models were already accurate (low **bias** (G-287)), we end up with the combination we wanted: **low bias, low variance**.
 
 ![The same experiment repeated on 20 different training sets: (a) a single fully grown tree, (b) bagging with 100 trees. The spread of the orange curves is the variance](images/variance.png){height=45%}
 
@@ -157,9 +157,9 @@ The squared bias stays tiny in both (0.009 and 0.004): both average curves follo
 
 ## 4. When to use bagging
 
-> **Key point:** Whenever the model is low bias and high variance (it overfits), try bagging; it is not limited to decision trees.
+> **Key point:** Whenever the model is low bias and high **variance** (G-2073) (it overfits), try bagging; it is not limited to decision trees.
 
-Bagging is worth trying whenever a model overfits: low bias, high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) so popular.
+Bagging is worth trying whenever a model overfits: low **bias** (G-287), high variance. Breiman (1996, section 1) calls such models **unstable**: a small change in the training data causes a large change in the model. Bagging helps unstable models and can slightly hurt stable ones, such as nearest-neighbour methods (Breiman, 1996, sections 1 and 6.3). Bagging is also what makes **random forests** (bagging with decision trees, see [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works)) so popular.
 
 Figure 5 measures the difference on the setup of Figure 4: the same 20 training sets, once with a fully grown tree (unstable) and once with a **5-nearest-neighbour** model (G-998), which averages the 5 closest training points and is stable.
 
@@ -287,9 +287,9 @@ All four aim at the same thing: give each base model different data, so the mode
 - Bagging = bootstrapping (each model trains on random observations) + aggregation (mode or mean of the predictions), because each bootstrap sample stands in for one fresh dataset, so each model is "what we would have learned from another dataset".
 - All base models use the same algorithm; the variety comes from the data, so the voting argument still applies without mixing algorithms.
 - A bootstrap sample holds about 63.2% of the distinct observations; the rest are out-of-bag, because drawing with replacement repeats some observations and misses others; those unseen observations can later score each model.
-- Bagging keeps the low bias of a flexible model and cuts its variance: 0.160 to 0.076 in Figure 4, because a change in the data is spread across many models, so no single change can swing the average.
+- Bagging keeps the low bias of a flexible model and cuts its **variance** (G-2073): 0.160 to 0.076 in Figure 4, because a change in the data is spread across many models, so no single change can swing the average.
 - Use it whenever a model overfits (an unstable model); decision trees are the usual choice, because they are unstable and so gain the most (a 52 percent cut against 24 percent for 5-nearest neighbours), but any unstable algorithm can be bagged.
-- So bagging gives what a single model rarely can: low bias and low variance together.
+- So bagging gives what a single model rarely can: low **bias** (G-287) and low variance together.
 
 ## 8. Sources
 
@@ -318,10 +318,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | High bias, low variance algorithm (G-895) | An algorithm too simple to fit the training data well but stable across samples, such as linear regression; it underfits. |
 | Low bias, high variance algorithm (G-1132) | An algorithm that fits its training data very well but changes a lot with the data, such as a fully grown tree; it overfits. |
 | With replacement (G-2125) | Sampling in which each drawn item is put back, so it can be drawn again. |
+| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Bagging regressor](../../../ML/08-trees-and-ensembles/ML-101-bagging-regressor/ML-101-bagging-regressor.md#1-overview) (G-252) | A bagging ensemble of regressors that predicts the mean of their predictions. |
 | [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
-| [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [max_depth](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#2-overfitting-and-underfitting-in-a-tree) (G-1184) | The cap on a tree's depth; None lets it grow until every leaf is pure. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

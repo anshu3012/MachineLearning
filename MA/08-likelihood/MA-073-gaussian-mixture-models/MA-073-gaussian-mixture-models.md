@@ -16,7 +16,7 @@ tags: [subject/maths, area/likelihood, step/foundations, step/model, concept/gmm
 
 ## 1. Overview
 
-> **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model (a Gaussian is another name for the normal distribution, the bell curve) uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
+> **Key point:** Some data comes in two or more overlapping groups, and one bell curve cannot fit it. A Gaussian mixture model (a Gaussian is another name for the **normal distribution** (G-1343), the bell curve) uses one bell curve per group and shares every point among the curves: a point can be 73 percent curve A and 27 percent curve B. That share is the point's responsibility.
 
 The Note starts from data we can see, shares six points between two curves by hand, and only then writes the formulas. The textbook is *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020; MML below), Chapter 11, Sections 11.1 and 11.2, with the generative view and the responsibilities as posteriors from Sections 11.4.1 to 11.4.3.
 
@@ -30,7 +30,7 @@ This Note covers:
 - how mixture data is generated ([Section 5](#5-generating-data-in-two-steps));
 - the mixture density formula ([Section 6](#6-the-mixture-density));
 - mixtures in two dimensions ([Section 7](#7-mixtures-in-two-dimensions));
-- the responsibility formula, from Bayes' theorem ([Section 8](#8-responsibilities));
+- the **responsibility** (G-1687) formula, from Bayes' theorem ([Section 8](#8-responsibilities));
 - why maximum likelihood has no closed form here ([Section 9](#9-why-maximum-likelihood-has-no-closed-form)), and how it can break ([Section 10](#10-when-maximum-likelihood-breaks));
 - how a mixture compares with KDE and with k-means ([Section 11](#11-mixtures-kde-and-k-means)).
 
@@ -170,7 +170,7 @@ $$\text{sum of the products} = 8.78$$
 
 $$\text{new variance of A} = \frac{8.78}{2.23} = 3.94$$
 
-and B's new variance is 5.61. The new **weight** of a curve is its total responsibility divided by the number of points:
+and B's new variance is 5.61. The new **weight** of a curve is its **total responsibility** (G-1992) divided by the number of points:
 
 $$\frac{2.23}{6} = 0.37 \quad \text{for A}$$
 
@@ -189,7 +189,7 @@ The log-likelihood is the sum over the six points of the log of the total height
 
 > **Key point:** A big formula with sums over points and curves is easier to read on two points and two curves.
 
-A good way to read the responsibility formula ([Section 8.1](#81-the-formula)) is to pretend there are only two points and two curves, and write out the four numbers $r_{11}, r_{12}, r_{21}, r_{22}$ one by one. [Section 4.1](#41-score-the-points-the-e-step) is exactly this, with six points instead of two. The same trick works for every formula that follows: replace the sums by the six numbers.
+A good way to read the **responsibility** (G-1687) formula ([Section 8.1](#81-the-formula)) is to pretend there are only two points and two curves, and write out the four numbers $r_{11}, r_{12}, r_{21}, r_{22}$ one by one. [Section 4.1](#41-score-the-points-the-e-step) is exactly this, with six points instead of two. The same trick works for every formula that follows: replace the sums by the six numbers.
 
 ## 5. Generating data in two steps
 
@@ -202,7 +202,7 @@ A good way to read the responsibility formula ([Section 8.1](#81-the-formula)) i
 Sections [3](#3-each-point-belongs-partly-to-each-curve) and [4](#4-score-then-update-the-two-steps-by-hand) scored points against curves. Behind this sits a story about how the data came to be. MML (§11.4.1) describes the **generative process** (G-842) of a mixture:
 
 1. **Pick a component.** Roll a weighted die with $K$ faces: face $k$ comes up with probability $\pi_k$.
-2. **Draw the value.** Draw $x$ from $N(\mu_k, \sigma_k^2)$, the component that came up. Here $N(\mu, \sigma^2)$ is the normal distribution with centre (mean) $\mu$ and variance $\sigma^2$ (the squared spread), for example $N(2, 4)$: centre 2, variance 4.
+2. **Draw the value.** Draw $x$ from $N(\mu_k, \sigma_k^2)$, the component that came up. Here $N(\mu, \sigma^2)$ is the **normal distribution** (G-1343) with centre (mean) $\mu$ and variance $\sigma^2$ (the squared spread), for example $N(2, 4)$: centre 2, variance 4.
 
 Repeat for every observation, then forget which component each one came from. Figure 4 runs this for a mixture of three components with probabilities $0.5$, $0.2$ and $0.3$ (the mixture of MML's Figure 11.2, written out in [Section 6](#6-the-mixture-density)). The top bar shows the die roll, the diamond the drawn value. After 3,000 draws the histogram matches the mixture density: about half the draws come from the first component, because $\pi_1 = 0.5$ (the Notebook counts 51%).
 
@@ -284,7 +284,7 @@ A sum of this kind, with non-negative weights adding up to 1, is called a [**con
 
 ## 7. Mixtures in two dimensions
 
-> **Key point:** In two or more dimensions, each component is a multivariate normal with a mean vector and a covariance matrix. Its contour lines are ellipses, which can be stretched and tilted.
+> **Key point:** In two or more dimensions, each component is a multivariate normal with a mean vector and a **covariance matrix** (G-495). Its contour lines are ellipses, which can be stretched and tilted.
 
 Plain picture first: a bell curve in two dimensions is a hill. Seen from above, points of equal height form rings around the top. A round hill gives circles; a hill stretched in one direction gives ellipses, and a hill stretched along a diagonal gives tilted ellipses. A mixture in 2D is several such hills added together, and each hill is one cluster with its own centre, size and tilt.
 
@@ -322,11 +322,11 @@ Points with the same density lie on an ellipse around the mean (the book's Figur
 
 > **Key point:** Same formula as in 1D, with vectors and matrices.
 
-The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace N(\mathbf{x} \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$, with one mean vector and one covariance matrix per component. Everything in the rest of this Note works the same way in any number of dimensions.
+The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace N(\mathbf{x} \mid \boldsymbol\mu_k, \boldsymbol\Sigma_k)$, with one mean vector and one **covariance matrix** (G-495) per component. Everything in the rest of this Note works the same way in any number of dimensions.
 
 ## 8. Responsibilities
 
-> **Key point:** The responsibility $r_{nk}$ is the probability that component $k$ produced observation $x_n$. The responsibility is the posterior of Bayes' theorem: weight times density, divided by the mixture density.
+> **Key point:** The **responsibility** (G-1687) $r_{nk}$ is the probability that component $k$ produced observation $x_n$. The responsibility is the posterior of **Bayes' theorem** (G-269): weight times density, divided by the mixture density.
 
 ### 8.1 The formula
 
@@ -362,11 +362,11 @@ All seven points give this table (the book's equation 11.19; the Notebook reprod
 | $r_{n2}$ | 0.000 | 0.000 | 0.943 | 1.000 | 0.066 | 0.000 | 0.000 | 2.009 |
 | $r_{n3}$ | 0.000 | 0.000 | 0.000 | 0.000 | 0.934 | 1.000 | 1.000 | 2.934 |
 
-Each column of numbers is one point's soft assignment. The last column, $N_k = \sum_n r_{nk}$, is the total responsibility of component $k$. The three totals add up to 7, the number of points.
+Each column of numbers is one point's **soft assignment** (G-1826). The last column, $N_k = \sum_n r_{nk}$, is the **total responsibility** (G-1992) of component $k$. The three totals add up to 7, the number of points.
 
 ![Top: the starting mixture of the book's example and its seven points. Bottom: the responsibility of each component across x, with the seven points marked](images/responsibilities.png){height=45%}
 
-Figure 8 (bottom) draws the responsibilities for every $x$. Near a component's centre its responsibility is close to 1; between two components it changes from one to the other, and there a point is shared, as $x = -1$ is shared 0.057 to 0.943.
+Figure 8 (bottom) draws the responsibilities for every $x$. Near a component's centre its **responsibility** (G-1687) is close to 1; between two components it changes from one to the other, and there a point is shared, as $x = -1$ is shared 0.057 to 0.943.
 
 ## 9. Why maximum likelihood has no closed form
 
@@ -397,7 +397,7 @@ We follow the book's proof of Theorem 11.1 in one dimension.
 1. **In words:** differentiate $\ell$ with respect to one mean, $\mu_k$, set the result to 0, and solve for $\mu_k$.
 2. **Formula:** by the chain rule, the derivative of $\log p(x_n)$ is $1/p(x_n)$ times the derivative of $p(x_n)$. Only the $k$-th term of the sum contains $\mu_k$, and the derivative of a normal density with respect to its mean is the density times $(x_n - \mu_k)/\sigma_k^2$. So
    $$\frac{\partial\ell}{\partial\mu_k} = \sum_{n=1}^{N} \frac{\pi_k N(x_n \mid \mu_k, \sigma_k^2)}{p(x_n)} \cdot \frac{x_n - \mu_k}{\sigma_k^2}$$
-   The fraction is exactly the responsibility $r_{nk}$ of [Section 8.1](#81-the-formula), so
+   The fraction is exactly the **responsibility** (G-1687) $r_{nk}$ of [Section 8.1](#81-the-formula), so
    $$\frac{\partial\ell}{\partial\mu_k} = \frac{1}{\sigma_k^2}\sum_{n=1}^{N} r_{nk}(x_n - \mu_k)$$
    Setting this to 0 and solving:
    $$\mu_k = \frac{\sum_n r_{nk}\thinspace x_n}{\sum_n r_{nk}}$$
@@ -413,7 +413,7 @@ In the same way (the book's Theorems 11.2 and 11.3) the other two conditions are
 
   $$\sigma_k^2 = \frac{1}{N_k}\sum_n r_{nk}(x_n - \mu_k)^2$$
 
-- **weight:** the share of the total responsibility; on the six points the weight of curve A is the total 2.23 divided by 6 points:
+- **weight:** the share of the **total responsibility** (G-1992); on the six points the weight of curve A is the total 2.23 divided by 6 points:
 
   $$\pi_k = \frac{N_k}{N}$$
 
@@ -450,7 +450,7 @@ Figure 10 shows the collapse. In the right panel the horizontal axis is $\sigma_
 
 ![Collapse of maximum likelihood on the seven points. Left: the mixture with component 1 on the point −3 and σ₁ = 0.1, a spike on one point. Right: the log-likelihood as σ₁ shrinks from 0.1 to 0.0001; it rises in a straight line on the log scale, without limit.](images/collapse.png)
 
-Such a spike describes one point, not a cluster. In practice libraries keep the variances away from 0: scikit-learn's `GaussianMixture` adds a small `reg_covar` (default $10^{-6}$) to the diagonal of every covariance matrix, which its documentation says keeps the covariance matrices positive.
+Such a spike describes one point, not a cluster. In practice libraries keep the variances away from 0: scikit-learn's `GaussianMixture` adds a small `reg_covar` (default $10^{-6}$) to the diagonal of every **covariance matrix** (G-495), which its documentation says keeps the covariance matrices positive.
 
 ## 11. Mixtures, KDE and k-means
 
@@ -472,9 +472,9 @@ The [**density estimation**](../../03-distributions/MA-023-density-estimation-kd
 
 ### 11.2 Compared with k-means
 
-> **Key point:** k-means gives each point to its nearest centre; a GMM shares each point by responsibilities and models each cluster's shape with a covariance matrix.
+> **Key point:** k-means gives each point to its nearest centre; a GMM shares each point by responsibilities and models each cluster's shape with a **covariance matrix** (G-495).
 
-**k-means** (G-996; the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a hard assignment, a GMM a soft one through the responsibilities.
+**k-means** (G-996; the [k-means intuition](../../../ML/09-clustering-and-more/ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)) assigns each point to its nearest centroid and moves each centroid to the mean of its points. MML (§11.5) relates the two: treat the GMM means as cluster centres and ignore the covariances (set them to the identity), and the result is k-means; k-means makes a **hard assignment** (G-877), a GMM a soft one through the responsibilities.
 
 Figure 11 compares the two on the Iris dataset (scikit-learn's `load_iris`): 150 flowers, each with four features (sepal length, sepal width, petal length, petal width) and a known species. Both methods see only the four features; the species is used afterwards to score them. The **adjusted Rand index** (ARI; G-175) measures how well a clustering matches the true groups: 1 for a perfect match, about 0 for random labels (scikit-learn's `adjusted_rand_score` documentation).
 
@@ -524,7 +524,7 @@ To test whether the covariance matrices make the difference, the Notebook ([Sect
 - Overlapping groups need several bell curves, because one curve sits in the gap between them; on Old Faithful the mixture raises the log-likelihood from $-1095$ to $-1034$.
 - Each point is shared among the curves; the shares (responsibilities) add up to 1, so a point between two groups is split instead of being forced into one.
 - Data from a mixture is generated in two steps: pick a component with probability $\pi_k$, then draw from it. The component is a latent variable, never observed, so the responsibilities are our best guess of it.
-- A GMM is a weighted sum of normal curves, with weights that add up to 1 so that the total area stays 1. In $D$ dimensions each component is a multivariate normal with a mean vector and a covariance matrix; its contours are ellipses, so a component can fit a stretched, tilted cluster.
+- A GMM is a weighted sum of normal curves, with weights that add up to 1 so that the total area stays 1. In $D$ dimensions each component is a multivariate normal with a mean vector and a **covariance matrix** (G-495); its contours are ellipses, so a component can fit a stretched, tilted cluster.
 - Responsibilities are Bayes posteriors, because each one is weight (prior) times density (likelihood), divided by the mixture density (evidence).
 - The log of a sum does not split; the slope-zero conditions contain responsibilities that depend on the parameters, so there is no closed form.
 - A component collapsing onto one point sends the likelihood to infinity, because its height grows without limit as its variance shrinks; so libraries add a small `reg_covar` to keep variances away from 0.
@@ -562,17 +562,17 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Multivariate normal distribution (G-1283) | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
 | Adjusted Rand index (ARI) (G-175) | A score for how well a clustering matches the true groups: 1 for identical, about 0 for random. |
 | `reg_covar` (G-132) | scikit-learn's small number added to the diagonal of every covariance matrix in `GaussianMixture`, so no component shrinks into a spike on one point (collapses). |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#72-the-maximum-likelihood-estimate) (G-1191) | Fitting parameters by making the likelihood of the observed data as large as possible. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Multimodal](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
 | [Hard assignment](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#8-k-means-as-hard-em) (G-877) | Giving each observation wholly to one cluster (responsibility 0 or 1). |
 | [E-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | [M-step](../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
-| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Law of total probability](../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
 | [Convex combination](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-475) | A mix of points (or functions) using non-negative shares that add up to 1, such as 30% of one and 70% of another; for two points it gives a point on the segment between them. |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Independent and identically distributed (i.i.d.)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#41-conditions) (G-933) | Values that do not affect each other and all come from the same distribution. |
 | [Lagrange multiplier](../../../MA/07-optimisation/MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#32-tangent-curves-have-parallel-gradients) (G-1036) | A number attached to one constraint; at the answer it scales the constraint's gradient to match the objective's, and measures how much the constraint costs. |

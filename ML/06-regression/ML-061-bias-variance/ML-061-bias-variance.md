@@ -19,15 +19,15 @@ tags: [subject/machine-learning, area/production, step/evaluate, concept/bias-va
 
 > **Key point:** A model's error on new data comes from two sources: bias (it is too simple to capture the pattern) and variance (it changes too much with the training data). Making one smaller usually makes the other larger (ISL §2.2.2).
 
-[Polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515; fitting a curve whose highest power of $x$ is its **degree**; degree 1 is a straight line) showed that a degree too low underfits (misses the pattern) and a degree too high overfits (follows the noise). This Note gives the two problems their standard names, **bias** (G-287) and **variance** (G-2073), and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off** (G-288), one of the central ideas of ML.
+[Polynomial regression](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515; fitting a curve whose highest power of $x$ is its **degree**; degree 1 is a straight line) showed that a degree too low underfits (misses the pattern) and a degree too high overfits (follows the **noise** (G-1327)). This Note gives the two problems their standard names, **bias** (G-287) and **variance** (G-2073), and explains why reducing one tends to increase the other. The tension between them is the **bias-variance trade-off** (G-288), one of the central ideas of ML.
 
 Throughout, a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable (one column of the data table), the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict, and an [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row).
 
 ## 2. Bias
 
-> **Key point:** Bias is a model's inability to capture the true relationship. A high-bias model makes the same kind of mistake whatever data it is trained on.
+> **Key point:** **Bias** (G-287) is a model's inability to capture the true relationship. A high-bias model makes the same kind of mistake whatever data it is trained on.
 
-Suppose the true relationship between a feature and the target is a curve, and we fit a straight line. However the line is placed, it cannot bend to follow the curve. The error that comes from the model's shape being too simple is its **bias**.
+Suppose the true relationship between a feature and the **target** (G-1949) is a curve, and we fit a straight line. However the line is placed, it cannot bend to follow the curve. The error that comes from the model's shape being too simple is its **bias**.
 
 A high-bias model:
 
@@ -35,13 +35,13 @@ A high-bias model:
 - also has a large error on new data;
 - is **underfitting** (G-2035; too simple for the pattern, [see the challenges of ML](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting)).
 
-Figure 1 fits a straight line to one training set of 20 observations from the wave used in section 4. Watch the blue error bars: they stay long even though these are the very points the line was trained on.
+Figure 1 fits a straight line to one training set of 20 **observations** (G-1374) from the wave used in section 4. Watch the blue error bars: they stay long even though these are the very points the line was trained on.
 
 ![A straight line fitted to one training set of 20 points (blue). The blue bars are its training errors; the dashed wave is the truth. Averaged over 10,000 training sets, the training error is 0.65 and the test error 0.70: both large.](images/bias_fit.png)
 
 ## 3. Variance
 
-> **Key point:** Variance is how much a model changes when trained on a different sample of data. A high-variance model fits the noise of whichever sample it saw.
+> **Key point:** Variance is how much a model changes when trained on a different sample of data. A high-variance model fits the **noise** (G-1327) of whichever sample it saw.
 
 Now fit a very flexible model, such as a high-degree polynomial. The polynomial can bend through almost every training point, so its training error is tiny. But train it again on a different random sample from the same source, and it bends differently, because it followed the noise of each sample.
 
@@ -56,7 +56,7 @@ Figure 2 fits a degree-11 polynomial to the same training set, then shows new po
 
 ![A degree-11 polynomial fitted to the same 20 training points (blue). Blue bars: training errors. Red rings and bars: new points at the same inputs and their errors. Averaged over 10,000 training sets, the training error is 0.10 and the test error 0.40: about four times larger.](images/variance_fit.png)
 
-A quick way to spot high variance is to compare the two errors. For the degree-11 polynomial the training error is 0.10 and the test error is 0.40: a gap of 0.30. For the straight line of [Section 2](#2-bias) the errors are 0.65 and 0.70: a gap of only 0.05. A large gap between training error and test error is the usual sign of high variance, and variance is often described loosely as that gap. The gap is a symptom; the cause is that the fitted model changes from one training set to the next, which [Section 4](#4-seeing-bias-and-variance) measures directly.
+A quick way to spot high **variance** (G-2073) is to compare the two errors. For the degree-11 polynomial the training error is 0.10 and the test error is 0.40: a gap of 0.30. For the straight line of [Section 2](#2-bias) the errors are 0.65 and 0.70: a gap of only 0.05. A large gap between training error and test error is the usual sign of high variance, and variance is often described loosely as that gap. The gap is a symptom; the cause is that the fitted model changes from one training set to the next, which [Section 4](#4-seeing-bias-and-variance) measures directly.
 
 ### 3.1 Another way to see it: three students before an exam
 
@@ -70,15 +70,15 @@ A quick way to spot high variance is to compare the two errors. For the degree-1
 
 The questions seen before play the role of the training set, and the exam plays the role of the **test set** (G-1962; the new data used to check the model, [training and test sets](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets)). The memoriser's marks depend entirely on which old questions happened to come up, just as a high-variance model depends on which training set it happened to see. The goal is the third student: not perfect on the old questions, but good on both.
 
-Model variance has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see [the standard deviation of a column](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) and [variance as spread](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
+Model **variance** (G-2073) has a different meaning from the variance of a feature, the average squared distance of its values from their mean (see [the standard deviation of a column](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) and [variance as spread](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). Model variance is the spread of the model's predictions across training sets, not the spread of the data.
 
 ## 4. Seeing bias and variance
 
-> **Key point:** Train the same model on many training sets. The spread of the resulting curves is the variance; how far their average is from the truth is the bias.
+> **Key point:** Train the same model on many training sets. The spread of the resulting curves is the **variance** (G-2073); how far their average is from the truth is the bias.
 
-We use one feature $x$ and the target $y$; each observation is one $(x, y)$ pair. The true relationship is a wave (dashed black).
+We use one **feature** (G-772) $x$ and the **target** (G-1949) $y$; each **observation** (G-1374) is one $(x, y)$ pair. The true relationship is a wave (dashed black).
 
-We build many training sets of 20 observations, as in Figure 3 and Figure 4. Every set uses the same 20 values of $x$ (the grey ticks); only the random noise in $y$ is new each time, the standard setting for measuring bias and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
+We build many training sets of 20 observations, as in Figure 3 and Figure 4. Every set uses the same 20 values of $x$ (the grey ticks); only the random **noise** (G-1327) in $y$ is new each time, the standard setting for measuring **bias** (G-287) and variance (ESL §7.3). We train a model on each set and draw 20 of the curves (orange) and their average (blue). The numbers are averaged over 10,000 training sets.
 
 Figure 3 shows the experiment as it happens, for two of the models. Each frame draws a new training set and refits both; the earlier fits stay behind as faint ghosts. Watch the lines stay together but miss the wave, while the degree-11 curves scatter more with every new set.
 
@@ -104,7 +104,7 @@ The dartboard in Figure 5 is a common way to picture the four combinations: bias
 
 ## 5. The trade-off
 
-> **Key point:** As a model becomes more complex, bias falls and variance rises. The best model is at the complexity where their sum is smallest.
+> **Key point:** As a model becomes more complex, bias falls and **variance** (G-2073) rises. The best model is at the complexity where their sum is smallest.
 
 The expected squared error of a model on new data splits into three parts (ISL §2.2.2, equation 2.7):
 
@@ -122,14 +122,14 @@ For degree 1:
 
 $$0.4195 + 0.025 + 0.25 = 0.695$$
 
-Figure 6 measures all three for degrees 1 to 11. The test error here is the error on a new noisy target at the same 20 inputs.
+Figure 6 measures all three for degrees 1 to 11. The test error here is the error on a new noisy **target** (G-1949) at the same 20 inputs.
 
 ![Bias², variance and expected test error against the degree](images/tradeoff.png){height=48%}
 
-- On the left, simple models have high bias and low variance: **underfitting**.
+- On the left, simple models have high **bias** (G-287) and low variance: **underfitting**.
 - On the right, complex models have low bias and high variance: **overfitting**.
 - Bias² falls as the degree grows and never rises again: 0.42 at degree 1, 0.001 at degree 5, 0.0000 from degree 7 on.
-- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11. The rise follows a simple rule, shown in the Extra below: the variance is $\sigma^2 p / N$, with noise $\sigma^2 = 0.25$, $p$ coefficients (degree + 1) and $N = 20$ observations.
+- Variance rises steadily, from 0.025 at degree 1 to 0.150 at degree 11. The rise follows a simple rule, shown in the Extra below: the variance is $\sigma^2 p / N$, with noise $\sigma^2 = 0.25$, $p$ coefficients (degree + 1) and $N = 20$ **observations** (G-1374).
 
   Degree 1 has $p = 2$:
 
@@ -158,20 +158,20 @@ Making a model more flexible buys lower bias at the price of higher variance, an
 
 ## 6. What to do about it
 
-> **Key point:** Underfitting: make the model more flexible or add better features. Overfitting: get more data, simplify the model, or use regularisation or bagging. Boosting works from the other side: it lowers the bias of simple models.
+> **Key point:** Underfitting: make the model more flexible or add better features. Overfitting: get more data, simplify the model, or use regularisation or bagging. Boosting works from the other side: it lowers the **bias** (G-287) of simple models.
 
 | Problem | Signs | Remedies |
 |---|---|---|
 | High bias (underfitting) | high training error, test error about the same | a more complex model, more or better features (feature engineering) |
 | High variance (overfitting) | low training error, much higher test error | more training data, a simpler model, regularisation, bagging |
 
-Two of the variance fixes follow from the rule of [Section 5](#5-the-trade-off), variance $= \sigma^2 p / N$: more training data makes $N$ larger, and a simpler model makes $p$ smaller, so both shrink the variance. For degree 11 with twice as many observations, $N = 40$:
+Two of the **variance** (G-2073) fixes follow from the rule of [Section 5](#5-the-trade-off), variance $= \sigma^2 p / N$: more training data makes $N$ larger, and a simpler model makes $p$ smaller, so both shrink the variance. For degree 11 with twice as many **observations** (G-1374), $N = 40$:
 
 $$\frac{0.25 \times 12}{40} = 0.075$$
 
 half of the 0.150 measured with 20.
 
-Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, target this trade-off directly:
+Finding the model between too simple and too complex is the practical goal: we accept a little more bias when it buys a larger drop in variance. Three standard techniques, all covered later, **target** (G-1949) this trade-off directly:
 
 - [**Regularisation**](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) (Ridge, Lasso and Elastic Net, starting with [Ridge](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview)): keeps a flexible model but penalises large coefficients. As the penalty grows, variance falls and bias rises (ISL §6.2.1).
 - [**Bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) (for example [**random forests**](../../08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611)): averages many high-variance models trained on different bootstrap samples; averaging many results reduces variance (ISL §8.2.1). The Extra in [Section 5](#5-the-trade-off) uses the same fact.
@@ -189,10 +189,10 @@ Finding the model between too simple and too complex is the practical goal: we a
 | Name | underfitting | overfitting |
 | Fixes | more complex model, better features | more data, simpler model, regularisation, bagging |
 
-- Reading the training and test errors side by side tells which problem a model has, and so which fix to reach for: both high means bias, a large gap means variance.
+- Reading the training and test errors side by side tells which problem a model has, and so which fix to reach for: both high means bias, a large gap means **variance** (G-2073).
 
-- Expected error = bias² + variance + noise; the noise cannot be removed, so even the best model keeps an error of at least the noise (0.25 here).
-- More complexity lowers bias and raises variance; the best model balances them, because the goal is the lowest total error, not zero bias or zero variance.
+- Expected error = bias² + variance + **noise** (G-1327); the noise cannot be removed, so even the best model keeps an error of at least the noise (0.25 here).
+- More complexity lowers **bias** (G-287) and raises variance; the best model balances them, because the goal is the lowest total error, not zero bias or zero variance.
 - On the wave example, degree 5 gives the lowest total error (0.33), against 0.70 for a line and 0.40 for degree 11, because degree 5 is flexible enough to follow the wave but not so flexible that it follows the noise.
 - Together these answer the opening question: error on new data comes from bias and variance, and making a model more complex trades one for the other.
 
@@ -214,10 +214,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Noise (irreducible error) (G-1327) | Randomness in the data that no model can predict. |
 | Bias (of a model) (G-287) | Error from a model being too simple to capture the true relationship. |
 | Variance (of a model) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | Bias-variance trade-off (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |
-| Noise (irreducible error) (G-1327) | Randomness in the data that no model can predict. |
 | [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

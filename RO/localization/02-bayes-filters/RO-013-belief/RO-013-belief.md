@@ -5,11 +5,11 @@ tags: [subject/robotics, area/localization, concept/belief, concept/information-
 
 ## 1. Overview
 
-> **Key point:** A robot never sees its own position. What it can keep is a belief: a probability for every place it might be, computed from the commands it gave and the readings it got.
+> **Key point:** A robot never sees its own position. What it can keep is a **belief** (G-2433): a probability for every place it might be, computed from the commands it gave and the readings it got.
 
 ![A hallway of 10 cells, numbered 0 to 9 and joined into a loop, with doors in front of cells 1, 3 and 7; a robot stands in cell 1 and does not know it](images/hallway.png)
 
-With the [landmark model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model), the robot has a motion model and sensor models, so it can score any guessed pose for one command or one reading. What still breaks: each score covers one moment, and nothing says what the robot should carry from one step to the next. This Note adds that memory, the belief.
+With the [landmark model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model), the robot has a **motion model** (G-2319) and sensor models, so it can score any guessed pose for one command or one reading. What still breaks: each score covers one moment, and nothing says what the robot should carry from one step to the next. This Note adds that memory, the belief.
 
 Figure 1 shows the world of this Note: the hallway of [why a robot is never sure](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#1-overview), with the same layout and numbers, because a belief over 10 cells is 10 numbers we can draw and check by hand. A robot stands in a hallway of 10 cells, each 1 m long. The hallway is a loop: one step to the right of cell 9 is cell 0. There are doors in front of cells 1, 3 and 7, and all three look the same.
 
@@ -26,13 +26,13 @@ We answer it in steps:
 - a first summary of that list: the set of cells it could be in, and why a set is not enough ([Section 3](#3-summary-1-the-set-of-cells-the-robot-could-be-in));
 - a better summary: a probability for every cell, the belief ([Section 4](#4-summary-2-a-probability-for-every-cell));
 - the two probability tables that tell the robot how commands and readings change the belief ([Section 5](#5-the-two-tables-that-drive-the-belief));
-- one picture of how states, commands and readings depend on each other, the hidden Markov model ([Section 6](#6-the-whole-picture-the-hidden-markov-model)).
+- one picture of how states, commands and readings depend on each other, the **hidden Markov model** (G-2439) ([Section 6](#6-the-whole-picture-the-hidden-markov-model)).
 
 The [**state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. Here the state $x_t$ is the robot's cell at time $t$, the command is $u_t$ and the reading is $z_t$.
 
 ## 2. What the robot knows: its history
 
-> **Key point:** The robot cannot know its true cell. It can only know the commands it gave and the readings it got; that list is its information state.
+> **Key point:** The robot cannot know its true cell. It can only know the commands it gave and the readings it got; that list is its **information state** (G-2431).
 
 ### 2.1 Why the true cell is out of reach
 
@@ -84,7 +84,7 @@ $$= \lbrace3 \rbrace$$
 
 ![The set of possible cells: after reading door it is {1, 3, 7}; after moving 1, 2 or 3 cells it is the union {2, 3, 4} with {4, 5, 6} and {8, 9, 0}; after reading door again only cell 3 is both reachable and a door](images/sets.png)
 
-Figure 3 shows the three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible states is the **nondeterministic information state** (G-2432), also called the set-valued information state (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs.
+Figure 3 shows the three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible **states** (G-2314) is the **nondeterministic information state** (G-2432), also called the set-valued **information state** (G-2431) (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs.
 
 ### 3.2 Why a set is not enough
 
@@ -96,7 +96,7 @@ The set never shrinks, however many readings arrive. Crossing places out only wo
 
 ## 4. Summary 2: a probability for every cell
 
-> **Key point:** The belief gives every cell the probability that the robot is there, given its whole history. A reading sharpens it; a move shifts it and blurs it.
+> **Key point:** The **belief** (G-2433) gives every cell the probability that the robot is there, given its whole history. A reading sharpens it; a move shifts it and blurs it.
 
 ### 4.1 The belief, as a picture
 
@@ -112,7 +112,7 @@ What to watch in each stage:
    \frac{1}{10} = 0.1
    $$
 
-2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the belief, a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
+2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the **belief** (G-2433), a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
 3. **Moves 2 cells.** Every mode moves 2 cells to the right, with the robot.
 4. **The move is uncertain.** The move may have been 1 or 3 cells, so each mode spreads onto its neighbours and gets lower (0.19 becomes 0.16).
 5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
@@ -144,7 +144,7 @@ Each symbol:
 - $u_{1:t}$ means all commands from time 1 to $t$, here $(\text{stay}, \text{move 2})$;
 - the bar $\mid$ is read "given", as in a [**conditional probability**](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444).
 
-The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the information state of [Section 2.2](#22-the-information-state-everything-the-robot-knows). So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
+The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the **information state** (G-2431) of [Section 2.2](#22-the-information-state-everything-the-robot-knows). So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
 
 $$\text{bel}(x_2 = 3) = 0.31$$
 
@@ -154,15 +154,15 @@ Unlike the set of [Section 3](#3-summary-1-the-set-of-cells-the-robot-could-be-i
 
 ### 4.3 A belief is not a position
 
-The robot is always in exactly one cell. A belief of 0.19 on three cells does not mean the robot is spread over three places; it means the robot does not know which of the three it is in (Labbe ch.2). The belief describes the robot's **knowledge**, not the world. That is why the arrow for the true cell and the bars in Figure 4 are drawn separately: the bars can be wrong, and the true cell does not care.
+The robot is always in exactly one cell. A **belief** (G-2433) of 0.19 on three cells does not mean the robot is spread over three places; it means the robot does not know which of the three it is in (Labbe ch.2). The belief describes the robot's **knowledge**, not the world. That is why the arrow for the true cell and the bars in Figure 4 are drawn separately: the bars can be wrong, and the true cell does not care.
 
 ### 4.4 Why the whole history appears in the definition
 
-The definition conditions on every command and reading since the start, which looks like the long list we wanted to avoid. It is there because the robot does not know its earlier cells either: if it knew $x_{t-1}$, that one cell plus the latest command and reading would be enough, but it only has the history (PR §2.3.4). The [derivation of the Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) shows that the belief can still be computed step by step from the previous belief alone, so the robot never stores the history itself.
+The definition conditions on every command and reading since the start, which looks like the long list we wanted to avoid. It is there because the robot does not know its earlier cells either: if it knew $x_{t-1}$, that one cell plus the latest command and reading would be enough, but it only has the history (PR §2.3.4). The [derivation of the Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) shows that the **belief** (G-2433) can still be computed step by step from the previous belief alone, so the robot never stores the history itself.
 
 ### 4.5 The predicted belief: after the move, before the reading
 
-> **Key point:** The predicted belief is the belief after the latest command but before the latest reading. Commands lose knowledge, readings gain it, so we track the belief between the two.
+> **Key point:** The predicted belief is the **belief** (G-2433) after the latest command but before the latest reading. Commands lose knowledge, readings gain it, so we track the belief between the two.
 
 The two kinds of event act in opposite directions, as [moving and sensing](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) showed. A move adds doubt, because the robot cannot be sure how far it went. A reading removes doubt, because it rules places in or out. So it pays to look at the belief halfway through a step: after the command $u_t$, before the reading $z_t$. This is the **predicted belief** (G-2436), written with a bar:
 
@@ -184,9 +184,9 @@ The move lowered it, the reading raised it. The [**Bayes filter**](../RO-014-bay
 
 ## 5. The two tables that drive the belief
 
-> **Key point:** Two probability tables are all the robot needs: how a command moves it (the state transition probability) and what the sensor reads in each place (the measurement probability).
+> **Key point:** Two probability tables are all the robot needs: how a command moves it (the **state transition probability** (G-2434)) and what the sensor reads in each place (the measurement probability).
 
-To update its belief, the robot must put numbers on the two troubles of the opening: a move of "2 cells" may really be 1 or 3, and the door sensor is sometimes wrong. Both are probability tables measured or modelled in advance.
+To update its **belief** (G-2433), the robot must put numbers on the two troubles of the opening: a move of "2 cells" may really be 1 or 3, and the door sensor is sometimes wrong. Both are probability tables measured or modelled in advance.
 
 ### 5.1 How a command moves the robot: the state transition probability
 
@@ -214,7 +214,7 @@ The robot ends somewhere, so the three outcomes add to 1:
 
 $$0.1 + 0.8 + 0.1 = 1$$
 
-Why only $u_t$ and $x_{t-1}$, and not the whole past? If the state is complete, the current cell and the command already contain everything that affects the next cell; how the robot got to cell 1 does not matter (the [**complete state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2315)). This is the Markov property applied to motion (PR §2.3.3).
+Why only $u_t$ and $x_{t-1}$, and not the whole past? If the **state** (G-2314) is complete, the current cell and the command already contain everything that affects the next cell; how the robot got to cell 1 does not matter (the [**complete state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2315)). This is the **Markov property** (G-2316) applied to motion (PR §2.3.3).
 
 Why is the reading $z_t$ not in it? A reading does not move the robot. It helps us **guess** where the robot went, but it does not **cause** where it went. The transition probability describes the robot itself, not our guessing (PR §2.3.3).
 
@@ -255,7 +255,7 @@ Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place
 
 ## 6. The whole picture: the hidden Markov model
 
-> **Key point:** States form a hidden Markov chain driven by the commands; each reading depends only on its own state. Drawn as a graph, this is a dynamic Bayes network.
+> **Key point:** **States** (G-2314) form a hidden Markov chain driven by the commands; each reading depends only on its own state. Drawn as a graph, this is a dynamic Bayes network.
 
 ### 6.1 A small piece of maths: Bayesian networks
 
@@ -269,18 +269,18 @@ Figure 8 draws the hallway robot this way, its hidden cells, commands and door r
 
 Reading the arrows:
 
-- two arrows point into $x_t$, from $x_{t-1}$ and from $u_t$: its table is the state transition probability $p(x_t \mid u_t, x_{t-1})$ of [Section 5.1](#51-how-a-command-moves-the-robot-the-state-transition-probability);
-- one arrow points into $z_t$, from $x_t$: its table is the measurement probability $p(z_t \mid x_t)$ of [Section 5.2](#52-what-the-sensor-reads-in-each-place-the-measurement-probability);
+- two arrows point into $x_t$, from $x_{t-1}$ and from $u_t$: its table is the **state transition probability** (G-2434) $p(x_t \mid u_t, x_{t-1})$ of [Section 5.1](#51-how-a-command-moves-the-robot-the-state-transition-probability);
+- one arrow points into $z_t$, from $x_t$: its table is the **measurement probability** (G-2435) $p(z_t \mid x_t)$ of [Section 5.2](#52-what-the-sensor-reads-in-each-place-the-measurement-probability);
 - no arrow goes from $z_1$ to $z_2$: given the cells, one reading says nothing about another;
-- the shaded circles are what the robot knows (its information state); the white ones are hidden.
+- the shaded circles are what the robot knows (its **information state** (G-2431)); the white ones are hidden.
 
-A Bayesian network that repeats the same columns over time is a **dynamic Bayes network** (G-2441) (PR §2.3.3). Every robot state estimator in this chapter rests on this one drawing.
+A Bayesian network that repeats the same columns over time is a **dynamic Bayes network** (G-2441) (PR §2.3.3). Every robot **state** (G-2314) estimator in this chapter rests on this one drawing.
 
 ### 6.3 Hidden Markov model
 
-Remove the commands from Figure 8 and a well-known model is left: a Markov chain whose states are hidden, each state producing a reading we can see. This is a **hidden Markov model** (G-2439), or HMM (CS188 §8.2). Speech recognition and weather tracking use the same model; in robotics the hidden state is the robot's place and the reading is its sensor.
+Remove the commands from Figure 8 and a well-known model is left: a Markov chain whose **states** (G-2314) are hidden, each state producing a reading we can see. This is a **hidden Markov model** (G-2439), or HMM (CS188 §8.2). Speech recognition and weather tracking use the same model; in robotics the hidden state is the robot's place and the reading is its sensor.
 
-With the commands added back, the robot's model is an HMM whose transitions depend on the command; Thrun calls this the dynamic Bayes network of the robot and its environment (PR §2.3.3).
+With the commands added back, the robot's model is an HMM whose transitions depend on the command; Thrun calls this the **dynamic Bayes network** (G-2441) of the robot and its environment (PR §2.3.3).
 
 The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us try other reading sequences.
 
@@ -292,14 +292,14 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 | Set of possible cells | at most 10 cells | union of reachable cells | keep cells that fit | stops shrinking with a sensor that can be wrong; no "how likely" |
 | Belief | 10 probabilities | shift and spread | multiply up the cells that fit, then rescale | needs the two tables of Section 5 |
 
-- The answer to the opening question: the robot should keep its belief, 10 probabilities instead of a history of 36,000 readings after one hour, and in the running example its tallest bar after two steps, 0.31, is the true cell 3.
-- The robot cannot see its true cell; it only knows its commands and readings, so every decision must be based on that history, the information state.
+- The answer to the opening question: the robot should keep its **belief** (G-2433), 10 probabilities instead of a history of 36,000 readings after one hour, and in the running example its tallest bar after two steps, 0.31, is the true cell 3.
+- The robot cannot see its true cell; it only knows its commands and readings, so every decision must be based on that history, the **information state** (G-2431).
 - The history grows forever, so we keep a summary of it: the set of possible cells is short, but a sensor that can be wrong makes every cell possible, so the set stops shrinking.
 - The belief keeps one probability per cell given the whole history, so it can say that cell 3 fits the readings three times better than cell 9.
 - A belief describes the robot's knowledge, not its position, because the robot is always in exactly one cell.
-- The predicted belief is taken after the command and before the reading, because a move adds doubt and a reading removes it.
-- The state transition probability $p(x_t \mid u_t, x_{t-1})$ and the measurement probability $p(z_t \mid x_t)$ are all the robot needs, because a complete state makes the past irrelevant once the current cell is known.
-- Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of [Section 5](#5-the-two-tables-that-drive-the-belief) are all the model needs.
+- The **predicted belief** (G-2436) is taken after the command and before the reading, because a move adds doubt and a reading removes it.
+- The **state transition probability** (G-2434) $p(x_t \mid u_t, x_{t-1})$ and the **measurement probability** (G-2435) $p(z_t \mid x_t)$ are all the robot needs, because a **complete state** (G-2315) makes the past irrelevant once the current cell is known.
+- Drawn as a dynamic Bayes network (a hidden Markov model with commands), each **state** (G-2314) depends only on the previous state and its command, and each reading only on its own state, so the two tables of [Section 5](#5-the-two-tables-that-drive-the-belief) are all the model needs.
 
 The robot now knows what to keep in memory: its belief. Still missing: by definition the belief depends on the whole history, which grows forever; updating it from only the newest command and reading is the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#1-overview) (G-2446).
 
@@ -326,15 +326,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Belief (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
+| Hidden Markov model (HMM) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
 | Information state (history) (G-2431) | Everything a robot knows at time t: its starting knowledge plus every command and every reading so far, such as (stay, door, move 2, door); every decision must be based on it, because the true state is never seen. |
 | Nondeterministic (set-valued) information state (G-2432) | The set of states that agree with every command and reading so far, such as cells {1, 3, 7} after reading "door"; a move replaces it by all reachable states, a reading keeps only the states that fit, but it says nothing about how likely each state is. |
-| Belief (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
 | Predicted belief (G-2436) | The belief after the latest command but before the latest reading, $\overline{\text{bel}}(x_t) = p(x_t \mid z_{1:t-1}, u_{1:t})$; it separates the doubt a move adds from the knowledge a reading brings. |
 | State transition probability (G-2434) | The probability of the next state given the command and the previous state, $p(x_t \mid u_t, x_{t-1})$, such as 0.8 for "move 2" taking the robot from cell 1 to cell 3; it tells the robot how a command changes where it is. |
 | Markov chain (G-2437) | A sequence of random states in which the next state depends only on the current one, not on earlier ones, such as a robot repeating "move 2"; it lets a whole sequence be described by one table of transition probabilities. |
 | Measurement probability (G-2435) | The probability of a sensor reading given the true state, $p(z_t \mid x_t)$, such as 0.6 for reading "door" in front of a door; it tells the robot how well each state explains a reading. |
 | Dynamic Bayes network (G-2441) | A Bayesian network that repeats the same variables at every time step, such as states, commands and readings of a robot; it shows which variable depends on which over time, so a whole run's probability splits into small factors. |
-| Hidden Markov model (HMM) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
+| [Motion model $p(x_t \mid u_t, x_{t-1})$](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
 | [State $x_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
 | [Probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
@@ -344,6 +345,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) | The algorithm that keeps a robot's belief up to date one step at a time: a prediction step after each command and a correction step after each reading; it gives the exact belief without storing the history, under the Markov assumption. |
 | [Histogram filter (discrete Bayes filter)](../../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) (G-2461) | The Bayes filter run on a space cut into cells, keeping one probability per cell; sensing multiplies each cell by $p(z \mid x)$ and rescales, moving slides and blurs the list. It makes the Bayes filter computable for a continuous position. |
 | [Complete state](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2315) | A state that, once known, makes earlier states, controls and measurements useless for predicting the future (position plus speed for a coasting robot, not position alone); it lets the robot keep only its latest estimate. |
-| [Motion model $p(x_t \mid u_t, x_{t-1})$](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
 | [Markov property](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316) | The property of a sequence of states that the future depends on the past only through the present state; it lets a filter forget the history and work from the latest state alone. |
 | [Beam model](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture) (G-2377) | The measurement model of a range finder that mixes four densities for one reading (measurement noise, unexpected objects, failures, random readings) with weights that add up to 1, so no single odd reading can rule out the true pose. |

@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/memoizat
 
 ## 1. Overview
 
-> **Key point:** Memoization stores the result of a computation the first time and looks it up afterwards. Backpropagation is the chain rule plus memoization: the derivative at each node is computed once, stored, and reused by every weight behind it.
+> **Key point:** Memoization stores the result of a computation the first time and looks it up afterwards. Backpropagation is the **chain rule** (G-371) plus memoization: the derivative at each node is computed once, stored, and reused by every weight behind it.
 
 **Memoization** (G-1210) is a computer-science technique that speeds up a program by storing the results of expensive function calls and returning the stored result when the same inputs come again. Memoization trades a little memory for a lot of time.
 
@@ -36,7 +36,7 @@ Figure 1 shows the payoff: without memoization the work grows exponentially; wit
 
 ## 3. Memoization on the Fibonacci numbers
 
-> **Key point:** Plain recursion recomputes the same Fibonacci numbers over and over: 2.7 million calls for fib(30). Storing each answer in a dictionary cuts that to 59.
+> **Key point:** Plain recursion recomputes the same Fibonacci numbers over and over: 2.7 million calls for fib(30). Storing each answer in a **dictionary** (G-603) cuts that to 59.
 
 ### 3.1 The plain recursive version
 
@@ -85,7 +85,7 @@ Figure 2 draws all the calls made by fib(5). fib(5) needs fib(4) and fib(3); fib
 
 > **Key point:** Keep a dictionary of answers. Before computing fib(n), look it up; after computing it, store it.
 
-> **Python:** Fibonacci with memoization.
+> **Python:** Fibonacci with **memoization** (G-1210).
 >
 > ```python
 > def fib_memo(n, d):
@@ -318,7 +318,7 @@ The memoized method keeps one stored number per node: the derivative of the loss
    $$-0.1295 + (-0.0334) = -0.163$$
    Then all three weights entering $O_{11}$ reuse it, and the two-path sum of [Section 4.4](#44-a-weight-of-the-first-layer-two-paths) is never repeated.
 
-Figure 5 runs this backward pass on the network of Figure 4, with the numbers of [Section 4](#4-derivatives-in-a-network-with-two-hidden-layers).
+Figure 5 runs this **backward pass** (G-249) on the network of Figure 4, with the numbers of [Section 4](#4-derivatives-in-a-network-with-two-hidden-layers).
 
 ![The memoized backward pass on the 3-3-2-1 network. Orange nodes have their dL/dO stored; thick orange links are the ones used in the current step. Last frame: the first-layer weight W¹₁₁ (red) read off the stored value of its node.](images/backward_memo.gif)
 
@@ -335,7 +335,7 @@ Figure 5 runs this backward pass on the network of Figure 4, with the numbers of
 
 Six node values were computed in all, one per node; [Section 5.3](#53-how-much-work-it-saves) counts what plain recursion would need.
 
-> **Python:** Plain recursion versus memoization.
+> **Python:** Plain recursion versus **memoization** (G-1210).
 >
 > ```python
 > from functools import lru_cache
@@ -350,13 +350,13 @@ Six node values were computed in all, one per node; [Section 5.3](#53-how-much-w
 > node = lru_cache(maxsize=None)(dL_dO)   # memoized: computes once
 > ```
 >
-> The recursion calls `node`, so switching `node` between the two lines switches the whole computation between plain and memoized. Both give identical gradients.
+> The recursion calls `node`, so switching `node` between the two lines switches the whole computation between plain and memoized. Both give identical **gradients** (G-863).
 
 ### 5.3 How much work it saves
 
-> **Key point:** For the 3-3-2-1 network: 59 node evaluations without memoization, 6 with. With 5 hidden layers of 10 nodes: 2,345,610 against 51.
+> **Key point:** For the 3-3-2-1 network: 59 node evaluations without **memoization** (G-1210), 6 with. With 5 hidden layers of 10 nodes: 2,345,610 against 51.
 
-Counting how often a node's derivative is evaluated to get all the weight gradients:
+Counting how often a node's derivative is evaluated to get all the weight **gradients** (G-863):
 
 | Network | Plain recursion | Memoized |
 |---|---|---|
@@ -367,11 +367,11 @@ Counting how often a node's derivative is evaluated to get all the weight gradie
 
 Each extra hidden layer multiplies the plain count by about 10 (the layer width), while the memoized count grows by 10: one evaluation per node (Figure 1, right). The gap is the same exponential-versus-linear gap as Fibonacci.
 
-The price is memory: the forward pass must keep every node's output, and the backward pass every node's derivative, until the update is done. The small cost in space buys an enormous saving in time.
+The price is memory: the forward pass must keep every node's output, and the **backward pass** (G-249) every node's derivative, until the update is done. The small cost in space buys an enormous saving in time.
 
 ## 6. Backpropagation = chain rule + memoization
 
-> **Key point:** The maths is the chain rule; the efficiency is memoization. Keras and TensorFlow implement exactly this on the computation graph.
+> **Key point:** The maths is the chain rule; the efficiency is **memoization** (G-1210). Keras and TensorFlow implement exactly this on the computation graph.
 
 Backpropagation combines two ideas:
 
@@ -391,10 +391,10 @@ On the **computation graph** (G-434; a diagram with one node per intermediate va
 | Memoized | 59 calls | 51 node evaluations |
 | What is stored | one value per $n$ | each node's output (forward) and derivative (backward) |
 
-- Memoization stores the results of expensive calls and reuses them: memory for time.
+- **Memoization** (G-1210) stores the results of expensive calls and reuses them: memory for time.
 - With two hidden layers, a first-layer weight reaches the loss along several paths, and its derivative is the sum of the path products, so computing each path separately repeats the same pieces.
 - Many derivatives share the same pieces; computing $\partial L/\partial O$ once per node, from the output backwards, removes all repetition.
-- Backpropagation is the chain rule applied with memoization, which is why it needs 51 node evaluations instead of 2,345,610 here.
+- Backpropagation is the **chain rule** (G-371) applied with memoization, which is why it needs 51 node evaluations instead of 2,345,610 here.
 
 ## 8. Sources
 
@@ -421,13 +421,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Dynamic programming (G-652) | Solving a problem by storing the answer to each overlapping sub-problem the first time it is computed and looking it up afterwards, so no work is repeated; memoization is one form of it. |
 | `lru_cache` (G-109) | Python's built-in tool that stores a function's results automatically, so a repeated call reuses them (memoization). |
 | Path (in a network) (G-1464) | A route from a node to the output along connections; a derivative sums its products over all paths. |
+| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Dictionary (Python)](../../../ML/02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#5-reading-the-reply) (G-603) | A lookup table from keys to values, written `{key: value}`. |
 | [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
-| [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
-| [Computation graph](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation) (G-434) | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |
 | [Backward pass](../../../DL/04-cnn/DL-048-backpropagation-cnn-layers/DL-048-backpropagation-cnn-layers.md#1-overview) (G-249) | Computing the gradient of the loss for every tensor, from the output back to the input. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
+| [Computation graph](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#10-preview-backpropagation-and-automatic-differentiation) (G-434) | A function broken into elementary steps, each a node, with arrows for the flow of values. Backpropagation walks it backwards, applying the chain rule one step at a time. |

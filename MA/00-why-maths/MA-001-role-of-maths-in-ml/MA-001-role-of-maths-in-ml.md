@@ -15,7 +15,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/maths-for-m
 
 ## 1. Overview
 
-> **Key point:** Four branches of mathematics carry most of ML: linear algebra stores the data, calculus improves the model, probability decides when the data is unclear, and statistics draws conclusions from the data.
+> **Key point:** Four branches of mathematics carry most of ML: **linear algebra** (G-1090) stores the data, calculus improves the model, probability decides when the data is unclear, and statistics draws conclusions from the data.
 
 ML is not magic: every algorithm is mathematics running on data. To understand why an algorithm works, and to fix it when it does not, we need the mathematics underneath.
 
@@ -25,7 +25,7 @@ Figure 1 shows the four branches and the job each one does. This Note gives a fi
 
 ## 2. Linear algebra: representing data
 
-> **Key point:** Linear algebra gives us the containers for data (vectors, matrices and tensors) and the operations that act on a whole container at once.
+> **Key point:** Linear algebra gives us the containers for data (**vectors** (G-2079), matrices and tensors) and the operations that act on a whole container at once.
 
 [**Linear algebra**](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) stores every kind of data (tables, text, images, video) as vectors (lists of numbers, such as $(2, 3)$), **matrices** (G-1180; tables of numbers) and **tensors** (G-1957; grids of numbers with any number of axes), and acts on a whole container in one step; [why ML needs linear algebra](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#6-what-linear-algebra-is-and-why-ml-needs-it) explains why. How each kind of data becomes a tensor is shown in [tensors from 0D to 5D](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#3-tensors-from-0d-to-5d).
 
@@ -117,7 +117,7 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 | Statistics | Draw conclusions from data | Find outliers, related features | an outlier or an unrelated feature can mislead the model | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
 
 - ML is mathematics running on data; four branches carry most of it, so knowing them is how we understand why an algorithm works and fix it when it does not.
-- Statistics is used the most, because it is needed at every stage, from receiving the data to choosing the algorithm; linear algebra does the heavy lifting of storing and transforming data, because every kind of data becomes vectors, matrices and tensors.
+- Statistics is used the most, because it is needed at every stage, from receiving the data to choosing the algorithm; **linear algebra** (G-1090) does the heavy lifting of storing and transforming data, because every kind of data becomes vectors, matrices and tensors.
 
 ## 7. Sources
 
@@ -139,6 +139,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Calculus (G-339) | The branch of mathematics about change: differentiation and integration. |
 | Optimisation (G-1400) | Changing a model step by step until its error is as small as possible. |
 | [Linear algebra](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#61-what-linear-algebra-is) (G-1090) | The branch of mathematics that studies linear equations, vectors and matrices; ML uses it to store data (tables, text, images) as vectors and matrices and to work on a whole dataset in one step. |
+| [Vector (geometric view)](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-2079) | A point in a coordinate system, drawn as an arrow from the origin. |
 | [Matrix](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1180) | A table of numbers in rows and columns (a 2D tensor); it can hold a dataset (one row per observation), and multiplying a vector by it transforms the vector. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
 | [Derivative](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
@@ -152,6 +153,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
-| [Vector (geometric view)](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#23-coordinates-walking-instructions) (G-2079) | A point in a coordinate system, drawn as an arrow from the origin. |
 | [Event](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#25-event) (G-717) | A set of outcomes, such as "the sum is at most 10". |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |

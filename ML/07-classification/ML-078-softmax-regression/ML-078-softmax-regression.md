@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/softmax]
 
 ## 1. Overview
 
-> **Key point:** Softmax regression extends logistic regression to more than two classes. The model computes one score per class and turns the scores into probabilities that add up to 1, using the softmax function.
+> **Key point:** Softmax regression extends logistic regression to more than two classes. The model computes one score per class and turns the scores into probabilities that add up to 1, using the **softmax function** (G-1830).
 
 [Logistic regression](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) handles **binary** classification (two classes): placed or not, spam or not. Many problems have more classes. A student might be placed, not placed, or opt out of placements altogether; an iris flower can be one of three species.
 
@@ -106,13 +106,13 @@ Because the outputs lie between 0 and 1 and add up to 1, we read them as probabi
 
 ### 2.4 Softmax has a slope
 
-> **Key point:** A small change in a score gives a small change in every probability, so gradient descent has a slope to follow.
+> **Key point:** A small change in a score gives a small change in every probability, so **gradient descent** (G-862) has a slope to follow.
 
 ![The setosa score slides from −3 to 6 while the other two scores stay fixed. Left: the three softmax probabilities, which always add up to 1. Right: the setosa output against its score: argmax (dashed) is a step with slope 0; softmax (solid) is a smooth curve.](images/compete.gif)
 
 In Figure 2, watch the left panel first. As the setosa score rises, the setosa probability rises and the versicolor probability falls by the same amount. The classes compete for a fixed total of 1.
 
-Now the right panel. The dashed argmax line is flat at 0, jumps to 1 where the setosa score passes the versicolor score (1.84), and is flat again. Its slope is 0 everywhere except at the jump. The solid softmax curve rises smoothly, so it has a slope at every point.
+Now the right panel. The dashed **argmax** (G-212) line is flat at 0, jumps to 1 where the setosa score passes the versicolor score (1.84), and is flat again. Its slope is 0 everywhere except at the jump. The solid softmax curve rises smoothly, so it has a slope at every point.
 
 The slope has a simple formula. Write $p_k$ for the softmax probability of class $k$. For our flower, $p_{\text{setosa}} = 0.726$ and $p_{\text{versicolor}} = 0.274$. There are two kinds of slope, shown with the numbers first:
 
@@ -137,7 +137,7 @@ $$= \frac{1}{1 + e^{-(z_1 - z_2)}}$$
 
 $$= \sigma(z_1 - z_2)$$
 
-The result is the sigmoid of the difference $z_1 - z_2$ ([the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)). So binary logistic regression is the special case of softmax regression with two classes.
+The result is the sigmoid of the difference $z_1 - z_2$ ([the sigmoid function](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function)). So binary logistic regression is the special case of **softmax regression** (G-1833) with two classes.
 
 ## 3. How the model predicts
 
@@ -169,7 +169,7 @@ The other two scores come out at 1.84 and $-4.66$. Softmax then gives the probab
 
 ## 4. How the model is trained
 
-> **Key point:** One-hot encode the classes, then minimise the categorical cross entropy, the multi-class version of log loss, with gradient descent.
+> **Key point:** **One-hot encode** (G-1379) the classes, then minimise the categorical cross entropy, the multi-class version of log loss, with gradient descent.
 
 ### 4.1 An intuition: one model per class
 
@@ -183,7 +183,7 @@ The one-model-per-class picture works, and scikit-learn offers it as **one-vs-re
 
 > **Key point:** For each observation, only the probability given to its true class counts: the loss is the average of −log(that probability).
 
-Softmax regression instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy** (G-349). First a worked example. Take $m = 3$ flowers. The true species is written as a **one-hot** row: 1 in the true class, 0 elsewhere. The probabilities for flower 1 are the ones computed above; flowers 2 and 3 have made-up probabilities for illustration:
+**Softmax regression** (G-1833) instead trains all $K$ weight vectors together, by minimising one loss function, the **categorical cross entropy** (G-349). First a worked example. Take $m = 3$ flowers. The true species is written as a **one-hot** row: 1 in the true class, 0 elsewhere. The probabilities for flower 1 are the ones computed above; flowers 2 and 3 have made-up probabilities for illustration:
 
 | Flower | True species | One-hot $y_i$ (setosa, versicolor, virginica) | Probabilities $\hat y_i$ | Probability of the true class |
 |---|---|---|---|---|
@@ -219,7 +219,7 @@ Each class has an intercept plus one weight per feature, so with 2 features each
 
 $$3 \text{ classes} \times 3 \text{ weights} = 9$$
 
-Gradient descent computes the derivative of $L$ with respect to all nine and updates them together, just as in [gradient descent for logistic regression](../ML-072-log-loss/ML-072-log-loss.md#72-gradient-descent).
+**Gradient descent** (G-862) computes the derivative of $L$ with respect to all nine and updates them together, just as in [gradient descent for logistic regression](../ML-072-log-loss/ML-072-log-loss.md#72-gradient-descent).
 
 Figure 4 runs this on the training flowers, with the two features standardised. All nine weights start at 0, so every class gets probability 1/3 and the loss is $\log 3 = 1.10$. As the weights move together, the three regions sort themselves out and the loss falls to 0.31 after 500 epochs (an epoch is one pass over the training data), with 28 of the 30 test flowers right (0.933). scikit-learn's solver, run to convergence, reaches the 0.967 of [Section 5](#5-in-scikit-learn).
 
@@ -229,7 +229,7 @@ Figure 4 runs this on the training flowers, with the two features standardised. 
 
 > **Key point:** LogisticRegression uses softmax automatically when there are more than two classes. predict_proba returns the softmax probabilities.
 
-> **Python:** Softmax regression on iris.
+> **Python:** **Softmax regression** (G-1833) on iris.
 >
 > ```python
 > from sklearn.linear_model import LogisticRegression
@@ -242,7 +242,7 @@ Figure 4 runs this on the training flowers, with the two features standardised. 
 > clf.predict([[3.4, 2.7]])              # [0]  (setosa)
 > ```
 
-> **Extra:** Older versions of scikit-learn needed `LogisticRegression(multi_class="multinomial")`. Recent versions removed that setting: with the default solver, multi-class problems always use softmax. One-vs-rest is still available as `OneVsRestClassifier(LogisticRegression())` (scikit-learn docs, `LogisticRegression`).
+> **Extra:** Older versions of scikit-learn needed `LogisticRegression(multi_class="multinomial")`. Recent versions removed that setting: with the default solver, multi-class problems always use softmax. **One-vs-rest** (G-1388) is still available as `OneVsRestClassifier(LogisticRegression())` (scikit-learn docs, `LogisticRegression`).
 
 On 30 test flowers, the model gets 29 right (accuracy 0.967); the one mistake is a versicolor predicted as virginica.
 
@@ -252,11 +252,11 @@ Figure 5 shows the **decision regions** (G-557): each point of the plane is colo
 
 ## 6. Summary
 
-- Softmax regression = logistic regression for $K \geq 2$ classes; also called multinomial logistic regression. So problems with more than two classes, such as the three iris species, need no new kind of model.
+- **Softmax regression** (G-1833) = logistic regression for $K \geq 2$ classes; also called **multinomial logistic regression** (G-1276). So problems with more than two classes, such as the three iris species, need no new kind of model.
 - Softmax: $\hat y_k = e^{z_k} / \sum_j e^{z_j}$; outputs are probabilities that add up to 1, because every $e^{z}$ is positive and each is divided by their total; so the classes compete for one fixed total.
-- Argmax picks the largest score but has slope 0, so the model trains with softmax and reports the class with argmax.
+- **Argmax** (G-212) picks the largest score but has slope 0, so the model trains with softmax and reports the class with argmax.
 - One weight vector per class, because each class needs its own score; predict the class with the largest probability.
-- Training minimises the categorical cross entropy with gradient descent, so all $K$ weight vectors are learned together and their probabilities add up to 1, which separate one-vs-rest models do not guarantee; with two classes, everything reduces to the sigmoid and the binary log loss.
+- Training minimises the **categorical cross entropy** (G-349) with gradient descent, so all $K$ weight vectors are learned together and their probabilities add up to 1, which separate **one-vs-rest** (G-1388) models do not guarantee; with two classes, everything reduces to the sigmoid and the binary log loss.
 - Decision boundaries are straight lines, because each score is a linear function of the features; so softmax regression is still a linear classifier.
 
 ## 7. Sources
@@ -277,9 +277,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Softmax function (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | Softmax regression (G-1833) | Logistic regression extended to any number of classes using the softmax function. |
 | Multinomial logistic regression (G-1276) | Logistic regression extended to more than two classes: it gives each class a probability with the softmax. Also called softmax regression. |
-| Softmax function (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | One-vs-rest (G-1388) | Training one binary classifier per class, each separating that class from all others. |
 | Categorical cross entropy (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | Decision region (G-557) | The part of the input space in which a model predicts a given class. |

@@ -18,7 +18,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/api]
 
 > **Key point:** We can build our own dataset by asking a website's API for its data, page by page, and joining the replies into one DataFrame.
 
-CSV files ([reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function): plain text, one row per line), JSON files ([what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is): text made of named values and lists) and SQL databases ([what SQL is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is): tables we query) hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an [**API**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data) (G-204) that hands out their data on request, so we can collect it ourselves.
+CSV files ([reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function): plain text, one row per line), JSON files ([what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is): text made of named values and lists) and SQL databases ([what SQL is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is): tables we query) hold data that someone has already collected. Often the data we want is still on a website, and no file exists. Many websites offer an [**API**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#2-collecting-data) (G-204) that hands out their data on **request** (G-1674), so we can collect it ourselves.
 
 Figure 1 shows the whole process. We send a request, get back a reply in JSON, turn it into a DataFrame (a pandas table of rows and columns), repeat for every page, join the pages and save the result as a CSV file. Follow the arrows: along the top row from left to right, down, then along the bottom row from right to left; the dashed red arrow loops back to the server for every page.
 
@@ -28,7 +28,7 @@ The Notebook for this Note (`ML-016-fetching-data-from-api.ipynb`) runs every st
 
 ## 2. What an API is
 
-> **Key point:** An API lets two pieces of software talk to each other; it carries data from one point to another.
+> **Key point:** An **API** (G-204) lets two pieces of software talk to each other; it carries data from one point to another.
 
 **API** stands for **Application Programming Interface**. Almost everything we do today runs through some app, and behind the apps, APIs are what let different programs work together.
 
@@ -36,17 +36,17 @@ The simplest definition: an API lets two pieces of software talk to each other. 
 
 ## 3. Why APIs exist: one database, many apps
 
-> **Key point:** A company wraps its database in an API, so other apps and platforms can use the same data without ever getting the database itself.
+> **Key point:** A company wraps its database in an **API** (G-204), so other apps and platforms can use the same data without ever getting the database itself.
 
 ### 3.1 Railway tickets
 
 A train seat in India can be booked through many apps: IRCTC's own website, MakeMyTrip, Yatra and others. These are different companies, each with its own database. Yet if we book a seat through IRCTC, a person trying to book the same seat on MakeMyTrip sees it as booked.
 
-IRCTC does not hand its database to MakeMyTrip. Instead, IRCTC writes functions around its database: the API (Figure 2a). When MakeMyTrip calls one of these functions with the right input, such as the train number, the date and the seat, IRCTC's server replies with the answer, in JSON: is the seat free or not?
+IRCTC does not hand its database to MakeMyTrip. Instead, IRCTC writes functions around its database: the **API** (G-204) (Figure 2a). When MakeMyTrip calls one of these functions with the right input, such as the train number, the date and the seat, IRCTC's server replies with the answer, in JSON: is the seat free or not?
 
 ### 3.2 One company, many platforms
 
-Facebook has a website, a mobile website, an Android app and an iPhone app. All of them work on a single database, through one API (Figure 2b). The shared API is why a post written on the phone appears on the website at once.
+Facebook has a website, a mobile website, an Android app and an iPhone app. All of them work on a single database, through one **API** (G-204) (Figure 2b). The shared API is why a post written on the phone appears on the website at once.
 
 ![An API in front of a database serves many apps](images/two_uses.png)
 
@@ -54,7 +54,7 @@ Facebook has a website, a mobile website, an Android app and an iPhone app. All 
 
 ## 4. Asking an API for data
 
-> **Key point:** A request to an API is a web address (URL): which data we want, who we are (the API key), and which page.
+> **Key point:** A **request** (G-1674) to an API is a web address (URL): which data we want, who we are (the API key), and which page.
 
 Our example website is **TMDB** (The Movie Database, `themoviedb.org`), a large database of movies. Its developer pages (`developers.themoviedb.org`) list many **endpoints**: addresses that each return one kind of data. One of them, `/movie/top_rated`, returns the top-rated movies in TMDB's database.
 
@@ -66,17 +66,17 @@ https://api.themoviedb.org/3/movie/top_rated?api_key=MYKEY&page=1
 
 The `?` marks the end of the address and the start of the settings; each setting is a name, an equals sign and a value; a second setting is joined to the first by `&`. Figure 3 takes the request apart:
 
-- **Base address:** where the API lives.
+- **Base address:** where the **API** (G-204) lives.
 - **Endpoint:** what we want, here the top-rated movies.
-- **Query parameters:** settings after the `?`, joined by `&`. Here the API key and the page number.
+- **Query parameters:** settings after the `?`, joined by `&`. Here the **API key** (G-205) and the page number.
 
 ![The parts of an API request, and the reply it brings back](images/request_url.png)
 
 ### 4.1 The API key
 
-An **API key** (G-205) is a secret code that tells the API who is asking. To get a TMDB key, we create a free account, log in, and open Settings, then the API section.
+An **API key** (G-205) is a secret code that tells the **API** (G-204) who is asking. To get a TMDB key, we create a free account, log in, and open Settings, then the API section.
 
-Each key has a limit on how many requests it can make. So every user should create their own key and never share it: if many people use one key, it runs out.
+Each key has a limit on how many **requests** (G-1674) it can make. So every user should create their own key and never share it: if many people use one key, it runs out.
 
 > **Extra:** Keep keys out of code. A key pasted into a notebook gets shared with the notebook, for example on GitHub. A safer way is to store it in an **environment variable**, a named value that lives on our computer, and read it in Python with `os.environ["TMDB_API_KEY"]`. The Python box in [Section 6](#6-fetching-one-page-in-python) does this.
 
@@ -84,7 +84,7 @@ Each key has a limit on how many requests it can make. So every user should crea
 
 > **Key point:** The reply is JSON: a dictionary whose `results` key holds a list of dictionaries, one per movie, plus the page count we need for the loop.
 
-If we paste the request URL into a web browser, the reply appears as a long block of text. That text is JSON (see [what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is)). A **JSON viewer**, such as `jsonviewer.stack.hu`, lays the text out as a tree so we can see its structure.
+If we paste the **request** (G-1674) URL into a web browser, the reply appears as a long block of text. That text is JSON (see [what JSON is](../ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is)). A **JSON viewer**, such as `jsonviewer.stack.hu`, lays the text out as a tree so we can see its structure.
 
 A **dictionary** (G-603) is a set of name and value pairs, written `{"page": 1, "total_pages": 428}`; a looked-up name gives its value. A **list** is an ordered row of items, written `["a", "b", "c"]`, and each item has a position starting from 0. Figure 4 shows the structure. JSON looks just like a Python dictionary:
 
@@ -97,11 +97,11 @@ A **dictionary** (G-603) is a set of name and value pairs, written `{"page": 1, 
 
 ### 5.1 Planning the dataset
 
-Before writing code, we decide what the final table should hold. Each movie will be one **observation** (one record, one row of the table). Each value we keep will be a **feature** (a variable describing the movie, one column of the table). From each movie's dictionary we keep 7 columns: `id`, `title`, `overview` (a short plot summary), `release_date`, `popularity`, `vote_average` and `vote_count`.
+Before writing code, we decide what the final table should hold. Each movie will be one **observation** (one record, one row of the table). Each value we keep will be a **feature** (a variable describing the movie, one column of the table). From each movie's **dictionary** (G-603) we keep 7 columns: `id`, `title`, `overview` (a short plot summary), `release_date`, `popularity`, `vote_average` and `vote_count`.
 
 The plan follows from the reply's structure:
 
-1. Request one page and turn its `results` into a DataFrame of 20 rows.
+1. **Request** (G-1674) one page and turn its `results` into a DataFrame of 20 rows.
 2. Do this 428 times, once per page, adding each page's rows to one big DataFrame.
 3. The final table should have shape (8551, 7).
 
@@ -120,7 +120,7 @@ We need two libraries: pandas, and **requests** (G-1674), which sends web reques
 | 404 | Not found: what we asked for does not exist |
 | 500 | Server error: the server is down or broken |
 
-`response.json()` reads the JSON text into Python dictionaries and lists. Then `["results"]` picks out the list of movies, and `pd.DataFrame(...)` makes it a table: one row per dictionary, one column per key. Finally, a list of column names keeps only the 7 columns we planned.
+`response.json()` reads the JSON text into Python dictionaries and lists. Then `["results"]` picks out the list of movies, and `pd.DataFrame(...)` makes it a table: one row per **dictionary** (G-603), one column per key. Finally, a list of column names keeps only the 7 columns we planned.
 
 > **Python:** One page from TMDB (needs a free key, stored in an environment variable).
 >
@@ -144,12 +144,12 @@ We need two libraries: pandas, and **requests** (G-1674), which sends web reques
 >
 > `params=` builds the part after the `?` for us, so we never paste the key into the URL in our code. The request that goes out still carries the key in its address, as in Figure 3; only the code stays free of it.
 
-> **Extra:** What changed. TMDB still works, but only with a personal key. Without one it replies with status code 401 and the message "Invalid API key". So the Notebook uses **TVmaze** (`api.tvmaze.com`), a free TV-show database that needs no key. TVmaze returns the same kind of data: shows with a name, premiere date, average rating, popularity score (`weight`) and summary. A saved real reply, `data/tvmaze_shows_page0.json`, lets the Notebook run without internet (checked October 2026).
+> **Extra:** What changed. TMDB still works, but only with a personal key. Without one it replies with status code 401 and the message "Invalid **API key** (G-205)". So the Notebook uses **TVmaze** (`api.tvmaze.com`), a free TV-show database that needs no key. TVmaze returns the same kind of data: shows with a name, premiere date, average rating, popularity score (`weight`) and summary. A saved real reply, `data/tvmaze_shows_page0.json`, lets the Notebook run without internet (checked October 2026).
 
 The TVmaze reply differs from TMDB's in two ways:
 
 - The reply is the list itself, with no `results` key around it, and no total page count.
-- Each page holds up to 250 shows (TVmaze API docs); page 0 has 240, because deleted shows leave gaps.
+- Each page holds up to 250 shows (TVmaze **API** (G-204) docs); page 0 has 240, because deleted shows leave gaps.
 
 > **Python:** One page from TVmaze (no key).
 >
@@ -208,13 +208,13 @@ Fetching all of TMDB's 428 pages takes about two minutes, because each page is a
 
 > **Extra:** Older code grew the table inside the loop with `df = df.append(temp_df, ignore_index=True)`. pandas 2.0 removed `DataFrame.append` (pandas release notes); it now fails with `AttributeError`. Collecting the pages in a list and calling `pd.concat` once at the end replaces it, and is also faster.
 
-> **Extra:** Most APIs have a **rate limit**: a maximum number of requests in a given time. TVmaze allows at least 20 requests every 10 seconds (TVmaze API docs) and answers status code 429 ("too many requests") beyond that. `time.sleep(0.5)` waits half a second between pages, which keeps us under the limit. TVmaze has about 380 pages (roughly 90,000 shows); `range(0, 400)` fetches them all, and the 404 after the last page ends the loop.
+> **Extra:** Most **APIs** (G-204) have a **rate limit**: a maximum number of **requests** (G-1674) in a given time. TVmaze allows at least 20 requests every 10 seconds (TVmaze API docs) and answers status code 429 ("too many requests") beyond that. `time.sleep(0.5)` waits half a second between pages, which keeps us under the limit. TVmaze has about 380 pages (roughly 90,000 shows); `range(0, 400)` fetches them all, and the 404 after the last page ends the loop.
 
 ## 8. Saving the dataset
 
 > **Key point:** `df.to_csv("file.csv")` saves the DataFrame as a CSV file, our own dataset ready for analysis.
 
-Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see [reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function)) without calling the API again.
+Once the loop has finished, one line saves the table, for example as `movies.csv`. From then on we can load it with `read_csv` (see [reading a CSV file](../ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function)) without calling the **API** (G-204) again.
 
 > **Python:** Saving and reloading.
 >
@@ -231,7 +231,7 @@ Figure 7 is a first look at the dataset we built: most of the 1,056 rated shows 
 
 ## 9. Sharing datasets and finding more APIs
 
-> **Key point:** A dataset built from an API can be shared on Kaggle, and RapidAPI lists many free APIs to build more.
+> **Key point:** A dataset built from an **API** (G-204) can be shared on Kaggle, and RapidAPI lists many free APIs to build more.
 
 **Kaggle** is a website where people share datasets, notebooks and write-ups, and take part in ML competitions. Uploading a dataset we built ourselves, such as the movies table, adds to our Kaggle profile. A strong profile (datasets, notebooks, competitions, discussions) helps when applying for internships and jobs.
 
@@ -255,12 +255,12 @@ For more data, **RapidAPI** (`rapidapi.com`) keeps a list of free APIs in many c
 | Join the pages | `pd.concat(frames, ignore_index=True)` | 8,551 rows, 7 columns | 1,208 rows, 7 columns |
 | Save | `df.to_csv(...)` | `movies.csv` | `data/shows.csv` |
 
-- An API lets two programs talk; companies wrap a database in an API so many apps can share it.
-- A request is a URL: base address, endpoint, and query parameters such as the API key and page, so changing only the page number fetches the next page.
-- The status code says how it went: 200 OK, 401 bad key, 404 not found, 500 server error. So a failed request tells us what to fix: TMDB without a key answers 401.
-- The reply is JSON; a list of dictionaries becomes a DataFrame with one row per dictionary. Nested dictionaries need `pd.json_normalize`, because `pd.DataFrame` would keep a whole dictionary in one cell.
+- An **API** (G-204) lets two programs talk; companies wrap a database in an API so many apps can share it.
+- A **request** (G-1674) is a URL: base address, endpoint, and query parameters such as the API key and page, so changing only the page number fetches the next page.
+- The **status code** (G-1886) says how it went: 200 OK, 401 bad key, 404 not found, 500 server error. So a failed request tells us what to fix: TMDB without a key answers 401.
+- The reply is JSON; a list of dictionaries becomes a DataFrame with one row per **dictionary** (G-603). Nested dictionaries need `pd.json_normalize`, because `pd.DataFrame` would keep a whole dictionary in one cell.
 - Loop over the pages, because one page holds only part of the data; collect the DataFrames in a list, then `pd.concat(..., ignore_index=True)`, because every page numbers its rows from 0 and the labels would repeat.
-- Keep API keys out of code, because a key in a notebook gets shared with the notebook and each key has a request limit; respect the API's rate limit, because beyond it the API answers 429.
+- Keep **API keys** (G-205) out of code, because a key in a notebook gets shared with the notebook and each key has a request limit; respect the API's rate limit, because beyond it the API answers 429.
 - Save the joined table with `to_csv`, so the dataset we built loads with `read_csv` without calling the API again.
 
 ## 11. Sources
@@ -282,9 +282,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| requests (G-1674) | Python library that sends web requests. |
 | API key (G-205) | A secret code that tells the API who is asking. |
 | Dictionary (Python) (G-603) | A lookup table from keys to values, written `{key: value}`. |
-| requests (G-1674) | Python library that sends web requests. |
 | Response (G-1686) | What `requests.get` returns: the status code plus the reply. |
 | Status code (G-1886) | A number saying how a request went: 200 OK, 401, 404, 500. |
 | `json_normalize` (G-99) | pandas function that turns nested JSON into flat columns. |

@@ -20,13 +20,13 @@ Both questions need a precise way to say where the robot is, and a rule linking 
 - why a rolling wheel's spin tells us its speed over the floor ([Section 3](#3-the-differential-drive-robot));
 - the link from the two wheel speeds to how fast the robot drives forward and turns, derived from one fact about turning bodies, and the link back ([Section 4](#4-from-wheel-speeds-to-robot-speeds-and-back));
 - how those speeds move the robot over the floor, and how to predict its path step by step ([Section 5](#5-from-robot-speeds-to-motion-on-the-floor));
-- why the robot cannot slide sideways, and why it can still reach every pose ([Section 6](#6-the-robot-cannot-slide-sideways)).
+- why the robot cannot slide sideways, and why it can still reach every **pose** (G-2280) ([Section 6](#6-the-robot-cannot-slide-sideways)).
 
 Cars and trailers follow the same model with stricter limits; the car-like robots Note later in this chapter covers them.
 
 ## 2. Pose: where the robot is
 
-> **Key point:** Both opening questions first need a way to say where the robot is. Position alone does not tell us where the robot will go next; we also need the direction it faces. Position $(x, y)$ plus heading $\theta$, measured in an agreed frame, is the pose.
+> **Key point:** Both opening questions first need a way to say where the robot is. Position alone does not tell us where the robot will go next; we also need the direction it faces. Position $(x, y)$ plus **heading** (G-2284) $\theta$, measured in an agreed frame, is the **pose** (G-2280).
 
 ### 2.1 Why we need a frame
 
@@ -93,7 +93,7 @@ This arc rule is the reason the wheel formula ([Section 3](#3-the-differential-d
 
 ## 3. The differential-drive robot
 
-> **Key point:** The prediction question starts at the wheels. Two motorised wheels on one axle are enough to drive anywhere and even to spin on the spot. If a wheel rolls without slipping, its speed over the floor is its radius times its spin rate, so 12 rad/s gives 0.6 m/s.
+> **Key point:** The prediction question starts at the wheels. Two motorised wheels on one axle are enough to drive anywhere and even to spin on the spot. If a wheel **rolls without slipping** (G-2290), its speed over the floor is its radius times its spin rate, so 12 rad/s gives 0.6 m/s.
 
 ### 3.1 Why two wheels and a caster
 
@@ -113,7 +113,7 @@ $$L = 0.2 \text{ m} \quad \text{(wheel separation)}$$
 
 > **Key point:** A wheel that does not skid lays its rim down on the floor as it turns, so it moves forward by exactly the length of rim it turns.
 
-A motor tells us how fast the wheel spins, in radians per second. What we need is how fast the robot moves over the floor, in metres per second. The link is the wheel's grip.
+A motor tells us how fast the wheel spins, in **radians** (G-2285) per second. What we need is how fast the robot moves over the floor, in metres per second. The link is the wheel's grip.
 
 A wheel **rolls without slipping** (G-2290) when the point touching the floor does not skid. Each bit of rim that comes down touches the floor once and stays put while touching. So the wheel moves forward by exactly the length of rim it has turned (Figure 6). One full turn lays down the whole circumference:
 
@@ -147,8 +147,8 @@ The two wheel speeds, 0.6 and 0.4 m/s, do not yet say how the whole robot moves;
 
 Wheel speeds are what the motors take, but they are an awkward way to think. Asked how to drive to the door, nobody says "right wheel 0.35 m/s, left wheel 0.25 m/s"; we say "not too fast, and bear left". So we describe the motion of the whole robot with two numbers that match that way of thinking (Figure 7):
 
-- how fast the midpoint between the wheels moves along the heading, in metres per second: its **linear velocity** (G-2291) $v$;
-- how fast the heading $\theta$ changes, in radians per second, positive to the left: its **angular velocity** (G-2292) $\omega$ (omega).
+- how fast the midpoint between the wheels moves along the **heading** (G-2284), in metres per second: its **linear velocity** (G-2291) $v$;
+- how fast the heading $\theta$ changes, in **radians** (G-2285) per second, positive to the left: its **angular velocity** (G-2292) $\omega$ (omega).
 
 ![A robot with a straight arrow for its linear velocity v along the heading and a curved arrow for its angular velocity omega, positive to the left](images/speed_and_turn.png)
 
@@ -164,7 +164,7 @@ That centre, the point the whole robot turns about at this moment, is the **inst
 
 ![The robot turning about a point on its axle line. The right wheel is at distance R + L/2, the midpoint at R, the left wheel at R − L/2; their velocity arrows grow in proportion to the distance](images/turning_point.png)
 
-The whole body turns by the same angle in each second, the angular velocity $\omega$. By the arc rule of [Section 2.3](#23-why-angles-are-measured-in-radians), a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 8):
+The whole body turns by the same angle in each second, the **angular velocity** (G-2292) $\omega$. By the arc rule of [Section 2.3](#23-why-angles-are-measured-in-radians), a point at distance $d$ from the centre then travels $\omega$ times $d$ metres per second. Points farther out move faster (Figure 8):
 
 $$\text{speed} = \omega \times \text{distance}$$
 
@@ -205,15 +205,15 @@ $$v = \frac{v_R + v_L}{2}$$
 
 The midpoint moves at the average speed of the wheels because it sits halfway between them.
 
-**Worked example.** With our wheel speeds, the linear velocity is:
+**Worked example.** With our wheel speeds, the **linear velocity** (G-2291) is:
 
 $$v = \frac{0.6 + 0.4}{2} = 0.5 \text{ m/s}$$
 
-The angular velocity is:
+The **angular velocity** (G-2292) is:
 
 $$\omega = \frac{0.6 - 0.4}{0.2} = 1 \text{ rad/s}$$
 
-The turning radius follows from $v = \omega R$:
+The **turning radius** (G-2293) follows from $v = \omega R$:
 
 $$R = v / \omega$$
 
@@ -238,15 +238,15 @@ The two formulas predict four kinds of motion. Figure 9 plays each one for two s
 
 Why each happens:
 
-- **Straight line.** Equal speeds have no difference, so $\omega = 0$: nothing turns the heading. The ICC is infinitely far away.
+- **Straight line.** Equal speeds have no difference, so $\omega = 0$: nothing turns the **heading** (G-2284). The ICC is infinitely far away.
 - **Spin on the spot.** Opposite speeds add up to zero, so $v = 0$: the midpoint stays put while the heading turns.
-- **Pivot.** A stopped wheel does not move, so it must be the ICC itself; the table confirms a turning radius of 0.1 m, exactly half the wheel separation.
+- **Pivot.** A stopped wheel does not move, so it must be the ICC itself; the table confirms a **turning radius** (G-2293) of 0.1 m, exactly half the wheel separation.
 
-The spin on the spot is what makes the differential drive so easy to steer: it can face any direction first and then drive straight (LaValle §13.1.2.2). A car cannot, as the car-like robots Note later in this chapter shows.
+The spin on the spot is what makes the **differential drive** (G-2288) so easy to steer: it can face any direction first and then drive straight (LaValle §13.1.2.2). A car cannot, as the car-like robots Note later in this chapter shows.
 
 ### 4.5 Back again: the wheel speeds for a wanted motion
 
-> **Key point:** To drive with linear velocity $v$ and angular velocity $\omega$, run the right wheel at $v + \omega L/2$ and the left wheel at $v - \omega L/2$.
+> **Key point:** To drive with **linear velocity** (G-2291) $v$ and **angular velocity** (G-2292) $\omega$, run the right wheel at $v + \omega L/2$ and the left wheel at $v - \omega L/2$.
 
 The control question of [Section 1](#1-overview) goes the other way: the controller has chosen $v$ and $\omega$ and must send wheel commands. This is the **inverse kinematics** (G-2295) of the robot. Solve the two formulas of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity) for the wheel speeds:
 
@@ -272,11 +272,11 @@ $$u_R = 0.35 / 0.05 = 7 \text{ rad/s}$$
 
 $$u_L = 0.25 / 0.05 = 5 \text{ rad/s}$$
 
-Figure 10 shows why the two wheels differ. The wanted motion is a circle of radius 0.6 m (the turning radius, $v$ divided by $\omega$); the right wheel runs on the outside of it and must cover more ground in the same time than the left wheel on the inside.
+Figure 10 shows why the two wheels differ. The wanted motion is a circle of radius 0.6 m (the **turning radius** (G-2293), $v$ divided by $\omega$); the right wheel runs on the outside of it and must cover more ground in the same time than the left wheel on the inside.
 
 ![The wanted motion, v = 0.3 m/s and omega = 0.5 rad/s, is a circle of radius 0.6 m: the outer right wheel needs 0.35 m/s, the midpoint 0.3 m/s and the inner left wheel 0.25 m/s](images/inverse_wheels.png)
 
-As a check, feeding 7 and 5 rad/s back into the forward kinematics of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity) must return 0.3 m/s and 0.5 rad/s, and it does (the Python box below).
+As a check, feeding 7 and 5 rad/s back into the **forward kinematics** (G-2294) of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity) must return 0.3 m/s and 0.5 rad/s, and it does (the Python box below).
 
 > **Python:** both directions in four lines.
 > ```python
@@ -293,11 +293,11 @@ The formulas now link wheel speeds and $v$, $\omega$ in both directions. Still o
 
 ## 5. From robot speeds to motion on the floor
 
-> **Key point:** This section finishes the prediction question: where 0.5 m/s and 1 rad/s take the robot over the floor. The robot moves along its heading, so its linear velocity splits into an x part $v \cos\theta$ and a y part $v \sin\theta$. Because the heading keeps changing, we predict the path in many small steps.
+> **Key point:** This section finishes the prediction question: where 0.5 m/s and 1 rad/s take the robot over the floor. The robot moves along its **heading** (G-2284), so its linear velocity splits into an x part $v \cos\theta$ and a y part $v \sin\theta$. Because the heading keeps changing, we predict the path in many small steps.
 
 ### 5.1 Why the speed splits into cosine and sine parts
 
-The robot knows its linear velocity, but the map needs to know how fast $x$ and $y$ change. The robot moves in the direction it faces, so the share of its speed that goes into $x$ and into $y$ depends on the heading. The two extremes are easy:
+The robot knows its **linear velocity** (G-2291), but the map needs to know how fast $x$ and $y$ change. The robot moves in the direction it faces, so the share of its speed that goes into $x$ and into $y$ depends on the **heading** (G-2284). The two extremes are easy:
 
 - facing along x ($\theta = 0^\circ$): all of the speed goes into $x$, none into $y$;
 - facing along y ($\theta = 90^\circ$): all of it goes into $y$, none into $x$.
@@ -325,11 +325,11 @@ $$= 0.5 \times 0.5 = 0.25 \text{ m/s}$$
 
 ### 5.2 The kinematic model
 
-> **Key point:** Three equations give how fast each number of the pose changes, from the two inputs $v$ and $\omega$.
+> **Key point:** Three equations give how fast each number of the **pose** (G-2280) changes, from the two inputs $v$ and $\omega$.
 
 We need a short way to write "how fast this changes". A dot over a symbol means its rate of change per second, the [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) with respect to time (G-2296). For example, $\dot{x} = 0.433$ m/s means $x$ grows by 0.433 m each second.
 
-The x speed and y speed of [Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts) are $\dot{x}$ and $\dot{y}$. The heading changes at the angular velocity, by the definition of $\omega$ in [Section 4.1](#41-why-we-describe-motion-by-linear-and-angular-velocity). Together:
+The x speed and y speed of [Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts) are $\dot{x}$ and $\dot{y}$. The **heading** (G-2284) changes at the angular velocity, by the definition of $\omega$ in [Section 4.1](#41-why-we-describe-motion-by-linear-and-angular-velocity). Together:
 
 $$\dot{x} = v \cos\theta$$
 
@@ -337,11 +337,11 @@ $$\dot{y} = v \sin\theta$$
 
 $$\dot{\theta} = \omega$$
 
-This is the **kinematic model** (G-2297) of the differential-drive robot. "Kinematic" means it uses speeds only, not masses or forces. That is safe while the robot moves slowly, because then the wheels follow their commands closely; at high speed, skidding and inertia matter and a dynamic model is needed (LaValle §13.1.2.1). The two numbers we choose, $u = (v, \omega)$, are the **control inputs** (G-2298). A sanity check: at $\theta = 0$ the model gives $\dot{x} = v$ and $\dot{y} = 0$, straight along x, as it should.
+This is the **kinematic model** (G-2297) of the **differential-drive** (G-2288) robot. "Kinematic" means it uses speeds only, not masses or forces. That is safe while the robot moves slowly, because then the wheels follow their commands closely; at high speed, skidding and inertia matter and a dynamic model is needed (LaValle §13.1.2.1). The two numbers we choose, $u = (v, \omega)$, are the **control inputs** (G-2298). A sanity check: at $\theta = 0$ the model gives $\dot{x} = v$ and $\dot{y} = 0$, straight along x, as it should.
 
 ### 5.3 Why we predict the path step by step
 
-> **Key point:** The direction of motion changes as the heading turns, so we cannot just multiply speed by time. Over a short step the heading hardly changes, so we treat it as fixed, move, and repeat.
+> **Key point:** The direction of motion changes as the **heading** (G-2284) turns, so we cannot just multiply speed by time. Over a short step the heading hardly changes, so we treat it as fixed, move, and repeat.
 
 Speed times time gives distance only if the direction stays the same. Here the heading turns at 1 rad/s, so the direction of motion changes all the time. But over a short time step $\Delta t$ the heading changes only a little, so we can treat the rates as fixed during the step and add them up. This is an **Euler step** (G-2299):
 
@@ -351,7 +351,7 @@ $$y_{\text{new}} = y + \dot{y}\thinspace\Delta t$$
 
 $$\theta_{\text{new}} = \theta + \dot{\theta}\thinspace\Delta t$$
 
-**Worked example.** Start at the pose of Figure 1, keep $v = 0.5$ m/s and $\omega = 1$ rad/s, and take steps of $\Delta t = 0.1$ s. The first step:
+**Worked example.** Start at the **pose** (G-2280) of Figure 1, keep $v = 0.5$ m/s and $\omega = 1$ rad/s, and take steps of $\Delta t = 0.1$ s. The first step:
 
 $$x = 2 + 0.433 \times 0.1 = 2.0433$$
 
@@ -367,7 +367,7 @@ The heading has changed, so the next step uses new rates:
 | 1 | 2.0433 | 1.0250 | 0.6236 | 0.4059 | 0.2920 |
 | 2 | 2.0839 | 1.0542 | 0.7236 | 0.3747 | 0.3310 |
 
-Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the turning radius of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity). This answers the prediction question of [Section 1](#1-overview): wheels at 12 and 8 rad/s drive the robot of Figure 1 round a circle of radius 0.5 m to the left.
+Figure 12 keeps going. The path bends left, and after about 6.3 s (63 steps) it closes a circle of radius 0.5 m, the **turning radius** (G-2293) of [Section 4.3](#43-wheel-speeds-to-linear-and-angular-velocity). This answers the prediction question of [Section 1](#1-overview): wheels at 12 and 8 rad/s drive the robot of Figure 1 round a circle of radius 0.5 m to the left.
 
 ![The robot driving from pose (2, 1, 30 degrees) with v = 0.5 m/s and omega = 1 rad/s; dots mark every Euler step of 0.1 s and the trail closes a circle of radius 0.5 m](images/euler_path.gif)
 
@@ -384,7 +384,7 @@ The gap shrinks in step with $\Delta t$: a step ten times smaller gives a gap te
 
 ## 6. The robot cannot slide sideways
 
-> **Key point:** One last check on the control question: can wheel commands reach every place, even one straight to the side? Rolling wheels forbid sideways motion. That limits which way the robot can move at each moment, but not which poses it can reach; it only means some moves need manoeuvres.
+> **Key point:** One last check on the control question: can wheel commands reach every place, even one straight to the side? Rolling wheels forbid sideways motion. That limits which way the robot can move at each moment, but not which **poses** (G-2280) it can reach; it only means some moves need manoeuvres.
 
 Why does this deserve a section? Many route planners assume a robot can move in any direction from where it stands. A route that needs a step sideways cannot be followed by our robot or by a car, so those planners cannot be used as they are (MR §13.3.3). So we need to know exactly what the rule forbids, and what it does not.
 
@@ -392,7 +392,7 @@ Why does this deserve a section? Many route planners assume a robot can move in 
 
 A wheel rolls along its own direction but grips against sliding sideways (LaValle §13.1.2.1). So the robot's midpoint can move forward or backward, never along its own left–right axis. In words: **the robot's velocity has no part pointing to its left**.
 
-The kinematic model of [Section 5.2](#52-the-kinematic-model) already obeys this rule. Its velocity, $\dot{x} = v\cos\theta$ and $\dot{y} = v\sin\theta$, is the linear velocity split along the heading ([Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts)), so it always points the way the robot faces. Its two inputs are "drive forward" ($v$) and "turn" ($\omega$); "slide sideways" is not among them. Of the three numbers of the pose, the robot can change only two directly at each moment.
+The **kinematic model** (G-2297) of [Section 5.2](#52-the-kinematic-model) already obeys this rule. Its velocity, $\dot{x} = v\cos\theta$ and $\dot{y} = v\sin\theta$, is the linear velocity split along the **heading** (G-2284) ([Section 5.1](#51-why-the-speed-splits-into-cosine-and-sine-parts)), so it always points the way the robot faces. Its two inputs are "drive forward" ($v$) and "turn" ($\omega$); "slide sideways" is not among them. Of the three numbers of the **pose** (G-2280), the robot can change only two directly at each moment.
 
 ### 6.2 Can the robot still get everywhere?
 
@@ -406,7 +406,7 @@ The robot cannot move to its left. Can it still get to a spot 0.5 m to its left?
 
 ![The robot moves 0.5 m sideways using only legal moves: spin 90 degrees left, drive 0.5 m, spin 90 degrees right. It ends 0.5 m to the left of where it started, facing the same way](images/sideways.gif)
 
-It ends 0.5 m to the left, facing the same way. The same trick reaches any pose: turn to face the spot, drive straight to it, then turn to the heading you want. A car does the same when it parallel parks into a space it cannot drive into sideways (LaValle §13.1.2.1).
+It ends 0.5 m to the left, facing the same way. The same trick reaches any **pose** (G-2280): turn to face the spot, drive straight to it, then turn to the heading you want. A car does the same when it parallel parks into a space it cannot drive into sideways (LaValle §13.1.2.1).
 
 Compare a toy train on a circular track of radius 5 m (Figure 14). Its limit is on where it can be: whatever it does, it stays on the circle, the points where $x^2 + y^2 = 25$.
 
@@ -432,13 +432,13 @@ So wheel commands reach every pose, which completes the control question of [Sec
 | Differential drive | $(x, y, \theta)$ | $v$, $\omega$ from two wheel speeds | spin on the spot, then drive straight |
 
 - Both opening questions have answers: wheels at 12 and 8 rad/s give 0.5 m/s and 1 rad/s, so the robot of Figure 1 drives a circle of radius 0.5 m to the left; to drive at 0.3 m/s while turning left at 0.5 rad/s, the wheels spin at 7 and 5 rad/s. Both come from the same two formulas, so the model works in both directions.
-- The pose $(x, y, \theta)$ says where a floor robot is, because position alone does not say which way it will drive off.
-- Angles are in radians, so the arc of a point turning about a centre is radius times angle, with no conversion factor.
-- A wheel that rolls without slipping moves at $r$ times its spin rate, because it lays its rim down on the floor.
-- The linear velocity is the average of the wheel speeds and the angular velocity is their difference over $L$, because the rigid robot turns about one point on its axle line, the ICC, and each point's speed is angular velocity times distance.
+- The **pose** (G-2280) $(x, y, \theta)$ says where a floor robot is, because position alone does not say which way it will drive off.
+- Angles are in **radians** (G-2285), so the arc of a point turning about a centre is radius times angle, with no conversion factor.
+- A wheel that **rolls without slipping** (G-2290) moves at $r$ times its spin rate, because it lays its rim down on the floor.
+- The **linear velocity** (G-2291) is the average of the wheel speeds and the angular velocity is their difference over $L$, because the rigid robot turns about one point on its axle line, the ICC, and each point's speed is **angular velocity** (G-2292) times distance.
 - Controllers think in $v$ and $\omega$, and the inverse formulas turn those into wheel commands, so the controller never has to reason in wheel speeds.
-- The kinematic model gives the rates of $x$, $y$ and $\theta$; the heading keeps turning, so we predict the path in small Euler steps, and smaller steps drift less.
-- The wheels forbid sideways motion, a nonholonomic constraint: it removes one direction of motion at each moment but no reachable pose, so the robot gets anywhere with manoeuvres such as spin–drive–spin or parallel parking.
+- The **kinematic model** (G-2297) gives the rates of $x$, $y$ and $\theta$; the **heading** (G-2284) keeps turning, so we predict the path in small Euler steps, and smaller steps drift less.
+- The wheels forbid sideways motion, a **nonholonomic constraint** (G-2302): it removes one direction of motion at each moment but no reachable pose, so the robot gets anywhere with manoeuvres such as spin–drive–spin or parallel parking.
 
 The robot can now predict where wheel commands take it and choose the commands for a wanted motion. Still missing: the prediction assumes wheels that never slip, and real wheels slip, so the robot is [never sure where it is](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#1-overview).
 
@@ -464,14 +464,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Pose (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
+| Heading $\theta$ (G-2284) | The angle from the world x-axis to the direction a robot faces, measured counter-clockwise; it decides which way the robot moves when it drives forward. |
 | Coordinate frame (G-2281) | A chosen origin and set of axes used to give positions as numbers; every position or pose is stated relative to some frame. |
 | World frame (G-2282) | The coordinate frame fixed to the surroundings (for example a corner of the room), in which the robot's pose is given. |
-| Heading $\theta$ (G-2284) | The angle from the world x-axis to the direction a robot faces, measured counter-clockwise; it decides which way the robot moves when it drives forward. |
-| Pose (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
 | Radian (G-2285) | The unit of angle at which the arc of a circle is as long as its radius; a full turn is $2\pi$ rad, and with radians an arc is simply radius times angle. |
+| Rolling without slipping (G-2290) | A wheel moving so that its contact point does not skid: it moves forward by its radius times the angle it turns and never slides sideways, which is what lets wheel turns predict motion. |
 | Differential drive (G-2288) | A robot with two independently driven wheels on one axle (plus a caster); it steers by running the wheels at different speeds and can spin on the spot. |
 | Caster wheel (G-2289) | A free-swivelling, undriven wheel, like the one under an office chair; it supports a robot without steering it. |
-| Rolling without slipping (G-2290) | A wheel moving so that its contact point does not skid: it moves forward by its radius times the angle it turns and never slides sideways, which is what lets wheel turns predict motion. |
 | Linear velocity $v$ (G-2291) | How fast a robot's reference point (for a differential drive, the middle of the axle) moves along its heading, in m/s; for a differential drive, the average of the two wheel speeds, so it sets how fast the robot advances. |
 | Angular velocity $\omega$ (G-2292) | How fast a robot's heading changes, in rad/s, positive to the left; for a differential drive, the difference of the wheel speeds divided by the wheel separation. |
 | Instantaneous centre of curvature (ICC) (G-2529) | The point a turning robot's whole body circles at a given moment; for a differential drive it lies on the axle line at distance $R = v/\omega$ from the midpoint, so it fixes how fast each wheel must move. |

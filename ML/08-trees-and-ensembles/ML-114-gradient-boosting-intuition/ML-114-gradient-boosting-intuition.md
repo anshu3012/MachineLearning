@@ -17,11 +17,11 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/gradient-boo
 
 ## 1. Overview
 
-> **Key point:** Gradient boosting starts with the mean as its first guess. Then, again and again, it trains a small regression tree on the current mistakes (the residuals) and adds a small part of that tree to the model.
+> **Key point:** Gradient boosting starts with the mean as its first guess. Then, again and again, it trains a small **regression tree** (G-1654) on the current mistakes (the residuals) and adds a small part of that tree to the model.
 
 ![Gradient boosting for regression: a mean, then trees trained on residuals, each added with the learning rate](images/stage_loop.png){height=36%}
 
-**Gradient boosting** (G-859) is a boosting algorithm, like AdaBoost: it builds a strong model by adding many weak ones (here small trees) one at a time. Gradient boosting is one of the strongest algorithms for tables of data (Grinsztajn et al. 2022), and its optimised version, XGBoost, has won many Kaggle competitions: 17 of the 29 winning solutions on Kaggle's blog in 2015 used it (Chen and Guestrin 2016). Figure 1 shows the whole method for regression. The present Note:
+**Gradient boosting** (G-859) is a boosting algorithm, like **AdaBoost** (G-167): it builds a strong model by adding many weak ones (here small trees) one at a time. Gradient boosting is one of the strongest algorithms for tables of data (Grinsztajn et al. 2022), and its optimised version, XGBoost, has won many Kaggle competitions: 17 of the 29 winning solutions on Kaggle's blog in 2015 used it (Chen and Guestrin 2016). Figure 1 shows the whole method for regression. The present Note:
 
 - follows it by hand on five students (sections 3 to 10);
 - watches it fit a curve (sections 11 and 12);
@@ -31,15 +31,15 @@ The maths behind each step is in [**additive modelling**](../ML-115-gradient-boo
 
 ## 2. Boosting passes mistakes forward
 
-> **Key point:** Every boosting algorithm adds small models one at a time; each new model is told about the mistakes of the models before it. AdaBoost tells it through observation weights; gradient boosting tells it through the residuals.
+> **Key point:** Every boosting algorithm adds small models one at a time; each new model is told about the mistakes of the models before it. AdaBoost tells it through **observation** (G-1374) weights; gradient boosting tells it through the residuals.
 
 Boosting (see [a stage-wise additive model](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model)) builds a big model from small models, added one after another: a [**stage-wise additive model**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867). What makes it boosting is that each new model learns from the mistakes of the ones before.
 
-Gradient boosting changes three things in [**AdaBoost**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167):
+**Gradient boosting** (G-859) changes three things in [**AdaBoost**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167):
 
 - **The first model.** AdaBoost starts with a [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559), a tree with one split. Gradient boosting starts with a single leaf: one number, predicted for every observation (section 4).
 - **The size of the trees.** AdaBoost adds stumps. Gradient boosting adds trees that are larger than a stump but still limited in size, commonly 8 to 32 leaves.
-- **How the trees are scaled.** AdaBoost gives each stump its own say. Gradient boosting multiplies every tree by the same number, the learning rate (section 8).
+- **How the trees are scaled.** AdaBoost gives each stump its own say. Gradient boosting multiplies every tree by the same number, the **learning rate** (G-1067) (section 8).
 
 [Section 13](#13-gradient-boosting-compared-with-adaboost) returns to these differences with data. The fourth difference is the main one. The two algorithms pass on the mistakes in different ways:
 
@@ -68,9 +68,9 @@ LPA is lakh rupees per annum. We build an ensemble of three models: model 1, the
 
 ## 4. Stage 1: the mean
 
-> **Key point:** For regression, the first model is not a tree at all: it is a single number, the mean of the target, predicted for every observation.
+> **Key point:** For regression, the first model is not a tree at all: it is a single number, the mean of the target, predicted for every **observation** (G-1374).
 
-The first model ignores the features. Whatever the IQ and CGPA, model 1 predicts the same number: the mean of the target. In tree language model 1 is a single leaf.
+The first model ignores the features. Whatever the IQ and CGPA, model 1 predicts the same number: the mean of the **target** (G-1949). In tree language model 1 is a single leaf.
 
 1. **In words:** add up the target values and divide by the number of observations.
 2. **Formula:**
@@ -82,11 +82,11 @@ So model 1 says every student earns 4.8 LPA, even a student with CGPA 10 and IQ 
 
 ## 5. Pseudo-residuals: the mistakes of the current model
 
-> **Key point:** The mistake on each observation is actual minus predicted. Gradient boosting calls it the pseudo-residual.
+> **Key point:** The mistake on each **observation** (G-1374) is actual minus predicted. Gradient boosting calls it the pseudo-residual.
 
 To tell the next model about the mistakes, we need one number per observation that says how wrong we were. We use actual minus predicted, called the **pseudo-residual** (G-1589).
 
-1. **In words:** for each observation, subtract the current prediction from the true target value.
+1. **In words:** for each observation, subtract the current prediction from the true **target** (G-1949) value.
 2. **Formula:**
    $$r_i = y_i - F_0$$
 3. **Example:** student 1 earns 3 and was predicted 4.8:
@@ -100,13 +100,13 @@ To tell the next model about the mistakes, we need one number per observation th
 | 4 | 6 | 4.8 | 1.2 |
 | 5 | 3 | 4.8 | $-1.8$ |
 
-A negative residual means we predicted too much; a positive one, too little. A residual of 0 would mean a perfect prediction. The name "residual" comes from linear regression (see [the best-fit line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)); why gradient boosting adds \"pseudo\" is explained in [pseudo-residuals are negative gradients](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#6-step-2a-pseudo-residuals-are-negative-gradients).
+A negative residual means we predicted too much; a positive one, too little. A residual of 0 would mean a perfect prediction. The name "residual" comes from linear regression (see [the best-fit line](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line)); why **gradient boosting** (G-859) adds \"pseudo\" is explained in [pseudo-residuals are negative gradients](../ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#6-step-2a-pseudo-residuals-are-negative-gradients).
 
 ## 6. Stage 2: a tree that predicts the mistakes
 
-> **Key point:** Model 2 is a regression tree with the same features, but its target is the residual column, not the package. Model 2 learns how wrong model 1 is for each kind of student.
+> **Key point:** Model 2 is a regression tree with the same features, but its **target** (G-1949) is the residual column, not the package. Model 2 learns how wrong model 1 is for each kind of student.
 
-Training on the mistakes is the central idea of gradient boosting. Model 2 is a **regression tree** (G-1654; see [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654)):
+Training on the mistakes is the central idea of **gradient boosting** (G-859). Model 2 is a **regression tree** (G-1654; see [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654)):
 
 - **features:** IQ and CGPA, as before;
 - **target:** *res1*, the mistakes of model 1, not the package.
@@ -115,7 +115,7 @@ We are not asking tree 1 "what is this student's package?" but "how far off is m
 
 ![Tree 1, trained on the residuals: each leaf holds the residual of the students that reach it](images/toy_tree.png){height=30%}
 
-Figure 3 shows the tree scikit-learn grows on this data. Student 1 (IQ 90) goes left at "IQ $\le$ 105" and left again at "IQ $\le$ 95", reaching the leaf $-1.8$: exactly student 1's residual. With only five observations, every student gets a leaf of their own (students 1 and 5 share one, and their residuals are equal), so the tree's predictions *pred* on the training observations equal the residuals exactly.
+Figure 3 shows the tree scikit-learn grows on this data. Student 1 (IQ 90) goes left at "IQ $\le$ 105" and left again at "IQ $\le$ 95", reaching the leaf $-1.8$: exactly student 1's residual. With only five **observations** (G-1374), every student gets a leaf of their own (students 1 and 5 share one, and their residuals are equal), so the tree's predictions *pred* on the training observations equal the residuals exactly.
 
 Trees are the usual choice for these later models, and Friedman's original method is built around them (Friedman 2001), although any regression model could be used.
 
@@ -137,7 +137,7 @@ Student 2 gets the prediction below, again exact:
 
 $$4.8 - 0.8 = 4$$
 
-Every training observation is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** (G-1429; see [overfitting and bias-variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#4-seeing-bias-and-variance)).
+Every training **observation** (G-1374) is now predicted perfectly, and that is a warning sign: the model has memorised these five students. A new student, not in the data, will probably be predicted badly. Memorising the training data is **overfitting** (G-1429; see [overfitting and bias-variance](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#4-seeing-bias-and-variance)).
 
 ## 8. The learning rate: small steps in the right direction
 
@@ -154,7 +154,7 @@ The fix is to add only part of each tree's correction. That part is the **learni
 
 The answer, 4.62, is still far from 3, but it moved the right way. More trees will bring it closer, one small step at a time. The same idea, shrinking every model's contribution so that learning slows down and overfitting slows down even more, was called [**shrinkage**](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) in [what the learning rate does](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#41-what-the-learning-rate-does).
 
-Figure 4 compares the two choices for all five students. Watch the red bars: they land exactly on every actual package, which is memorising. The blue bars all move a tenth of the way from the mean 4.8 towards their targets.
+Figure 4 compares the two choices for all five students. Watch the red bars: they land exactly on every actual package, which is memorising. The blue bars all move a tenth of the way from the mean 4.8 towards their **targets** (G-1949).
 
 ![Five students after the mean plus tree 1: added in full (red), every prediction equals the actual package; added with learning rate 0.1 (blue), every prediction moves one tenth of the way from 4.8](images/full_vs_small.png){height=36%}
 
@@ -187,11 +187,11 @@ Figure 5 keeps going past the table. Watch the residual bars on the right: each 
 
 ![Gradient boosting on the five students, learning rate 0.1. Left: actual package (outline) and the model's prediction (blue bar). Right: the residuals the next tree is trained on](images/five_students.gif){height=45%}
 
-Model 3 is again a regression tree: features IQ and CGPA, target *res2*. Model 3 predicts the mistakes of models 1 and 2 together. On this tiny dataset model 3 splits like tree 1, with leaves $-1.62$, $-0.72$, $2.88$ and $1.08$. Adding $0.1$ times its output gives *pred3*, and *res3* is smaller again.
+Model 3 is again a **regression tree** (G-1654): features IQ and CGPA, target *res2*. Model 3 predicts the mistakes of models 1 and 2 together. On this tiny dataset model 3 splits like tree 1, with leaves $-1.62$, $-0.72$, $2.88$ and $1.08$. Adding $0.1$ times its output gives *pred3*, and *res3* is smaller again.
 
 ## 10. Predicting for a new student
 
-> **Key point:** Send the new observation through every tree, multiply each tree's output by the learning rate, and add everything to the mean.
+> **Key point:** Send the new observation through every tree, multiply each tree's output by the **learning rate** (G-1067), and add everything to the mean.
 
 1. **In words:** the mean, plus the learning rate times each tree's output.
 2. **Formula:**
@@ -202,7 +202,7 @@ Model 3 is again a regression tree: features IQ and CGPA, target *res2*. Model 3
    $$\hat{y} = 4.8 + 0.1 \times (-1.8) + 0.1 \times (-1.62)$$
    $$\hat{y} = 4.8 - 0.18 - 0.162 = 4.458$$
 
-So the model predicts about 4.46 LPA. With five observations and two trees the answer is rough; with real data and hundreds of trees, the same procedure gives very good predictions.
+So the model predicts about 4.46 LPA. With five **observations** (G-1374) and two trees the answer is rough; with real data and hundreds of trees, the same procedure gives very good predictions.
 
 Figure 6 builds the sum step by step; watch each tree pull the answer down a little from the mean.
 
@@ -213,11 +213,11 @@ Figure 6 builds the sum step by step; watch each tree pull the answer down a lit
 
 > **Key point:** On 100 points along a curve, the mean is a flat line; each tree bends the model towards the data, and after many trees the model starts chasing the noise.
 
-The same steps on a bigger dataset show what each stage does. We take 100 points with one feature $x$ between $-0.5$ and 0.5 and the target $y = 3x^2$ plus a little random noise (normal, with standard deviation 0.05): a U-shaped, non-linear relationship. Each tree has at most 8 leaves.
+The same steps on a bigger dataset show what each stage does. We take 100 points with one **feature** (G-772) $x$ between $-0.5$ and 0.5 and the **target** (G-1949) $y = 3x^2$ plus a little random noise (normal, with standard deviation 0.05): a U-shaped, non-linear relationship. Each tree has at most 8 leaves.
 
 ![Gradient boosting on the curve, learning rate 0.5: residuals of the current model (grey), the tree trained on them (green), and the model after adding half of it (red)](images/residual_fitting.gif)
 
-Figure 7 runs three stages, with learning rate 0.5:
+Figure 7 runs three stages, with **learning rate** (G-1067) 0.5:
 
 1. **Stage 1:** the model is the mean of $y$, 0.265: a flat red line.
 2. **Residuals:** the grey sticks are the residuals; the lower panel shows them as points.
@@ -247,7 +247,7 @@ Figure 8 continues further, with learning rate 1. One tree already captures the 
 
 ## 12. Learning rate against number of trees
 
-> **Key point:** As in AdaBoost, a smaller learning rate needs more trees but reaches a lower test error and overfits more slowly.
+> **Key point:** As in AdaBoost, a smaller **learning rate** (G-1067) needs more trees but reaches a lower test error and overfits more slowly.
 
 The trade-off is the one of [the trade-off with n_estimators](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#43-the-trade-off-with-n_estimators), so the two are tuned together. On the curve, with 8 leaves per tree, averaged over 20 fresh datasets with 5,000 test points each:
 
@@ -269,7 +269,7 @@ The Notebook's playground (`app.py`, a Dash app) lets us change the number of tr
 
 ## 13. Gradient boosting compared with AdaBoost
 
-> **Key point:** Gradient boosting uses bigger trees than AdaBoost's stumps, and one learning rate for every tree instead of a separate say for each model.
+> **Key point:** Gradient boosting uses bigger trees than AdaBoost's stumps, and one **learning rate** (G-1067) for every tree instead of a separate say for each model.
 
 | | AdaBoost | Gradient boosting |
 |---|---|---|
@@ -282,7 +282,7 @@ Figure 10 shows why stumps are too small, on the first residuals of the curve da
 
 ![The residuals of the mean on the curve data, fitted by a stump with 2 leaves (left) and by a tree with 8 leaves (right); titles give the squared error left over](images/stump_vs_tree.png){height=36%}
 
-The leaf count depends on the data: about 8 leaves for small datasets, up to about 32 for big ones. Stumps are rarely enough: a tree with 2 leaves cannot capture any interaction between features, so boosted stumps suit only data where each feature acts on its own (ESL §10.11).
+The leaf count depends on the data: about 8 leaves for small datasets, up to about 32 for big ones. Stumps are rarely enough: a tree with 2 leaves cannot capture any interaction between **features** (G-772), so boosted stumps suit only data where each feature acts on its own (ESL §10.11).
 
 > **Extra:** Trees with 4 to 8 leaves work well in most cases (ESL §10.11); scikit-learn's default, `max_depth=3`, allows at most 8. Like the learning rate, the tree size is a hyperparameter, best set by cross-validation.
 
@@ -297,12 +297,12 @@ The leaf count depends on the data: about 8 leaves for small datasets, up to abo
 | Repeat | new residuals, new tree | $-1.8 \rightarrow -1.62 \rightarrow -1.458$ | each stage moves the residuals towards 0 |
 | Predict | mean + $\eta \times$ (sum of tree outputs) | new student: 4.458 | a new student gets every tree's correction, scaled as in training |
 
-- Gradient boosting is a stage-wise additive model: each new tree predicts the mistakes of the ensemble so far, so each tree only has to learn what is still wrong.
-- For regression the first model is the mean of the target, and the mistakes are the pseudo-residuals, actual minus predicted, so a negative residual means the model predicted too much and a positive one too little.
-- Adding whole trees overfits; the learning rate adds only a fraction of each, and many small steps generalise better.
+- Gradient boosting is a **stage-wise additive model** (G-1867): each new tree predicts the mistakes of the ensemble so far, so each tree only has to learn what is still wrong.
+- For regression the first model is the mean of the target, and the mistakes are the **pseudo-residuals** (G-1589), actual minus predicted, so a negative residual means the model predicted too much and a positive one too little.
+- Adding whole trees overfits; the **learning rate** (G-1067) adds only a fraction of each, and many small steps generalise better.
 - Too many trees overfit as well, so the number of trees and the learning rate are tuned together.
-- Unlike AdaBoost: bigger trees (commonly 8 to 32 leaves), because a stump's single split cannot follow a curve or capture any interaction between features; and the same learning rate for every tree.
-- So gradient boosting answers its task in one loop: start from the mean, then keep adding a small part of a tree trained on the current mistakes.
+- Unlike **AdaBoost** (G-167): bigger trees (commonly 8 to 32 leaves), because a stump's single split cannot follow a curve or capture any interaction between features; and the same learning rate for every tree.
+- So **gradient boosting** (G-859) answers its task in one loop: start from the mean, then keep adding a small part of a tree trained on the current mistakes.
 
 ## 15. Sources
 
@@ -325,16 +325,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Gradient boosting (G-859) | A way to build a model from many trees added one by one: it starts from a simple guess, and each new tree is trained on the mistakes (pseudo-residuals) of the ensemble so far (a boosting algorithm). |
+| Learning rate ($\eta$) in gradient boosting (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
 | Base prediction ($F_0$) (G-261) | The first model of gradient boosting; for regression, the mean of the target. |
 | Pseudo-residual (G-1589) | The mistake on one row that the next tree learns; for squared error it is actual minus predicted. |
-| Learning rate ($\eta$) in gradient boosting (G-1067) | The fraction of each tree's output that is added to the model, the same for every tree; typically 0.1. |
-| [Additive modelling](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#32-break-the-function-into-parts) (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
-| [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
+| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [AdaBoost (Adaptive Boosting)](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#1-overview) (G-167) | A boosting algorithm that trains simple models (weak learners) one after another on reweighted data, and combines them by a vote in which each model counts by its alpha weight. |
-| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
+| [Additive modelling](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#32-break-the-function-into-parts) (G-174) | Building a complex function as a sum of simple functions, each capturing part of what the others missed. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Stage-wise additive model](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#3-a-stage-wise-additive-model) (G-1867) | A model built as a sum of base models added one at a time, one per stage; boosting builds this kind of model, each new part learning from the mistakes of the ones before. |
+| [Decision stump](../../../ML/08-trees-and-ensembles/ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559) | A decision tree with maximum depth 1: one question, two regions. Too weak alone, it is AdaBoost's usual weak learner. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Regression tree](../../../ML/08-trees-and-ensembles/ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654) | A decision tree whose leaves predict numbers: the mean output of their training rows. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Shrinkage](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#43-many-features-the-diabetes-data) (G-1796) | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |

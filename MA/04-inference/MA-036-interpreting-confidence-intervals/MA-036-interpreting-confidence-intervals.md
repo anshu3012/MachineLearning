@@ -24,7 +24,7 @@ We built the **confidence interval** (G-446; a range of plausible values for a p
 
 This Note covers:
 
-- what a 95% confidence level means, shown by simulation;
+- what a 95% **confidence level** (G-447) means, shown by simulation;
 - the common misreadings, and why they are wrong;
 - the three factors that set the width of an interval: confidence level, population standard deviation and sample size;
 - why 95% is the usual choice, and how much a larger sample helps.
@@ -82,7 +82,7 @@ All intervals have the same width here, because $\sigma$ and $n$ are fixed: only
 > np.mean((low <= 50) & (50 <= high))                  # 0.93
 > ```
 >
-> The Notebook's `coverage_plot(n, sims, level)` redraws Figure 1 for any sample size, number of samples and confidence level.
+> The Notebook's `coverage_plot(n, sims, level)` redraws Figure 1 for any sample size, number of samples and **confidence level** (G-447).
 
 ## 3. Common misreadings
 
@@ -122,7 +122,7 @@ Figure 3 measures misreadings 2 and 3 with the Notebook's simulation. One interv
 
 ## 4. What sets the width of an interval
 
-> **Key point:** The margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ grows with the confidence level and with $\sigma$, and shrinks with $\sqrt{n}$.
+> **Key point:** The margin of error $z_{\alpha/2}\thinspace\sigma/\sqrt{n}$ grows with the **confidence level** (G-447) and with $\sigma$, and shrinks with $\sqrt{n}$.
 
 The z-interval is
 
@@ -164,7 +164,7 @@ Near 100% the curve shoots up: $z_{\alpha/2}$ grows without limit, and a 100% in
 
 ### 4.2 Population standard deviation
 
-> **Key point:** The margin of error is proportional to $\sigma$: a more variable population gives a wider interval.
+> **Key point:** The **margin of error** (G-1162) is proportional to $\sigma$: a more variable population gives a wider interval.
 
 Doubling $\sigma$ doubles the margin of error: $\sigma = 5$ gives 1.39, $\sigma = 15$ gives 4.16, $\sigma = 30$ gives 8.32 (Figure 4, middle, a straight line).
 
@@ -172,7 +172,7 @@ The link between spread and width is common sense. A batsman whose scores swing 
 
 ### 4.3 Sample size
 
-> **Key point:** The margin of error falls as $1/\sqrt{n}$: fast at first, then slowly; quadrupling the sample halves the margin.
+> **Key point:** The **margin of error** (G-1162) falls as $1/\sqrt{n}$: fast at first, then slowly; quadrupling the sample halves the margin.
 
 Larger samples give narrower intervals, but not in proportion (Figure 4, right):
 
@@ -180,7 +180,7 @@ Larger samples give narrower intervals, but not in proportion (Figure 4, right):
 |---|---|---|---|---|---|---|
 | Margin of error | 9.30 | 5.37 | 4.16 | 2.68 | 1.31 | 0.93 |
 
-Figure 5 draws 20 intervals at each sample size, from the same 20 standardized sample means. Watch them shrink towards the red line. The same four miss at every $n$: every panel reuses the same 20 standardized sample means, and whether an interval misses depends only on its standardized mean and the confidence level, not on $n$. Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
+Figure 5 draws 20 intervals at each sample size, from the same 20 standardized sample means. Watch them shrink towards the red line. The same four miss at every $n$: every panel reuses the same 20 standardized sample means, and whether an interval misses depends only on its standardized mean and the **confidence level** (G-447), not on $n$. Going from 10 to 30 people cuts the margin from 9.30 to 5.37: a big gain for 20 more people. Going from 500 to 1000 cuts it only from 1.31 to 0.93, for 500 more people. This diminishing return is the $1/\sqrt{n}$ shape: to halve the margin we need four times the sample.
 
 A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin halves again, from 5.37 to 2.68. There is no point beyond which more data stops improving the interval; each improvement just costs more people.
 
@@ -190,7 +190,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 >
 > $$E = z_{\alpha/2}\thinspace\sigma/\sqrt{n}$$
 >
-> 1. **In words:** square the critical value times $\sigma$ divided by the target margin, then round up.
+> 1. **In words:** square the **critical value** (G-504) times $\sigma$ divided by the target margin, then round up.
 > 2. **Formula:**
 >    $$n = \left(\frac{z_{\alpha/2}\thinspace\sigma}{E}\right)^2$$
 > 3. **Example:** to know the mean age within $\pm 1$ year at 95%, with $\sigma = 15$:
@@ -203,7 +203,7 @@ A larger sample keeps helping, though: from $n = 30$ to $n = 120$ the margin hal
 
 > **Key point:** 95% is the common compromise between being right often and giving a useful, narrow range.
 
-The trade-off between being right often and staying narrow is set out in [why 2 standard errors](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#61-why-2-standard-errors). In Figure 4 (left), the margin of error climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
+The trade-off between being right often and staying narrow is set out in [why 2 standard errors](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#61-why-2-standard-errors). In Figure 4 (left), the **margin of error** (G-1162) climbs towards infinity as the level approaches 100%. At 95% we are right 19 times out of 20 while the margin of error is still moderate.
 
 The 95% level is a convention, not a law: depending on the problem, 99%, 90% or 80% are also used.
 

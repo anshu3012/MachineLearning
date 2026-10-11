@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/random-fores
 
 ## 1. Overview
 
-> **Key point:** A random forest trains many decision trees, each on its own random sample of the data and with a random choice of features at every split, and combines their answers by majority vote (classification) or mean (regression).
+> **Key point:** A random forest trains many decision trees, each on its own random sample of the data and with a random choice of features at every split, and combines their answers by **majority vote** (G-1146) (classification) or mean (regression).
 
 ![A random forest in outline, drawn for the three-tree forest built by hand in section 5: each tree gets its own random data, grows differently, and votes](images/forest_overview.png){height=48%}
 
@@ -43,7 +43,7 @@ The Notebook (`ML-102-random-forest-intro.ipynb`) runs the forest built by hand.
 
 > **Key point:** Strong results on many problems, classification and regression alike, with little tuning.
 
-Three things make the random forest one of the first algorithms to try in a project:
+Three things make the **random forest** (G-1611) one of the first algorithms to try in a project:
 
 1. **Strong results on many problems.** On many problems a random forest performs about as well as boosting (ESL §15.1), a family of methods (**boosting**, G-318) covered in later Notes. In a comparison of 179 classifiers on 121 datasets, random forests were the best family overall (Fernández-Delgado et al., 2014).
 2. **Both problem types.** `RandomForestClassifier` predicts classes and `RandomForestRegressor` predicts numbers.
@@ -54,13 +54,13 @@ Three things make the random forest one of the first algorithms to try in a proj
 > **Key point:** "Forest" because it is a collection of trees; "random" because each tree gets randomly sampled data.
 
 - **Forest:** we train many decision trees together. A group of trees is a forest.
-- **Random:** a random forest is a bagging technique, and bagging means **b**ootstrap **agg**regation. Bootstrapping draws a random sample of the data for each tree (see [bootstrapping](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)). That random selection gives the "random".
+- **Random:** a **random forest** (G-1611) is a bagging technique, and bagging means **b**ootstrap **agg**regation. Bootstrapping draws a random sample of the data for each tree (see [bootstrapping](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#21-bootstrapping)). That random selection gives the "random".
 
-So a random forest is a special case of bagging: bagging lets the base model be any algorithm, and when that algorithm is a decision tree, we call the result a random forest. There is one more, subtler difference, the subject of [bagging against a random forest](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling).
+So a random forest is a special case of bagging: bagging lets the **base model** (G-260) be any algorithm, and when that algorithm is a decision tree, we call the result a random forest. There is one more, subtler difference, the subject of [bagging against a random forest](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#3-difference-2-tree-level-against-node-level-feature-sampling).
 
 ## 4. How a random forest works
 
-> **Key point:** For each tree: draw a bootstrap sample of the observations, then grow a tree that looks at only a few randomly chosen features at every split. To predict, send the new point to every tree and take the vote or the mean.
+> **Key point:** For each tree: draw a **bootstrap sample** (G-319) of the observations, then grow a tree that looks at only a few randomly chosen features at every split. To predict, send the new point to every tree and take the vote or the mean.
 
 Here an **observation** is one record (a row of the data table), a **feature** is one input variable (a column), and the **target** is the output we predict.
 
@@ -94,7 +94,7 @@ Because every tree sees different observations and different features at each sp
 
 A new [**query point**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605), the observation we want a prediction for, goes to every tree. The combining step is [**aggregation**](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183): the forest returns the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) for classification or the mean for regression, as every ensemble does (see [how an ensemble predicts](../ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts)). For example, if 57 of 100 trees say 1 and 43 say 0, the forest predicts 1.
 
-Figure 3 builds a forest of 100 trees on the student placement data of [the toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (two features, CGPA and IQ, 100 students). On the left, each new tree's bootstrap sample: bigger dots were drawn more than once, grey crosses were left out (about a third). The [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
+Figure 3 builds a forest of 100 trees on the student placement data of [the toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (two features, CGPA and IQ, 100 students). On the left, each new tree's **bootstrap sample** (G-319): bigger dots were drawn more than once, grey crosses were left out (about a third). The [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) is the line where the predicted class switches from "not placed" to "placed". Watch each single tree put narrow strips of the wrong class around a few points, while the forest's vote map on the right settles into one clean decision boundary near CGPA 6; after about 20 trees, adding more changes it very little.
 
 ![A random forest grows. Left: the newest tree's own bootstrap sample and its regions. Right: the share of all trees so far that vote "placed". Each tree is a bootstrap sample plus a fully grown tree with a random feature choice at each split, as in RandomForestClassifier. Growing the forest tree by tree follows StatQuest's "Random Forests Part 1" (Starmer)](images/forest_grows.gif)
 
@@ -106,7 +106,7 @@ Each tree leaves out about a third of the observations (the patients marked "out
 
 ## 5. A random forest by hand
 
-> **Key point:** Three trees, each trained on its own random subset of a dataset of 100 observations, vote on one query point; with row, column or combined sampling, the majority gets it right even when one tree is wrong.
+> **Key point:** Three trees, each trained on its own random subset of a dataset of 100 observations, vote on one **query point** (G-1605); with row, column or combined sampling, the majority gets it right even when one tree is wrong.
 
 To see every step, we build a forest of three trees ourselves (Figure 1). Our forest is a simplified version: it has only three trees, and it picks each tree's features **once per tree** instead of at every split (section 5.4).
 
@@ -145,7 +145,7 @@ We make a classification dataset of 100 observations with `make_classification` 
 >
 > `df.sample(n, replace=True)` draws `n` rows with replacement (see [bootstrapping: three samples, three trees](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#52-bootstrapping-three-samples-three-trees)). `rng.choice(columns, n, replace=False)` picks `n` different column names at random; `rng` is NumPy's random generator, `np.random.default_rng(4)`, seeded so every run draws the same subsets. The target column is added back, because every tree needs it to learn.
 
-Each tree is a fully grown `DecisionTreeClassifier`, trained on its subset's features. The query point is observation 7 of the data, whose true class is **0**. Observation 7 is also one of the 100 training observations, so any tree whose subset contains it has already seen its answer. This small forest therefore shows how the vote works, not how well a forest predicts new data; section 5.4 repeats the test with observation 7 held out.
+Each tree is a fully grown `DecisionTreeClassifier`, trained on its subset's features. The **query point** (G-1605) is observation 7 of the data, whose true class is **0**. Observation 7 is also one of the 100 training observations, so any tree whose subset contains it has already seen its answer. This small forest therefore shows how the vote works, not how well a forest predicts new data; section 5.4 repeats the test with observation 7 held out.
 
 ### 5.2 Row sampling
 
@@ -175,13 +175,13 @@ With `combined_sampling(df, 0.5, 0.5)` (Figure 4, bottom row), each tree gets 50
 | 2 | col5, col4 | 5 | 0 |
 | 3 | col4, col3 | 6 | 1 |
 
-Combined sampling adds the most randomness: the trees differ in both observations and features. The majority is again **0**, the right answer.
+**Combined sampling** (G-418) adds the most randomness: the trees differ in both observations and features. The majority is again **0**, the right answer.
 
 ![The forest built by hand: for each sampling setting, the three trees' votes on the query point (true class 0), with each tree's features and depth; a black frame marks a wrong vote. The right column is the forest's majority](images/hand_votes.png){height=40%}
 
 Figure 4 puts the three settings side by side. Watch the black-framed boxes: one tree is wrong in two of the settings, and the majority on the right is still the true class 0 every time.
 
-> **Python:** Asking one tree about the query point.
+> **Python:** Asking one tree about the **query point** (G-1605).
 >
 > ```python
 > inputs = d.columns[:-1]   # this tree's input columns
@@ -195,7 +195,7 @@ Figure 4 puts the three settings side by side. Watch the black-framed boxes: one
 
 > **Key point:** scikit-learn's `RandomForestClassifier` does all this in one line, with 100 trees by default, and samples the features afresh at every split.
 
-> **Python:** A random forest in scikit-learn.
+> **Python:** A **random forest** (G-1611) in scikit-learn.
 >
 > ```python
 > from sklearn.ensemble import RandomForestClassifier
@@ -226,10 +226,10 @@ Two things differ from our hand-built version:
 | Training | each tree is fully grown, with a few random features to choose from at every split | trees of depth 2 to 6, all different |
 | Aggregation | majority vote (classes) or mean (numbers) | votes 1, 0, 0 and 0, 0, 1: prediction 0 |
 
-- A random forest is bagging with decision trees as the base models, so everything about bagging (vote or mean, out-of-bag observations) carries over.
+- A **random forest** (G-1611) is bagging with decision trees as the base models, so everything about bagging (vote or mean, out-of-bag observations) carries over.
 - "Forest": many trees. "Random": each tree gets randomly sampled data.
-- Each tree is built from a bootstrap sample, and each split chooses among a few randomly drawn features (`max_features`, by default the square root of the number of features), so every tree learns a different structure; this variety is what makes the forest better than a single tree.
-- With many trees voting, a few wrong trees barely dent the majority (96 of 100 trees said 0 on the query point), so the forest stays right even when single trees are wrong.
+- Each tree is built from a **bootstrap sample** (G-319), and each split chooses among a few randomly drawn features (`max_features`, by default the square root of the number of features), so every tree learns a different structure; this variety is what makes the forest better than a single tree.
+- With many trees voting, a few wrong trees barely dent the majority (96 of 100 trees said 0 on the **query point** (G-1605)), so the forest stays right even when single trees are wrong.
 - The observations a tree never drew are its out-of-bag observations; they give a free check of the forest, because that tree has never seen them, so no separate test set is needed.
 - A random forest works for classification and regression, and gives strong results with little tuning (ESL §15.1), which is why it is one of the first algorithms to try in a project.
 
@@ -259,6 +259,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Combined sampling (G-418) | Training each model of an ensemble (each base model) on random rows and random columns together. |
 | RandomForestClassifier (G-1621) | scikit-learn's random forest for classification. |
 | RandomForestRegressor (G-1622) | scikit-learn's random forest for regression. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | [Bagging (bootstrap aggregation)](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
 | [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Base model](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#3-how-an-ensemble-predicts) (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
@@ -267,7 +268,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [max_features](../../../ML/08-trees-and-ensembles/ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#46-max_features) (G-1185) | The number of randomly chosen columns a tree considers at each split. |
 | [Query point](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1605) | The new point whose class we want to predict. |
 | [Aggregation (in an ensemble)](../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#22-aggregation) (G-183) | Combining the base models' predictions into one: mode for classes, mean for numbers. |
-| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
 | [Out-of-bag (OOB) evaluation, OOB score](../../../ML/08-trees-and-ensembles/ML-107-oob-score/ML-107-oob-score.md#1-overview) (G-1411) | Testing a bagging model by predicting each training row with only the base models that never saw it; the OOB score is the accuracy (or $R^2$) of those predictions. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

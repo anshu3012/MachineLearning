@@ -83,7 +83,7 @@ A plot of the loss after each epoch shows the same thing: once the curve goes fl
 
 > **Key point:** For the sum of squared errors, $\dfrac{\partial L}{\partial b} = -2\sum (y_i - m x_i - b)$.
 
-Gradient descent needs the slope of the loss at the current $b$. For linear regression the loss is
+**Gradient descent** (G-862) needs the slope of the loss at the current $b$. For linear regression the loss is
 
 $$L(m, b) = \sum_{i=1}^{n} (y_i - m x_i - b)^2$$
 
@@ -103,9 +103,9 @@ The slope is positive, so the next step lowers $b$.
 
 ## 4. A worked example: four points, b only
 
-> **Key point:** Starting from b = 100 with learning rate 0.1, three steps give 40.93, 29.11 and 26.75, closing in on the OLS value 26.16.
+> **Key point:** Starting from b = 100 with **learning rate** (G-1068) 0.1, three steps give 40.93, 29.11 and 26.75, closing in on the OLS value 26.16.
 
-The example data has 4 points. OLS gives slope $m = 78.35$ and intercept $b = 26.16$. To see gradient descent alone, we fix $m = 78.35$ and start $b$ deliberately far away, at $b = 100$, with learning rate $\eta = 0.1$.
+The example data has 4 points. OLS gives slope $m = 78.35$ and intercept $b = 26.16$. To see **gradient descent** (G-862) alone, we fix $m = 78.35$ and start $b$ deliberately far away, at $b = 100$, with learning rate $\eta = 0.1$.
 
 ![Gradient descent on b, step by step](images/descent_b.gif){height=55%}
 
@@ -153,13 +153,13 @@ Each slope is about one fifth of the previous one, so each step shrinks too. Not
 >
 > $$1 - 2.08 = -1.08$$
 >
-> The minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ diverges on this data.
+> The minus sign flips $b$ to the other side, and the distance grows by 8% each step. Any $\eta$ above $0.25$ **diverges** (G-628) on this data.
 
 ## 5. The learning rate
 
-> **Key point:** Too small and gradient descent crawls; too large and it overshoots and can run away. The right value is found by trying.
+> **Key point:** Too small and **gradient descent** (G-862) crawls; too large and it overshoots and can run away. The right value is found by trying.
 
-The learning rate is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose, not a value the algorithm learns. Figure 5 starts from the same $b = 100$ with three learning rates.
+The **learning rate** (G-1068) is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose, not a value the algorithm learns. Figure 5 starts from the same $b = 100$ with three learning rates.
 
 ![Three learning rates from the same start](images/learning_rates.png)
 
@@ -177,13 +177,13 @@ In practice both $m$ and $b$ are unknown. The loss is then a function of two inp
 
 $$L(m, b) = \sum_{i=1}^{100} (y_i - m x_i - b)^2$$
 
-For example, the line $m = -127.8$, $b = 150$ has $L = 4.2$ million, and the line $m = 27.2$, $b = -1.9$ has $L = 28{,}400$. Gradient descent needs one slope per parameter.
+For example, the line $m = -127.8$, $b = 150$ has $L = 4.2$ million, and the line $m = 27.2$, $b = -1.9$ has $L = 28{,}400$. **Gradient descent** (G-862) needs one slope per parameter.
 
 The slope with respect to $b$ is as before. With respect to $m$, the inner derivative of $-m x_i$ is $-x_i$:
 
 $$\frac{\partial L}{\partial m} = -2\sum_{i=1}^{n} (y_i - m x_i - b)\thinspace x_i$$
 
-Each epoch updates both at once, using the current values of both:
+Each **epoch** (G-696) updates both at once, using the current values of both:
 
 $$m_{\text{new}} = m_{\text{old}} - \eta \frac{\partial L}{\partial m}$$
 
@@ -196,7 +196,7 @@ The gradient can be read one number at a time. At the starting point of Figure 7
 - **The sign** of each number gives the direction for that parameter: negative for $m$, so $m$ must increase; positive for $b$, so $b$ must decrease.
 - **The size** says how much the loss reacts to that parameter right now. A number three times larger would mean a small change to that parameter moves the loss three times as much. Here the two sizes are similar, so the first step moves both by a similar amount: $m$ by $+25.4$ and $b$ by $-28.6$.
 
-Figure 6 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with learning rate 0.001 for 30 epochs. Think of $(m, b)$ as a point on the floor and $L$ as the height above it: the loss is a surface, a smooth bowl with one lowest point. The same idea was drawn for [the placement data](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (its Figure 1); here is the surface of this Note's 100 points. The orange path is the descent, the grey square its start and the black cross the lowest point it reaches. Thin lines on the surface join points of equal loss and are dropped onto the floor; at the end the camera looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) is this view from above: each line joins points at the same height.
+Figure 6 runs this on 100 points, starting far away at $m = -127.8$, $b = 150$, with **learning rate** (G-1068) 0.001 for 30 epochs. Think of $(m, b)$ as a point on the floor and $L$ as the height above it: the loss is a surface, a smooth bowl with one lowest point. The same idea was drawn for [the placement data](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (its Figure 1); here is the surface of this Note's 100 points. The orange path is the descent, the grey square its start and the black cross the lowest point it reaches. Thin lines on the surface join points of equal loss and are dropped onto the floor; at the end the camera looks straight down. A [contour map](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) is this view from above: each line joins points at the same height.
 
 ![The loss surface L(m, b) of the 100 points, seen from the side and tilted to the top view, with the 30-epoch descent path in orange. The final frame is the contour map of Figure 7.](images/surface_tilt.gif)
 
@@ -210,7 +210,7 @@ The left panel is a [**contour plot**](../../../MA/06-calculus/MA-062-partial-de
 
 > **Key point:** A small class with fit (the update loop) and predict reproduces LinearRegression's answer to within a few hundredths.
 
-> **Python:** Gradient descent for simple linear regression.
+> **Python:** **Gradient descent** (G-862) for simple linear regression.
 >
 > ```python
 > class GDRegressor:
@@ -231,28 +231,28 @@ The left panel is a [**contour plot**](../../../MA/06-calculus/MA-062-partial-de
 >         return self.m * X.ravel() + self.b
 > ```
 
-On 80 training points with learning rate 0.001 and 50 epochs:
+On 80 training points with **learning rate** (G-1068) 0.001 and 50 epochs:
 
 | | Slope $m$ | Intercept $b$ | Test R² ([share of variation explained](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score)) |
 |---|---|---|---|
 | OLS (`LinearRegression`) | 28.126 | $-2.271$ | 0.6345 |
 | Gradient descent | 28.159 | $-2.300$ | 0.6344 |
 
-Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one. Figure 8 shows the run. The line starts steep ($m = 100$, $b = -120$) and swings onto the OLS line within about 20 epochs; the loss falls from about 1.5 million to about 24,000 and then levels off.
+Gradient descent gets within 0.03 of the exact answer: an approximation, but a very close one. Figure 8 shows the run. The line starts steep ($m = 100$, $b = -120$) and swings onto the OLS line within about 20 **epochs** (G-696); the loss falls from about 1.5 million to about 24,000 and then levels off.
 
 ![The GDRegressor class at work on the 80 training points: the line after each epoch (orange) closing in on the OLS line (dashed), and the loss per epoch on a log scale.](images/class_fit.gif)
 
 ## 8. The shape of the loss function matters
 
-> **Key point:** Linear regression's loss is convex: one bowl with no false dips, and gradient descent with a small enough learning rate finds its bottom. Other losses can trap it in a local minimum or slow it on a flat stretch.
+> **Key point:** Linear regression's loss is convex: one bowl with no false dips, and gradient descent with a small enough **learning rate** (G-1068) finds its bottom. Other losses can trap it in a local minimum or slow it on a flat stretch.
 
-Gradient descent only follows the local slope, so the shape of the loss function decides how well it works (Figure 9).
+**Gradient descent** (G-862) only follows the local slope, so the shape of the loss function decides how well it works (Figure 9).
 
 ![Convex and non-convex loss functions](images/loss_shapes.png)
 
 - **Convex:** a function is **convex** (G-476) when a straight line between any two points on its curve never goes below the curve. Such a function has no false dips: any local minimum is also the global one (Boyd and Vandenberghe §4.2.2). The sum of squared errors of linear regression is convex, so gradient descent with a small enough learning rate reaches the best answer ([Section 5](#5-the-learning-rate) shows what a too-large one does).
 - **Non-convex, with a local minimum:** a straight line between two points can cut through the curve. Then there can be several dips: a **local minimum** (G-1110; lowest only in its neighbourhood) and a **global minimum** (G-848; lowest of all). Started near the local one, gradient descent settles there and stops, unaware that a better answer exists.
-- **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few epochs, the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718), flat in one direction and curved in another.
+- **A plateau** (G-1503): a nearly flat stretch has a tiny slope, so the steps become tiny and progress almost stops. With too few **epochs** (G-696), the algorithm halts before leaving the plateau. In more dimensions, a related trouble spot is a [**saddle point**](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718), flat in one direction and curved in another.
 
 Figure 10 runs gradient descent on the middle curve of Figure 9 from two starting points, with the same learning rate. Picture each run as a ball rolling downhill. Start A rolls into the global minimum (loss 0.23). Start B rolls into the local minimum (loss 1.44) and stays there: the slope is zero, so the steps are zero. Where gradient descent ends depends on where it starts.
 
@@ -262,16 +262,16 @@ Figure 10 runs gradient descent on the middle curve of Figure 9 from two startin
 
 ## 9. The effect of feature scaling
 
-> **Key point:** When features are on very different scales, the loss bowl becomes a long, narrow valley: gradient descent drops quickly to the valley floor, then crawls along it. Scaling the features makes the bowl round and the descent fast.
+> **Key point:** When **features** (G-772) are on very different scales, the loss bowl becomes a long, narrow valley: gradient descent drops quickly to the valley floor, then crawls along it. Scaling the features makes the bowl round and the descent fast.
 
 With two features, the shape of the loss depends on their scales. Picture walking down a steep, narrow gorge whose floor slopes gently: the walls are so steep that a big step would throw you against the opposite wall, so you must take tiny steps, and tiny steps make little progress along the gentle floor. Figure 11 compares the same made-up data, with feature 2 eight times larger in scale than feature 1, before and after standardising. The loss of each case is a surface (top row, height $\log L$), and the contour map below it is that surface seen from above (see Figure 6 for the tilt): lines close together mean steep walls, and the centre ring, marked with the green cross, is the lowest point.
 
 ![The effect of scaling the inputs on gradient descent](images/scaling_effect.png)
 
-- **Unscaled:** the contours are long, narrow ellipses. The learning rate must be small enough to avoid overshooting in the steep direction, and that is usually too small to make real progress in the flat direction (Goodfellow §4.3.1). After 40 steps the weights are still 2.8 away from the best values.
+- **Unscaled:** the contours are long, narrow ellipses. The **learning rate** (G-1068) must be small enough to avoid overshooting in the steep direction, and that is usually too small to make real progress in the flat direction (Goodfellow §4.3.1). After 40 steps the weights are still 2.8 away from the best values.
 - **Standardised:** the contours are nearly circles, the slope points straight at the minimum, and 40 steps reach it.
 
-Features should therefore be scaled (**standardisation** (G-1874; [rescaling each feature to mean 0 and spread 1](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) or normalisation) before using gradient descent.
+Features should therefore be scaled (**standardisation** (G-1874; [rescaling each feature to mean 0 and spread 1](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)) or normalisation) before using **gradient descent** (G-862).
 
 ## 10. Summary
 
@@ -286,8 +286,8 @@ Features should therefore be scaled (**standardisation** (G-1874; [rescaling eac
 | Non-convex loss | local minima, plateaus, saddle points can trap it | where it ends depends on where it starts |
 | Feature scaling | round contours, faster convergence | unscaled, 40 steps still left the weights 2.8 away |
 
-- Gradient descent works for any differentiable loss, which is why it powers most of ML.
-- On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here, so it can replace the normal equation when that becomes too slow.
+- **Gradient descent** (G-862) works for any differentiable loss, which is why it powers most of ML.
+- On linear regression it reproduces OLS closely: slope 28.16 against 28.13 here, so it can replace the **normal equation** (G-1344) when that becomes too slow.
 - The steps shrink by themselves near the minimum, because the slope shrinks.
 - Together these answer the opening question: start anywhere, step against the slope by a learning-rate-sized amount, and repeat until the steps are tiny.
 

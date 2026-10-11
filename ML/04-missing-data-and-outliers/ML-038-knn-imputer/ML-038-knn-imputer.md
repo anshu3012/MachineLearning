@@ -30,21 +30,21 @@ Figure 1 shows the difference on a small table. Row 2 has no value in feature f1
 
 ![Filling one gap: the column mean ignores the rest of the row; the KNN imputer uses f2 and f3 to find the most similar rows](images/overview.png){width=100%}
 
-The hard part is measuring similarity when other observations have gaps too. [Section 4](#4-distance-between-observations-with-missing-values) covers the distance scikit-learn uses for this, called the nan-Euclidean distance.
+The hard part is measuring **similarity** (G-1805) when other observations have gaps too. [Section 4](#4-distance-between-observations-with-missing-values) covers the distance scikit-learn uses for this, called the **nan-Euclidean distance** (G-1302).
 
 ## 2. Univariate and multivariate imputation
 
-> **Key point:** Multivariate imputation fills a gap using the other features of the observation too; scikit-learn offers two such techniques.
+> **Key point:** Multivariate imputation fills a gap using the other features of the **observation** (G-1374) too; scikit-learn offers two such techniques.
 
-Univariate imputation fills a feature from that feature alone, while multivariate imputation also uses the other features of the same observation (see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps)). The two multivariate techniques in scikit-learn are the **KNN imputer** (G-1017; `KNNImputer`, this Note) and the [**iterative imputer**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) (`IterativeImputer`, the MICE algorithm, see [when to use MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice)).
+Univariate imputation fills a **feature** (G-772) from that feature alone, while multivariate imputation also uses the other features of the same observation (see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps)). The two multivariate techniques in scikit-learn are the **KNN imputer** (G-1017; `KNNImputer`, this Note) and the [**iterative imputer**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) (`IterativeImputer`, the MICE algorithm, see [when to use MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#2-when-to-use-mice)).
 
 ## 3. The nearest-neighbour idea
 
-> **Key point:** Each observation is a point in space; the observations closest to the one with the gap are its nearest neighbours, and their values fill the gap.
+> **Key point:** Each **observation** (G-1374) is a point in space; the observations closest to the one with the gap are its nearest neighbours, and their values fill the gap.
 
 ### 3.1 Observations as points
 
-> **Key point:** An observation with n numerical features is a point in an n-dimensional space, so we can measure the distance between two observations.
+> **Key point:** An **observation** (G-1374) with n numerical features is a point in an n-dimensional space, so we can measure the distance between two observations.
 
 An observation with two numbers is a point on a flat plane; one with three numbers is a point in 3D space. One with four numbers is a point in 4D space: we cannot draw it, but distances work the same way.
 
@@ -54,13 +54,13 @@ Close points are similar observations. [**Similarity**](../../01-foundations/ML-
 
 ### 3.2 The k nearest neighbours
 
-> **Key point:** k is the number of neighbours we ask; with k = 1 we copy the closest observation's value, with larger k we average the values of the k closest.
+> **Key point:** k is the number of neighbours we ask; with k = 1 we copy the closest **observation** (G-1374)'s value, with larger k we average the values of the k closest.
 
 To fill a gap in row 2, we:
 
 1. Compute the distance from row 2 to every other row.
 2. Take the **k nearest neighbours**: the k observations with the smallest distances.
-3. Fill the gap with the mean of their values in the missing feature.
+3. Fill the gap with the mean of their values in the missing **feature** (G-772).
 
 With $k = 1$, the gap gets the value of the single closest observation. With $k = 2$ and neighbour values 25 and 40, the gap gets their mean:
 
@@ -78,13 +78,13 @@ Figure 2 lays out the other rows of the Note's example by their distance from ro
 
 ## 4. Distance between observations with missing values
 
-> **Key point:** The nan-Euclidean distance is the usual Euclidean distance computed only over the features both observations have, then scaled up for the features that were skipped.
+> **Key point:** The **nan-Euclidean distance** (G-1302) is the usual Euclidean distance computed only over the features both observations have, then scaled up for the features that were skipped.
 
 ### 4.1 The Euclidean distance
 
-> **Key point:** The **Euclidean distance** (G-715) is the straight-line distance between two points: the square root of the sum of squared differences, feature by feature.
+> **Key point:** The **Euclidean distance** (G-715) is the straight-line distance between two points: the square root of the sum of squared differences, **feature** (G-772) by feature.
 
-1. **In words:** subtract the two observations feature by feature, square each difference, add them up, and take the square root.
+1. **In words:** subtract the two **observations** (G-1374) feature by feature, square each difference, add them up, and take the square root.
 2. **Formula:** for observations $x$ and $y$ with $n$ features,
    $$d(x, y) = \sqrt{(x_1 - y_1)^2 + (x_2 - y_2)^2 + \dots + (x_n - y_n)^2}$$
 3. **Example:** the observations $(55, 20)$ and $(52, 25)$:
@@ -95,15 +95,15 @@ In 2D the Euclidean distance is Pythagoras' theorem. Each extra dimension adds o
 
 ### 4.2 The problem: gaps in the other observations
 
-> **Key point:** The Euclidean distance needs every value of both observations, but in real data the neighbours have gaps too.
+> **Key point:** The Euclidean distance needs every value of both **observations** (G-1374), but in real data the neighbours have gaps too.
 
 In Figure 1, row 1 has no f3 and row 4 has no f2. Row 2 itself has no f1, the value we want to fill. The plain formula cannot subtract a number from `NaN` (not a number: the mark for a missing value).
 
 ### 4.3 The nan-Euclidean distance
 
-> **Key point:** Skip every feature where either observation has `NaN`, compute the Euclidean distance on the rest, and multiply by a weight that makes up for the skipped features.
+> **Key point:** Skip every feature where either **observation** (G-1374) has `NaN`, compute the **Euclidean distance** (G-715) on the rest, and multiply by a weight that makes up for the skipped features.
 
-The **nan-Euclidean distance** (G-1302) is the distance scikit-learn uses for data with missing values. Skipping features makes the sum smaller, so observations with many gaps would look too close. The **weight** (G-621) corrects this: the total number of features divided by the number of features both observations have. The weighted formula is the one scikit-learn uses (scikit-learn docs, nan_euclidean_distances; Dixon 1979).
+The **nan-Euclidean distance** (G-1302) is the distance scikit-learn uses for data with missing values. Skipping **features** (G-772) makes the sum smaller, so observations with many gaps would look too close. The **weight** (G-621) corrects this: the total number of features divided by the number of features both observations have. The weighted formula is the one scikit-learn uses (scikit-learn docs, nan_euclidean_distances; Dixon 1979).
 
 1. **In words:** keep only the features where both observations have a value, add up their squared differences, multiply by (all features / used features), and take the square root.
 2. **Formula:** with $n$ features in total and $p$ features present in both observations,
@@ -118,7 +118,7 @@ The reason for the weight: a distance built from only 2 of the 3 features has fe
 
 > **Key point:** Row 4 is the nearest neighbour of row 2 (3.46), then row 3 (7.14).
 
-Figure 3 computes the distance from row 2 to each of the other four rows. f1 is never used, because row 2 has no f1; rows 1 and 4 lose one more feature each.
+Figure 3 computes the distance from row 2 to each of the other four rows. f1 is never used, because row 2 has no f1; rows 1 and 4 lose one more **feature** (G-772) each.
 
 ![The nan-Euclidean distance from row 2 to every other row: grey cells are skipped, and the weight makes up for them](images/nan_distance.png){width=100%}
 
@@ -138,7 +138,7 @@ Figure 3 computes the distance from row 2 to each of the other four rows. f1 is 
 >
 > $$\sqrt{1.5 \times (35^2 + 2^2)} = 42.94$$
 >
-> That is farther than every other row. So the fewer features two observations share, the wider the range the true distance could lie in. The weight fixes the size of the distance, not this uncertainty.
+> That is farther than every other row. So the fewer features two **observations** (G-1374) share, the wider the range the true distance could lie in. The weight fixes the size of the distance, not this uncertainty.
 
 > **Python:** scikit-learn computes the whole set of distances in one call.
 >
@@ -152,12 +152,12 @@ Figure 3 computes the distance from row 2 to each of the other four rows. f1 is 
 
 ## 5. Filling the gap step by step
 
-> **Key point:** Distances, then the k nearest observations, then the mean of their values: with k = 2, row 2 gets 32.5, the mean of 25 and 40.
+> **Key point:** Distances, then the k nearest **observations** (G-1374), then the mean of their values: with k = 2, row 2 gets 32.5, the mean of 25 and 40.
 
 Figure 4 runs the whole process on the example:
 
 1. Row 2 has a gap in f1.
-2. The nan-Euclidean distance to every other row: 8.66, 7.14, 3.46, 30.62.
+2. The **nan-Euclidean distance** (G-1302) to every other row: 8.66, 7.14, 3.46, 30.62.
 3. With $k = 2$, the nearest rows are row 4 (3.46) and row 3 (7.14).
 4. Their f1 values, 25 and 40, are averaged:
    $$(25 + 40)/2 = 32.5$$
@@ -166,15 +166,15 @@ Figure 4 runs the whole process on the example:
 
 The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because the observations most like row 2 have lower f1 values.
 
-> **Extra:** Only observations that have a value in the missing feature can be neighbours. These observations are called **donors** (G-633). An observation with its own gap in f1 is skipped when filling f1, however close it is (scikit-learn docs, Nearest neighbors imputation).
+> **Extra:** Only observations that have a value in the missing **feature** (G-772) can be neighbours. These observations are called **donors** (G-633). An observation with its own gap in f1 is skipped when filling f1, however close it is (scikit-learn docs, Nearest neighbors imputation).
 
 ## 6. Advantages and disadvantages
 
-> **Key point:** The KNN imputer usually fills values closer to the truth than mean imputation, but it is slow on large data and the whole training set must be kept for production.
+> **Key point:** The KNN imputer usually fills values closer to the truth than **mean imputation** (G-1197), but it is slow on large data and the whole training set must be kept for production.
 
 **Advantage:**
 
-- **More accurate fills.** The fill value comes from similar observations, not from the whole feature. On gene-expression data, KNN imputation recovered hidden values with less error than filling with an average (Troyanskaya et al. 2001). [Section 7.3](#73-is-the-knn-fill-closer-to-the-truth) runs the same test on the Titanic data.
+- **More accurate fills.** The fill value comes from similar **observations** (G-1374), not from the whole feature. On gene-expression data, KNN imputation recovered hidden values with less error than filling with an average (Troyanskaya et al. 2001). [Section 7.3](#73-is-the-knn-fill-closer-to-the-truth) runs the same test on the Titanic data.
 
 **Disadvantages:**
 
@@ -185,7 +185,7 @@ The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because
 
 ## 7. KNN imputation with scikit-learn
 
-> **Key point:** `KNNImputer` (G-108) stores the training observations with `fit` and fills gaps with `transform`; `n_neighbors` and `weights` are the settings worth tuning.
+> **Key point:** `KNNImputer` (G-108) stores the training **observations** (G-1374) with `fit` and fills gaps with `transform`; `n_neighbors` and `weights` are the settings worth tuning.
 
 ### 7.1 The main parameters
 
@@ -200,15 +200,15 @@ The mean of f1 would have given 36.25 (Figure 1). The KNN value is lower because
 | `add_indicator` | also add a 0/1 column marking each gap | `False` |
 | `keep_empty_features` | keep a column that is missing everywhere | `False` |
 
-`add_indicator=True` adds the missing indicator (G-1233; see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) and [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)): a feature that is 1 where the value was missing and 0 elsewhere. [Section 7.6](#76-adding-a-missing-indicator) shows it.
+`add_indicator=True` adds the missing indicator (G-1233; see [imputing: filling in the gaps](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#32-imputing-filling-in-the-gaps) and [the missing indicator](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator)): a **feature** (G-772) that is 1 where the value was missing and 0 elsewhere. [Section 7.6](#76-adding-a-missing-indicator) shows it.
 
 ### 7.2 The data and the split
 
 > **Key point:** We fill `Age` on the Titanic data from `Pclass` and `Fare`, after splitting into training and test sets.
 
-The data is the Kaggle Titanic `train.csv`, 891 passengers. We start with three features, `Age`, `Pclass` and `Fare`, and the target `Survived`. Only `Age` has gaps: 19.9% of its values are missing.
+The data is the Kaggle Titanic `train.csv`, 891 passengers. We start with three **features** (G-772), `Age`, `Pclass` and `Fare`, and the **target** (G-1949) `Survived`. Only `Age` has gaps: 19.9% of its values are missing.
 
-We split 80/20 with `random_state=2`: 712 training observations (148 `Age` gaps) and 179 test observations. The imputer is fitted on the training set only, so no test observation can be a neighbour.
+We split 80/20 with `random_state=2`: 712 training **observations** (G-1374) (148 `Age` gaps) and 179 test observations. The imputer is fitted on the training set only, so no test observation can be a neighbour.
 
 > **Python:** KNN imputation, then logistic regression.
 >
@@ -229,7 +229,7 @@ Replacing `KNNImputer` with `SimpleImputer()` ([**mean imputation**](../ML-035-i
 
 ### 7.3 Is the KNN fill closer to the truth?
 
-> **Key point:** When we hide ages we know and fill them back, the KNN imputer misses the true age by 9.76 years on average, mean imputation by 11.24 years.
+> **Key point:** When we hide ages we know and fill them back, the KNN imputer misses the true age by 9.76 years on average, **mean imputation** (G-1197) by 11.24 years.
 
 A fair test of an imputer is to hide values we know, fill them, and check the fills against the truth, like covering answers in a quiz and grading the guesses. We take the 714 passengers whose age is known and hide the ages of a random 20% of them. Each method fills the hidden ages from the other 80%. The **fill error** (G-2197) is the average gap, in years, between the filled age and the true age.
 
@@ -242,7 +242,7 @@ The KNN fills are 13% closer to the truth. Figure 6 shows one of the 20 splits. 
 
 ![One split of the hidden-age test: filled age against true age for 143 hidden passengers. Left: mean imputation, every fill the same (11.33 years error on this split). Right: KNN imputer with k = 10 (10.68 years). The dashed line is a perfect fill.](images/hidden_ages.png)
 
-Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = siblings and spouses aboard, `Parch` = parents and children aboard), all scaled first ([Section 7.7](#77-scale-the-features-first)), uniform weights; the error is averaged over 20 random splits.
+Conditions: four **features** (G-772) choose the neighbours (`Pclass`, `Fare`, `SibSp` = siblings and spouses aboard, `Parch` = parents and children aboard), all scaled first ([Section 7.7](#77-scale-the-features-first)), uniform **weights** (G-621); the error is averaged over 20 random splits.
 
 > **Extra:** A better fill does not always move a model's accuracy. Logistic regression on the same five features, averaged over 20 splits, scores 0.706 after mean imputation and 0.703 after KNN imputation. Dropping `Age` altogether gives 0.689, so `Age` adds under 2 points to this model, and a closer fill has little room to show. The single split of [Section 7.2](#72-the-data-and-the-split) (0.704 against 0.693) differs by two of the 179 test passengers.
 
@@ -250,7 +250,7 @@ Conditions: four features choose the neighbours (`Pclass`, `Fare`, `SibSp` = sib
 
 > **Key point:** Too few neighbours give noisy fills; the error falls as k grows and levels off around k = 10.
 
-The default k is 5. Figure 7 repeats the hidden-age test for $k = 1$ to $20$ with both weightings; the dotted line is mean imputation.
+The default k is 5. Figure 7 repeats the hidden-age test for $k = 1$ to $20$ with both weightings; the dotted line is **mean imputation** (G-1197).
 
 ![Error of the filled ages (hidden known ages) for k = 1 to 20; lower is better](images/fill_error_vs_k.png){width=100%}
 
@@ -265,7 +265,7 @@ Averaging more neighbours lowers the variance of a KNN estimate (ESL §2.9); Tro
 
 With `weights="uniform"` (**uniform weighting**, G-2044) all k neighbours count equally. With `weights="distance"` (**distance weighting**, G-622), a neighbour at distance 3.46 counts more than one at 7.14.
 
-1. **In words:** multiply each neighbour's value by 1 / its distance, add them up, and divide by the sum of the 1 / distance weights.
+1. **In words:** multiply each neighbour's value by 1 / its distance, add them up, and divide by the sum of the 1 / **distance weights** (G-621).
 2. **Formula:** for neighbours with values $v_i$ at distances $d_i$,
    $$\text{fill} = \frac{\sum_i v_i / d_i}{\sum_i 1 / d_i}$$
    The symbol $\sum_i$ (sigma) means "add up over the neighbours $i = 1, 2, \dots$". For two neighbours:
@@ -281,7 +281,7 @@ On the Titanic ages, uniform weighting gives the smaller error at every $k \ge 2
 
 ### 7.6 Adding a missing indicator
 
-> **Key point:** `add_indicator=True` appends a `missingindicator_Age` feature that marks the passengers whose age was filled.
+> **Key point:** `add_indicator=True` appends a `missingindicator_Age` **feature** (G-772) that marks the passengers whose age was filled.
 
 > **Python:** The extra feature and its name.
 >
@@ -297,11 +297,11 @@ On the split of [Section 7.2](#72-the-data-and-the-split) the test accuracy stay
 
 ### 7.7 Scale the features first
 
-> **Key point:** Scale before the KNN imputer, or the feature with the largest numbers chooses the neighbours alone.
+> **Key point:** Scale before the KNN imputer, or the **feature** (G-772) with the largest numbers chooses the neighbours alone.
 
 The distance adds up squared differences, so a feature with large numbers dominates it. `Fare` runs from 0 to 512 while `Pclass` runs from 1 to 3: unscaled, the neighbours are chosen almost by `Fare` alone, like judging how alike two people are by their bank balance and ignoring everything else. Scaling the features first ([**standardization**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874) or [**min-max scaling**](../../03-feature-engineering/ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1217)) gives each one a fair say. `StandardScaler` can go before `KNNImputer`, because it skips `NaN` when it fits (scikit-learn docs, StandardScaler).
 
-In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9.76 years.
+In the hidden-age test ($k = 10$), scaling lowers the **fill error** (G-2197) from 10.66 to 9.76 years.
 
 > **Extra:** Two checks on the split of [Section 7.2](#72-the-data-and-the-split) ($k = 3$, distance weighting, three features). Removing `Pclass` leaves 81% of the 148 filled ages exactly the same, so `Pclass` barely matters when unscaled. Scaling first changes 74% of them. The test accuracy is 0.704 either way.
 
@@ -317,11 +317,11 @@ In the hidden-age test ($k = 10$), scaling lowers the fill error from 10.66 to 9
 | Kept for production | one number per feature | the whole training set |
 | scikit-learn | `SimpleImputer` | `KNNImputer` |
 
-- The KNN imputer fills a gap with the mean value of the k observations nearest to the observation with the gap, because the observations most like it are a better guess than the whole column.
-- Distances between observations with gaps use the nan-Euclidean distance: skip the features where either observation has `NaN`, then multiply by (all features / used features), because a distance built from fewer features would otherwise look too small.
-- Scale the features first, or the largest one chooses the neighbours (unscaled, `Fare` from 0 to 512 drowns out `Pclass` from 1 to 3); scaling lowered the fill error from 10.66 to 9.76 years.
+- The KNN imputer fills a gap with the mean value of the k **observations** (G-1374) nearest to the observation with the gap, because the observations most like it are a better guess than the whole column.
+- Distances between observations with gaps use the **nan-Euclidean distance** (G-1302): skip the features where either observation has `NaN`, then multiply by (all **features** (G-772) / used features), because a distance built from fewer features would otherwise look too small.
+- Scale the features first, or the largest one chooses the neighbours (unscaled, `Fare` from 0 to 512 drowns out `Pclass` from 1 to 3); scaling lowered the **fill error** (G-2197) from 10.66 to 9.76 years.
 - `n_neighbors` (k) and `weights` (`"uniform"` or `"distance"`) are tuned by trying several values; k = 1 is noisy, because one passenger's age carries that passenger's own quirks, while averaging more neighbours lets them cancel out.
-- `weights="distance"` weights each neighbour by 1 / distance and divides by the sum of the weights, so the nearer neighbour counts more and the result stays between the neighbours' values.
+- `weights="distance"` **weights** (G-621) each neighbour by 1 / distance and divides by the sum of the weights, so the nearer neighbour counts more and the result stays between the neighbours' values.
 - Fit on the training set only; test observations and new observations get their neighbours from the training set, so no test observation can be a neighbour, and the whole training set must be kept in production.
 - The KNN imputer usually fills closer to the truth than mean or median imputation, but it is slow on large data and heavy in production, because each gap needs a distance to every training observation.
 - So the KNN imputer uses the other features to find the observations most like the one with the gap, and fills the gap from their values.
@@ -345,9 +345,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| nan-Euclidean distance (G-1302) | A distance between two rows that may have missing values: the Euclidean distance over only the columns both rows have, scaled up by (all columns / used columns) so rows with gaps do not look too close. scikit-learn uses it to find neighbours for KNN imputation. |
 | KNN imputer (G-1017) | Filling a missing value from the most similar rows (multivariate imputation, `KNNImputer`). |
 | Euclidean distance (G-715) | The straight-line distance between two points. |
-| nan-Euclidean distance (G-1302) | A distance between two rows that may have missing values: the Euclidean distance over only the columns both rows have, scaled up by (all columns / used columns) so rows with gaps do not look too close. scikit-learn uses it to find neighbours for KNN imputation. |
 | Distance weight (nan-Euclidean) (G-621) | In the nan-Euclidean distance, the factor that scales the sum up: the total number of features divided by the number present in both observations. It makes up for the skipped features, so observations with many gaps do not look too close. |
 | Donor (G-633) | A row that has a value in the column being filled, so it can be a neighbour. |
 | `KNNImputer` (G-108) | scikit-learn's class for KNN imputation: it fills each gap from the most similar observations (the nearest neighbours), using their values of that feature. |
@@ -361,12 +361,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Most frequent value imputation (mode imputation)](../../../ML/04-missing-data-and-outliers/ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#21-the-idea) (G-1264) | Filling every gap in a column with its mode. |
 | [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
-| [Iterative imputer](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
 | [Similarity](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
+| [Iterative imputer](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
 | [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
-| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | [Mean imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197) | Filling every gap with the mean of the column's known values. |
+| [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
 | [Min-max scaling](../../../ML/03-feature-engineering/ML-024-normalization/ML-024-normalization.md#41-the-formula) (G-1217) | Subtract the column's minimum and divide by its range, giving values from 0 to 1; the main normalization technique. |

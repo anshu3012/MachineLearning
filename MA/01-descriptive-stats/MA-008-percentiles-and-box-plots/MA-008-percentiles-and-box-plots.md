@@ -16,13 +16,13 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/box-plot]
 
 ## 1. Overview
 
-> **Key point:** Percentiles locate values inside sorted data; five of them make the five-number summary, and the five-number summary draws the box plot.
+> **Key point:** **Percentiles** (G-1483) locate values inside sorted data; five of them make the five-number summary, and the five-number summary draws the box plot.
 
 ![Building a box plot by hand: sort, box, fences, whiskers and outliers](images/boxplot_build.gif)
 
-Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. A box plot draws a feature's values on one axis as a box with lines (whiskers) and dots; the frames add one part at a time, and sections 5 and 6 explain each part. The way there is a chain of ideas, each needing the one before:
+Figure 1 shows where this Note ends: a **box plot** (G-329) built by hand from ten numbers. A box plot draws a feature's values on one axis as a box with lines (whiskers) and dots; the frames add one part at a time, and sections 5 and 6 explain each part. The way there is a chain of ideas, each needing the one before:
 
-1. quantiles (section 2);
+1. **quantiles** (G-1599) (section 2);
 2. percentiles and how to compute them (section 3);
 3. the five-number summary and the IQR (section 4);
 4. the box plot, built and read (sections 5 and 6).
@@ -31,13 +31,13 @@ Figure 1 shows where this Note ends: a box plot built by hand from ten numbers. 
 
 > **Key point:** Quantiles cut sorted data into equal-sized groups; quartiles make 4 groups, quintiles 5, deciles 10 and percentiles 100.
 
-**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the data table; a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable, one column of that table. Quantiles help us understand a distribution (how the values of a feature are spread), compare features and spot outliers (values far from the rest).
+**Quantiles** (G-1599) are values that divide sorted numerical data into groups of equal size, each holding the same number of observations. An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the data table; a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable, one column of that table. Quantiles help us understand a distribution (how the values of a feature are spread), compare features and spot **outliers** (G-1420) (values far from the rest).
 
 Figure 2 shows the idea on the 244 restaurant bills of the tips data, one dot per bill, sorted along a line:
 
 1. **One cut in the middle** leaves 122 bills on each side. That cut, at 17.8 dollars, is the median.
 2. **Cutting each half in the middle again** gives four groups of 61 bills. The three cuts, at 13.3, 17.8 and 24.2 dollars, are the quartiles.
-3. **The two middle groups** lie between the first and third cuts. They hold half of the bills, 122, and they become the box of the box plot in section 5.
+3. **The two middle groups** lie between the first and third cuts. They hold half of the bills, 122, and they become the box of the **box plot** (G-329) in section 5.
 
 ![The 244 total bills as dots. One cut makes 2 groups of 122; cutting each half again makes 4 groups of 61; the stretch from the first cut to the third becomes the box. Idea after StatQuest, "Quantiles and Percentiles, Clearly Explained!!!"](images/quantile_cuts.gif)
 
@@ -61,9 +61,9 @@ Four facts hold for all of them:
 
 ## 3. Percentiles
 
-> **Key point:** The $p$-th percentile is the value below which $p$ percent of the data lies; we find it at position $(p/100) \times (n+1)$ of the sorted data.
+> **Key point:** The $p$-th **percentile** (G-1483) is the value below which $p$ percent of the data lies; we find it at position $(p/100) \times (n+1)$ of the sorted data.
 
-A **percentile** (see also [percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the value below which a given percentage of the observations falls. The 75th percentile has 75% of the data below it and 25% above.
+A **percentile** (see also [percentiles in code](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles)) is the value below which a given percentage of the **observations** (G-1374) falls. The 75th percentile has 75% of the data below it and 25% above.
 
 A percentile is not a percentage. A 90% score in a board exam means 90 marks out of 100. A 90th-percentile score, as in the CAT exam, means we did better than 90% of the candidates, whatever our marks were. At the 99th percentile, only 1% of candidates scored higher.
 
@@ -71,7 +71,7 @@ A percentile is not a percentage. A 90% score in a board exam means 90 marks out
 
 > **Key point:** Compute the position $(p/100) \times (n+1)$; if it falls between two values, move the same fraction of the way from the lower to the upper one.
 
-Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). How many marks put a student at the 75th percentile? Figure 4 shows the answer.
+Ten students scored 78, 82, 84, 88, 91, 93, 94, 96, 98 and 99 (already sorted). How many marks put a student at the 75th **percentile** (G-1483)? Figure 4 shows the answer.
 
 ![Finding the 75th percentile of ten marks](images/percentile_location.png)
 
@@ -127,7 +127,7 @@ This value, 92, is the median, as it should be.
 
 > **Key point:** The percentile rank of a value counts the values below it, plus half of those equal to it, as a share of all values.
 
-The reverse question: a student scored 88. At which percentile is that score? The answer is the score's **percentile rank** (G-1482).
+The reverse question: a student scored 88. At which **percentile** (G-1483) is that score? The answer is the score's **percentile rank** (G-1482).
 
 Figure 5 gives each of the ten marks one tenth of the scale, from 0 to 100. A mark's percentile rank is the middle of its own tenth: everything below it (blue) plus half of its own block (orange).
 
@@ -161,13 +161,13 @@ Counting half of the equal values puts a value in the middle of its own share of
 
 > **Key point:** Minimum, Q1, median, Q3 and maximum split the data into four equal parts; the IQR, Q3 - Q1, is the width of the middle half.
 
-The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In percentile terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of [Section 3.1](#31-the-value-at-a-given-percentile) computes every one of them.
+The **five-number summary** (G-787: minimum, $Q_1$, median, $Q_3$, maximum) and the **interquartile range** (IQR, G-966) are met in [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot). In **percentile** (G-1483) terms they are the 0th, 25th, 50th, 75th and 100th percentiles, so the location formula of [Section 3.1](#31-the-value-at-a-given-percentile) computes every one of them.
 
 The IQR uses only $Q_1$ and $Q_3$, so making the smallest or largest value more extreme does not change it. Take these ten sorted values, the running example of [Section 5](#5-building-a-box-plot-by-hand):
 
 $$6,\ 213,\ 241,\ 260,\ 281,\ 290,\ 314,\ 321,\ 350,\ 1500$$
 
-Their quartiles, with the location formula of [Section 3.1](#31-the-value-at-a-given-percentile), are $Q_1 = 234$, median $= 285.5$ and $Q_3 = 328.25$; [Section 5](#5-building-a-box-plot-by-hand) (step 2) works them out one step at a time. Figure 6 replaces the largest value, 1500, by 15000:
+Their **quartiles** (G-1602), with the location formula of [Section 3.1](#31-the-value-at-a-given-percentile), are $Q_1 = 234$, median $= 285.5$ and $Q_3 = 328.25$; [Section 5](#5-building-a-box-plot-by-hand) (step 2) works them out one step at a time. Figure 6 replaces the largest value, 1500, by 15000:
 
 - **The box does not move.** $Q_1$ stays 234, the median 285.5 and $Q_3$ 328.25, so the IQR stays 94.25. Only the position of the last value changed, and the quartiles depend on the middle positions.
 - **The mean and standard deviation move a lot.** Both add up every value, the extreme one included. The mean, one step per line:
@@ -196,7 +196,7 @@ This property is [**robustness**](../../../ML/08-trees-and-ensembles/ML-095-ense
 
 ## 5. Building a box plot by hand
 
-> **Key point:** Quartiles give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
+> **Key point:** **Quartiles** (G-1602) give the box, fences 1.5 IQR beyond it decide how far the whiskers reach, and any value beyond the fences is drawn as an outlier.
 
 A [**box plot**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), or box-and-whisker plot, draws the five-number summary; [the box plot of one feature](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) labels its parts on the Titanic ages. Here we build one ourselves for ten values, step by step as in Figure 1:
 
@@ -241,7 +241,7 @@ $$\text{upper fence} = 328.25 + 141.375 = 469.625$$
 
 These four steps are the whole construction.
 
-> **Extra:** Why 1.5 IQR? (The rule's origin is in [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 standard deviations from the mean. The IQR is the distance between them:
+> **Extra:** Why 1.5 IQR? (The rule's origin is in [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).) For normally distributed data, $Q_1$ and $Q_3$ sit 0.674 **standard deviations** (G-1871) from the mean. The IQR is the distance between them:
 >
 > $$0.674 + 0.674 = 1.349$$
 >
@@ -266,18 +266,18 @@ These four steps are the whole construction.
 
 ## 6. Reading box plots
 
-> **Key point:** A box plot shows the centre, the spread, the skew and the outliers of a feature at once, and side-by-side box plots compare groups.
+> **Key point:** A box plot shows the centre, the spread, the skew and the **outliers** (G-1420) of a feature at once, and side-by-side box plots compare groups.
 
-One box plot answers four questions:
+One **box plot** (G-329) answers four questions:
 
 - **Where is the centre?** The median line.
 - **How spread out is the data?** The width of the box (the IQR) and the reach of the whiskers.
 - **Is it skewed?** A lopsided distribution has [**skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817). If the median sits off-centre in the box, the middle half of the data is lopsided. If one whisker is much longer than the other, one tail of the data is longer.
-- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)). The fences are built from the quartiles, and section 4 showed that the outliers themselves cannot pull the quartiles, so the outliers cannot hide by stretching the fences. A rule built on the mean and standard deviation lacks this protection, because the outliers move both.
+- **Are there outliers?** The dots beyond the whiskers. The box plot is the standard outlier check for data that is not normally distributed (the IQR method, [the fences](../../../ML/04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences)). The fences are built from the **quartiles** (G-1602), and section 4 showed that the outliers themselves cannot pull the quartiles, so the outliers cannot hide by stretching the fences. A rule built on the mean and standard deviation lacks this protection, because the outliers move both.
 
-A box plot hides how many observations stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.
+A box plot hides how many **observations** (G-1374) stand behind it: a box drawn from 10 values looks as solid as one drawn from 1,000. Drawing the raw points over the box, as in the last frame of Figure 2, shows the amount of data as well.
 
-A fifth use is comparison. Splitting a numerical feature (numbers, such as age) by a categorical one (labels, such as ticket class) gives one box plot per category, side by side, as in [box plots across categories](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#5-box-plot-spread-of-a-numerical-column-across-categories). In Figure 7 each box is one ticket class, and the vertical axis is age.
+A fifth use is comparison. Splitting a numerical **feature** (G-772) (numbers, such as age) by a categorical one (labels, such as ticket class) gives one box plot per category, side by side, as in [box plots across categories](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#5-box-plot-spread-of-a-numerical-column-across-categories). In Figure 7 each box is one ticket class, and the vertical axis is age.
 
 ![Ages of Titanic passengers for each ticket class](images/box_by_class.png)
 
@@ -285,7 +285,7 @@ Comparing the three boxes:
 
 - **Centre:** first-class passengers were older (median 37) than second (29) and third class (24).
 - **Spread:** the first-class box is the widest (27 to 49), so their ages varied the most.
-- **Outliers:** in second and third class, the oldest passengers are outliers, because those boxes are narrow. In second class the youngest children (under about 3.5 years, below its lower fence) are outliers too. In first class, every age from 0.92 to 80 fits inside the whiskers.
+- **Outliers:** in second and third class, the oldest passengers are outliers, because those boxes are narrow. In second class the youngest children (under about 3.5 years, below its lower **fence** (G-776)) are outliers too. In first class, every age from 0.92 to 80 fits inside the whiskers.
 
 ## 7. Summary
 
@@ -297,11 +297,11 @@ Comparing the three boxes:
 | IQR | $Q_3 - Q_1$ | $328.25 - 234 = 94.25$ | uses only $Q_1$ and $Q_3$, so an extreme value cannot change it |
 | Fences | $Q_1 - 1.5\thinspace\text{IQR}$, $Q_3 + 1.5\thinspace\text{IQR}$ | 92.625 and 469.625 | decide where the whiskers stop and which values are outliers |
 
-- Quantile is the general word; quartiles (4), quintiles (5), deciles (10) and percentiles (100) are kinds of it.
+- Quantile is the general word; quartiles (4), quintiles (5), deciles (10) and **percentiles** (G-1483) (100) are kinds of it.
 - A percentile need not be a value in the data, because the cut can fall between two values (96.5 marks, though nobody scored 96.5).
-- Five-number summary: minimum, $Q_1$, median, $Q_3$, maximum. These split the data into four equal parts, so they are all a box plot needs.
-- Whiskers stop at the last value inside the fences; values beyond are outliers, so a dot on a box plot flags a value far from the middle half.
-- One box plot therefore shows a feature's centre, spread, skew and outliers at once, and side-by-side box plots compare groups.
+- Five-number summary: minimum, $Q_1$, median, $Q_3$, maximum. These split the data into four equal parts, so they are all a **box plot** (G-329) needs.
+- Whiskers stop at the last value inside the fences; values beyond are **outliers** (G-1420), so a dot on a box plot flags a value far from the middle half.
+- One box plot therefore shows a **feature** (G-772)'s centre, spread, skew and outliers at once, and side-by-side box plots compare groups.
 
 ## 8. Sources
 
@@ -323,16 +323,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Percentile rank (G-1482) | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
 | Box-and-whisker plot (G-330) | Another name for a box plot: the graph of a column's five-number summary, drawn as a box with whiskers and outliers as dots. |
 | Percentile location (G-1480) | Where the $p$-th percentile sits in sorted data: position $(p/100) \times (n+1)$; if it falls between two values, the percentile lies the same fraction of the way between them. |
+| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
+| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Quartiles](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
 | [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
-| [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
 | [Five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
 | [Interquartile range (IQR)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966) | The width of the middle half of the data: Q3 - Q1. |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Robustness](../../../ML/08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#64-benefit-3-robustness) (G-1700) | Performing well even when the data changes somewhat. |
-| [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Fence (fences)](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) | A cut-off for spotting outliers in a box plot: 1.5 times the IQR (the width of the middle half of the data) beyond the box, $Q_1 - 1.5\thinspace\text{IQR}$ or $Q_3 + 1.5\thinspace\text{IQR}$; values past it are possible outliers. |
-| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |

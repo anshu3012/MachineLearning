@@ -16,7 +16,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/hyperplane-
 
 ## 1. Overview
 
-> **Key point:** One equation, $w^{\mathsf T}x + w_0 = 0$, describes a line in 2D, a plane in 3D and a hyperplane in any number of dimensions; $w$ is perpendicular to it and $w_0$ moves it away from the origin.
+> **Key point:** One equation, $w^{\mathsf T}x + w_0 = 0$, describes a line in 2D, a **plane** (G-1502) in 3D and a hyperplane in any number of dimensions; $w$ is perpendicular to it and $w_0$ moves it away from the origin.
 
 ![Left: a line through the origin and the vector w perpendicular to it. Right: adding $w_0$ moves the line without turning it](images/normal_vector.png)
 
@@ -92,7 +92,7 @@ Each new dimension adds one term. With numbers, the line $2x + 3y - 6 = 0$ is re
 
 $$2x_1 + 3x_2 - 6 = 0$$
 
-Here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form, with a slope and an intercept:
+Here $w_1 = 2$, $w_2 = 3$ and $w_0 = -6$. Figure 3 (left) draws it in the school form, with a **slope** (G-1823) and an intercept:
 
 $$\text{slope} = -\frac{a}{b} = -\frac{2}{3}$$
 
@@ -136,13 +136,13 @@ This one equation is valid in 2D, 3D and $n$-D: only the number of components of
 
 > **Key point:** $w_0$ shifts the hyperplane away from the origin; $w_0 = 0$ exactly when the hyperplane passes through the origin.
 
-To see what $w_0$ does, go back to 2D, where the line is both $x_2 = mx_1 + b$ and $w_1x_1 + w_2x_2 + w_0 = 0$. [Section 3.1](#31-the-general-form-of-a-line) matched the intercepts:
+To see what $w_0$ does, go back to 2D, where the line is both $x_2 = mx_1 + b$ and $w_1x_1 + w_2x_2 + w_0 = 0$. [Section 3.1](#31-the-general-form-of-a-line) matched the **intercepts** (G-960):
 
 $$b = -\frac{w_0}{w_2}$$
 
 Now slide the line down until it passes through the origin. Its intercept $b$ becomes 0, and since $w_2 \neq 0$, that forces $w_0 = 0$. So:
 
-- A line, plane or hyperplane passes through the origin exactly when $w_0 = 0$.
+- A line, **plane** (G-1502) or hyperplane passes through the origin exactly when $w_0 = 0$.
 - A non-zero $w_0$ moves it parallel to itself, away from the origin. In Figure 1 (right), this line passes through the origin:
 
   $$2x_1 + 3x_2 = 0$$
@@ -195,7 +195,7 @@ For a hyperplane through the origin, every point $x$ on it satisfies $w^{\mathsf
 
 $$w^{\mathsf T}x = w \cdot x = \lVert w \rVert\thinspace\lVert x \rVert \cos\theta = 0$$
 
-For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, plane or hyperplane is called its **normal vector** (G-1346).
+For non-zero $w$ and $x$, the lengths are positive, so $\cos\theta = 0$ and $\theta = 90^\circ$. Each point $x$ on the hyperplane is a vector lying in the hyperplane, and $w$ is at a right angle to every one of them. So $w$ is perpendicular to the hyperplane itself. A vector perpendicular to a line, **plane** (G-1502) or hyperplane is called its **normal vector** (G-1346).
 
 With numbers, take the line in Figure 1 (left):
 
@@ -209,7 +209,7 @@ $$2 \times (-1.5) + 3 \times 1 = 0$$
 
 ### 6.2 The same in 3D
 
-> **Key point:** The coefficients of a plane's equation, read as a vector, stick straight out of the plane.
+> **Key point:** The coefficients of a **plane** (G-1502)'s equation, read as a vector, stick straight out of the plane.
 
 ![The plane x1 + 2x2 + 2x3 = 0 and its normal vector w = [1, 2, 2]](images/plane_normal.png){height=45%}
 
@@ -223,7 +223,7 @@ $$1 \times 2 + 2 \times (-1) + 2 \times 0 = 0$$
 
 The orange $w$ stands at 90° to all of them.
 
-So reading a hyperplane's equation tells us its direction at once: the coefficients are the normal vector. In $n$-D we cannot draw it, but the argument of [Section 6.1](#61-the-argument) never used the number of dimensions.
+So reading a hyperplane's equation tells us its direction at once: the coefficients are the **normal vector** (G-1346). In $n$-D we cannot draw it, but the argument of [Section 6.1](#61-the-argument) never used the number of dimensions.
 
 > **Python:** Checking that points lie on a hyperplane is one dot product per point.
 >
@@ -238,7 +238,7 @@ So reading a hyperplane's equation tells us its direction at once: the coefficie
 
 ### 6.3 A plane from a point and a normal vector
 
-> **Key point:** A point $x_0$ and a normal vector $w$ fix a plane: it holds every $x$ whose arrow from $x_0$ is at right angles to $w$. Expanding gives the usual equation, with the constant $w_0$ set by the point, so $w$ is the normal vector for any $w_0$.
+> **Key point:** A point $x_0$ and a **normal vector** (G-1346) $w$ fix a **plane** (G-1502): it holds every $x$ whose arrow from $x_0$ is at right angles to $w$. Expanding gives the usual equation, with the constant $w_0$ set by the point, so $w$ is the normal vector for any $w_0$.
 
 Sections [6.1](#61-the-argument) and [6.2](#62-the-same-in-3d) assumed $w_0 = 0$. The same result holds for a hyperplane anywhere in space, and Figure 6 shows why in four steps.
 
@@ -311,10 +311,10 @@ All hyperplanes with the same $w$ and different $w_0$ therefore share one normal
 | Through the origin | $w^{\mathsf T}x = 0$ | $w$ |
 
 - The general form of a line grows into a hyperplane by adding one term per dimension; the sum of terms is a dot product, so one vector equation covers every dimension.
-- $w_0$ shifts the hyperplane; a zero $w_0$ means it passes through the origin, because the intercept is 0 exactly when $w_0$ is 0.
-- $w$ is the normal vector: perpendicular to the hyperplane, because a zero dot product means a 90° angle.
+- $w_0$ shifts the hyperplane; a zero $w_0$ means it passes through the origin, because the **intercept** (G-960) is 0 exactly when $w_0$ is 0.
+- $w$ is the **normal vector** (G-1346): perpendicular to the hyperplane, because a zero dot product means a 90° angle.
 - A point $x_0$ and a normal vector $w$ give the hyperplane through that point; its constant is minus the dot product of $w$ and $x_0$, so $w$ stays the normal vector for any $w_0$, and hyperplanes with the same $w$ are parallel.
-- So one equation, $w^{\mathsf T}x + w_0 = 0$, describes a straight boundary in any number of dimensions, which is what classifiers such as logistic regression and SVM need.
+- So one equation, $w^{\mathsf T}x + w_0 = 0$, describes a straight boundary in any number of dimensions, which is what classifiers such as **logistic regression** (G-1120) and SVM need.
 
 ## 8. Sources
 
@@ -334,10 +334,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Normal vector (G-1346) | A vector perpendicular to a line, plane or hyperplane; for $w^{\mathsf T}x + w_0 = 0$ it is $w$. |
 | $w_0$ (G-38) | The fixed number in the equation of a line, plane or hyperplane (the constant term). It shifts the hyperplane away from the origin, and is 0 when the hyperplane passes through the origin. |
 | Equation of a hyperplane (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
+| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Logistic regression](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) | A classification algorithm that passes a weighted sum of the inputs through the sigmoid to give the probability of a class; the line (or plane) where that probability is 0.5 is the boundary it learns between the classes. |
-| [Plane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502) | A flat surface in 3D; the model for two input columns. |
 | [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Intercept](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-960) | The line's value when the input is 0; $b$ in $y = mx + b$. |
 | [Positive and negative side](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#32-positive-and-negative-sides) (G-1529) | The two halves of the plane on either side of a line $Ax + By + C = 0$: where $Ax + By + C$ is above 0 and where it is below 0; the perceptron predicts one class on each side. |

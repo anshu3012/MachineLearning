@@ -17,7 +17,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/expected-
 
 ## 1. Overview
 
-> **Key point:** A random variable turns each outcome into a number; its distribution then gives two summary numbers: the expected value (where the values centre) and the variance (how far they spread).
+> **Key point:** A random variable turns each outcome into a number; its distribution then gives two summary numbers: the **expected value** (G-725) (where the values centre) and the variance (how far they spread).
 
 ![From the sample space of a die to its expected value and variance](images/overview.png)
 
@@ -50,7 +50,7 @@ Random variables get capital letters such as $X$ or $Y$; [random variables vs al
 
 > **Key point:** For a coin we can map head to 1 and tail to 0; for a die we can map each face to its own number.
 
-**Tossing a coin.** The sample space is $\lbrace H, T\rbrace$. A random variable $X$ can map head to 1 and tail to 0:
+**Tossing a coin.** The sample space is $\lbrace H, T\rbrace$. A **random variable** (G-1620) $X$ can map head to 1 and tail to 0:
 $$X(H) = 1$$
 $$X(T) = 0$$
 
@@ -89,7 +89,7 @@ $$P(D > 0) = \frac{15}{36} = \frac{5}{12}$$
 
 $$P(D > 0) \approx 0.417$$
 
-The same sample space gave two different random variables, because we asked two different questions. Turning outcomes into numbers is what lets us tabulate, plot and calculate with them: the distribution tables, PMFs and PDFs (see [PMF, PDF and CDF](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf)) all start here.
+The same sample space gave two different **random variables** (G-1620), because we asked two different questions. Turning outcomes into numbers is what lets us tabulate, plot and calculate with them: the distribution tables, PMFs and PDFs (see [PMF, PDF and CDF](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf)) all start here.
 
 > **Python:** A random variable as a Python function.
 >
@@ -113,7 +113,7 @@ A random variable whose outputs are separate values, as here, is discrete; one w
 
 ## 3. Expected value
 
-> **Key point:** The expected value $E[X]$ is the long-run average of a random variable: each possible value times its probability, summed. For a die it is 3.5.
+> **Key point:** The expected value $E[X]$ is the long-run average of a **random variable** (G-1620): each possible value times its probability, summed. For a die it is 3.5.
 
 The **mean of a random variable** (G-1199), usually called its **expected value** (G-725), is the average outcome of a random process repeated many times. More technically, it is a weighted average of the possible values, each weighted by its probability.
 
@@ -168,7 +168,7 @@ On average we gain 0.87 rupees per bet, so in the long run the bet is worth taki
 
 ### 3.2 Another way to see it: the mean as a weighted average
 
-> **Key point:** The ordinary mean can be rewritten as each distinct value times its share of the data; the expected value uses probabilities in place of shares.
+> **Key point:** The ordinary mean can be rewritten as each distinct value times its share of the data; the **expected value** (G-725) uses probabilities in place of shares.
 
 Take the six numbers 5, 3, 4, 5, 3, 3. Their mean (see [the mean](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean)) is
 
@@ -190,10 +190,10 @@ The second form says: take each **distinct** value and multiply it by the share 
 
 > **Key point:** $E[X] = \sum x_i \thinspace P(X = x_i)$, summed over the possible values.
 
-1. **In words:** multiply every possible value of the random variable by its probability, and add the products.
+1. **In words:** multiply every possible value of the **random variable** (G-1620) by its probability, and add the products.
 2. **Formula:** for a random variable with $n$ possible values $x_1, \dots, x_n$,
    $$E[X] = \sum_{i=1}^{n} x_i \thinspace P(X = x_i)$$
-   The expected value is also written $\mu$ (mu). The symbol $\sum_{i=1}^{n}$ means: add the terms for $i = 1, 2, \dots, n$.
+   The **expected value** (G-725) is also written $\mu$ (mu). The symbol $\sum_{i=1}^{n}$ means: add the terms for $i = 1, 2, \dots, n$.
 3. **Example:** one die, each face with probability $1/6$:
    $$E[X] = 1 \cdot \tfrac{1}{6} + 2 \cdot \tfrac{1}{6} + 3 \cdot \tfrac{1}{6}$$
    $$\quad + 4 \cdot \tfrac{1}{6} + 5 \cdot \tfrac{1}{6} + 6 \cdot \tfrac{1}{6}$$
@@ -221,7 +221,7 @@ The difference has expected value 0 because the table is symmetric: each positiv
 
 ### 3.4 Checking by simulation
 
-> **Key point:** The average of 100,000 simulated die rolls is 3.4998, within 0.0002 of the expected value 3.5.
+> **Key point:** The average of 100,000 simulated die rolls is 3.4998, within 0.0002 of the **expected value** (G-725) 3.5.
 
 > **Python:** The long-run average of a die.
 >
@@ -249,9 +249,9 @@ Figure 4 replays those rolls one average at a time. Its horizontal axis is a log
 
 ## 4. Variance of a random variable
 
-> **Key point:** The **variance of a random variable** (G-2076), $\mathrm{Var}(X)$, is the expected squared distance of the random variable from its expected value; for a die it is $35/12 \approx 2.92$.
+> **Key point:** The **variance of a random variable** (G-2076), $\mathrm{Var}(X)$, is the expected squared distance of the **random variable** (G-1620) from its expected value; for a die it is $35/12 \approx 2.92$.
 
-The variance of a set of data values is the average squared distance of the values from their mean (see [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). The variance of a random variable is built the same way, with the expected value taking the place of every average.
+The variance of a set of data values is the average squared distance of the values from their mean (see [variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance)). The variance of a random variable is built the same way, with the **expected value** (G-725) taking the place of every average.
 
 ### 4.1 Variance term by term
 
@@ -263,7 +263,7 @@ The variance of a set of data values is the average squared distance of the valu
 |---|---|---|---|---|---|
 | $P(X = x)$ | 0.1 | 0.15 | 0.4 | 0.25 | 0.1 |
 
-Its expected value, each value times its probability, one per line:
+Its **expected value** (G-725), each value times its probability, one per line:
 
 | $x$ | $P(X = x)$ | $x \times P(X = x)$ |
 |---|---|---|
@@ -299,7 +299,7 @@ In Figure 5, watch which terms are large: the bars at 0 and 4 are far from 2.1, 
 
 ### 4.2 From the data formula to the random-variable formula
 
-> **Key point:** In the data formula, replace the mean by $E[X]$ and the averaging by another expected value: $\mathrm{Var}(X) = E[(X - E[X])^2]$.
+> **Key point:** In the data formula, replace the mean by $E[X]$ and the averaging by another **expected value** (G-725): $\mathrm{Var}(X) = E[(X - E[X])^2]$.
 
 For data, the (population) variance is
 
@@ -311,7 +311,7 @@ The data formula does three things:
 2. square each distance;
 3. average the squares.
 
-For a random variable:
+For a **random variable** (G-1620):
 
 - the mean $\bar{x}$ becomes the expected value $E[X]$;
 - each value $x_i$ becomes the random variable $X$ itself, so the squared distance is the random quantity $(X - E[X])^2$;
@@ -346,7 +346,7 @@ Weighting by probabilities matches the data formula that divides by $n$, not by 
 
 ### 4.3 The shortcut formula
 
-> **Key point:** $\mathrm{Var}(X) = E[X^2] - (E[X])^2$: the expected value of the square minus the square of the expected value.
+> **Key point:** $\mathrm{Var}(X) = E[X^2] - (E[X])^2$: the **expected value** (G-725) of the square minus the square of the expected value.
 
 Expanding the square gives a second formula that is often quicker.
 
@@ -361,7 +361,7 @@ Expanding the square gives a second formula that is often quicker.
    $$\mathrm{Var}(X) = \frac{182 - 147}{12} = \frac{35}{12}$$
    The same value as the definition.
 
-The derivation uses three rules for expected values. They hold for any random variables, and need no independence (Grinstead and Snell 1997, §6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
+The derivation uses three rules for expected values. They hold for any **random variables** (G-1620), and need no independence (Grinstead and Snell 1997, §6.1, Theorem 6.2, which notes that expectations add whether or not the summands are independent):
 
 - **Constants:** a constant $c$ has $E[c] = c$. A constant takes one value with probability 1, so its average is itself. $E[X]$ is a constant too, a single number such as 3.5.
 - **Scaling:** $E[cX] = c\thinspace E[X]$. Multiplying every value by $c$ multiplies the weighted average by $c$.
@@ -402,9 +402,9 @@ Both formulas are used constantly, for discrete and continuous random variables 
 
 ### 4.4 Same mean, different spread
 
-> **Key point:** Two random variables can share an expected value and differ in variance; the variance tells how far single outcomes stray from the centre.
+> **Key point:** Two **random variables** (G-1620) can share an expected value and differ in variance; the variance tells how far single outcomes stray from the centre.
 
-Figure 7 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Both have expected value 3.5. The single die is equally likely to land anywhere from 1 to 6, while the average piles up near 3.5: extreme values need both dice to be extreme.
+Figure 7 compares one die with the **average** of two dice, $(d_1 + d_2)/2$. Both have **expected value** (G-725) 3.5. The single die is equally likely to land anywhere from 1 to 6, while the average piles up near 3.5: extreme values need both dice to be extreme.
 
 ![One die and the average of two dice: same expected value, different variance](images/spread.png)
 
@@ -435,9 +435,9 @@ The expected value says where the outcomes centre; the variance says how much a 
 | Variance (shortcut) | $E[X^2] - (E[X])^2$ | $91/6 - 49/4 = 35/12$ | $0.5 - 0.25 = 0.25$ | often quicker, with the same result |
 | Standard deviation | $\sqrt{\mathrm{Var}(X)}$ | 1.708 | 0.5 | back in the units of $X$ |
 
-- A random variable is a function from outcomes to real numbers; the event we study decides its rule, so decide the event first, then write the rule.
+- A **random variable** (G-1620) is a function from outcomes to real numbers; the event we study decides its rule, so decide the event first, then write the rule.
 - One sample space can carry many random variables: the sum and the difference of two dice, because each answers a different question.
-- The expected value is a probability-weighted average, the long-run mean of many trials; it need not be a possible value, because no single trial has to land on the long-run average.
+- The **expected value** (G-725) is a probability-weighted average, the long-run mean of many trials; it need not be a possible value, because no single trial has to land on the long-run average.
 - The variance is the expected squared distance from the expected value; the shortcut $E[X^2] - (E[X])^2$ gives the same number, because expanding the square with the rules of expected values turns one into the other.
 - Expected values are linear: constants come out, sums split. No independence is needed for this, so the shortcut holds for any random variable.
 - The expected value says where the outcomes centre and the variance how far a single outcome strays from it, so two random variables with the same expected value can still differ (one die against the average of two).
@@ -461,8 +461,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Mean of a random variable (G-1199) | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
 | Expected value $E[X]$ (G-725) | The average value we would get over many repeats: each possible value times its probability, added up (the probability-weighted average of a random variable). Also called the long-run mean and written $\mu$. |
+| Mean of a random variable (G-1199) | Another name for its expected value: the probability-weighted average of its possible values, the average outcome over many repeats. |
 | Variance of a random variable (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
 | Standard deviation of a random variable (G-1870) | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
 | Linearity of expectation (G-1100) | The rule that the expected value of a sum is the sum of the expected values, with constants scaling and shifting it: $E[aX + bY + c] = a\thinspace E[X] + b\thinspace E[Y] + c$, for any random variables. |

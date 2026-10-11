@@ -28,7 +28,7 @@ This Note does two things, both on the network in Figure 1:
 
 ## 2. The setup: layers and data
 
-> **Key point:** Layers are numbered from 0 (the input layer) to the output layer; observation $i$ of the data enters the input layer as $x_{i1}, x_{i2}, \dots$
+> **Key point:** Layers are numbered from 0 (the input layer) to the **output layer** (G-1424); observation $i$ of the data enters the **input layer** (G-952) as $x_{i1}, x_{i2}, \dots$
 
 ### 2.1 Numbering the layers
 
@@ -37,7 +37,7 @@ This Note does two things, both on the network in Figure 1:
 The network in Figure 1 has four layers:
 
 - **Layer 0**, the [**input layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952): 4 nodes, one per **feature** (G-772; an input variable, one column of the data table). These nodes do no calculation; they only pass the values on.
-- **Layer 1**, the first [**hidden layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890): 3 perceptrons.
+- **Layer 1**, the first [**hidden layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890): 3 **perceptrons** (G-1486).
 - **Layer 2**, the second hidden layer: 2 perceptrons.
 - **Layer 3**, the [**output layer**](../DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424): 1 perceptron, whose output is the prediction $\hat y_i$.
 
@@ -68,15 +68,15 @@ Figure 2 shows the rule behind the names: the first index of $x_{ij}$ is the row
 
 ## 3. Counting trainable parameters
 
-> **Key point:** Between two layers there is one weight for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 26 parameters.
+> **Key point:** Between two layers there is one **weight** (G-2106) for every pair of nodes, and every node outside the input layer has one bias. The 4-3-2-1 network has 26 parameters.
 
-A **trainable parameter** is a number the training algorithm must find: every weight and every bias. Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209; the layout of layers and nodes).
+A **trainable parameter** is a number the training algorithm must find: every weight and every **bias** (G-287). Knowing how many there are tells us how big the problem is, so it is the first thing to work out for any **architecture** (G-209; the layout of layers and nodes).
 
 Every node in one layer connects to every node in the next. So between a layer of 4 nodes and a layer of 3 there are 12 weights:
 
 $$4 \times 3 = 12$$
 
-Each of the 3 receiving nodes is a perceptron with its own bias, which adds 3 more.
+Each of the 3 receiving nodes is a **perceptron** (G-1486) with its own bias, which adds 3 more.
 
 Counting layer by layer in Figure 1:
 
@@ -88,7 +88,7 @@ Counting layer by layer in Figure 1:
 | **All** | 20 | 6 | **26** |
 
 1. **In words:** for each layer after the input, multiply its number of nodes by the previous layer's number of nodes, add its number of nodes (the biases), and add up over all layers.
-2. **Formula:** with $n_l$ nodes in layer $l$ and $L$ the output layer,
+2. **Formula:** with $n_l$ nodes in layer $l$ and $L$ the **output layer** (G-1424),
    $$\text{parameters} = \sum_{l=1}^{L} \left( n_{l-1}\thinspace n_l + n_l \right)$$
    The symbol $\sum_{l=1}^{L}$ means "add up the bracket for $l = 1$, then $l = 2$, and so on up to $l = L$". Here $L = 3$, so there are three brackets, one per layer after the input.
 3. **Example:** with $n_0 = 4$, $n_1 = 3$, $n_2 = 2$, $n_3 = 1$:
@@ -103,7 +103,7 @@ Figure 3 is the formula drawn: each block is $n_{l-1} \times n_l$ weights plus a
 
 Training this network means finding good values for these 26 numbers.
 
-> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one hidden layer of 128 nodes and 10 outputs already has 101,770 parameters:
+> **Extra:** The count grows fast. A network for 28 × 28 pixel images (784 inputs) with one **hidden layer** (G-890) of 128 nodes and 10 outputs already has 101,770 parameters:
 >
 > $$784 \times 128 = 100{,}352$$
 > $$128 \times 10 = 1{,}280$$
@@ -113,7 +113,7 @@ Training this network means finding good values for these 26 numbers.
 
 ## 4. Naming biases and outputs
 
-> **Key point:** $b_{ij}$ is the bias of node $j$ in layer $i$, and $O_{ij}$ is that node's output. Both use the same two numbers: layer first, then node.
+> **Key point:** $b_{ij}$ is the **bias** (G-287) of node $j$ in layer $i$, and $O_{ij}$ is that node's output. Both use the same two numbers: layer first, then node.
 
 ![The notation on the same network: a bias inside every node, an output beside it, and four example weights](images/labels.png){height=36%}
 
@@ -121,7 +121,7 @@ Training this network means finding good values for these 26 numbers.
 
 > **Key point:** Layer number, then node number.
 
-The bias of a node is written $b_{ij}$, where:
+The **bias** (G-287) of a node is written $b_{ij}$, where:
 
 - $i$ is the layer number;
 - $j$ is the position of the node in that layer, counted from the top.
@@ -132,7 +132,7 @@ In Figure 4:
 - the two nodes of layer 2 have $b_{21}$ and $b_{22}$;
 - the output node has $b_{31}$.
 
-The input layer has no biases, because its nodes do no calculation.
+The **input layer** (G-952) has no biases, because its nodes do no calculation.
 
 ### 4.2 Outputs
 
@@ -146,7 +146,7 @@ The output of a node uses exactly the same two indices: $O_{ij}$. A node's outpu
 
 ## 5. Naming weights
 
-> **Key point:** $W_{ij}^{k}$ is the weight going into layer $k$, leaving node $i$ of the previous layer and entering node $j$ of layer $k$.
+> **Key point:** $W_{ij}^{k}$ is the **weight** (G-2106) going into layer $k$, leaving node $i$ of the previous layer and entering node $j$ of layer $k$.
 
 A weight sits on a connection between two nodes, so it needs three numbers. The top number $k$ is a label (a layer number), not a power: $W_{42}^{1}$ is not $W_{42}$ to the power 1. The three numbers of $W_{ij}^{k}$ are:
 
@@ -173,7 +173,7 @@ So $W_{ij}^{k}$ reads "into layer $k$, from node $i$ to node $j$". The four high
 | $W_{22}^{2}$ | 2 | 2 of layer 1 | 2 of layer 2 |
 | $W_{11}^{3}$ | 3 | 1 of layer 2 | 1 of layer 3 |
 
-The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119; each input times its weight, added up, as in [the summation](../DL-004-perceptron/DL-004-perceptron.md#32-the-summation)), together with its bias $b_{11}$.
+The colours in Figure 1 follow the same idea. All the weights entering one node share that node's colour: the 4 blue weights are $W_{11}^{1}, W_{21}^{1}, W_{31}^{1}, W_{41}^{1}$, all entering node 1 of layer 1. The blue weights are the ones that node uses in its **weighted sum** (G-2119; each input times its weight, added up, as in [the summation](../DL-004-perceptron/DL-004-perceptron.md#32-the-summation)), together with its **bias** (G-287) $b_{11}$.
 
 > **Python:** The same parameters as NumPy arrays.
 >
@@ -200,9 +200,9 @@ The colours in Figure 1 follow the same idea. All the weights entering one node 
 | $O_{ij}$ | Output of node $j$ in layer $i$ | $O_{31} = \hat y_i$ | one number, sent along every connection to the next layer |
 | $W_{ij}^{k}$ | Weight into layer $k$, from node $i$ to node $j$ | $W_{42}^{1}$: input 4 to node 2 of layer 1 | a weight sits between two nodes, so it needs three numbers |
 
-- Layers are numbered from 0 (input) to the output layer; layer 0 only passes the feature values on, so it has no biases.
-- Parameters: for each layer after the input, (previous layer's nodes × this layer's nodes) weights plus one bias per node, added over the layers (section 3); the 4-3-2-1 network has 26, so training must find 26 numbers, the count Keras prints with `model.summary()`.
-- Biases and outputs use (layer, node); weights add the layer they enter on top, because a weight sits on a connection and needs both of its ends.
+- Layers are numbered from 0 (input) to the **output layer** (G-1424); layer 0 only passes the feature values on, so it has no biases.
+- Parameters: for each layer after the input, (previous layer's nodes × this layer's nodes) **weights** (G-2106) plus one bias per node, added over the layers (section 3); the 4-3-2-1 network has 26, so training must find 26 numbers, the count Keras prints with `model.summary()`.
+- **Biases** (G-287) and outputs use (layer, node); weights add the layer they enter on top, because a weight sits on a connection and needs both of its ends.
 - So before training, we know how many parameters the network has and can name each weight, bias and output by exactly where it sits.
 
 ## 7. Sources
@@ -229,10 +229,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Learnable (trainable) parameters](../../../DL/04-cnn/DL-046-cnn-vs-ann/DL-046-cnn-vs-ann.md#51-counting-the-parameters-of-a-convolution-layer) (G-1065) | The weights and biases that training changes; for a convolution layer, the filter values and one bias per filter. |
+| [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
 | [Input layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-952) | The first layer of a neural network, with one node per input column; it takes in the data and passes the values on without calculating anything. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Hidden layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-890) | A layer of neurons between the input and output layers; it works on the output of the layer before and passes what it finds on, so the network can build up more complex patterns. |
-| [Output layer](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-1424) | The last layer, which gives the prediction. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |

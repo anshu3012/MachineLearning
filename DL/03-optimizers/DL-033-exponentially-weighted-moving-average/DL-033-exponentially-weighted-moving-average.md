@@ -202,7 +202,7 @@ So $\beta = 0.9$ means `alpha=0.1`.
 > df["ewma"] = df["meantemp"].ewm(alpha=0.1, adjust=False).mean()
 > ```
 
-The first rows are 10.00, 9.74, 9.48, 9.40, 9.06: exactly our formula with $V_0 = \theta_1$ (Notebook). The data is the Daily Delhi Climate dataset (Rao 2019): one row per day from 1 January 2013 to 1 January 2017, of which we keep the date and the mean temperature.
+The first rows are 10.00, 9.74, 9.48, 9.40, 9.06: exactly our formula with $V_0 = \theta_1$ (Notebook). The data is the Daily Delhi Climate dataset (Rao 2019): one row per day from 1 January 2013 to 1 January 2017, of which we keep the date and the **mean** (G-1203) temperature.
 
 > **Extra:** Leave out `adjust=False` and pandas uses `adjust=True`, its default: it divides the weighted sum by the sum of the weights, $1 + \beta + \dots + \beta^{t-1}$ (pandas documentation, `DataFrame.ewm`). The Notebook checks that this equals the zero-start EWMA divided by $1 - \beta^t$, which is the start-up correction Adam uses.
 
@@ -217,7 +217,7 @@ Writing the EWMA by hand, as the `ewma` function in the Notebook does, is a good
 | 0.9 | 10 values | smooth (deep learning default) | 0.1 |
 | 0.98 | 50 values | very smooth, slow | 0.02 |
 
-- EWMA finds the trend in a time series with one running number $V_t$ that updates at every step, so it needs no list of past values.
+- EWMA finds the trend in a **time series** (G-1975) with one running number $V_t$ that updates at every step, so it needs no list of past values.
 - A value $k$ steps old has weight $(1-\beta)\beta^k$: newer values count more, and every value fades.
 - Large $\beta$ means smooth and slow; small $\beta$ means spiky and fast. Roughly an average of the last $1/(1-\beta)$ values.
 - Starting from $V_0 = 0$ pulls the first values towards 0; starting from $V_0 = \theta_1$ avoids it.

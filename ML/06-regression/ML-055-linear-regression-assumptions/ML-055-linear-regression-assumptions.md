@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/lr-assumptio
 
 ## 1. Overview
 
-> **Key point:** Linear regression is reliable when five conditions hold: a linear relationship, no multicollinearity, normal residuals, constant spread of residuals, and no pattern in the residuals over the rows.
+> **Key point:** Linear regression is reliable when five conditions hold: a linear relationship, no **multicollinearity** (G-1273), normal residuals, constant spread of residuals, and no pattern in the residuals over the rows.
 
 Linear regression always produces a line or hyperplane, whatever the data looks like. Whether that line can be trusted depends on a few conditions, called the **assumptions** (G-220) of linear regression. Like the rules of a game, they do not stop anyone from playing, but break them and the score means little.
 
@@ -54,14 +54,14 @@ The example data has 200 observations, three features and one target. A linear r
 
 ## 2. Assumption 1: a linear relationship
 
-> **Key point:** Each feature should relate to the output along a straight line, rising or falling. A curved relationship needs a different model.
+> **Key point:** Each **feature** (G-772) should relate to the output along a straight line, rising or falling. A curved relationship needs a different model.
 
 Linear regression fits straight lines, so the relationship between each feature and the output should be roughly linear. Both directions are fine:
 
 - **positive:** the output rises as the feature rises;
 - **negative:** the output falls as the feature rises.
 
-A curved relationship (for example, the output growing with the square of the feature) breaks this assumption, because a straight line then misses the pattern systematically.
+A curved relationship (for example, the output growing with the square of the feature) breaks this **assumption** (G-220), because a straight line then misses the pattern systematically.
 
 The check is a scatter plot of the output against each feature (Figure 2).
 
@@ -71,31 +71,31 @@ The check is a scatter plot of the output against each feature (Figure 2).
 - **feature3:** also rising, with more scatter (0.58).
 - **feature2:** no visible relationship at all (0.03). Its fitted coefficient is only $-0.28$, against 72.7 and 53.3 for the other two: the model has learned to almost ignore it.
 
-> **Extra:** A feature with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When a feature has a curved relationship, a simple approach is to add non-linear transformations of that feature, such as $\log x$, $\sqrt{x}$ or $x^2$, to the model (ISL §3.3.3). Adding $x^2$ is polynomial regression ([adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)).
+> **Extra:** A feature with no relationship, like feature2, does not break the assumption so much as add nothing; the model gives it a near-zero weight. When a feature has a curved relationship, a simple approach is to add non-linear transformations of that feature, such as $\log x$, $\sqrt{x}$ or $x^2$, to the model (ISL §3.3.3). Adding $x^2$ is **polynomial regression** (G-1515) ([adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)).
 
 ## 3. Assumption 2: no multicollinearity
 
-> **Key point:** The features should not be strongly related to each other. If they are, the model cannot tell which one deserves the credit, and the coefficients become unreliable.
+> **Key point:** The **features** (G-772) should not be strongly related to each other. If they are, the model cannot tell which one deserves the credit, and the coefficients become unreliable.
 
 [**Multicollinearity**](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) means one feature can be (largely) predicted from the others. Multicollinearity was met as [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) in one-hot encoding.
 
 ### 3.1 Why it is a problem
 
-> **Key point:** Each coefficient measures the effect of its feature with the others held fixed. Related features cannot be held fixed separately.
+> **Key point:** Each coefficient measures the effect of its **feature** (G-772) with the others held fixed. Related features cannot be held fixed separately.
 
 A coefficient $\beta_1$ is the change in the output when $x_1$ rises by 1 *and all other features stay the same*. If $x_1$ and $x_3$ always move together, "change $x_1$ and keep $x_3$ fixed" never happens in the data. The model then cannot separate their effects.
 
 An analogy: two scientists finish a project together. If one is a physicist and the other a chemist, it is easy to say who contributed what. If both have identical skills, it is impossible. With related features the model faces the second case, so the coefficients become unreliable: a small change in the data can move them a long way (ISL §3.3.3). The predictions, on the other hand, usually stay good (Kutner §7.6).
 
-Figure 3 tests this on our data. We refit the model on 20 [**bootstrap**](../../08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) resamples of the training data: each resample draws 140 observations from the 140 with replacement, so it differs a little from the original. With the Note's own features (left), feature1's coefficient stays between 69.9 and 78.0. Then we add a near-copy of feature1, feature1 plus a little noise (VIF 429, Section 3.2). Now feature1's coefficient swings from 21.5 to 102.5 and the copy's swings the opposite way, sometimes below 0. Their sum stays between 69.7 and 78.0: the model knows the pair's joint effect, but not how to split the credit.
+Figure 3 tests this on our data. We refit the model on 20 [**bootstrap**](../../08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) resamples of the training data: each resample draws 140 **observations** (G-1374) from the 140 with replacement, so it differs a little from the original. With the Note's own features (left), feature1's coefficient stays between 69.9 and 78.0. Then we add a near-copy of feature1, feature1 plus a little noise (VIF 429, Section 3.2). Now feature1's coefficient swings from 21.5 to 102.5 and the copy's swings the opposite way, sometimes below 0. Their sum stays between 69.7 and 78.0: the model knows the pair's joint effect, but not how to split the credit.
 
 ![Refitting on 20 bootstrap resamples of the training data. Left: the Note's features; feature1's coefficient barely moves. Right: with a near-copy of feature1 added, the two coefficients swing wildly in opposite directions, while their sum (dashed green) stays steady.](images/collinear_coefs.gif)
 
 ### 3.2 Checking it
 
-> **Key point:** A VIF near 1 means no multicollinearity; above 5 is a problem. All three features here have VIF 1.01.
+> **Key point:** A VIF near 1 means no **multicollinearity** (G-1273); above 5 is a problem. All three features here have VIF 1.01.
 
-The standard check is the **variance inflation factor (VIF)** (G-2075). For each feature, a regression predicts that feature from all the other features; if they predict it well (high $R^2$), the feature is redundant.
+The standard check is the **variance inflation factor (VIF)** (G-2075). For each **feature** (G-772), a regression predicts that feature from all the other features; if they predict it well (high $R^2$), the feature is redundant.
 
 In words: the VIF of a feature is one divided by the part of it the other features cannot explain.
 
@@ -119,7 +119,7 @@ If they explain none of it, the VIF is 1.
 > # [1.011, 1.010, 1.014]
 > ```
 
-A quicker, rougher check is a [**heatmap**](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) of the correlations between the features (Figure 4, left): a table of correlations in which each cell pairs the feature of its row with the feature of its column, coloured darker the closer the value is to 1. The diagonal is 1 because each feature matches itself. Here every correlation between different features is at most 0.06: no multicollinearity.
+A quicker, rougher check is a [**heatmap**](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) of the **correlations** (G-490) between the features (Figure 4, left): a table of correlations in which each cell pairs the feature of its row with the feature of its column, coloured darker the closer the value is to 1. The diagonal is 1 because each feature matches itself. Here every correlation between different features is at most 0.06: no multicollinearity.
 
 ![Correlations between the features, and their VIF](images/multicollinearity.png)
 
@@ -127,7 +127,7 @@ A quicker, rougher check is a [**heatmap**](../../02-getting-data/ML-020-bivaria
 
 ## 4. The residual plot
 
-> **Key point:** A residual plot puts every residual above or below a flat zero line. Random scatter around zero means the model fits; any shape means an assumption is broken.
+> **Key point:** A residual plot puts every **residual** (G-705) above or below a flat zero line. Random scatter around zero means the model fits; any shape means an assumption is broken.
 
 The last three assumptions are all checked on one kind of picture, so we build it by hand first. Take four points, $(1, 2)$, $(2, 3)$, $(3, 7)$ and $(4, 8)$. Their least-squares line is $\hat y = 2.2x - 0.5$.
 
@@ -153,15 +153,15 @@ How to read a residual plot:
 - **A curve,** for example the residuals sit high on the left, low in the middle and high again on the right (above the dashed zero line, then below it, then above again): the relationship is not a straight line. Assumption 1 is broken, and a non-linear model such as [**polynomial regression**](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features) (G-1515) fits better (Figure 7, left).
 - **A funnel or a wave:** assumptions 4 and 5 below.
 
-With several features there is no single $x$ to put on the horizontal axis, so the predicted value $\hat y$ is used instead. The reading rules stay the same.
+With several **features** (G-772) there is no single $x$ to put on the horizontal axis, so the predicted value $\hat y$ is used instead. The reading rules stay the same.
 
 ## 5. Assumption 3: normal residuals
 
-> **Key point:** The residuals should follow a bell-shaped (normal) distribution centred on 0: most errors small, few large, positive and negative alike.
+> **Key point:** The **residuals** (G-705) should follow a bell-shaped (normal) distribution centred on 0: most errors small, few large, positive and negative alike.
 
 When the model is right on average, its errors should scatter around 0: many small errors and few large ones, as often too high as too low. Such a bell-shaped spread is a [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343).
 
-Why it matters: the ranges and tests reported with the model rest on this assumption. A **prediction interval** (the range a new observation's target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [**confidence intervals**](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
+Why it matters: the ranges and tests reported with the model rest on this **assumption** (G-220). A **prediction interval** (the range a new **observation** (G-1374)'s target is expected to fall in) depends strongly on normal residuals, so with clearly non-normal residuals it becomes inaccurate. The [**confidence intervals**](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) (ranges likely to hold the true coefficient) and tests for the coefficients are more forgiving, especially with a large sample (Penn State STAT 501, Lessons 4.1, 7.1 and 7.2).
 
 Non-normal residuals do not make the coefficients themselves wrong on average. Least squares gives unbiased coefficients as long as the errors average zero, whatever their shape; the Gauss–Markov theorem says it is even the best linear unbiased estimator without normal errors (Wikipedia, "Gauss–Markov theorem"). So normality matters for the intervals and tests, not for the fitted line.
 
@@ -176,27 +176,27 @@ Two checks, both on the residuals (Figure 6, top):
 
 ## 6. Assumption 4: homoscedasticity
 
-> **Key point:** The residuals should have the same spread for small and large predictions. A funnel shape (heteroscedasticity) breaks the assumption.
+> **Key point:** The residuals should have the same spread for small and large predictions. A funnel shape (heteroscedasticity) breaks the **assumption** (G-220).
 
 **Homoscedasticity** (G-902) means "same scatter": the size of the errors does not depend on the size of the prediction. Its opposite, **heteroscedasticity** (G-889), is common (ISL §3.3.3): for example, a house-price model that is off by a few thousand on cheap houses and by much more on expensive ones.
 
-The check is a scatter plot of residuals against predicted values (Figure 6, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
+The check is a scatter plot of **residuals** (G-705) against predicted values (Figure 6, bottom left). The plot should look like an even band around 0, with no shape. Here it does: the spread is roughly the same from the lowest to the highest prediction.
 
 Figure 7 (middle) shows what heteroscedasticity looks like: a funnel that widens to the right.
 
 ![What failed assumptions look like (made-up data)](images/violations.png)
 
-> **Extra:** Heteroscedasticity does not make the coefficients wrong on average, but it makes the model's uncertainty estimates wrong: the confidence intervals and p-values that statistics packages report (Wooldridge §8.1). One fix is to take the log or square root of the target. The log shrinks large values more than small ones, and can turn a funnel into an even band (ISL §3.3.3).
+> **Extra:** Heteroscedasticity does not make the coefficients wrong on average, but it makes the model's uncertainty estimates wrong: the confidence intervals and p-values that statistics packages report (Wooldridge §8.1). One fix is to take the log or square root of the **target** (G-1949). The log shrinks large values more than small ones, and can turn a funnel into an even band (ISL §3.3.3).
 
 ## 7. Assumption 5: no autocorrelation of the residuals
 
-> **Key point:** One residual should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
+> **Key point:** One **residual** (G-705) should not predict the next. Plotted in row order, the residuals should jump around randomly, not drift in waves.
 
-**Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one observation, it is also too high on the next. Autocorrelation is common in [**time series**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) data, measurements taken at points in time (ISL §3.3.3).
+**Autocorrelation** (G-230) means each residual is related to the one before it: if the model was too high on one **observation** (G-1374), it is also too high on the next. Autocorrelation is common in [**time series**](../../01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) data, measurements taken at points in time (ISL §3.3.3).
 
 The check is to plot the residuals in row order (Figure 6, bottom right). They should jump up and down with no pattern. Here they do.
 
-Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals. Figure 8 shows this test (details in the Extra below): residuals of a model that misses a slow wave form the same wave; adding the wave as a feature leaves random jumps. Autocorrelation makes the model look more certain than it is: its confidence intervals come out too narrow (ISL §3.3.3).
+Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by long runs below, like a slow wave. One cause is a missing feature that changes slowly from one observation to the next, such as a time trend: the model cannot see the trend, so the trend shows up in the residuals. Figure 8 shows this test (details in the Extra below): residuals of a model that misses a slow wave form the same wave; adding the wave as a feature leaves random jumps. Autocorrelation makes the model look more certain than it is: its **confidence intervals** (G-446) come out too narrow (ISL §3.3.3).
 
 ![Residuals in row order for data built as y = 2x + 3 sin(t/25) + noise. Left: a model on x alone leaves the slow wave in its residuals (Durbin-Watson 0.40). Right: with sin(t/25) added as a feature, the residuals jump randomly (Durbin-Watson 2.09).](images/autocorr_fix.png)
 
@@ -204,7 +204,7 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 >
 > $$y = 2x + 3\sin(t/25) + \text{noise}$$
 >
-> Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 7 (left) also shows a residual plot when assumption 1 fails: a curve instead of a flat band.
+> Fitting on $x$ alone gives Durbin-Watson 0.40; adding the slow wave $\sin(t/25)$ as a feature brings it back to 2.09. Figure 7 (left) also shows a residual plot when **assumption** (G-220) 1 fails: a curve instead of a flat band.
 
 ## 8. Summary
 
@@ -216,9 +216,9 @@ Figure 7 (right) shows positive autocorrelation: long runs above 0 followed by l
 | 4. Homoscedasticity | errors have the same spread everywhere | residuals vs predictions | yes | a funnel makes the reported confidence intervals and p-values wrong |
 | 5. No autocorrelation | errors do not follow each other | residuals in row order | yes | a wave means a missing feature, and the model looks more certain than it is |
 
-- Assumptions 1 and 2 are about the features; 3 to 5 are about the residuals, so the first two are checked on the data and the last three after fitting.
+- **Assumptions** (G-220) 1 and 2 are about the features; 3 to 5 are about the residuals, so the first two are checked on the data and the last three after fitting.
 - A failed assumption does not stop the model from running; it makes its coefficients or uncertainty estimates untrustworthy.
-- Residual plots should look like random noise; any shape (curve, funnel, wave) points to a broken assumption, because a good fit leaves only random errors behind.
+- **Residual plots** (G-2207) should look like random noise; any shape (curve, funnel, wave) points to a broken assumption, because a good fit leaves only random errors behind.
 - Together these answer the opening question: the line can be trusted when these five conditions hold, and each one has its own plot to check it.
 
 
@@ -255,15 +255,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Durbin-Watson statistic (G-649) | A number from 0 to 4 that checks whether a regression's residuals are linked to the residuals next to them (autocorrelation); about 2 means no such link. |
 | Linear relationship (G-1095) | A relationship between two columns that follows a straight line. |
 | statsmodels (G-1885) | A Python library for statistical models and tests, such as the VIF and the Durbin-Watson statistic used to check the assumptions of linear regression. |
+| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
 | [Correlation](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-490) | A number from -1 to +1 that says how strongly two numerical features rise or fall together along a straight line: the covariance divided by both standard deviations, so the units drop out. |
-| [Multicollinearity](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#32-multicollinearity-inputs-must-not-depend-on-each-other) (G-1273) | A relationship between input columns, so that one can be calculated (or largely predicted) from the others; it makes a linear model's coefficients unstable and hard to interpret. |
+| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
 | [Heatmap](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#71-crosstab-and-heatmap) (G-886) | A table drawn as coloured cells, darker for larger values. |
-| [Polynomial regression](../../../ML/06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515) | Linear regression on powers (and products) of the inputs, to fit curves. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
 | [Q-Q plot](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built) (G-1596) | A plot of a column's sorted values against the values a theoretical distribution, often the normal, would have; points on the line mean the data follows it. |

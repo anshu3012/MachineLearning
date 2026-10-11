@@ -29,7 +29,7 @@ Figure 1 groups the loss functions by problem. This Note covers the dashed part:
 
 - [**Forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797): how a network turns an observation into a prediction.
 - MSE and MAE as metrics: [**mean squared error**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) and [**mean absolute error**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194).
-- Binary cross-entropy: [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function). Categorical cross-entropy and softmax: [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function).
+- **Binary cross-entropy** (G-303): [log loss](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function). **Categorical cross-entropy** (G-349) and softmax: [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function).
 
 ## 3. Why the loss function matters
 
@@ -39,7 +39,7 @@ Figure 1 groups the loss functions by problem. This Note covers the dashed part:
 
 > **Key point:** Start with a random line, measure its loss, move the line, measure again; stop when the loss is smallest.
 
-In simple linear regression, the loss is the mean squared error, and $\hat y_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see [the update rule of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
+In simple linear regression, the loss is the **mean squared error** (G-1201), and $\hat y_i = m x_i + b$. So the loss is a function of $m$ and $b$ only. Gradient descent starts from a random line, computes its loss, and changes $m$ and $b$ to lower it, again and again (see [the update rule of gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
 
 The loss is the algorithm's eyes. Without it, the algorithm has no way to know which direction is better.
 
@@ -55,7 +55,7 @@ A network is trained in the same spirit. Take the student data (CGPA, IQ, packag
 
 1. Start with random weights and biases.
 2. Feed the first student forward (7.1 and 83 into the input nodes) and get a prediction, say $\hat{y} = 3.7$.
-3. Put $y$ and $\hat{y}$ into the loss function, here the mean squared error, because the output is a number.
+3. Put $y$ and $\hat{y}$ into the loss function, here the **mean squared error** (G-1201), because the output is a number.
 4. Use that loss to adjust every weight and bias with gradient descent.
 5. Take the next student and repeat; go over the whole dataset many times (epochs).
 
@@ -95,7 +95,7 @@ Why keep two words? The cost is what training pushes down, and it is an average 
 
 ## 5. Mean squared error
 
-> **Key point:** MSE squares each error: far-off observations get much bigger weight updates. Use it for regression without outliers, with a linear output node.
+> **Key point:** MSE squares each error: far-off observations get much bigger weight updates. Use it for regression without **outliers** (G-1420), with a linear output node.
 
 ### 5.1 The formula
 
@@ -137,7 +137,7 @@ Figure 4 (blue) shows both: the loss is a parabola, and its slope a straight lin
 
 ### 5.3 Advantages and disadvantages
 
-> **Key point:** Easy to read and smooth everywhere, but in squared units and pulled hard by outliers.
+> **Key point:** Easy to read and smooth everywhere, but in squared units and pulled hard by **outliers** (G-1420).
 
 Advantages:
 
@@ -175,7 +175,7 @@ With MSE, the output layer needs a linear activation (no activation at all), bec
 
 ## 6. Mean absolute error
 
-> **Key point:** MAE takes the absolute error instead of the square. Its units are those of $y$ and outliers pull less, but its slope jumps at 0.
+> **Key point:** MAE takes the absolute error instead of the square. Its units are those of $y$ and **outliers** (G-1420) pull less, but its slope jumps at 0.
 
 The **mean absolute error** (MAE, G-1194) is defined in [the mean absolute error](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae). As a training loss it is also called **L1 loss**: loss $|y_i - \hat y_i|$ for one observation, cost $\frac{1}{n}\sum |y_i - \hat y_i|$ over $n$ observations.
 
@@ -197,7 +197,7 @@ So: no outliers, use MSE; outliers in the data, use MAE. In Keras, `loss="mae"`,
 
 ## 7. Huber loss
 
-> **Key point:** Huber loss is MSE for small errors and MAE for large ones. The threshold $\delta$ decides which errors count as outliers.
+> **Key point:** Huber loss is MSE for small errors and MAE for large ones. The threshold $\delta$ decides which errors count as **outliers** (G-1420).
 
 ### 7.1 When neither MSE nor MAE fits
 
@@ -229,7 +229,7 @@ $\delta$ is a hyperparameter: we try several values and keep the one that works 
 
 ### 7.3 The three losses on data with outliers
 
-> **Key point:** On data with 25% outliers, MSE lifts the line by about 2; MAE and Huber stay on the main points.
+> **Key point:** On data with 25% **outliers** (G-1420), MSE lifts the line by about 2; MAE and Huber stay on the main points.
 
 ![A line fitted with each loss to 40 points, 10 of them outliers](images/outlier_fit.png){height=40%}
 
@@ -399,7 +399,7 @@ In Figure 11, the grey bars play no part in the loss: only the green bar's heigh
 
 ## 10. Sparse categorical cross-entropy
 
-> **Key point:** The same loss as categorical cross-entropy, but the labels stay integers. No one-hot encoding is needed, and with many classes it saves memory and time.
+> **Key point:** The same loss as **categorical cross-entropy** (G-349), but the labels stay integers. No one-hot encoding is needed, and with many classes it saves memory and time.
 
 [**Sparse categorical cross-entropy**](../DL-012-mnist-ann/DL-012-mnist-ann.md#51-the-loss-for-many-classes) (G-1839) uses exactly the same network (one softmax node per class) and the same loss. Only the labels differ: *yes*, *no*, *maybe* become the integers 0, 1, 2 instead of one-hot vectors.
 
@@ -437,7 +437,7 @@ With 10 classes the difference is small; with thousands of classes (words in a v
 
 ## 11. Choosing a loss
 
-> **Key point:** Regression: MSE, or MAE with outliers, or Huber with many. Two classes: binary cross-entropy. More classes: categorical cross-entropy, or its sparse version with many classes.
+> **Key point:** Regression: MSE, or MAE with **outliers** (G-1420), or Huber with many. Two classes: binary cross-entropy. More classes: categorical cross-entropy, or its sparse version with many classes.
 
 Loss functions are not limited to these. Other problems have their own losses (Figure 1):
 
@@ -461,12 +461,12 @@ Researchers design new losses for new problems, and Keras accepts our own loss f
 | $k$ classes, integer labels | $k$ nodes, softmax | sparse categorical cross-entropy |
 
 - The loss scores one observation; the cost averages the losses over a batch or the training set, so a small batch of losses is enough to estimate the cost and its gradient.
-- MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$, so outliers pull no harder than any other point.
+- MSE's slope grows with the error, so far observations drive the updates; MAE's slope is always $\pm 1$, so **outliers** (G-1420) pull no harder than any other point.
 - Huber loss is MSE inside $\pm\delta$ and MAE outside, and smooth everywhere, so it resists outliers like MAE without MAE's corner at 0.
 - Cross-entropy's slope $-1/p$ grows without limit for a badly wrong probability; the squared error's slope stays within $-2$. The slope is the push on the weights, so cross-entropy corrects bad predictions much faster.
 - Argmax has slope 0, so training uses softmax; argmax only reads off the final class.
-- The loss decides the output layer: linear for MSE, MAE and Huber, sigmoid for binary cross-entropy, softmax for the categorical ones, because each loss needs its own kind of output: any number, one probability, or one probability per class.
-- Sparse categorical cross-entropy is the same loss with integer labels, so the labels need no one-hot encoding.
+- The loss decides the output layer: linear for MSE, MAE and Huber, sigmoid for **binary cross-entropy** (G-303), softmax for the categorical ones, because each loss needs its own kind of output: any number, one probability, or one probability per class.
+- **Sparse categorical cross-entropy** (G-1839) is the same loss with integer labels, so the labels need no one-hot encoding.
 - Keras names:
   - regression: `"mse"`, `"mae"`, `keras.losses.Huber(delta)`;
   - two classes: `"binary_crossentropy"`;
@@ -507,11 +507,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Mean squared error (MSE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201) | The average squared difference between actual and predicted values. |
 | [Mean absolute error (MAE)](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#2-mean-absolute-error-mae) (G-1194) | The average absolute difference between actual and predicted values. |
+| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
+| [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
 | [Cost function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
 | [Mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | Gradient descent that uses a small random group of rows for every update. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
-| [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
-| [Categorical cross entropy](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#42-the-real-approach-one-loss-for-all-classes) (G-349) | The loss for classification with more than two classes and a softmax output: the average of minus the log of the probability given to the true class, $-\sum_j y_j \log \hat y_j$ per row with one-hot labels; it is small when the true class gets a high probability. |
 | [Sparse categorical cross-entropy](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#51-the-loss-for-many-classes) (G-1839) | The same loss as categorical cross-entropy, but it takes the labels as plain integers (such as the digits 0 to 9) instead of one-hot vectors, so the labels need no encoding. |
 | [Hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#7-comparison-with-logistic-regression) (G-898) | The SVM's error for one point: 0 when the point is on the correct side and outside the margin, growing in a straight line the further it goes past the margin; formula $\max(0, 1 - y(w^T x + b))$. |

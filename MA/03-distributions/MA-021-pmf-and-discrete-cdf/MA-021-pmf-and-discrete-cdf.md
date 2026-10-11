@@ -33,7 +33,7 @@ Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the
 
 ## 2. From outcomes to a PMF: three coin flips
 
-> **Key point:** List every outcome, group the outcomes by the value of the random variable, and give each value the share of outcomes in its group; the bar chart of those shares is the PMF.
+> **Key point:** List every outcome, group the outcomes by the value of the **random variable** (G-1620), and give each value the share of outcomes in its group; the bar chart of those shares is the PMF.
 
 Flip a fair coin three times and let $X$ be the number of heads. $X$ can only be 0, 1, 2 or 3: it cannot be 1.5. How likely is each value? We find out in three steps, shown in Figure 2.
 
@@ -57,9 +57,9 @@ $$1/8 + 3/8 + 3/8 + 1/8 = 1$$
 
 ## 3. The probability mass function
 
-> **Key point:** A PMF assigns a probability to each possible value of a discrete random variable; every probability is at least 0, and together they add up to 1.
+> **Key point:** A PMF assigns a probability to each possible value of a **discrete random variable** (G-617); every probability is at least 0, and together they add up to 1.
 
-The **probability mass function (PMF)** (G-1572) is the probability distribution function of a **discrete** random variable. The PMF assigns a probability to each possible value:
+The **probability mass function (PMF)** (G-1572) is the probability distribution function of a **discrete** **random variable** (G-1620). The PMF assigns a probability to each possible value:
 
 $$p(x) = P(X = x)$$
 
@@ -209,7 +209,7 @@ Figure 8 draws both PMFs: Bernoulli has just two bars, and the binomial for 4 to
 
 > **Key point:** The CDF $F(x)$ is the probability that the variable is at most $x$: the running total of the PMF up to $x$.
 
-The **cumulative distribution function (CDF)** (G-515) of a random variable $X$ gives the probability that $X$ takes a value **less than or equal to** $x$:
+The **cumulative distribution function (CDF)** (G-515) of a **random variable** (G-1620) $X$ gives the probability that $X$ takes a value **less than or equal to** $x$:
 
 $$F(x) = P(X \le x)$$
 
@@ -301,7 +301,7 @@ There is no separate name such as "cumulative mass function": the CDF is called 
 - A PMF formula covers every $x$: it is 0 for impossible values, so a die's PMF gives 1.5 and 7 the probability 0.
 - Simulating many trials and dividing counts by the number of trials estimates the PMF; more trials bring the estimate closer to the true PMF (the law of large numbers).
 - Bernoulli: one trial, one parameter $p$. Binomial: successes in $n$ trials, parameters $n$ and $p$. Both come up constantly; the binomial is behind why voting works.
-- The CDF is the running total of the PMF: a step function from 0 to 1, because it jumps by each value's probability at that value and stays flat between values.
+- The CDF is the running total of the PMF: a **step function** (G-1889) from 0 to 1, because it jumps by each value's probability at that value and stays flat between values.
 
 ## 10. Sources
 

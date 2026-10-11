@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/rmsprop]
 
 ## 1. Overview
 
-> **Key point:** RMSProp replaces AdaGrad's sum of squared gradients with an exponentially weighted moving average of them. Old gradients fade away, so their average cannot grow without limit and the learning rate does not shrink to nothing.
+> **Key point:** RMSProp replaces AdaGrad's sum of squared gradients with an **exponentially weighted moving average** (G-735) of them. Old gradients fade away, so their average cannot grow without limit and the learning rate does not shrink to nothing.
 
 **RMSProp** (G-1697), short for *root mean square propagation* (Hinton 2012, lecture 6e), is an improvement of [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#6-the-update-rule) (G-168; divides each parameter's learning rate by the root of the sum of its past squared gradients). It keeps AdaGrad's good idea, a separate [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) for every parameter, and removes its weakness: learning rates that only ever fall.
 
@@ -46,7 +46,7 @@ Figure 1 shows the difference on the students data. With the same learning rate,
 
 > **Key point:** AdaGrad's $v_t$ adds up every squared gradient since the first step. After many steps $v_t$ is huge, $\eta/\sqrt{v_t}$ is tiny, and the updates almost stop.
 
-Recall the data: 100 students, the sparse IIT feature (a **sparse feature**, G-1841: mostly 0) and the package as **target** (G-1949; the output we predict). Its loss is an [**elongated bowl**](../DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) over the weight $m$ and the bias $b$, and AdaGrad heads for the minimum by giving each parameter its own learning rate. But AdaGrad divides $\eta$ by $\sqrt{v_t}$, where
+Recall the data: 100 students, the sparse IIT feature (a **sparse feature**, G-1841: mostly 0) and the package as **target** (G-1949; the output we predict). Its loss is an [**elongated bowl**](../DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) over the weight $m$ and the bias $b$, and AdaGrad heads for the minimum by giving each parameter its own **learning rate** (G-1068). But AdaGrad divides $\eta$ by $\sqrt{v_t}$, where
 
 $$v_t = v_{t-1} + (\nabla L)^2$$
 
@@ -62,11 +62,11 @@ The whole problem comes from one fact: $v_t$ uses every gradient of the past, so
 
 ## 4. The fix: an average that forgets
 
-> **Key point:** RMSProp makes $v_t$ an EWMA of the squared gradients. Recent gradients count most and old ones fade, so $v_t$ follows the current size of the gradients instead of piling up history.
+> **Key point:** **RMSProp** (G-1697) makes $v_t$ an EWMA of the squared gradients. Recent gradients count most and old ones fade, so $v_t$ follows the current size of the gradients instead of piling up history.
 
 RMSProp changes only the line that computes $v_t$:
 
-1. **In words:** keep an [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) of each parameter's squared gradient, then divide the learning rate by its square root, as AdaGrad does.
+1. **In words:** keep an [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) of each parameter's squared gradient, then divide the **learning rate** (G-1068) by its square root, as AdaGrad does.
 2. **Formula:**
    $$v_t = \beta\thinspace v_{t-1} + (1-\beta)\thinspace\left(\nabla L(w_t)\right)^2$$
    $$w_{t+1} = w_t - \frac{\eta}{\sqrt{v_t} + \epsilon}\thinspace\nabla L(w_t)$$
@@ -100,13 +100,13 @@ Figure 3 shows both accumulators for $b$. AdaGrad's $v$ keeps growing; RMSProp's
 
 ## 5. Convex and non-convex losses
 
-> **Key point:** On a simple convex bowl, AdaGrad can do fine with a large enough learning rate. Its shrinking learning rate hurts most in deep networks, whose losses are non-convex. RMSProp works in both.
+> **Key point:** On a simple convex bowl, AdaGrad can do fine with a large enough **learning rate** (G-1068). Its shrinking learning rate hurts most in deep networks, whose losses are non-convex. RMSProp works in both.
 
-On a convex problem (a **convex function**, G-476) such as **linear regression** (G-1094; fitting a straight line), AdaGrad and RMSProp can follow very similar paths: with a large enough learning rate AdaGrad converges, as in [AdaGrad's $\eta = 2$ run](../DL-036-adagrad/DL-036-adagrad.md#8-the-weakness-the-learning-rate-only-goes-down). The difference shows in neural networks. There the path crosses many different regions before reaching a bowl, and AdaGrad may have shrunk its learning rate too much before it gets there (Goodfellow et al. 2016, §8.5.2).
+On a convex problem (a **convex function**, G-476) such as **linear regression** (G-1094; fitting a straight line), AdaGrad and **RMSProp** (G-1697) can follow very similar paths: with a large enough learning rate AdaGrad converges, as in [AdaGrad's $\eta = 2$ run](../DL-036-adagrad/DL-036-adagrad.md#8-the-weakness-the-learning-rate-only-goes-down). The difference shows in neural networks. There the path crosses many different regions before reaching a bowl, and AdaGrad may have shrunk its learning rate too much before it gets there (Goodfellow et al. 2016, §8.5.2).
 
 ### 5.1 AdaGrad against RMSProp on MNIST
 
-> **Key point:** Same network, same learning rate 0.001, only the accumulator differs. After 30 epochs AdaGrad's training loss is still 0.24; RMSProp's is 0.0001.
+> **Key point:** Same network, same **learning rate** (G-1068) 0.001, only the accumulator differs. After 30 epochs AdaGrad's training loss is still 0.24; RMSProp's is 0.0001.
 
 The setup:
 
@@ -118,7 +118,7 @@ After every epoch we record the median [**effective learning rate**](../DL-036-a
 
 ![MNIST, mean of 3 seeds. Left: training loss per epoch. Right: the median effective learning rate. AdaGrad's (green) falls epoch after epoch and its loss levels off; RMSProp's (purple) does not fall, and its loss keeps dropping](images/mnist_rmsprop.png){width=100%}
 
-In Figure 4 the left panel is the training loss after each epoch and the right panel the learning rate RMSProp and AdaGrad actually use; each curve is the mean over 3 seeds. The vertical axes are on a log scale (each labelled power of ten is 10 times the one below; the small numbers between mark 2, 3, … times it), so equal vertical distances mean equal ratios. On the left a lower curve is better.
+In Figure 4 the left panel is the training loss after each epoch and the right panel the learning rate **RMSProp** (G-1697) and AdaGrad actually use; each curve is the mean over 3 seeds. The vertical axes are on a log scale (each labelled power of ten is 10 times the one below; the small numbers between mark 2, 3, … times it), so equal vertical distances mean equal ratios. On the left a lower curve is better.
 
 Figure 4 and the Notebook give:
 
@@ -136,7 +136,7 @@ AdaGrad's median learning rate falls by a factor of 5 over the 30 epochs, and it
 
 ## 6. Strengths and limits
 
-> **Key point:** RMSProp is an effective, widely used optimizer for deep networks. RMSProp was the usual choice before Adam, and it is a natural next try when Adam does not give good results.
+> **Key point:** **RMSProp** (G-1697) is an effective, widely used optimizer for deep networks. RMSProp was the usual choice before Adam, and it is a natural next try when Adam does not give good results.
 
 RMSProp has been shown empirically to be an effective and practical optimization algorithm for deep neural networks, and it is one of the go-to methods of deep learning practitioners (Goodfellow et al. 2016, §8.5.2). Before Adam appeared, it was the optimizer most networks were trained with. It still competes with Adam: if Adam does not give good results on a problem, RMSProp is a natural next try.
 
@@ -153,7 +153,7 @@ Two limits are worth knowing:
 
 > **Key point:** `keras.optimizers.RMSprop(learning_rate=0.001, rho=0.9)`. Keras calls $\beta$ `rho`.
 
-> **Python:** RMSProp in Keras.
+> **Python:** **RMSProp** (G-1697) in Keras.
 >
 > ```python
 > import keras
@@ -175,10 +175,10 @@ The defaults are `learning_rate=0.001`, `rho=0.9` and `epsilon=1e-7`, added insi
 | Students data, $\eta = 0.2$ | not there after 300 steps | 68 steps |
 | MNIST, 30 epochs, $\eta = 0.001$ | loss 0.24 | loss 0.0001 |
 
-- RMSProp is AdaGrad with the sum of squared gradients replaced by their EWMA, because AdaGrad's sum can only grow and its learning rate only fall.
+- RMSProp is AdaGrad with the sum of squared gradients replaced by their EWMA, because AdaGrad's sum can only grow and its **learning rate** (G-1068) only fall.
 - Old gradients fade, so the accumulator stays the size of the recent gradients and the learning rate does not collapse.
-- It keeps AdaGrad's per-parameter learning rates, so it still handles elongated bowls and sparse features.
-- It works well in deep networks and was the standard choice before Adam, so it is the natural next try when Adam does not give good results; usual values $\beta = 0.9$, $\eta = 0.001$.
+- It keeps AdaGrad's per-parameter learning rates, so it still handles **elongated bowls** (G-673) and sparse features.
+- It works well in deep networks and was the standard choice before **Adam** (G-169), so it is the natural next try when Adam does not give good results; usual values $\beta = 0.9$, $\eta = 0.001$.
 
 ## 9. Sources
 
@@ -203,12 +203,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `rho` (G-138) | Keras' name for the number that sets how much of the past RMSProp's running average keeps (its decay factor $\beta$); default 0.9. |
 | Accumulator $v_t$ (G-161) | The running record of squared gradients that divides the learning rate. |
 | Root mean square (G-1704) | The square root of the average of squared values: the typical size of the gradients. |
+| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
 | [AdaGrad](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#1-overview) (G-168) | An optimizer that gives each parameter its own learning rate, $\eta/(\sqrt{v_t}+\epsilon)$, where $v_t$ sums its past squared gradients. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Sparse feature](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#3-when-adagrad-helps) (G-1841) | A feature whose values are mostly zero, such as "studied at an IIT". |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Elongated bowl](../../../DL/03-optimizers/DL-036-adagrad/DL-036-adagrad.md#4-the-problem-a-sparse-feature-stretches-the-loss) (G-673) | A loss surface stretched far more in one direction than another, with long elliptical contours, as a sparse feature produces. Gradient descent on it wastes steps moving along the steep direction and crawls along the flat one. |
-| [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
 | [Convex function](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-476) | A function where a straight line between any two points of its curve never goes below the curve; it has a single minimum. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |

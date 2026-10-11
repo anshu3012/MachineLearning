@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/kernel-trick
 
 ## 1. Overview
 
-> **Key point:** When the classes cannot be split by a straight line, we move the data into a higher dimension (a space with more axes) where they can. A linear SVM there gives a curved boundary back in the original space. A kernel lets SVM work in that higher dimension without ever building it.
+> **Key point:** When the classes cannot be split by a straight line, we move the data into a higher dimension (a space with more axes) where they can. A linear SVM there gives a curved boundary back in the original space. A **kernel** (G-1004) lets SVM work in that higher dimension without ever building it.
 
 One of SVM's main strengths, listed in the [SVM strengths](../ML-086-svm-intuition/ML-086-svm-intuition.md#7-strengths-of-svm), is that it also works on non-linear data. The tool that makes this possible is the **kernel trick** (G-1008). Figure 1 shows the idea in four steps.
 
@@ -36,7 +36,7 @@ In 1D a linear boundary is a single point: everything left of it is one class, e
 
 ## 3. The kernel trick
 
-> **Key point:** Apply a function that adds a new dimension, chosen so the classes become linearly separable there. That function is the feature map φ. The kernel K(a, b) gives the dot product of two lifted points straight from the original values.
+> **Key point:** Apply a function that adds a new dimension, chosen so the classes become linearly separable there. That function is the feature map φ. **The kernel** (G-1004) K(a, b) gives the dot product of two lifted points straight from the original values.
 
 ### 3.1 Lifting 1D data into 2D
 
@@ -129,14 +129,14 @@ This bump is the shape behind the **RBF kernel**, short for radial basis functio
 
 ## 5. The kernel trick in SVM
 
-> **Key point:** Kernels are built into SVM. We choose the kernel and its settings as hyperparameters and tune them with grid search.
+> **Key point:** **Kernels** (G-1004) are built into SVM. We choose the kernel and its settings as hyperparameters and tune them with grid search.
 
-The kernel trick is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), so we choose them like C in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c): with a **grid search** (trying every combination of listed values; see [grid search](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
+The **kernel trick** (G-1008) is built into the SVM algorithm. We do not write the feature map ourselves: we choose a kernel, and SVM handles the rest. The kernel and its settings are [**hyperparameters**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), so we choose them like C in [the hyperparameter C](../ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#6-the-hyperparameter-c): with a **grid search** (trying every combination of listed values; see [grid search](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline)) and **cross-validation** (scoring each setting on several held-out parts of the data; see [cross-validation with a pipeline](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)).
 
 In summary, an SVM with a kernel works in three steps:
 
 1. start with data that is not linearly separable in its own dimension;
-2. move it, through the kernel, into a higher-dimensional feature space where it is linearly separable;
+2. move it, through the kernel, into a higher-dimensional **feature space** (G-2219) where it is linearly separable;
 3. find the widest-margin hyperplane there (the flat boundary with the widest empty strip on each side, see [the margin](../ML-086-svm-intuition/ML-086-svm-intuition.md#4-the-margin)).
 
 Figure 4 shows steps 2 and 3 on the 34 points of Figure 3, and reads the cut back in the original plane. On the left, every point is placed by its distance from the centre and its new height $z$; the flat cut is the horizontal line at $z = 0.37$, halfway between the lowest green point and the highest red one. On the right, the same cut drawn in the original plane: every point at height 0.37 lies at distance 0.99 from the centre, so the straight cut becomes a circle, with all green points inside and all red points outside.
@@ -156,9 +156,9 @@ Why is it called a "trick"? As [Section 3.2](#32-the-feature-map-and-the-kernel)
 
 - Non-linear data: no straight line, plane or hyperplane separates the classes, so a linear SVM cannot classify it.
 - Idea: map the data to a higher dimension where it becomes linearly separable, then use a linear SVM there, because a flat boundary in the new space reads back as a curved one in the original space (two cut points, a circle).
-- The map is the feature map $\phi$. The kernel is $K(a, b) = \phi(a) \cdot \phi(b)$, computed from the original values, so both routes give the same number (42 in the worked example) without building the new axis.
-- Kernel trick: SVM only needs these dot products, so the higher-dimensional features are never built; for RBF that space is infinite, so building it would be impossible.
-- Common kernels: RBF (most used), polynomial, sigmoid. The kernel is a hyperparameter of SVM, so it is chosen with grid search and cross-validation, like C.
+- The map is **the feature map** (G-765) $\phi$. **The kernel** (G-1004) is $K(a, b) = \phi(a) \cdot \phi(b)$, computed from the original values, so both routes give the same number (42 in the worked example) without building the new axis.
+- **Kernel trick** (G-1008): SVM only needs these dot products, so the higher-dimensional features are never built; for RBF that space is infinite, so building it would be impossible.
+- Common kernels: RBF (most used), **polynomial** (G-1514), sigmoid. The kernel is a hyperparameter of SVM, so it is chosen with grid search and cross-validation, like C.
 - So the kernel trick is what lets SVM draw curved boundaries on data no straight line can split.
 
 ## 7. Sources
@@ -181,12 +181,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Kernel (SVM) (G-1004) | A function of two points, $K(a, b)$, that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel). |
 | Kernel trick (G-1008) | Making non-linear data separable by mapping it to a higher dimension, without building the new columns. |
 | Non-linear data (G-1335) | Data whose classes no straight line, plane or hyperplane can separate. |
 | Feature space (G-2219) | The space whose axes are the features; the feature map takes the data into a higher-dimensional one. |
 | Feature map ($\phi$) (G-765) | A rule that gives each point extra coordinates built from its own values, such as $\phi(x) = (x, x^2)$, moving the data into a higher-dimensional space. Data that no straight line can separate becomes linearly separable there. |
 | Kernel transformation (G-1007) | A loose name for lifting the data to the higher-dimensional space with the feature map $\phi$. |
-| Kernel (SVM) (G-1004) | A function of two points, $K(a, b)$, that returns their dot product in the higher-dimensional space, $\phi(a) \cdot \phi(b)$, directly from the original values (not the Jupyter kernel). |
 | RBF kernel (G-1639) | Radial basis function kernel, built on $e^{-(\text{distance})^2}$: it scores two points as similar (close to 1) when they are near each other and close to 0 when far apart; the usual first-choice SVM kernel for curved boundaries. |
 | Polynomial kernel (G-1514) | A function that gives the dot product of two points after their inputs are expanded into powers, such as $x^2$ (a kernel whose feature map is built from powers of the inputs); it lets an SVM draw curved boundaries. |
 | Sigmoid kernel (G-1799) | A way to score how alike two points are, built from an S-shaped curve, $\tanh(\gamma\thinspace x \cdot x' + r)$ (a kernel). Like other kernels, it lets an SVM draw a curved boundary without computing new features. |

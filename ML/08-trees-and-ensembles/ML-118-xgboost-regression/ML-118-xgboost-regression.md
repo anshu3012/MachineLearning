@@ -15,7 +15,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/xgboost]
 
 ## 1. Overview
 
-> **Key point:** XGBoost solves regression exactly like gradient boosting: start from the mean, then add trees that predict the residuals, each scaled by a learning rate. The only new part is how each tree is grown: with a similarity score, a gain and its own formula for the leaf outputs.
+> **Key point:** XGBoost solves regression exactly like gradient boosting: start from the mean, then add trees that predict the residuals, each scaled by a learning rate. The only new part is how each tree is grown: with a similarity score, a **gain** (G-820) and its own formula for the leaf outputs.
 
 ![XGBoost regression: the gradient boosting loop, with a different tree in step 3](images/flow.png){height=36%}
 
@@ -42,7 +42,7 @@ The relationship is not a straight line (Figure 2, left). Our goal: given a new 
 
 > **Key point:** The first model predicts the mean, 7.375, for every student; the residuals are actual minus 7.375.
 
-As in gradient boosting, the first model ignores the feature and predicts the mean of the target:
+As in **gradient boosting** (G-859), the first model ignores the feature and predicts the mean of the target:
 
 $$f_0 = \frac{4.5 + 11 + 6 + 8}{4}$$
 $$f_0 = \frac{29.5}{4}$$
@@ -101,7 +101,7 @@ Each threshold splits the root leaf into a left leaf (CGPA below the threshold) 
 
 > **Key point:** Gain = similarity of the left leaf + similarity of the right leaf $-$ similarity of the parent. The split with the largest gain wins: CGPA < 8.25, with gain 17.52.
 
-1. **In words:** after a split, add the two children's similarity scores and subtract the parent's score. The result, the **gain** (G-820), is how much more alike the residuals have become.
+1. **In words:** after a split, add the two children's **similarity scores** (G-1804) and subtract the parent's score. The result, the **gain** (G-820), is how much more alike the residuals have become.
 2. **Formula:**
    $$\text{gain} = S_{\text{left}} + S_{\text{right}} - S_{\text{parent}}$$
 3. **Example:** CGPA < 5.85 puts student 4 (residual 0.625) on the left and the other three on the right:
@@ -124,7 +124,7 @@ CGPA < 8.25 wins. The split isolates the one large positive residual (student 2)
 
 ## 7. The second split
 
-> **Key point:** Only the left leaf can be split again; of its two candidates, CGPA < 5.85 has the larger gain (5.04 against 0.04).
+> **Key point:** Only the left leaf can be split again; of its two candidates, CGPA < 5.85 has the larger **gain** (G-820) (5.04 against 0.04).
 
 The right leaf holds a single residual and cannot be split. The left leaf holds three: $-2.875$ (CGPA 6.7), $-1.375$ (CGPA 7.5) and 0.625 (CGPA 5.0). Its similarity, 4.38, is now the parent score. Two thresholds remain, 5.85 and 7.1.
 
@@ -189,8 +189,8 @@ Every residual is closer to 0 than before (Figure 2, right). The model is moving
 
 Stage 3 grows a second tree on CGPA and residual 2, with the same steps:
 
-1. similarity score of each leaf;
-2. gain of each candidate split;
+1. **similarity score** (G-1804) of each leaf;
+2. **gain** (G-820) of each candidate split;
 3. best split;
 4. output of each leaf.
 
@@ -214,15 +214,15 @@ What we did in sections 5 to 7, sorting the values and testing every midpoint, i
 
 For large data XGBoost first groups each feature into bins and only tests the bin edges: the [**approximate algorithm**](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins) (G-207), introduced in [approximate split finding with quantile bins](../ML-117-xgboost-intro/ML-117-xgboost-intro.md#84-approximate-split-finding-with-quantile-bins).
 
-> **Extra:** With several features, each feature is searched in the same way and the split with the largest gain over all features wins, exactly as in [more than one input](../ML-093-regression-trees/ML-093-regression-trees.md#5-more-than-one-input) (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first (see [one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
+> **Extra:** With several features, each feature is searched in the same way and the split with the largest **gain** (G-820) over all features wins, exactly as in [more than one input](../ML-093-regression-trees/ML-093-regression-trees.md#5-more-than-one-input) (Chen and Guestrin 2016, Alg. 1). Binary and multi-class categorical features are usually encoded as numbers first (see [one column per category](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category)); recent XGBoost versions can also split categories directly when `enable_categorical=True` (XGBoost docs, Categorical Data).
 
 ## 12. Lambda: shrinking scores and outputs
 
-> **Key point:** $\lambda$ is added to the number of residuals in every denominator. Similarity scores, gains and outputs all shrink, and leaves with few residuals shrink the most.
+> **Key point:** $\lambda$ is added to the number of residuals in every denominator. **Similarity scores** (G-1804), gains and outputs all shrink, and leaves with few residuals shrink the most.
 
 An everyday picture: we trust a restaurant with one five-star review less than one with twenty. $\lambda$ works like adding $\lambda$ imaginary residuals of 0 to every leaf: they barely move a leaf with many residuals, but pull a leaf with one residual strongly towards 0. On our tree, $\lambda = 1$ halves the one-residual leaves (0.625 becomes 0.31) and cuts the two-residual leaf by a third.
 
-Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-residual leaves (n = 1) sink towards 0 faster than the two-residual leaf, and both gain bars shrink with them.
+Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-residual leaves (n = 1) sink towards 0 faster than the two-residual leaf, and both **gain** (G-820) bars shrink with them.
 
 ![Lambda from 0 to 5 on the first tree. Left: the residuals (grey) and the three leaf outputs (green). Right: the gains of the two splits, 17.52 and 5.04 at lambda = 0, 9.86 and 2.93 at lambda = 1](images/lambda_shrink.gif){height=75%}
 
@@ -242,7 +242,7 @@ Figure 8 turns $\lambda$ up from 0 to 5 on the same tree. Watch the two one-resi
 
 ## 13. Gamma: pruning weak splits
 
-> **Key point:** A split is kept only if its gain minus $\gamma$ is positive. Pruning starts from the bottom of the tree; a large $\gamma$ removes weak splits, and a very large one removes them all.
+> **Key point:** A split is kept only if its **gain** (G-820) minus $\gamma$ is positive. Pruning starts from the bottom of the tree; a large $\gamma$ removes weak splits, and a very large one removes them all.
 
 An everyday picture: every split must pay a fee of $\gamma$, the [**gamma**](../../07-classification/ML-090-kernel-trick-code/ML-090-kernel-trick-code.md#8-gamma-how-far-one-points-influence-reaches) (G-823) parameter. A split whose gain cannot pay the fee is removed. On our tree, $\gamma = 6$ removes the lower split (gain 5.04) and keeps the root split (gain 17.52).
 
@@ -250,7 +250,7 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 
 ![Gamma from 0 to 22 (lambda = 0). Right: the gains of the two splits and the fee gamma (red); a grey bar is a pruned split. Left: the leaf outputs of what is left of the tree](images/gamma_prune.gif){height=75%}
 
-> **Extra:** $\gamma$ (gamma, `gamma` or `min_split_loss` in XGBoost, default 0) is a second regularisation parameter. After the tree is grown, XGBoost checks each split from the bottom up (the Notebook confirms each case with the library):
+> **Extra:** $\gamma$ (gamma, `gamma` or `min_split_loss` in XGBoost, default 0) is a second **regularisation parameter** (G-1039). After the tree is grown, XGBoost checks each split from the bottom up (the Notebook confirms each case with the library):
 >
 > $$\text{gain} - \gamma < 0 \thickspace\Rightarrow\thickspace\text{remove the split}$$
 >
@@ -267,7 +267,7 @@ Figure 9 raises the fee from 0 to 22. Watch the red line pass the lower bar at 5
 
 ## 14. The same in code
 
-> **Key point:** The Notebook grows this tree from scratch with NumPy, then checks it against the XGBoost library: same splits, same gains, same predictions.
+> **Key point:** The Notebook grows this tree from scratch with NumPy, then checks it against the XGBoost library: same splits, same **gains** (G-820), same predictions.
 
 > **Python:** The first tree in XGBoost, with every setting matched to this Note.
 >
@@ -319,10 +319,10 @@ The library agrees with the Extras as well. With `reg_lambda=1` the gains become
 | New prediction | previous + $\eta \times$ output | 6.7375, 8.4625, 6.7375, 7.5625 | every residual moves towards 0, only part of the way, leaving room for later trees |
 | Pruning | remove a split if gain $- \gamma < 0$ | $\gamma = 6$ removes the lower split | a split must pay the fee $\gamma$, so weak splits go |
 
-- XGBoost regression follows the gradient boosting loop: mean, residuals, trees on the residuals, learning rate, so only the way each tree is grown is new.
-- Its trees choose splits by the gain in similarity score, not by Gini, entropy or squared error directly, so a split wins when it groups residuals that agree in sign.
+- XGBoost regression follows the **gradient boosting** (G-859) loop: mean, residuals, trees on the residuals, learning rate, so only the way each tree is grown is new.
+- Its trees choose splits by the gain in **similarity score** (G-1804), not by Gini, entropy or squared error directly, so a split wins when it groups residuals that agree in sign.
 - Leaf outputs are the residuals' sum over (count + $\lambda$): the mean when $\lambda = 0$.
-- $\lambda$ shrinks scores and outputs; $\gamma$ prunes splits whose gain is too small, because a leaf built on few residuals is the least trustworthy, and both pull the tree away from overfitting.
+- $\lambda$ shrinks scores and outputs; $\gamma$ prunes splits whose **gain** (G-820) is too small, because a leaf built on few residuals is the least trustworthy, and both pull the tree away from overfitting.
 - Trying every midpoint is the exact greedy algorithm; large data uses the approximate one, because checking every value is slow on millions of observations.
 - So XGBoost regression is gradient boosting with one new part: each tree is grown by similarity score and gain, with $\lambda$ and $\gamma$ to keep it small.
 
@@ -344,9 +344,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Gain (XGBoost) (G-820) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |
 | Similarity score (G-1804) | A number that says how well the leftover errors (residuals) in one node of an XGBoost regression tree agree: $(\text{sum of residuals})^2 / (\text{number of residuals} + \lambda)$. The tree keeps the split that raises it the most. |
 | Lambda ($\lambda$, `reg_lambda`) (G-1039) | XGBoost's setting that holds its trees back (regularisation): it is added to the number of residuals in the denominators of the similarity score and leaf output, which shrinks scores, gains and outputs, most for leaves with few residuals; default 1. |
-| Gain (XGBoost) (G-820) | How much a split improves an XGBoost tree: the similarity scores of the two children minus the similarity score of the parent; the split with the largest gain is chosen. |
 | Output value (leaf weight) (G-1426) | The number an XGBoost regression leaf predicts: sum of residuals / (number of residuals + $\lambda$); with $\lambda = 0$ it is the mean residual, and a larger $\lambda$ pulls it towards 0. |
 | Eta ($\eta$) (G-712) | XGBoost's name for the learning rate; default 0.3. |
 | Gamma ($\gamma$, `min_split_loss`) (G-821) | A setting that stops weak splits in XGBoost: a split is kept only if its gain exceeds gamma; default 0. |

@@ -16,33 +16,33 @@ tags: [subject/machine-learning, area/data, step/clean, concept/zscore]
 
 ## 1. Overview
 
-> **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the mean is an outlier; we then trim those rows or cap the values at the limits.
+> **Key point:** For a roughly normal feature, every value more than 3 standard deviations from the **mean** (G-1203) is an outlier; we then trim those rows or cap the values at the limits.
 
-[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. This Note puts the first one to work: the mean ± 3 standard deviations rule, also called the **z-score method** (G-2139). The z-score method only fits a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
+[Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. This Note puts the first one to work: the mean ± 3 **standard deviations** (G-1871) rule, also called the **z-score method** (G-2139). The z-score method only fits a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) that is normal or close to normal. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one student.
 
 Figure 1 shows the whole method, in three steps:
 
 1. check the shape of the column;
-2. compute a lower and an upper limit;
-3. treat the values outside them by trimming or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
+2. compute a lower and an **upper limit** (G-2062);
+3. treat the values outside them by **trimming** (G-2019) or capping (both defined in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers)).
 
 ![The z-score method: check the column is normal, compute the limits, then trim or cap](images/overview.png)
 
 ## 2. The condition: a normal feature
 
-> **Key point:** The z-score method works only on a column that is normally distributed, or almost.
+> **Key point:** The **z-score method** (G-2139) works only on a column that is normally distributed, or almost.
 
 A [**normal distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) has the shape of a bell, so its curve is also called the **bell curve** (G-274). Most values sit near the centre, and fewer and fewer values lie towards the two ends.
 
 People's heights and marks in an exam often follow this shape, at least roughly.
 
-So before we use the method, we plot the feature and check that it looks like a bell. A strongly skewed feature needs another rule, the [IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).
+So before we use the method, we plot the **feature** (G-772) and check that it looks like a bell. A strongly skewed feature needs another rule, the [IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences).
 
 ## 3. The 68-95-99.7 rule
 
-> **Key point:** In a normal feature, about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
+> **Key point:** In a normal **feature** (G-772), about 68.3% of the values lie within 1 standard deviation of the mean, 95.4% within 2, and 99.7% within 3.
 
-A normal distribution always spreads its values in the same fixed way around its mean. Write $\mu$ for the [**mean**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203), the average of the values, and $\sigma$ for the [**standard deviation**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), the typical distance of a value from the mean. Figure 2 shows the three ranges:
+A **normal distribution** (G-1343) always spreads its values in the same fixed way around its mean. Write $\mu$ for the [**mean**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203), the average of the values, and $\sigma$ for the [**standard deviation**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871), the typical distance of a value from the mean. Figure 2 shows the three ranges:
 
 - from $\mu - \sigma$ to $\mu + \sigma$: about 68.3% of the values;
 - from $\mu - 2\sigma$ to $\mu + 2\sigma$: about 95.4%;
@@ -60,7 +60,7 @@ Figure 3 reads the same three ranges off real data: the CGPA of the 1,000 studen
 
 > **Key point:** What a band leaves out is split equally between the two ends, so only about 0.15% of the values lie above $\mu + 3\sigma$.
 
-The part of a distribution far from the centre, where values are rare, is a **tail** (G-1942). A normal distribution has two tails, and they are mirror images: the bell is symmetric around the mean. So the share in one tail follows from the rule, step by step:
+The part of a distribution far from the centre, where values are rare, is a **tail** (G-1942). A normal distribution has two tails, and they are mirror images: the bell is symmetric around the **mean** (G-1203). So the share in one tail follows from the rule, step by step:
 
 1. **In words:** take what the band leaves out, and halve it.
 2. **Formula:**
@@ -72,30 +72,30 @@ The part of a distribution far from the centre, where values are rare, is a **ta
    $$(100 - 99.7)/2 = 0.15$$
    On the CGPA data, 3 students are below 5.11 and 2 are above 8.81.
 
-A value beyond 3 standard deviations is so rare that the usual practice is to call it an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
+A value beyond 3 **standard deviations** (G-1871) is so rare that the usual practice is to call it an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420): like a 2.3-metre-tall person in a crowd, possible but so unusual that we look twice.
 
 ### 3.2 The limits
 
-> **Key point:** The lower limit is $\mu - 3\sigma$ and the upper limit is $\mu + 3\sigma$; values outside them are outliers.
+> **Key point:** The lower limit is $\mu - 3\sigma$ and the **upper limit** (G-2062) is $\mu + 3\sigma$; values outside them are **outliers** (G-1420).
 
 The rule turns into two limits, step by step:
 
-1. **In words:** step three standard deviations below the mean for the lower limit, and three above for the upper limit.
+1. **In words:** step three standard deviations below the **mean** (G-1203) for the lower limit, and three above for the upper limit.
 2. **Formula:**
    $$\text{lower} = \mu - 3\sigma$$
    $$\text{upper} = \mu + 3\sigma$$
-3. **Example:** the `cgpa` column of [Section 6](#6-the-placement-data) has mean 6.96 and standard deviation 0.62:
+3. **Example:** the `cgpa` column of [Section 6](#6-the-placement-data) has mean 6.96 and **standard deviation** (G-1871) 0.62:
    $$\text{lower} = 6.96 - 3 \times 0.62 = 5.11$$
    $$\text{upper} = 6.96 + 3 \times 0.62 = 8.81$$
    A CGPA below 5.11 or above 8.81 is an outlier.
 
 ## 4. Why it is called the z-score method
 
-> **Key point:** A value's z-score counts how many standard deviations it lies from the mean, so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
+> **Key point:** A value's z-score counts how many standard deviations it lies from the **mean** (G-1203), so "outside mean ± 3 standard deviations" is the same as "z-score above 3 or below -3".
 
 The **z-score** (G-2141) of a value is the [**standardization**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) formula of [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), applied to one value:
 
-1. **In words:** subtract the mean of the column, then divide by its standard deviation.
+1. **In words:** subtract the mean of the column, then divide by its **standard deviation** (G-1871).
 2. **Formula:**
    $$z = \frac{x - \mu}{\sigma}$$
 3. **Example:** for a CGPA of 9.12 (mean 6.9612, standard deviation 0.6159),
@@ -107,7 +107,7 @@ Converting the whole column to z-scores gives the bottom row of numbers in Figur
 
 ![Subtracting the mean slides the CGPA column to 0; dividing by the standard deviation 0.62 (less than 1) stretches it, so the limits 5.11 and 8.81 become $z = -3$ and $z = +3$](images/zscore_slide.gif)
 
-So there are two equal ways to detect outliers:
+So there are two equal ways to detect **outliers** (G-1420):
 
 - compute the limits $\mu \pm 3\sigma$ and compare each value with them;
 - compute each value's z-score and flag every value with $z > 3$ or $z < -3$.
@@ -116,7 +116,7 @@ Both flag exactly the same rows. [Section 9](#9-trimming-with-the-z-score-column
 
 ## 5. Treating the outliers: trimming or capping
 
-> **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
+> **Key point:** Trimming deletes the **outlier** (G-1420) rows; capping replaces each outlier with the limit it crossed.
 
 Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345). With the limits of [Section 3.2](#32-the-limits), capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
@@ -124,7 +124,7 @@ Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outl
 
 > **Key point:** The data has 1,000 students; their CGPA is close to normal, but their placement exam marks are skewed, so the method is used on CGPA only.
 
-The data comes from a college: one observation per student, 1,000 students, three columns.
+The data comes from a college: one **observation** (G-1374) per student, 1,000 students, three columns.
 
 | cgpa | placement_exam_marks | placed |
 |---|---|---|
@@ -138,14 +138,14 @@ The data comes from a college: one observation per student, 1,000 students, thre
 - `placement_exam_marks`: marks out of 100 in the aptitude test that companies hold before placement (aptitude, coding, English).
 - `placed`: 1 if the student got a job offer, 0 if not. This column is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), the output a model would predict.
 
-Two features are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 5 plots the distribution of each.
+Two **features** (G-772) are candidates for outlier detection: `cgpa` and `placement_exam_marks`. Figure 5 plots the distribution of each.
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
 - **`cgpa`** is close to normal: a bell. Its [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)).
 - **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
-So the z-score method can only be used on `cgpa`. The marks feature needs the [IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#2-the-condition-a-skewed-feature).
+So the **z-score method** (G-2139) can only be used on `cgpa`. The marks feature needs the [IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#2-the-condition-a-skewed-feature).
 
 > **Python:** Loading the data and checking the shape of the features.
 >
@@ -164,7 +164,7 @@ So the z-score method can only be used on `cgpa`. The marks feature needs the [I
 
 ## 7. Finding the limits and the outliers
 
-> **Key point:** CGPA has mean 6.96 and standard deviation 0.62, which gives limits of 5.11 and 8.81 and flags 5 students.
+> **Key point:** CGPA has **mean** (G-1203) 6.96 and standard deviation 0.62, which gives limits of 5.11 and 8.81 and flags 5 students.
 
 First we look at four numbers of the `cgpa` column:
 
@@ -172,7 +172,7 @@ First we look at four numbers of the `cgpa` column:
 |---|---|---|---|
 | 6.96 | 0.62 | 4.89 | 9.12 |
 
-The limits are mean ± 3 standard deviations, as in [Section 3.2](#32-the-limits): **5.11** and **8.81**. They are the **lower limit** and the **upper limit** (G-2062) of the method. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have outliers.
+The limits are mean ± 3 **standard deviations** (G-1871), as in [Section 3.2](#32-the-limits): **5.11** and **8.81**. They are the **lower limit** and the **upper limit** (G-2062) of the method. The minimum, 4.89, is below the lower limit and the maximum, 9.12, is above the upper limit, so the column does have **outliers** (G-1420).
 
 Five students fall outside the limits (Figure 6, red):
 
@@ -205,9 +205,9 @@ Four of the five were placed, including two of the three students with a CGPA be
 
 ## 8. Trimming in code
 
-> **Key point:** Keeping only the rows inside the limits removes the 5 outliers and leaves 995 rows.
+> **Key point:** Keeping only the rows inside the limits removes the 5 **outliers** (G-1420) and leaves 995 rows.
 
-Trimming is a filter: keep only the rows whose CGPA lies between the two limits. Figure 7 (middle) shows the result: the same bell, without the five values at the ends.
+**Trimming** (G-2019) is a filter: keep only the rows whose CGPA lies between the two limits. Figure 7 (middle) shows the result: the same bell, without the five values at the ends.
 
 > **Python:** Trimming.
 >
@@ -219,7 +219,7 @@ Trimming is a filter: keep only the rows whose CGPA lies between the two limits.
 
 ## 9. Trimming with the z-score column
 
-> **Key point:** We add a column of z-scores and keep the rows whose z-score lies between -3 and 3; the result is the same 995 rows.
+> **Key point:** We add a column of **z-scores** (G-2141) and keep the rows whose z-score lies between -3 and 3; the result is the same 995 rows.
 
 The second approach follows [Section 4](#4-why-it-is-called-the-z-score-method). We compute the z-score of every student's CGPA and store it in a new column, `cgpa_zscore`.
 
@@ -235,7 +235,7 @@ Then we look for z-scores beyond ± 3:
 - **$z > 3$:** two students, CGPA 8.87 ($z = 3.10$) and 9.12 ($z = 3.51$);
 - **$z < -3$:** three students, CGPA 4.92 ($z = -3.31$), 4.89 ($z = -3.36$) and 4.90 ($z = -3.35$).
 
-These are the same five students as in [Section 7](#7-finding-the-limits-and-the-outliers). Trimming them again leaves 995 rows.
+These are the same five students as in [Section 7](#7-finding-the-limits-and-the-outliers). **Trimming** (G-2019) them again leaves 995 rows.
 
 > **Python:** The z-score column and trimming with it.
 >
@@ -254,9 +254,9 @@ These are the same five students as in [Section 7](#7-finding-the-limits-and-the
 
 > **Key point:** `np.where` replaces each CGPA above 8.81 with 8.81 and each CGPA below 5.11 with 5.11; all 1,000 rows stay.
 
-For capping we go through the column value by value:
+For **capping** (G-345) we go through the column value by value:
 
-- above the upper limit: replace it with the upper limit;
+- above the **upper limit** (G-2062): replace it with the upper limit;
 - below the lower limit: replace it with the lower limit;
 - otherwise: leave it as it is.
 
@@ -289,7 +289,7 @@ The result, compared with the original column:
 | Minimum | 4.89 | 5.11 |
 | Maximum | 9.12 | 8.81 |
 
-The mean barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 7 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
+The **mean** (G-1203) barely moves and the standard deviation shrinks a little. The minimum and maximum are now exactly the limits. Figure 7 (bottom) shows the three low values piled onto 5.11 and the two high values onto 8.81, in orange.
 
 ![Before and after: the original column, the trimmed column (995 rows) and the capped column (1,000 rows, outliers moved onto the limits)](images/before_after.png){height=62%}
 
@@ -301,9 +301,9 @@ Figure 8 shows capping as a movement. Watch the five red students: each slides o
 
 ## 11. Learning the limits on the training set
 
-> **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the mean and standard deviation of a scaler.
+> **Key point:** The limits are learned from the data, so they should be learned on the training set only, like the **mean** (G-1203) and standard deviation of a scaler.
 
-> **Extra:** The steps above compute the mean and standard deviation on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same data leakage (G-535; see [scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)) that the toy project avoids for scaling. The cleaner order is:
+> **Extra:** The steps above compute the mean and **standard deviation** (G-1871) on all 1,000 rows, before any train-test split. Computing them on all rows lets the test rows influence the limits, the same data leakage (G-535; see [scaling the inputs](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs)) that the toy project avoids for scaling. The cleaner order is:
 >
 > 1. Split the data into training and test sets.
 > 2. Compute the mean, standard deviation and limits on the training set only.
@@ -320,24 +320,24 @@ Figure 8 shows capping as a movement. Watch the five red students: each slides o
 >
 > In Figure 9, watch the test student with CGPA 8.87: the training limits flag that student even though no test row helped set them.
 >
-> The limits move only a little here, because 800 rows give almost the same mean and standard deviation as 1,000. Trimming is done on the training set only, since we cannot delete test rows (or real users) at prediction time. Capping can be applied to both sets with the training limits; the Notebook shows both steps.
+> The limits move only a little here, because 800 rows give almost the same mean and standard deviation as 1,000. **Trimming** (G-2019) is done on the training set only, since we cannot delete test rows (or real users) at prediction time. Capping can be applied to both sets with the training limits; the Notebook shows both steps.
 
 ## 12. Strengths and limits of the z-score method
 
 > **Key point:** The method is simple and effective, but only for a column that is roughly normal.
 
-- **Simple:** two numbers (mean and standard deviation) give both limits.
-- **Effective:** on a normal feature it flags exactly the rare values at the two ends.
+- **Simple:** two numbers (**mean** (G-1203) and standard deviation) give both limits.
+- **Effective:** on a normal **feature** (G-772) it flags exactly the rare values at the two ends.
 - **Limited:** it assumes a normal feature. On a skewed feature the limits land in the wrong places. For the skewed marks feature they come out as $-25.17$ and 89.62: the lower limit is below 0, so it can never flag anything, and 8 marks (0.8%, not 0.3%) are flagged on the high side. [The IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview) handles this case.
 
 ![The same rule on the skewed marks: the lower limit -25.17 sits where no mark can be, and 8 high marks are flagged](images/marks_limits.png)
 
-In Figure 10, watch the grey band: half of the rule is spent on impossible negative marks, while the long right tail gets cut.
+In Figure 10, watch the grey band: half of the rule is spent on impossible negative marks, while the long right **tail** (G-1942) gets cut.
 
 > **Extra:** Two more things to keep in mind.
 >
-> - **A perfect normal feature still has "outliers".** About 0.27% of the values lie beyond 3 standard deviations by pure chance: about 3 in 1,000. In large data, the method always flags some real, valid values.
-> - **The outliers move the limits they are judged by.** The mean and standard deviation are computed from all the values, the extreme ones included, so a big outlier also widens its own limits. In a small sample this can hide it completely: with $n$ values no z-score can be larger than $(n-1)/\sqrt{n}$ (Shiffler 1988; NIST 1.3.5.17). For 10 values that is 2.85, so the method can never flag anything, however extreme.
+> - **A perfect normal feature still has "outliers".** About 0.27% of the values lie beyond 3 **standard deviations** (G-1871) by pure chance: about 3 in 1,000. In large data, the method always flags some real, valid values.
+> - **The outliers move the limits they are judged by.** The mean and standard deviation are computed from all the values, the extreme ones included, so a big **outlier** (G-1420) also widens its own limits. In a small sample this can hide it completely: with $n$ values no **z-score** (G-2141) can be larger than $(n-1)/\sqrt{n}$ (Shiffler 1988; NIST 1.3.5.17). For 10 values that is 2.85, so the method can never flag anything, however extreme.
 
 ## 13. Summary
 
@@ -349,13 +349,13 @@ In Figure 10, watch the grey band: half of the rule is spent on impossible negat
 | Cap | move values beyond a limit onto it | 1,000 rows; min 5.11, max 8.81 | keeps every row; the mean barely moves |
 | Better practice | learn the limits on the training set | limits 5.12 and 8.78; 4 outliers in train, 1 in test | test rows must not shape the limits (data leakage) |
 
-- The z-score method needs a feature that is normal or close to it, because the limits come from the 68-95-99.7 rule, which holds only for a normal shape.
-- In a normal feature, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the mean, so a value beyond 3 is rare enough to look at twice.
-- Values beyond mean ± 3 standard deviations are outliers, so two numbers (the mean and the standard deviation) are all the method needs.
-- The z-score $z = (x - \mu)/\sigma$ is the standardization formula; $|z| > 3$ flags exactly the same values, because the limits $\mu \pm 3\sigma$ become $z = \pm 3$ after standardizing.
-- Trimming deletes the outlier rows; capping replaces each outlier with the limit, so no row is lost.
+- The **z-score method** (G-2139) needs a feature that is normal or close to it, because the limits come from the 68-95-99.7 rule, which holds only for a normal shape.
+- In a normal feature, about 68.3%, 95.4% and 99.7% of the values lie within 1, 2 and 3 standard deviations of the **mean** (G-1203), so a value beyond 3 is rare enough to look at twice.
+- Values beyond mean ± 3 standard deviations are **outliers** (G-1420), so two numbers (the mean and the standard deviation) are all the method needs.
+- The **z-score** (G-2141) $z = (x - \mu)/\sigma$ is the **standardization** (G-1874) formula; $|z| > 3$ flags exactly the same values, because the limits $\mu \pm 3\sigma$ become $z = \pm 3$ after standardizing.
+- **Trimming** (G-2019) deletes the outlier rows; capping replaces each outlier with the limit, so no row is lost.
 - The limits should be learned on the training set only, so the test rows do not leak into them.
-- Together these steps answer the opening question: on a roughly normal feature, flag every value more than 3 standard deviations from the mean, then trim or cap it.
+- Together these steps answer the opening question: on a roughly normal feature, flag every value more than 3 **standard deviations** (G-1871) from the mean, then trim or cap it.
 
 
 ## 14. Sources
@@ -377,20 +377,20 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Z-score method (G-2139) | Outlier detection that flags values more than 3 standard deviations from the mean; for roughly normal columns. |
+| Upper / lower limit (outlier detection) (G-2062) | The two cut-offs of the z-score method, $\mu - 3\sigma$ and $\mu + 3\sigma$; a value below the lower limit or above the upper limit counts as an outlier. |
 | Bell curve (G-274) | The curve of a normal distribution. |
 | 68-95-99.7 rule (empirical rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
 | Tail (of a distribution) (G-1942) | The part of the curve far from the centre, where values are rare. |
 | Z-score (G-2141) | A value after standardization: how many standard deviations it lies from the mean. |
-| Upper / lower limit (outlier detection) (G-2062) | The two cut-offs of the z-score method, $\mu - 3\sigma$ and $\mu + 3\sigma$; a value below the lower limit or above the upper limit counts as an outlier. |
 | `np.where` (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |
-| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
-| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
+| [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |
-| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
 | [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |

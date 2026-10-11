@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 
 > **Key point:** [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) builds each word's new vector as a **weighted sum** (each vector multiplied by its weight, then added) of the embeddings (vectors, lists of numbers) of all the words in the sentence. The weights come from **dot products** (how similar two words are), normalised by a **softmax** (G-1830; it turns any numbers into positive weights that sum to 1). Each embedding plays three roles, **query**, **key** (G-1011) and **value** (G-2068), so three learned matrices (tables of numbers) $W_Q$, $W_K$, $W_V$ (G-41) turn it into three vectors, one per role. For a whole sentence at once: $Y = \text{softmax}(QK^{\top})\thinspace V$ (built step by step in section 8).
 
-[Self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) was treated as a box: static embeddings go in, contextual embeddings come out. This Note opens the box. We build self-attention from first principles, as if inventing it:
+[Self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out) was treated as a box: static embeddings go in, **contextual embeddings** (G-462) come out. This Note opens the box. We build self-attention from first principles, as if inventing it:
 
 1. a simple version with no parameters (sections 3 to 5);
 2. its two properties: it runs in parallel, and it cannot learn (section 6);
@@ -31,7 +31,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/self-att
 ## 2. Prerequisites
 
 - [Static and contextual embeddings](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
-- [The dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity): the dot product as a measure of similarity.
+- [The dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity): the **dot product** (G-634) as a measure of similarity.
 - [The softmax formula](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula): softmax turns any numbers into positive weights that sum to 1.
 - [Matrix multiplication as composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#2-composition-one-transformation-after-another) and [**linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#4-two-vectors-decide-everything) (G-1097): a vector times a matrix is a new vector.
 
@@ -58,7 +58,7 @@ A weighted sum of $n$-number vectors is again an $n$-number vector. The new vect
 
 ## 4. Weights from similarity
 
-> **Key point:** A weight says how much one word should borrow from another, so it should measure how similar the two words are. The dot product of their embeddings measures similarity; the softmax turns the dot products into weights that sum to 1.
+> **Key point:** A weight says how much one word should borrow from another, so it should measure how similar the two words are. The **dot product** (G-634) of their embeddings measures similarity; the softmax turns the dot products into weights that sum to 1.
 
 ### 4.1 Dot products as similarity
 
@@ -80,7 +80,7 @@ In the Notebook every embedding has length 1, so the dot product is exactly the 
 
 ### 4.2 Softmax turns scores into weights
 
-> **Key point:** Raw dot products can be any size and even negative. The softmax makes them positive and makes them sum to 1.
+> **Key point:** Raw **dot products** (G-634) can be any size and even negative. The softmax makes them positive and makes them sum to 1.
 
 Call $s_{ij} = e_i \cdot e_j$ the **score** (G-223, attention score) of word $i$ with word $j$. Scores can be large, small or negative, for example 36, $-15$ and 32. We want weights (the **attention weights**, G-225) that are positive and sum to 1, so they read as shares: "bank is 52% bank, 29% money, 19% grows". The **softmax** function does exactly this.
 
@@ -99,7 +99,7 @@ Call $s_{ij} = e_i \cdot e_j$ the **score** (G-223, attention score) of word $i$
 
 ### 4.3 The whole computation for one word
 
-> **Key point:** Three steps: dot products with every word, softmax, weighted sum.
+> **Key point:** Three steps: **dot products** (G-634) with every word, softmax, weighted sum.
 
 Figure 1 puts the steps together for "bank":
 
@@ -138,16 +138,16 @@ The parallel computation has a cost. Nothing in $Y = \text{softmax}(XX^{\top})X$
 
 ## 6. The problem: nothing to learn
 
-> **Key point:** The simple version has no parameters. Its contextual embeddings are general: the same for every task and every dataset. A task often needs **task-specific** contextual embeddings, so we must add learnable weights.
+> **Key point:** The simple version has no parameters. Its **contextual embeddings** (G-462) are general: the same for every task and every dataset. A task often needs **task-specific** contextual embeddings, so we must add learnable weights.
 
-The three steps are a dot product, a softmax and another product. None of them has a weight or a bias. With no parameters there is nothing to train: the output for a sentence depends only on the static embeddings, never on the task or its data.
+The three steps are a **dot product** (G-634), a softmax and another product. None of them has a weight or a bias. With no parameters there is nothing to train: the output for a sentence depends only on the static embeddings, never on the task or its data.
 
 The resulting contextual embeddings are **general** (G-836, general contextual embeddings): they use the context, but in the same way for every task. Sometimes that is not enough. Suppose we train an English-to-Hindi translator whose data contains
 
 - "how are you" → "main theek hoon" (as a reply), and
 - "that task is a piece of cake" → "vah kaam bahut aasaan hai" ("that work is very easy").
 
-General contextual embeddings of "piece of cake" lean towards the literal meaning, a slice of cake. A good translator must learn from its data that the phrase means "very easy". In the same way, "break a leg" should become "shubh kaamnaayein" ("good wishes") and not a sentence about a broken leg. What the model needs are **task-specific contextual embeddings** (G-1952): still built from the neighbouring words, but in a way learned from the task's data. For that, self-attention needs learnable parameters.
+General contextual embeddings of "piece of cake" lean towards the literal meaning, a slice of cake. A good translator must learn from its data that the phrase means "very easy". In the same way, "break a leg" should become "shubh kaamnaayein" ("good wishes") and not a sentence about a broken leg. What the model needs are **task-specific contextual embeddings** (G-1952): still built from the neighbouring words, but in a way learned from the task's data. For that, **self-attention** (G-1763) needs learnable parameters.
 
 Where can they go? The softmax is a fixed formula. The parameters can only enter in the two products: the one that computes the scores and the one that forms the weighted sum.
 
@@ -158,16 +158,16 @@ Where can they go? The softmax is a fixed formula. The parameters can only enter
 Look again at Figure 1. The embedding of "bank" appears in three different places:
 
 - **Query** (green): $e_{\text{bank}}$ asks every word of the sentence, "how similar are you to me?". It is the word whose new vector we are computing.
-- **Key** (purple): $e_{\text{money}}$, $e_{\text{bank}}$, $e_{\text{grows}}$ answer: their dot product with the query gives the scores. In the computation for "money" or "grows", $e_{\text{bank}}$ also serves as a key.
+- **Key** (purple): $e_{\text{money}}$, $e_{\text{bank}}$, $e_{\text{grows}}$ answer: their **dot product** (G-634) with the query gives the scores. In the computation for "money" or "grows", $e_{\text{bank}}$ also serves as a **key** (G-1011).
 - **Value** (blue): the same embeddings are mixed with the weights to form the output.
 
-The names come from dictionaries in programming. A Python dictionary `d = {"a": 2, "b": 3, "c": 4}` stores **keys** ("a", "b", "c") with their **values** (2, 3, 4). The lookup `d["a"]` is a **query**: it is compared with every key, and the value of the matching key, 2, is returned. Self-attention is a soft version of this lookup: the query is compared with every key, and instead of returning one value, it returns a mix of all the values, weighted by how well each key matches. SLP3 (§7.1) describes the same three roles.
+The names come from dictionaries in programming. A Python dictionary `d = {"a": 2, "b": 3, "c": 4}` stores **keys** ("a", "b", "c") with their **values** (2, 3, 4). The lookup `d["a"]` is a **query**: it is compared with every key, and the value of the matching key, 2, is returned. **Self-attention** (G-1763) is a soft version of this lookup: the query is compared with every key, and instead of returning one value, it returns a mix of all the values, weighted by how well each key matches. SLP3 (§7.1) describes the same three roles.
 
 The problem with the simple version is that one vector, the static embedding, plays all three roles. An analogy shows why that is a poor design. A writer is looking for a partner on a matrimonial website. His full life story is in his 300-page autobiography: his embedding. The website needs three things from him:
 
 - a **profile** that others see when they search (his key);
 - a **search** describing whom he is looking for (his query);
-- what he says once there is a **match** (his value).
+- what he says once there is a **match** (his **value** (G-2068)).
 
 Uploading the whole autobiography as profile, search and first message would work badly in all three places. Instead he writes three short, focused texts, each drawn from the autobiography but shaped for its job. And he learns from experience what to put in each. If he gets matched with people who love politics when he does not, he removes "I write about politics" from his profile; if a broad search works better than a narrow one, he widens it. Each version is tuned from the results, that is, from data.
 
@@ -185,7 +185,7 @@ In a trained model nobody chooses these directions, and what a matrix actually l
 
 ## 8. Query, key and value vectors from learned matrices
 
-> **Key point:** Multiply each embedding by three matrices: $q = eW_Q$, $k = eW_K$, $v = eW_V$. The same three matrices serve every word. They start random and are trained by backpropagation, so the contextual embeddings become task-specific.
+> **Key point:** Multiply each embedding by three matrices: $q = eW_Q$, $k = eW_K$, $v = eW_V$. The same three matrices serve every word. They start random and are trained by backpropagation, so the **contextual embeddings** (G-462) become task-specific.
 
 ### 8.1 A linear transformation per role
 
@@ -193,7 +193,7 @@ In a trained model nobody chooses these directions, and what a matrix actually l
 
 To make a new vector from an old one, scaling alone (making it longer or shorter) is too limited: the direction must change as well. The standard way is a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097), multiplying the vector by a matrix (see [**linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097)). We use three matrices, $W_Q$, $W_K$ and $W_V$, one per role.
 
-1. **In words:** each embedding, written as a row vector, times each of the three matrices gives the word's query, key and value vectors.
+1. **In words:** each embedding, written as a row vector, times each of the three matrices gives the word's query, key and **value** (G-2068) vectors.
 2. **Formula:**
    $$q_i = e_i W_Q$$
    $$k_i = e_i W_K$$
@@ -220,7 +220,7 @@ $$3 \times 3 = 9$$
 
 ### 8.2 The refined computation
 
-> **Key point:** Same three steps as before, with queries in the dot product, keys as what they are compared with, and values in the weighted sum.
+> **Key point:** Same three steps as before, with queries in the dot product, **keys** (G-1011) as what they are compared with, and values in the weighted sum.
 
 The computation of section 4 stays the same; each use of an embedding is replaced by the vector for its role. For "bank":
 
@@ -236,7 +236,7 @@ $$y_{\text{bank}} = \sum_j w_{2j}\thinspace v_j$$
 
 The matrix form of section 5 carries over (Figure 7, and SLP3 eq. 7.33):
 
-1. **In words:** multiply the embedding matrix by the three weight matrices; compare every query with every key in one product; softmax each row; mix the values.
+1. **In words:** multiply the embedding matrix by the three weight matrices; compare every query with every **key** (G-1011) in one product; softmax each row; mix the values.
 2. **Formula:**
    $$Q = XW_Q$$
    $$K = XW_K$$
@@ -285,20 +285,20 @@ In Figure 8, watch the row of "money" in the weights: a score of 8 against 4 and
 
 The order matters: $QK^{\top}$, queries times the transpose of the keys, so that entry $(i, j)$ is $q_i \cdot k_j$.
 
-The self-attention inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is explained in [why a wide spread is a problem](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates). Inside a transformer, $Y$ also does not replace $X$: it is added to $X$, so attention supplies a change to each word's vector (the residual connection of [**add and norm**](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172)).
+The **self-attention** (G-1763) inside a transformer works this way, with one more step: the scores are divided by $\sqrt{d_k}$ before the softmax. Why that scaling is needed is explained in [why a wide spread is a problem](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates). Inside a transformer, $Y$ also does not replace $X$: it is added to $X$, so attention supplies a change to each word's vector (the residual connection of [**add and norm**](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172)).
 
 ## 9. Learned matrices on real reviews
 
-> **Key point:** On IMDB movie reviews, with the same frozen embeddings, self-attention with learned $W_Q$, $W_K$, $W_V$ reaches 0.84 test accuracy against 0.69 without parameters. The learned weights concentrate on the word that matters for the task: "terrible".
+> **Key point:** On IMDB movie reviews, with the same frozen embeddings, **self-attention** (G-1763) with learned $W_Q$, $W_K$, $W_V$ reaches 0.84 test accuracy against 0.69 without parameters. The learned weights concentrate on the word that matters for the task: "terrible".
 
 ### 9.1 The experiment
 
 > **Key point:** Two models identical except for the three matrices, which start at the identity, so both begin as the same function.
 
-[Section 6](#6-the-problem-nothing-to-learn) claimed that learnable matrices make the contextual embeddings task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
+[Section 6](#6-the-problem-nothing-to-learn) claimed that learnable matrices make the **contextual embeddings** (G-462) task-specific. The Notebook tests the claim on sentiment analysis of IMDB movie reviews (the [**IMDB dataset**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#4-the-imdb-dataset) (G-923)): 25,000 training and 25,000 test reviews, each an **observation** (G-1374; one record of the data), with the sentiment, positive or negative, as the **target** (G-1949; the output we predict). The words are the 10,000 most frequent, and each review is cut to 200 words.
 
 - **Static embeddings:** 50 numbers per word, learned from the training reviews themselves by the counting method of [the same effect in real text](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#42-the-same-effect-in-real-text), then **frozen**, so they cannot adapt to the task. They do capture meaning: the nearest words to "great" are wonderful, fine, fantastic, excellent, marvelous, superb.
-- **Model:** embeddings → self-attention → the average of the contextual embeddings over the words of the review → one sigmoid node.
+- **Model:** embeddings → **self-attention** (G-1763) → the average of the contextual embeddings over the words of the review → one sigmoid node.
 - **Fixed:** self-attention without parameters, $Y = \text{softmax}(XX^{\top})X$. The only trainable weights are the 51 of the final node.
 - **Learned:** $Y = \text{softmax}(QK^{\top})V$ with $W_Q$, $W_K$, $W_V$ of size $50 \times 50$, which adds 7,500 trainable weights. The three matrices start at the **identity matrix** (G-915; ones on the diagonal, zeros elsewhere, so it leaves a vector unchanged), so at the start the learned model computes exactly what the fixed model computes.
 
@@ -326,7 +326,7 @@ What did the matrices learn? Figure 9 takes a real 10-word stretch from a test r
 - **Fixed (left):** the largest weight in each row is on the diagonal, about 0.2: each word is most similar to itself. The rest is spread evenly, about 0.08 per word. The weights know nothing about sentiment.
 - **Learned (right):** the column of "terrible" lights up. "Rest" puts 0.57 of its weight on "terrible", "of" 0.58, "the" 0.46, and "terrible" itself 0.91. After averaging, the review's vector is dominated by the meaning of "terrible", which is exactly what a sentiment classifier needs.
 
-For this task, the learned matrices turned self-attention into a detector of sentiment words. A translation model trained on the same embeddings would learn different matrices, and attend differently. These are the task-specific contextual embeddings of section 6, measured.
+For this task, the learned matrices turned **self-attention** (G-1763) into a detector of sentiment words. A translation model trained on the same embeddings would learn different matrices, and attend differently. These are the task-specific contextual embeddings of section 6, measured.
 
 ![The learned weights forming one query word at a time. Left: the weight matrix filling row by row. Right: the current query word's weights, which sum to 1; the largest is red](images/attention_rows.gif){height=55%}
 
@@ -341,12 +341,12 @@ For this task, the learned matrices turned self-attention into a detector of sen
 | Whole sentence | $Y = \text{softmax}(XX^{\top})\thinspace X$ | $Y = \text{softmax}(QK^{\top})\thinspace V$ |
 | Parameters | none: general contextual embeddings | $W_Q$, $W_K$, $W_V$, learned: task-specific |
 
-- A word's contextual embedding is a weighted sum of the vectors of all the words in its sentence, so the same word gets a different vector when its neighbours differ.
-- The weights are similarities (dot products) normalised by a softmax, so each row sums to 1 and reads as shares: related words lend each other more.
+- A word's **contextual embedding** (G-462) is a weighted sum of the vectors of all the words in its sentence, so the same word gets a different vector when its neighbours differ.
+- The weights are similarities (**dot products** (G-634)) normalised by a softmax, so each row sums to 1 and reads as shares: related words lend each other more.
 - All words are processed at once with matrix products, because no word's new vector waits for another's; this runs in parallel on a GPU but ignores word order, which positional encoding has to restore.
 - Learned matrices $W_Q$, $W_K$, $W_V$, the same for every word, make the result task-specific, because without them there is nothing to train: on IMDB, 0.84 accuracy against 0.69, with attention concentrated on sentiment words.
 - The transformer adds one more step, dividing the scores by $\sqrt{d_k}$, because large scores make the softmax nearly all-or-nothing ([why the scores are scaled](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#5-why-a-wide-spread-is-a-problem-the-softmax-saturates)).
-- This is what happens inside the self-attention box: dot products, softmax and a weighted sum turn static embeddings into contextual ones.
+- This is what happens inside the **self-attention** (G-1763) box: dot products, softmax and a weighted sum turn static embeddings into contextual ones.
 
 ## 11. Sources
 
@@ -379,9 +379,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Key and value (G-1010) | In attention, the vectors of the words being looked at: keys are compared with the query to get the weights, and values are mixed with those weights; in cross-attention both come from the encoder's input words. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
-| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Contextual embedding](../../../DL/06-transformers/DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings) (G-462) | A vector for a word that changes with the other words of its sentence, so "bank" gets one vector in "river bank" and another in "money bank". Self-attention produces it. |
 | [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
+| [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
 | [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
 | [Add and norm](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172) | Adds a sub-layer's input back to its output (a residual connection) and then layer-normalises the sum, so the signal and gradients pass through deep stacks and the numbers stay on one scale: LayerNorm(x + Sublayer(x)). |

@@ -37,13 +37,13 @@ This Note gives the core idea for classification, on a picture. [A worked exampl
 
 ### 1.1 Why learn AdaBoost
 
-> **Key point:** Other boosting algorithms often score higher, but AdaBoost is the simplest, and it teaches the ideas they all build on.
+> **Key point:** Other boosting algorithms often score higher, but **AdaBoost** (G-167) is the simplest, and it teaches the ideas they all build on.
 
-AdaBoost gives good results, but in practice random forests, [**gradient boosting**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) (G-859) and XGBoost often beat it. We study it anyway because it is the entry point to boosting. Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
+AdaBoost gives good results, but in practice random forests, [**gradient boosting**](../ML-114-gradient-boosting-intuition/ML-114-gradient-boosting-intuition.md#2-boosting-passes-mistakes-forward) (G-859) and XGBoost often beat it. We study it anyway because it is the entry point to **boosting** (G-318). Once AdaBoost is clear, about half of boosting is clear, and gradient boosting and XGBoost become much easier.
 
 ## 2. Three ideas we need first
 
-> **Key point:** A weak learner is barely better than guessing; a decision stump is a tree with one split; AdaBoost labels the two classes +1 and -1.
+> **Key point:** A weak learner is barely better than guessing; a decision stump is a tree with one split; **AdaBoost** (G-167) labels the two classes +1 and -1.
 
 ### 2.1 Weak learners
 
@@ -51,13 +51,13 @@ AdaBoost gives good results, but in practice random forests, [**gradient boostin
 
 On a two-class problem, guessing at random is right about 50% of the time, like calling heads or tails on a coin toss. A **weak learner** (G-2104) is a model whose accuracy is just above that: 55%, say. A **strong learner** (G-1904) is a model with high accuracy, 95% or 99%.
 
-AdaBoost builds one strong model by combining many weak learners. Each one alone is poor; together they are good.
+**AdaBoost** (G-167) builds one strong model by combining many weak learners. Each one alone is poor; together they are good.
 
 ### 2.2 Decision stumps
 
 > **Key point:** A decision stump is a decision tree with `max_depth=1`: one question, one split, two regions.
 
-A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. [A tree of depth 1](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#22-a-tree-of-depth-1-underfits) was shown to underfit (it is too simple to capture the pattern). Here that weakness is exactly what we want: a stump is a weak learner. A model that already gets every training observation right leaves no mistakes to pass on, so boosting would stop after it ([the rule of thumb](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#22-the-rule-of-thumb) tests this with fully grown trees).
+A **decision stump** (G-559) is a decision tree whose maximum depth is 1. It asks a single question, such as "is CGPA at most 6.75?", and splits the data into two regions. [A tree of depth 1](../ML-092-decision-tree-hyperparameters/ML-092-decision-tree-hyperparameters.md#22-a-tree-of-depth-1-underfits) was shown to underfit (it is too simple to capture the pattern). Here that weakness is exactly what we want: a stump is a **weak learner** (G-2104). A model that already gets every training observation right leaves no mistakes to pass on, so boosting would stop after it ([the rule of thumb](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#22-the-rule-of-thumb) tests this with fully grown trees).
 
 ![Three students on CGPA and IQ: every possible stump is one cut parallel to an axis; the chosen cut gives the largest information gain](images/stump_splits.png){height=34%}
 
@@ -69,27 +69,27 @@ Figure 2 shows three students: two placed (+), one not placed (-).
 
 The stump tries every candidate and keeps the one with the largest **information gain** (G-946; how much a split makes the groups purer, see [the definition](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#71-the-definition)). In Figure 2, the cut at CGPA 6.75 separates the classes perfectly, so it wins.
 
-AdaBoost can use any algorithm as its weak learner, even a neural network. In practice it almost always uses decision stumps, for two reasons:
+**AdaBoost** (G-167) can use any algorithm as its weak learner, even a neural network. In practice it almost always uses decision stumps, for two reasons:
 
 1. they give the best results with AdaBoost;
 2. each one is easy to read, so we can see what every stage does.
 
 ### 2.3 Labels +1 and -1
 
-> **Key point:** In AdaBoost the positive class is +1 and the negative class is -1, not 1 and 0.
+> **Key point:** In **AdaBoost** (G-167) the positive class is +1 and the negative class is -1, not 1 and 0.
 
 Most classifiers name the two classes 1 and 0. AdaBoost uses **+1 and -1**: placed students are +1, students not placed are -1. [Section 5](#5-the-final-prediction-a-weighted-vote) shows why: the final vote adds up the models' answers, and a -1 pulls the total down, while a 0 would add nothing.
 
 ## 3. A stage-wise additive model
 
-> **Key point:** "Additive": the final model is a sum of weak learners. "Stage-wise": they are added one at a time, in order.
+> **Key point:** "Additive": the final model is a sum of **weak learners** (G-2104). "Stage-wise": they are added one at a time, in order.
 
-AdaBoost is often described as a **stage-wise additive method** (a **stage-wise additive model**, G-1867):
+**AdaBoost** (G-167) is often described as a **stage-wise additive method** (a **stage-wise additive model**, G-1867):
 
 - **additive:** the final model adds up several weak learners;
 - **stage-wise:** the weak learners are added one after another, in sequence, each in its own stage.
 
-In Figure 1, each column is a stage. The arrow between the columns is what makes it boosting: each stage hands its mistakes to the next.
+In Figure 1, each column is a stage. The arrow between the columns is what makes it **boosting** (G-318): each stage hands its mistakes to the next.
 
 Figure 3 shows the "additive" part on the 10 students of section 4: the vote of the first stump alone, of the first two, and of all three. Each added stump changes the vote only where its say tips the sum.
 
@@ -115,7 +115,7 @@ The stump does its job, but not perfectly: two students who were not placed sit 
 
 > **Key point:** Before the next stage, the misclassified observations are made more important, so the next stump concentrates on them.
 
-The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." AdaBoost does this by raising the **importance** of the misclassified observations in the data and lowering that of the rest.
+The first stump tells the next one, in effect: "I got these students wrong; take extra care with them." **AdaBoost** (G-167) does this by raising the **importance** of the misclassified observations in the data and lowering that of the rest.
 
 In Figure 4 this is the dot size: the two mistakes grow, the eight correct students shrink. The exact amounts, and the technique (called **upsampling**, G-2063), are the subject of [step 7: upsampling](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight).
 
@@ -125,7 +125,7 @@ In Figure 4 this is the dot size: the two mistakes grow, the eight correct stude
 
 At the end of each stage we also compute a number $\alpha$ (alpha) for the stump. Alpha, the **model weight** (G-192), sets how much **say** the stump will have in the final prediction. Few mistakes give a large $\alpha$; many mistakes give a small one. The formula is in [the say of the stump](../ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#62-the-formula).
 
-The say is where boosting differs from bagging. In bagging ([the core idea](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
+The say is where **boosting** (G-318) differs from bagging. In bagging ([the core idea](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea)), every base model's vote counts the same, like a democracy. In boosting, each model's vote is weighted by how well it performed.
 
 ### 4.4 Stages 2 and 3
 
@@ -147,7 +147,7 @@ The weighted error is the share of the total weight that sits on the misclassifi
 
 ## 5. The final prediction: a weighted vote
 
-> **Key point:** Multiply each stump's answer (+1 or -1) by its alpha, add, and take the sign: positive means +1, negative means -1.
+> **Key point:** Multiply each stump's answer (+1 or -1) by its **alpha** (G-192), add, and take the sign: positive means +1, negative means -1.
 
 After training we have three stumps and three alphas. We write each stump as a function $h_t(x)$, a **hypothesis function** (G-912): it takes a student's features $x$ and returns +1 or -1.
 
@@ -199,10 +199,10 @@ With more stages, the boundary can bend in more places and fit more complicated 
 | Alpha | each stump's say in the final vote, larger for fewer mistakes | accurate stumps outvote poor ones |
 | Prediction | $\operatorname{sign}(\sum_t \alpha_t h_t(x))$ | the sign turns the weighted sum into a class |
 
-- AdaBoost trains decision stumps one after another; each focuses on the previous stump's mistakes, because those mistakes are made heavier before the next stump is fitted.
-- Each stump gets a say, alpha, based on its error: unlike bagging, the votes are not equal, so one stump with a large say can outvote two with small ones.
+- **AdaBoost** (G-167) trains decision stumps one after another; each focuses on the previous stump's mistakes, because those mistakes are made heavier before the next stump is fitted.
+- Each stump gets a say, **alpha** (G-192), based on its error: unlike bagging, the votes are not equal, so one stump with a large say can outvote two with small ones.
 - The prediction is the sign of the alpha-weighted sum of the stumps' +1/-1 answers.
-- Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none, because their three cuts together draw an upside-down L that no single straight cut can draw. This is how weak learners in series become one strong model.
+- Three stumps on 10 students: each makes 2 mistakes, their weighted vote makes none, because their three cuts together draw an upside-down L that no single straight cut can draw. This is how **weak learners** (G-2104) in series become one strong model.
 
 ## 8. Sources
 

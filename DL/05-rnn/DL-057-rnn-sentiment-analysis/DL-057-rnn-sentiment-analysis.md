@@ -17,7 +17,7 @@ tags: [subject/deep-learning, area/dl-rnn, step/features, concept/text-vectoriza
 
 ## 1. Overview
 
-> **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the vocabulary) and a learned embedding (each word becomes a short, dense vector, a list of numbers, that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
+> **Key point:** An RNN only reads numbers, so text must become numbers first. Two ways: integer encoding (each word becomes its index in the **vocabulary** (G-2092)) and a learned embedding (each word becomes a short, dense vector, a list of numbers, that the network learns). On IMDB movie reviews, the same SimpleRNN reaches about 0.80 test accuracy with an embedding, against 0.50 with raw integers.
 
 [**Sentiment analysis**](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) is the task of predicting whether a text is positive or negative. The data is a set of texts, each with a label: 1 for positive, 0 for negative. This Note builds a sentiment analysis model with the RNN of the [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#4-the-architecture-of-an-rnn), in Keras, on real movie reviews.
 
@@ -29,18 +29,18 @@ The aim is the workflow, not the best accuracy:
 
 ![IMDB reviews cut to their last 50 words. Dashed: training accuracy; solid: test accuracy; mean of 3 runs. Raw integer inputs stay near a coin toss; a learned 2-number embedding lifts the same SimpleRNN to about 0.80 on the test reviews](images/imdb_curves.png){width=95%}
 
-Figure 1 is the result of the whole Note. The horizontal axis is the epoch (one pass over the training reviews) and the vertical axis is accuracy, the share of reviews classified correctly. The grey lines are the model fed raw integers and the green lines the model with an embedding; watch how far apart the two solid lines end up.
+Figure 1 is the result of the whole Note. The horizontal axis is the **epoch** (G-696) (one pass over the training reviews) and the vertical axis is accuracy, the share of reviews classified correctly. The grey lines are the model fed raw integers and the green lines the model with an embedding; watch how far apart the two solid lines end up.
 
 ## 2. Prerequisites
 
 - The [RNN forward propagation](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#3-the-shape-of-the-input): input shape (time steps, input features), the recurrent layer, counting its parameters.
-- The [why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network): padding sequences to a common length, and its cost.
+- The [why RNNs](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network): **padding** (G-1436) sequences to a common length, and its cost.
 - The [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#5-compiling-and-training): `compile`, `fit` and validation data in Keras.
 - The [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379): a category as a vector with a single 1.
 
 ## 3. Integer encoding
 
-> **Key point:** Build the vocabulary, give each word an integer, replace every word by its integer, then pad the sequences to one length.
+> **Key point:** Build the **vocabulary** (G-2092), give each word an integer, replace every word by its integer, then pad the sequences to one length.
 
 ### 3.1 The three steps
 
@@ -58,7 +58,7 @@ Figure 2 shows the three steps.
 
 ### 3.2 Tokenizing in Keras
 
-> **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the vocabulary and replaces each word by its index, in one step.
+> **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the **vocabulary** (G-2092) and replaces each word by its index, in one step.
 
 Splitting a text into words is [**tokenization**](../../06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
 
@@ -76,7 +76,7 @@ Take a document of 10 short cheering slogans, such as "go india", "india india" 
 
 **Out-of-vocabulary words.** A word seen only at prediction time, never in training, has no index. The layer maps every such word to a special **out-of-vocabulary (OOV) token** (G-1416), `[UNK]`, with index 1. In the Notebook, "go pakistan" becomes $[16, 1]$: "pakistan" is not in the vocabulary.
 
-> **Python:** Integer encoding with `TextVectorization`; it also pads the sequences with 0 at the end.
+> **Python:** **Integer encoding** (G-956) with `TextVectorization`; it also pads the sequences with 0 at the end.
 >
 > ```python
 > import keras
@@ -89,7 +89,7 @@ Take a document of 10 short cheering slogans, such as "go india", "india india" 
 
 For lists of integers of different lengths, `keras.utils.pad_sequences(sequences, padding="post")` pads at the end, and `padding="pre"` (the default) at the start (Keras documentation).
 
-> **Extra:** Older Keras code uses `keras.preprocessing.text.Tokenizer` with `fit_on_texts`, `word_index`, `word_counts` and `texts_to_sequences`, and an `oov_token` argument. Keras 3 keeps that class only as a legacy API; `TextVectorization` is its replacement, and it reserves index 0 for padding and index 1 for `[UNK]` (Keras documentation, `TextVectorization`).
+> **Extra:** Older Keras code uses `keras.preprocessing.text.Tokenizer` with `fit_on_texts`, `word_index`, `word_counts` and `texts_to_sequences`, and an `oov_token` argument. Keras 3 keeps that class only as a legacy API; `TextVectorization` is its replacement, and it reserves index 0 for **padding** (G-1436) and index 1 for `[UNK]` (Keras documentation, `TextVectorization`).
 
 ## 4. The IMDB dataset
 
@@ -105,13 +105,13 @@ $$[1, 14, 22, 16, 43, 530, 973, 1622, 1385, 65, \dots]$$
 
 where 1 marks the start of a review and every other integer is a word. Decoded with the dataset's word index, it reads "this film was just brilliant casting location scenery story direction everyone's really suited the part they played and you ...".
 
-> **Extra:** In `load_data`, a word's integer is its frequency rank plus 3: 0 is padding, 1 is the start marker and 2 is the out-of-vocabulary word. So the most frequent word, "the", is 4 (Keras source, `imdb.load_data`: `start_char=1`, `oov_char=2`, `index_from=3`).
+> **Extra:** In `load_data`, a word's integer is its frequency rank plus 3: 0 is **padding** (G-1436), 1 is the start marker and 2 is the out-of-vocabulary word. So the most frequent word, "the", is 4 (Keras source, `imdb.load_data`: `start_char=1`, `oov_char=2`, `index_from=3`).
 
 ### 4.2 Cutting every review to 50 words
 
 > **Key point:** Reviews have different lengths (the first three have 218, 189 and 141 words). `pad_sequences(maxlen=50)` pads the short ones and cuts the long ones to 50 words, so training is fast.
 
-Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. Zeros in front keep the review's own words at the end, so the last hidden state, the one the output node reads, comes right after the last real word; with zeros at the end the RNN would first run extra steps on padding, which change the hidden state (see [padded steps still run](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#54-gotcha-padded-steps-still-run)). The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. When training time allows, use full reviews.
+Training on full reviews is slow, so we keep 50 words per review: `keras.utils.pad_sequences(X, maxlen=50)`. Shorter reviews get zeros in front; longer reviews are cut. Zeros in front keep the review's own words at the end, so the last hidden state, the one the output node reads, comes right after the last real word; with zeros at the end the RNN would first run extra steps on **padding** (G-1436), which change the hidden state (see [padded steps still run](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#54-gotcha-padded-steps-still-run)). The training data then has shape $(25000, 50)$. The cut throws information away: the median review has 178 words. When training time allows, use full reviews.
 
 **Which 50 words?** `pad_sequences` cuts from the start by default (`truncating="pre"`), so a long review keeps its **last** 50 words, not its first 50 (Keras documentation, `pad_sequences`). Passing `truncating="post"` keeps the first 50. Figure 3 shows both cases on real training reviews.
 
@@ -156,7 +156,7 @@ The notation is that of RNN forward propagation: $W_i$ holds the weights from th
 
 > **Key point:** `return_sequences=False` (the default) returns only the last hidden state. `return_sequences=True` returns the hidden state of every time step.
 
-The recurrent layer computes a hidden state at every time step (Figure 4). The argument `return_sequences` (G-136) chooses which of them leave the layer. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. Sentiment analysis needs one answer per review, after the last word, so `False` is right here.
+The recurrent layer computes a hidden state at every time step (Figure 4). The argument `return_sequences` (G-136) chooses which of them leave the layer. With `return_sequences=False`, only the last one leaves the layer; the others stay inside and only feed the next time step. **Sentiment analysis** (G-1769) needs one answer per review, after the last word, so `False` is right here.
 
 ![The SimpleRNN of section 5 unrolled over a review's 50 integers. Top: with `return_sequences=False` only $h_{50}$ goes on to the sigmoid output. Bottom: with `True` every hidden state leaves the layer, one per word](images/return_sequences.png){width=100%}
 
@@ -178,11 +178,11 @@ Only 50 words per review and only 5 epochs make the task harder. But the embeddi
 
 ### 6.1 Sparse and dense representations
 
-> **Key point:** Padding and one-hot vectors are mostly zeros (sparse). An embedding is short and full of useful numbers (dense).
+> **Key point:** **Padding** (G-1436) and one-hot vectors are mostly zeros (sparse). An embedding is short and full of useful numbers (dense).
 
 Two problems come with the earlier representations.
 
-- **Sparse.** Take a 20-word review padded to the longest review of 2,000 words: 1,980 of its 2,000 numbers are padding zeros. A one-hot vector over a 10,000-word vocabulary is 9,999 zeros and one 1. A representation where most values are 0 is **sparse** (G-1845).
+- **Sparse.** Take a 20-word review padded to the longest review of 2,000 words: 1,980 of its 2,000 numbers are padding zeros. A one-hot vector over a 10,000-word **vocabulary** (G-2092) is 9,999 zeros and one 1. A representation where most values are 0 is **sparse** (G-1845).
 - **No meaning.** Integers and one-hot vectors say nothing about meaning. In one-hot space every pair of words is the same distance apart, so "good" is as far from "great" as from "awful" (Goodfellow §12.4.2).
 
 Two one-hot vectors differ in exactly two places, each by 1, so the distance between any two words is
@@ -193,13 +193,13 @@ A **word embedding** (G-2127) represents each word as a real-valued vector of a 
 
 ### 6.2 Learning the embedding with the model
 
-> **Key point:** Keras' `Embedding` layer learns the vectors during training, by backpropagation, together with the RNN.
+> **Key point:** Keras' `Embedding` layer learns the vectors during training, by **backpropagation** (G-247), together with the RNN.
 
 Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are well-known embedding methods trained on large text collections: Word2Vec learned its vectors from a text of 1.6 billion words, and GloVe was trained on texts of 1 to 42 billion tokens. In deep learning we can also learn an embedding as part of our own model: Keras' `Embedding` layer turns each integer into a dense vector of fixed size (Keras documentation, `Embedding`). Its input must be integer encoded.
 
 `Embedding` takes two main arguments:
 
-- `input_dim`: the vocabulary size;
+- `input_dim`: the **vocabulary** (G-2092) size;
 - `output_dim`: the size of each word's vector, a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) (2, 32, 200, ...) to tune.
 
 > **Extra:** Older code also passes `input_length`, the number of words per sequence. Keras 3 removed that argument; the sequence length comes from the input shape (`keras.Input(shape=(50,))`) instead (Keras documentation, `Embedding`).
@@ -209,7 +209,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
 > **Key point:** The layer holds a weight matrix $E$ with one row per word. A word's vector is its row of $E$: a one-hot vector times $E$, done as a lookup.
 
 1. **In words:** the layer is like a dense layer whose input is the word's one-hot vector, with no bias and no activation. Multiplying a one-hot vector by a matrix picks one row, so the layer simply looks up row $k$ for word $k$.
-2. **Formula:** for a vocabulary of $V$ words and vectors of size $d$, $E$ is $V \times d$, and
+2. **Formula:** for a **vocabulary** (G-2092) of $V$ words and vectors of size $d$, $E$ is $V \times d$, and
    $$\text{embedding}(k) = \text{onehot}(k)\thinspace E = E_{k,:}$$
    Here $E_{k,:}$ means row $k$ of $E$: the entry $k$ in each column, the whole row of numbers.
 3. **Example:** the slogan document has $V = 19$ entries. With $d = 2$, $E$ is $19 \times 2$: 38 weights, which `model.summary()` confirms. The first word of the first slogan, "go", has index 16, and row 16 of $E$ is its 2-number vector: $[-0.039, -0.006]$ before training.
@@ -218,7 +218,7 @@ Word2Vec (Mikolov et al. 2013) and **GloVe** (G-851; Pennington et al. 2014) are
 
 $E$ starts random and is trained with the rest of the network by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247). Figure 5 shows the lookup. The Notebook checks that the one-hot product and the layer's output are the same numbers.
 
-Applied to a padded sequence of 5 integers, the layer returns 5 rows of 2 numbers, one per word (the padding index 0 also gets a row). For the 10 slogans, padded to 5 words, the output has shape $(10, 5, 2)$: 100 numbers.
+Applied to a padded sequence of 5 integers, the layer returns 5 rows of 2 numbers, one per word (the **padding** (G-1436) index 0 also gets a row). For the 10 slogans, padded to 5 words, the output has shape $(10, 5, 2)$: 100 numbers.
 
 ## 7. Approach 2: an embedding into the same SimpleRNN
 
@@ -250,7 +250,7 @@ Now each time step carries 2 numbers instead of 1, so the RNN's input is (50 tim
 
 ### 7.2 Results
 
-> **Key point:** Same RNN, same 50 words, same 5 epochs: the embedding lifts test accuracy from 0.50 to 0.80. Training accuracy climbs higher still, a sign of overfitting.
+> **Key point:** Same RNN, same 50 words, same 5 **epochs** (G-696): the embedding lifts test accuracy from 0.50 to 0.80. Training accuracy climbs higher still, a sign of overfitting.
 
 | After 5 epochs, mean of 3 runs | Integer encoding | Embedding |
 |---|---|---|
@@ -267,12 +267,12 @@ The green lines of Figure 1 show the embedding model. Test accuracy levels off a
 
 Figure 6 plots the learned vectors of 8 positive, 8 negative and 8 neutral words: the two numbers of each vector give the horizontal and vertical position of its word. Nobody told the network which words are positive. Goodfellow §12.4.2 explains the pattern: words that share features learned by the model end up close together. The only label this model learns from is the sentiment, and Figure 6 shows its embedding sorting the words by sentiment along one direction.
 
-**How the vectors get there.** Figure 7 shows the same 24 words before training and after each epoch. Watch the green and red points: they start mixed in one small cloud and move apart, mostly during the first epoch.
+**How the vectors get there.** Figure 7 shows the same 24 words before training and after each **epoch** (G-696). Watch the green and red points: they start mixed in one small cloud and move apart, mostly during the first epoch.
 
 ![The embedding of the model of Figure 6 during training (seed 0): the 24 words before training and after each of the 5 epochs. The vectors start as small random numbers; training moves positive words (green) one way and negative words (red) the other, while neutral words (grey) stay near the middle (idea after StatQuest, "Word Embedding and Word2Vec, Clearly Explained!!!")](images/embedding_training.gif){width=95%}
 
 1. **Before training,** $E$ holds small random numbers, so the positions say nothing: the average first number is $-0.01$ for the positive words and $-0.02$ for the negative words (Notebook).
-2. **At every training step,** backpropagation changes the rows of $E$ for the words of the reviews in the batch, each in the direction that lowers the loss. The rows of $E$ are weights like any others.
+2. **At every training step,** **backpropagation** (G-247) changes the rows of $E$ for the words of the reviews in the batch, each in the direction that lowers the loss. The rows of $E$ are weights like any others.
 3. **Words used in the same kind of review get the same kind of push.** "Great" and "excellent" appear mostly in positive reviews, so their rows are moved the same way; "worst" and "awful" are moved the opposite way. After one epoch the average first number is $0.19$ for the positive words and $-0.29$ for the negative words.
 
 Nobody placed similar words together: they end up together because they help the prediction in the same way.
@@ -302,7 +302,7 @@ A pre-trained embedding, like a [**pretrained model**](../../04-cnn/DL-051-pretr
 | Extra parameters | none | vocabulary size $\times\ d$ |
 | IMDB test accuracy, 5 epochs | 0.50 | 0.80 |
 
-- Text must become numbers, because an RNN only reads numbers: build a vocabulary, replace words by integers, pad to one length so the sequences fit in one batch.
+- Text must become numbers, because an RNN only reads numbers: build a **vocabulary** (G-2092), replace words by integers, pad to one length so the sequences fit in one batch.
 - `TextVectorization` tokenizes and integer encodes; unknown words map to `[UNK]`, so a word seen only at prediction time still gets an index; `pad_sequences` pads and cuts.
 - IMDB comes integer encoded; `pad_sequences(maxlen=50)` keeps the last 50 words of each review, because it cuts from the start by default (`truncating="pre"`).
 - `SimpleRNN(32)` on 1 input feature has 1,088 parameters; `return_sequences=False` returns only the last hidden state, because sentiment needs one answer per review, after the last word.
@@ -330,8 +330,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Integer encoding (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
 | Padding (G-1436) | Adding zeros to sequences so that all have the same length. |
+| Integer encoding (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
 | Out-of-vocabulary (OOV) token (G-1416) | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
 | IMDB dataset (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
 | `return_sequences` (G-136) | Argument of a Keras recurrent layer: `False` returns only the last hidden state, `True` returns the hidden state at every time step; `True` is needed on every stacked layer but the last. |
@@ -340,19 +340,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Dense representation (G-585) | A short vector of real numbers, most of them non-zero, such as a word embedding; unlike a long, mostly-zero one-hot vector, every number carries information. |
 | `Embedding` layer (G-77) | The Keras layer that holds a table with one learned vector per word (the embedding matrix $E$) and looks up one row per word. |
 | Embedding (G-677) | A learned vector representing a user, item or word, compared with others by dot products. |
+| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
 | [Sentiment analysis](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1769) | Deciding whether a text expresses a positive or negative opinion. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Vocabulary ($V$)](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
 | [Tokenisation (tokenization)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
 | [Named entity recognition (NER)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
 | [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
-| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [GloVe](../../../DL/06-transformers/DL-072-meaning-as-direction/DL-072-meaning-as-direction.md#1-overview) (G-851) | Word vectors learned from how often words appear near each other: training makes the dot product of two words' vectors match the log of their co-occurrence probability (Pennington et al. 2014). |
 | [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
-| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Pretrained model](../../../DL/04-cnn/DL-051-pretrained-models/DL-051-pretrained-models.md#1-overview) (G-1558) | A network already trained by someone else on a large dataset, reused for our own predictions. |

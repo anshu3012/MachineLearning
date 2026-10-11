@@ -16,9 +16,9 @@ tags: [subject/deep-learning, area/dl-rnn, step/model, concept/parameter-sharing
 
 ## 1. Overview
 
-> **Key point:** A recurrent neural network (RNN) reads a sequence one element at a time. Its hidden layer sends its own output back to itself, so at every time step it combines the new input with a summary of everything read so far.
+> **Key point:** A recurrent neural network (RNN) reads a sequence one element at a time. Its hidden layer sends its own output back to itself, so at every **time step** (G-1976) it combines the new input with a summary of everything read so far.
 
-A **recurrent neural network** (G-1647; RNN) is a class of neural networks with a memory: it remembers past inputs, which makes it work well on sequential data. [Why an ordinary network handles sequences badly](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text) was explained earlier, with [the idea an RNN uses instead](../DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn). This Note opens the box: what an RNN looks like, how many parameters it has, and how it turns a sequence into a prediction.
+A **recurrent neural network** (G-1647; RNN) is a class of neural networks with a memory: it remembers past inputs, which makes it work well on **sequential data** (G-1774). [Why an ordinary network handles sequences badly](../DL-055-why-rnn/DL-055-why-rnn.md#5-four-problems-with-an-ann-on-text) was explained earlier, with [the idea an RNN uses instead](../DL-055-why-rnn/DL-055-why-rnn.md#6-the-idea-behind-an-rnn). This Note opens the box: what an RNN looks like, how many parameters it has, and how it turns a sequence into a prediction.
 
 ![The same recurrent layer reads "movie was good", one word per time step. Each step mixes the new word with the previous hidden state (red arrow) and produces a new hidden state of 3 numbers (blue for positive, red for negative). The last hidden state gives the prediction](images/rnn_unroll.gif){width=100%}
 
@@ -34,7 +34,7 @@ Figure 1 shows the whole idea. The three purple boxes are not three layers: they
 
 ## 3. The shape of the input
 
-> **Key point:** An RNN takes each **observation** (one review) as a table of shape (time steps, input features): one row per word, one number per feature. Keras takes a batch of them as a 3D tensor of shape (batch size, time steps, input features).
+> **Key point:** An RNN takes each **observation** (one review) as a table of shape (**time steps** (G-1976), input features): one row per word, one number per feature. Keras takes a batch of them as a 3D tensor of shape (batch size, time steps, input features).
 
 ### 3.1 Words become vectors
 
@@ -74,7 +74,7 @@ In general the shape of one observation is (time steps, input features).
 
 ### 3.3 A batch for Keras
 
-> **Key point:** Keras' `SimpleRNN` layer takes (batch size, time steps, input features). Shorter reviews are padded to the longest one.
+> **Key point:** Keras' `SimpleRNN` layer takes (batch size, **time steps** (G-1976), input features). Shorter reviews are padded to the longest one.
 
 Keras processes several reviews at once. The three reviews above, sent together, form a [**batch**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263): a **tensor** (G-1957; a grid of numbers with any number of axes) of shape $(3, 4, 5)$, with 3 reviews, 4 time steps (the longest review has 4 words) and 5 input features (Figure 2). The two 3-word reviews get one zero vector as [**padding**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#31-the-three-steps) (G-1436) (padding and its cost are covered in [zero padding wastes most of the network](../DL-055-why-rnn/DL-055-why-rnn.md#52-zero-padding-wastes-most-of-the-network)).
 
@@ -96,7 +96,7 @@ Padding has a cost inside the RNN too; section 5.4 shows it once the RNN's formu
 
 ## 4. The architecture of an RNN
 
-> **Key point:** An RNN looks like an ANN with one hidden layer, with two differences: the input arrives one time step at a time, and the hidden layer feeds its own output back to itself at the next time step.
+> **Key point:** An RNN looks like an ANN with one hidden layer, with two differences: the input arrives one **time step** (G-1976) at a time, and the hidden layer feeds its own output back to itself at the next time step.
 
 ### 4.1 The smallest RNN: one node
 
@@ -149,7 +149,7 @@ The rest of this Note builds the same thing with vectors in place of single numb
 
 ### 4.2 Two differences from an ANN
 
-> **Key point:** Input by time step, and a feedback connection. The feedback connection is what makes an RNN an RNN.
+> **Key point:** Input by **time step** (G-1976), and a feedback connection. The feedback connection is what makes an RNN an RNN.
 
 An ANN has an input layer, one or more hidden layers and an output layer. An RNN has the same three parts, with two differences.
 
@@ -160,7 +160,7 @@ The hidden layer with this feedback is the **recurrent layer** (G-1646), and its
 
 ### 4.3 The network for our reviews
 
-> **Key point:** 5 input nodes (one per feature), a recurrent layer of 3 nodes, and 1 sigmoid output node. Three weight matrices: $W_i$ ($5 \times 3$), $W_h$ ($3 \times 3$) and $W_o$ ($3 \times 1$).
+> **Key point:** 5 input nodes (one per feature), a **recurrent layer** (G-1646) of 3 nodes, and 1 sigmoid output node. Three weight matrices: $W_i$ ($5 \times 3$), $W_h$ ($3 \times 3$) and $W_o$ ($3 \times 1$).
 
 ![The RNN for the reviews: 5 input nodes, a recurrent layer of 3 nodes and 1 sigmoid output node. The red arrow is the feedback: the layer's 3 outputs return to all 3 nodes at the next time step, through $W_h$](images/rnn_architecture.png){width=85%}
 
@@ -170,7 +170,7 @@ Figure 4 shows the network.
 - **Recurrent layer: 3 nodes** here; any number works. Between the inputs and these nodes the layer is fully connected, as in an ANN.
 - **Output layer: 1 node** with a sigmoid activation, because the task is binary classification (positive or negative).
 
-The feedback connection is the new part. Each of the 3 recurrent nodes sends its output to **all 3** recurrent nodes at the next time step, each through its own weight.
+The feedback connection is the new part. Each of the 3 recurrent nodes sends its output to **all 3** recurrent nodes at the next **time step** (G-1976), each through its own weight.
 
 ### 4.4 Counting the parameters
 
@@ -215,23 +215,23 @@ So 27 appears twice by coincidence: 27 weights in the whole network, and 27 para
 
 ## 5. Forward propagation in an RNN
 
-> **Key point:** At each time step the recurrent layer computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, with the same weights every time. After the last word, the output layer turns the last hidden state into the prediction.
+> **Key point:** At each time step the **recurrent layer** (G-1646) computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, with the same weights every time. After the last word, the output layer turns the last **hidden state** (G-891) into the prediction.
 
 ### 5.1 Unfolding through time
 
-> **Key point:** Drawing the recurrent layer once per time step, side by side, turns the loop into a chain. The chain is the same layer used again and again.
+> **Key point:** Drawing the **recurrent layer** (G-1646) once per time step, side by side, turns the loop into a chain. The chain is the same layer used again and again.
 
-The feedback loop of Figure 4 is hard to follow. **Unfolding** (G-2041; also called unrolling) redraws it: one copy of the recurrent layer for each time step, with an arrow carrying the hidden state from each copy to the next (Goodfellow §10.1). Figure 1 is the unfolded network for "movie was good". Every copy uses the same $W_i$, $W_h$ and $b_h$.
+The feedback loop of Figure 4 is hard to follow. **Unfolding** (G-2041; also called unrolling) redraws it: one copy of the recurrent layer for each **time step** (G-1976), with an arrow carrying the hidden state from each copy to the next (Goodfellow §10.1). Figure 1 is the unfolded network for "movie was good". Every copy uses the same $W_i$, $W_h$ and $b_h$.
 
 ### 5.2 Time step by time step
 
-> **Key point:** Step 1 uses the first word and $h_0$; every later step uses the next word and the previous hidden state.
+> **Key point:** Step 1 uses the first word and $h_0$; every later step uses the next word and the previous **hidden state** (G-891).
 
 We feed the first review, $x_{11}, x_{12}, x_{13}$, and write $x_t$ for the word at time $t$. Every vector is a row: $x_t$ is $1 \times 5$ and $h_t$ is $1 \times 3$.
 
 - **$t = 1$:** the first word goes through $W_i$. The shapes multiply as
   $$(1 \times 5)(5 \times 3) = 1 \times 3$$
-  The recurrent layer applies its activation, by default **tanh** (G-1947; a function that squeezes a number into -1 to 1), to get $h_1$, shape $1 \times 3$: one output per node.
+  The **recurrent layer** (G-1646) applies its activation, by default **tanh** (G-1947; a function that squeezes a number into -1 to 1), to get $h_1$, shape $1 \times 3$: one output per node.
 - **$t = 2$:** the second word enters through the same $W_i$. The layer also receives $h_1$, through $W_h$:
   $$(1 \times 3)(3 \times 3) = 1 \times 3$$
   Both products are $1 \times 3$, so they can be added, and tanh of the sum is $h_2$.
@@ -244,14 +244,14 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 
 ### 5.3 The formulas
 
-> **Key point:** One formula for the hidden state, used at every step, and one for the output, used after the last step.
+> **Key point:** One formula for the **hidden state** (G-891), used at every step, and one for the output, used after the last step.
 
-1. **In words:** multiply the new word by the input weights and the previous hidden state by the recurrent weights, add the two and the bias, then apply tanh. After the last time step $T$, multiply the hidden state by the output weights, add the output bias and apply the output activation $g$.
+1. **In words:** multiply the new word by the input weights and the previous hidden state by the recurrent weights, add the two and the bias, then apply **tanh** (G-1947). After the last time step $T$, multiply the hidden state by the output weights, add the output bias and apply the output activation $g$.
 2. **Formula:**
    $$h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$$
    $$h_0 = 0$$
    $$\hat{y} = g(h_T W_o + b_o)$$
-   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830; a function that turns scores into probabilities that add to 1); for regression it is linear (no activation). The recurrent layer can use another activation, such as ReLU, instead of tanh. Tanh is the default because it squeezes every number of the hidden state into $-1$ to 1, so the state cannot grow without limit while the same $W_h$ is applied step after step. ReLU does not squeeze positive numbers, and with large recurrent weights its values and gradients can blow up (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes)).
+   For binary classification $g$ is the sigmoid; for several classes it is the **softmax** (G-1830; a function that turns scores into probabilities that add to 1); for regression it is linear (no activation). The **recurrent layer** (G-1646) can use another activation, such as ReLU, instead of tanh. Tanh is the default because it squeezes every number of the hidden state into $-1$ to 1, so the state cannot grow without limit while the same $W_h$ is applied step after step. ReLU does not squeeze positive numbers, and with large recurrent weights its values and gradients can blow up (see [how the gradient explodes](../DL-060-problems-with-rnn/DL-060-problems-with-rnn.md#61-how-the-gradient-explodes)).
 3. **Example:** small hand-picked weights, all biases 0, on "movie was good".
 
    $$W_i =$$
@@ -317,9 +317,9 @@ At $t = 1$ there is no previous hidden state. To keep every step the same, we gi
 
 ### 5.4 Gotcha: padded steps still run
 
-> **Key point:** The RNN runs a step on every padded zero row, so a padded review's last hidden state is not the one after its last word. A mask makes the RNN skip padded steps.
+> **Key point:** The RNN runs a step on every padded zero row, so a padded review's last **hidden state** (G-891) is not the one after its last word. A mask makes the RNN skip padded steps.
 
-The batch of section 3.3 gave the 3-word reviews a grey row of zeros as padding. The RNN does not know that the grey row is padding. It runs a fourth step on the zero row, so for the 3-word reviews the last hidden state is $h_4$, computed from $h_3$ alone:
+The batch of section 3.3 gave the 3-word reviews a grey row of zeros as **padding** (G-1436). The RNN does not know that the grey row is padding. It runs a fourth step on the zero row, so for the 3-word reviews the last hidden state is $h_4$, computed from $h_3$ alone:
 
 $$h_4 = \tanh(0 \cdot W_i + h_3 W_h + b_h)$$
 
@@ -329,23 +329,23 @@ $h_4$ is in general not equal to $h_3$. Keras' `Masking` layer (or `mask_zero=Tr
 
 ## 6. Three properties of an RNN
 
-> **Key point:** The layer recurs (hence the name), the weights are shared across time steps, and the last hidden state depends on every earlier input.
+> **Key point:** The layer recurs (hence the name), the weights are shared across **time steps** (G-1976), and the last hidden state depends on every earlier input.
 
 ### 6.1 Why "recurrent"
 
-> **Key point:** The input changes at every time step, but the same layer computes every hidden state.
+> **Key point:** The input changes at every **time step** (G-1976), but the same layer computes every hidden state.
 
 The hidden layer recurs: we change the input word by word and reuse one layer to compute every output. That reuse gives the network its name, recurrent neural network.
 
 ### 6.2 Weight sharing
 
-> **Key point:** Every time step uses the same $W_i$, $W_h$ and $b_h$, so the number of parameters does not grow with the length of the sequence.
+> **Key point:** Every **time step** (G-1976) uses the same $W_i$, $W_h$ and $b_h$, so the number of parameters does not grow with the length of the sequence.
 
 At every time step the input is new, but the weights are the same. This reuse is **parameter sharing** (G-1447; or weight sharing) across time. The network for a 3-word review and for a 300-word review has the same 31 parameters. Goodfellow §10.1 names this as an advantage of unfolding: the model has the same input size whatever the sequence length, because it is defined as a step from one state to the next.
 
 ### 6.3 The hidden state carries the sequence forward
 
-> **Key point:** $h_3$ contains a piece of $h_2$, which contains a piece of $h_1$. So the last hidden state depends on every word, in order.
+> **Key point:** $h_3$ contains a piece of $h_2$, which contains a piece of $h_1$. So the last **hidden state** (G-891) depends on every word, in order.
 
 Write out $h_3$ one step at a time (biases left out), putting each hidden state into the next:
 
@@ -376,14 +376,14 @@ How far back that memory reaches is limited in practice. Gradient-based training
 
 ## 7. The RNN as one box
 
-> **Key point:** An RNN is a box with two inputs, the current word and the previous hidden state, and one output, the new hidden state. After the last word, the hidden state goes to the output layer.
+> **Key point:** An RNN is a box with two inputs, the current word and the previous **hidden state** (G-891), and one output, the new hidden state. After the last word, the hidden state goes to the output layer.
 
 ![The simplified view of a recurrent layer. The word $x_t$ enters through $W_i$, the previous hidden state through $W_h$; their sum, plus the bias, goes through tanh to give $h_t$, which is fed back at the next time step. After the last step, $h_T$ goes through $W_o$ and $g$ to give $\hat{y}$](images/rnn_cell.png){width=90%}
 
 Figure 7 sums up the whole computation.
 
-1. At every time step, the box receives the current word $x_t$ (through $W_i$) and the previous hidden state $h_{t-1}$ (through $W_h$).
-2. It adds the two products and the bias, and applies the activation (tanh by default) to get $h_t$.
+1. At every **time step** (G-1976), the box receives the current word $x_t$ (through $W_i$) and the previous hidden state $h_{t-1}$ (through $W_h$).
+2. It adds the two products and the bias, and applies the activation (**tanh** (G-1947) by default) to get $h_t$.
 3. $h_t$ goes back into the box at the next time step.
 4. After the last time step $T$, $h_T$ goes through $W_o$ and the output activation $g$ (sigmoid here) to give $\hat{y}$.
 
@@ -397,9 +397,9 @@ Figure 7 sums up the whole computation.
 | Weights | one set per layer | the same $W_i$, $W_h$, $b_h$ at every time step |
 | Example parameters | | $W_i$: 15, $W_h$: 9, $W_o$: 3, biases: 4, total 31 |
 
-- An RNN reads a sequence one time step at a time, so each step can combine the new word with what came before; Keras takes (batch size, time steps, input features), and padded steps still run unless they are masked.
-- The recurrent layer computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, starting from $h_0 = 0$, so every step, the first included, mixes the new word with a summary of the words before it.
-- After the last step, $\hat{y} = g(h_T W_o + b_o)$, with $g$ the sigmoid, softmax or linear, because only the last hidden state has seen every word.
+- An RNN reads a sequence one **time step** (G-1976) at a time, so each step can combine the new word with what came before; Keras takes (batch size, time steps, input features), and padded steps still run unless they are masked.
+- The **recurrent layer** (G-1646) computes $h_t = \tanh(x_t W_i + h_{t-1} W_h + b_h)$, starting from $h_0 = 0$, so every step, the first included, mixes the new word with a summary of the words before it.
+- After the last step, $\hat{y} = g(h_T W_o + b_o)$, with $g$ the sigmoid, softmax or linear, because only the last **hidden state** (G-891) has seen every word.
 - The layer recurs with shared weights, so the parameter count does not depend on the sequence length.
 - The feedback weights $W_h$ carry earlier inputs into later hidden states: they are the network's memory: without them, $h_3$ sees only the last word.
 

@@ -15,7 +15,7 @@ tags: [subject/statistics, area/probability, step/foundations, concept/independe
 
 ## 1. Overview
 
-> **Key point:** Two events are mutually exclusive when they cannot happen together: P(A ∩ B) = 0. Mutual exclusivity is a different idea from independence, and the two are easily confused.
+> **Key point:** Two events are **mutually exclusive** (G-1286) when they cannot happen together: P(A ∩ B) = 0. Mutual exclusivity is a different idea from independence, and the two are easily confused.
 
 [Independent events](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) can happen together, but one does not affect the other. **Mutually exclusive** events are different: they can never happen together. The two ideas are easy to mix up, so this Note puts them side by side.
 
@@ -49,13 +49,13 @@ $$P(A \mid B) = \frac{P(A \cap B)}{P(B)} = \frac{0}{P(B)} = 0$$
 
 With numbers: die 1 has shown 3. The probability that the same die shows 6 on that roll is 0. A driver has turned left; the probability that they turned right is 0.
 
-Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1671 of the time, close to the exact value 1/6. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the addition rule of [Section 5](#5-the-addition-rule-where-mutual-exclusivity-pays-off).
+Figure 2 checks this on a million simulated rolls. Over all rolls, a 3 comes up 0.1671 of the time, close to the exact value 1/6. Among the rolls that showed 6, not one showed 3: the share is exactly 0. The right panel previews the **addition rule** (G-173) of [Section 5](#5-the-addition-rule-where-mutual-exclusivity-pays-off).
 
 ![One million rolls of a fair die. Left: the share showing 3 is 0.1671 over all rolls, and exactly 0 among the rolls that showed 6. Right: the shares of 3, of 6, and of "3 or 6", which is their sum, about 1/3.](images/die_sim.png)
 
 ## 4. Mutually exclusive is not independent
 
-> **Key point:** Knowing B happened tells us A did not, which is a lot of information. So mutually exclusive events (each with a positive probability) are always dependent.
+> **Key point:** Knowing B happened tells us A did not, which is a lot of information. So **mutually exclusive events** (G-1286) (each with a positive probability) are always dependent.
 
 ![Mutually exclusive versus independent events](images/compare.png){width=100%}
 
@@ -81,7 +81,7 @@ An everyday picture: a light switch is either on or off. The two states are mutu
 
 ## 5. The addition rule: where mutual exclusivity pays off
 
-> **Key point:** P(A or B) = P(A) + P(B) − P(A and B). For mutually exclusive events the last term is 0, so "or" becomes plain addition.
+> **Key point:** P(A or B) = P(A) + P(B) − P(A and B). For **mutually exclusive events** (G-1286) the last term is 0, so "or" becomes plain addition.
 
 The probability that A **or** B happens (one, the other, or both) is the probability of their **union** (G-2045), written $P(A \cup B)$. Counting it needs care when the events share outcomes.
 
@@ -131,10 +131,10 @@ $$P(3 \text{ or } 6) = 1/6 + 1/6 = 1/3$$
 
 ## 6. Summary
 
-- Mutually exclusive: $P(A \cap B) = 0$; the events cannot happen together, and $P(A \mid B) = 0$, because once $B$ happened, $A$ is ruled out.
+- **Mutually exclusive** (G-1286): $P(A \cap B) = 0$; the events cannot happen together, and $P(A \mid B) = 0$, because once $B$ happened, $A$ is ruled out.
 - Independent: $P(A \cap B) = P(A)P(B)$; they can happen together, and $P(A \mid B) = P(A)$, because knowing $B$ tells us nothing about $A$.
 - Mutually exclusive events with positive probabilities are never independent, because learning that one happened tells us for certain that the other did not. So the two ideas must not be mixed up.
-- Addition rule: $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$, because nothing is counted twice. Bayes' theorem uses this sum to split a probability into separate cases.
+- **Addition rule** (G-173): $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events, $P(A \cup B) = P(A) + P(B)$, because nothing is counted twice. **Bayes' theorem** (G-269) uses this sum to split a probability into separate cases.
 
 ## 7. Sources
 
@@ -150,8 +150,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Mutually exclusive events (G-1286) | Events that cannot happen at the same time; their intersection has probability 0. |
-| Union (A ∪ B) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
 | Addition rule (general addition rule) (G-173) | The rule for the probability that $A$ or $B$ (or both) happens: add their probabilities and subtract the overlap so it is not counted twice, $P(A \cup B) = P(A) + P(B) - P(A \cap B)$; for mutually exclusive events the overlap is 0. |
+| Union (A ∪ B) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Intersection (A ∩ B)](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |

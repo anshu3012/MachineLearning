@@ -16,22 +16,22 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 ## 1. Overview
 
-> **Key point:** Statistics summarises the data we have (descriptive) and uses a sample to draw conclusions about a whole population (inferential); the type of each feature decides which tools we can use.
+> **Key point:** Statistics summarises the data we have (descriptive) and uses a sample to draw conclusions about a whole **population** (G-1525) (inferential); the type of each feature decides which tools we can use.
 
 ![A sample is drawn from the population, and conclusions about the population are inferred from it](images/population_sample.png)
 
-Figure 1 shows the central idea of statistics (the population on the left, a sample on the right; one arrow draws the sample from the population, and the arrow back infers a conclusion about the population): we rarely see the whole group we care about, so we study a part of it and reason back to the whole. This Note defines statistics and its two branches, explains population and sample, and sorts data into four types.
+Figure 1 shows the central idea of statistics (the population on the left, a **sample** (G-1731) on the right; one arrow draws the sample from the population, and the arrow back infers a conclusion about the population): we rarely see the whole group we care about, so we study a part of it and reason back to the whole. This Note defines statistics and its two branches, explains population and sample, and sorts data into four types.
 
 ## 2. What statistics is
 
-> **Key point:** Statistics is the branch of mathematics for collecting, organising, summarising and drawing conclusions from data.
+> **Key point:** **Statistics** (G-1880) is the branch of mathematics for collecting, organising, summarising and drawing conclusions from data.
 
 **Statistics** (G-1884) is the branch of mathematics that deals with collecting, analysing, interpreting and presenting data. Statistics gives us tools to make sense of large amounts of data, to draw conclusions and to make decisions based on data.
 
 Few branches of mathematics are applied as widely. Some examples:
 
 - **Business and finance:** companies study customer data to find buying patterns, then set prices, plan stock and forecast demand.
-- **Medicine:** a new medicine goes through clinical trials, and a statistical test decides whether it works better than the old one.
+- **Medicine:** a new medicine goes through clinical trials, and a **statistical test** (G-1881) decides whether it works better than the old one.
 - **Government and politics:** surveys and opinion polls estimate what a whole country thinks from a few thousand answers.
 - **Environmental science:** climate research uses past data to predict future change.
 - **Machine learning:** linear regression, logistic regression and Naive Bayes all grow out of statistics.
@@ -40,14 +40,14 @@ Few branches of mathematics are applied as widely. Some examples:
 
 > **Key point:** Descriptive statistics describes the data in hand; inferential statistics predicts things about a larger group from it.
 
-Statistics has two branches (Figure 2):
+**Statistics** (G-1880) has two branches (Figure 2):
 
 - **Descriptive statistics** (G-596; see [what the data looks like in numbers](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#7-what-does-the-data-look-like-in-numbers)) summarises and describes the data we already have, without drawing conclusions beyond it. The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#3-mean) (the average), the [**median**](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) (the middle value), the [standard deviation](../MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (how spread out the values are), the [**five-number summary**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) (minimum, quartiles and maximum) and every graph of our data belong here. Descriptive statistics studies the past: what the data says.
 - **Inferential statistics** (G-944) uses the data we have to make predictions, or **inferences** (G-943), about a larger group we cannot fully observe.
 
 ![The two branches. Descriptive statistics summarises the data we have (the 891 Titanic fares); inferential statistics goes from a sample to a statement about the population (the salary survey of section 4)](images/two_branches.png){width=85%}
 
-Every exploratory data analysis so far, such as [the summary numbers of the Titanic data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum), was descriptive statistics. Inferential statistics needs one more idea first: population and sample.
+Every exploratory data analysis so far, such as [the summary numbers of the Titanic data](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum), was descriptive statistics. Inferential statistics needs one more idea first: **population** (G-1525) and sample.
 
 ## 4. Population and sample
 
@@ -60,7 +60,7 @@ So we pick, say, 50,000 people from different states, regions, genders and age g
 - The **population** (G-1525) is the entire group of individuals or objects we are interested in studying: here, every person in India.
 - A [**sample**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) is a subset of the population, the part we actually measure: here, the 50,000 people.
 
-Inferential statistics is exactly this step: from a sample, say something about the population. Two more examples:
+**Inferential statistics** (G-944) is exactly this step: from a sample, say something about the population. Two more examples:
 
 | Population | Sample |
 |---|---|
@@ -69,9 +69,9 @@ Inferential statistics is exactly this step: from a sample, say something about 
 
 ### 4.1 What makes a good sample
 
-> **Key point:** A sample must be large enough, random and representative, or its conclusions will be wrong.
+> **Key point:** A **sample** (G-1731) must be large enough, random and representative, or its conclusions will be wrong.
 
-A badly made sample gives wrong conclusions about the population, however carefully we analyse it. A good sample is:
+A badly made sample gives wrong conclusions about the **population** (G-1525), however carefully we analyse it. A good sample is:
 
 - **Large enough:** a tiny sample makes the result depend on luck. Such luck-driven error is the **sampling noise** (G-1737; see [sampling noise and sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias)).
 - **Random:** every member of the population has a fair chance of being picked. If our salary survey somehow favours rich people, its average is too high. Such a lopsided sample has [**sampling bias**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734), from the same section. Figure 3 shows the effect on the Titanic fares.
@@ -83,9 +83,9 @@ Different ways of building samples are called **sampling techniques** (G-1738); 
 
 ### 4.2 Parameters and statistics
 
-> **Key point:** A number that describes the population is a parameter (Greek letters); the same number computed from a sample is a statistic (Latin letters).
+> **Key point:** A number that describes the **population** (G-1525) is a parameter (Greek letters); the same number computed from a sample is a statistic (Latin letters).
 
-A number computed from the whole population, such as India's true average salary, is a **parameter** (G-2276). The same number computed from a sample is a **statistic** (G-1880), and we use it as an estimate of the parameter.
+A number computed from the whole population, such as India's true average salary, is a **parameter** (G-2276). The same number computed from a **sample** (G-1731) is a **statistic** (G-1880), and we use it as an estimate of the parameter.
 
 The two are generally different. There is no guarantee that the average salary of 50,000 people equals the national average: it can be close, but it can also be very different.
 
@@ -112,12 +112,12 @@ The [mean](../MA-005-measures-of-central-tendency/MA-005-measures-of-central-ten
 
 ## 5. The tools of inferential statistics
 
-> **Key point:** Hypothesis tests, confidence intervals, ANOVA, regression, chi-square tests, sampling and Bayesian statistics are the main tools for reasoning from a sample.
+> **Key point:** Hypothesis tests, confidence intervals, ANOVA, regression, chi-square tests, sampling and Bayesian statistics are the main tools for reasoning from a **sample** (G-1731).
 
-Inferential statistics has a set of standard tools. Each gets its own Note later:
+**Inferential statistics** (G-944) has a set of standard tools. Each gets its own Note later:
 
-- [**Hypothesis testing**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913): we make a claim about a population parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called [**statistical tests**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881).
-- [**Confidence intervals**](../../04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446): we estimate a population parameter from a sample and give a range that most likely contains it.
+- [**Hypothesis testing**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913): we make a claim about a **population** (G-1525) parameter and use a sample to decide whether it holds. For example: is the mean height of a population different from 170 cm? The procedures are called [**statistical tests**](../../04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881).
+- [**Confidence intervals**](../../04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446): we estimate a population **parameter** (G-2276) from a sample and give a range that most likely contains it.
 - **ANOVA** (G-203; analysis of variance): compares the means of several groups at once.
 - **Regression:** models how one variable depends on others. [**Simple linear regression**](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#3-a-line-through-the-data) (G-1808) uses it as an ML algorithm: a line through the data.
 - [**Chi-square test**](../../04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381): a test designed for categorical variables.
@@ -126,7 +126,7 @@ Inferential statistics has a set of standard tools. Each gets its own Note later
 
 ## 6. Types of data
 
-> **Key point:** Every feature is categorical (nominal or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
+> **Key point:** Every feature is categorical (**nominal** (G-1330) or ordinal) or numerical (discrete or continuous); the type decides which statistics and graphs make sense.
 
 Descriptive statistics starts by asking what type of data each feature holds (Figure 5). We mostly work with tables. A [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is one variable of the data, one column of the table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row of the table. So "data" here means the values of one feature.
 
@@ -154,18 +154,18 @@ Numerical data is discrete or continuous:
 - An exam **rank** is discrete too: a rank is 1, 2 or 3, never 1.5. Rank 1,543 in an entrance exam counts the candidates who scored higher (1,542) plus one, so the gap between rank 1,000 and rank 2,000 is a real amount: 1,000 candidates.
 - **Continuous data** (G-465) can take any value in a range, including every decimal in between. Weight (35.3 kg), height and a ticket fare are continuous.
 
-> **Another way to see it:** As a measure of *how well* someone did, a rank only gives the order, like ordinal data. The gap in marks between rank 1 and rank 2 can be 10 marks, and between rank 500 and rank 501 zero marks, so a difference in rank says nothing about a difference in marks (Stevens 1946, Table 1, uses rank orders as the example of the ordinal scale). Which view applies depends on the question: "how many people are ahead of me?" treats rank as a count; "how much better did I do?" needs the marks.
+> **Another way to see it:** As a measure of *how well* someone did, a rank only gives the order, like **ordinal data** (G-1403). The gap in marks between rank 1 and rank 2 can be 10 marks, and between rank 500 and rank 501 zero marks, so a difference in rank says nothing about a difference in marks (Stevens 1946, Table 1, uses rank orders as the example of the ordinal scale). Which view applies depends on the question: "how many people are ahead of me?" treats rank as a count; "how much better did I do?" needs the marks.
 
-> **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the feature discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the feature is recorded and used.
+> **Extra:** Age is a borderline case. We usually record it in whole years (26, 27, 35), which makes the **feature** (G-772) discrete. Age itself is continuous, though: the Titanic data stores a baby of five months as 0.42 years. What matters is how the feature is recorded and used.
 
 ### 6.3 Why the type matters
 
-> **Key point:** The type of a feature decides which measures and graphs we can apply to it.
+> **Key point:** The type of a **feature** (G-772) decides which measures and graphs we can apply to it.
 
-Before applying any measure or graph, we ask two questions of a feature: categorical or numerical? Then nominal or ordinal, discrete or continuous? The answers decide what we can do:
+Before applying any measure or graph, we ask two questions of a feature: categorical or numerical? Then **nominal** (G-1330) or ordinal, discrete or continuous? The answers decide what we can do:
 
 - The mean of a nominal feature such as state makes no sense; its most frequent category (the mode) does.
-- A median (the middle value after sorting) needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
+- A **median** (G-1209) (the middle value after sorting) needs an order, so it works for ordinal and numerical data, but not nominal data. The classic rule of measurement scales is the mode for nominal data, the median for ordinal data (Stevens 1946, Table 1).
 - Categorical features get bar charts and pie charts; numerical features get histograms and box plots, as [frequency tables](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#2-frequency-tables-for-a-categorical-feature) and [histograms](../MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#3-histograms-for-a-numerical-feature) show.
 
 ## 7. Summary
@@ -180,9 +180,9 @@ Before applying any measure or graph, we ask two questions of a feature: categor
 | Nominal / ordinal | Categories without / with an order | state / feedback | a median needs an order: ordinal yes, nominal no |
 | Discrete / continuous | Separate values / any value in a range | number of children / weight | the type decides which measures and graphs make sense |
 
-- A good sample is large enough, random and representative, because a badly made sample gives wrong conclusions however carefully we analyse it (a first-class-only sample of fares has a mean more than twice too high).
-- Population numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$), so we always know whether a number is the true value or an estimate of it.
-- Check each feature's type before choosing a measure or a graph, because the mean of a nominal feature such as state makes no sense.
+- A good **sample** (G-1731) is large enough, random and representative, because a badly made sample gives wrong conclusions however carefully we analyse it (a first-class-only sample of fares has a mean more than twice too high).
+- **Population** (G-1525) numbers use Greek letters ($\mu$, $\sigma$); sample numbers use Latin letters ($\bar{x}$, $s$), so we always know whether a number is the true value or an estimate of it.
+- Check each feature's type before choosing a measure or a graph, because the mean of a **nominal** (G-1330) feature such as state makes no sense.
 - In ML the training rows are the sample and everything the model meets later is the population, so a model, like $\bar{x}$, is an estimate made from a part and judged on the whole.
 
 ## 8. Sources
@@ -202,28 +202,28 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Population (G-1525) | The entire group of individuals or objects we want to study. |
+| Statistic (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
 | Statistics (G-1884) | The branch of mathematics for collecting, analysing, interpreting and presenting data. |
 | Descriptive statistics (G-596) | Numbers that summarise data, such as count, mean, spread and percentiles. |
 | Inferential statistics (G-944) | Statistics that draws conclusions about a population from a sample. |
 | Inference (statistics) (G-943) | A conclusion about a population drawn from a sample. |
-| Population (G-1525) | The entire group of individuals or objects we want to study. |
 | Sampling techniques (G-1738) | Ways of drawing a sample from a population so that it is random and representative, and its conclusions hold for the population. |
 | Parameter (of a population) (G-2276) | A number that describes the whole population, such as its true mean $\mu$; it is usually unknown, so we estimate it from a sample statistic. |
-| Statistic (G-1880) | A number computed from a sample, such as the sample mean $\bar{x}$; it is used as an estimate of the matching number for the whole population (a parameter). |
 | Discrete data (G-616) | Numerical data that takes only separate values, usually counts. |
 | Continuous data (G-465) | Numerical data that can take any value in a range. |
+| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
+| [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | [Median](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#4-median) (G-1209) | The middle value of sorted data; the 50% percentile. |
 | [Five-number summary](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-787) | The five numbers that describe a column's centre and spread: minimum, Q1, median, Q3 and maximum. A box plot draws them. |
-| [Sample](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#41-a-sample-that-tells-the-wrong-story) (G-1731) | The part of a population that we actually measure, such as 50,000 people asked about their salary instead of everyone in India; we study it because measuring the whole population is usually impossible, and use it to draw conclusions about the population. |
 | [Sampling noise](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1737) | Error in a sample's result because the sample is too small, so the answer depends on luck, such as asking only 5 fans; a larger sample reduces it. |
 | [Sampling bias](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#42-sampling-noise-and-sampling-bias) (G-1734) | A sample that misrepresents the population because of how the data was collected, such as asking only Indian fans who should win a cricket match; a larger sample does not fix it. |
 | [Hypothesis testing](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves) (G-913) | Checking a claim about a population parameter with a sample. |
-| [Statistical hypothesis test](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#23-definition) (G-1881) | A method that uses sample data to decide whether a claim about a whole population (a hypothesis about a population parameter) is supported strongly enough; it is a form of statistical inference. |
 | [Confidence interval](../../../MA/04-inference/MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#4-confidence-intervals-and-confidence-levels) (G-446) | A range of values, computed from a sample, that we expect to contain a population parameter such as the mean, so it shows how uncertain the estimate is. The method captures the true value in a stated share of repeated samples, such as 95%. |
 | [ANOVA](../../../MA/04-inference/MA-046-one-way-anova/MA-046-one-way-anova.md#1-overview) (G-203) | A test of whether several groups have the same mean (analysis of variance). |
 | [Simple linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1808) | Linear regression with one input column: it fits a straight line $y = mx + b$ to predict the output from that one feature. |
 | [Chi-square test](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#1-overview) (G-381) | A test of whether categorical counts match expected counts (goodness of fit) or whether two categorical columns are related (independence). |
+| [Nominal data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#21-nominal-data) (G-1330) | Categorical data whose categories have no order, such as states. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Nominal data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#21-nominal-data) (G-1330) | Categorical data whose categories have no order, such as states. |
 | [Ordinal data](../../../ML/03-feature-engineering/ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#22-ordinal-data) (G-1403) | Categorical data whose categories have a natural order, such as Poor < Average < Good. |

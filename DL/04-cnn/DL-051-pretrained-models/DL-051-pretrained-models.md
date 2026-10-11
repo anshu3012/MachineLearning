@@ -16,11 +16,11 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/pretrained-model]
 
 ## 1. Overview
 
-> **Key point:** A **pretrained model** (G-1558) is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on ImageNet, a collection of over 14 million labelled photos, and many won the yearly ImageNet competition. Keras can download them with their trained weights in one line, and they classify everyday photos correctly with no training at all, as long as the object is one of the 1,000 classes they were trained on.
+> **Key point:** A **pretrained model** (G-1558) is a network that someone else has already designed and trained on a huge dataset. The famous ones were trained on **ImageNet** (G-920), a collection of over 14 million labelled photos, and many won the yearly ImageNet competition. Keras can download them with their trained weights in one line, and they classify everyday photos correctly with no training at all, as long as the object is one of the 1,000 classes they were trained on.
 
 Training a good convolutional neural network (CNN) needs a great deal of labelled data and a lot of computing time. A pretrained model skips both: researchers have already trained it on a dataset of over a million photos in 1,000 categories, and we simply reuse the result.
 
-In this Note we use one such model, ResNet50, on eleven photos we picked from Wikimedia Commons, not from ImageNet's files. The model names ten of them correctly, with no training (Figure 1). The eleventh, a tomato, fails for a reason that leads straight to transfer learning.
+In this Note we use one such model, ResNet50, on eleven photos we picked from Wikimedia Commons, not from ImageNet's files. The model names ten of them correctly, with no training (Figure 1). The eleventh, a tomato, fails for a reason that leads straight to **transfer learning** (G-2005).
 
 ![Eleven photos from Wikimedia Commons and ResNet50's top answer with its probability. Green: correct. The tomato (red) is not one of the 1,000 classes the model knows](images/predictions.png){width=95%}
 
@@ -35,7 +35,7 @@ This Note covers:
 ## 2. Prerequisites
 
 - [The general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks, Flatten, dense layers.
-- [The formula with strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides): the output-size formula $\lfloor (n + 2p - f)/s \rfloor + 1$ ($n$ the input size, $p$ the padding, $f$ the filter size, $s$ the stride).
+- [The formula with strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides): the **output-size formula** (G-1427) $\lfloor (n + 2p - f)/s \rfloor + 1$ ($n$ the input size, $p$ the padding, $f$ the filter size, $s$ the stride).
 - [The CNN for cats and dogs](../DL-049-cat-vs-dog-cnn/DL-049-cat-vs-dog-cnn.md#6-the-cnn): building, training and using our own CNN in Keras.
 - [Architectures and transfer learning](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning): the idea of reusing a trained architecture.
 
@@ -48,11 +48,11 @@ Deep learning is data hungry: a CNN performs well only when it has seen many ima
 1. **Data is expensive.** Downloading 10,000 photos of cats and dogs from the web is easy. Labelling them is not: someone must look at each photo and write "cat" or "dog". A company has to pay people for that work, so a large labelled dataset costs a lot of time and money.
 2. **Training is slow.** Even with the data, training a deep network on it takes hours, days or weeks, depending on the size of the data and of the network.
 
-An everyday analogy: to get from one city to another we do not build our own car. We use one that a car maker has already designed, built and tested. A pretrained model is the car: the hard work of design and training is already done.
+An everyday analogy: to get from one city to another we do not build our own car. We use one that a car maker has already designed, built and tested. A **pretrained model** (G-1558) is the car: the hard work of design and training is already done.
 
 ## 4. ImageNet: the dataset behind the models
 
-> **Key point:** ImageNet is a database of over 14 million photos, each labelled with one of about 22,000 categories arranged in a hierarchy. People hired online did the labelling.
+> **Key point:** **ImageNet** (G-920) is a database of over 14 million photos, each labelled with one of about 22,000 categories arranged in a hierarchy. People hired online did the labelling.
 
 ### 4.1 Why it was built
 
@@ -64,27 +64,27 @@ In the mid-2000s, most machine learning research focused on models and algorithm
 
 > **Key point:** 14,197,122 images in 21,841 categories, organised by the WordNet hierarchy, and about a million images with boxes around the objects.
 
-- **Images and categories.** As of August 2014, ImageNet held 14,197,122 labelled images in 21,841 categories (Russakovsky et al. 2015, §1.1). The categories are everyday things: animals, plants, food, vehicles, furniture, tools.
+- **Images and categories.** As of August 2014, **ImageNet** (G-920) held 14,197,122 labelled images in 21,841 categories (Russakovsky et al. 2015, §1.1). The categories are everyday things: animals, plants, food, vehicles, furniture, tools.
 - **A hierarchy.** The categories follow **WordNet** (G-2128), an English dictionary that arranges words from general to specific (Deng et al. 2009). "Golden retriever" sits under "retriever", under "dog", under "animal", so every label also says what more general things the photo shows.
 - **Bounding boxes.** About a million images (1,034,908) also have a **bounding box** (G-328): a rectangle drawn around the object, which shows where in the photo the object is (ImageNet summary statistics). Boxes are what object localisation and detection need.
 
 ![Left: one branch of the WordNet hierarchy that ImageNet's categories follow. Right: ImageNet and the smaller subset used by the ILSVRC competition (section 5), with their sizes.](images/imagenet_scale.png){width=100%}
 
-In Figure 2, notice how much smaller the competition subset is: 1,000 of the 21,841 categories and about 1.3 of the 14.2 million photos. The pretrained models in this Note learned from that subset.
+In Figure 2, notice how much smaller the competition subset is: 1,000 of the 21,841 categories and about 1.3 of the 14.2 million photos. The **pretrained models** (G-1558) in this Note learned from that subset.
 
 ### 4.3 How it was labelled
 
 > **Key point:** By crowdsourcing: thousands of paid workers on Amazon Mechanical Turk checked and labelled the photos.
 
-Labelling 14 million photos by a small team was impossible. ImageNet used **Amazon Mechanical Turk**, an online platform where anyone can post small tasks for a payment (Russakovsky et al. 2015, §3.1.3). Workers were shown candidate photos found by web image search and asked whether each one contained a given object. Several workers labelled the same photo independently, and a photo was accepted only when enough of them agreed (Deng et al. 2009, §3.2). Spreading a task over many paid strangers this way is called **crowdsourcing** (G-512).
+Labelling 14 million photos by a small team was impossible. **ImageNet** (G-920) used **Amazon Mechanical Turk**, an online platform where anyone can post small tasks for a payment (Russakovsky et al. 2015, §3.1.3). Workers were shown candidate photos found by web image search and asked whether each one contained a given object. Several workers labelled the same photo independently, and a photo was accepted only when enough of them agreed (Deng et al. 2009, §3.2). Spreading a task over many paid strangers this way is called **crowdsourcing** (G-512).
 
 ## 5. The ImageNet challenge (ILSVRC)
 
-> **Key point:** From 2010 the ImageNet Large Scale Visual Recognition Challenge asked teams to classify about 1.2 million training photos into 1,000 classes. In 2012 a CNN, AlexNet, won by a wide margin; from then on every winner was a CNN, and by 2015 the winning error was lower than a trained human's.
+> **Key point:** From 2010 the ImageNet Large Scale Visual Recognition Challenge asked teams to classify about 1.2 million training photos into 1,000 classes. In 2012 a CNN, **AlexNet** (G-187), won by a wide margin; from then on every winner was a CNN, and by 2015 the winning error was lower than a trained human's.
 
 ### 5.1 The competition
 
-> **Key point:** A subset of ImageNet: 1,000 classes, 1.28 million training photos, scored by the top-5 error.
+> **Key point:** A subset of **ImageNet** (G-920): 1,000 classes, 1.28 million training photos, scored by the top-5 error.
 
 The **ImageNet Large Scale Visual Recognition Challenge** (**ILSVRC** (G-917)) ran every year from 2010 (Russakovsky et al. 2015). Its classification task used a subset of ImageNet, to keep the problem manageable: 1,000 classes instead of about 22,000, with 1,281,167 training photos, 50,000 validation photos and 100,000 test photos (Russakovsky et al. 2015, Table 2). The 1,000 classes include 120 breeds of dog (Russakovsky et al. 2015, Figure 2), which makes the task much harder than "dog or not".
 
@@ -122,11 +122,11 @@ Figure 3 adds one winner per frame. Watch for two things: the drop in 2012, when
 | 2014 | GoogLeNet | 6.7% | a 22-layer CNN; VGG came second with 7.3% |
 | 2015 | ResNet | 3.57% | a CNN of up to 152 layers with skip connections |
 
-In 2010 and 2011, the winners were classic machine learning systems. People designed the image features by hand, for example the **SIFT** and **LBP** descriptors used by the 2010 winner (Russakovsky et al. 2015, §5.1), and then trained a classifier on them. A top-5 error of 28% means that for 28 photos in 100, the true class was not even among the five guesses.
+In 2010 and 2011, the winners were classic machine learning systems. People designed the image features by hand, for example the **SIFT** and **LBP** descriptors used by the 2010 winner (Russakovsky et al. 2015, §5.1), and then trained a classifier on them. A **top-5 error** (G-1990) of 28% means that for 28 photos in 100, the true class was not even among the five guesses.
 
 How good is a human? One trained annotator, who first studied 500 training photos, labelled 1,500 test photos and had a top-5 error of 5.1% (Russakovsky et al. 2015, §6.4.1). The 2015 winner's 3.57% is below that estimate.
 
-The networks also grew deeper every year: 8 layers with weights in AlexNet, 16 and 19 in VGG, 22 in GoogLeNet (Szegedy et al. 2015) and up to 152 in ResNet (He et al. 2016). ResNet's skip connections (shortcuts that let a layer's input jump ahead and be added to a later layer) are what let it train so deep, because they ease the [vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
+The networks also grew deeper every year: 8 layers with weights in **AlexNet** (G-187), 16 and 19 in VGG, 22 in GoogLeNet (Szegedy et al. 2015) and up to 152 in ResNet (He et al. 2016). ResNet's skip connections (shortcuts that let a layer's input jump ahead and be added to a later layer) are what let it train so deep, because they ease the [vanishing gradient problem](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem).
 
 ### 5.3 AlexNet, the 2012 winner
 
@@ -155,9 +155,9 @@ $$6 \times 6 \times 256 = 9{,}216$$
 
 ## 6. Pretrained models in Keras
 
-> **Key point:** `keras.applications` (G-100) offers the famous ImageNet networks with their trained weights. The table on the Keras site lists each model's size, accuracy and number of parameters.
+> **Key point:** `keras.applications` (G-100) offers the famous **ImageNet** (G-920) networks with their trained weights. The table on the Keras site lists each model's size, accuracy and number of parameters.
 
-The winners of ILSVRC and their successors were published, and their trained weights were released. Keras collects many of them in `keras.applications`. Some of them (Keras documentation, Keras Applications):
+The winners of **ILSVRC** (G-917) and their successors were published, and their trained weights were released. Keras collects many of them in `keras.applications`. Some of them (Keras documentation, Keras Applications):
 
 | Model | Size | Top-1 accuracy | Top-5 accuracy | Parameters |
 |---|---|---|---|---|
@@ -197,7 +197,7 @@ ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's wei
 
 ## 7. A universal classifier with ResNet50
 
-> **Key point:** Load ResNet50 with its ImageNet weights, resize a photo to 224 × 224, prepare its pixels the way the model was trained, predict, and decode the 1,000 probabilities into class names. Ten everyday photos out of ten were named correctly.
+> **Key point:** Load ResNet50 with its **ImageNet** (G-920) weights, resize a photo to 224 × 224, prepare its pixels the way the model was trained, predict, and decode the 1,000 probabilities into class names. Ten everyday photos out of ten were named correctly.
 
 ### 7.1 The code
 
@@ -224,17 +224,17 @@ ResNet50 is five times smaller than VGG16 and more accurate. Most of VGG16's wei
 > print(decode_predictions(probs, top=3))
 > ```
 >
-> `weights="imagenet"` asks for the weights learned on ImageNet. `preprocess_input` (G-126) belongs to each model: for ResNet50 and VGG16 it reorders the colour channels from RGB to BGR and subtracts ImageNet's average value of each channel, as was done to the training photos (Keras documentation, `preprocess_input`). New photos must be prepared the same way. `decode_predictions` (G-74) turns the 1,000 numbers into readable class names.
+> `weights="imagenet"` asks for the weights learned on **ImageNet** (G-920). `preprocess_input` (G-126) belongs to each model: for ResNet50 and VGG16 it reorders the colour channels from RGB to BGR and subtracts ImageNet's average value of each channel, as was done to the training photos (Keras documentation, `preprocess_input`). New photos must be prepared the same way. `decode_predictions` (G-74) turns the 1,000 numbers into readable class names.
 
 ![What the code does to one photo, step by step, with the shape of the data after each step and the Keras call that does it. The output is the model's real top 3 for this photo.](images/resnet_pipeline.png){width=100%}
 
 In Figure 6, follow the shapes: the photo becomes a $224 \times 224 \times 3$ array, gains a batch dimension of 1, and leaves the network as 1,000 probabilities, of which `decode_predictions` shows the top 3.
 
-The loaded model has 25,636,712 parameters, takes $224 \times 224 \times 3$ photos (height, width, 3 colour channels) and outputs 1,000 probabilities, one per ILSVRC class (Notebook).
+The loaded model has 25,636,712 parameters, takes $224 \times 224 \times 3$ photos (height, width, 3 colour channels) and outputs 1,000 probabilities, one per **ILSVRC** (G-917) class (Notebook).
 
 ### 7.2 The results
 
-> **Key point:** Correct on all ten photos of things that are ImageNet classes, mostly with probabilities above 0.9; the tomato, which is not a class, became "hip" and "strawberry".
+> **Key point:** Correct on all ten photos of things that are **ImageNet** (G-920) classes, mostly with probabilities above 0.9; the tomato, which is not a class, became "hip" and "strawberry".
 
 We gave the model eleven photos from Wikimedia Commons, not taken from ImageNet's files (Figure 1; Notebook):
 
@@ -256,9 +256,9 @@ ImageNet's photos were collected by web image search, so we cannot rule out that
 
 The model not only says "dog", it names the breed. Where it is less sure, the runner-up is a close relative: the tabby's other guesses are Egyptian cat and tiger cat, both kinds of cat.
 
-The tomato fails, and the reason is simple: "tomato" is not one of the 1,000 ILSVRC classes (the Notebook searches the class list). A model can only answer with a class it was trained on. It picked **hip**, the round red fruit of the rose, and strawberry: the closest red, round things it knows.
+The tomato fails, and the reason is simple: "tomato" is not one of the 1,000 **ILSVRC** (G-917) classes (the Notebook searches the class list). A model can only answer with a class it was trained on. It picked **hip**, the round red fruit of the rose, and strawberry: the closest red, round things it knows.
 
-A pretrained model is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is [**transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005), the subject of [transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works).
+A **pretrained model** (G-1558) is therefore a ready-made classifier only for its own 1,000 classes. For a problem with other classes, such as phones versus tablets, or a dataset of our own, we keep what the network has learned about images and teach it the new classes. That is [**transfer learning**](../../01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005), the subject of [transfer learning](../DL-053-transfer-learning/DL-053-transfer-learning.md#4-how-it-works).
 
 ## 8. Summary
 
@@ -272,10 +272,10 @@ A pretrained model is therefore a ready-made classifier only for its own 1,000 c
 | ResNet (2015) | 3.57% top-5 error, below one trained human's 5.1% |
 | `keras.applications` | VGG16, ResNet50, MobileNet and others, with ImageNet weights |
 
-- ImageNet and ILSVRC matter because the pretrained models learned from that 1,000-class subset, and from 2012 every winner was a CNN.
+- ImageNet and ILSVRC matter because the **pretrained models** (G-1558) learned from that 1,000-class subset, and from 2012 every winner was a CNN.
 - A pretrained model needs no data and no training when our classes are among its 1,000, because it was already trained on 1.28 million labelled photos of those classes.
 - Use the model's own `preprocess_input`, and the input size it was trained on, because new photos must be prepared the same way as its training photos.
-- For classes outside the 1,000, transfer learning adapts the model to new data, because a model can only answer with a class it was trained on (the tomato became "hip").
+- For classes outside the 1,000, **transfer learning** (G-2005) adapts the model to new data, because a model can only answer with a class it was trained on (the tomato became "hip").
 
 ## 9. Sources
 
@@ -305,19 +305,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | WordNet (G-2128) | An English dictionary that arranges words from general to specific; ImageNet's categories follow it. |
 | Bounding box (G-328) | A rectangle drawn around an object to show where it is in a photo. |
 | Crowdsourcing (G-512) | Splitting a large task, such as labelling, among many paid online workers. |
+| AlexNet (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
 | ILSVRC (G-917) | The ImageNet Large Scale Visual Recognition Challenge: 1,000 classes, about 1.2 million training photos. |
 | Top-5 error (G-1990) | The share of photos whose true class is not among the model's five most likely classes. |
 | Top-1 error (G-1989) | The share of photos whose true class is not the model's single most likely class. |
-| AlexNet (G-187) | A deep convolutional neural network, trained on GPUs, that won the ImageNet contest in 2012 with about 15% error against about 26% for the next best entry, starting the current wave of deep learning. |
 | `keras.applications` (G-100) | The Keras module that provides famous pretrained networks with their weights. |
 | `preprocess_input` (G-126) | The function that prepares pixels the way a given pretrained model expects. |
 | `decode_predictions` (G-74) | The function that turns 1,000 ImageNet probabilities into class names. |
 | [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
+| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
+| [Output-size formula](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides) (G-1427) | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |
 | [GPU](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#6-kaggle-notebooks) (G-856) | A graphics chip that runs deep learning maths much faster than a CPU. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
-| [Output-size formula](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#52-the-formula-with-strides) (G-1427) | The rule that gives the size of a convolution's output from the image size $n$, filter size $f$, padding $p$ and stride $s$: $\lfloor (n + 2p - f)/s \rfloor + 1$. |
-| [Transfer learning](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-2005) | Reusing a network trained by others on a big dataset for our own problem. |
 | [Labelled data](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1034) | Data that includes the output column. |

@@ -111,7 +111,7 @@ If Levene's test says the variances differ, we use **Welch's t-test** (G-2122), 
 
    $$t = -0.3/0.123 = -2.44$$
 
-5. Both tails count ($H_1$ is $\neq$): the area beyond $\pm 2.44$ is $p = 0.020$ with Welch's degrees of freedom (33.8). Since $0.020 < 0.05$, we reject $H_0$: the plant heights differ between the fields.
+5. Both tails count ($H_1$ is $\neq$): the area beyond $\pm 2.44$ is $p = 0.020$ with Welch's **degrees of freedom** (G-578) (33.8). Since $0.020 < 0.05$, we reject $H_0$: the plant heights differ between the fields.
 
 ![The tomato fields: the gap's variance is built from one part per field, its square root is the standard error 0.123 m, and $t = -0.3/0.123 = -2.44$ leaves $p = 0.020$ in the two red tails. Idea after Khan Academy, "Two-sample t test for difference of means"](images/tomato_t.gif){height=42%}
 
@@ -161,7 +161,7 @@ The standard error adds the two variances, each divided by its own sample size: 
 
 ## 3. Example: desktop and mobile users
 
-> **Key point:** $t = 5.20$ with 58 degrees of freedom gives $p = 0.000003$: desktop and mobile users spend different amounts of time on the site.
+> **Key point:** $t = 5.20$ with 58 **degrees of freedom** (G-578) gives $p = 0.000003$: desktop and mobile users spend different amounts of time on the site.
 
 A website owner claims there is no difference in the average time spent on the site between desktop and mobile users. To test this, we collect data from **30 desktop users** and **30 mobile users**:
 
@@ -184,7 +184,7 @@ The file `data/website_time.csv` holds 60 simulated values with exactly these su
    - random sampling: assumed;
    - normality: Shapiro-Wilk gives $p = 0.51$ (desktop) and $p = 0.77$ (mobile), no evidence against normality;
    - equal variances: Levene's test gives $p = 0.30$, no evidence of unequal variances.
-4. **Test.** Independent two-sample t-test, two-tailed.
+4. **Test.** **Independent two-sample t-test** (G-936), two-tailed.
 5. **Statistic.** $t = 5.20$, $df = 58$ (section 2.3).
 6. **P-value.** Both tails: $p = 2\thinspace P(T \ge 5.20) = 0.0000027$.
 7. **Decide.** $p \le 0.05$: reject $H_0$.
@@ -227,7 +227,7 @@ Our claim: first-class passengers were older on average than third-class passeng
    $$H_1: \mu_{\text{first}} > \mu_{\text{third}}$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** Each group has 40 values, so the central limit theorem covers normality (Shapiro-Wilk does reject it for the third-class ages, $p = 0.004$, which is why the sample size matters). Levene's test gives $p = 0.003$: the variances differ (standard deviations 14.2 and 9.5). The groups are independent and randomly sampled.
-4. **Test.** Because the variances differ, Welch's t-test (section 2.2), right-tailed.
+4. **Test.** Because the variances differ, **Welch's t-test** (G-2122) (section 2.2), right-tailed.
 5. **Statistic.** First class: $\bar{x} = 35.9$, $s = 14.2$. Third class: $\bar{x} = 21.2$, $s = 9.5$. Then $t = 5.46$, with Welch's $df = 68.1$.
 6. **P-value.** $p = P(T \ge 5.46) = 0.0000004$.
 7. **Decide.** $p \le 0.05$: reject $H_0$.
@@ -253,7 +253,7 @@ All 284 known first-class ages have a mean of **39.16** years and all 501 third-
 
 ## 5. The paired t-test
 
-> **Key point:** For two linked measurements of the same subjects, we take the difference per subject and run a one-sample t-test on the differences, with $H_0$: mean difference $= 0$.
+> **Key point:** For two linked measurements of the same subjects, we take the difference per subject and run a **one-sample t-test** (G-1382) on the differences, with $H_0$: **mean difference** (G-2237) $= 0$.
 
 ### 5.1 When to use it
 
@@ -275,7 +275,7 @@ $$H_0: \mu_d = 0$$
 
 $$H_1: \mu_d > 0$$
 
-From here on, a paired test is a one-sample t-test on the differences (section 5.3); Figure 6 in section 7 shows the pairs collapsing into their differences.
+From here on, a paired test is a **one-sample t-test** (G-1382) on the differences (section 5.3); Figure 6 in section 7 shows the pairs collapsing into their differences.
 
 
 ### 5.2 Assumptions
@@ -298,7 +298,7 @@ The same 5 students make up both samples. The three assumptions, on this example
 
 ### 5.3 The test statistic
 
-For each subject we compute the difference $d_i = x_{\text{before},i} - x_{\text{after},i}$. If $H_0$ is true, the mean difference $\mu_d = \mu_{\text{before}} - \mu_{\text{after}}$ is 0. The test is then a one-sample t-test of the differences against 0.
+For each subject we compute the difference $d_i = x_{\text{before},i} - x_{\text{after},i}$. If $H_0$ is true, the **mean difference** (G-2237) $\mu_d = \mu_{\text{before}} - \mu_{\text{after}}$ is 0. The test is then a **one-sample t-test** (G-1382) of the differences against 0.
 
 1. **In words:** the mean difference, in estimated standard errors of the mean difference.
 2. **Formula:**
@@ -343,7 +343,7 @@ A fitness centre evaluates a new 8-week weight-loss program. It enrols **15 part
    $$H_1: \mu_d > 0$$
 2. **Significance level.** $\alpha = 0.05$.
 3. **Assumptions.** The observations are paired (same people). Shapiro-Wilk on the 15 differences: $p = 0.16$, no evidence against normality. Participants do not influence each other.
-4. **Test.** Paired t-test, right-tailed.
+4. **Test.** **Paired t-test** (G-1439), right-tailed.
 5. **Statistic.** $t = -0.74$, $df = 14$ (section 5.3).
 6. **P-value.** $H_1$ points right, so $p = P(T \ge -0.74) = 0.76$.
 7. **Decide.** $0.76 > 0.05$: fail to reject $H_0$.
@@ -393,13 +393,13 @@ The result is typical, not a lucky table: averaged over 2000 simulated groups of
 
 Figure 6 joins each person's two weights and drops their change $d$ into the right panel. Watch the spread: the left dots range over 27 kg, the green $d$ values over 9 kg, because each person's weight is compared only with their own.
 
-> **Extra:** The variance of the mean difference shows when pairing pays off:
+> **Extra:** The variance of the **mean difference** (G-2237) shows when pairing pays off:
 > $$\operatorname{Var}(\bar{d}) = \frac{\sigma_1^2 + \sigma_2^2 - 2\rho\thinspace\sigma_1\sigma_2}{n}$$
 > Here $\rho$ is the correlation between the two measurements of a pair. The independent test ignores the last term, as if $\rho = 0$. A heavy person stays heavy, so $\rho$ is close to 1 and the paired variance is far smaller. If the pairs were barely linked ($\rho$ near 0), pairing would gain little.
 
 ## 8. Comparing two machine learning models
 
-> **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a paired t-test, keeping in mind that the folds are not fully independent.
+> **Key point:** Scores of two models on the same cross-validation folds are paired, so we compare them with a **paired t-test** (G-1439), keeping in mind that the folds are not fully independent.
 
 When two models are evaluated with k-fold cross-validation on the **same folds** (see [cross-validation with a pipeline](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline)), each fold gives a pair of scores, one per model, measured on the same test data, just as each person gives a pair of weights. So the fold-by-fold comparison is a paired t-test, `stats.ttest_rel(scores_a, scores_b)`, the "k-fold cross-validated paired t test" (G-510) (Dietterich 1998), one of the machine learning uses listed in [hypothesis testing in machine learning](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#62-in-machine-learning).
 
@@ -421,13 +421,13 @@ Figure 7 runs the test on scikit-learn's breast cancer data (569 tumours): scale
 | scipy | `ttest_1samp` | `ttest_ind` | `ttest_rel` |
 
 - Use the table's "Data" row to choose the test, because the design of the data (one sample, two separate groups, the same subjects twice) decides which $H_0$ and statistic apply.
-- The independent two-sample t-test compares two separate groups; Levene's test checks equal variances, and Welch's test drops that assumption, so when Levene rejects (Titanic ages, $p = 0.003$) use Welch's.
+- The **independent two-sample t-test** (G-936) compares two separate groups; Levene's test checks equal variances, and Welch's test drops that assumption, so when Levene rejects (Titanic ages, $p = 0.003$) use Welch's.
 - Desktop against mobile: $t = 5.20$, $p = 0.000003$, a clear difference, because $t$ lies more than twice as far out as the cutoffs.
 - Titanic first against third class, 40 each: Welch's $p = 0.0000004$; the true means differ by 14 years. A gap of 1.9 years (men against women) is detected only 10% of the time with 25 each, so a small gap needs a large sample, and failing to reject is no proof the means are equal.
-- The paired t-test is a one-sample t-test on the differences; the tail follows from $H_1$ and the sign convention of $d$, so taking the other tail or halving a two-sided p-value gives a wrong answer.
+- The paired t-test is a **one-sample t-test** (G-1382) on the differences; the tail follows from $H_1$ and the sign convention of $d$, so taking the other tail or halving a two-sided p-value gives a wrong answer.
 - Pairing removes between-subject variation and greatly raises power when the pairs are strongly linked, because each person is compared only with themselves, which shrinks the standard error (0.63 kg against 2.75 kg).
 - Weights 2 kg lower after: paired $p = 0.015$, independent $p = 0.29$, so analysing paired data as independent throws most of the power away. Model scores on shared folds are paired too, because each fold gives both models the same test data.
-- This answers the opening question: compare two separate groups with the independent two-sample t-test, and the same subjects measured twice with the paired t-test on their differences.
+- This answers the opening question: compare two separate groups with the independent two-sample t-test, and the same subjects measured twice with the **paired t-test** (G-1439) on their differences.
 
 ## 10. Sources
 

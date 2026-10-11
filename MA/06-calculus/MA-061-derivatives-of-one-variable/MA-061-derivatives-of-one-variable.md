@@ -14,7 +14,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/derivative, conce
 
 ## 1. Overview
 
-> **Key point:** The derivative of $f$ at $x$ is the slope of the tangent line there: the limit of the slope of a secant line as its two points move together.
+> **Key point:** The derivative of $f$ at $x$ is the slope of the tangent line there: the **limit** (G-1087) of the slope of a secant line as its two points move together.
 
 This Note follows Chapter 5 (Section 5.1) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
@@ -24,12 +24,12 @@ Figure 1 shows the whole idea of this Note. We draw a straight line through two 
 
 Earlier Notes already used derivatives as tools:
 
-- the derivative as the slope of a function at a point, set to zero in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum);
+- the derivative as the slope of a **function** (G-816) at a point, set to zero in [finding the minimum](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#4-finding-the-minimum);
 - stepping against the derivative in [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862);
-- the chain rule in [the derivation of the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation);
-- the Taylor series (a polynomial built from derivatives), in [the Taylor series of XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
+- the **chain rule** (G-371) in [the derivation of the sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#3-the-derivation);
+- the **Taylor series** (G-1954) (a polynomial built from derivatives), in [the Taylor series of XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series).
 
-This Note explains where the derivative comes from (Sections [3](#3-the-difference-quotient-slope-of-a-secant-line) and [4](#4-the-derivative-shrinking-the-step-to-zero)), collects the rules for computing it ([Section 5](#5-rules-for-computing-derivatives)) and adds the Taylor polynomial ([Section 6](#6-taylor-polynomials)). The next Notes extend all of this to functions of many variables, which is what ML losses are.
+This Note explains where the derivative comes from (Sections [3](#3-the-difference-quotient-slope-of-a-secant-line) and [4](#4-the-derivative-shrinking-the-step-to-zero)), collects the rules for computing it ([Section 5](#5-rules-for-computing-derivatives)) and adds the **Taylor polynomial** (G-1953) ([Section 6](#6-taylor-polynomials)). The next Notes extend all of this to functions of many variables, which is what ML losses are.
 
 ## 2. Functions: one number in, one number out
 
@@ -61,7 +61,7 @@ The set of allowed inputs is the **domain** (G-632); the set the outputs live in
 
 ## 3. The difference quotient: slope of a secant line
 
-> **Key point:** Rise over run between two points of the curve, $x$ and $x + h$, is the slope of the secant line through them: the average slope of $f$ over that stretch.
+> **Key point:** Rise over run between two points of the curve, $x$ and $x + h$, is the slope of the **secant line** (G-1758) through them: the average slope of $f$ over that stretch.
 
 Start with a car. It leaves a point A, speeds up, slows down and stops at a point B, 100 metres away, 10 seconds later. The top panel of Figure 3 plots the distance covered against time. The curve is shallow at the start (slow), steep in the middle (fast) and shallow again at the end.
 
@@ -104,11 +104,11 @@ The secant line has slope 3 (top-left frame of Figure 1). The secant slope is th
 
 ## 4. The derivative: shrinking the step to zero
 
-> **Key point:** As $h \to 0$, the secant slope approaches one number, the slope of the tangent line; that limit is the derivative $f'(x)$.
+> **Key point:** As $h \to 0$, the secant slope approaches one number, the slope of the tangent line; that **limit** (G-1087) is the derivative $f'(x)$.
 
 ### 4.1 From secant to tangent
 
-> **Key point:** Make $h$ smaller and smaller, and watch where the difference quotient settles.
+> **Key point:** Make $h$ smaller and smaller, and watch where the **difference quotient** (G-604) settles.
 
 For $f(x) = x^2$ at $x = 1$, smaller steps give:
 
@@ -116,9 +116,9 @@ For $f(x) = x^2$ at $x = 1$, smaller steps give:
 |---|---|---|---|---|---|
 | $\dfrac{(1 + h)^2 - 1}{h}$ | 3 | 2.5 | 2.1 | 2.01 | 2.001 |
 
-The slopes approach 2. Figure 1 shows the same thing as a picture: the secant line turns until, in the limit, it touches the curve at one point. That limiting line is the **tangent line**.
+The slopes approach 2. Figure 1 shows the same thing as a picture: the **secant line** (G-1758) turns until, in the limit, it touches the curve at one point. That limiting line is the **tangent line**.
 
-1. **In words:** the derivative of $f$ at $x$ is the value the difference quotient approaches as the step $h$ shrinks to zero.
+1. **In words:** the **derivative** (G-595) of $f$ at $x$ is the value the difference quotient approaches as the step $h$ shrinks to zero.
 2. **Formula:**
    $$f'(x) = \frac{df}{dx} = \lim_{h \to 0} \frac{f(x + h) - f(x)}{h}$$
    $\lim_{h \to 0}$, the **limit** (G-1087), means "the value this approaches as $h$ gets as close to 0 as we like". We never set $h = 0$ itself, which would give $0/0$.
@@ -134,11 +134,11 @@ The slopes approach 2. Figure 1 shows the same thing as a picture: the secant li
 
 ![A square of side $x = 1$ grows by $h$. The new area is two orange strips of area $xh$ and a green corner $h^2$, so the change divided by $h$ is $2x + h$. Key frames: $h = 1$, $0.5$, $0.1$, and the limit](images/square_area.gif)
 
-Figure 5 shows the same algebra as areas. Watch the green corner: it is $h^2$, so it shrinks much faster than the two strips, and only the strips, $2xh$, are left to divide by $h$. The picture is Sanderson's (3Blue1Brown, "Power Rule through geometry"), redrawn with our numbers.
+Figure 5 shows the same algebra as areas. Watch the green corner: it is $h^2$, so it shrinks much faster than the two strips, and only the strips, $2xh$, are left to divide by $h$. The picture is Sanderson's (3Blue1Brown, "**Power Rule** (G-1540) through geometry"), redrawn with our numbers.
 
-A derivative is often called an "instantaneous rate of change". The car shows why that phrase needs care: nothing changes in a single instant. The derivative is the number the two-moment ratio settles on as the two moments close in. A safe reading is: the derivative is the best constant rate of change near the point. For the car at $t = 3$, the ratio settles on 12.6 m/s.
+A derivative is often called an "instantaneous **rate of change** (G-1635)". The car shows why that phrase needs care: nothing changes in a single instant. The derivative is the number the two-moment ratio settles on as the two moments close in. A safe reading is: the derivative is the best constant rate of change near the point. For the car at $t = 3$, the ratio settles on 12.6 m/s.
 
-The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A function whose derivative exists at a point is **differentiable** (G-606) there. Gradient descent uses the derivative of the loss at every step, so it needs a loss that is differentiable.
+The two names $f'(x)$ and $\dfrac{df}{dx}$ mean the same thing. A **function** (G-816) whose derivative exists at a point is **differentiable** (G-606) there. **Gradient descent** (G-862) uses the derivative of the loss at every step, so it needs a loss that is differentiable.
 
 ### 4.2 The power rule from the definition
 
@@ -170,13 +170,13 @@ The picture is Figure 5 one dimension up. Read $x^3$ as the volume of a cube of 
 > $$(x + h)^n = x^n + n x^{n-1}h$$
 > $$\qquad + (\text{terms with } h^2, h^3, \dots)$$
 >
-> Subtracting $x^n$ and dividing by $h$ leaves $n x^{n-1}$ plus terms that all still contain $h$, so the limit is $n x^{n-1}$, exactly as for $n = 3$.
+> Subtracting $x^n$ and dividing by $h$ leaves $n x^{n-1}$ plus terms that all still contain $h$, so the **limit** (G-1087) is $n x^{n-1}$, exactly as for $n = 3$.
 
 ### 4.3 What the sign of the derivative tells us
 
-> **Key point:** A positive derivative means $f$ rises as $x$ grows; a negative one means it falls. So the derivative points uphill.
+> **Key point:** A positive **derivative** (G-595) means $f$ rises as $x$ grows; a negative one means it falls. So the derivative points uphill.
 
-The derivative is the rate of change of the output per unit of input, near $x$. Its sign says which way is uphill:
+The derivative is the **rate of change** (G-1635) of the output per unit of input, near $x$. Its sign says which way is uphill:
 
 - $f'(x) > 0$: increasing $x$ increases $f$;
 - $f'(x) < 0$: increasing $x$ decreases $f$;
@@ -207,11 +207,11 @@ The sign is all [**gradient descent**](../../../ML/06-regression/ML-056-gradient
 
 ## 5. Rules for computing derivatives
 
-> **Key point:** We rarely take limits by hand: a short table of basic derivatives plus four rules (sum, product, quotient, chain) gives the derivative of any formula built from them.
+> **Key point:** We rarely take **limits** (G-1087) by hand: a short table of basic derivatives plus four rules (sum, product, quotient, chain) gives the derivative of any formula built from them.
 
 ### 5.1 Basic derivatives
 
-> **Key point:** These few derivatives, combined by the rules below, cover the functions ML uses.
+> **Key point:** These few **derivatives** (G-595), combined by the rules below, cover the functions ML uses.
 
 | $f(x)$ | $f'(x)$ | Where ML meets it |
 |---|---|---|
@@ -222,7 +222,7 @@ The sign is all [**gradient descent**](../../../ML/06-regression/ML-056-gradient
 | $\sin x$ | $\cos x$ | |
 | $\cos x$ | $-\sin x$ | |
 
-Each entry can be proved from the limit definition, as we did for $x^n$. Two of them have a short picture proof.
+Each entry can be proved from the **limit** (G-1087) definition, as we did for $x^n$. Two of them have a short picture proof.
 
 **Why the derivative of $\sin$ is $\cos$.** Walk a distance $\theta$ around a circle of radius 1, starting from its rightmost point. The height of the point reached is $\sin\theta$ (left of Figure 6). Now take one more tiny step $d\theta$ along the circle.
 
@@ -251,13 +251,13 @@ At $x = 2$:
 
 $$-\frac{1}{2^2} = -\frac{1}{4} = -0.25$$
 
-The power rule agrees: $1/x = x^{-1}$, so the derivative is $-1 \cdot x^{-2}$.
+The **power rule** (G-1540) agrees: $1/x = x^{-1}$, so the derivative is $-1 \cdot x^{-2}$.
 
 ### 5.2 Sum, product and quotient rules
 
-> **Key point:** Derivatives of a sum add up; a product and a quotient have their own fixed patterns.
+> **Key point:** **Derivatives** (G-595) of a sum add up; a product and a quotient have their own fixed patterns.
 
-Each rule combines two functions, $f$ and $g$, whose derivatives $f'$ and $g'$ we already know. Each rule below names its own $f$ and $g$ with numbers first.
+Each rule combines two **functions** (G-816), $f$ and $g$, whose derivatives $f'$ and $g'$ we already know. Each rule below names its own $f$ and $g$ with numbers first.
 
 **Sum rule:** the derivative of a sum is the sum of the derivatives.
 
@@ -319,7 +319,7 @@ $$\big(f(x)\thinspace g(x)\big)' = f'(x)\thinspace g(x) + f(x)\thinspace g'(x)$$
 
 ![The product $f g$ as the area of a rectangle with sides $f = x^2$ and $g = 3x + 1$ (1 by 4 at $x = 1$). Nudging $x$ by $h$ adds a right strip $g\thinspace df$, a top strip $f\thinspace dg$ and a tiny corner; the change divided by $h$ settles at 11](images/product_area.gif)
 
-Figure 7 draws the product rule as a growing rectangle, again after Sanderson (3Blue1Brown, "Visualizing the chain rule and product rule"). The sides are $f = x^2$ and $g = 3x + 1$, so the area is the product. Watch the corner $df\thinspace dg$ vanish: what remains is one strip per factor, the 8 and the 3 above.
+Figure 7 draws the product rule as a growing rectangle, again after Sanderson (3Blue1Brown, "Visualizing the **chain rule** (G-371) and product rule"). The sides are $f = x^2$ and $g = 3x + 1$, so the area is the product. Watch the corner $df\thinspace dg$ vanish: what remains is one strip per factor, the 8 and the 3 above.
 
 **Quotient rule** (G-1609): for a fraction.
 
@@ -357,7 +357,7 @@ $$\left(\frac{f(x)}{g(x)}\right)' = \frac{f'(x)\thinspace g(x) - f(x)\thinspace 
 
 ### 5.3 The chain rule
 
-> **Key point:** For a function of a function, multiply the outer derivative (evaluated at the inside) by the inner derivative.
+> **Key point:** For a function of a function, multiply the outer **derivative** (G-595) (evaluated at the inside) by the inner derivative.
 
 Start with two straight lines (Figure 8). Suppose weight predicts height, and height predicts shoe size:
 
@@ -384,7 +384,7 @@ $$= \frac14 \times 2 = \frac12$$
 
 ![Two lines chained together: height = 2 × weight (left) and shoe size = ¼ × height (right). As the weight moves from 2 to 5, the height moves twice as far and the shoe size half as far as the weight: ¼ × 2 = ½. Numbers after StatQuest, "The Chain Rule, Clearly Explained!!!"](images/chain_shoe.gif)
 
-In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371). The [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) used it: to differentiate a function of a function, multiply the outer derivative by the inner derivative. We write it once more with the notation of [**composition**](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
+In Figure 8, watch the two dots: each unit of weight moves the left dot up by 2 and the right dot up by $\tfrac12$. Multiplying the rates along the chain is the [**chain rule**](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371). The [sigmoid derivative](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) used it: to differentiate a function of a **function** (G-816), multiply the outer derivative by the inner derivative. We write it once more with the notation of [**composition**](../../05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431): $g \circ f$ means "first $f$, then $g$", so $(g \circ f)(x) = g(f(x))$.
 
 1. **In words:** differentiate the outer function, leaving the inside untouched, then multiply by the derivative of the inside.
 2. **Formula:**
@@ -442,19 +442,19 @@ The loss is lowest where this derivative is 0, at $b = 1$: the line then passes 
 
 ## 6. Taylor polynomials
 
-> **Key point:** Near a point $x_0$, a function is approximated by a polynomial built from its derivatives at $x_0$; the degree-1 polynomial is the tangent line.
+> **Key point:** Near a point $x_0$, a function is approximated by a polynomial built from its **derivatives** (G-595) at $x_0$; the degree-1 polynomial is the **tangent line** (G-1945).
 
-[The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) introduced the [**Taylor series**](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954): near a point, a smooth function is approximated by a **polynomial** (a sum of powers of $x$ such as $1 - \tfrac12 x^2$) built from its value and derivatives there. It worked through $e^x$, adding terms up to $x^3/6$. Here we name the pieces and add what is new.
+[The Taylor series in XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) introduced the [**Taylor series**](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954): near a point, a smooth **function** (G-816) is approximated by a **polynomial** (a sum of powers of $x$ such as $1 - \tfrac12 x^2$) built from its value and derivatives there. It worked through $e^x$, adding terms up to $x^3/6$. Here we name the pieces and add what is new.
 
 ### 6.1 Building one by hand: match the value, the slope and the bend
 
-> **Key point:** Choose a polynomial's coefficients one at a time so that it has the same value, the same slope and the same bend as the function at one point.
+> **Key point:** Choose a polynomial's coefficients one at a time so that it has the same value, the same slope and the same bend as the **function** (G-816) at one point.
 
 Take $\cos x$ near $x = 0$. We want a simple polynomial $c_0 + c_1 x + c_2 x^2$ that stays as close to $\cos x$ as possible near 0. Figure 10 builds it in steps.
 
 1. **Match the value.** $\cos 0 = 1$, and the polynomial at 0 is $c_0$. So $c_0 = 1$.
 2. **Match the slope.** The slope of $\cos x$ at 0 is $-\sin 0 = 0$: the curve is flat at its top. The slope of the polynomial at 0 is $c_1$. So $c_1 = 0$.
-3. **Match the bend.** The cosine curves downwards at 0. The [**second derivative**](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), the derivative of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
+3. **Match the bend.** The cosine curves downwards at 0. The [**second derivative**](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249), the **derivative** (G-595) of the derivative, measures this bend: for $\cos x$ it is $-\cos 0 = -1$. For the polynomial it is $2c_2$. So $2c_2 = -1$ and $c_2 = -\tfrac12$.
 
 The result is
 
@@ -491,9 +491,9 @@ The general formula of [Section 6.2](#62-the-taylor-polynomial-of-degree-n) is t
 
 ### 6.2 The Taylor polynomial of degree n
 
-> **Key point:** Keep the terms up to $(x - x_0)^n$ of the Taylor series: that finite sum is the Taylor polynomial $T_n$.
+> **Key point:** Keep the terms up to $(x - x_0)^n$ of the **Taylor series** (G-1954): that finite sum is the Taylor polynomial $T_n$.
 
-We write $f^{(k)}$ for the $k$-th derivative: $f^{(0)} = f$, $f^{(1)} = f'$, $f^{(2)} = f''$, and so on. The number $k!$ is called $k$ factorial, with $0! = 1$:
+We write $f^{(k)}$ for the $k$-th **derivative** (G-595): $f^{(0)} = f$, $f^{(1)} = f'$, $f^{(2)} = f''$, and so on. The number $k!$ is called $k$ factorial, with $0! = 1$:
 
 $$k! = 1 \cdot 2 \cdots k$$
 
@@ -527,13 +527,13 @@ Figure 11 shows the pattern. Near $x_0$ every polynomial is close to $\sin x$. F
 
 ### 6.3 Degree 1: the tangent line
 
-> **Key point:** $T_1(x) = f(x_0) + f'(x_0)(x - x_0)$ is the tangent line at $x_0$; using it in place of $f$ is called linearisation.
+> **Key point:** $T_1(x) = f(x_0) + f'(x_0)(x - x_0)$ is the **tangent line** (G-1945) at $x_0$; using it in place of $f$ is called linearisation.
 
 The first two terms are
 
 $$T_1(x) = f(x_0) + f'(x_0)\thinspace(x - x_0)$$
 
-a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line of Figure 1. Replacing a function by its tangent line near a point is called **linearisation** (G-1099).
+a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line of Figure 1. Replacing a **function** (G-816) by its tangent line near a point is called **linearisation** (G-1099).
 
 1. **In words:** start at the known height and follow the slope for the distance moved.
 2. **Formula:** for $x$ near $x_0$,
@@ -556,11 +556,11 @@ Linearisation is the picture behind [**gradient descent**](../../../ML/06-regres
 
 ### 6.4 A polynomial is its own Taylor polynomial
 
-> **Key point:** For a polynomial of degree $k$, all derivatives beyond the $k$-th are zero, so $T_n$ with $n \geq k$ reproduces it exactly.
+> **Key point:** For a polynomial of degree $k$, all **derivatives** (G-595) beyond the $k$-th are zero, so $T_n$ with $n \geq k$ reproduces it exactly.
 
-For a function that is not a polynomial, such as $\sin x$, a Taylor polynomial is only an approximation. For a polynomial it can be exact.
+For a **function** (G-816) that is not a polynomial, such as $\sin x$, a **Taylor polynomial** (G-1953) is only an approximation. For a polynomial it can be exact.
 
-1. **In words:** a polynomial of degree 3 has a zero fourth derivative, so the Taylor series stops after the cube term and nothing is lost.
+1. **In words:** a polynomial of degree 3 has a zero fourth derivative, so the **Taylor series** (G-1954) stops after the cube term and nothing is lost.
 2. **Formula:** if $f$ is a polynomial of degree $k$, then $T_n = f$ for every $n \geq k$.
 3. **Example:** $f(x) = x^3$ at $x_0 = 2$. The derivatives at 2, one per line:
    $$f(2) = 2^3 = 8$$
@@ -590,7 +590,7 @@ Exactness for polynomials explains a result of [the second-order approximation o
 
 > **Extra:** A function equal to its Taylor series everywhere near $x_0$ is called **analytic** (G-197); $e^x$, $\sin x$ and $\cos x$ are, at every point. A Taylor series is one example of a **power series** (G-1541), $\sum a_k (x - c)^k$, a polynomial with infinitely many terms. Functions such as `np.sin` and `np.exp` are computed with polynomial approximations too (Muller 2016).
 
-> **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the second derivative at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of [leaf values in log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#8-leaf-values-in-log-odds). [The quadratic approximation](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#4-bending-the-plane-the-quadratic-approximation) does the same with many variables.
+> **Extra:** Degree 2 is where the curvature enters: $T_2$ is the parabola that matches the value, the slope and the **second derivative** (G-2249) at $x_0$. Jumping to the lowest point of that parabola is the **Newton step** of [leaf values in log-odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#8-leaf-values-in-log-odds). [The quadratic approximation](../MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#4-bending-the-plane-the-quadratic-approximation) does the same with many variables.
 
 ## 7. Summary
 
@@ -603,10 +603,10 @@ Exactness for polynomials explains a result of [the second-order approximation o
 | Taylor polynomial | sum of $f^{(k)}(x_0)(x - x_0)^k / k!$ up to $k = n$ | $\sin 0.5 \approx T_5 = 0.47943$ | swaps a hard function for a polynomial near a point |
 | Linearisation | $f(x_0) + f'(x_0)(x - x_0)$ | $\sqrt{4.1} \approx 2.025$ | the picture behind each gradient-descent step; reliable only near $x_0$ |
 
-- The difference quotient is the slope of a secant line; its limit as $h \to 0$ is the slope of the tangent line, the derivative, so the derivative is the rate of change of $f$ at one point.
-- The sign of the derivative says which way is uphill; gradient descent moves the other way, so the sign alone tells it which way to step.
-- Sum, product, quotient and chain rules build the derivative of any formula from a short table, so we rarely take limits by hand.
-- A Taylor polynomial approximates a function near a point; degree 1 is the tangent line, and a polynomial is reproduced exactly, because its derivatives beyond its degree are zero.
+- The difference quotient is the slope of a secant line; its **limit** (G-1087) as $h \to 0$ is the slope of the tangent line, the derivative, so the derivative is the **rate of change** (G-1635) of $f$ at one point.
+- The sign of the **derivative** (G-595) says which way is uphill; gradient descent moves the other way, so the sign alone tells it which way to step.
+- Sum, product, quotient and **chain rules** (G-371) build the derivative of any formula from a short table, so we rarely take limits by hand.
+- A Taylor polynomial approximates a function near a point; degree 1 is the **tangent line** (G-1945), and a polynomial is reproduced exactly, because its derivatives beyond its degree are zero.
 - So the derivative is the slope of the tangent line, found as the limit of secant slopes, and it tells an optimiser which way $f$ goes up.
 
 ## 8. Sources
@@ -631,29 +631,29 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Limit (G-1087) | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). |
 | Secant line (G-1758) | A straight line through two points of a curve; as the second point slides towards the first, it turns into the tangent line, whose slope is the derivative. |
 | Tangent line (G-1945) | The line that touches a curve at one point with the curve's slope there; the limit of secant lines. |
 | Derivative (G-595) | The slope of a function at a point: how fast the output changes as the input changes there. It is zero at the lowest point of a smooth curve, which is how training finds a minimum. |
 | Function (G-816) | A rule that assigns exactly one output to every input, written $f: \mathbb{R} \to \mathbb{R}$, $x \mapsto f(x)$. |
+| Taylor polynomial (G-1953) | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
 | Domain (G-632) | The set of allowed inputs of a function. |
 | Codomain (G-405) | The set in which a function's outputs lie. |
 | Rate of change (G-1635) | How much one quantity changes per unit change of another; the meaning of a derivative. |
 | Difference quotient (G-604) | The average slope of a function over a step $h$: the change in output divided by the change in input, $(f(x + h) - f(x))/h$, the slope of the secant line. Shrinking $h$ towards 0 gives the derivative. |
-| Limit (G-1087) | The value an expression approaches as a quantity (such as $h$) gets arbitrarily close to a target (such as 0). |
-| Differentiable (G-606) | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
 | Power rule (G-1540) | The rule for differentiating a power of $x$: bring the power down in front and lower the power by one, $(x^n)' = n x^{n-1}$. |
+| Differentiable (G-606) | Having a derivative (one clear slope) at a point, or at every point; the absolute value $\lvert m \rvert$ is not, at its corner $m = 0$. Gradient descent needs a differentiable loss. |
 | Numerical derivative (G-1368) | An estimate of a derivative straight from its definition: the change in the function over a small step $h$, divided by $h$ (a finite difference); a computer can get it from function values alone. |
 | Central difference (G-363) | A way to estimate a slope from two nearby points, one small step $h$ on each side: $(f(x + h) - f(x - h))/(2h)$ (a numerical derivative). It is more accurate than a one-sided step. |
 | Product rule (G-1577) | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
 | Quotient rule (G-1609) | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
-| Taylor polynomial (G-1953) | A polynomial built from a function's value and its first $n$ derivatives at one point $x_0$, used to approximate the function near $x_0$; it is the Taylor series cut after the $(x - x_0)^n$ term. |
 | Maclaurin series (G-1142) | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
 | Linearisation (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
 | Analytic function (G-197) | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
 | Power series (G-1541) | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Chain rule](../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
+| [Taylor series](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954) | Approximation of a function near a point by a polynomial built from its derivatives there. |
 | [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |
 | [Error (residual)](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#34-the-best-fit-line) (G-705) | The gap between an actual value and the model's prediction on one data point: actual minus predicted. |
-| [Taylor series](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#7-the-taylor-series) (G-1954) | Approximation of a function near a point by a polynomial built from its derivatives there. |
 | [Second derivative](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#2-the-second-derivative-how-a-curve-bends) (G-2249) | The derivative of the derivative; it measures how the curve bends. |

@@ -60,7 +60,7 @@ These runs used a GPU, which does not repeat results exactly, so each point is t
 
 Suppose that, by chance, every cat in our training photos faces left. A network can pick up "faces left" as a sign of a cat, a feature that is useless, even harmful, for new photos. Flipping the photos left to right gives cats facing right too, and the network learns that the direction does not matter. Augmentation removes such accidental patterns, so the network [**generalises**](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) better: it performs well on photos it has not seen.
 
-Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (see [the ImageNet challenge](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial overfitting" (Krizhevsky et al. 2012, §4.1).
+Goodfellow et al. (2016, §7.4) call dataset augmentation "a particularly effective technique for a specific classification problem: object recognition". AlexNet, the winner of the 2012 ImageNet competition (see [the ImageNet challenge](../DL-051-pretrained-models/DL-051-pretrained-models.md#5-the-imagenet-challenge-ilsvrc)), used random shifts and horizontal flips, and its authors report that "without this scheme, our network suffers from substantial **overfitting** (G-1429)" (Krizhevsky et al. 2012, §4.1).
 
 ## 4. The transformations
 
@@ -88,7 +88,7 @@ Shorten and Khoshgoftaar (2019, pp. 7–8) list the same basic manipulations, to
 
 Not every transformation suits every problem. A vertical flip would show cats upside down, with their legs up and their head down. Real cat photos almost never look like that, so vertical flips teach the network nothing useful, and we leave them out.
 
-Shorten and Khoshgoftaar (2019, p. 7) call this the **safety** (G-1719) of an augmentation: "its likelihood of preserving the label post-transformation. For example, rotations and flips are generally safe on ImageNet challenges such as cat versus dog, but not safe for digit recognition tasks such as 6 versus 9". Goodfellow et al. (2016, §7.4, p. 237) give the same warning for letters: "b" and "d" differ only by a horizontal flip.
+Shorten and Khoshgoftaar (2019, p. 7) call this the **safety** (G-1719) of an augmentation: "its likelihood of preserving the label post-transformation. For example, rotations and flips are generally safe on ImageNet challenges such as cat versus dog, but not safe for digit recognition tasks such as 6 versus 9". Goodfellow et al. (2016, §7.4, p. 237) give the same warning for letters: "b" and "d" differ only by a **horizontal flip** (G-903).
 
 ### 4.3 Filling the empty pixels
 
@@ -145,7 +145,7 @@ Augmentation changes the training photos only. The validation and test photos st
 
 ![The augmentation pipeline of section 6.1 called three times in training mode (top) and three times in inference mode (bottom).](images/train_vs_infer.png)
 
-Also note that the network never trains on the original photos as such. In each epoch, every training photo passes through the random layers and the network sees only the transformed version: a different one each epoch (Figure 1).
+Also note that the network never trains on the original photos as such. In each **epoch** (G-696), every training photo passes through the random layers and the network sees only the transformed version: a different one each epoch (Figure 1).
 
 ## 6. Experiment: 2,000 photos with and without augmentation
 
@@ -185,7 +185,7 @@ Both models train for 60 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL
 
 ### 6.2 Results
 
-> **Key point:** Without augmentation, validation accuracy peaks at epoch 7 and the validation loss then climbs from 0.57 to 3.78. With augmentation, training and validation accuracy rise together for all 60 epochs.
+> **Key point:** Without augmentation, validation accuracy peaks at **epoch** (G-696) 7 and the validation loss then climbs from 0.57 to 3.78. With augmentation, training and validation accuracy rise together for all 60 epochs.
 
 ![Training (blue) and validation (orange) accuracy without (left) and with (right) augmentation, 2,000 training photos. Thin lines: 3 seeds; thick lines: their mean](images/curves.png){width=100%}
 
@@ -215,10 +215,10 @@ Augmentation is not a full substitute for more data: the new versions are variat
 | Test accuracy | 72.4% | 78.2% |
 | Overfitting | strong: gap 0.28, validation loss rising | small: gap 0.02 |
 
-- Data augmentation creates new training images by random, label-preserving changes: flips, rotations, shifts, zooms, shears, so each change is a new labelled example without a new photo.
-- It helps when data is scarce and expensive, and it reduces overfitting, because every epoch shows new versions of the photos, so the network cannot memorise them and must learn features that survive a flip, a rotation or a zoom.
+- **Data augmentation** (G-531) creates new training images by random, label-preserving changes: flips, rotations, shifts, zooms, shears, so each change is a new labelled example without a new photo.
+- It helps when data is scarce and expensive, and it reduces **overfitting** (G-1429), because every epoch shows new versions of the photos, so the network cannot memorise them and must learn features that survive a flip, a rotation or a zoom.
 - Only safe transformations: no vertical flips for cats, no flips for 6 and 9, because the label must still be true after the change.
-- In Keras 3, use the random preprocessing layers; they act only during training, so the same model sees each photo unchanged at prediction time.
+- In Keras 3, use the **random preprocessing layers** (G-1615); they act only during training, so the same model sees each photo unchanged at prediction time.
 - Validation and test images are never augmented, because they stand for the real photos the model will meet.
 
 ## 8. Sources
@@ -253,8 +253,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `ImageDataGenerator` (G-95) | An older Keras class for image augmentation: it makes randomly rotated, shifted, zoomed or flipped copies of training images; now deprecated in favour of `image_dataset_from_directory` and preprocessing layers. |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Generalisation (generalise)](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#62-why-it-matters) (G-838) | How well a model performs on new data it was not trained on. |
+| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [RMSProp](../../../DL/03-optimizers/DL-037-rmsprop/DL-037-rmsprop.md#1-overview) (G-1697) | An optimizer that divides each parameter's step by the root of a running average (EWMA) of its recent squared gradients, $v_t = \beta v_{t-1} + (1-\beta)g_t^2$; old gradients fade, so unlike AdaGrad the learning rate does not shrink to nothing. |
-| [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |

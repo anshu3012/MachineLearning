@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/optimizers
 
 ## 1. Overview
 
-> **Key point:** An optimizer is the rule that turns gradients into weight updates. Plain gradient descent has five weak spots: choosing the learning rate, fixed learning-rate schedules, one learning rate for every direction, local minima and saddle points. The improved optimizers fix them with two ideas: build up speed, and adapt the learning rate.
+> **Key point:** An optimizer is the rule that turns gradients into weight updates. Plain gradient descent has five weak spots: choosing the learning rate, fixed **learning-rate schedules** (G-1070), one learning rate for every direction, local minima and saddle points. The improved optimizers fix them with two ideas: build up speed, and adapt the learning rate.
 
 Training a deep network can take a long time, so a lot of work goes into making it faster. Three techniques already help:
 
@@ -28,7 +28,7 @@ The fourth, and probably the most important for speed, is the [**optimizer**](..
 
 ![The optimizers ahead. Momentum and NAG build up speed; AdaGrad and RMSProp adapt the learning rate; Adam combines both](images/optimizer_family.png){width=100%}
 
-Figure 1 is the plan. Each optimizer is a small change to gradient descent, not something new from scratch. Several of them rely on one tool, the [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735), which comes first.
+Figure 1 is the plan. Each optimizer is a small change to **gradient descent** (G-862), not something new from scratch. Several of them rely on one tool, the [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735), which comes first.
 
 ## 2. Prerequisites
 
@@ -50,7 +50,7 @@ $$\text{total: } 6 + 3 = 9$$
 
 ![A 2-2-1 network has 9 weights and biases. The loss turns those 9 numbers into one score, and training searches for the 9 values with the lowest loss](images/params_to_loss.png){width=85%}
 
-Figure 2 shows the whole job of an optimizer: 9 numbers go in, one loss comes out, and we want the lowest loss.
+Figure 2 shows the whole job of an **optimizer** (G-1401): 9 numbers go in, one loss comes out, and we want the lowest loss.
 
 Training must find values of these 9 numbers for which the network's predictions $\hat{y}$ are as close as possible to the true values $y$. The loss measures the gap between $y$ and $\hat{y}$, so training is an **optimisation problem** (G-1399): minimise the loss. The weights and biases at the minimum are the network's best parameters.
 
@@ -60,7 +60,7 @@ The loss is a function of all 9 parameters, so its graph lives in 10 dimensions,
 
 > **Key point:** Gradient descent moves every weight a small step against its slope, again and again. Batch, stochastic and mini-batch gradient descent differ only in how many rows of the data they use for each step.
 
-The optimizer used so far is [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862). In plain words: stand on the loss surface, feel which way is uphill, and take one small step the other way. One step on a small example, with two weights and the loss $L = w_1^2 + w_2^2$, starting at $w_1 = 3$, $w_2 = 4$ with step size $\eta = 0.1$:
+The **optimizer** (G-1401) used so far is [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862). In plain words: stand on the loss surface, feel which way is uphill, and take one small step the other way. One step on a small example, with two weights and the loss $L = w_1^2 + w_2^2$, starting at $w_1 = 3$, $w_2 = 4$ with step size $\eta = 0.1$:
 
 $$L = 3^2 + 4^2 = 25$$
 
@@ -100,7 +100,7 @@ So we already have three optimizers. The next section explains why we need more.
 
 ## 5. Five weak spots of plain gradient descent
 
-> **Key point:** Gradient descent is hard to tune (learning rate, schedule), treats every direction the same, and can get stuck at local minima and saddle points. Training then becomes slow, or ends at a poor solution.
+> **Key point:** Gradient descent is hard to tune (learning rate, schedule), treats every direction the same, and can get stuck at local minima and **saddle points** (G-1718). Training then becomes slow, or ends at a poor solution.
 
 These five challenges are the standard list for plain mini-batch gradient descent (Ruder 2016, §3).
 
@@ -125,7 +125,7 @@ A [**learning-rate schedule**](../../02-training/DL-021-improving-a-neural-netwo
 
 > **Key point:** All parameters share one learning rate. When the loss is steep in one direction and flat in another, a rate safe for the steep direction is far too slow for the flat one.
 
-With 9 parameters, the loss surface has 9 directions to move in. Gradient descent uses the same $\eta$ for all of them, so it descends at the same "speed setting" in every direction. We cannot give $w_1$ one learning rate and $w_2$ another.
+With 9 parameters, the loss surface has 9 directions to move in. **Gradient descent** (G-862) uses the same $\eta$ for all of them, so it descends at the same "speed setting" in every direction. We cannot give $w_1$ one learning rate and $w_2$ another.
 
 The loss is often very sensitive to some directions and insensitive to others (Goodfellow et al. 2016, §8.5). Take a narrow valley,
 
@@ -181,7 +181,7 @@ Even the best learning rate needs 223 steps, all because the steep direction cap
 
 ### 5.4 Local minima
 
-> **Key point:** A network's loss has many dips. Gradient descent stops in the first one it reaches, which may be a local minimum with a worse loss than the global one.
+> **Key point:** A network's loss has many dips. **Gradient descent** (G-862) stops in the first one it reaches, which may be a local minimum with a worse loss than the global one.
 
 The loss of a neural network is non-convex (a **non-convex function**, G-1333): it has several minima ([what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)). The best solution is the **global minimum**, the weights with the lowest loss of all. Gradient descent stops wherever the slope is zero, so starting from an unlucky point it settles in a [**local minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) and returns a sub-optimal solution. Stochastic gradient descent's zigzag gives it some chance to jump out; batch and mini-batch gradient descent have less ([the path to the minimum](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum)).
 
@@ -195,7 +195,7 @@ $$w_{t+1} = w_t - \eta \times 0$$
 
 $$= w_t$$
 
-Saddle points are usually surrounded by a [**plateau**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) where the gradient is close to zero in every direction, so gradient descent crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
+Saddle points are usually surrounded by a [**plateau**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) where the gradient is close to zero in every direction, so **gradient descent** (G-862) crawls there for a long time even though the point is not a solution (Ruder 2016, §3).
 
 Figure 6 shows the crawl on the simplest saddle, $L = w_1^2 - w_2^2$, which rises along $w_1$ and falls along $w_2$. Gradient descent starts at $(1.5, 0.001)$, almost exactly on the ridge, with learning rate 0.1.
 
@@ -223,13 +223,13 @@ The saddle did not stop gradient descent, but most of the steps were spent on th
 
 > **Key point:** Training is either very slow, or it ends at a poor solution.
 
-Because of these weak spots, plain gradient descent either trains slowly (a tiny learning rate, a flat direction, a plateau) or stops at a worse solution than it could reach (a local minimum). The optimizers that follow are designed to do better on both counts.
+Because of these weak spots, plain gradient descent either trains slowly (a tiny learning rate, a flat direction, a plateau) or stops at a worse solution than it could reach (a **local minimum** (G-1110)). The optimizers that follow are designed to do better on both counts.
 
 ## 6. The optimizers ahead
 
-> **Key point:** Momentum, NAG, AdaGrad, RMSProp and Adam. Each is a small change to the gradient descent update, and most of them use an exponentially weighted moving average.
+> **Key point:** Momentum, NAG, AdaGrad, RMSProp and Adam. Each is a small change to the **gradient descent** (G-862) update, and most of them use an exponentially weighted moving average.
 
-Five optimizers improve gradient descent along the two ideas of Figure 1:
+Five **optimizers** (G-1401) improve gradient descent along the two ideas of Figure 1:
 
 | Optimizer | Main idea | Weak spot it targets |
 |---|---|---|
@@ -257,11 +257,11 @@ Figure 7 shows why the EWMA comes first: three of the five optimizers are built 
 | Local minima | stops at a sub-optimal solution | momentum (can roll through small dips) |
 | Saddle points | updates almost stop on the plateau | momentum, adaptive learning rates |
 
-- An optimizer finds the weights and biases that minimise the loss; gradient descent is the basic one.
+- An **optimizer** (G-1401) finds the weights and biases that minimise the loss; gradient descent is the basic one.
 - Batch, stochastic and mini-batch gradient descent differ only in the rows per update.
 - The steep direction of a narrow valley caps the learning rate; the flat direction then crawls: 223 steps at best on our valley.
-- The improved optimizers use two ideas: build up speed (momentum, NAG) and adapt the learning rate (AdaGrad, RMSProp); Adam uses both.
-- Most of them rely on the exponentially weighted moving average, so the EWMA is taught first.
+- The improved optimizers use two ideas: build up speed (**momentum** (G-1258), NAG) and adapt the learning rate (AdaGrad, RMSProp); Adam uses both.
+- Most of them rely on the **exponentially weighted moving average** (G-735), so the EWMA is taught first.
 
 ## 8. Sources
 
@@ -283,21 +283,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Optimisation problem (G-1399) | Finding the inputs (here the weights and biases) that make a function (here the loss) smallest. |
 | Saddle point (G-1718) | A flat point that curves up in one direction and down in another. |
+| [Learning rate scheduler (learning schedule)](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
 | [Initialisation](../../../DL/02-training/DL-029-weight-initialization/DL-029-weight-initialization.md#1-overview) (G-947) | Giving every weight and bias its starting value before training begins; a bad start can cause vanishing or exploding gradients or slow convergence. |
 | [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
 | [Activation function](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165) | The function that turns a node's weighted sum $z$ into its output, bringing it into a fixed range. |
 | [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
+| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |
-| [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Partial derivative](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) | The slope of a function of several variables in one variable, holding the others fixed. |
 | [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Convergence (MICE)](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#73-when-to-stop) (G-472) | The point where the fills hardly change between two iterations. |
-| [Learning rate scheduler (learning schedule)](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#34-batch-size) (G-1070) | A rule that changes the learning rate as training goes on, usually lowering it. |
 | [Non-convex function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#31-the-definition-as-a-formula) (G-1333) | A function whose curve is not one simple bowl: some straight line between two of its points (a chord) lies below part of the curve. It can have several local minima. |
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Plateau](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1503) | A nearly flat region of the loss, where steps become very small. |

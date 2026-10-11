@@ -22,17 +22,17 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/polynomial-f
 
 In this Note each point is one [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record, a row of the data table). Its two coordinates $x_1$ and $x_2$ are its [**features**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (input variables, one column each), and its class $y$ is the [**target**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we predict).
 
-Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: polynomial features, the same idea as [**polynomial regression**](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515).
+Other algorithms handle such data naturally (decision trees, random forests, SVMs, covered later). But a simple trick also lets logistic regression handle it: **polynomial features** (G-1513), the same idea as [**polynomial regression**](../../06-regression/ML-060-polynomial-regression/ML-060-polynomial-regression.md#1-overview) (G-1515).
 
 ## 2. The idea
 
-> **Key point:** Create new features x₁², x₁x₂, x₂², ... and fit ordinary logistic regression on them. A straight boundary in the new features is a curve in the original ones.
+> **Key point:** Create new **features** (G-772) x₁², x₁x₂, x₂², ... and fit ordinary logistic regression on them. A straight boundary in the new features is a curve in the original ones.
 
 ### 2.1 The picture: lift the points
 
 An everyday picture: a straight ruler cannot trace a circle on flat paper. Lift the paper into a bowl shape, and a flat cut through the bowl traces exactly that circle.
 
-Figure 1 plays this out on two rings of points. Each point is lifted to the height $x_1^2 + x_2^2$, a value made from its own two features. Watch the inner ring stay low while the outer ring rises up the bowl, until one flat plane splits them.
+Figure 1 plays this out on two rings of points. Each point is lifted to the height $x_1^2 + x_2^2$, a value made from its own two **features** (G-772). Watch the inner ring stay low while the outer ring rises up the bowl, until one flat plane splits them.
 
 ![Two rings of points. Flat: no straight line separates them. Lifted to height x₁² + x₂² (the squared features), a flat plane separates them, and the plane meets the bowl in a circle](images/lift_bowl.gif)
 
@@ -47,21 +47,21 @@ Step by step, with two points of Figure 1:
 2. **Look at the data in the new features.** Every inner point has a height of at most 0.40 and every outer point at least 0.62, so the flat plane at height 0.51 separates the rings.
 3. **Read the plane back in the original features.** The plane is $x_1^2 + x_2^2 = 0.51$: a circle of radius 0.71 in the $(x_1, x_2)$ plane.
 
-A flat (linear) decision boundary in the new features is a curved decision boundary in the original ones. On these 200 points a straight line reaches a training accuracy (the share of training points classified correctly) of 0.49, and degree-2 features reach 1.00.
+A flat (linear) **decision boundary** (G-555) in the new features is a curved decision boundary in the original ones. On these 200 points a straight line reaches a training accuracy (the share of training points classified correctly) of 0.49, and degree-2 features reach 1.00.
 
 ### 2.2 The formal version: polynomial features
 
-Creating powers and products of the features as new features gives **polynomial features** (G-1513). With two features $x_1$ and $x_2$, degree 2 creates five feature columns:
+Creating powers and products of the **features** (G-772) as new features gives **polynomial features** (G-1513). With two features $x_1$ and $x_2$, degree 2 creates five feature columns:
 
 $$x_1,\quad x_2,\quad x_1^2,\quad x_1 x_2,\quad x_2^2$$
 
 The product $x_1 x_2$ belongs to the list: scikit-learn's `PolynomialFeatures` creates every product of the features up to the chosen degree, not only the powers of each feature on its own.
 
-Logistic regression then learns a weight for each feature, so its decision boundary is
+Logistic regression then learns a weight for each feature, so its **decision boundary** (G-555) is
 
 $$w_0 + w_1 x_1 + w_2 x_2 + w_3 x_1^2 + w_4 x_1 x_2 + w_5 x_2^2 = 0$$
 
-The decision boundary equation describes a curve (an ellipse, parabola or hyperbola) in the $(x_1, x_2)$ plane. The circle of section 2.1 is the special case $w_3 = w_5 = 1$, $w_0 = -0.51$ and the other weights 0. Higher degrees add more terms ($x_1^3$, $x_1^2 x_2$, ...) and allow more complicated curves. The target $y$ is unchanged, and the model is still logistic regression: only its inputs have changed.
+The decision boundary equation describes a curve (an ellipse, parabola or hyperbola) in the $(x_1, x_2)$ plane. The circle of section 2.1 is the special case $w_3 = w_5 = 1$, $w_0 = -0.51$ and the other weights 0. Higher degrees add more terms ($x_1^3$, $x_1^2 x_2$, ...) and allow more complicated curves. The **target** (G-1949) $y$ is unchanged, and the model is still logistic regression: only its inputs have changed.
 
 The number of features grows quickly with the degree: 2 at degree 1, 5 at degree 2, 9 at degree 3, 65 at degree 10 and 350 at degree 25. [Section 4](#4-when-to-use-it) shows how much faster it grows with more original features.
 
@@ -87,7 +87,7 @@ The number of features grows quickly with the degree: 2 at degree 1, 5 at degree
 
 The data has 200 points in two interlocking half-moon shapes (`make_moons` with noise 0.25). No straight line can separate them. Each model is scored on a large fresh test set of 5,000 points from the same generator. Regularisation is kept weak (`C=10000`) so that the effect of the degree is visible. The figure shows one training set; the table averages 20 training sets, so that one lucky or unlucky sample cannot decide the result.
 
-In the left panel of Figure 2 the two pale colours are the model's two answers: blue where it predicts one moon, orange where it predicts the other; the black line between them is the decision boundary, and the dots are the training points. In the right panel, across is the degree and up is the accuracy (the share of points classified correctly) on the training points (grey) and on the large fresh test set (red). Figure 2 raises the degree one step per frame. Watch the decision boundary (black line) bend around the moons, and the two accuracy curves split apart after degree 3.
+In the left panel of Figure 2 the two pale colours are the model's two answers: blue where it predicts one moon, orange where it predicts the other; the black line between them is the **decision boundary** (G-555), and the dots are the training points. In the right panel, across is the degree and up is the accuracy (the share of points classified correctly) on the training points (grey) and on the large fresh test set (red). Figure 2 raises the degree one step per frame. Watch the decision boundary (black line) bend around the moons, and the two accuracy curves split apart after degree 3.
 
 ![Degree swept from 1 to 25. Left: decision regions for one training set (black line: the decision boundary). Right: training and test accuracy, averaged over 20 training sets](images/degree_sweep.gif)
 
@@ -105,7 +105,7 @@ In the left panel of Figure 2 the two pale colours are the model's two answers: 
 - **Degrees 3 and 4:** the boundary bends around the moons. **Test accuracy** (G-2211) jumps to 0.93.
 - **Degrees 10 and 25:** the boundary develops odd loops and islands far from the data. Training accuracy keeps rising, but test accuracy falls to about 0.92, and the gap between the two grows from 0.012 to 0.045.
 
-As with polynomial regression, the degree controls flexibility. Too low a degree gives [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035): the boundary is too simple for the pattern. Too high a degree gives [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the boundary follows single training points. The degree is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
+As with **polynomial regression** (G-1515), the degree controls flexibility. Too low a degree gives [**underfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035): the boundary is too simple for the pattern. Too high a degree gives [**overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): the boundary follows single training points. The degree is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910), chosen by comparing scores on data not used for training. Here degree 3 is best.
 
 > **Extra:** A penalty keeps the many weights small ([penalising large coefficients](../../06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), so it fights the overfitting of high degrees. Same 20 training sets and test set:
 >
@@ -121,12 +121,12 @@ As with polynomial regression, the degree controls flexibility. Too low a degree
 
 > **Key point:** Useful when only a linear model is available or interpretability matters. For strongly non-linear data, tree-based models or SVMs usually do better.
 
-Polynomial features are a quick way to give logistic regression curved boundaries, and they work well for mildly non-linear data like this example. They have costs:
+**Polynomial features** (G-1513) are a quick way to give logistic regression curved boundaries, and they work well for mildly non-linear data like this example. They have costs:
 
-- the number of features explodes with many original features or high degrees, which slows training and invites overfitting;
+- the number of features explodes with many original features or high degrees, which slows training and invites **overfitting** (G-1429);
 - the degree must be tuned.
 
-In Figure 3, across is the degree and up is the number of features. The vertical axis is a log scale: each labelled gridline (1, 100, 10k, 1M, 100M) is 100 times the one below, so a line that keeps climbing is growing very fast. Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
+In Figure 3, across is the degree and up is the number of **features** (G-772). The vertical axis is a log scale: each labelled gridline (1, 100, 10k, 1M, 100M) is 100 times the one below, so a line that keeps climbing is growing very fast. Figure 3 shows the first cost. Watch the gap between the lines: with 2 features, degree 10 gives 65 features; with 10 features it gives 184,755; with 30 it gives about 850 million.
 
 ![Number of polynomial features against the degree, for 2, 5, 10 and 30 original features (counts from PolynomialFeatures, log scale)](images/feature_count.png){height=40%}
 
@@ -134,11 +134,11 @@ On real data with strongly non-linear patterns, decision trees, random forests o
 
 ## 5. Summary
 
-- Logistic regression's boundary is straight; polynomial features make it curved, because a flat boundary in the new features is a curve in the original ones. So the same algorithm handles data that is not linearly separable.
-- Degree $d$ adds all powers and products of the features up to total power $d$, so the feature count grows very fast with the degree and with the number of original features (65 at degree 10 from 2 features, 184,755 from 10).
-- On the moons data: test accuracy 0.854 (straight line) rises to 0.935 (degree 3), then falls at higher degrees while training accuracy keeps rising, because a very flexible boundary starts to follow single training points: overfitting.
+- Logistic regression's boundary is straight; polynomial features make it curved, because a flat boundary in the new features is a curve in the original ones. So the same algorithm handles data that is not **linearly separable** (G-1103).
+- Degree $d$ adds all powers and products of the **features** (G-772) up to total power $d$, so the feature count grows very fast with the degree and with the number of original features (65 at degree 10 from 2 features, 184,755 from 10).
+- On the moons data: test accuracy 0.854 (straight line) rises to 0.935 (degree 3), then falls at higher degrees while training accuracy keeps rising, because a very flexible boundary starts to follow single training points: **overfitting** (G-1429).
 - Choose the degree on data not used for training, because training accuracy keeps rising and cannot show overfitting; standardise the new features, so high powers do not dominate; regularisation limits overfitting by keeping the many weights small.
-- So polynomial features are a quick fix for mildly curved boundaries; for strongly non-linear data, trees or SVMs usually do better.
+- So **polynomial features** (G-1513) are a quick fix for mildly curved boundaries; for strongly non-linear data, trees or SVMs usually do better.
 
 ## 6. Sources
 

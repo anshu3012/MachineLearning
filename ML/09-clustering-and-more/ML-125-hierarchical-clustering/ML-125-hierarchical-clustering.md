@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/hierarchical
 
 ## 1. Overview
 
-> **Key point:** Agglomerative clustering starts with every point as its own cluster and repeatedly merges the two closest clusters; the record of the merges, the dendrogram, lets us pick any number of clusters afterwards.
+> **Key point:** **Agglomerative clustering** (G-180) starts with every point as its own cluster and repeatedly merges the two closest clusters; the record of the merges, the dendrogram, lets us pick any number of clusters afterwards.
 
 [**k-means**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means) (G-996) works well on round, well-separated groups but fails on many other shapes. **Hierarchical clustering** (G-893) is a family of clustering methods that build a whole hierarchy of clusters, from single points up to one cluster holding everything. Figure 1 shows the idea on six points. In each frame, the left panel shows the points and the clusters merged so far; the right panel is the dendrogram, a tree whose vertical axis is the distance at which two clusters merged.
 
@@ -32,7 +32,7 @@ This Note covers why we need it, how the merging works, the four ways to measure
 
 ## 3. Where k-means struggles
 
-> **Key point:** k-means builds clusters around centroids, so it finds round blobs; rings, crescents, stretched groups and noise points defeat it.
+> **Key point:** **k-means** (G-996) builds clusters around centroids, so it finds round blobs; rings, crescents, stretched groups and noise points defeat it.
 
 k-means assigns every point to its nearest centroid ([the five steps of k-means](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#4-the-five-steps-of-k-means)). Nearest-centroid assignment works when the groups are compact and well separated. On harder shapes it fails, as Figure 2 shows on four standard test datasets:
 
@@ -43,7 +43,7 @@ k-means assigns every point to its nearest centroid ([the five steps of k-means]
 
 ![k-means (k = 2 or 3) on four datasets: one colour per cluster found](images/kmeans_fails.png){height=50%}
 
-k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers hierarchical clustering; density-based clustering, with its algorithm DBSCAN, is covered in [**density-based clustering**](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering) (G-588). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
+k-means does best on spherical (round) groups. Other clustering methods exist because of these failures. This Note covers **hierarchical clustering** (G-893); density-based clustering, with its algorithm DBSCAN, is covered in [**density-based clustering**](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering) (G-588). DBSCAN can also label noise points as noise instead of forcing them into a cluster.
 
 ## 4. Two kinds of hierarchical clustering
 
@@ -81,7 +81,7 @@ Figure 1 runs the algorithm on six points:
 
 The tree on the right of Figure 1 is the **dendrogram** (G-582; see [the clustermap](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories)): it joins the most similar items first, with short links. Here we see how it is built. Every merge adds one link, and the height of the link is the distance between the two clusters when they merged.
 
-Reading the tree, we see at once that 4 and 5 were the closest pair, 1 and 2 the next, that 3 was close to {4, 5}, and that 6 came last before the final merge. The tree shows a hierarchy of clusters inside clusters, which is where the name hierarchical clustering comes from.
+Reading the tree, we see at once that 4 and 5 were the closest pair, 1 and 2 the next, that 3 was close to {4, 5}, and that 6 came last before the final merge. The tree shows a hierarchy of clusters inside clusters, which is where the name **hierarchical clustering** (G-893) comes from.
 
 ### 5.3 Cutting the dendrogram
 
@@ -97,17 +97,17 @@ So one run of the algorithm serves every number of clusters. [Section 9](#9-choo
 
 ## 6. Divisive clustering in brief
 
-> **Key point:** Divisive clustering starts from one cluster and keeps splitting until every point stands alone.
+> **Key point:** **Divisive clustering** (G-630) starts from one cluster and keeps splitting until every point stands alone.
 
 Take the same six points. Divisive clustering starts with all six in a single cluster and splits it in two, for example {1, 2} and {3, 4, 5, 6}. Then it splits one of the parts again, giving 3 clusters, and so on, until there are 6 clusters of one point each.
 
-The result is the same kind of tree, read from the top down. Divisive clustering is used much less than agglomerative clustering.
+The result is the same kind of tree, read from the top down. Divisive clustering is used much less than **agglomerative clustering** (G-180).
 
 ## 7. The algorithm: the proximity matrix
 
 > **Key point:** Compute the n × n matrix of distances, merge the closest pair, update the matrix row and column of the new cluster, and repeat until one cluster remains.
 
-To code agglomerative clustering, we need a **proximity matrix** (G-1585): a table with one row and one column per cluster, holding the distance between every pair. The algorithm is:
+To code **agglomerative clustering** (G-180), we need a **proximity matrix** (G-1585): a table with one row and one column per cluster, holding the distance between every pair. The algorithm is:
 
 1. Compute the proximity matrix of all n points.
 2. Make every point a cluster.
@@ -135,7 +135,7 @@ The smallest value off the diagonal is 1.00, between P3 and P4, so they merge in
 
 > **Key point:** **Single linkage** (G-1811) uses the closest pair of points, **complete linkage** (G-427) the farthest pair, **average linkage** (G-236) the mean of all pairs, and **Ward linkage** (G-2099) the growth in spread caused by merging.
 
-The rule for the distance between two clusters is called the **linkage** (G-1104). The linkage is the only thing that differs between the four types of agglomerative clustering in scikit-learn. Figure 5 shows all four.
+The rule for the distance between two clusters is called the **linkage** (G-1104). The linkage is the only thing that differs between the four types of **agglomerative clustering** (G-180) in scikit-learn. Figure 5 shows all four.
 
 ![The four linkages: how the distance between cluster A and cluster B is measured](images/linkages.png){height=55%}
 
@@ -158,7 +158,7 @@ Figure 6 plays these merges. In every frame the red outline marks the smallest d
 
 ![The proximity matrix shrinking merge by merge with single linkage on the five points. Left: the points, one colour per cluster; the dashed line is the closest pair. Right: the current matrix with its smallest off-diagonal distance outlined.](images/matrix_shrink.gif)
 
-Single linkage separates groups well when there is a clear gap between them (Figure 7 in section 8.5, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 7 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
+**Single linkage** (G-1811) separates groups well when there is a clear gap between them (Figure 7 in section 8.5, top row, first panel: the two moons are found exactly). Its weakness is noise. A few points lying between two groups act as a bridge: to merge two clusters, single linkage needs only one close pair, so the groups get chained together through the bridge points. The effect is called **chaining** (ESL §14.3.12; Tan et al. 2006, §8.3.2). In Figure 7 (middle row, first panel), the noisy moons become one cluster plus one lonely point.
 
 ### 8.2 Complete linkage (max)
 
@@ -171,7 +171,7 @@ Single linkage separates groups well when there is a clear gap between them (Fig
    $$\max(2.24, 2.00) = 2.24$$
    At the last step, $\lbrace P_1, P_2\rbrace$ to $\lbrace P_3, P_4, P_5\rbrace$ is the largest of six distances: 7.07 (P1 to P5).
 
-Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 of section 8.5 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
+**Complete linkage** (G-427) is less affected by outliers and noise (Tan et al. 2006, §8.3.2): a stray point cannot pull two groups together, since the farthest pair decides. Its weakness is groups of very different sizes: complete linkage tends to break large clusters (Tan et al. 2006, §8.3.2). The farthest pair across the two halves of a big, wide group is long, so merging those halves looks expensive; if the small group is closer than that to one half, the small group joins that half first, and the big group stays broken. In Figure 7 of section 8.5 (bottom row, second panel), the big group is cut in half while the small group joins one of the halves.
 
 ### 8.3 Average linkage
 
@@ -187,7 +187,7 @@ Complete linkage is less affected by outliers and noise (Tan et al. 2006, §8.3.
    $$5.00 + 5.83 + 7.07 + 3.61 + 4.47 + 5.66 = 31.64$$
    $$\frac{31.64}{6} = 5.27$$
 
-The average lies between the minimum and the maximum, so average linkage is an in-between choice: neither single nor complete linkage (Tan et al. 2006, §8.3.2).
+The average lies between the minimum and the maximum, so **average linkage** (G-236) is an in-between choice: neither single nor complete linkage (Tan et al. 2006, §8.3.2).
 
 ### 8.4 Ward linkage
 
@@ -208,7 +208,7 @@ The average lies between the minimum and the maximum, so average linkage is an i
    B is one point, its own centroid, so its sum is 0. Then
    $$\Delta = 3.33 - 0.5 - 0 = 2.83$$
 
-Each merge thus keeps the clusters as tight as possible, which is the same goal as k-means' WCSS (within-cluster sum of squares, the total squared distance of points to their centroid; see [**WCSS**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102); scikit-learn user guide, Hierarchical clustering). Of all four linkages, Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
+Each merge thus keeps the clusters as tight as possible, which is the same goal as **k-means** (G-996)' WCSS (within-cluster sum of squares, the total squared distance of points to their centroid; see [**WCSS**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102); scikit-learn user guide, Hierarchical clustering). Of all four **linkages** (G-1104), Ward gives the most even cluster sizes, and single linkage the most uneven (scikit-learn user guide, Hierarchical clustering).
 
 > **Extra:** scipy's `linkage` and scikit-learn report the Ward distance as $\sqrt{2\Delta}$. Here:
 > $$\sqrt{2 \times 2.83} = 2.38$$
@@ -217,13 +217,13 @@ Each merge thus keeps the clusters as tight as possible, which is the same goal 
 
 ### 8.5 The four linkages side by side
 
-> **Key point:** No linkage wins everywhere: single needs clean gaps, complete and Ward prefer compact groups of similar size.
+> **Key point:** No **linkage** (G-1104) wins everywhere: single needs clean gaps, complete and Ward prefer compact groups of similar size.
 
 Figure 7 runs all four linkages, with 2 clusters, on three datasets:
 
-- **Moons with a clear gap (top):** only single linkage separates the two moons; the others cut across them.
+- **Moons with a clear gap (top):** only **single linkage** (G-1811) separates the two moons; the others cut across them.
 - **Noisy moons (middle):** single linkage chains everything into one cluster and leaves one point alone. Complete, average and Ward give rough splits.
-- **A big and a small group (bottom):** no linkage finds the two groups. Single linkage chains the small group onto the big one and leaves one outlying point as the second "cluster"; average linkage does the same with two outlying points; complete and Ward split the big group in half.
+- **A big and a small group (bottom):** no linkage finds the two groups. Single linkage chains the small group onto the big one and leaves one outlying point as the second "cluster"; **average linkage** (G-236) does the same with two outlying points; complete and Ward split the big group in half.
 
 ![Single, complete, average and Ward linkage (2 clusters) on moons with a clear gap, noisy moons, and a big and a small group](images/linkage_compare.png){height=58%}
 
@@ -233,7 +233,7 @@ So the linkage is a real choice that depends on the data. When the groups have o
 
 > **Key point:** Find the longest vertical stretch of the dendrogram that no horizontal line crosses, and cut through it.
 
-As with k-means, we do not know the number of clusters in advance, and data with many **features** (input variables, the columns of the data table) cannot be plotted. For k-means we had the elbow method; here the dendrogram does the job.
+As with **k-means** (G-996), we do not know the number of clusters in advance, and data with many **features** (input variables, the columns of the data table) cannot be plotted. For k-means we had the elbow method; here the dendrogram does the job.
 
 The vertical lines of a dendrogram measure distance between clusters: the longer the stretch before the next merge, the more separate those clusters are. The rule is:
 
@@ -242,7 +242,7 @@ The vertical lines of a dendrogram measure distance between clusters: the longer
 3. Cut horizontally through the middle of that stretch.
 4. The number of vertical lines the cut crosses is the number of clusters.
 
-Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, hierarchical clustering is distance-based, so both features were first standardized ([the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 9).
+Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Like k-means, **hierarchical clustering** (G-893) is distance-based, so both features were first standardized ([the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula)). The red band, from height 4.35 to 9.45, is the longest stretch with no merge inside: 5.10. A cut at 7, in its middle, crosses 5 vertical lines: 5 clusters, the five groups we can see in the scatter plot (Figure 9).
 
 ![Ward dendrogram of the 200 customers (standardized features); the cut at 7 gives 5 clusters](images/dendrogram_cut.png){height=48%}
 
@@ -254,12 +254,12 @@ Figure 8 is the Ward dendrogram of 200 shopping-mall customers (section 10). Lik
 
 ### 10.1 The main hyperparameters
 
-> **Key point:** n_clusters, metric, linkage and distance_threshold.
+> **Key point:** n_clusters, metric, **linkage** (G-1104) and distance_threshold.
 
 `AgglomerativeClustering` (in `sklearn.cluster`) has four important hyperparameters:
 
 - **`n_clusters`**: how many clusters to return, i.e. where to cut the tree. Default 2.
-- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. Ward linkage accepts only Euclidean. Euclidean is the straight-line distance; Manhattan adds up the absolute differences feature by feature (both are **Minkowski distances**, G-1227: see [the steps of KNN](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps)).
+- **`metric`**: how to measure the distance between two points: `"euclidean"` (default), `"manhattan"`, `"cosine"`, `"l1"` or `"l2"`. **Ward linkage** (G-2099) accepts only Euclidean. Euclidean is the straight-line distance; Manhattan adds up the absolute differences feature by feature (both are **Minkowski distances**, G-1227: see [the steps of KNN](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps)).
 - **`linkage`**: `"ward"` (default), `"complete"`, `"average"` or `"single"`.
 - **`distance_threshold`**: cut the tree at this height instead of at a number of clusters: clusters whose linkage distance is at or above the threshold are not merged. `distance_threshold` needs `n_clusters=None`.
 
@@ -306,16 +306,16 @@ A marketing team could now treat each group differently. The same method could, 
 
 ## 11. Strengths and limitations
 
-> **Key point:** Hierarchical clustering handles many kinds of data and gives a full tree of similarities, but needs an n × n distance matrix, so it does not scale to big datasets.
+> **Key point:** **Hierarchical clustering** (G-893) handles many kinds of data and gives a full tree of similarities, but needs an n × n distance matrix, so it does not scale to big datasets.
 
 Strengths:
 
-- **Widely applicable:** with four linkages to choose from, it can cluster data that k-means cannot.
-- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. k-means only says which cluster a point is in, not which other points are its closest relatives. The clustermap ([a heatmap with a dendrogram](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories)) uses exactly this tree to reorder the rows and columns of a heatmap so that similar ones sit together.
+- **Widely applicable:** with four **linkages** (G-1104) to choose from, it can cluster data that k-means cannot.
+- **The dendrogram:** the tree shows, at every level, which point or group is closest to which. **k-means** (G-996) only says which cluster a point is in, not which other points are its closest relatives. The clustermap ([a heatmap with a dendrogram](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#8-clustermap-grouping-similar-categories)) uses exactly this tree to reorder the rows and columns of a heatmap so that similar ones sit together.
 
 Limitation:
 
-- **Big datasets:** the proximity matrix has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets (Figure 10).
+- **Big datasets:** the **proximity matrix** (G-1585) has $n \times n$ entries. With $10^6$ (ten lakh) points the matrix holds $10^{12}$ distances. At 8 bytes per number, $10^{12}$ distances take 8 terabytes, or 4 terabytes if only the half above the diagonal is stored: far beyond the RAM of any ordinary computer. Hierarchical clustering suits small and medium datasets (Figure 10).
 
 ![Memory for the full proximity matrix at 8 bytes per distance. The 200 customers of section 10 need 320 KB; a million points need 8 TB, far above 16 GB of RAM. Both axes are logarithmic](images/memory.png){width=85%}
 
@@ -328,14 +328,14 @@ Limitation:
 | Average | Mean of all pair distances | In between | In between |
 | Ward (default) | Growth of squared distance to centroids | Compact groups | Odd shapes |
 
-- No linkage wins everywhere, so the linkage is a choice made to fit the shape of the data.
-- Agglomerative clustering: every point starts as a cluster; merge the two closest clusters until one is left, so one run gives the whole hierarchy of clusters inside clusters. Divisive clustering does the reverse.
-- The proximity matrix holds the distance between every pair of clusters and is updated after each merge, because the new cluster needs a distance to every other cluster, and the linkage decides it.
+- No **linkage** (G-1104) wins everywhere, so the linkage is a choice made to fit the shape of the data.
+- **Agglomerative clustering** (G-180): every point starts as a cluster; merge the two closest clusters until one is left, so one run gives the whole hierarchy of clusters inside clusters. Divisive clustering does the reverse.
+- The **proximity matrix** (G-1585) holds the distance between every pair of clusters and is updated after each merge, because the new cluster needs a distance to every other cluster, and the linkage decides it.
 - The dendrogram records every merge at its distance; a horizontal cut gives the clusters, so the number of clusters can be chosen after the run.
 - Choose the cut in the longest vertical stretch no horizontal line crosses, because a long stretch means those clusters stay far apart before the next merge; the rule is a guide. Standardize the features first, because the method is distance-based and unscaled features can change which stretch is longest.
 - scikit-learn: the class `AgglomerativeClustering` with `n_clusters`, `metric` and `linkage`; `metric` replaced `affinity`, so older code that passes `affinity` now raises an error.
 - Memory grows with $n^2$, so big datasets are out of reach.
-- So hierarchical clustering handles shapes where k-means struggles, and its dendrogram lets us pick the number of clusters afterwards, on small and medium datasets.
+- So **hierarchical clustering** (G-893) handles shapes where k-means struggles, and its dendrogram lets us pick the number of clusters afterwards, on small and medium datasets.
 
 ## 13. Sources
 
@@ -357,8 +357,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Hierarchical clustering (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
 | Agglomerative clustering (G-180) | Grouping that starts with one cluster per point and repeatedly merges the closest pair (bottom-up hierarchical clustering). |
+| Hierarchical clustering (G-893) | Clustering that builds a hierarchy of clusters, from single points up to one cluster. |
 | Divisive clustering (G-630) | Top-down hierarchical clustering: start with one cluster and split repeatedly. |
 | Proximity matrix (G-1585) | An n × n table of the distances between every pair of points or clusters. |
 | Single linkage (G-1811) | In hierarchical clustering, a way to measure the distance between two clusters: the distance of their closest pair of points; the two closest clusters are merged next. |

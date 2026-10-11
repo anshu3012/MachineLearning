@@ -66,7 +66,7 @@ $$P(D) = P(D \cap M1)$$
 $$+ P(D \cap M2)$$
 $$+ P(D \cap M3)$$
 
-Each term is a likelihood times a prior, by this rule from [the proof of Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#42-the-proof):
+Each term is a **likelihood** (G-1086) times a prior, by this rule from [the proof of Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#42-the-proof):
 
 $$P(A \cap B) = P(B \mid A)\thinspace P(A)$$
 
@@ -80,7 +80,7 @@ $$P(D) = P(D \mid M1)P(M1)$$
 $$+ P(D \mid M2)P(M2)$$
 $$+ P(D \mid M3)P(M3)$$
 
-This sum is the law of total probability. With numbers:
+This sum is the **law of total probability** (G-1053). With numbers:
 
 $$P(D) = 0.05 \times 0.2$$
 $$+ 0.03 \times 0.3$$
@@ -133,7 +133,7 @@ The three posteriors add up to 1, as they must: the marker came from some machin
 
 ## 6. Another way to see it: a medical test
 
-> **Key point:** A test does not give the final answer; it updates the prior. Posterior odds = prior odds × Bayes factor.
+> **Key point:** A test does not give the final answer; it updates the prior. Posterior **odds** (G-1376) = prior odds × Bayes factor.
 
 The marker problem has the same shape as a famous question about medical tests. The machines become "has cancer" and "does not have cancer"; "defective" becomes "the test is positive".
 
@@ -162,19 +162,19 @@ A woman tests positive. What is the chance that she has cancer? The test sounds 
 
    That is about 1 in 11.
 
-The healthy group is so large that its few false positives (89) swamp the true positives (9). This posterior is the [**precision**](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) of the test; in medicine it is called the positive predictive value.
+The healthy group is so large that its few false positives (89) swamp the true positives (9). This **posterior** (G-1536) is the [**precision**](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) of the test; in medicine it is called the positive predictive value.
 
-The lesson: the test did not decide anything. The test moved the chance from 1 in 100 (the prior) to about 1 in 11 (the posterior). A test **updates** the prior.
+The lesson: the test did not decide anything. The test moved the chance from 1 in 100 (the **prior** (G-1565)) to about 1 in 11 (the posterior). A test **updates** the prior.
 
 ### 6.1 The size of the update: the Bayes factor
 
-> **Key point:** Bayes factor = P(evidence | yes) / P(evidence | no). Multiply the prior odds by it to get the posterior odds.
+> **Key point:** Bayes factor = P(evidence | yes) / P(evidence | no). Multiply the prior odds by it to get the **posterior** (G-1536) odds.
 
 How strong is the update? A positive result is 10 times more likely for a sick woman than for a healthy one:
 
 $$0.9 / 0.09 = 10$$
 
-This ratio of the two likelihoods is the **Bayes factor** (G-2215).
+This ratio of the two **likelihoods** (G-1086) is the **Bayes factor** (G-2215).
 
 The Bayes factor works on [**odds**](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376): the number of "yes" cases to the number of "no" cases.
 
@@ -193,18 +193,18 @@ The rule is exact, and it follows from the count above: among the positives, the
 
 ![A test with sensitivity 0.9 and false positive rate 0.09 (Bayes factor 10), for priors from 1 in 1000 to 1 in 10. Left: expected true and false positives among 1000 women. Right: the posterior P(cancer | positive). The title gives the update in odds.](images/medical.gif)
 
-In Figure 5 the horizontal axis of the right panel is a log scale: 1 in 1000, 1 in 100 and 1 in 10 are equally spaced, each ten times the one before. Watch the same test give very different answers as the prior changes. At a prior of 1 in 1000 a positive result means about 1 percent; at 1 in 100, 9 percent; at 1 in 10, the odds $1 : 9$ become $10 : 9$, which is 53 percent. The test is the same each time; only the prior differs.
+In Figure 5 the horizontal axis of the right panel is a log scale: 1 in 1000, 1 in 100 and 1 in 10 are equally spaced, each ten times the one before. Watch the same test give very different answers as the **prior** (G-1565) changes. At a prior of 1 in 1000 a positive result means about 1 percent; at 1 in 100, 9 percent; at 1 in 10, the odds $1 : 9$ become $10 : 9$, which is 53 percent. The test is the same each time; only the prior differs.
 
 The Bayes factor also previews Naive Bayes: each feature multiplies the score of a class by its own likelihood, one factor per feature ([the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption)).
 
 ## 7. The pattern for Naive Bayes
 
-> **Key point:** For each class: prior × likelihood. Divide by their total. The largest posterior wins.
+> **Key point:** For each class: prior × **likelihood** (G-1086). Divide by their total. The largest posterior wins.
 
 A Naive Bayes classifier follows exactly this procedure. The machines become the classes, the values of the **target** (G-1949; the output we predict). "Defective" becomes the observed **features** (G-772; the input variables, one column each of the data table):
 
-1. for every class, multiply its prior by the likelihood of the observed features;
-2. divide each product by their sum (the evidence) to get posteriors that add to 1;
+1. for every class, multiply its **prior** (G-1565) by the likelihood of the observed features;
+2. divide each product by their sum (the evidence) to get **posteriors** (G-1536) that add to 1;
 3. predict the class with the largest posterior.
 
 Since the evidence is the same for every class, step 2 does not change which class wins; it only turns the scores into probabilities.
@@ -215,11 +215,11 @@ Figure 6 runs the three steps on the marker numbers: M1 has the largest score bo
 
 ## 8. Summary
 
-- Priors: production shares; likelihoods: defect rates; posterior: which machine, given a defect. Bayes' theorem turns the chance of a defect given the machine into the chance of the machine given a defect.
-- Law of total probability: $P(D) = \sum_i P(D \mid M_i) P(M_i)$, because a defective marker came from exactly one machine, so the three cases add. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine (0.010, 0.009 and 0.005, which add to 0.024).
+- Priors: production shares; **likelihoods** (G-1086): defect rates; posterior: which machine, given a defect. Bayes' theorem turns the chance of a defect given the machine into the chance of the machine given a defect.
+- **Law of total probability** (G-1053): $P(D) = \sum_i P(D \mid M_i) P(M_i)$, because a defective marker came from exactly one machine, so the three cases add. The sign $\sum_i$ means "add the terms for $i = 1, 2, 3$", one per machine (0.010, 0.009 and 0.005, which add to 0.024).
 - Answer: $P(M3 \mid D) = 0.208$; M1 is the most likely source (0.417), because M3 rarely makes defects: it makes half the markers but only about a fifth of the defective ones.
-- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 0.092 (9 sick among 98 positives), because the healthy group is so large that its few false positives swamp the true positives. A test updates the prior; it does not decide. Posterior odds = prior odds × Bayes factor (section 6.1).
-- Naive Bayes follows the same steps: prior × likelihood for each class, divide by the evidence, and predict the class with the largest posterior.
+- Medical test: prior 1 in 100, sensitivity 0.9, false positive rate 0.09 give a posterior of only 0.092 (9 sick among 98 positives), because the healthy group is so large that its few false positives swamp the true positives. A test updates the prior; it does not decide. Posterior **odds** (G-1376) = prior odds × Bayes factor (section 6.1).
+- Naive Bayes follows the same steps: prior × likelihood for each class, divide by the evidence, and predict the class with the largest **posterior** (G-1536).
 
 ## 9. Sources
 
@@ -242,9 +242,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Joint probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability) (G-986) | The probability that two events happen together, $P(A \cap B)$. |
 | [Posterior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1536) | The probability of an event after the evidence is taken into account. |
+| [Odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |
 | [False positive rate (FPR)](../../../ML/07-classification/ML-077-roc-auc/ML-077-roc-auc.md#32-false-positive-rate) (G-749) | The fraction of real negatives the model wrongly flags. |
 | [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |
-| [Odds](../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

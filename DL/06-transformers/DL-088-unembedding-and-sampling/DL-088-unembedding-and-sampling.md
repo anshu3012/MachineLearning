@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, step/evaluate, c
 
 ## 1. Overview
 
-> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding** (G-2040), and the scores are the [**logits**](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122). A softmax with a **temperature** (G-1956) $T$ turns the logits into probabilities: low $T$ sharpens them towards the top token, high $T$ flattens them towards uniform. Generation then **samples** (G-1739) a token from these probabilities. Reading the same scores after every block, the **logit lens** (G-1121), shows the model's guess forming layer by layer.
+> **Key point:** After the last block, GPT turns the final vector into one score per vocabulary token by taking its dot product with every token's embedding row. This step is the **unembedding** (G-2040), and the scores are the [**logits**](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122). A softmax with a **temperature** (G-1956) $T$ turns the logits into probabilities: low $T$ sharpens them towards the **top** (G-1985) token, high $T$ flattens them towards uniform. Generation then **samples** (G-1739) a token from these probabilities. Reading the same scores after every block, the **logit lens** (G-1121), shows the model's guess forming layer by layer.
 
 The [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#7-a-guess-at-every-position) (G-855) followed one pass of GPT-2 small up to its last step: "multiply by $W_E^T$, then softmax". This Note opens that last step. It asks three questions:
 
@@ -29,8 +29,8 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
 
 ## 2. Prerequisites
 
-- [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding) (G-855): the decoder-only model, the residual stream, the final LayerNorm and the tied unembedding.
-- [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8: the output layer (linear and softmax) and the word "logits".
+- [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding) (G-855): the decoder-only model, the residual stream, the final LayerNorm and the tied **unembedding** (G-2040).
+- [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8: the output layer (linear and softmax) and the word "**logits** (G-1122)".
 - [**Softmax regression**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1833): the softmax function.
 - [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning): a dot product is large when two vectors point the same way.
 - [Transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word): generation one token at a time, greedy decoding.
@@ -38,11 +38,11 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
 
 ## 3. The unembedding: one dot product per token
 
-> **Key point:** The logit of token $k$ is the dot product of the final vector $h$ with row $k$ of the token embedding matrix: $z_k = h \cdot w_k$. A token whose row points the same way as $h$ gets a high logit.
+> **Key point:** The **logit** (G-1122) of token $k$ is the dot product of the final vector $h$ with row $k$ of the token embedding matrix: $z_k = h \cdot w_k$. A token whose row points the same way as $h$ gets a high logit.
 
 ### 3.1 The formula
 
-> **Key point:** For GPT-2 small, the final vector has 768 numbers and $W_E$ has 50,257 rows, so the unembedding gives 50,257 logits.
+> **Key point:** For GPT-2 small, the final vector has 768 numbers and $W_E$ has 50,257 rows, so the unembedding gives 50,257 **logits** (G-1122).
 
 1. **In words:** after the final LayerNorm, the vector of the last position is compared with the embedding row of every token in the vocabulary by a dot product (multiply matching entries and add: large when two vectors point the same way). Each dot product is that token's score.
 2. **Formula:** with $h$ the final vector and $w_k$ row $k$ of $W_E$,
@@ -55,7 +55,7 @@ GPT-2 has no separate output matrix: the same $W_E$ that turned tokens into vect
 
 ### 3.2 Logits measure alignment, once the shared direction is removed
 
-> **Key point:** All rows of $W_E$ share one common direction, their mean row. Its part of every logit is the same number, $-93.9$ here, and the softmax ignores it. With that part removed, a token's logit follows the cosine between $h$ and its row almost exactly (correlation 0.98).
+> **Key point:** All rows of $W_E$ share one common direction, their mean row. Its part of every **logit** (G-1122) is the same number, $-93.9$ here, and the softmax ignores it. With that part removed, a token's logit follows the cosine between $h$ and its row almost exactly (correlation 0.98).
 
 The logits above are all negative, between $-109$ and $-75$. The reason is a shared direction. Write each row as the mean row $\bar w$ plus the rest:
 
@@ -67,7 +67,7 @@ $$z_k = h \cdot \bar w + h \cdot (w_k - \bar w)$$
 
 The first term is the same for every token. In GPT-2 small it is $-93.9$, which is exactly the average logit (Notebook). The rows really do share this direction: on average, a row's cosine with the mean row is 0.52.
 
-The softmax ignores a number added to every logit. (The symbol $\sum_j$ adds the terms for every token $j$.) Adding $c$ to every $z_j$ multiplies every $e^{z_j}$ by $e^c$, and the $e^c$ cancels between the top and the bottom of the fraction:
+The softmax ignores a number added to every logit. (The symbol $\sum_j$ adds the terms for every token $j$.) Adding $c$ to every $z_j$ multiplies every $e^{z_j}$ by $e^c$, and the $e^c$ cancels between the **top** (G-1985) and the bottom of the fraction:
 
 $$\frac{e^{z_k + c}}{\sum_j e^{z_j + c}} = \frac{e^c\thinspace e^{z_k}}{e^c \sum_j e^{z_j}}$$
 
@@ -83,7 +83,7 @@ Without removing the mean row, the raw cosine misleads: its correlation with the
 
 ## 4. Why only the last vector
 
-> **Key point:** In generation, only the last position's logits are used. The last vector must therefore carry everything in the text that matters for the next token.
+> **Key point:** In generation, only the last position's **logits** (G-1122) are used. The last vector must therefore carry everything in the text that matters for the next token.
 
 One pass gives logits at every position, and training uses all of them (the [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#72-every-position-predicts) (G-855), §7.2). When generating, though, the model needs only what comes after the last token, so it unembeds only the last vector (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word), §6). Sanderson (2024, Ch 6) gives a vivid case: a long mystery novel that ends "… therefore the murderer was". The last vector, the one for "was", must by then hold whatever in the whole story points to the murderer. Attention is how earlier tokens get their information into it (Figure 3).
 
@@ -91,15 +91,15 @@ One pass gives logits at every position, and training uses all of them (the [**G
 
 ## 5. Softmax with a temperature
 
-> **Key point:** Dividing every logit by a temperature $T$ before the softmax sharpens the distribution when $T < 1$ and flattens it when $T > 1$. As $T \to 0$ the top token gets all the probability; as $T \to \infty$ every token gets $1/V$, where $V$ is the number of tokens in the vocabulary.
+> **Key point:** Dividing every **logit** (G-1122) by a temperature $T$ before the softmax sharpens the distribution when $T < 1$ and flattens it when $T > 1$. As $T \to 0$ the **top** (G-1985) token gets all the probability; as $T \to \infty$ every token gets $1/V$, where $V$ is the number of tokens in the vocabulary.
 
 ### 5.1 The formula
 
-1. **In words:** divide each logit by $T$, then take the ordinary softmax.
+1. **In words:** divide each **logit** (G-1122) by $T$, then take the ordinary softmax.
 2. **Formula** (Holtzman et al. 2020, §3.3, eq. 4):
    $$p_k = \frac{e^{z_k / T}}{\sum_{j=1}^{V} e^{z_j / T}}$$
    $V$ is the number of tokens in the vocabulary (50,257 for GPT-2), and $T = 1$ gives the model's own probabilities.
-3. **Example:** two logits $z = (2, 1)$, so $V = 2$. For each temperature, divide the logits by $T$, take $e$ to the power of each, and divide each result by the sum of the two (Figure 4):
+3. **Example:** two logits $z = (2, 1)$, so $V = 2$. For each **temperature** (G-1956), divide the logits by $T$, take $e$ to the power of each, and divide each result by the sum of the two (Figure 4):
 
    | $T$ | $z/T$ | $e^{z/T}$ | $p$ |
    |---|---|---|---|
@@ -111,9 +111,9 @@ One pass gives logits at every position, and training uses all of them (the [**G
 
 ### 5.2 The two limits
 
-> **Key point:** Low temperature magnifies the gaps between logits; high temperature shrinks them.
+> **Key point:** Low temperature magnifies the gaps between **logits** (G-1122); high temperature shrinks them.
 
-Divide the top and bottom of $p_k$ by $e^{z_{\max}/T}$, where $z_{\max}$ is the largest logit:
+Divide the **top** (G-1985) and bottom of $p_k$ by $e^{z_{\max}/T}$, where $z_{\max}$ is the largest logit:
 
 $$p_k = \frac{e^{(z_k - z_{\max})/T}}{\sum_j e^{(z_j - z_{\max})/T}}$$
 
@@ -154,7 +154,7 @@ A fair pick among $n$ tokens has entropy $\log_2 n$. For example, a fair pick am
 
 $$H = \log_2 8 = 3 \text{ bits}$$
 
-Turning this round, $2^H$ reads as "as spread out as a fair pick among $2^H$ tokens". The uniform distribution over 50,257 tokens has 15.6 bits. The Notebook measures the distribution after "Once upon a time there was a" ("mass outside the top 10" is the total probability of all tokens except the 10 most likely):
+Turning this round, $2^H$ reads as "as spread out as a fair pick among $2^H$ tokens". The uniform distribution over 50,257 tokens has 15.6 bits. The Notebook measures the distribution after "Once upon a time there was a" ("mass outside the **top** (G-1985) 10" is the total probability of all tokens except the 10 most likely):
 
 | $T$ | Top token " great" | Mass outside the top 10 | Entropy (bits) | Like a fair pick among |
 |---|---|---|---|---|
@@ -167,15 +167,15 @@ Turning this round, $2^H$ reads as "as spread out as a fair pick among $2^H$ tok
 
 At $T = 0.05$ the top token has only 0.65, not 1, because " great" and " man" are almost tied ($-88.82$ and $-88.86$). This prompt is open: many continuations are reasonable. On "Steve Jobs was the founder of", by contrast, " Apple" alone has 0.69 at $T = 1$.
 
-> **Extra:** Sanderson's *Transformers, the tech behind LLMs* (3Blue1Brown, 2024, Ch 5) animates the next-token distribution changing with the temperature, with GPT-3 stories from the seed "Once upon a time there was a"; his animation uses GPT-3's 20 most probable tokens. Figure 1 takes that idea and that prompt. Its design is our own, and it uses GPT-2 small's full set of 50,257 logits, which is why the orange "all others" bar can be shown.
+> **Extra:** Sanderson's *Transformers, the tech behind LLMs* (3Blue1Brown, 2024, Ch 5) animates the next-token distribution changing with the temperature, with GPT-3 stories from the seed "Once upon a time there was a"; his animation uses GPT-3's 20 most probable tokens. Figure 1 takes that idea and that prompt. Its design is our own, and it uses GPT-2 small's full set of 50,257 **logits** (G-1122), which is why the orange "all others" bar can be shown.
 
 ## 6. Sampling: choosing the next token
 
-> **Key point:** Sampling draws the next token at random with the softmax probabilities. Low temperatures give safe, repetitive text; high temperatures give varied text that soon stops making sense.
+> **Key point:** **Sampling** (G-1739) draws the next token at random with the softmax probabilities. Low temperatures give safe, repetitive text; high temperatures give varied text that soon stops making sense.
 
 ### 6.1 Greedy decoding repeats itself
 
-> **Key point:** Always taking the top token gives the same text every time, and GPT-2 small's greedy text soon loops.
+> **Key point:** Always taking the **top** (G-1985) token gives the same text every time, and GPT-2 small's greedy text soon loops.
 
 Greedy decoding on "Once upon a time there was a" gives (Notebook):
 
@@ -185,9 +185,9 @@ The same happens in the published greedy example of the Hugging Face guide (von 
 
 ### 6.2 Sampling at different temperatures
 
-> **Key point:** Ten samples at each temperature on the same prompt: all ten differ at every $T > 0$. As $T$ rises, the chosen tokens become less likely under the model and the text breaks down.
+> **Key point:** Ten **samples** (G-1739) at each temperature on the same prompt: all ten differ at every $T > 0$. As $T$ rises, the chosen tokens become less likely under the model and the text breaks down.
 
-The Notebook draws 10 continuations of 12 tokens at each temperature (seeds 0 to 9):
+The Notebook draws 10 continuations of 12 tokens at each **temperature** (G-1956) (seeds 0 to 9):
 
 | $T$ | A sample (the first seed) | Mean log-probability of the chosen tokens |
 |---|---|---|
@@ -213,17 +213,17 @@ Sampling is why a chatbot can give a different answer each time to the same prom
 
 ## 7. The logit lens: watching the guess form
 
-> **Key point:** Applying the final LayerNorm and the unembedding to the residual stream after each block, not just the last, shows the model's next-token guess at every depth. On "Steve Jobs was the founder of", " Apple" (ranked by probability among all 50,257 tokens) ranks 38,460th before block 1, 25th after block 8, 2nd after block 9 and 1st after block 11.
+> **Key point:** Applying the final LayerNorm and the **unembedding** (G-2040) to the residual stream after each block, not just the last, shows the model's next-token guess at every depth. On "Steve Jobs was the founder of", " Apple" (ranked by probability among all 50,257 tokens) ranks 38,460th before block 1, 25th after block 8, 2nd after block 9 and 1st after block 11.
 
 ### 7.1 The idea
 
-> **Key point:** The residual stream has the same 768 numbers at every depth, so the same unembedding can read it anywhere.
+> **Key point:** The residual stream has the same 768 numbers at every depth, so the same **unembedding** (G-2040) can read it anywhere.
 
 The unembedding is a fixed linear map applied to the last stream vector. Nothing stops us from applying it to the stream after block 1, 2, … 11 as well. nostalgebraist (2020), who named this the **logit lens**, found that the resulting distributions "gradually converge to the final distribution over the layers of the network, often getting close to that distribution long before the end". Our version passes each block's output through GPT-2's final LayerNorm `ln_f` and then through $W_E$, exactly as the real last step does.
 
 ### 7.2 One position, block by block
 
-> **Key point:** For the last token, " the" is the top guess from block 1 to block 9. " Apple" climbs into the top 25 after block 8, reaches the top after block 11, and stays there.
+> **Key point:** For the last token, " the" is the **top** (G-1985) guess from block 1 to block 9. " Apple" climbs into the top 25 after block 8, reaches the top after block 11, and stays there.
 
 ![Logit lens on GPT-2 small, "Steve Jobs was the founder of": the 8 most likely next tokens read from the last token's stream after each block. Orange: " Apple"](images/logit_lens.gif)
 
@@ -245,7 +245,7 @@ Watch Figure 6 for the moment the guesses change kind. Before block 1 the stream
 
 ![Logit lens grid (after nostalgebraist 2020): the top guess at every position (columns) after every block (rows). Shade: its probability. Orange outline: the guess already equals the final one](images/lens_grid.png){width=88%}
 
-Figure 7 reads each column from top to bottom:
+Figure 7 reads each column from **top** (G-1985) to bottom:
 
 - In the **first row**, three positions "guess" their own input token (" Jobs" after " Jobs", " founder" after " founder"). Before any block runs, the stream is the token's embedding row plus a position vector, and a row has a large dot product with itself.
 - After **" founder"**, the guess becomes " of" at block 5, and stays.
@@ -254,7 +254,7 @@ Figure 7 reads each column from top to bottom:
 
 Facts can appear at different depths. The Notebook repeats the lens on three other prompts. " York" after "The Statue of Liberty is in New" is ranked first from block 1 on: the phrase "New York" is common. " golf" after "Tiger Woods plays the sport of" first ranks first after block 10, and " basketball" after "Michael Jordan plays the sport of" after block 9. Where in the network such facts come from is the topic of the [MLP](../DL-089-mlp-stores-facts/DL-089-mlp-stores-facts.md#4-rows-ask-questions-the-activation-makes-an-and-gate).
 
-> **Extra:** nostalgebraist (2020) calls the logit lens "a simple (if partial) interpretability lens": it shows what the stream would predict if the network stopped there, not how each block computes its change.
+> **Extra:** nostalgebraist (2020) calls the **logit lens** (G-1121) "a simple (if partial) interpretability lens": it shows what the stream would predict if the network stopped there, not how each block computes its change.
 
 ## 8. Summary
 
@@ -267,11 +267,11 @@ Facts can appear at different depths. The Notebook repeats the lens on three oth
 | Sampling | draw a token with probabilities $p$ | varied; nonsense at high $T$ |
 | Logit lens | unembed the stream after every block | " Apple" first after block 11 |
 
-- A logit is an alignment score: the final vector's dot product with a token's row, so a token whose row points the same way as the final vector gets a high score. A direction shared by all rows adds the same amount to every logit, and the softmax ignores it, which is why the raw logits can all be negative and still rank " Apple" first.
+- A **logit** (G-1122) is an alignment score: the final vector's dot product with a token's row, so a token whose row points the same way as the final vector gets a high score. A direction shared by all rows adds the same amount to every logit, and the softmax ignores it, which is why the raw logits can all be negative and still rank " Apple" first.
 - Only the last vector is unembedded in generation, so it must carry everything in the text that matters for the next token; attention is how the earlier tokens get it there.
-- Temperature divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform, so $T$ is the one knob between safe, repetitive text and varied, riskier text.
+- **Temperature** (G-1956) divides the logits: $T \to 0$ is greedy, large $T$ is close to uniform, so $T$ is the one knob between safe, repetitive text and varied, riskier text.
 - Greedy text loops, because a repeated phrase becomes more likely with each repetition; sampled text varies, which is why a chatbot can answer the same prompt differently; the higher $T$, the less likely the chosen tokens and the less sense the text makes.
-- The logit lens shows the guess forming over the blocks, often well before the end, because the residual stream has the same 768 numbers at every depth and the same unembedding can read it anywhere.
+- The **logit lens** (G-1121) shows the guess forming over the blocks, often well before the end, because the residual stream has the same 768 numbers at every depth and the same unembedding can read it anywhere.
 - So the last step is a dot product per token, a temperature-scaled softmax, and a pick, and the logit lens lets us watch that answer build up inside the model.
 
 ## 9. Sources
@@ -298,10 +298,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Unembedding (G-2040) | The last step of a language model: the final vector's dot product with every token's vector, one score per token. |
 | Temperature $T$ (G-1956) | A number that makes a model's probabilities sharper or flatter: every raw score (logit) is divided by it before the softmax; low $T$ sharpens, high $T$ flattens. |
+| Top $k$ sampling (G-1985) | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
 | Sampling (text generation) (G-1739) | Choosing the next token at random according to the softmax probabilities, instead of always taking the most probable token, so the generated text does not keep repeating itself. |
 | Logit lens (G-1121) | A way to see what a language model would predict partway through: after each block, pass its running vector (the residual stream) through the final LayerNorm and the unembedding to read which tokens it would predict if it stopped there. It shows the guess forming over the blocks. |
 | Unembedding matrix $W_U$ (G-2039) | The matrix that turns a language model's final vector into one score (logit) per vocabulary token; in GPT-2 it is the token embedding matrix $W_E$ itself (tied weights). |
-| Top $k$ sampling (G-1985) | A sampling rule that keeps only the $k$ most likely tokens and samples the next token among them, so very unlikely tokens are never picked. |
 | Nucleus (top $p$) sampling (G-1360) | A sampling rule for text generation that keeps only the smallest set of most likely tokens whose probabilities add up to at least $p$, then samples among them; it cuts off the unlikely tail and adapts the cut to the context. |
 | [Logit](../../../DL/06-transformers/DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax) (G-1122) | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
 | [GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#1-overview) (G-855) | A language model that writes text by predicting the next token again and again (Generative Pre-trained Transformer); it is built from transformer decoder blocks only. |

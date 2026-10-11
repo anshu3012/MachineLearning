@@ -28,13 +28,13 @@ We use the same Titanic data as before, 891 passengers. The Notebook (`ML-021-pa
 
 ## 2. Building the report
 
-> **Key point:** Install the library once; then three lines build the report and save it as an HTML file.
+> **Key point:** Install the library once; then three lines build the report and save it as an **HTML** (G-904) file.
 
 ### 2.1 Installing the library
 
 > **Key point:** One `pip install` command adds the library to our Python setup.
 
-Pandas Profiling is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from [**PyPI**](../../01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593), the public store of Python libraries, and installs it on our machine.
+**Pandas Profiling** (G-1440) is not part of pandas; it is a separate library. We install it once, from a terminal or from a notebook cell. The command downloads the library from [**PyPI**](../../01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593), the public store of Python libraries, and installs it on our machine.
 
 > **Python:** Installing the library.
 >
@@ -284,7 +284,7 @@ The Interactions section holds a scatter plot for every pair of numerical column
 
 ![The Interactions section: Age against Fare](images/report_interactions.png){height=55%}
 
-Most fares are below 100, at every age; the dots do not rise or fall with age, so the two columns are hardly related. A few fares stand far above the rest, the highest at 512. These are the extreme fares that the box plot of `Fare` flagged as outliers in [the fare box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#82-the-fare-box-plot).
+Most fares are below 100, at every age; the dots do not rise or fall with age, so the two columns are hardly related. A few fares stand far above the rest, the highest at 512. These are the extreme fares that the **box plot** (G-329) of `Fare` flagged as outliers in [the fare box plot](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#82-the-fare-box-plot).
 
 Picking the same column for both axes gives no useful plot: every dot would lie on one diagonal line. Only numerical columns appear here; categorical pairs are covered by the Correlations section.
 
@@ -423,8 +423,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Nullity matrix (G-1364) | A picture of the whole table with each missing value drawn as a white line; it shows where values are missing and whether gaps in different columns fall in the same rows. |
 | Profiling report (G-1580) | An automatic EDA report describing every column and pair of columns of a dataset. |
 | [Univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#1-overview) (G-2050) | Studying one column (variable) on its own, mostly with graphs, to see its values and spread; the column's type decides which graphs to draw. |
-| [PyPI](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593) | The Python Package Index, the public store of Python packages. |
 | [HTML](../../../ML/02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#1-overview) (G-904) | The language web pages are written in: a tree of nested tags. |
+| [PyPI](../../../ML/01-foundations/ML-011-setup-anaconda-jupyter-colab/ML-011-setup-anaconda-jupyter-colab.md#21-what-anaconda-and-conda-are) (G-1593) | The Python Package Index, the public store of Python packages. |
 | [Count plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#4-count-plot) (G-494) | A bar chart with one bar per category, as tall as its frequency. |
 | [Box plot](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) | A graph of a column's five-number summary, a box with whiskers and outliers drawn as dots; it shows the centre, spread and outliers at a glance. |
 | [Skewness](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) | A number for how lopsided a distribution is: 0 symmetric, positive right tail, negative left tail. |

@@ -17,11 +17,11 @@ tags: [subject/deep-learning, area/dl-cnn, step/model, concept/cnn-project]
 
 ## 1. Overview
 
-> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits** (**overfitting**, G-1429): after 10 epochs (passes over the training photos) its training accuracy is 99.1% while its validation accuracy (accuracy on photos held back from training) is only 78.9%. Batch normalisation and dropout narrow this gap only a little (0.20 to 0.17).
+> **Key point:** We build a CNN that looks at a photo and says "cat" or "dog", and train it on about 19,000 real photos. It learns quickly, but it **overfits** (**overfitting**, G-1429): after 10 epochs (passes over the training photos) its training accuracy is 99.1% while its validation accuracy (accuracy on photos held back from training) is only 78.9%. **Batch normalisation** (G-266) and dropout narrow this gap only a little (0.20 to 0.17).
 
 This Note puts the CNN Notes into practice. The task is **binary image classification** (G-306): the input is a colour photo, and the **target** (G-1949; the output we predict) is one of two classes, cat or dog. The steps:
 
-1. load the photos from folders, in batches (sections 3 and 4);
+1. load the photos from folders, in **batches** (G-263) (sections 3 and 4);
 2. scale their pixels (section 5);
 3. design a CNN of our own (section 6);
 4. train it and watch it overfit (section 7);
@@ -64,7 +64,7 @@ Training a CNN on photos takes a lot of computation, and a GPU makes it much fas
 
 ## 4. Loading the photos in batches
 
-> **Key point:** `image_dataset_from_directory` reads the folders, labels each photo by its folder, resizes it, and serves the photos in batches of 32, so the whole dataset never has to fit in memory at once.
+> **Key point:** `image_dataset_from_directory` reads the folders, labels each photo by its folder, resizes it, and serves the photos in **batches** (G-263) of 32, so the whole dataset never has to fit in memory at once.
 
 ### 4.1 Why batches
 
@@ -85,7 +85,7 @@ Instead, Keras reads the photos in [**batches**](../../../ML/06-regression/ML-05
 
 ### 4.2 `image_dataset_from_directory`
 
-> **Key point:** `image_dataset_from_directory` (G-94): give it the folder, how to label, the batch size and the image size; it returns a dataset of (images, labels) batches.
+> **Key point:** `image_dataset_from_directory` (G-94): give it the folder, how to label, the batch size and the image size; it returns a dataset of (images, labels) **batches** (G-263).
 
 > **Python:** Training and validation datasets from one folder.
 >
@@ -116,7 +116,7 @@ The function's defaults are `batch_size=32` and `image_size=(256, 256)` (Keras d
 
 Pixel values run from 0 to 255. Large, unscaled inputs make gradient descent slow and unstable, as [why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training) shows, so we bring every value into the range 0 to 1.
 
-> **Python:** Apply a scaling function to every batch.
+> **Python:** Apply a scaling function to every **batch** (G-263).
 >
 > ```python
 > def process(image, label):
@@ -190,7 +190,7 @@ The model has 14,847,297 parameters in total, and the first dense layer alone ho
 
 ## 7. Training, and overfitting
 
-> **Key point:** After 10 epochs the training accuracy is 99.1% but the validation accuracy 78.9%; the validation loss is lowest at epoch 3 and then rises. The model is memorising the training photos.
+> **Key point:** After 10 **epochs** (G-696) the training accuracy is 99.1% but the validation accuracy 78.9%; the validation loss is lowest at epoch 3 and then rises. The model is memorising the training photos.
 
 > **Python:** Compile and train for 10 epochs.
 >
@@ -200,7 +200,7 @@ The model has 14,847,297 parameters in total, and the first dense layer alone ho
 > history = model.fit(train_ds, epochs=10, validation_data=val_ds)
 > ```
 >
-> `binary_crossentropy` (**binary cross-entropy**, G-303) is the loss for a two-class problem with a sigmoid output (see [binary cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#8-binary-cross-entropy)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
+> `binary_crossentropy` (**binary cross-entropy**, G-303) is the loss for a two-class problem with a **sigmoid** (G-1798) output (see [binary cross-entropy](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#8-binary-cross-entropy)). `history.history` keeps the training and validation accuracy and loss of every epoch, for plotting.
 
 We trained the model three times with different random seeds (each seed gives different starting weights); Figure 5 shows all three runs and their mean.
 
@@ -216,7 +216,7 @@ We trained the model three times with different random seeds (each seed gives di
 
 (Means of 3 seeds; Notebook.)
 
-At epoch 1 the validation accuracy (72.8%) is above the training accuracy (65.2%). The training figure is the average over all 586 batches of the epoch, including the early ones seen while the weights were still poor; the validation figure uses the model as it is at the end of the epoch (Keras FAQ). By epoch 3, training is ahead.
+At epoch 1 the validation accuracy (72.8%) is above the training accuracy (65.2%). The training figure is the average over all 586 **batches** (G-263) of the epoch, including the early ones seen while the weights were still poor; the validation figure uses the model as it is at the end of the epoch (Keras FAQ). By epoch 3, training is ahead.
 
 The two curves tell different stories (Figure 5). The training accuracy rises every epoch, from 65% to 99%, and the training loss falls almost to 0. The validation accuracy reaches about 80% by epoch 2 or 3 and then stays there, moving between 79% and 80%. The validation loss is lowest at epoch 3 (0.44) and then climbs every epoch, to 1.34 at epoch 10: on the photos it gets wrong, the model becomes more and more confident (section 8.1 counts these photos). By epoch 10 the gap between training and validation accuracy is 0.20.
 
@@ -232,7 +232,7 @@ Such a growing gap between training and validation performance is **overfitting*
 - **Data augmentation:** create new training photos from the existing ones, by flipping, rotating or zooming them. [**Data augmentation**](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) covers it.
 - **L1 or L2 regularisation:** penalise large weights.
 - [**Dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off random nodes during training (see [how dropout works](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
-- [**Batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266): normalise each layer's values over the batch; it also has a mild regularising effect (see [advantages of batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#6-advantages)).
+- [**Batch normalisation**](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266): normalise each layer's values over the **batch** (G-263); it also has a mild regularising effect (see [advantages of batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#6-advantages)).
 - **A simpler model:** fewer layers or fewer nodes.
 
 We try two of them together. A `BatchNormalization` layer goes after each of the three convolution layers, and a `Dropout(0.1)` layer after each of the two hidden dense layers. Everything else stays the same, and again we train 3 times.
@@ -262,15 +262,15 @@ We try two of them together. A `BatchNormalization` layer goes after each of the
 | Gap (training minus validation), epoch 10 | 0.202 | 0.171 |
 | Validation loss: lowest (epoch), then at epoch 10 | 0.44 (3), then 1.34 | 0.46 (5), then 0.76 |
 
-The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 up to and including epoch 5 (Figure 6, right). By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
+The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at **epoch** (G-696) 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 up to and including epoch 5 (Figure 6, right). By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
 
 Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (see [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)). Stronger remedies for this model are more varied training data, which [**data augmentation**](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) creates, and stopping near the epoch of the lowest validation loss.
 
 ### 8.1 What the mistakes look like
 
-> **Key point:** The overfitted CNN is not unsure about the photos it gets wrong: in 69% of its mistakes it gives the wrong answer a probability above 0.9. With batch normalisation and dropout this share falls to 50%.
+> **Key point:** The overfitted CNN is not unsure about the photos it gets wrong: in 69% of its mistakes it gives the wrong answer a probability above 0.9. With **batch normalisation** (G-266) and dropout this share falls to 50%.
 
-A rising validation loss with a flat validation accuracy (section 7) means that the wrong answers are becoming more confident. To see it photo by photo, we trained each model once more (seed 0, 10 epochs; script `experiments/mistakes.py`) and kept the probability each gives to every validation photo.
+A rising validation loss with a flat validation accuracy (section 7) means that the wrong answers are becoming more confident. To see it photo by photo, we trained each model once more (seed 0, 10 **epochs** (G-696); script `experiments/mistakes.py`) and kept the probability each gives to every validation photo.
 
 | One run of each model | Plain CNN | With batch normalisation + dropout |
 |---|---|---|
@@ -287,7 +287,7 @@ Figure 7 shows the plain CNN's 12 most confident mistakes. For every one of them
 
 ## 9. Predicting a new photo
 
-> **Key point:** Prepare a new photo exactly like the training photos: resize to 256 × 256, divide by 255, and add a batch dimension. A probability above 0.5 means dog.
+> **Key point:** Prepare a new photo exactly like the training photos: resize to 256 × 256, divide by 255, and add a **batch** (G-263) dimension. A probability above 0.5 means dog.
 
 The network has only ever seen photos as batches of shape $(\text{batch}, 256, 256, 3)$ with values between 0 and 1. A new photo must arrive in the same form.
 
@@ -331,10 +331,10 @@ Both models label both photos correctly and with near certainty, even though the
 | New photo | resize, divide by 255, add a batch dimension, predict; above 0.5 means dog |
 
 - Images of different sizes must be resized to one shape before they enter a CNN, because a CNN expects every input to have the same shape.
-- Loading in batches keeps memory use small: the full training set would need 14.7 GB as 32-bit numbers.
+- Loading in **batches** (G-263) keeps memory use small: the full training set would need 14.7 GB as 32-bit numbers.
 - Pixels are divided by 255, because large, unscaled inputs make gradient descent slow and unstable.
 - In this CNN almost all parameters sit in the first dense layer, not in the convolutions, because a convolution shares each small filter across the whole photo, while the dense layer connects all 115,200 inputs to every node.
-- A widening gap between training and validation accuracy, with a rising validation loss, signals overfitting, because the model is fitting details of its own training photos that do not hold for new ones; batch normalisation and dropout narrowed the gap only a little, so stronger remedies such as data augmentation or early stopping are needed.
+- A widening gap between training and validation accuracy, with a rising validation loss, signals overfitting, because the model is fitting details of its own training photos that do not hold for new ones; **batch normalisation** (G-266) and dropout narrowed the gap only a little, so stronger remedies such as data augmentation or early stopping are needed.
 
 ## 11. Sources
 
@@ -359,12 +359,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Binary image classification (G-306) | Sorting photos into one of two classes, such as cat or dog. |
 | `image_dataset_from_directory` (G-94) | The Keras function that loads photos from class folders as batches of (images, labels). |
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
+| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Generator](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-843) | The GAN network that creates new data. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
@@ -372,4 +373,3 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
-| [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |

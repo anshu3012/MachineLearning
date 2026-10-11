@@ -16,7 +16,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, conce
 
 ## 1. Overview
 
-> **Key point:** Comparing the PDFs of one feature across classes shows which features separate the classes; the CDF then puts a number on how often a rule based on those PDFs is right; 2D density plots extend the idea to two features.
+> **Key point:** Comparing the PDFs of one feature across classes shows which features separate the classes; the CDF then puts a number on how often a rule based on those PDFs is right; **2D density plots** (G-49) extend the idea to two features.
 
 [The area under a curve as probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) and [the CDF of a continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable) explained what PDFs (density curves) and CDFs (the share of values at or below $x$) are, and [kernel density estimation](../MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) showed how to estimate them. This Note shows three ways a data analyst uses them. Here a [**feature**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) is an input variable, one column of the data table; an [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, one row; the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) is the output we predict.
 
@@ -26,7 +26,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, conce
 
 ## 2. PDFs for feature selection
 
-> **Key point:** Draw one PDF per class for each feature; a feature whose class curves do not overlap separates the classes well, a feature whose curves overlap does not.
+> **Key point:** Draw one PDF per class for each **feature** (G-772); a feature whose class curves do not overlap separates the classes well, a feature whose curves overlap does not.
 
 ### 2.1 The iris data
 
@@ -34,11 +34,11 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, conce
 
 The **iris dataset** (G-973) describes 150 iris flowers, 50 of each of three species: setosa, versicolor and virginica. For every flower it gives four measurements in centimetres: sepal length, sepal width, petal length and petal width. The classic machine learning task is to predict the species from these four numbers.
 
-Each of the four measurements is a feature, an input used for the prediction, and the species is the target. [**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps the features that help to predict and removes the ones that do not (see [**feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Suppose we may keep only two of the four. Which two?
+Each of the four measurements is a feature, an input used for the prediction, and the species is the **target** (G-1949). [**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps the **features** (G-772) that help to predict and removes the ones that do not (see [**feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Suppose we may keep only two of the four. Which two?
 
 ### 2.2 Reading the class PDFs
 
-> **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal features are the ones to keep.
+> **Key point:** The petal measurements separate the three species; the sepal measurements overlap, so the petal **features** (G-772) are the ones to keep.
 
 For each feature we draw three density curves, one **kernel density estimate** (KDE, G-1005) per species, on the same axes (Figure 1), as in [KDE plots](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#6-kde-plot-comparing-distributions-of-groups). Each curve shows where that species' values are concentrated.
 
@@ -112,7 +112,7 @@ So the rule is right for 98% of versicolor flowers (no versicolor is 0.7 or belo
 >
 > $$50 + 49 + 45 = 144$$
 >
-> That is 144 of the 150 flowers, an **accuracy** (G-162; the share of flowers the rule gets right) of 96%, from one feature and two cut-offs.
+> That is 144 of the 150 flowers, an **accuracy** (G-162; the share of flowers the rule gets right) of 96%, from one **feature** (G-772) and two cut-offs.
 
 Why 1.7 and not another cut-off? Figure 3 slides the cut-off between the two CDF curves. Moving it right catches more versicolor flowers (the orange dot climbs) but loses virginica flowers (the green dot climbs too, so $1 - F$ falls):
 
@@ -145,7 +145,7 @@ So the curve climbs in steps, like the CDF of a discrete variable (see [the CDF 
 
 ## 4. 2D density plots
 
-> **Key point:** A 2D density plot shows the joint density of two numerical features as contours: darker means more flowers with that combination of values.
+> **Key point:** A 2D density plot shows the joint density of two numerical **features** (G-772) as contours: darker means more flowers with that combination of values.
 
 Every density so far described **one** feature. A density can also describe two features together: then it gives, for every pair of values, how densely the data is packed around that combination. Three features would also work, but such plots are hard to read, so in practice 2D is the limit.
 
@@ -190,9 +190,9 @@ Strictly, the colour is a probability density, so the plot shows where the proba
 | Empirical CDF | What is the CDF when only a sample is known? (the share of the sample at or below $x$) | steps of 1/50 per flower |
 | 2D density plot | Which combinations of two features are common? | two peaks: setosa, and the rest |
 
-- Overlapping class curves mean a weak feature; separated curves mean a strong one, so keep the petal features and drop the sepal ones.
+- Overlapping class curves mean a weak **feature** (G-772); separated curves mean a strong one, so keep the petal features and drop the sepal ones.
 - A rule from the PDFs, checked with the CDFs, comes with its error rate, because each class's CDF at the cut-off is the share of that class the rule catches.
-- In a 2D density plot, colour is density: dark centres are the most common combinations, so it shows where the data crowds for two features at once (setosa apart from the rest).
+- In a **2D density plot** (G-49), colour is density: dark centres are the most common combinations, so it shows where the data crowds for two features at once (setosa apart from the rest).
 - This answers the opening question: class PDFs show which features separate the classes, CDFs say how often a rule built on them is right, and 2D density plots extend this to two features.
 
 ## 6. Sources
@@ -211,9 +211,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| 2D density plot (G-49) | A plot that shows which pairs of values of two numerical features are common and which are rare (their joint density), usually as filled contours seen from above. |
 | Iris dataset (G-973) | 150 iris flowers of three species, with four measurements each; a classic classification dataset. |
 | Empirical CDF (ECDF) (G-679) | The share of a sample's values at or below $x$; a step-function estimate of the CDF. |
-| 2D density plot (G-49) | A plot that shows which pairs of values of two numerical features are common and which are rare (their joint density), usually as filled contours seen from above. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

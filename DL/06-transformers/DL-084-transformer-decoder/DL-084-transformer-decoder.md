@@ -16,9 +16,9 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/transfor
 
 ## 1. Overview
 
-> **Key point:** The [**decoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) writes the output sentence. It reads the output words so far and the encoder's output, and gives a probability for every word of the vocabulary at every position.
+> **Key point:** The [**decoder**](../DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) writes the output sentence. It reads the output words so far and the encoder's output, and gives a probability for every word of the **vocabulary** (G-2092) at every position.
 
-Its input is the target sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and positional encoding, the input passes through 6 identical **decoder blocks** (G-563). Each block has three sub-layers: [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) over the output words so far, [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) to the encoder's output, and a feed-forward network, each followed by add and norm. A final **linear layer** with one node per word of the vocabulary, and a **softmax**, turn every position's vector into a probability for every word. During training all positions are computed in one pass.
+Its input is the **target** (G-1949) sentence **shifted right**: a start token in front, so that each position holds the word before the one it must predict. After embedding and **positional encoding** (G-1528), the input passes through 6 identical **decoder blocks** (G-563). Each block has three sub-layers: [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) over the output words so far, [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) to the encoder's output, and a **feed-forward network** (G-775), each followed by add and norm. A final **linear layer** with one node per word of the vocabulary, and a **softmax**, turn every position's vector into a probability for every word. During training all positions are computed in one pass.
 
 The [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block) built the left half of the transformer of "Attention Is All You Need" (Vaswani et al. 2017). This Note builds the right half: the decoder. Two of its parts have their own Notes: [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) and [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507). Here they are put together with the rest into the full decoder (Figure 1).
 
@@ -30,27 +30,27 @@ We follow one real sentence pair from the English–French corpus of the Keras e
 
 ## 2. Prerequisites
 
-- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder block, add and norm, the residual connection and the position-wise feed-forward network.
+- [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder block, add and norm, the residual connection and the position-wise **feed-forward network** (G-775).
 - [**Masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172): self-attention in which a word cannot attend to the words after it.
 - [**Cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507): attention with queries from one sequence and keys and values from another.
-- [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training): `<start>` and `<end>` tokens, teacher forcing and the cross-entropy loss over the output steps.
+- [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training): `<start>` and `<end>` tokens, **teacher forcing** (G-1955) and the cross-entropy loss over the output steps.
 - [**Positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) (G-1528) and [**layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#6-layer-normalisation) (G-1054).
 
 ## 3. From a black box to the decoder block
 
-> **Key point:** The decoder is 6 identical blocks in a row. Each block has three sub-layers: masked multi-head self-attention, cross-attention, and a feed-forward network, with add and norm after each.
+> **Key point:** The decoder is 6 identical blocks in a row. Each block has three sub-layers: masked multi-head self-attention, **cross-attention** (G-507), and a feed-forward network, with add and norm after each.
 
-The decoder is built up in the same steps as the encoder.
+The **decoder** (G-564) is built up in the same steps as the encoder.
 
 1. **Two boxes.** A transformer is an encoder and a decoder. The encoder reads the input sentence; the decoder writes the output sentence.
 2. **Six blocks.** "The decoder is also composed of a stack of $N = 6$ identical layers" (Vaswani et al. 2017, §3.1). We call each layer a **decoder block**. As in the encoder, the 6 blocks share a design and each has its own weights.
-3. **Three sub-layers per block.** "In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs multi-head attention over the output of the encoder stack" (Vaswani et al. 2017, §3.1). In order, a decoder block holds:
+3. **Three sub-layers per block.** "In addition to the two sub-layers in each encoder layer, the decoder inserts a third sub-layer, which performs **multi-head attention** (G-1268) over the output of the encoder stack" (Vaswani et al. 2017, §3.1). In order, a decoder block holds:
    - **masked multi-head self-attention**: the output words attend to each other, each only to itself and the words before it;
    - **cross-attention** (also called encoder–decoder attention): the output words attend to the input words;
    - a [**feed-forward network**](../../01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775), the same design as in the encoder.
-4. **Add and norm.** Each sub-layer is wrapped in a residual connection followed by layer normalisation, as in the encoder.
+4. **Add and norm.** Each sub-layer is wrapped in a residual connection followed by **layer normalisation** (G-1054), as in the encoder.
 
-Compared with an encoder block, the decoder block changes two things: its self-attention is masked, and it has one extra sub-layer, the cross-attention, which is the only place where the decoder reads the input sentence.
+Compared with an encoder block, the **decoder block** (G-563) changes two things: its self-attention is masked, and it has one extra sub-layer, the cross-attention, which is the only place where the decoder reads the input sentence.
 
 ![An encoder block and a decoder block side by side. The decoder block's two changes are outlined in red: the self-attention is masked, and a cross-attention sub-layer reads the encoder's output](images/enc_vs_dec_block.png){width=90%}
 
@@ -58,21 +58,21 @@ Figure 2 lines the two blocks up: everything that is not outlined in red is the 
 
 ## 4. The setup: one training pair
 
-> **Key point:** Training data are sentence pairs. The encoder has already turned the English sentence into one vector per word, $H_{\text{enc}}$; the decoder starts from the French sentence.
+> **Key point:** **Training** (G-1255) data are sentence pairs. The encoder has already turned the English sentence into one vector per word, $H_{\text{enc}}$; the **decoder** (G-564) starts from the French sentence.
 
-The data is a [**parallel corpus**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data) (G-1442): each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record of the data) is an English sentence and its French translation, the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we want the model to produce). The Notebook uses the same filtered corpus as the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): 40,000 training pairs, and a French vocabulary of the 8,000 most frequent words plus 4 special tokens, $V = 8{,}004$ in all. The pair we follow appears in the file as "We're friends." and "Nous sommes amis.".
+The data is a [**parallel corpus**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data) (G-1442): each [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) (one record of the data) is an English sentence and its French translation, the [**target**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) (the output we want the model to produce). The Notebook uses the same filtered corpus as the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): 40,000 training pairs, and a French **vocabulary** (G-2092) of the 8,000 most frequent words plus 4 special tokens, $V = 8{,}004$ in all. The pair we follow appears in the file as "We're friends." and "Nous sommes amis.".
 
 Before the decoder starts, the encoder processes "we're friends ." exactly as in the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): 3 tokens, 6 encoder blocks, and out comes $H_{\text{enc}}$, a $3 \times 512$ matrix with one contextual vector per English word. The decoder now takes the French sentence.
 
 ## 5. The input: shift, tokenise, embed, add positions
 
-> **Key point:** Four steps prepare the French sentence. Shifting right puts `<start>` in front, so that position $i$ holds the word before the one to be predicted at position $i$. Then tokenisation, a 512-number embedding per token, and the positional encoding, as in the encoder. The result is $X$, a $5 \times 512$ matrix.
+> **Key point:** Four steps prepare the French sentence. Shifting right puts `<start>` in front, so that position $i$ holds the word before the one to be predicted at position $i$. Then tokenisation, a 512-number embedding per token, and the **positional encoding** (G-1528), as in the encoder. The result is $X$, a $5 \times 512$ matrix.
 
 ### 5.1 Shifting right
 
-> **Key point:** The decoder's input is the target sentence moved one place to the right, with `<start>` in the gap. Its target is the same sentence with `<end>` at the back.
+> **Key point:** The decoder's input is the **target** (G-1949) sentence moved one place to the right, with `<start>` in the gap. Its target is the same sentence with `<end>` at the back.
 
-The paper's figure labels the decoder's input "Outputs (shifted right)". The **shift right** (G-1790) inserts the start token in front of the target sentence. Each position's correct answer is then the next word:
+The paper's figure labels the **decoder** (G-564)'s input "Outputs (shifted right)". The **shift right** (G-1790) inserts the start token in front of the target sentence. Each position's correct answer is then the next word:
 
 | Position | 1 | 2 | 3 | 4 | 5 |
 |---|---|---|---|---|---|
@@ -83,13 +83,13 @@ The paper's figure labels the decoder's input "Outputs (shifted right)". The **s
 
 In Figure 3, follow the dashed arrows: the target of one position is the input of the next, so no position is ever given the word it must predict.
 
-This offset is the transformer's form of [**teacher forcing**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955): during training the decoder is fed the correct previous words, not its own predictions (the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training), where the same shift appears). The paper states why the offset matters: the masking of the self-attention, "combined with fact that the output embeddings are offset by one position, ensures that the predictions for position $i$ can depend only on the known outputs at positions less than $i$" (Vaswani et al. 2017, §3.1). Without the shift, position 1 would see "nous" and simply copy it.
+This offset is the transformer's form of [**teacher forcing**](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955): during **training** (G-1255) the decoder is fed the correct previous words, not its own predictions (the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training), where the same shift appears). The paper states why the offset matters: the masking of the self-attention, "combined with fact that the output embeddings are offset by one position, ensures that the predictions for position $i$ can depend only on the known outputs at positions less than $i$" (Vaswani et al. 2017, §3.1). Without the shift, position 1 would see "nous" and simply copy it.
 
 ### 5.2 Tokenise, embed, add positions
 
 > **Key point:** Exactly the encoder's three input steps, applied to the shifted French sentence.
 
-1. **Tokenisation.** Each word and the full stop become a token: 5 tokens, with the ids 2, 21, 85, 250 and 4 in the French vocabulary.
+1. **Tokenisation.** Each word and the full stop become a token: 5 tokens, with the ids 2, 21, 85, 250 and 4 in the French **vocabulary** (G-2092).
 2. **Embedding.** Each token becomes a learned vector of $d_{\text{model}} = 512$ numbers (the [word embeddings section](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)). The French words have their own embedding table, $V \times 512$.
 3. **Positional encoding.** The encoding of positions 1 to 5 is added to the embeddings (the [**positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) (G-1528)).
 
@@ -101,16 +101,16 @@ The result is the input matrix $X$, $5 \times 512$: rows $x_1, \dots, x_5$.
 >
 > The reason: every positional-encoding value lies between −1 and 1, so the learned embedding values are rescaled before the two are added (d2l §11.7.4).
 >
-> And one weight matrix is shared by three layers: the encoder's embedding, the decoder's embedding and the final linear layer of section 8. The paper's English–German data used one shared source–target vocabulary of about 37,000 tokens (§5.1). The Notebook applies the $\sqrt{d_{\text{model}}}$ factor; it keeps separate English and French vocabularies, so it does not share weights.
+> And one weight matrix is shared by three layers: the encoder's embedding, the decoder's embedding and the final linear layer of section 8. The paper's English–German data used one shared source–**target** (G-1949) vocabulary of about 37,000 tokens (§5.1). The Notebook applies the $\sqrt{d_{\text{model}}}$ factor; it keeps separate English and French vocabularies, so it does not share weights.
 
 ## 6. Inside one decoder block
 
-> **Key point:** A block does three things in order, each followed by add and norm: the French positions look at each other (masked), they look at the English sentence, and a feed-forward network transforms each position on its own.
+> **Key point:** A block does three things in order, each followed by add and norm: the French positions look at each other (masked), they look at the English sentence, and a **feed-forward network** (G-775) transforms each position on its own.
 
 In symbols, the three steps are:
 
 1. $X \to$ masked attention $\to$ add & norm $\to Z_{\text{norm}}$;
-2. cross-attention with $H_{\text{enc}}$ $\to$ add & norm $\to Z_{c,\text{norm}}$;
+2. **cross-attention** (G-507) with $H_{\text{enc}}$ $\to$ add & norm $\to Z_{c,\text{norm}}$;
 3. feed-forward $\to$ add & norm $\to Y_{\text{norm}}$.
 
 Every one of these matrices is $5 \times 512$.
@@ -119,13 +119,13 @@ Figure 4 shows the path of the five French positions through one block, with eve
 
 ![One decoder block for a 5-token French input and a 3-token English sentence. Every matrix is $5 \times 512$ except the encoder output $H_{\text{enc}}$ and the hidden layer of the feed-forward network. Red arrows are the residual connections](images/decoder_flow.png){width=100%}
 
-Figure 5 follows a single position through a decoder block of a model that has been trained. It is the last decoder block of the small English-to-French transformer of the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side), with the decoder input `<start> nous sommes` and the English sentence "we're friends .". Watch what the position "sommes" may read at each sub-layer: earlier French words in the masked self-attention, the English words in the cross-attention (0.85 of its weight on "friends"), and nothing but itself in the feed-forward network. The output layer then predicts "amies" with probability 0.987. "Amies" is the feminine form of "amis", also a correct translation of "friends"; the training target here is "amis", which gets 0.011.
+Figure 5 follows a single position through a **decoder block** (G-563) of a model that has been trained. It is the last decoder block of the small English-to-French transformer of the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#3-training-and-inference-side-by-side), with the **decoder** (G-564) input `<start> nous sommes` and the English sentence "we're friends .". Watch what the position "sommes" may read at each sub-layer: earlier French words in the **masked self-attention** (G-1172), the English words in the cross-attention (0.85 of its weight on "friends"), and nothing but itself in the feed-forward network. The output layer then predicts "amies" with probability 0.987. "Amies" is the feminine form of "amis", also a correct translation of "friends"; the training target here is "amis", which gets 0.011.
 
 ![One position, "sommes", through the last decoder block of a trained 2 + 2 block transformer. Line widths are the real attention weights (mean of 4 heads): masked self-attention over the French words so far, cross-attention over the English words, then the feed-forward network and the output layer](images/decoder_flow_anim.gif){height=55%}
 
 ### 6.1 Masked multi-head self-attention
 
-> **Key point:** Multi-head attention among the French positions, with every weight on a later position set to exactly 0.
+> **Key point:** **Multi-head attention** (G-1268) among the French positions, with every weight on a later position set to exactly 0.
 
 The first sub-layer is multi-head self-attention over $X$, with one change: a position may not look at the positions after it (the [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172)). For each row $x_i$ it returns a contextual vector $z_i$:
 
@@ -159,26 +159,26 @@ Both steps are exactly those of the [transformer encoder](../DL-081-transformer-
 
 ### 6.3 Cross-attention
 
-> **Key point:** The queries come from the decoder ($Z_{\text{norm}}$); the keys and values come from the encoder's output $H_{\text{enc}}$. Each French position gets a weighted sum of the English words' value vectors.
+> **Key point:** The queries come from the **decoder** (G-564) ($Z_{\text{norm}}$); the keys and values come from the encoder's output $H_{\text{enc}}$. Each French position gets a weighted sum of the English words' value vectors.
 
-The second sub-layer is where the two languages meet (the [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507)). It is a multi-head attention with two inputs:
+The second sub-layer is where the two languages meet (the [**cross-attention**](../DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507)). It is a **multi-head attention** (G-1268) with two inputs:
 
 - **queries** from the decoder: $Q = Z_{\text{norm}}W_Q$, one per French position (5);
 - **keys and values** from the encoder: $K = H_{\text{enc}}W_K$ and $V = H_{\text{enc}}W_V$, one per English word (3).
 
-In the paper's words, "the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder" (Vaswani et al. 2017, §3.2.3). The weights form a $5 \times 3$ table per head, French positions by English words, and no mask is needed: the whole English sentence is known. The output $Z_c$ has one 512-number row per French position. In the untrained block of the Notebook every row of the averaged weights is close to $\tfrac13, \tfrac13, \tfrac13$; training is what makes "amis" look at "friends".
+In the paper's words, "the queries come from the previous decoder layer, and the memory keys and values come from the output of the encoder" (Vaswani et al. 2017, §3.2.3). The weights form a $5 \times 3$ table per head, French positions by English words, and no mask is needed: the whole English sentence is known. The output $Z_c$ has one 512-number row per French position. In the untrained block of the Notebook every row of the averaged weights is close to $\tfrac13, \tfrac13, \tfrac13$; **training** (G-1255) is what makes "amis" look at "friends".
 
 ### 6.4 Add and norm
 
 > **Key point:** $Z_{c,\text{norm}} = \text{LayerNorm}(Z_{\text{norm}} + Z_c)$.
 
-The input of the cross-attention, $Z_{\text{norm}}$, is added back to its output, and the sum is normalised. Look at which matrix takes the residual path: the decoder's own $Z_{\text{norm}}$, not the encoder's $H_{\text{enc}}$. The shapes match, $5 \times 512$ plus $5 \times 512$; $H_{\text{enc}}$ ($3 \times 512$) could not be added.
+The input of the **cross-attention** (G-507), $Z_{\text{norm}}$, is added back to its output, and the sum is normalised. Look at which matrix takes the residual path: the **decoder** (G-564)'s own $Z_{\text{norm}}$, not the encoder's $H_{\text{enc}}$. The shapes match, $5 \times 512$ plus $5 \times 512$; $H_{\text{enc}}$ ($3 \times 512$) could not be added.
 
 ### 6.5 Feed-forward network, add and norm
 
 > **Key point:** The encoder's position-wise network, 512 → 2048 (ReLU) → 512, applied to each French position, then a third add and norm.
 
-The third sub-layer is the same position-wise feed-forward network as in the encoder (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block)), with its own weights. The 5 rows of $Z_{c,\text{norm}}$ go in together:
+The third sub-layer is the same position-wise **feed-forward network** (G-775) as in the encoder (the [transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block)), with its own weights. The 5 rows of $Z_{c,\text{norm}}$ go in together:
 
 | Step | Operation | Shape |
 |---|---|---|
@@ -186,9 +186,9 @@ The third sub-layer is the same position-wise feed-forward network as in the enc
 | output layer | $\text{hidden}\cdot W_2 + b_2$, $W_2$: $2048 \times 512$ | $5 \times 512$ |
 | add and norm | $Y_{\text{norm}} = \text{LayerNorm}(Z_{c,\text{norm}} + Y)$ | $5 \times 512$ |
 
-$Y_{\text{norm}}$ is the output of the block. The Notebook prints these shapes for the first of its 6 blocks: $(5, 512)$ everywhere, $(5, 2048)$ for the hidden layer, $(8, 5, 5)$ for the masked weights and $(8, 5, 3)$ for the cross-attention weights of the 8 heads.
+$Y_{\text{norm}}$ is the output of the block. The Notebook prints these shapes for the first of its 6 blocks: $(5, 512)$ everywhere, $(5, 2048)$ for the hidden layer, $(8, 5, 5)$ for the masked weights and $(8, 5, 3)$ for the **cross-attention** (G-507) weights of the 8 heads.
 
-> **Python:** One decoder block as a Keras layer (post-norm, as in the paper). `use_causal_mask=True` applies the mask of section 6.1.
+> **Python:** One **decoder block** (G-563) as a Keras layer (post-norm, as in the paper). `use_causal_mask=True` applies the mask of section 6.1.
 >
 > ```python
 > class DecoderBlock(keras.layers.Layer):
@@ -214,9 +214,9 @@ $Y_{\text{norm}}$ is the output of the block. The Notebook prints these shapes f
 
 ## 7. Six blocks: shapes and parameters
 
-> **Key point:** The shape stays $5 \times 512$ through all 6 blocks, and every block reads the same encoder output. One decoder block has 4,204,032 parameters, a third more than an encoder block because of the cross-attention; the 6 blocks have 25,224,192.
+> **Key point:** The shape stays $5 \times 512$ through all 6 blocks, and every block reads the same encoder output. One decoder block has 4,204,032 parameters, a third more than an encoder block because of the **cross-attention** (G-507); the 6 blocks have 25,224,192.
 
-**Shapes.** The output of block 1 is the input $X$ of block 2, which runs the same steps with its own weights, and so on up to block 6. Every block's cross-attention receives the same $H_{\text{enc}}$, the output of the last encoder block (Vaswani et al. 2017, §3.1, "the output of the encoder stack"). The final output of the decoder is again $5 \times 512$: one vector per French position. We call its rows $y_1, \dots, y_5$.
+**Shapes.** The output of block 1 is the input $X$ of block 2, which runs the same steps with its own weights, and so on up to block 6. Every block's cross-attention receives the same $H_{\text{enc}}$, the output of the last encoder block (Vaswani et al. 2017, §3.1, "the output of the encoder stack"). The final output of the **decoder** (G-564) is again $5 \times 512$: one vector per French position. We call its rows $y_1, \dots, y_5$.
 
 **Parameters.** With $d = 512$ and $d_{\text{ff}} = 2048$:
 
@@ -242,11 +242,11 @@ Keras' `count_params()` gives exactly these numbers (Notebook). The cross-attent
 | Shared embedding, about $37{,}000 \times 512$ | 18,944,000 |
 | **Total** | **about 63 million** |
 
-The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3). The 2 million gap sits in the embedding: the paper gives its vocabulary only as "about 37000 tokens" (§5.1), so the exact size of its embedding table is not known.
+The paper lists 65 million parameters for its base model (Vaswani et al. 2017, Table 3). The 2 million gap sits in the embedding: the paper gives its **vocabulary** (G-2092) only as "about 37000 tokens" (§5.1), so the exact size of its embedding table is not known.
 
 ## 8. The output layer: linear and softmax
 
-> **Key point:** A dense layer with $V$ nodes, one per word of the target vocabulary, turns each 512-number vector into $V$ scores; the softmax turns the scores into probabilities that sum to 1.
+> **Key point:** A dense layer with $V$ nodes, one per word of the **target** (G-1949) vocabulary, turns each 512-number vector into $V$ scores; the softmax turns the scores into probabilities that sum to 1.
 
 After the sixth block, each French position has a 512-number vector, and we need a word. The output layer has two parts (the "Linear" and "Softmax" boxes at the top of Figure 1):
 
@@ -259,7 +259,7 @@ $$512 \times 8{,}004 = 4{,}098{,}048$$
 
 $$4{,}098{,}048 + 8{,}004 = 4{,}106{,}052$$
 
-That is about as many as one decoder block.
+That is about as many as one **decoder block** (G-563).
 
 1. **In words:** multiply each position's vector by $W_3$ and add the bias to get one score per word, then exponentiate each score and divide by the sum of the exponentials.
 2. **Formula:** for the vector $y_i$ of position $i$,
@@ -299,11 +299,11 @@ All 5 positions go through the same layer together: $5 \times 512$ times $512 \t
 
 ## 9. Training: every position in one pass
 
-> **Key point:** One forward pass produces a probability row for every position at once. The loss is the cross-entropy between each row and the target word of that position, averaged over the positions. No word is chosen during training.
+> **Key point:** One forward pass produces a probability row for every position at once. The loss is the cross-entropy between each row and the target word of that position, averaged over the positions. No word is chosen during **training** (G-1255).
 
-Because the whole target sentence is known and shifted right, and the mask stops each position from seeing later ones, all 5 predictions can be made in the same pass (the [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172)). The decoder is **non-autoregressive** (G-1331) during training: it does not wait for its own outputs.
+Because the whole **target** (G-1949) sentence is known and shifted right, and the mask stops each position from seeing later ones, all 5 predictions can be made in the same pass (the [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172)). The **decoder** (G-564) is **non-autoregressive** (G-1331) during training: it does not wait for its own outputs.
 
-The five rows are then compared with the five targets of section 5.1. As in the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training), each position is a classification over the vocabulary, and the loss is the **categorical cross-entropy** (the [loss functions](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)), minus the log of the probability given to the correct word (SLP3 eq. 13.13):
+The five rows are then compared with the five targets of section 5.1. As in the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#5-training), each position is a classification over the **vocabulary** (G-2092), and the loss is the **categorical cross-entropy** (the [loss functions](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#9-categorical-cross-entropy)), minus the log of the probability given to the correct word (SLP3 eq. 13.13):
 
 $$L = -\frac{1}{5}\sum_{i=1}^{5} \ln P(t_i \text{ at position } i)$$
 
@@ -319,7 +319,7 @@ $$0.693 + 1.386 + 0.223 = 2.302$$
 
 $$L = 2.302 / 3 = 0.767$$
 
-Before training, the model has no preference: each correct word gets about $1/V$ of the probability. In the Notebook the 5 target words get $0.76/V$, $0.57/V$, $0.79/V$, $0.38/V$ and $1.04/V$, and the loss is 9.39, close to $\ln V = \ln 8{,}004 = 8.99$. Keras' `SparseCategoricalCrossentropy` gives the same 9.39. Backpropagation then updates every weight of the decoder, the cross-attention's $W_K$ and $W_V$, and through them the whole encoder, as one network.
+Before training, the model has no preference: each correct word gets about $1/V$ of the probability. In the Notebook the 5 target words get $0.76/V$, $0.57/V$, $0.79/V$, $0.38/V$ and $1.04/V$, and the loss is 9.39, close to $\ln V = \ln 8{,}004 = 8.99$. Keras' `SparseCategoricalCrossentropy` gives the same 9.39. Backpropagation then updates every weight of the decoder, the **cross-attention** (G-507)'s $W_K$ and $W_V$, and through them the whole encoder, as one network.
 
 ![The untrained decoder on the 5 positions: the loss $-\ln P$ of each correct word, with its probability as a multiple of $1/V$. Their mean, 9.39, is close to $\ln V$, the loss of a uniform guess over 8,004 words](images/untrained_loss.png){width=95%}
 
@@ -339,12 +339,12 @@ The untrained decoder's most likely word is "mit" at all 5 positions. Picking th
 | Repeat | 6 blocks, own weights, same $H_{\text{enc}}$ | $5 \times 512$ |
 | Output | linear ($512 \to V$) and softmax | $5 \times V$ probabilities |
 
-- The decoder's input is the target sentence shifted right: `<start>` in front, so position $i$ predicts word $i$ from the words before it; without the shift, position 1 would see "nous" and simply copy it.
-- A decoder block is an encoder block with a masked self-attention and an extra cross-attention sub-layer, because the decoder must not see later French words and must read the English sentence; it has 4,204,032 parameters against 3,152,384, the extra third being the cross-attention.
-- Cross-attention takes its queries from the decoder and its keys and values from the encoder's final output, in every block, so it is the only place where the decoder reads the input sentence.
-- The output layer has one node per vocabulary word; the softmax gives a probability for every word at every position, so a larger vocabulary makes this layer larger (4,106,052 parameters for 8,004 words, about one decoder block).
-- During training all positions are computed in one pass and the loss is the average cross-entropy, because the shifted target and the mask make every input known in advance; during prediction the decoder writes one word at a time, because each new word is the next input.
-- So the decoder writes the output sentence by combining the French words so far with the encoder's English vectors, and turns each position into a probability for every word.
+- The decoder's input is the **target** (G-1949) sentence shifted right: `<start>` in front, so position $i$ predicts word $i$ from the words before it; without the shift, position 1 would see "nous" and simply copy it.
+- A decoder block is an encoder block with a **masked self-attention** (G-1172) and an extra cross-attention sub-layer, because the decoder must not see later French words and must read the English sentence; it has 4,204,032 parameters against 3,152,384, the extra third being the cross-attention.
+- **Cross-attention** (G-507) takes its queries from the decoder and its keys and values from the encoder's final output, in every block, so it is the only place where the decoder reads the input sentence.
+- The output layer has one node per **vocabulary** (G-2092) word; the softmax gives a probability for every word at every position, so a larger vocabulary makes this layer larger (4,106,052 parameters for 8,004 words, about one decoder block).
+- During **training** (G-1255) all positions are computed in one pass and the loss is the average cross-entropy, because the shifted target and the mask make every input known in advance; during prediction the decoder writes one word at a time, because each new word is the next input.
+- So the **decoder** (G-564) writes the output sentence by combining the French words so far with the encoder's English vectors, and turns each position into a probability for every word.
 
 ## 11. Sources
 
@@ -364,23 +364,23 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Vocabulary ($V$) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
 | Decoder block (G-563) | One layer of the decoder: masked self-attention, cross-attention and a feed-forward network, each followed by add and norm; the decoder stacks 6. |
 | Shift right (G-1790) | Putting `<start>` in front of the target sentence to form the decoder's input, so each position predicts the next word. |
 | Logit (G-1122) | The raw score the final linear layer gives each vocabulary word, any number and not yet a probability; the softmax turns the logits into the probabilities of the next word. |
-| Vocabulary ($V$) (G-2092) | The list of distinct words (tokens) in a set of texts; in a translation model, those of the target language, with one output node per word. |
 | Non-autoregressive (G-1331) | Producing all output positions at once, as the decoder does during training. |
 | $H_{\text{enc}}$ (G-30) | The output of the last encoder block: one vector per input word, read by every decoder block. |
 | [Decoder](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#4-stage-1-the-encoderdecoder-2014) (G-564) | The part of a seq2seq model that writes the output sequence. |
+| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
+| [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
 | [Masked self-attention](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) | Self-attention in which each word can take information only from itself and earlier words: the later words' scores get $-\infty$ before the softmax, so their weights are 0, $\text{softmax}(QK^T/\sqrt{d_k} + M)\thinspace V$. It lets the decoder train on whole target sentences in one pass without seeing the future. |
 | [Cross-attention](../../../DL/06-transformers/DL-083-cross-attention/DL-083-cross-attention.md#5-processing-queries-from-one-side-keys-and-values-from-the-other) (G-507) | Attention between the two halves of a transformer: the queries come from the decoder and the keys and values from the encoder's output, so each output word can use the input sentence. |
-| [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
-| [Positional encoding](../../../DL/06-transformers/DL-079-positional-encoding/DL-079-positional-encoding.md#1-overview) (G-1528) | A vector added to each word's embedding that tells the model the word's position. |
-| [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
 | [Feed-forward network](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#23-recurrent-neural-network-rnn-and-lstm) (G-775) | A network in which information moves only from the first layer to the last. |
+| [Training (model training)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255) | Giving data to an algorithm so it learns the pattern: the model makes predictions, measures its errors and adjusts to reduce them. |
+| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
+| [Layer normalisation](../../../DL/06-transformers/DL-080-layer-normalization/DL-080-layer-normalization.md#1-overview) (G-1054) | Putting each observation's numbers on one scale by itself, without depending on the batch: subtract the mean and divide by the standard deviation across its own features, then scale and shift each feature by learned $\gamma_j$ and $\beta_j$. |
+| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
 | [Parallel corpus](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#51-the-data) (G-1442) | A dataset of sentences paired with their translations, one pair per row; it is the training data of a translation model. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Teacher forcing](../../../DL/06-transformers/DL-068-encoder-decoder/DL-068-encoder-decoder.md#52-the-forward-pass-and-teacher-forcing) (G-1955) | Feeding the correct (gold) previous token to the decoder during training instead of its own prediction, so every step learns from a correct history and training goes faster. |
-| [Multi-head attention](../../../DL/06-transformers/DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268) | Several self-attentions (heads) run in parallel on the same input, each with its own weights so each can capture a different kind of relation between words; their outputs are joined and mixed by one more learned matrix, $W_O$. |
 | [Softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1830) | A function that turns a list of scores into probabilities that add up to 1: raise $e$ to each score and divide by the total, $e^{z_k} / \sum_j e^{z_j}$; it gives one probability per class in multi-class models. |
 | [Autoregressive (causal) generation](../../../DL/06-transformers/DL-082-masked-self-attention/DL-082-masked-self-attention.md#3-autoregressive-models) (G-233) | Producing one output at a time, each chosen from the outputs already produced and fed back as input for the next. |

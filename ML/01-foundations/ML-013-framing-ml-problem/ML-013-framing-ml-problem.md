@@ -27,7 +27,7 @@ There is no fixed recipe for framing. These seven steps are a good default check
 
 ## 2. Why framing matters
 
-> **Key point:** Junior data scientists get small tasks; leaders plan the whole project, and framing is how they plan it.
+> **Key point:** Junior data scientists get small tasks; leaders plan the whole project, and **framing** (G-802) is how they plan it.
 
 ![Framing is the step from doing small tasks to planning the whole project](images/roles.png){width=75%}
 
@@ -113,7 +113,7 @@ Month 12 ends at 903.2. The same rule gives growth when joiners exceed leavers a
 
 ## 4. Step 1: Business problem to ML problem
 
-> **Key point:** "Increase revenue" becomes a number the team can aim at: bring the monthly churn rate down from 4% to 3.75%.
+> **Key point:** "Increase revenue" becomes a number the team can aim at: bring the monthly **churn rate** (G-386) down from 4% to 3.75%.
 
 A goal like "increase revenue" is too vague to build anything from. Our first job is to turn it into a **mathematical problem**: a measurable target we can hand to our team.
 
@@ -133,7 +133,7 @@ So we leave the meeting with a clear goal. In our mind, the task is no longer "i
 
 ## 5. Step 2: Type of problem
 
-> **Key point:** We look at the big picture: what product we will build and how it will be used. Only then do we know whether the problem is supervised, and whether it is classification or regression.
+> **Key point:** We look at the big picture: what product we will build and how it will be used. Only then do we know whether the problem is supervised, and whether it is classification or **regression** (G-1655).
 
 Next, we decide what type of ML problem we are solving (see [**supervised learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#2-supervised-learning) (G-1919) and [regression and classification](../ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification)):
 
@@ -146,9 +146,9 @@ To answer this, we must see the **big picture**: what will the end product be, a
 
 > **Key point:** Our job is to find *which* customers will leave, not *how many*.
 
-Predicting the overall churn rate ("next month, 4% will leave") is a different task, for a different team. A forecast of the rate does not stop anyone from leaving.
+Predicting the overall **churn rate** (G-386) ("next month, 4% will leave") is a different task, for a different team. A forecast of the rate does not stop anyone from leaving.
 
-To reduce churn, we must stop the customers who are about to leave. So our main task is to **identify the customers who are going to leave the platform**: for each customer, will they leave, yes or no?
+To reduce **churn** (G-387), we must stop the customers who are about to leave. So our main task is to **identify the customers who are going to leave the platform**: for each customer, will they leave, yes or no?
 
 In ML terms, each customer in a given month is one **observation** (G-1374; one record, one row of the data table). Whether that customer leaves is the **target** (G-1949; the output we predict).
 
@@ -180,7 +180,7 @@ So instead of yes or no, we predict, for each customer, **how likely they are to
 
 > **Extra:** Another way to see it: in practice, this task is usually still built as **binary classification** (leaves or stays), because the past data records only whether each customer left, yes or no. Most classifiers, such as logistic regression ([the model of the toy project](../ML-012-toy-project/ML-012-toy-project.md#8-training-the-model)), can output a probability for each class instead of only a label (ESL §4.4; scikit-learn API docs, `LogisticRegression.predict_proba`). That probability is exactly the 0 to 100% score we want, so "classification with probability outputs" and "a score" end up describing the same model.
 
-The framing changed as we thought more about the end product. Such changes are normal: framing is a thinking process, not a fixed formula.
+The **framing** (G-802) changed as we thought more about the end product. Such changes are normal: framing is a thinking process, not a fixed formula.
 
 ## 6. Step 3: Current solutions
 
@@ -188,9 +188,9 @@ The framing changed as we thought more about the end product. Such changes are n
 
 Before building anything, we ask what solutions already exist. The CTO, who knows the company's systems, is a good person to ask.
 
-Suppose we learn that one team already has a model that predicts Netflix's **overall** churn rate for next month (say, around 5% or 6%), and it is accurate to within about 10%. That model solves a different problem from ours, but in the same area.
+Suppose we learn that one team already has a model that predicts Netflix's **overall** **churn rate** (G-386) for next month (say, around 5% or 6%), and it is accurate to within about 10%. That model solves a different problem from ours, but in the same area.
 
-So we do not have to start from scratch. We can ask that team which factors they used to predict churn, and use them as a starting point.
+So we do not have to start from scratch. We can ask that team which factors they used to predict **churn** (G-387), and use them as a starting point.
 
 ![The existing churn-rate model gives us its factors as a starting point](images/reuse_model.png){width=65%}
 
@@ -226,7 +226,7 @@ Getting these features is a job for a **data engineer** (G-533). Netflix's day-t
 
 We need **metrics** (G-1215): numbers that tell us, and our team, whether we are moving in the right direction. Without them, we cannot tell whether six months of work achieved anything.
 
-For the churn project, two checks are natural:
+For the **churn** (G-387) project, two checks are natural:
 
 ![The two checks: do the circles match in size, and how much do they overlap?](images/two_checks.png){width=55%}
 
@@ -237,11 +237,11 @@ Figure 10 draws both checks as two circles: the customers we flagged and the cus
 
 Choosing metrics deserves real time and thought, just like choosing the data.
 
-> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547). [**Precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) asks: of the customers we flagged, how many really left? [**Recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
+> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547). [**Precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) asks: of the customers we flagged, how many really left? [**Recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the **churn rate** (G-386) itself, tells us whether the discounts are working.
 
 ## 9. Step 6: Online or batch learning
 
-> **Key point:** Churn changes quickly, so online learning would suit it best; if that is too hard, we retrain in batches, for example every week.
+> **Key point:** **Churn** (G-387) changes quickly, so online learning would suit it best; if that is too hard, we retrain in batches, for example every week.
 
 We also decide at the start how the model will learn once it is in production (see [**batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) (G-265) and [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is) (G-1391)):
 
@@ -250,30 +250,30 @@ We also decide at the start how the model will learn once it is in production (s
 
 ### 9.1 Why churn suits online learning
 
-> **Key point:** Churn depends on events that change fast, such as lockdowns and holidays.
+> **Key point:** **Churn** (G-387) depends on events that change fast, such as lockdowns and holidays.
 
 How much time people spend on Netflix, and whether they leave, is very **volatile**: it changes quickly with events.
 
 - **A lockdown starts:** people have more free time, so more customers join. Many of them later find something else to do and leave, so churn rises too.
 - **Holidays:** more customers arrive, and churn may go up or down.
 
-A model trained once would quickly fall out of date. So online learning is the better choice here.
+A model trained once would quickly fall out of date. So **online learning** (G-1391) is the better choice here.
 
 ### 9.2 The online flow, and the batch fallback
 
-> **Key point:** Data flows from the app to the OLTP database, to the data warehouse, and into a model that keeps training.
+> **Key point:** Data flows from the app to the **OLTP** (G-1378) database, to the data warehouse, and into a model that keeps training.
 
-Figure 11 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a churn score for every customer.
+Figure 11 shows the flow we would try to build. New data keeps arriving in the OLTP database, flows on into the data warehouse, and passes through the model, which keeps training and keeps producing a **churn** (G-387) score for every customer.
 
 ![Online learning for churn, with batch learning as a fallback](images/online_vs_batch.png)
 
-Online learning is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 11, bottom).
+**Online learning** (G-1391) is hard to build, and our data setup may not allow it. In that case we fall back on batch learning: every week, we take the model offline, retrain it on the latest data, and deploy it again (Figure 11, bottom).
 
 ## 10. Step 7: Checking assumptions
 
 > **Key point:** We list what we have taken for granted and check each point before building.
 
-While framing, we make many assumptions without noticing. The last step is to write them down and check them. For the churn project:
+While framing, we make many assumptions without noticing. The last step is to write them down and check them. For the **churn** (G-387) project:
 
 ![Each assumption gets a check before we build](images/assumptions.png){width=70%}
 
@@ -292,7 +292,7 @@ There are many more such assumptions in a real project, and each one is cheaper 
 
 Figure 13 contrasts the two habits.
 
-There is no fixed procedure for framing. What matters is the habit: we do not start coding straight away; we first sit down and think the problem through.
+There is no fixed procedure for **framing** (G-802). What matters is the habit: we do not start coding straight away; we first sit down and think the problem through.
 
 Planning first matters most in big organisations, which have high **inertia**: once a team starts moving in one direction, turning back is slow and costly. People are paid by the hour, so work in the wrong direction is wasted money, and it reflects badly on whoever led it.
 
@@ -310,8 +310,8 @@ The same habit is what separates people over time. Of the thousands of freshers 
 | 6. Online or batch | How will the model keep up with new data? | Online (churn is volatile); else retrain weekly | a model trained once falls out of date when events such as a lockdown change behaviour |
 | 7. Check assumptions | What are we taking for granted? | Columns really available? One model for every country? | each one is cheaper to check now than after the model is built |
 
-- Framing turns a vague business goal into a **measurable** ML target, so the team can build, measure and improve against it.
-- The **end product** decides the type of problem: here, a score that sets the size of a discount. Predicting the overall churn rate would be the wrong task, because a forecast of the rate stops no one from leaving.
+- **Framing** (G-802) turns a vague business goal into a **measurable** ML target, so the team can build, measure and improve against it.
+- The **end product** decides the type of problem: here, a score that sets the size of a discount. Predicting the overall **churn rate** (G-386) would be the wrong task, because a forecast of the rate stops no one from leaving.
 - Find out what **already exists**, which **data** is needed, and how success will be **measured**, before building, because in a big company work in the wrong direction is slow and costly to undo.
 - **Check assumptions** early: mistakes found late are expensive.
 
@@ -342,10 +342,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Inertia (of an organisation) (G-939) | A big organisation's resistance to changing direction once it has started. |
 | Mathematical problem (G-1173) | A business goal restated as a measurable target, such as a churn rate to reach. |
 | Subscription (G-1911) | A model where customers pay a fixed amount every month (or year). |
+| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
 | [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Regression](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-1655) | Supervised learning with a numerical output. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Data warehouse](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#42-where-data-comes-from) (G-541) | A separate store of copied company data, safe to analyse without touching the live database. |
 | [Precision](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) | Of all items predicted positive, the fraction that really are positive. |

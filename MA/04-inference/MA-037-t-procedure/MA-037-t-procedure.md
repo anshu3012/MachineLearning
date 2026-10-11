@@ -17,7 +17,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/t-distribut
 
 ## 1. Overview
 
-> **Key point:** When the population standard deviation $\sigma$ is unknown, we use the sample standard deviation $s$ and take the critical value from Student's t-distribution instead of the standard normal curve.
+> **Key point:** When the population standard deviation $\sigma$ is unknown, we use the sample standard deviation $s$ and take the critical value from **Student's t-distribution** (G-1906) instead of the standard normal curve.
 
 ![Choosing between the z-procedure and the t-procedure](images/z_or_t.png){height=30%}
 
@@ -27,7 +27,7 @@ This Note covers:
 
 - why replacing $\sigma$ by $s$ changes the distribution (section 3);
 - a simulation showing that "z with $s$" fails and "t with $s$" works (section 4);
-- Student's t-distribution and its degrees of freedom (section 5);
+- Student's t-distribution and its **degrees of freedom** (G-578) (section 5);
 - the t-interval and t critical values (section 6);
 - the assumptions of the t-procedure (section 7);
 - a t-interval for the mean Titanic fare (section 8).
@@ -38,11 +38,11 @@ This Note covers:
 
 The z-procedure has a hidden weakness. We build a confidence interval because we do not know the mean age $\mu$ of a channel's 77,000 subscribers. But $\sigma$ is computed from the same 77,000 ages: if we cannot get $\mu$, we cannot get $\sigma$ either.
 
-So in practice the z-procedure is rarely usable. The t-procedure needs no population parameter at all: everything comes from the sample.
+So in practice the z-procedure is rarely usable. The **t-procedure** (G-1938) needs no population parameter at all: everything comes from the sample.
 
 ## 3. Replacing $\sigma$ by $s$
 
-> **Key point:** With $s$ in place of $\sigma$, the standardized sample mean no longer follows the standard normal distribution but Student's t-distribution.
+> **Key point:** With $s$ in place of $\sigma$, the standardized sample mean no longer follows the standard normal distribution but **Student's t-distribution** (G-1906).
 
 The natural fix is to use the next best thing. We use $\bar{x}$ when $\mu$ is unknown; so we use the sample standard deviation $s$ (dividing by $n - 1$, see [the sample variance](../../01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#6-the-sample-variance-divide-by-n---1)) when $\sigma$ is unknown.
 
@@ -65,7 +65,7 @@ The tempting fix is to keep the z-interval and simply write $s$ where $\sigma$ w
 
 - **z with $\sigma$:** $\bar{x} \pm 1.96\thinspace\sigma/\sqrt{n}$, the z-procedure, possible only because we invented the population;
 - **z with $s$:** $\bar{x} \pm 1.96\thinspace s/\sqrt{n}$, the tempting shortcut;
-- **t with $s$:** $\bar{x} \pm 2.262\thinspace s/\sqrt{n}$, the t-procedure of section 6, which uses a larger critical value.
+- **t with $s$:** $\bar{x} \pm 2.262\thinspace s/\sqrt{n}$, the **t-procedure** (G-1938) of section 6, which uses a larger critical value.
 
 In Figure 2 the intervals arrive in batches. Watch the orange intervals, the misses, and the count in each title: the middle panel collects misses fastest.
 
@@ -87,7 +87,7 @@ The gap is large for small samples and fades as $n$ grows, exactly as the t-curv
 
 ## 5. Student's t-distribution
 
-> **Key point:** A bell-shaped, symmetric distribution like the standard normal but with fatter tails; its only parameter is the degrees of freedom, $n - 1$.
+> **Key point:** A bell-shaped, symmetric distribution like the standard normal but with fatter tails; its only parameter is the **degrees of freedom** (G-578), $n - 1$.
 
 The distribution of $T$ is **Student's t-distribution** (G-1906). The t-distribution was published in 1908 by William Sealy Gosset, a chemist at the Guinness brewery in Dublin who had to draw conclusions from small samples, for example when choosing the best varieties of barley (Student 1908; Zabell 2008). Guinness did not let staff publish under their own names, so Gosset signed the paper "Student", and the name stuck (Zabell 2008). The letter t has no special meaning.
 
@@ -107,7 +107,7 @@ The $n - 1$ is the same $n - 1$ as in the sample variance. The $n$ deviations $x
 
 ### 5.2 Shape: fatter tails
 
-> **Key point:** Few degrees of freedom give fat tails; as $df$ grows, the t-distribution approaches the standard normal, and equals it in the limit.
+> **Key point:** Few **degrees of freedom** (G-578) give fat tails; as $df$ grows, the t-distribution approaches the standard normal, and equals it in the limit.
 
 ![Student's t (dashed) against the standard normal (solid) for 1, 4 and 29 degrees of freedom, with the 95% t critical values (z = ±1.96)](images/t_vs_normal.png)
 
@@ -139,7 +139,7 @@ Figure 4 builds the t-distribution from scratch. For each sample size, we draw 2
 
 Since $T$ follows the t-distribution, the derivation of the z-interval (see [where the formula comes from](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#8-where-the-formula-comes-from)) goes through unchanged with t in place of z.
 
-1. **In words:** go from the sample mean $t_{\alpha/2}$ estimated standard errors down and up, where the standard error (the typical distance of a sample mean from the population mean) is estimated by $s/\sqrt{n}$ and $t_{\alpha/2}$ comes from the t-distribution with $n - 1$ degrees of freedom.
+1. **In words:** go from the sample mean $t_{\alpha/2}$ estimated standard errors down and up, where the standard error (the typical distance of a sample mean from the population mean) is estimated by $s/\sqrt{n}$ and $t_{\alpha/2}$ comes from the t-distribution with $n - 1$ **degrees of freedom** (G-578).
 2. **Formula:**
    $$\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace\frac{s}{\sqrt{n}}$$
 3. **Example:** 10 subscribers with $\bar{x} = 28$ years and $s = 15$ years, 95% confidence, $df = 9$, so $t_{0.025,\thinspace9} = 2.262$:
@@ -158,7 +158,7 @@ The t critical value is always larger than $z_{\alpha/2}$ for the same confidenc
 
 > **Key point:** Find the row for $df = n - 1$ and the column for an upper-tail area of $\alpha/2$; for 95%, that is the 0.025 column.
 
-A t-table has one row per degrees of freedom and one column per upper-tail area. For a two-sided 95% interval, each tail holds 0.025, so we read the 0.025 column (some tables label it "95%, two-sided"). For a sample of 30, $df = 29$ gives 2.045.
+A t-table has one row per **degrees of freedom** (G-578) and one column per upper-tail area. For a two-sided 95% interval, each tail holds 0.025, so we read the 0.025 column (some tables label it "95%, two-sided"). For a sample of 30, $df = 29$ gives 2.045.
 
 | $df$ | $t_{0.025}$ (95%, two-sided) | $t_{0.05}$ (one tail of 5%) |
 |---|---|---|
@@ -197,7 +197,7 @@ A common slip is to read the 0.05 column for a 95% interval. For $df = 40$ it gi
 
 1. **Random sample.** As for the z-procedure: drawn at random and representative.
 2. **Normal population, or a large sample.** The population should be approximately normal. If it is not, a sample of more than about 30 lets the central limit theorem make $\bar{x}$ approximately normal anyway (see [the central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem)).
-3. **Independent observations.** An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the t-procedure still gives an interval, but one that is too narrow.
+3. **Independent observations.** An [**observation**](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record, here one value in the sample. One observation must not influence another. The ages of randomly chosen subscribers are independent. Feedback ratings may not be: if one person's rating sways the next, the observations are linked, and the **t-procedure** (G-1938) still gives an interval, but one that is too narrow.
 
 > **Extra:** The notebook measures the damage. For samples of 30 from a normal population where each value is tied to the one before (correlation 0.5), the "95%" t-interval contains $\mu$ only 74.1% of the time, against 95.2% for independent values.
 
@@ -214,7 +214,7 @@ The t-procedure has two strengths:
 
 > **Key point:** One random sample of 30 passengers gives the 95% t-interval 18.57 to 55.72 pounds, which contains the true mean of 33.30 pounds.
 
-We return to [the population of Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger): the 1308 known fares of all Titanic passengers, with true mean 33.30 pounds. We know neither $\mu$ nor $\sigma$ (we pretend), so the t-procedure is the right tool.
+We return to [the population of Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger): the 1308 known fares of all Titanic passengers, with true mean 33.30 pounds. We know neither $\mu$ nor $\sigma$ (we pretend), so the **t-procedure** (G-1938) is the right tool.
 
 1. **In words:** draw one random sample of 30 fares, compute $\bar{x}$ and $s$, and use $t_{0.025,\thinspace29}$.
 2. **Formula:**
@@ -241,7 +241,7 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 
 ![The case study's intervals for the mean Titanic fare: one sample of 30 at 95% and 50%, ten samples of 30 averaged with n = 30 (wrong) and pooled with n = 300; dashed: the true mean 33.30](images/fare_intervals.png){height=40%}
 
-> **Extra:** The t-procedure corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see [the Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30. The bootstrap percentile interval that seaborn uses (see [the bootstrap interval](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#10-another-way-the-bootstrap-interval)) does no better on the same 4000 samples: 86.2% for $n = 30$ and 92.8% for $n = 100$. On data this skewed, the larger sample is what helps.
+> **Extra:** The **t-procedure** (G-1938) corrects for the uncertainty of $s$, not for skewness. The fares are extremely right-skewed (see [the Titanic fares](../MA-034-estimating-a-mean-with-the-clt/MA-034-estimating-a-mean-with-the-clt.md#2-the-population-every-titanic-passenger)). Repeating the one-sample t-interval 4000 times, it contains the true mean only 86.5% of the time for $n = 30$ and 92.8% for $n = 100$. For very skewed data we need larger samples than the usual 30. The bootstrap percentile interval that seaborn uses (see [the bootstrap interval](../MA-035-confidence-intervals-z-procedure/MA-035-confidence-intervals-z-procedure.md#10-another-way-the-bootstrap-interval)) does no better on the same 4000 samples: 86.2% for $n = 30$ and 92.8% for $n = 100$. On data this skewed, the larger sample is what helps.
 
 ## 9. Summary
 
@@ -254,13 +254,13 @@ Figure 7 puts all four intervals of this case study on one line. Watch the red a
 | 95% critical value | 1.96 | 2.262 ($n = 10$), 2.045 ($n = 30$) |
 | Example | 25.06 to 30.94 ($n = 100$, $\sigma = 15$) | 17.27 to 38.73 ($n = 10$, $s = 15$) |
 
-- Use the table's first row to choose: the t-procedure is the usual one, because if we do not know $\mu$ we almost never know $\sigma$, which is computed from the same population.
+- Use the table's first row to choose: the **t-procedure** (G-1938) is the usual one, because if we do not know $\mu$ we almost never know $\sigma$, which is computed from the same population.
 - Replacing $\sigma$ by $s$ adds uncertainty; the t-distribution's fat tails account for it, so the interval is wider and honestly claims less precision.
 - The t critical value is above $z_{\alpha/2}$ and approaches it as $n$ grows, because $s$ estimates $\sigma$ better in larger samples.
 - "Z with $s$" gives intervals that are too narrow: 91.9% instead of 95% for $n = 10$, so with $s$ always take the critical value from the t-table.
 - For a 95% two-sided interval read the 0.025 column of the t-table, not the 0.05 column, because each tail holds 2.5%; the 0.05 column suits a one-sided interval.
 - Pool several samples into one, because averaging their standard deviations and keeping $n = 30$ gives an interval about three times too wide; the t-procedure does not fix strong skewness, so very skewed data needs larger samples (86.5% coverage for the fares at $n = 30$).
-- This answers the opening question: when $\sigma$ is unknown, use $s$ and a critical value from Student's t-distribution with $n - 1$ degrees of freedom.
+- This answers the opening question: when $\sigma$ is unknown, use $s$ and a critical value from **Student's t-distribution** (G-1906) with $n - 1$ **degrees of freedom** (G-578).
 
 ## 10. Sources
 
@@ -283,8 +283,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| T-procedure (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
 | Student's t-distribution (G-1906) | A bell-shaped distribution like the standard normal but with fatter tails. It is used in place of the standard normal when the population's $\sigma$ is unknown and estimated by the sample's $s$; it is the distribution of $(\bar{X} - \mu)/(s/\sqrt{n})$ and approaches the standard normal as $n$ grows. |
+| T-procedure (G-1938) | The way to build a confidence interval for a mean when the population standard deviation $\sigma$ is unknown: use the sample's $s$ and a t critical value in place of $z$, giving $\bar{x} \pm t_{\alpha/2,\thinspace n-1}\thinspace s/\sqrt{n}$. |
 | Degrees of freedom (G-578) | The number of deviations free to vary, $n - 1$ for a sample of size $n$; it sets the shape of the t-distribution (its parameter). |
 | T critical value (G-1936) | The cut-off from Student's t-distribution that leaves $\alpha/2$ in each tail; the t-interval multiplies the standard error by it in place of $z_{\alpha/2}$. For 95% and $n = 30$ it is 2.045. |
 | T-table (G-1939) | A table of t critical values with one row per degrees of freedom and one column per tail area; we read the cut-off for a t-interval or t-test from it. |

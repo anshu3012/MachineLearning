@@ -30,7 +30,7 @@ We picked one, tried it, and kept whichever worked best.
 The **power transformer** (G-1542) automates that search, like an optician who tries lens after lens until the letters look sharpest. For each feature, the power transformer:
 
 1. tries a whole family of power formulas;
-2. finds the power $\lambda$ (lambda) that makes the feature most normal;
+2. finds the power $\lambda$ (**lambda** (G-1041)) that makes the feature most normal;
 3. applies that power to the feature.
 
 A power in numbers: with $\lambda = 2$ the value 3 becomes:
@@ -47,7 +47,7 @@ That is the square root. Figure 1 shows the whole topic. scikit-learn's `PowerTr
 
 ## 2. Power transformer in scikit-learn
 
-> **Key point:** `PowerTransformer` is the second of scikit-learn's three mathematical transformers; it holds both the Box-Cox and the Yeo-Johnson transforms.
+> **Key point:** `PowerTransformer` is the second of scikit-learn's three mathematical transformers; it holds both the Box-Cox and the **Yeo-Johnson transforms** (G-2136).
 
 [Mathematical transformers in scikit-learn](../ML-029-function-transformer/ML-029-function-transformer.md#3-mathematical-transformers-in-scikit-learn) lists three classes:
 
@@ -59,17 +59,17 @@ That is the square root. Figure 1 shows the whole topic. scikit-learn's `PowerTr
 
 ## 3. Box-Cox transform
 
-> **Key point:** Box-Cox raises every value to a power $\lambda$; with the right $\lambda$, many skewed features become close to normal.
+> **Key point:** Box-Cox raises every value to a power $\lambda$; with the right $\lambda$, many skewed **features** (G-772) become close to normal.
 
-The Box-Cox transform is named after the two statisticians who published it in 1964, George Box and David Cox (Box and Cox 1964). Box-Cox is one of the most important transforms in practice: with it, a wide range of skewed distributions can be brought close to a normal distribution.
+The Box-Cox transform is named after the two statisticians who published it in 1964, George Box and David Cox (Box and Cox 1964). Box-Cox is one of the most important transforms in practice: with it, a wide range of skewed distributions can be brought close to a **normal distribution** (G-1343).
 
 ### 3.1 The Box-Cox formula
 
 > **Key point:** The formula is $(x^\lambda - 1)/\lambda$, and the log when $\lambda = 0$.
 
-The heart of Box-Cox is the power $\lambda$. Should a feature become $x^2$, $x^3$, $x^{1.5}$ or $x^{0.2}$? Box-Cox treats the power as a number to be found from the data.
+The heart of Box-Cox is the power $\lambda$. Should a **feature** (G-772) become $x^2$, $x^3$, $x^{1.5}$ or $x^{0.2}$? Box-Cox treats the power as a number to be found from the data.
 
-The Box-Cox transform, step by step:
+The **Box-Cox transform** (G-331), step by step:
 
 1. **In words:** raise each value to the power $\lambda$, subtract 1, and divide by $\lambda$. When $\lambda$ is exactly 0, that division is impossible, so the log is used instead ($\ln x$ is the natural logarithm of $x$).
 2. **Formula:**
@@ -110,12 +110,12 @@ Unlike with the function transformer, we no longer have to try each transform by
 
 ### 3.3 Finding the best lambda
 
-> **Key point:** Box-Cox tries many values of $\lambda$ and keeps the one whose result is closest to a normal distribution.
+> **Key point:** Box-Cox tries many values of $\lambda$ and keeps the one whose result is closest to a **normal distribution** (G-1343).
 
 The search goes like this:
 
 1. Try many values of $\lambda$, usually between $-5$ and $5$.
-2. Transform the feature with each one.
+2. Transform the **feature** (G-772) with each one.
 3. Keep the $\lambda$ whose result is the best approximation to a normal distribution.
 
 Figure 3 shows the search on the concrete `Age` feature. At $\lambda = 1$ the feature keeps its long right tail ([**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) 3.34; skewness is 0 for a symmetric feature and positive for a right tail). Lowering $\lambda$ pulls the tail in; going too low, to $\lambda = -0.5$, overshoots and creates a left tail instead.
@@ -164,13 +164,13 @@ Box-Cox has one important restriction: every value must be strictly positive. A 
 
 The reason is in the formula. With $\lambda = 0$ Box-Cox takes $\ln x$, which does not exist for 0 or negative numbers. With other values of $\lambda$, a power such as $(-4)^{0.5}$ is not a real number either.
 
-So before using Box-Cox, we check the minimum of every feature.
+So before using Box-Cox, we check the minimum of every **feature** (G-772).
 
 ## 4. Yeo-Johnson transform
 
 > **Key point:** Yeo-Johnson is a variation of Box-Cox that also works on zeros and negative values.
 
-The Yeo-Johnson transform, published by In-Kwon Yeo and Richard Johnson in 2000 (Yeo and Johnson 2000), is an adjustment of Box-Cox. The main difference is that Yeo-Johnson removes Box-Cox's restriction: it accepts 0 and negative values.
+The **Yeo-Johnson transform** (G-2136), published by In-Kwon Yeo and Richard Johnson in 2000 (Yeo and Johnson 2000), is an adjustment of Box-Cox. The main difference is that Yeo-Johnson removes Box-Cox's restriction: it accepts 0 and negative values.
 
 The Yeo-Johnson transform, step by step:
 
@@ -203,15 +203,15 @@ For data with no negative values, only the first two lines apply. Then Yeo-Johns
 
 ## 5. When to use a power transformer
 
-> **Key point:** When a feature is not normal and the algorithm prefers normal data, apply both transforms and keep the better one.
+> **Key point:** When a **feature** (G-772) is not normal and the algorithm prefers normal data, apply both transforms and keep the better one.
 
-[Why make data normal](../ML-029-function-transformer/ML-029-function-transformer.md#2-why-make-data-normal) explained which algorithms care about the shape of the data: linear regression and logistic regression do; decision trees and random forests do not. The same rule decides when to use a power transformer.
+[Why make data normal](../ML-029-function-transformer/ML-029-function-transformer.md#2-why-make-data-normal) explained which algorithms care about the shape of the data: linear regression and logistic regression do; decision trees and random forests do not. The same rule decides when to use a **power transformer** (G-1542).
 
 The recipe:
 
-1. Check each feature's distribution (density plot, skewness, **Q-Q plot** (G-1596; a plot that shows how far a column is from normal, see [how a Q-Q plot is built](../ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built))).
+1. Check each feature's distribution (density plot, **skewness** (G-1817), **Q-Q plot** (G-1596; a plot that shows how far a column is from normal, see [how a Q-Q plot is built](../ML-029-function-transformer/ML-029-function-transformer.md#41-how-a-q-q-plot-is-built))).
 2. If features are not normal and the algorithm is a linear one, apply a power transformer.
-3. Try both methods, Box-Cox and Yeo-Johnson, just like trying settings of a model, and keep the one that scores better.
+3. Try both **methods** (G-1214), Box-Cox and Yeo-Johnson, just like trying settings of a model, and keep the one that scores better.
 
 In real-world data, features are rarely normal to begin with, so this check is worth doing every time.
 
@@ -221,9 +221,9 @@ In real-world data, features are rarely normal to begin with, so this check is w
 
 ### 6.1 The data
 
-> **Key point:** 1030 concrete mixes, 8 numerical features and the target `Strength`: a regression problem.
+> **Key point:** 1030 concrete mixes, 8 numerical features and the **target** (G-1949) `Strength`: a regression problem.
 
-The dataset describes 1030 batches of concrete; each batch is one observation. Several of its features are clearly not normal, which makes it a good test for a power transformer.
+The dataset describes 1030 batches of concrete; each batch is one **observation** (G-1374). Several of its features are clearly not normal, which makes it a good test for a power transformer.
 
 | Column | Meaning |
 |---|---|
@@ -252,7 +252,7 @@ There are no missing values, which matters: transforms cannot handle them. The `
 | Fly Ash | 0 | 566 |
 | Superplasticizer | 0 | 379 |
 
-No feature is negative, but three contain many zeros.
+No **feature** (G-772) is negative, but three contain many zeros.
 
 As always, we split first: 80% for training (824 rows) and 20% for testing (206 rows), with `random_state=42`.
 
@@ -262,14 +262,14 @@ As always, we split first: 80% for training (824 rows) and 20% for testing (206 
 
 > **Key point:** With no transform, linear regression scores R² 0.63 on the test set and 0.46 with cross-validation.
 
-To measure a regression model, we use the [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717): how much of the variation in the target the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² is taught in full later, in [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); here we only compare its values.
+To measure a regression model, we use the [**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717): how much of the variation in the **target** (G-1949) the model explains. A score of 1 is perfect; a score of 0 is no better than always predicting the average strength. R² is taught in full later, in [the R² score](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score); here we only compare its values.
 
 | Check | R² |
 |---|---|
 | Test set | 0.628 |
 | 5-fold cross-validation | 0.461 |
 
-Cross-validation ([checking with cross-validation](../ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)) averages the score over 5 different splits. Cross-validation gives a lower number here, 0.46. Much of that drop comes from how the folds are cut: a plain `cv=5` does not shuffle the rows, so each fold is a block of consecutive rows in file order. With shuffled, repeated folds the same untransformed model scores 0.60 (section 7). Within this section every method is scored on the same 5 folds, so the comparison stays fair.
+Cross-validation ([checking with cross-validation](../ML-029-function-transformer/ML-029-function-transformer.md#75-checking-with-cross-validation)) averages the score over 5 different splits. Cross-validation gives a lower number here, 0.46. Much of that drop comes from how the folds are cut: a plain `cv=5` does not shuffle the rows, so each fold is a block of consecutive rows in file order. With shuffled, repeated folds the same untransformed model scores 0.60 (section 7). Within this section every **method** (G-1214) is scored on the same 5 folds, so the comparison stays fair.
 
 > **Python:** The baseline.
 >
@@ -285,13 +285,13 @@ Cross-validation ([checking with cross-validation](../ML-029-function-transforme
 >     scoring="r2", cv=5).mean()              # 0.461
 > ```
 
-> **Extra:** The features are not scaled here. Leaving them unscaled is fine: plain linear regression gives exactly the same predictions with or without scaling, because it simply adjusts its coefficients to the units. The Notebook checks this (R² 0.628 either way). Scaling matters for models such as KNN, or regression trained step by step with gradient descent.
+> **Extra:** The **features** (G-772) are not scaled here. Leaving them unscaled is fine: plain linear regression gives exactly the same predictions with or without scaling, because it simply adjusts its coefficients to the units. The Notebook checks this (R² 0.628 either way). Scaling matters for models such as KNN, or regression trained step by step with gradient descent.
 
 ### 6.3 How normal is each feature?
 
-> **Key point:** `Age` is the worst feature (skewness 3.34); Blast Furnace Slag, Fly Ash and Superplasticizer are piled up at 0; the two aggregates are already close to normal.
+> **Key point:** `Age` is the worst feature (**skewness** (G-1817) 3.34); Blast Furnace Slag, Fly Ash and Superplasticizer are piled up at 0; the two aggregates are already close to normal.
 
-Figure 6 shows each training feature as a histogram (skewness in brackets) with its Q-Q plot below.
+Figure 6 shows each training **feature** (G-772) as a histogram (skewness in brackets) with its Q-Q plot below.
 
 ![The 8 raw input columns of the training set: histogram (skewness in brackets) and Q-Q plot](images/raw_columns.png){height=62%}
 
@@ -308,7 +308,7 @@ Figure 6 shows each training feature as a histogram (skewness in brackets) with 
 
 > **Key point:** Adding a tiny 0.000001 to every value lets Box-Cox run despite the zeros; it then lifted R² to 0.80 on the test set and 0.67 with cross-validation.
 
-Box-Cox cannot run on the three features with zeros. A common workaround is to add a tiny number to every value: a 0 becomes 0.000001, which is above 0, and every other value hardly changes.
+Box-Cox cannot run on the three **features** (G-772) with zeros. A common workaround is to add a tiny number to every value: a 0 becomes 0.000001, which is above 0, and every other value hardly changes.
 
 > **Python:** Box-Cox with `PowerTransformer`.
 >
@@ -334,7 +334,7 @@ Training the same linear regression on the transformed features:
 
 The cross-validated R² rose by about 0.2, a very good improvement for one line of preprocessing.
 
-Figure 7 shows the feature that changed most, `Age`. The long right tail is gone, the skewness drops from 3.34 to almost 0, and the Q-Q plot points now follow the line.
+Figure 7 shows the feature that changed most, `Age`. The long right tail is gone, the **skewness** (G-1817) drops from 3.34 to almost 0, and the Q-Q plot points now follow the line.
 
 ![Age before (blue) and after Box-Cox and Yeo-Johnson (green): histogram and Q-Q plot](images/age_power.png){height=40%}
 
@@ -355,7 +355,7 @@ Figure 8 shows all 8 features after Box-Cox.
 
 > **Key point:** Yeo-Johnson needs no workaround for zeros and scored slightly better: R² 0.82 on the test set and 0.68 with cross-validation.
 
-Yeo-Johnson is the default method, so `PowerTransformer()` with no arguments uses it. Yeo-Johnson accepts the zeros as they are.
+Yeo-Johnson is the default **method** (G-1214), so `PowerTransformer()` with no arguments uses it. Yeo-Johnson accepts the zeros as they are.
 
 > **Python:** Yeo-Johnson.
 >
@@ -372,7 +372,7 @@ Yeo-Johnson is the default method, so `PowerTransformer()` with no arguments use
 
 So the score went from 0.46 with no transform, to 0.67 with Box-Cox, to 0.68 with Yeo-Johnson.
 
-Figure 9 shows all 8 features after Yeo-Johnson.
+Figure 9 shows all 8 **features** (G-772) after Yeo-Johnson.
 
 ![All 8 training columns after Yeo-Johnson, with each learned lambda and skewness](images/yeojohnson_after.png){height=40%}
 
@@ -382,7 +382,7 @@ The result looks much like Box-Cox in Figure 8. The visible differences are in t
 
 ### 6.6 Comparing the lambdas
 
-> **Key point:** The two methods learn almost the same $\lambda$ for most features; they differ most on the features with zeros.
+> **Key point:** The two **methods** (G-1214) learn almost the same $\lambda$ for most **features** (G-772); they differ most on the features with zeros.
 
 Both transformers fitted on the same training set:
 
@@ -405,7 +405,7 @@ The table follows the rule of [Section 3.2](#32-one-formula-a-whole-family-of-tr
 
 The biggest gaps between the two methods are on Fly Ash and Superplasticizer, two of the features with zeros: the tiny-number trick changes what Box-Cox sees there.
 
-> **Extra:** The cross-validated scores above fit the power transformer on all of `X` before cross-validating, so each test fold has already influenced the $\lambda$ values: a small case of data leakage. Putting the transformer inside a pipeline ([building a pipeline](../ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)) refits it on each training fold. The honest scores are 0.660 for Box-Cox and 0.674 for Yeo-Johnson, almost the same, so the conclusion holds.
+> **Extra:** The cross-validated scores above fit the **power transformer** (G-1542) on all of `X` before cross-validating, so each test fold has already influenced the $\lambda$ values: a small case of data leakage. Putting the transformer inside a pipeline ([building a pipeline](../ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)) refits it on each training fold. The honest scores are 0.660 for Box-Cox and 0.674 for Yeo-Johnson, almost the same, so the conclusion holds.
 >
 > ```python
 > from sklearn.pipeline import make_pipeline
@@ -420,12 +420,12 @@ The biggest gaps between the two methods are on Fly Ash and Superplasticizer, tw
 
 > **Key point:** On the concrete data, $\log(1 + x)$ and Yeo-Johnson score almost the same (R² 0.796 and 0.800), so try both and keep whichever scores better.
 
-The function transformer and the power transformer do the same job in different ways:
+The function transformer and the **power transformer** (G-1542) do the same job in different ways:
 
 - **`FunctionTransformer`:** we pick the formula (log, square root and so on) and apply it.
-- **`PowerTransformer`:** searches a whole family of formulas and picks the best power for each feature.
+- **`PowerTransformer`:** searches a whole family of formulas and picks the best power for each **feature** (G-772).
 
-The power transformer's family contains the log itself: for values of 0 and above, Yeo-Johnson with $\lambda = 0$ is exactly $\log(1 + x)$ (section 4). Because $\lambda$ is chosen by maximum likelihood (section 3.3), and $\lambda = 0$ is one of the candidates, the power it picks for each training feature fits a normal distribution at least as well as $\log(1 + x)$ does. A more normal feature does not guarantee a better model score, though, so the only way to choose is to try both and compare their scores.
+The power transformer's family contains the log itself: for values of 0 and above, Yeo-Johnson with $\lambda = 0$ is exactly $\log(1 + x)$ (section 4). Because $\lambda$ is chosen by **maximum likelihood** (G-1191) (section 3.3), and $\lambda = 0$ is one of the candidates, the power it picks for each training feature fits a **normal distribution** (G-1343) at least as well as $\log(1 + x)$ does. A more normal feature does not guarantee a better model score, though, so the only way to choose is to try both and compare their scores.
 
 On the concrete data, we put each transformer in a pipeline ([building a pipeline](../ML-028-pipelines/ML-028-pipelines.md#5-building-a-pipeline)), so it is refitted inside every training fold, and compare linear regression's R². Each score is the average of 5-fold cross-validation, repeated 10 times with shuffled rows, for 5 seeds:
 
@@ -454,13 +454,13 @@ Figure 10 applies one fixed formula, $\log(1 + x)$, and Yeo-Johnson to the same 
 | In scikit-learn | FunctionTransformer | PowerTransformer, method "box-cox" | PowerTransformer, the default method |
 | Concrete data, cross-validated R² (section 7) | 0.796 with $\log(1 + x)$ | 0.796 | 0.800 |
 
-- A power transformer learns one power $\lambda$ for each feature and uses it to bring the feature close to a normal distribution, so we no longer try the log, square root and other formulas by hand.
+- A **power transformer** (G-1542) learns one power $\lambda$ for each feature and uses it to bring the feature close to a **normal distribution** (G-1343), so we no longer try the log, square root and other formulas by hand.
 - Box-Cox: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. The log, square root, reciprocal and square are special cases, so one search covers them all and can also land between them.
-- The best $\lambda$ is found by a search (maximum likelihood): it is the peak of the log-likelihood curve, because a higher score means a normal curve explains the transformed values better. It is stored in `lambdas_`.
+- The best $\lambda$ is found by a search (maximum likelihood): it is the peak of the **log-likelihood** (G-1113) curve, because a higher score means a normal curve explains the transformed values better. It is stored in `lambdas_`.
 - $\lambda$ below 1 pulls in a right tail, because it squashes big values; above 1 pulls in a left tail, because it stretches big values apart; 1 leaves the shape alone.
 - Box-Cox needs values above 0, because $\ln x$ and powers such as $(-4)^{0.5}$ do not exist for 0 or negatives; Yeo-Johnson works on any value and is the default, so it needs no tiny-number trick for zeros.
-- `PowerTransformer` also standardises its output to mean 0 and standard deviation 1, so the transformed features also come out on one common scale.
-- On the concrete data, linear regression's cross-validated R² rose from 0.46 to 0.67 (Box-Cox) and 0.68 (Yeo-Johnson). `Age` gained most: skewness 3.34 to 0.
+- `PowerTransformer` also standardises its output to mean 0 and standard deviation 1, so the transformed **features** (G-772) also come out on one common scale.
+- On the concrete data, linear regression's cross-validated R² rose from 0.46 to 0.67 (Box-Cox) and 0.68 (Yeo-Johnson). `Age` gained most: **skewness** (G-1817) 3.34 to 0.
 - A fixed $\log(1 + x)$ on every concrete feature scored almost as well as the learned powers (R² 0.796 against 0.796 for Box-Cox and 0.800 for Yeo-Johnson, shuffled repeated cross-validation). Try both and keep the better one.
 - A transform cannot merge two separate groups, such as a pile of zeros and the rest, into one bell: after Box-Cox, Blast Furnace Slag and Fly Ash are still two bars at opposite ends (Figure 8).
 - So the power transformer automates the search for the formula: it learns, for each feature, the power that makes that feature closest to normal.
@@ -486,12 +486,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Power transformer (G-1542) | A transform that raises each column to a learned power $\lambda$ to make it close to normal. |
+| lambdas_ (G-1041) | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. |
 | Box-Cox transform (G-331) | A power transform that reshapes a feature of positive values to look closer to normal, with a parameter $\lambda$ fitted to the data: $(x^\lambda - 1)/\lambda$, or $\ln x$ when $\lambda = 0$. |
 | Yeo-Johnson transform (G-2136) | A power transform that makes a column closer to normal, like Box-Cox but also working on zero and negative values; scikit-learn's default. |
 | PowerTransformer (G-1543) | scikit-learn's class that applies the Box-Cox or Yeo-Johnson power transform to each column, to make its distribution closer to normal. |
 | method (G-1214) | The `PowerTransformer` setting that picks which formula reshapes the column: `"box-cox"` or `"yeo-johnson"`. |
 | Bimodal (G-296) | A distribution with two peaks. |
-| lambdas_ (G-1041) | The `PowerTransformer` attribute holding the learned $\lambda$ of each column. |
 | Lambda ($\lambda$, power transform) (G-1038) | The power used by a power transform, learned separately for each column. |
 | standardize (G-1875) | The `PowerTransformer` parameter (on by default) that rescales the output to mean 0 and standard deviation 1. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |

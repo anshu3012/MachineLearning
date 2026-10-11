@@ -20,7 +20,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/sigmoid]
 
 [**Gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) on the **log loss** (G-303; [the measure of how wrong the predicted probabilities are](../ML-072-log-loss/ML-072-log-loss.md#6-one-formula-for-both-classes)) needs the [**derivative**](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of the [**sigmoid function**](../ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798). The derivative is the slope of the curve: how fast its output changes when its input $z$ changes a little. The same derivative appears again in neural networks, where a neuron can use the sigmoid to produce its output. This short Note derives it once.
 
-In plain words, the answer is easy to picture. The sigmoid is an S-shaped curve: flat on the far left, steep in the middle, flat again on the far right. So its slope is close to 0 at both ends and largest in the middle (Figure 3 in section 4 rides a tangent line along the curve). The formula of this Note gives that slope exactly.
+In plain words, the answer is easy to picture. The sigmoid is an S-shaped curve: flat on the far left, steep in the middle, flat again on the far right. So its slope is close to 0 at both ends and largest in the middle (Figure 3 in section 4 rides a **tangent line** (G-1945) along the curve). The formula of this Note gives that slope exactly.
 
 As a reminder, the sigmoid is
 
@@ -30,7 +30,7 @@ The sigmoid squeezes any number into the range 0 to 1 (see [the sigmoid function
 
 ## 2. Two rules we need
 
-> **Key point:** The chain rule, and the derivative of e^(−z), which is −e^(−z).
+> **Key point:** The chain rule, and the **derivative** (G-595) of e^(−z), which is −e^(−z).
 
 **Notation.** $\frac{d}{dz}$ means "the slope with respect to $z$": how much the quantity after it changes when $z$ grows by a tiny amount. Take $u = 1 + e^{-z}$, a number that depends on $z$. At $z = 0$:
 
@@ -83,7 +83,7 @@ Each red line in Figure 1 is a [**tangent line**](../../../MA/06-calculus/MA-061
 
 > **Key point:** Treat σ(z) as 1/u with u = 1 + e^(−z).
 
-Write $u = 1 + e^{-z}$, so $\sigma(z) = 1/u$. The derivative of $u$ is:
+Write $u = 1 + e^{-z}$, so $\sigma(z) = 1/u$. The **derivative** (G-595) of $u$ is:
 
 $$0 + (-e^{-z}) = -e^{-z}$$
 
@@ -138,15 +138,15 @@ Figure 3 ([Section 4](#4-the-shape-of-the-derivative)) draws the two factors as 
 
 In Figure 2, follow the numbers beside the boxes: the messy fraction and the neat product land on the same slope, 0.105.
 
-The form $\sigma(1-\sigma)$ is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the derivative costs just one subtraction and one multiplication.
+The form $\sigma(1-\sigma)$ is very convenient. When a model has already computed $\sigma(z)$ for its prediction, the **derivative** (G-595) costs just one subtraction and one multiplication.
 
 ## 4. The shape of the derivative
 
-> **Key point:** The derivative is largest, 0.25, at z = 0 and falls towards 0 on both sides.
+> **Key point:** The **derivative** (G-595) is largest, 0.25, at z = 0 and falls towards 0 on both sides.
 
 ![A tangent line (red) rides the sigmoid; its slope is traced below. The bar at $z$ splits into $\sigma(z)$ (blue) and $1 - \sigma(z)$ (orange), and the slope is their product. Key frames: $z = -4$, $0$, $2$, $6$](images/tangent_ride.gif)
 
-In Figure 3, watch the two coloured parts of the bar: the slope is large only when both parts are large, which happens at $z = 0$, where each is 0.5. Reading the derivative as the slope of a tangent line that moves along the curve follows Sanderson's *Essence of Calculus* (3Blue1Brown, "The paradox of the derivative").
+In Figure 3, watch the two coloured parts of the bar: the slope is large only when both parts are large, which happens at $z = 0$, where each is 0.5. Reading the derivative as the slope of a **tangent line** (G-1945) that moves along the curve follows Sanderson's *Essence of Calculus* (3Blue1Brown, "The paradox of the derivative").
 
 | $z$ | $-4$ | $-2$ | 0 | 2 | 4 |
 |---|---|---|---|---|---|
@@ -162,7 +162,7 @@ In Figure 3, watch the two coloured parts of the bar: the slope is large only wh
 
 The derivative is used in two places later:
 
-- [gradient descent for logistic regression](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) puts it into the chain rule to get the gradient of the log loss;
+- [gradient descent for logistic regression](../ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#5-the-gradient) puts it into the **chain rule** (G-371) to get the gradient of the log loss;
 - [the vanishing gradient problem](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem) shows what the small slopes do in a deep neural network (the Extra below gives the short version).
 
 > **Python:** The derivative, checked numerically.
@@ -187,11 +187,11 @@ The derivative is used in two places later:
 
 - The sigmoid:
   $$\sigma(z) = 1/(1 + e^{-z})$$
-- Its derivative, found with the chain rule and one algebra step:
+- Its derivative, found with the **chain rule** (G-371) and one algebra step:
   $$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
   This form is cheap, because a model that has already computed $\sigma(z)$ gets the slope with one subtraction and one multiplication.
-- The derivative peaks at 0.25 when $z = 0$ and approaches 0 far from it, because the S-curve is steepest in the middle and flat at both ends; so a nudge to $z$ moves an unsure output a lot and a confident output hardly at all.
-- The next Note uses it to derive the gradient of the log loss, which gradient descent needs to train logistic regression.
+- The **derivative** (G-595) peaks at 0.25 when $z = 0$ and approaches 0 far from it, because the S-curve is steepest in the middle and flat at both ends; so a nudge to $z$ moves an unsure output a lot and a confident output hardly at all.
+- The next Note uses it to derive the gradient of the log loss, which **gradient descent** (G-862) needs to train logistic regression.
 
 ## 6. Sources
 

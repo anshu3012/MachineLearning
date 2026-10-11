@@ -24,15 +24,15 @@ A hypothesis test ends with one of two decisions, reject $H_0$ or fail to reject
 
 This Note covers:
 
-- Type I and Type II errors, with their probabilities $\alpha$ (alpha, the significance level we choose in advance) and $\beta$ (beta, the chance of missing a real effect);
-- the power of a test, $1 - \beta$;
+- Type I and **Type II errors** (G-2033), with their probabilities $\alpha$ (alpha, the significance level we choose in advance) and $\beta$ (beta, the chance of missing a real effect);
+- the **power of a test** (G-1539), $1 - \beta$;
 - the trade-off between the two errors;
-- one-tailed and two-tailed tests, and the pros and cons of each;
+- one-tailed and **two-tailed tests** (G-2028), and the pros and cons of each;
 - where hypothesis testing is used, in general and in machine learning.
 
 ## 2. Type I and Type II errors
 
-> **Key point:** A Type I error rejects a true $H_0$ (a false positive, probability $\alpha$); a Type II error fails to reject a false $H_0$ (a false negative, probability $\beta$).
+> **Key point:** A **Type I error** (G-2032) rejects a true $H_0$ (a **false positive** (G-748), probability $\alpha$); a **Type II error** (G-2033) fails to reject a false $H_0$ (a **false negative** (G-747), probability $\beta$).
 
 Whatever we decide, the decision may be wrong:
 
@@ -73,7 +73,7 @@ The probability of a Type II error is written $\beta$.
 
 The second row is sometimes labelled "accept $H_0$". As [failing to reject $H_0$](../MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#53-failing-to-reject-h_0-does-not-prove-it) showed, the correct wording is "fail to reject $H_0$": the test never proves $H_0$.
 
-The same two errors appear in classification. In the [**confusion matrix**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a Type I error and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
+The same two errors appear in classification. In the [**confusion matrix**](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) (G-449) of [the confusion matrix](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix), a false positive is a **Type I error** (G-2032) and a false negative a Type II error. The link is direct: "positive" means "we flag an effect", which in a test is "reject $H_0$".
 
 ## 3. Power of a test
 
@@ -105,7 +105,7 @@ $\beta$ and the power depend on how false $H_0$ is. Figure 3 works this out for 
 
 > **Key point:** For a fixed sample, lowering $\alpha$ shrinks the rejection region and so raises $\beta$: we cannot push both errors down at once.
 
-Lowering $\alpha$ protects against Type I errors, but it has a price. A smaller $\alpha$ widens the region where we fail to reject $H_0$. A future test statistic is then more likely to land there, including when $H_0$ is false: more guilty people walk free.
+Lowering $\alpha$ protects against **Type I errors** (G-2032), but it has a price. A smaller $\alpha$ widens the region where we fail to reject $H_0$. A future test statistic is then more likely to land there, including when $H_0$ is false: more guilty people walk free.
 
 Figure 3 shows it with numbers. For the same true mean of 52:
 
@@ -146,24 +146,24 @@ Advantages:
 
 Disadvantages:
 
-- **They are less powerful** for an effect in a known direction. Because $\alpha$ is split, a larger effect is needed to reject $H_0$. For the training program with a true mean of 52, a two-tailed test at 5% has power 0.59 against 0.71 for the right-tailed test.
+- **They are less powerful** for an effect in a known direction. Because $\alpha$ is split, a larger effect is needed to reject $H_0$. For the training program with a true mean of 52, a **two-tailed test** (G-2028) at 5% has power 0.59 against 0.71 for the right-tailed test.
 - **They are not designed for a directional hypothesis.** The question "is the weight different from 100 g?" is not "is it lower?".
 
-> **Extra:** The overall Type I error rate of a two-tailed test is still $\alpha$, only split across two tails. And when a two-tailed test rejects $H_0$, the sign of $z$ tells the direction: $z = -2.5$ means the mean is below 100 g.
+> **Extra:** The overall **Type I error** (G-2032) rate of a two-tailed test is still $\alpha$, only split across two tails. And when a two-tailed test rejects $H_0$, the sign of $z$ tells the direction: $z = -2.5$ means the mean is below 100 g.
 
 ### 5.2 One-tailed tests: pros and cons
 
 Advantages:
 
 - **They are more powerful in the chosen direction.** All of $\alpha$ sits in one tail, so the rejection region on that side is larger and a real effect there is easier to detect.
-- **They fit a directional hypothesis.** When there is a strong theoretical or practical reason to expect one direction, such as a training program that can only help, the one-tailed test asks exactly that question.
+- **They fit a directional hypothesis.** When there is a strong theoretical or practical reason to expect one direction, such as a training program that can only help, the **one-tailed test** (G-1385) asks exactly that question.
 
 Disadvantages:
 
 - **They miss effects in the other direction.** If the new filming style actually lowers the view duration, a right-tailed test cannot see it: $z$ lands far in the left tail, which is not a rejection region, and we "fail to reject" a null that is wrong in the opposite way.
 - **They are easy to misuse.** The direction must be fixed before seeing the data.
 
-> **Extra:** The real Type I risk of one-tailed tests comes from choosing the tail after looking. With a correct one-tailed test the Type I error rate is exactly $\alpha$. But if we look at $z$ first and then test in the direction it points to, we reject whenever $|z| > 1.645$: in a simulation of 100,000 tests with a true $H_0$, that happens 10.0% of the time, double the promised 5%.
+> **Extra:** The real Type I risk of one-tailed tests comes from choosing the tail after looking. With a correct one-tailed test the **Type I error** (G-2032) rate is exactly $\alpha$. But if we look at $z$ first and then test in the direction it points to, we reject whenever $|z| > 1.645$: in a simulation of 100,000 tests with a true $H_0$, that happens 10.0% of the time, double the promised 5%.
 
 ## 6. Where hypothesis testing is used
 
@@ -200,8 +200,8 @@ Libraries such as scikit-learn usually run these tests for us. Knowing what happ
 | Weakness | blind to the other direction | less power in each direction |
 
 - Use the table to choose: one-tailed only when there is a strong reason to expect one direction (a training program that can only help), two-tailed when the direction is uncertain.
-- Type I error: reject a true $H_0$ (false positive), probability $\alpha$, chosen by us, so this risk is under our control.
-- Type II error: fail to reject a false $H_0$ (false negative), probability $\beta$, which is why "fail to reject" never proves $H_0$.
+- **Type I error** (G-2032): reject a true $H_0$ (**false positive** (G-748)), probability $\alpha$, chosen by us, so this risk is under our control.
+- **Type II error** (G-2033): fail to reject a false $H_0$ (**false negative** (G-747)), probability $\beta$, which is why "fail to reject" never proves $H_0$.
 - Power is $1 - \beta$: the chance of detecting a real effect; 0.71 for the training test if $\mu = 52$, so even a real gain of 2 cars a day would be missed 29% of the time.
 - For a fixed sample, lowering $\alpha$ raises $\beta$, because a smaller rejection region also catches fewer real effects; more data (or less variable data) lowers both, because it shrinks the standard error.
 - Fix the direction of $H_1$ before looking at the data, because choosing the tail after looking doubles the real Type I error rate (10.0% instead of 5%).
@@ -225,11 +225,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Type I error (false positive) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
 | Type II error (false negative) (G-2033) | A miss: the test finds no effect when there really is one (failing to reject $H_0$ when it is actually false); its probability is $\beta$. |
 | Power of a test (G-1539) | The probability that a test detects a real effect, that is, rejects $H_0$ when $H_0$ is false; it equals $1 - \beta$, where $\beta$ is the probability of a Type II error. |
-| One-tailed test (one-sided test) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
 | Two-tailed test (two-sided test) (G-2028) | A test that looks for an effect in either direction: $H_1$ uses $\neq$, and the significance level is split into $\alpha/2$ in each tail. |
+| Type I error (false positive) (G-2032) | A false alarm: the test declares an effect when there is none (rejecting $H_0$ when it is actually true); its probability is $\alpha$. |
+| One-tailed test (one-sided test) (G-1385) | A test whose $H_1$ has a direction ($>$ or $<$), with the whole rejection region in one tail. |
 | $\beta$ (G-5) | The chance that a test misses a real effect, failing to reject a false $H_0$ (the probability of a Type II error). $1 - \beta$ is the test's power. |
 | [False positive (FP)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-748) | Predicted positive, but actually negative; a Type I error. |
 | [False negative (FN)](../../../ML/07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#42-reading-it) (G-747) | Predicted negative, but actually positive; a Type II error. |

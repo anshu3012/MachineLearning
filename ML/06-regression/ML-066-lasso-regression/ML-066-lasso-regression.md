@@ -91,7 +91,7 @@ Lasso found which of the 16 power features matter without being told.
 
 A coefficient of exactly 0 means that feature has no effect on the predictions, so its column can be dropped. A model in which many coefficients are exactly 0 is a **sparse model** (G-1844). Zero coefficients make Lasso a tool for **feature selection** (G-768; see the [feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering)), useful when there are many features and some of them do not matter. Think of packing a suitcase with a strict weight limit: the items you barely need are left out entirely.
 
-Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2). The last column of the table below is the test R², the share of the target's variation the model explains on the test data: 1 is perfect, 0 is no better than predicting the average (see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)).
+Figure 3 trains Lasso on the diabetes data (test size 0.2, random state 2). The last column of the table below is the test R², the share of the **target** (G-1949)'s variation the model explains on the test data: 1 is perfect, 0 is no better than predicting the average (see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)).
 
 ![Diabetes coefficients for alpha 0, 0.1, 1 and 10, on the same scale](images/bars.png){height=50%}
 
@@ -145,7 +145,7 @@ Figure 5 follows each coefficient as alpha grows on a log scale (each tick mark 
 
 > **Key point:** As with Ridge, a larger alpha raises bias and lowers variance. The best alpha is in between.
 
-We use the same method as [the Ridge bias-variance method](../ML-065-ridge-key-points/ML-065-ridge-key-points.md#4-point-3-bias-rises-variance-falls): made-up data from the known curve plus noise (standard deviation 2), 20 fixed training observations, a degree-16 polynomial, and 200 fresh noise draws. Bias² (how far the average fit is from the true curve) and variance (how much the fits differ from draw to draw; see [bias and variance](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)) are measured against the true curve at 19 test points between the training ones.
+We use the same method as [the Ridge bias-variance method](../ML-065-ridge-key-points/ML-065-ridge-key-points.md#4-point-3-bias-rises-variance-falls): made-up data from the known curve plus noise (standard deviation 2), 20 fixed training **observations** (G-1374), a degree-16 polynomial, and 200 fresh noise draws. Bias² (how far the average fit is from the true curve) and variance (how much the fits differ from draw to draw; see [bias and variance](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)) are measured against the true curve at 19 test points between the training ones.
 
 | alpha | Bias² | Variance | Expected test error |
 |---|---|---|---|
@@ -230,7 +230,7 @@ Both shrink the largest coefficients, raise bias, lower variance and are tuned t
 
 ## 9. Summary
 
-- Lasso adds $\lambda\sum|\beta_j|$ to the squared error: L1 regularisation, so large coefficients are penalised by their size, as in Ridge, but without squaring.
+- Lasso adds $\lambda\sum|\beta_j|$ to the squared error: **L1 regularisation** (G-1026), so large coefficients are penalised by their size, as in Ridge, but without squaring.
 - As λ grows, coefficients shrink and then become exactly 0, one by one; size alone does not protect a coefficient, because the large s2 goes second.
 - Zero coefficients remove features: Lasso performs feature selection (diabetes: alpha 1 keeps bmi, bp and s5; the polynomial: alpha 0.1 keeps $x$ and $x^2$), so it suits data with many columns where only some matter.
 - A larger λ means more bias and less variance; too large removes every feature, so pick λ in between (alpha 0.1 had the lowest test error on the polynomial).

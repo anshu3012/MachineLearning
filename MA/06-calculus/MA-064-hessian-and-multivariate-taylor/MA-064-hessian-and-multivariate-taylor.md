@@ -15,7 +15,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/hessian]
 
 ## 1. Overview
 
-> **Key point:** The Hessian collects all second partial derivatives and measures how a surface curves; together with the gradient it builds the multivariate Taylor polynomial, which approximates a function near a point by a plane, then a curved bowl, and so on.
+> **Key point:** The Hessian collects all second partial derivatives and measures how a surface curves; together with the gradient it builds the **multivariate Taylor polynomial** (G-1284), which approximates a function near a point by a plane, then a curved bowl, and so on.
 
 This Note follows Chapter 5 (Sections 5.7 and 5.8) of *Mathematics for Machine Learning* (Deisenroth, Faisal and Ong, 2020).
 
@@ -27,7 +27,7 @@ Figure 1 shows the goal. Near a point, a surface is approximated first by a flat
 
 1. how one curve bends: the second derivative ([Section 2](#2-the-second-derivative-how-a-curve-bends));
 2. the flat approximation of a surface: the tangent plane ([Section 3](#3-linearisation-the-tangent-plane));
-3. the curved approximation, which needs second partial derivatives ([Section 4](#4-bending-the-plane-the-quadratic-approximation));
+3. the curved approximation, which needs **second partial derivatives** (G-1760) ([Section 4](#4-bending-the-plane-the-quadratic-approximation));
 4. the Hessian, the matrix that holds those second partial derivatives and tells the shape of the surface ([Section 5](#5-the-hessian));
 5. the full Taylor series and its uses in ML (Sections [6](#6-the-multivariate-taylor-series) and [7](#7-where-ml-uses-second-order-approximations)).
 
@@ -156,7 +156,7 @@ Figure 4 shows what "agree" means. On the left, we stand at $x = 1$ and watch th
 
 ### 4.2 Fitting the three constants
 
-> **Key point:** Matching the second partial derivatives gives $a = \tfrac12 f_{xx}$, $b = f_{xy}$ and $c = \tfrac12 f_{yy}$.
+> **Key point:** Matching the **second partial derivatives** (G-1760) gives $a = \tfrac12 f_{xx}$, $b = f_{xy}$ and $c = \tfrac12 f_{yy}$.
 
 We want $Q$ to bend like $f$ at the point, so we ask for the same three second partial derivatives. For the running example at $(1, 1)$: $f = 3$, $\nabla f = [4, 3]$, and from [Section 4.1](#41-second-partial-derivatives) the second partial derivatives are 6, 1 and 2. So
 
@@ -164,7 +164,7 @@ $$Q = 3 + 4\delta_x + 3\delta_y$$
 $$+ a\thinspace\delta_x^2 + b\thinspace\delta_x\delta_y + c\thinspace\delta_y^2$$
 
 1. **Twice by $x$.** Only $a\thinspace\delta_x^2$ survives two derivatives by $x$, and it gives $2a$. Matching $\partial^2 f/\partial x^2 = 6$ gives $a = 3$.
-2. **By $x$, then by $y$.** Only $b\thinspace\delta_x\delta_y$ survives, and it gives $b$. Matching the mixed partial derivative 1 gives $b = 1$.
+2. **By $x$, then by $y$.** Only $b\thinspace\delta_x\delta_y$ survives, and it gives $b$. Matching the **mixed partial derivative** (G-1236) 1 gives $b = 1$.
 3. **Twice by $y$.** Only $c\thinspace\delta_y^2$ survives, and it gives $2c$. Matching $\partial^2 f/\partial y^2 = 2$ gives $c = 1$.
 
 The result is
@@ -198,13 +198,13 @@ Three numbers control the bend of a function of two inputs. With $n$ inputs ther
 
 ## 5. The Hessian
 
-> **Key point:** The Hessian is the square, symmetric matrix of all second partial derivatives; it describes the **curvature** (G-521) of $f$ near a point.
+> **Key point:** The Hessian is the square, symmetric matrix of all **second partial derivatives** (G-1760); it describes the **curvature** (G-521) of $f$ near a point.
 
 ### 5.1 The Hessian matrix
 
 > **Key point:** Entry $(i, j)$ is $\partial^2 f / \partial x_i \partial x_j$; for $n$ inputs the Hessian is $n \times n$.
 
-Figure 5 lays out every second partial derivative of the running example as a tree. Each arrow differentiates once, by $x$ or by $y$. Two arrows in a row give four results, and the two mixed paths in the middle meet in the same value, as [Section 4.1](#41-second-partial-derivatives) showed. The four results, written in a grid, are the Hessian.
+Figure 5 lays out every **second partial derivative** (G-1760) of the running example as a tree. Each arrow differentiates once, by $x$ or by $y$. Two arrows in a row give four results, and the two mixed paths in the middle meet in the same value, as [Section 4.1](#41-second-partial-derivatives) showed. The four results, written in a grid, are the Hessian.
 
 ![The tree of derivatives of $f = x^3 + xy + y^2$. Two differentiations give four second partial derivatives; the two mixed paths agree. The four results fill the Hessian. Idea after Khan Academy, "Symmetry of second partial derivatives" and "The Hessian matrix"; our own function](images/hessian_tree.png)
 
@@ -286,7 +286,7 @@ $$\theta = 90^\circ \text{ (along } y\text{)}: \quad 2\cos 180^\circ = -2$$
 
 ![The saddle $f = x^2 - y^2$ cut by a vertical plane that turns from the $x$ direction (angle 0) to the $y$ direction (90 degrees). Left: the slice (red) on the surface. Right: the second derivative of the slice, $2\cos 2\theta$, traced against the angle: positive, zero, then negative. Idea after Khan Academy, "Saddle points"](images/slice_rotate.gif){height=42%}
 
-**The two axis slices are not enough.** Take $f = x^2 + y^2 + p\thinspace xy$ with a number $p$ we can turn up. Its second partial derivatives along the axes are $f_{xx} = 2$ and $f_{yy} = 2$ for every $p$: both axis slices always bend up. Yet Figure 7 shows the bowl turning into a saddle as $p$ grows.
+**The two axis slices are not enough.** Take $f = x^2 + y^2 + p\thinspace xy$ with a number $p$ we can turn up. Its **second partial derivatives** (G-1760) along the axes are $f_{xx} = 2$ and $f_{yy} = 2$ for every $p$: both axis slices always bend up. Yet Figure 7 shows the bowl turning into a saddle as $p$ grows.
 
 1. Walk a distance $s$ along the diagonal direction $(1, -1)/\sqrt2$. The point reached has
    $$x = s/\sqrt2$$
@@ -301,7 +301,7 @@ $$\theta = 90^\circ \text{ (along } y\text{)}: \quad 2\cos 180^\circ = -2$$
 3. At $p = 2$ it is flat.
 4. For $p > 2$ it bends down while the axis slices bend up: a saddle.
 
-The term that does this is the mixed one: $f_{xy} = p$. The mixed partial derivative measures how much the two diagonal directions disagree. The purest case is $f = xy$: flat along both axes ($f_{xx} = f_{yy} = 0$), bending up along one diagonal and down along the other.
+The term that does this is the mixed one: $f_{xy} = p$. The **mixed partial derivative** (G-1236) measures how much the two diagonal directions disagree. The purest case is $f = xy$: flat along both axes ($f_{xx} = f_{yy} = 0$), bending up along one diagonal and down along the other.
 
 ![The surface $f = x^2 + y^2 + p\thinspace xy$ as $p$ grows from 0 to 4. The slices along $x$ and $y$ (orange, green) never change; the diagonal slice (red) flattens at $p = 2$ and then bends down, so the bowl becomes a saddle. The title tracks the test value $4 - p^2$ and the Hessian's eigenvalues $2 - p$ and $2 + p$. Idea after Khan Academy, "Second partial derivative test"](images/saddle_slider.gif){height=42%}
 
@@ -417,7 +417,7 @@ says the bowl curves almost three times as steeply in one direction as in the ot
 
 > **Key point:** Value, plus gradient times step, plus half the step times Hessian times step.
 
-The tangent plane is the start of a series, exactly as in one variable, and the quadratic approximation of [Section 4](#4-bending-the-plane-the-quadratic-approximation) is its next step. [Section 4.2](#42-fitting-the-three-constants) found the bending terms one constant at a time; with the Hessian they are one line.
+The tangent plane is the start of a series, exactly as in one variable, and the **quadratic approximation** (G-2252) of [Section 4](#4-bending-the-plane-the-quadratic-approximation) is its next step. [Section 4.2](#42-fitting-the-three-constants) found the bending terms one constant at a time; with the Hessian they are one line.
 
 The step is a column, the difference of the two points:
 
@@ -608,7 +608,7 @@ The second-order polynomial is a bowl (when $H$ has positive eigenvalues), and t
 >
 > $$B = \frac{12 - 3}{2 - 1} = 9$$
 >
-> This lies between the true curvatures $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search (trying a shorter step until the function drops enough). **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite (all eigenvalues positive), so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. L-BFGS is the default solver of `LogisticRegression` ([the solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver)). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
+> This lies between the true **curvatures** (G-521) $f''(1) = 6$ and $f''(2) = 12$. The step is then $\boldsymbol{\delta} = -B^{-1}\nabla f^{\mathsf T}$, as in Newton's method, usually shortened by a line search (trying a shorter step until the function drops enough). **BFGS** (Broyden, Fletcher, Goldfarb, Shanno) is the most used update rule; it keeps $B$ symmetric and positive definite (all eigenvalues positive), so every step goes downhill. **L-BFGS** ("limited memory") stores only the last few $(\mathbf{s}, \mathbf{y})$ pairs instead of the full $n \times n$ matrix, which makes it usable with many parameters. L-BFGS is the default solver of `LogisticRegression` ([the solver](../../../ML/07-classification/ML-080-logistic-hyperparameters/ML-080-logistic-hyperparameters.md#3-the-solver)). (Nocedal and Wright, ch. 6 for BFGS, §7.2 for L-BFGS.)
 
 ![The secant idea for $f = x^3$: the line through the slope readings at $x = 1$ and $x = 2$ has slope 9, a stand-in for the true curvatures 6 and 12](images/secant.png)
 
@@ -650,13 +650,13 @@ Figure 13 races the three methods on the curved valley above, all with the same 
 | Newton step | $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$ | bowl: $(1, 1) \to (0, 0)$ | reaches the bottom of a quadratic in one step, where gradient descent needs many |
 | Secant equation (BFGS) | $B_{k+1}\mathbf{s} = \mathbf{y}$ | $x^3$, $1 \to 2$: $B = 9$ | a curvature stand-in built from gradients alone, with no Hessian |
 
-- Second partial derivatives can be taken in either order; the Hessian is therefore symmetric.
-- The Hessian measures curvature; the signs of its eigenvalues separate bowls, saddles and caps, because a zero gradient alone cannot tell a minimum from a hilltop or a saddle. For two inputs the second partial derivative test reads the same from $f_{xx}f_{yy} - f_{xy}^2$.
-- The mixed partial derivative can turn a bowl into a saddle even when both axis slices bend up, so checking the two axis slices is not enough.
+- **Second partial derivatives** (G-1760) can be taken in either order; the Hessian is therefore symmetric.
+- The Hessian measures curvature; the signs of its eigenvalues separate bowls, saddles and caps, because a zero gradient alone cannot tell a minimum from a hilltop or a saddle. For two inputs **the second partial derivative test** (G-2253) reads the same from $f_{xx}f_{yy} - f_{xy}^2$.
+- The **mixed partial derivative** (G-1236) can turn a bowl into a saddle even when both axis slices bend up, so checking the two axis slices is not enough.
 - Linearisation replaces a surface by its tangent plane, good only near the point, because a plane cannot bend.
-- The multivariate Taylor series adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$, so the second-order polynomial is a bowl that Newton's method, and XGBoost for every tree, can minimise directly.
+- The **multivariate Taylor series** (G-1285) adds terms with $k$ copies of the step and the $k$-th derivative tensor; the second-order term is $\tfrac{1}{2}\boldsymbol{\delta}^{\mathsf T}H\boldsymbol{\delta}$, so the second-order polynomial is a bowl that **Newton's method** (G-1321), and XGBoost for every tree, can minimise directly.
 - A polynomial of degree $k$ is reproduced exactly by its Taylor polynomial of degree $k$, because all its derivatives above order $k$ are zero.
-- So the gradient gives the flat approximation of a surface near a point, and the Hessian bends it to follow the surface's curvature.
+- So the gradient gives the flat approximation of a surface near a point, and the Hessian bends it to follow the surface's **curvature** (G-521).
 
 ## 9. Sources
 
@@ -692,14 +692,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Multivariate Taylor polynomial (G-1284) | An approximation of a function of several variables near a point, built from its derivatives there up to order $n$ (the multivariate Taylor series cut after the $k = n$ term); the second-order one uses the gradient and the Hessian. |
 | Tangent plane (G-1946) | The flat plane that touches a surface at one point with the same slopes (gradient) there; it approximates the surface near that point and is the first-order Taylor approximation. |
-| Quadratic approximation (G-2252) | A curved surface that matches a function near a point in value, slopes and bending: the tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; it is the second-order Taylor polynomial, and Newton's method steps to its minimum. |
 | Second partial derivative (G-1760) | A partial derivative taken of a partial derivative, such as $\partial^2 f/\partial x^2$; it measures how the slope along one input changes, that is, how the surface bends. |
+| Quadratic approximation (G-2252) | A curved surface that matches a function near a point in value, slopes and bending: the tangent plane plus the terms $\tfrac12 f_{xx}\delta_x^2 + f_{xy}\delta_x\delta_y + \tfrac12 f_{yy}\delta_y^2$; it is the second-order Taylor polynomial, and Newton's method steps to its minimum. |
 | Mixed partial derivative (G-1236) | A second partial derivative taken with respect to two different variables, such as $\partial^2 f/\partial y\thinspace\partial x$: how the slope along $x$ changes as $y$ changes; the off-diagonal entries of the Hessian. |
 | Curvature (G-521) | How fast the slope of a surface changes; given in each direction by the Hessian. |
 | Hessian matrix (G-888) | The table of how a many-input function's slopes change, which measures its curvature: the symmetric $n \times n$ matrix of all second partial derivatives of $f: \mathbb{R}^n \to \mathbb{R}$. |
 | Second partial derivative test (G-2253) | A test that tells what a stationary point of a function of two inputs is from one number, $D = f_{xx}f_{yy} - f_{xy}^2$: $D > 0$ a minimum or maximum (by the sign of $f_{xx}$), $D < 0$ a saddle point, $D = 0$ no answer. |
-| Multivariate Taylor polynomial (G-1284) | An approximation of a function of several variables near a point, built from its derivatives there up to order $n$ (the multivariate Taylor series cut after the $k = n$ term); the second-order one uses the gradient and the Hessian. |
 | Multivariate Taylor series (G-1285) | An approximation of a function of several variables near a point $\mathbf x_0$ from all its derivatives there, each term adding one more order of correction: $\sum_k D^k f(\mathbf x_0)\thinspace\boldsymbol{\delta}^k / k!$. |
 | Outer product (G-1418) | Multiplying a column vector by a row vector to get a whole matrix: $\boldsymbol{\delta}\boldsymbol{\delta}^{\mathsf T}$ has entry $\delta_i\delta_j$ for every pair; it is what $\boldsymbol{\delta}^2$ means in a Taylor polynomial of several variables. |
 | Newton's method (G-1321) | A way to find a minimum: at the current point, fit a bowl (the second-order Taylor polynomial, from the first and second derivatives), jump to its lowest point, and repeat; the step is $\boldsymbol{\delta} = -H^{-1}\nabla f^{\mathsf T}$. XGBoost uses one such step for every tree. |

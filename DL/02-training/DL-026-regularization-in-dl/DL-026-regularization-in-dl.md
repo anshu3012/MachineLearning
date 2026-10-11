@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/weight-decay
 
 > **Key point:** Adding a penalty on the size of the weights to the loss pushes every weight towards 0 at each update. The network becomes simpler and overfits less. In Keras it is one argument per layer: `kernel_regularizer`.
 
-Regularisation was taught for linear models: Ridge adds the squared coefficients to the loss, Lasso their absolute values (see [penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso on one feature](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)). The **loss** is the number that scores how wrong the predictions are, and training makes it small by changing the weights. The same idea works for neural networks, where it is used whenever a network overfits.
+**Regularisation** (G-1659) was taught for linear models: Ridge adds the squared coefficients to the loss, Lasso their absolute values (see [penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) and [Lasso on one feature](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0)). The **loss** is the number that scores how wrong the predictions are, and training makes it small by changing the weights. The same idea works for neural networks, where it is used whenever a network overfits.
 
 ![The same 128-128 network on 100 points of make_moons, trained for 2,000 epochs: without regularisation, with L2 and with L1.](images/regularised.png)
 
@@ -36,7 +36,7 @@ The Notebook (`DL-026-regularization-in-dl.ipynb`) runs every step.
 ## 2. Prerequisites
 
 - [Ridge: penalising large coefficients](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients), [the ridge gradient](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#2-the-gradient) and [Lasso](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#2-one-feature-the-slope-reaches-exactly-0).
-- [Bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance): overfitting and underfitting.
+- [Bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#3-variance): **overfitting** (G-1429) and underfitting.
 - [Loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function).
 
 ## 3. Why neural networks overfit
@@ -93,13 +93,13 @@ where $\mathbf{w} \cdot \mathbf{x}$ multiplies the lists entry by entry and adds
 
 How many different shapes a model can fit is its **capacity** (G-344). More hidden neurons mean more capacity, and a model with more capacity than the data needs "can overfit by memorizing properties of the training set" (Goodfellow et al. 2016, §5.2).
 
-So one way to fix overfitting is to remove nodes. Removing does not have to be literal: if a node's weights are pushed close to 0, the node barely contributes, and the network behaves like a smaller, simpler one. Pushing weights towards 0 is what regularisation does.
+So one way to fix overfitting is to remove nodes. Removing does not have to be literal: if a node's weights are pushed close to 0, the node barely contributes, and the network behaves like a smaller, simpler one. Pushing weights towards 0 is what **regularisation** (G-1659) does.
 
 ## 4. Ways to reduce overfitting
 
 > **Key point:** Two routes: more data (collect it, or create it by data augmentation), or a simpler model (dropout, early stopping, regularisation).
 
-An overfitted network has more capacity than its data needs (section 3). So there are two ways out: give it more data, or make the model simpler.
+An overfitted network has more **capacity** (G-344) than its data needs (section 3). So there are two ways out: give it more data, or make the model simpler.
 
 | Route | Technique | Note |
 |---|---|---|
@@ -119,15 +119,15 @@ There are three kinds of regularisation: L1, L2, and both together. In deep lear
 
 > **Key point:** Make large weights cost something: add to the usual cost a fine that grows with the squares of the weights. Biases are not fined.
 
-Training normally has one goal: make the error on the training data as small as possible. Regularisation gives it a second goal: keep the weights small. We add to the cost a fine that grows with the size of the weights, the **penalty term** (G-1476). A weight may now grow only if the drop in error is worth more than the rise in the fine.
+Training normally has one goal: make the error on the training data as small as possible. **Regularisation** (G-1659) gives it a second goal: keep the weights small. We add to the cost a fine that grows with the size of the weights, the **penalty term** (G-1476). A weight may now grow only if the drop in error is worth more than the rise in the fine.
 
-Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the decision boundary stays smooth. The [penalised line through two points](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) shows the same effect on a straight line: the penalised line is flatter, so it reacts less to a change in the feature. [Section 7.7](#77-how-strong-should-the-penalty-be) measures the effect on our network.
+Why do small weights help? A weight multiplies its input. With a large weight, a small change in the input gives a large change in the output, so the prediction can jump between two neighbouring training points: the pockets of Figure 2. With a small weight the output changes little. The prediction is less sensitive to the input, and the **decision boundary** (G-555) stays smooth. The [penalised line through two points](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) shows the same effect on a straight line: the penalised line is flatter, so it reacts less to a change in the feature. [Section 7.7](#77-how-strong-should-the-penalty-be) measures the effect on our network.
 
 ### 5.1 L2 regularisation
 
 > **Key point:** Square every weight of the network, add the squares up, scale the total by a small strength factor, and add it to the cost.
 
-Training finds the weights and biases that minimise a [**cost function**](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see [loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function)). [**L2 regularisation**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) adds the squared weights to it as the penalty term.
+Training finds the weights and biases that minimise a [**cost function**](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492): the average of the loss over the $n$ observations, such as the mean squared error for regression or binary cross-entropy for classification (see [loss versus cost function](../../01-basics/DL-014-dl-loss-functions/DL-014-dl-loss-functions.md#4-loss-function-versus-cost-function)). [**L2 regularisation**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) adds the squared weights to it as the **penalty term** (G-1476).
 
 1. **In words:** square every weight, add the squares up, multiply by a small factor that sets the strength, and add the result to the cost.
 2. **Example:** a network with 10 weights, of which four are $0.5, -1, 2$ and $0.1$ and the other six are 0. The strength is $\lambda = 0.03$ and there are $n = 100$ observations. One square per line:
@@ -148,7 +148,7 @@ Training finds the weights and biases that minimise a [**cost function**](../../
 
 Some points about this formula:
 
-- **$\lambda$** (lambda, G-2150) sets the strength of the penalty. It is a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): we choose it, training does not learn it. Larger $\lambda$ means stronger regularisation; too large, and the network moves from overfitting to [**underfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035), where it is too simple even for the training data (section 7.7 shows both ends). With $\lambda = 0$ the penalty vanishes and we are back to the plain cost.
+- **$\lambda$** (lambda, G-2150) sets the strength of the penalty. It is a [**hyperparameter**](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): we choose it, training does not learn it. Larger $\lambda$ means stronger regularisation; too large, and the network moves from **overfitting** (G-1429) to [**underfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035), where it is too simple even for the training data (section 7.7 shows both ends). With $\lambda = 0$ the penalty vanishes and we are back to the plain cost.
 - **$n$** is the number of observations. The 2 is only for convenience: it cancels when we differentiate. Some books leave it out.
 - **Biases are never penalised**, only weights. A weight sets how an input and a node interact, so fitting it needs many varied observations; a bias only shifts one node's output and needs little data. Leaving the biases free therefore adds little overfitting, while penalising them can make the network underfit (Goodfellow et al. 2016, §7.1).
 
@@ -264,9 +264,9 @@ $$0.997 \times 2 = 1.994$$
 
 before the usual step is subtracted.
 
-The last form is the update without regularisation, except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.
+The last form is the update without **regularisation** (G-1659), except that $w_{\text{old}}$ is first multiplied by $1 - \eta\lambda$. Since $\eta$ and $\lambda$ are positive, this factor is below 1, and it acts at every update of every epoch. So the weights keep moving towards 0. They get very small but never reach exactly 0.
 
-Because the weight shrinks by a fixed factor at each step, L2 regularisation is often called [**weight decay**](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#23-the-update-rule-and-one-update-on-numbers) (G-2108) in neural networks, and $1 - \eta\lambda$ the **weight decay factor** (G-2107).
+Because the weight shrinks by a fixed factor at each step, **L2 regularisation** (G-1029) is often called [**weight decay**](../../../ML/06-regression/ML-064-ridge-gradient-descent/ML-064-ridge-gradient-descent.md#23-the-update-rule-and-one-update-on-numbers) (G-2108) in neural networks, and $1 - \eta\lambda$ the **weight decay factor** (G-2107).
 
 Figure 4 shows the two forces on one weight. To make the decay visible in 60 steps it uses a large $\lambda = 0.5$ with $\eta = 0.1$, so the factor is 0.95, as computed above.
 
@@ -307,13 +307,13 @@ The data is `make_moons` from scikit-learn: 100 points in two noisy half-moons. 
 | Output layer | $128 + 1 = 129$ |
 | Total | 17,025 |
 
-Seventeen thousand parameters for 100 points: plenty of room to overfit. The network is compiled with Adam (an optimizer: the rule that updates the weights; learning rate 0.01) and binary cross-entropy, and trained for 2,000 epochs (passes over the training data; see [fit and epochs](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)), deliberately long, with `validation_split=0.2` (20% of the points are held back to measure the loss on points the network does not train on).
+Seventeen thousand parameters for 100 points: plenty of room to overfit. The network is compiled with Adam (an optimizer: the rule that updates the weights; **learning rate** (G-1068) 0.01) and binary cross-entropy, and trained for 2,000 epochs (passes over the training data; see [fit and epochs](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#52-fit-epochs)), deliberately long, with `validation_split=0.2` (20% of the points are held back to measure the loss on points the network does not train on).
 
 ### 7.2 Without regularisation
 
 > **Key point:** 100% training accuracy, a boundary full of pockets, and a validation loss that climbs to 1.28.
 
-The network reaches 100% training accuracy. Its decision boundary (Figure 1, left) twists into pockets and narrow fingers to capture single points: clear overfitting. The training curves show it too (Figure 5, left): the training loss drops to almost 0 while the validation loss is lowest at epoch 14 and then rises steadily, to 1.28 after 2,000 epochs.
+The network reaches 100% training accuracy. Its decision boundary (Figure 1, left) twists into pockets and narrow fingers to capture single points: clear **overfitting** (G-1429). The training curves show it too (Figure 5, left): the training loss drops to almost 0 while the validation loss is lowest at epoch 14 and then rises steadily, to 1.28 after 2,000 epochs.
 
 ![Training and validation loss over 2,000 epochs: without regularisation, with L2 and with L1.](images/curves.png)
 
@@ -323,7 +323,7 @@ Figure 5 has three panels, one per network. In each, the horizontal axis is the 
 
 > **Key point:** Only `kernel_regularizer` is new; training and validation loss now run side by side.
 
-> **Python:** The same network with L2 regularisation.
+> **Python:** The same network with **L2 regularisation** (G-1029).
 >
 > ```python
 > from keras import regularizers
@@ -340,7 +340,7 @@ Figure 5 has three panels, one per network. In each, the horizontal axis is the 
 >
 > The **kernel** (G-2274) is Keras' name for a layer's weight matrix; `kernel_regularizer` penalises the weights only, which matches the rule that biases are not penalised. A separate `bias_regularizer` exists but is rarely used.
 
-The decision boundary (Figure 1, middle) is now a clean shape of a few straight segments that follows the two moons, which should do much better on new data. In Figure 5 (middle) the training and validation curves move side by side for all 2,000 epochs:
+The **decision boundary** (G-555) (Figure 1, middle) is now a clean shape of a few straight segments that follows the two moons, which should do much better on new data. In Figure 5 (middle) the training and validation curves move side by side for all 2,000 epochs:
 
 | | Training accuracy | Validation accuracy | Final validation loss |
 |---|---|---|---|
@@ -348,7 +348,7 @@ The decision boundary (Figure 1, middle) is now a clean shape of a few straight 
 | L2, $\lambda = 0.03$ | 95% | 95% | 0.21 |
 | L1, $\lambda = 0.001$ | 96% | 95% | 0.34 |
 
-The validation set has only 20 points, so the accuracies are equal (19 of 20 right). The validation loss shows the difference: without regularisation the network is confidently wrong on its mistakes; with L2 it is not.
+The validation set has only 20 points, so the accuracies are equal (19 of 20 right). The validation loss shows the difference: without **regularisation** (G-1659) the network is confidently wrong on its mistakes; with L2 it is not.
 
 > **Extra:** Keras' `L2(0.03)` adds $0.03 \times \sum w^2$ to the loss of each batch: no $1/2$ and no $1/n$. The Notebook checks this on a small matrix with the weights $0.5, -1, 2, 0.1$ of section 5.1, whose squares add to 5.26:
 >
@@ -358,7 +358,7 @@ The validation set has only 20 points, so the accuracies are equal (19 of 20 rig
 
 ### 7.4 The weights shrink
 
-> **Key point:** Without regularisation the 256 first-layer weights range from $-2.45$ to $2.85$; with L2, from $-0.52$ to $0.46$, most of them close to 0.
+> **Key point:** Without **regularisation** (G-1659) the 256 first-layer weights range from $-2.45$ to $2.85$; with L2, from $-0.52$ to $0.46$, most of them close to 0.
 
 `model.get_weights()` returns every weight and bias array of the network. The first one, `get_weights()[0]`, holds the weights of the first hidden layer, with shape $(2, 128)$: 2 inputs times 128 nodes, 256 weights.
 
@@ -391,7 +391,7 @@ Figure 7 shows the decay as it happens. Both networks start from the same weight
 
 ### 7.5 L1
 
-> **Key point:** Swap `L2` for `L1`; $\lambda$ needs retuning. Here $\lambda = 0.001$ works, with a little more overfitting than L2.
+> **Key point:** Swap `L2` for `L1`; $\lambda$ needs retuning. Here $\lambda = 0.001$ works, with a little more **overfitting** (G-1429) than L2.
 
 Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(...)`. The L1 penalty needs its own value of $\lambda$, found by trying a few (hyperparameter tuning). With $\lambda = 0.001$ (Figure 1, right) the boundary is clean, but the validation loss creeps up from about epoch 100 (Figure 5, right): a little more overfitting than with L2. Its first-layer weights range from $-1.88$ to $1.19$.
 
@@ -406,7 +406,7 @@ Switching to L1 only needs `regularizers.L1(...)` in place of `regularizers.L2(.
 
 Think of walking towards a wall. L2 halves the remaining distance at every step: we get very close, but never touch the wall. L1 takes a step of fixed length every time: we arrive. The constant pull is the textbook reason why the Lasso gives sparse models and Ridge does not (ESL §3.4.3; Goodfellow et al. 2016, §7.1.2).
 
-To see this cleanly, we train the same network on the same data with plain gradient descent (`keras.optimizers.SGD`, learning rate 0.01) instead of Adam, once with `L2(0.03)` and once with `L1(0.003)`. Only the penalty changes. The numbers are averages over 3 random starts.
+To see this cleanly, we train the same network on the same data with plain gradient descent (`keras.optimizers.SGD`, **learning rate** (G-1068) 0.01) instead of Adam, once with `L2(0.03)` and once with `L1(0.003)`. Only the penalty changes. The numbers are averages over 3 random starts.
 
 ![The 256 first-layer weights after 2,000 epochs of plain gradient descent, grouped by size: L2 (orange) and L1 (green), first random start.](images/sparsity.png)
 
@@ -424,13 +424,13 @@ Figure 8 shows the difference at a glance. Almost no L2 weight is 0: most are sm
 > | SGD, $\eta = 0.01$ | 7% | 19% |
 > | Adam, $\eta = 0.01$ | 92% | 49% |
 >
-> (This check uses `L1(0.001)`, the value of section 7.5, so its SGD numbers differ from the table above.) Adam's uneven treatment of L2 is one reason Keras offers AdamW, with true weight decay (section 6).
+> (This check uses `L1(0.001)`, the value of section 7.5, so its SGD numbers differ from the table above.) Adam's uneven treatment of L2 is one reason Keras offers AdamW, with true **weight decay** (G-2108) (section 6).
 
 ### 7.7 How strong should the penalty be
 
-> **Key point:** Too small a $\lambda$ leaves the network overfitting; too large a $\lambda$ makes it underfit. The best value lies in between and is found by trying several.
+> **Key point:** Too small a $\lambda$ leaves the network **overfitting** (G-1429); too large a $\lambda$ makes it underfit. The best value lies in between and is found by trying several.
 
-To see what $\lambda$ does, we train the network of section 7.1 eight times, changing only $\lambda$ in `L2(λ)`, from 0 to 1. Figure 9 steps through the eight networks. The middle panel counts the weights in each 0.1-wide bin on a logarithmic axis: each gridline is ten times the one below (1, 10, 100), so a bin holding a single weight is still visible next to a bin holding 200. Watch three things together: the decision boundary gets smoother, the weights are squeezed towards 0, and the validation loss first falls and then rises again.
+To see what $\lambda$ does, we train the network of section 7.1 eight times, changing only $\lambda$ in `L2(λ)`, from 0 to 1. Figure 9 steps through the eight networks. The middle panel counts the weights in each 0.1-wide bin on a logarithmic axis: each gridline is ten times the one below (1, 10, 100), so a bin holding a single weight is still visible next to a bin holding 200. Watch three things together: the **decision boundary** (G-555) gets smoother, the weights are squeezed towards 0, and the validation loss first falls and then rises again.
 
 ![The same network trained with eight values of $\lambda$. Left: the decision boundary. Middle: the 256 first-layer weights (log scale). Right: the training and validation loss, counted without the penalty; the large dots mark the current $\lambda$](images/lambda_sweep.gif){width=100%}
 
@@ -467,7 +467,7 @@ $$\text{average} = 0.14 / 4 = 0.035$$
 
 Here $|\ldots|$ is the size of a change, ignoring its sign. The Notebook averages these changes over all 100 points and all four moves, which gives the last column. It falls from 0.058 without a penalty to about 0.045 in the good range and 0.025 at $\lambda = 0.3$: smaller weights make the prediction react less to small changes in the input.
 
-In practice $\lambda$ is chosen like any hyperparameter: try several values and keep the one with the best validation score (see [the Keras Tuner workflow](../../03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer)).
+In practice $\lambda$ is chosen like any **hyperparameter** (G-910): try several values and keep the one with the best validation score (see [the Keras Tuner workflow](../../03-optimizers/DL-039-keras-tuner/DL-039-keras-tuner.md#5-the-keras-tuner-workflow-choosing-the-optimizer)).
 
 ## 8. Summary
 
@@ -478,9 +478,9 @@ In practice $\lambda$ is chosen like any hyperparameter: try several values and 
 | L1 + L2 | both | both | occasionally |
 
 - Networks overfit because many neurons can draw many small pieces of boundary.
-- More data, dropout, early stopping and regularisation all reduce overfitting.
+- More data, dropout, early stopping and regularisation all reduce **overfitting** (G-1429).
 - Smaller weights make the prediction less sensitive to small changes in the input, so the boundary is smoother.
-- L2 regularisation multiplies every weight by $1 - \eta\lambda$ before each update; biases are not penalised, because a bias only shifts one node and penalising it risks underfitting.
+- **L2 regularisation** (G-1029) multiplies every weight by $1 - \eta\lambda$ before each update; biases are not penalised, because a bias only shifts one node and penalising it risks **underfitting** (G-2035).
 - $\lambda$ sets the strength: too small overfits, too large underfits.
 - In Keras: `kernel_regularizer=regularizers.L2(λ)` on each hidden layer. Here it turned a validation loss of 1.28 into 0.21 and shrank the weights from $\pm 2.8$ to $\pm 0.5$.
 
@@ -516,15 +516,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Kernel (Keras) (G-2274) | Keras' name for a layer's weight matrix. |
 | Sensitivity (of a model) (G-2275) | How much a model's prediction changes when its input changes a little; smaller weights make it lower, so the decision boundary is smoother. |
 | AdamW (G-170) | Adam with weight decay (shrinking the weights a little) applied directly to the weights, not through the loss. |
+| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Hyperplane](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911) | A flat surface in more than three dimensions; the model for three or more input columns. |
-| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Early stopping](../../../ML/06-regression/ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656) | Stopping training when the score on held-out data is best, before full convergence; this keeps coefficients small, so it also acts as regularisation. |
-| [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1659) | Adding a penalty for large coefficients to the loss, so the model overfits less (lower variance). |
 | [Cost function](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#2-the-cost-function-is-a-function-of-the-parameters) (G-492) | A measure of how far a model's predictions are from the true values, averaged over the data and read as a function of the model's parameters; training looks for the parameters that make it smallest. Often another name for the loss function. |
 | [L2 regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#1-overview) (G-1029) | Another name for the squared-coefficient penalty used by Ridge. |
 | [λ (lambda), alpha](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-2150) | The strength of the regularisation penalty; alpha in scikit-learn. |

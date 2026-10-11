@@ -36,16 +36,16 @@ Gradient descent comes in three main types. The update rule is the same in all t
 
 ## 2. Gradient descent with many features
 
-> **Key point:** With m features there are m + 1 coefficients, each with its own derivative; all are updated at the same step.
+> **Key point:** With m **features** (G-772) there are m + 1 coefficients, each with its own derivative; all are updated at the same step.
 
 For multiple linear regression with $m$ features, the model is
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2} + \dots + \beta_m x_{im}$$
 
-and there are $m + 1$ coefficients to find. Batch gradient descent:
+and there are $m + 1$ coefficients to find. **Batch gradient descent** (G-264):
 
 1. **Start** with any values, for example $\beta_0 = 0$ and every other $\beta_j = 1$.
-2. **Each epoch** (one pass over all the observations): compute the predictions for all observations, then the derivative of the loss with respect to every coefficient, then update all of them at once:
+2. **Each epoch** (one pass over all the **observations** (G-1374)): compute the predictions for all observations, then the derivative of the loss with respect to every coefficient, then update all of them at once:
 
    $$\beta_j \leftarrow \beta_j - \eta \frac{\partial L}{\partial \beta_j} \quad \text{for } j = 0, 1, \dots, m$$
 
@@ -69,13 +69,13 @@ Figure 2 shows step 2 on real data: the run of [Section 4](#4-batch-gradient-des
 
 ### 3.1 With two features
 
-> **Key point:** Writing out the loss for two features shows the pattern: each coefficient's derivative weights the errors by its own feature.
+> **Key point:** Writing out the loss for two **features** (G-772) shows the pattern: each coefficient's derivative weights the errors by its own feature.
 
 With two features, the prediction is:
 
 $$\hat y_i = \beta_0 + \beta_1 x_{i1} + \beta_2 x_{i2}$$
 
-Differentiating the mean squared error with the [**chain rule**](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), as in [the slope of the loss](../ML-056-gradient-descent/ML-056-gradient-descent.md#3-the-slope-of-the-loss-with-respect-to-b):
+Differentiating the **mean squared error** (G-1201) with the [**chain rule**](../../07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), as in [the slope of the loss](../ML-056-gradient-descent/ML-056-gradient-descent.md#3-the-slope-of-the-loss-with-respect-to-b):
 
 $$\frac{\partial L}{\partial \beta_0} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)$$
 
@@ -85,9 +85,9 @@ $$\frac{\partial L}{\partial \beta_2} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_
 
 ### 3.2 Any number of features
 
-> **Key point:** The general rule: for coefficient j, multiply each observation's error by that observation's value of feature j.
+> **Key point:** The general rule: for coefficient j, multiply each **observation** (G-1374)'s error by that observation's value of feature j.
 
-In words: for coefficient $\beta_j$, take each observation's error, multiply it by that observation's value of feature $j$, add these up, and multiply by $-2/n$.
+In words: for coefficient $\beta_j$, take each observation's error, multiply it by that observation's value of **feature** (G-772) $j$, add these up, and multiply by $-2/n$.
 
 $$\frac{\partial L}{\partial \beta_j} = -\frac{2}{n}\sum_{i=1}^{n}(y_i - \hat y_i)\thinspace x_{ij}$$
 
@@ -115,7 +115,7 @@ Computing each derivative in a loop over rows and columns works but is slow in P
 
 $$\frac{\partial L}{\partial \beta} = -\frac{2}{n} X^{\mathsf T}(y - \hat{y})$$
 
-$X^{\mathsf T}$ has one row per feature; multiplying it by the vector of $n$ errors gives one number per column. A full epoch by hand, on two observations. The data are $(x, y) = (1, 2)$ and $(3, 3)$, the start is $\beta_0 = 0$ and $\beta_1 = 1$, and $\eta = 0.1$. The matrix $X$ has a column of 1s (for the intercept) and a column of the $x$ values:
+$X^{\mathsf T}$ has one row per **feature** (G-772); multiplying it by the vector of $n$ errors gives one number per column. A full epoch by hand, on two **observations** (G-1374). The data are $(x, y) = (1, 2)$ and $(3, 3)$, the start is $\beta_0 = 0$ and $\beta_1 = 1$, and $\eta = 0.1$. The matrix $X$ has a column of 1s (for the intercept) and a column of the $x$ values:
 
 $$X = \begin{pmatrix} 1 & 1 \cr1 & 3 \end{pmatrix}$$
 
@@ -167,9 +167,9 @@ Writing a computation as matrix operations instead of Python loops is called **v
 
 ## 4. Batch gradient descent in code
 
-> **Key point:** Each epoch: predict all observations, compute the errors, compute the intercept's and the coefficients' derivatives, update both.
+> **Key point:** Each epoch: predict all **observations** (G-1374), compute the errors, compute the intercept's and the coefficients' derivatives, update both.
 
-> **Python:** Batch gradient descent for multiple linear regression.
+> **Python:** **Batch gradient descent** (G-264) for multiple linear regression.
 >
 > ```python
 > class GDRegressor:
@@ -192,7 +192,7 @@ Writing a computation as matrix operations instead of Python loops is called **v
 >         return X @ self.coef_ + self.intercept_
 > ```
 
-On the diabetes data (10 features, 353 training patients), with learning rate 0.5 and 1,000 epochs, training takes a few hundredths of a second, and the result is close to the exact OLS answer:
+On the diabetes data (10 features, 353 training patients), with **learning rate** (G-1068) 0.5 and 1,000 epochs, training takes a few hundredths of a second, and the result is close to the exact OLS answer:
 
 | | Intercept | Test R² |
 |---|---|---|
@@ -201,19 +201,19 @@ On the diabetes data (10 features, 353 training patients), with learning rate 0.
 
 Figure 4 draws what this code does over its 1,000 epochs. The test R² climbs slowly at first, passes the OLS value 0.440 at epoch 407 and ends at 0.453.
 
-Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epochs gradient descent has not finished: some coefficients, above all that of s1, are still far from their OLS values (the second Extra of [Section 5](#5-early-stopping) shows why). This not-yet-fitted line happens to predict the 89 test patients a little better, the same effect that early stopping ([Section 5](#5-early-stopping)) uses on purpose. On the training data OLS still has the lower error. The intercept is close to its final value after one epoch and then settles near 152.
+Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epochs gradient descent has not finished: some coefficients, above all that of s1, are still far from their OLS values (the second Extra of [Section 5](#5-early-stopping) shows why). This not-yet-fitted line happens to predict the 89 test patients a little better, the same effect that **early stopping** (G-656) ([Section 5](#5-early-stopping)) uses on purpose. On the training data OLS still has the lower error. The intercept is close to its final value after one epoch and then settles near 152.
 
 ![What the GDRegressor code produces on the diabetes data, learning rate 0.5. Left: test R² after each epoch against the OLS value. Right: the intercept against the OLS intercept. Both axes of epochs use a log scale.](images/code_run.png)
 
 ## 5. Early stopping
 
-> **Key point:** Stopping gradient descent early keeps the coefficients small. When a model has many features for few observations, those small coefficients predict new data much better than the fully fitted OLS line.
+> **Key point:** Stopping gradient descent early keeps the coefficients small. When a model has many features for few **observations** (G-1374), those small coefficients predict new data much better than the fully fitted OLS line.
 
 **The idea.** Think of a student who memorises past exam papers word for word: stopping their revision a little early, while they still know only the main ideas, serves them better on a new paper. In this experiment we start every coefficient at zero (not at 1 as in [Section 4](#4-batch-gradient-descent-in-code)). Each epoch moves the coefficients a little further from zero, towards the OLS answer. If we stop early, the coefficients stay small. Small coefficients cannot chase the noise in the training data, so stopping early acts like a brake on overfitting. For linear regression, stopping early does almost the same job as L2 (ridge) regularisation (see [penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)), which pulls the coefficients towards zero (Goodfellow §7.8). Stopping on purpose when the score on held-out data is best is called **early stopping** (G-656).
 
-**When the brake matters.** A brake only helps when the model would otherwise overfit. OLS overfits when there are many features for each observation and the target is noisy: the coefficients become badly determined and jump around from sample to sample (ESL §3.4.1).
+**When the brake matters.** A brake only helps when the model would otherwise overfit. OLS overfits when there are many features for each observation and the **target** (G-1949) is noisy: the coefficients become badly determined and jump around from sample to sample (ESL §3.4.1).
 
-**The picture.** Figure 5 plots the R² on the training data and on the test data against the epoch number. Such a plot of a score per epoch, on both sets, is a **[training curve](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves)** (G-2001, taught in full later); the gap between the two curves shows overfitting. Figure 5 changes one thing only: the number of features. Both panels use 200 diabetes patients for training and the rest for testing.
+**The picture.** Figure 5 plots the R² on the training data and on the test data against the epoch number. Such a plot of a score per epoch, on both sets, is a **[training curve](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#8-training-curves)** (G-2001, taught in full later); the gap between the two curves shows overfitting. Figure 5 changes one thing only: the number of **features** (G-772). Both panels use 200 diabetes patients for training and the rest for testing.
 
 - **Left, 10 features:** the original 10 measurements. Test R² rises and then levels off at the OLS value. With 20 observations for every feature, OLS does not overfit, so there is nothing for the brake to fix.
 - **Right, 65 features:** the same 10 measurements plus the square of each one and the product of every pair (the idea behind polynomial regression; see [adding powers as new features](../ML-060-polynomial-regression/ML-060-polynomial-regression.md#3-adding-powers-as-new-features)). The target is noisy and there are now only about 3 observations per feature. Training R² keeps rising, but test R² peaks after about 40 epochs and then falls towards the poor OLS value.
@@ -222,7 +222,7 @@ Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epoc
 
 **The number.** With 65 features, early stopping gives a test R² of 0.40 on average, against 0.06 for OLS. With the original 10 features, the two are equal (0.47).
 
-> **Extra:** How we measured this fairly (notebook, "Early stopping"). For each of 50 random train/test splits, we choose the stopping epoch on a validation part of the training data only, retrain on the whole training set for that many epochs, and then score once on the test set. The learning rate is 0.04 and the features are standardised.
+> **Extra:** How we measured this fairly (notebook, "Early stopping"). For each of 50 random train/test splits, we choose the stopping epoch on a validation part of the training data only, retrain on the whole training set for that many epochs, and then score once on the test set. The **learning rate** (G-1068) is 0.04 and the features are standardised.
 >
 > | Features | OLS test R² | Early stopping test R² | Early stopping better |
 > |---|---|---|---|
@@ -236,7 +236,7 @@ Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epoc
 
 ## 6. Advantages and disadvantages
 
-> **Key point:** Batch gradient descent is smooth and stable, but each update needs every observation, which is slow and memory-hungry on large data.
+> **Key point:** Batch gradient descent is smooth and stable, but each update needs every **observation** (G-1374), which is slow and memory-hungry on large data.
 
 **Advantages:**
 
@@ -248,11 +248,11 @@ Ending above OLS can look wrong, since OLS is the exact answer. After 1,000 epoc
 - **Slow on large data:** one update needs a pass over all $n$ observations. With millions of observations, each step is expensive, and many steps are needed.
 - **Memory:** the whole dataset must fit in memory at once for the matrix product.
 
-Figure 6 shows the cost of waiting for every observation. Three methods read the same data, 10 observations per frame, on a small example with one feature (100 observations, coefficients $m$ and $b$). Watch the red batch path: it moves only once every 10 frames, after reading all 100 observations, while stochastic gradient descent is already near the minimum.
+Figure 6 shows the cost of waiting for every observation. Three methods read the same data, 10 observations per frame, on a small example with one **feature** (G-772) (100 observations, coefficients $m$ and $b$). Watch the red batch path: it moves only once every 10 frames, after reading all 100 observations, while **stochastic gradient descent** (G-1892) is already near the minimum.
 
 ![Batch, mini-batch and stochastic gradient descent reading the same data, 10 observations per frame, learning rate 0.05. Left: the paths on the loss contours. Right: the loss against the observations read.](images/gd_race.gif)
 
-Stochastic and mini-batch gradient descent, in the next two Notes, solve these two problems. In practice batch gradient descent is the rarest of the three: it suits a **convex** loss such as linear regression's, where the smooth path leads straight to the one minimum, and data small enough to fit in memory. Stochastic and mini-batch gradient descent are what libraries use by default.
+Stochastic and **mini-batch gradient descent** (G-1222), in the next two Notes, solve these two problems. In practice batch gradient descent is the rarest of the three: it suits a **convex** loss such as linear regression's, where the smooth path leads straight to the one minimum, and data small enough to fit in memory. Stochastic and mini-batch gradient descent are what libraries use by default.
 
 ## 7. Summary
 
@@ -264,11 +264,11 @@ Stochastic and mini-batch gradient descent, in the next two Notes, solve these t
 | All at once | $-\frac{2}{n} X^{\mathsf T}(y - \hat{y})$ | one matrix product, more than 10 times faster than a loop |
 | Early stopping, 65 features | test R² 0.40 (OLS 0.06), average of 50 splits | small coefficients cannot chase the noise |
 
-- The three types of gradient descent differ only in how many observations feed each update, so the choice trades a smooth path against cheap steps.
-- Each coefficient's derivative weights the errors by its own feature, so a feature with large values where the errors are large gets a large push.
+- The three types of gradient descent differ only in how many **observations** (G-1374) feed each update, so the choice trades a smooth path against cheap steps.
+- Each coefficient's derivative weights the errors by its own **feature** (G-772), so a feature with large values where the errors are large gets a large push.
 - Vectorised code computes every derivative with one matrix product, so there is no loop over rows or columns.
 - Stopping early keeps the coefficients small; with many features per observation, it predicts new data far better than OLS, because it acts like a brake on overfitting, much like ridge regularisation.
-- Batch gradient descent is stable but needs the whole dataset for every step, so it is slow and memory-hungry on large data, which is why stochastic and mini-batch versions exist.
+- **Batch gradient descent** (G-264) is stable but needs the whole dataset for every step, so it is slow and memory-hungry on large data, which is why stochastic and mini-batch versions exist.
 - Together these answer the opening question: batch gradient descent uses all the observations for every update, which makes it the smooth but slow end of the three types.
 
 

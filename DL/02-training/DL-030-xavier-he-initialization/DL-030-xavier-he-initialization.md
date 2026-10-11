@@ -15,7 +15,7 @@ tags: [subject/deep-learning, area/dl-training, step/model, concept/xavier-he]
 
 ## 1. Overview
 
-> **Key point:** Draw the starting weights at random with a spread set by the number of inputs to each node: variance $1/\text{fan-in}$ (Xavier, for tanh and sigmoid) or $2/\text{fan-in}$ (He, for ReLU). The signal then keeps roughly the same size through every layer.
+> **Key point:** Draw the starting weights at random with a spread set by the number of inputs to each node: **variance** (G-2074) $1/\text{fan-in}$ (Xavier, for tanh and sigmoid) or $2/\text{fan-in}$ (He, for **ReLU** (G-1668)). The signal then keeps roughly the same size through every layer.
 
 [Weight initialisation](../DL-029-weight-initialization/DL-029-weight-initialization.md#3-why-the-starting-weights-matter) showed what fails:
 
@@ -46,7 +46,7 @@ The Xavier tanh line still drifts down, from 0.63 at layer 1 to 0.32 at layer 5 
 
 ## 3. The spread must depend on the number of inputs
 
-> **Key point:** A node adds up $n$ products $w_i x_i$. The more inputs, the larger the sum, so each weight must be smaller. Setting the weights' variance to $1/n$ cancels the effect of $n$.
+> **Key point:** A node adds up $n$ products $w_i x_i$. The more inputs, the larger the sum, so each weight must be smaller. Setting the weights' **variance** (G-2074) to $1/n$ cancels the effect of $n$.
 
 ### 3.1 What went wrong with fixed scales
 
@@ -76,7 +76,7 @@ For a Keras `Dense` layer with weight matrix of shape (inputs, nodes), fan-in is
 
 > **Key point:** Many inputs: smaller weights, so the sum stays moderate. Few inputs: larger weights, so the sum is not too small.
 
-The rule is to draw the weights with [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) $1/n$, where $n$ is the fan-in. The [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the [**standard normal**](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) numbers by.
+The rule is to draw the weights with [**variance**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) $1/n$, where $n$ is the **fan-in** (G-754). The [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) is then $\sqrt{1/n}$, and that is the number we multiply the [**standard normal**](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) numbers by.
 
 1. **In words:** multiply standard normal numbers by $\sqrt{1/\text{fan-in}}$.
 2. **Formula:**
@@ -123,21 +123,21 @@ Only the scale that depends on the fan-in gives every layer size a weighted sum 
 
 ## 4. Xavier (Glorot) initialisation
 
-> **Key point:** Normal: standard deviation $\sqrt{1/\text{fan-in}}$, or the common variant $\sqrt{2/(\text{fan-in} + \text{fan-out})}$. Uniform: between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$. Use it with tanh and sigmoid.
+> **Key point:** Normal: **standard deviation** (G-1871) $\sqrt{1/\text{fan-in}}$, or the common variant $\sqrt{2/(\text{fan-in} + \text{fan-out})}$. Uniform: between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$. Use it with tanh and **sigmoid** (G-1798).
 
-**Xavier initialisation** (Glorot initialisation) draws the starting weights with the spread of section 3.3. Glorot and Bengio (2010) designed it for, and tested it on, tanh networks.
+**Xavier initialisation** (Glorot initialisation) draws the starting weights with the spread of section 3.3. Glorot and Bengio (2010) designed it for, and tested it on, **tanh** (G-1947) networks.
 
 ### 4.1 Xavier normal
 
-> **Key point:** Weights from a normal distribution with mean 0 and standard deviation $\sqrt{1/\text{fan-in}}$, or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$.
+> **Key point:** Weights from a normal distribution with mean 0 and **standard deviation** (G-1871) $\sqrt{1/\text{fan-in}}$, or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$.
 
-1. **In words:** standard normal numbers times $\sqrt{1/\text{fan-in}}$. A widely used variant averages fan-in and fan-out.
+1. **In words:** **standard normal** (G-1873) numbers times $\sqrt{1/\text{fan-in}}$. A widely used variant averages **fan-in** (G-754) and fan-out.
 2. **Formula:**
    $$s = \sqrt{\frac{1}{\text{fan-in}}}$$
    or
    $$s = \sqrt{\frac{2}{\text{fan-in} + \text{fan-out}}}$$
-   Here $s$ is the standard deviation of the weights (this Note avoids $\sigma$ for it, because $\sigma$ is the sigmoid in other Notes of the series).
-3. **Example:** a layer with fan-in 250 and fan-out 250:
+   Here $s$ is the standard deviation of the weights (this Note avoids $\sigma$ for it, because $\sigma$ is the **sigmoid** (G-1798) in other Notes of the series).
+3. **Example:** a layer with fan-in 250 and **fan-out** (G-755) 250:
    $$\sqrt{\frac{1}{250}} = 0.063$$
    $$\sqrt{\frac{2}{250 + 250}} = \sqrt{0.004} = 0.063$$
    For equal fan-in and fan-out the two agree. With fan-in 2 and fan-out 10 they differ:
@@ -150,19 +150,19 @@ The variant with fan-in plus fan-out is the one used more often, and the one Ker
 
 ### 4.2 Xavier uniform
 
-> **Key point:** Weights from a uniform distribution between $-L$ and $L$, where $L$ is the square root of 6 over the sum of fan-in and fan-out.
+> **Key point:** Weights from a uniform distribution between $-L$ and $L$, where $L$ is the square root of 6 over the sum of **fan-in** (G-754) and fan-out.
 
 1. **In words:** every value between $-L$ and $L$ is equally likely.
 2. **Formula:**
    $$W \sim \text{Uniform}(-L, L)$$
    $$L = \sqrt{\frac{6}{\text{fan-in} + \text{fan-out}}}$$
-3. **Example:** fan-in 250, fan-out 250:
+3. **Example:** fan-in 250, **fan-out** (G-755) 250:
    $$L = \sqrt{\frac{6}{500}} = \sqrt{0.012} = 0.110$$
    so the weights lie between $-0.110$ and 0.110.
 
 ![The 62,500 starting weights of a 250 × 250 layer, drawn with Xavier normal (blue) and Xavier uniform (orange).](images/xavier_shapes.png)
 
-Figure 4 draws both versions for this layer. The normal weights pile up near 0 and thin out towards $\pm 0.2$; the uniform weights spread evenly between $-0.110$ and 0.110 and stop there. Their variances are the same, 0.0040, so a layer receives signals of the same size from either.
+Figure 4 draws both versions for this layer. The normal weights pile up near 0 and thin out towards $\pm 0.2$; the uniform weights spread evenly between $-0.110$ and 0.110 and stop there. Their **variances** (G-2074) are the same, 0.0040, so a layer receives signals of the same size from either.
 
 > **Extra:** The 6 comes from the variance of a uniform distribution: values spread evenly between $-L$ and $L$ have density $1/(2L)$ and mean 0, so their variance is the area-weighted average of $x^2$:
 >
@@ -182,27 +182,27 @@ Figure 4 draws both versions for this layer. The normal weights pile up near 0 a
 
 ## 5. He initialisation
 
-> **Key point:** Like Xavier, with 2 in place of 1: standard deviation $\sqrt{2/\text{fan-in}}$ (normal) or limit $\sqrt{6/\text{fan-in}}$ (uniform). Use it with ReLU.
+> **Key point:** Like Xavier, with 2 in place of 1: **standard deviation** (G-1871) $\sqrt{2/\text{fan-in}}$ (normal) or limit $\sqrt{6/\text{fan-in}}$ (uniform). Use it with **ReLU** (G-1668).
 
-**He initialisation** is Xavier with the variance doubled. He et al. (2015) designed it for ReLU: in their experiments a 30-layer ReLU network trained with it, while with Xavier's spread the same network stalled.
+**He initialisation** is Xavier with the **variance** (G-2074) doubled. He et al. (2015) designed it for ReLU: in their experiments a 30-layer ReLU network trained with it, while with Xavier's spread the same network stalled.
 
 ### 5.1 He normal and He uniform
 
-> **Key point:** Normal: standard deviation $s$ is the square root of 2 over the fan-in. Uniform: limit $L$ is the square root of 6 over the fan-in.
+> **Key point:** Normal: **standard deviation** (G-1871) $s$ is the square root of 2 over the **fan-in** (G-754). Uniform: limit $L$ is the square root of 6 over the fan-in.
 
-1. **In words:** standard normal numbers times $\sqrt{2/\text{fan-in}}$; or uniform numbers between $\pm\sqrt{6/\text{fan-in}}$.
+1. **In words:** **standard normal** (G-1873) numbers times $\sqrt{2/\text{fan-in}}$; or uniform numbers between $\pm\sqrt{6/\text{fan-in}}$.
 2. **Formula:**
    $$s = \sqrt{\frac{2}{\text{fan-in}}}$$
    $$L = \sqrt{\frac{6}{\text{fan-in}}}$$
 3. **Example:** fan-in 250:
    $$s = \sqrt{\frac{2}{250}} = 0.089$$
    $$L = \sqrt{\frac{6}{250}} = 0.155$$
-   Both have the same variance:
+   Both have the same **variance** (G-2074):
    $$\text{normal: } s^2 = \frac{2}{250} = 0.008$$
    $$\text{uniform: } \frac{L^2}{3} = \frac{0.155^2}{3} = 0.008$$
    (A uniform spread between $-L$ and $L$ has variance $L^2/3$; see the Extra of section 4.2.)
 
-Why twice as much? Figure 5 shows what ReLU does to the size of the signal.
+Why twice as much? Figure 5 shows what **ReLU** (G-1668) does to the size of the signal.
 
 ![100,000 weighted sums z, symmetric around 0 (left), and the same values after ReLU (right). The mean square falls from 1.00 to 0.50.](images/relu_half.png)
 
@@ -214,14 +214,14 @@ Why twice as much? Figure 5 shows what ReLU does to the size of the signal.
 
 ### 5.2 Which one to use
 
-> **Key point:** Tanh or sigmoid: Xavier. ReLU and its variants: He.
+> **Key point:** Tanh or sigmoid: Xavier. **ReLU** (G-1668) and its variants: He.
 
 | Initialisation | Normal: standard deviation | Uniform: limit $L$ | Use with |
 |---|---|---|---|
 | Xavier (Glorot) | $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$ | $\sqrt{6/(\text{fan-in} + \text{fan-out})}$ | tanh, sigmoid |
 | He | $\sqrt{2/\text{fan-in}}$ | $\sqrt{6/\text{fan-in}}$ | ReLU and variants |
 
-Both rules come from the variance argument of section 3.3 and were tested in the papers that introduced them (Glorot and Bengio 2010; He et al. 2015). For applying them, the four formulas and this pairing are enough.
+Both rules come from the **variance** (G-2074) argument of section 3.3 and were tested in the papers that introduced them (Glorot and Bengio 2010; He et al. 2015). For applying them, the four formulas and this pairing are enough.
 
 ## 6. Xavier and He in Keras
 
@@ -229,7 +229,7 @@ Both rules come from the variance argument of section 3.3 and were tested in the
 
 ### 6.1 Xavier by hand
 
-> **Key point:** The four-layer tanh network that stayed at loss 0.693 with weights of 0.01 now reaches 0.002 and 100% accuracy.
+> **Key point:** The four-layer **tanh** (G-1947) network that stayed at loss 0.693 with weights of 0.01 now reaches 0.002 and 100% accuracy.
 
 We reuse the network of [the weights do not move in Keras](../DL-029-weight-initialization/DL-029-weight-initialization.md#63-in-keras-the-weights-do-not-move):
 
@@ -237,7 +237,7 @@ We reuse the network of [the weights do not move in Keras](../DL-029-weight-init
 - **network:** four hidden layers of 10 tanh nodes;
 - **training:** plain [**SGD**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) with [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) 0.1, 100 [**epochs**](../../01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696).
 
-The 0.01-scale network, started from weights of $0.01 \times$ standard normal, never moved from a loss of 0.6934.
+The 0.01-scale network, started from weights of $0.01 \times$ **standard normal** (G-1873), never moved from a loss of 0.6934.
 
 Now every weight matrix is drawn as standard normal numbers times $\sqrt{1/\text{fan-in}}$. For the first layer, which has 2 inputs:
 
@@ -269,7 +269,7 @@ The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weig
 
 > **Key point:** One argument per layer. All four initialisers train the network to 100% training accuracy here.
 
-> **Python:** **He normal** (G-881) for a ReLU layer.
+> **Python:** **He normal** (G-881) for a **ReLU** (G-1668) layer.
 >
 > ```python
 > keras.layers.Dense(10, activation="relu",
@@ -278,7 +278,7 @@ The loss falls from 0.650 to 0.0023, and the training accuracy is 100%. The weig
 >
 > `kernel_initializer` sets how the layer's weight matrix (Keras calls it the kernel) starts. The other options are `"he_uniform"` (G-882), `"glorot_normal"` and `"glorot_uniform"`; `bias_initializer` does the same for the biases.
 
-The same four-layer network with each initialiser, 100 epochs of plain SGD:
+The same four-layer network with each initialiser, 100 epochs of plain **SGD** (G-1892):
 
 | Activation | Initialiser | Loss at start | Loss at end | Training accuracy |
 |---|---|---|---|---|
@@ -289,13 +289,13 @@ The same four-layer network with each initialiser, 100 epochs of plain SGD:
 
 ![Decision regions after 100 epochs. Left: tanh with Xavier weights set by hand. Right: ReLU with `he_normal`](images/boundary.png){width=100%}
 
-In Figure 6, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the decision boundary, where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
+In Figure 6, the background shade is the probability the network gives to class 1 at that spot: light orange where it favours class 1, light blue where it favours class 0, white at 0.5. The black line is the **decision boundary** (G-555), where the probability is 0.5. The dots are the training points (blue: class 0, orange: class 1).
 
 On such a small problem every good start works. The differences show in deep networks: in He et al. (2015), Xavier and He starts both trained a 22-layer ReLU network, but only He trained a 30-layer one. Trying the combinations on our own data shows which works best there.
 
 **The default.** If we do not pass `kernel_initializer`, a `Dense` layer uses `glorot_uniform`, and its biases start at 0 (`zeros`). Zero biases are safe because the random weights already make every node different, so the biases are not needed to break the [symmetry](../DL-029-weight-initialization/DL-029-weight-initialization.md#43-sigmoid-every-node-becomes-the-same-node) (nodes that start equal stay equal) (CS231n notes, "Neural Networks Part 2"). Keras' default explains why the networks of the earlier Notes trained without our choosing anything.
 
-> **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two standard deviations from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426, matching the formula
+> **Extra:** Keras' normal versions draw from a **truncated normal** (G-2023) distribution: values more than two **standard deviations** (G-1871) from 0 are redrawn (Keras documentation). Redrawing alone would shrink the spread, yet the measured standard deviation still matches the formula, so Keras compensates for the cut. The Notebook checks all four on a 1000 × 100 layer: `glorot_normal` has standard deviation 0.0426, matching the formula
 >
 > $$\sqrt{2/1100} = 0.0426$$
 >
@@ -312,10 +312,10 @@ On such a small problem every good start works. The differences show in deep net
 | Xavier | variance $1/\text{fan-in}$ | tanh stays in range (0.63 to 0.23) |
 | He | variance $2/\text{fan-in}$ | ReLU stays steady (0.83 to 0.73) |
 
-- Xavier (Glorot): $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$; uniform limit $\sqrt{6/(\text{fan-in} + \text{fan-out})}$. For tanh and sigmoid, because it keeps each weighted sum the same size as its input.
-- He: $\sqrt{2/\text{fan-in}}$; uniform limit $\sqrt{6/\text{fan-in}}$. For ReLU, because ReLU sets about half the values to 0 and the 2 makes up for that loss.
+- Xavier (Glorot): $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$; uniform limit $\sqrt{6/(\text{fan-in} + \text{fan-out})}$. For tanh and **sigmoid** (G-1798), because it keeps each weighted sum the same size as its input.
+- He: $\sqrt{2/\text{fan-in}}$; uniform limit $\sqrt{6/\text{fan-in}}$. For **ReLU** (G-1668), because ReLU sets about half the values to 0 and the 2 makes up for that loss.
 - In Keras: `kernel_initializer=...` per layer; the default is `glorot_uniform`, so a ReLU layer needs `he_normal` or `he_uniform` passed by hand.
-- The starting weights must be random, with a spread that depends on the fan-in, because a node adds up fan-in products: the more inputs, the smaller each weight must be.
+- The starting weights must be random, with a spread that depends on the **fan-in** (G-754), because a node adds up fan-in products: the more inputs, the smaller each weight must be.
 
 ## 8. Sources
 
@@ -346,14 +346,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | `kernel_initializer` (G-105) | The `Dense` argument that chooses how a layer's weight matrix starts; default `glorot_uniform`. |
 | Xavier (Glorot) normal (G-2131) | Starting weights drawn from a normal distribution whose spread is set by the layer's size, standard deviation $\sqrt{1/\text{fan-in}}$ or $\sqrt{2/(\text{fan-in} + \text{fan-out})}$, so the signal keeps its size from layer to layer. |
 | Xavier (Glorot) uniform (G-2132) | Starting weights drawn evenly between $\pm\sqrt{6/(\text{fan-in} + \text{fan-out})}$, a range set by the layer's size, so the signal keeps its size from layer to layer. |
+| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Glorot (Xavier) and He initialisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#63-initialise-the-weights-properly) (G-850) | Ways to choose the spread of random starting weights from the layer sizes. |
 | [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Uniform distribution](../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
-| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
-| [Variance (of data)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) | The average squared distance of the values from their mean; the square of the standard deviation; divide by $n$ for a population (NumPy default) or $n - 1$ for a sample (pandas default). |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Standard normal distribution](../../../MA/03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#2-the-standard-normal-distribution) (G-1873) | The normal distribution with mean 0 and standard deviation 1, written $Z \sim N(0, 1)$; any normal variable can be converted to it with z-scores, so one table of probabilities serves every normal distribution. |
 | [Variance of a random variable](../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |

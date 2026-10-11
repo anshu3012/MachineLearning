@@ -17,9 +17,9 @@ tags: [subject/machine-learning, area/features, step/features, step/reduce, conc
 
 ## 1. Overview
 
-> **Key point:** Feature engineering turns raw data into features that a model can learn from well. It has four parts: transformation, construction, selection and extraction.
+> **Key point:** Feature engineering turns **raw data** (G-1637) into features that a model can learn from well. It has four parts: transformation, construction, selection and extraction.
 
-So far we can gather data and study it with exploratory data analysis (EDA, G-732: studying the data with summary numbers and plots). Before a model can learn from that data, we have to prepare its features. Preparing them is feature engineering, and it fills the next stretch of Notes.
+So far we can gather data and study it with exploratory data analysis (EDA, G-732: studying the data with summary numbers and plots). Before a model can learn from that data, we have to prepare its features. Preparing them is **feature engineering** (G-761), and it fills the next stretch of Notes.
 
 Figure 1 is the map of this whole stretch. Each of the four parts has its own techniques, and each technique gets its own Note later. This Note explains what each part is for, with one example each. In Figure 1, each box is one of the four parts, and the techniques under it are the topics of later Notes.
 
@@ -44,7 +44,7 @@ Figure 2 puts the definition in one picture.
 
 ## 3. Why feature engineering matters
 
-> **Key point:** Good features with a simple algorithm usually beat poor features with a powerful algorithm.
+> **Key point:** Good **features** (G-772) with a simple algorithm usually beat poor features with a powerful algorithm.
 
 A well-known saying in ML: give a weak algorithm excellent features and a powerful algorithm poor features, and the weak one usually wins. Domingos (2012, §8) puts the same point plainly: of all the factors that decide whether an ML project succeeds, "easily the most important factor is the features used". Think of a cook: a simple recipe with fresh ingredients beats a fancy recipe with stale ones. The features we give a model limit what it can learn, however clever the model is.
 
@@ -52,13 +52,13 @@ A well-known saying in ML: give a weak algorithm excellent features and a powerf
 
 Figure 3 shows the saying as two pairings.
 
-Feature engineering is also more an art than a science. Like programming, it has known techniques, but each person combines them in their own way.
+**Feature engineering** (G-761) is also more an art than a science. Like programming, it has known techniques, but each person combines them in their own way.
 
 Two data scientists given the same data will often build different features. The lack of a recipe is why different books teach feature engineering differently: there is no single fixed recipe. The techniques below are the shared toolkit, and experience decides how to use them.
 
 ## 4. Where feature engineering sits in an ML project
 
-> **Key point:** Feature engineering comes after the data is gathered, studied and given a first clean-up, and before any model is trained.
+> **Key point:** **Feature engineering** (G-761) comes after the data is gathered, studied and given a first clean-up, and before any model is trained.
 
 In the steps of an ML project, data first arrives and gets some initial preprocessing. Feature engineering comes next. Only then is the prepared data given to an algorithm to train a model.
 
@@ -73,13 +73,13 @@ Figure 4 marks where feature engineering sits.
 | **Engineer features** | prepare the features (this group of Notes) |
 | Train a model | give the prepared data to an algorithm |
 
-Some lists of project steps name "feature engineering" and "feature selection" separately. Here both belong to feature engineering: selection is one of its four parts.
+Some lists of project steps name "feature engineering" and "**feature selection** (G-768)" separately. Here both belong to feature engineering: selection is one of its four parts.
 
 ## 5. The four parts of feature engineering
 
-> **Key point:** We can change features (transformation), add features (construction), keep only some features (selection), or replace features with new ones made by an algorithm (extraction).
+> **Key point:** We can change **features** (G-772) (transformation), add features (construction), keep only some features (selection), or replace features with new ones made by an algorithm (extraction).
 
-Figure 1 groups everything feature engineering does into four parts:
+Figure 1 groups everything **feature engineering** (G-761) does into four parts:
 
 1. **Feature transformation** (G-770): change a feature into another form, so that the model works better with it.
 2. **Feature construction** (G-760): create a new feature by hand, from existing ones, when we think it will give better results.
@@ -88,15 +88,15 @@ Figure 1 groups everything feature engineering does into four parts:
 
 ![Each part on a few Titanic rows: change a column, add a column, keep some columns, or build new columns by an algorithm](images/four_parts_rows.png){width=95%}
 
-Figure 5 shows what each part does to a table, using the first three Titanic passengers (the age groups follow the binning table in section 6.3).
+Figure 5 shows what each part does to a table, using the first three Titanic passengers (the age groups follow the **binning** (G-307) table in section 6.3).
 
 The next four sections take the parts in this order.
 
 ## 6. Feature transformation
 
-> **Key point:** Feature transformation changes a column's form. Its four main jobs: fill missing values, turn categories into numbers, deal with outliers, and put columns on the same scale.
+> **Key point:** Feature transformation changes a column's form. Its four main jobs: fill missing values, turn categories into numbers, deal with **outliers** (G-1420), and put columns on the same scale.
 
-Sometimes a column is in a form that the algorithm cannot use, or cannot use well. Feature transformation changes it into a better form. Transformation is the first step of feature engineering, and it has many techniques; these four are the most important.
+Sometimes a column is in a form that the algorithm cannot use, or cannot use well. Feature transformation changes it into a better form. Transformation is the first step of **feature engineering** (G-761), and it has many techniques; these four are the most important.
 
 ### 6.1 Handling missing values
 
@@ -106,7 +106,7 @@ Real-world data almost always has gaps. A person may have left a form field blan
 
 Gaps are a real problem: most models in scikit-learn, the main ML library in Python, refuse to train on data with missing values (scikit-learn User Guide, "Imputation of missing values"). So before training, we do one of two things:
 
-- **Remove** the observations (rows) with gaps. Removing is fine when only a few rows are affected, since losing them hardly changes the data.
+- **Remove** the **observations** (G-1374) (rows) with gaps. Removing is fine when only a few rows are affected, since losing them hardly changes the data.
 - **Fill** the gaps, when too many rows would be lost. For a numerical column we can use the column's mean or median; for a categorical column, its most common value (the **mode**, G-1251).
 
 A small case: the ages 20, 30, empty and 40. The mean of the three known ages fills the gap:
@@ -146,7 +146,7 @@ Outliers are risky because some algorithms are very sensitive to them. [**Linear
 
 ![Three outliers added one at a time to 25 points (example data). The dashed green line is fitted without outliers; the red line is refitted after each outlier, and its slope falls from 1.91 to 0.90.](images/outlier_line.gif)
 
-- **Green dashed line:** fitted to the 25 normal points only. It follows the main pattern, with a [**slope**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) of 1.91. The slope is how much the line rises when the input grows by 1: the target rises by about 1.9 for each step of the input, so from input 3 to input 4 the line goes up by 1.91.
+- **Green dashed line:** fitted to the 25 normal points only. It follows the main pattern, with a [**slope**](../../06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) of 1.91. The slope is how much the line rises when the input grows by 1: the **target** (G-1949) rises by about 1.9 for each step of the input, so from input 3 to input 4 the line goes up by 1.91.
 - **Red line:** fitted with the outliers included. The line is chosen to keep the total squared distance to all points small, so the far-away points at the bottom right pull it down. The slope drops to 1.57, then 1.20, then 0.90, and the line no longer follows the other 25 points.
 
 When we use an algorithm that is sensitive to outliers, it is our job to deal with them before training. Dealing with them means first **detecting** them, and then removing or adjusting them. Several Notes cover the methods.
@@ -155,7 +155,7 @@ When we use an algorithm that is sensitive to outliers, it is our job to deal wi
 
 > **Key point:** When columns have very different ranges, the column with the biggest numbers dominates; scaling puts all columns on a similar range.
 
-When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN (k-nearest neighbours: it predicts for a new observation from the observations nearest to it; see [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)) let the bigger column decide almost alone (see the scaling section of the [toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs), section 7). Figure 2 of the [**standardization**](../ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief) (G-1874) draws the distance between two users split into its age part and its salary part: on raw data the age part is too small to see. In numbers: two users differ by 10 years in age and by 20,000 rupees in salary. Their distance is:
+When columns have very different ranges, such as `age` in the tens and `salary` in the tens of thousands, distance-based algorithms like KNN (k-nearest neighbours: it predicts for a new **observation** (G-1374) from the observations nearest to it; see [how KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)) let the bigger column decide almost alone (see the scaling section of the [toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs), section 7). Figure 2 of the [**standardization**](../ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief) (G-1874) draws the distance between two users split into its age part and its salary part: on **raw data** (G-1637) the age part is too small to see. In numbers: two users differ by 10 years in age and by 20,000 rupees in salary. Their distance is:
 
 $$10^2 = 100$$
 
@@ -169,15 +169,15 @@ The age gap adds almost nothing. [**Feature scaling**](../../01-foundations/ML-0
 
 > **Key point:** Many more transformations exist, such as the log transform and the Box-Cox transform.
 
-Missing values, categories, outliers and scaling are the main jobs, but not the only ones. Mathematical transformations such as the [**log transform**](../ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) (G-1112) and the [**Box-Cox transform**](../ML-030-power-transformer/ML-030-power-transformer.md#31-the-box-cox-formula) (G-331) change the shape of a column's values. For example, the log (base 10) turns the values 10, 100 and 1,000,000 into 1, 2 and 6: huge gaps shrink to small ones. Dates and times, and columns that mix numbers with text, also need their own handling.
+Missing values, categories, **outliers** (G-1420) and scaling are the main jobs, but not the only ones. Mathematical transformations such as the [**log transform**](../ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) (G-1112) and the [**Box-Cox transform**](../ML-030-power-transformer/ML-030-power-transformer.md#31-the-box-cox-formula) (G-331) change the shape of a column's values. For example, the log (base 10) turns the values 10, 100 and 1,000,000 into 1, 2 and 6: huge gaps shrink to small ones. Dates and times, and columns that mix numbers with text, also need their own handling.
 
-> **Extra:** Missing values and outliers are also part of *cleaning* the data. On the Course map they sit at the Clean step, just before feature engineering. In practice the two steps overlap, and the same techniques serve both.
+> **Extra:** Missing values and outliers are also part of *cleaning* the data. On the Course map they sit at the Clean step, just before **feature engineering** (G-761). In practice the two steps overlap, and the same techniques serve both.
 
 ## 7. Feature construction
 
-> **Key point:** Feature construction creates a new column by hand from existing ones, guided by domain knowledge, intuition and experience.
+> **Key point:** Feature construction creates a new column by hand from existing ones, guided by **domain knowledge** (G-631), intuition and experience.
 
-Sometimes a useful feature is not in the data at all. If we think such a feature would give better results, we create it ourselves. Creating it by hand is feature construction.
+Sometimes a useful feature is not in the data at all. If we think such a feature would give better results, we create it ourselves. Creating it by hand is **feature construction** (G-760).
 
 There is no fixed method for it. What we build depends on how well we know the data, on intuition and on experience, so two people may build different columns.
 
@@ -197,7 +197,7 @@ Figure 7 follows three real passengers through both steps. The [feature construc
 
 > **Key point:** Besides combining columns, we can also split one column into several, or group its values.
 
-Feature construction has a few common patterns:
+**Feature construction** (G-760) has a few common patterns:
 
 - **Combining:** several columns into one, as with family size.
 - **Splitting:** one column into several, such as a full name into first name and title.
@@ -205,9 +205,9 @@ Feature construction has a few common patterns:
 
 ## 8. Feature selection
 
-> **Key point:** Feature selection keeps only the important columns and drops the rest, which makes the model better and faster.
+> **Key point:** **Feature selection** (G-768) keeps only the important columns and drops the rest, which makes the model better and faster.
 
-Instead of giving the algorithm every feature, we choose the useful ones and remove those that are not important. Choosing them is feature selection.
+Instead of giving the algorithm every **feature** (G-772), we choose the useful ones and remove those that are not important. Choosing them is feature selection.
 
 ### 8.1 Pixels as columns: the MNIST dataset
 
@@ -215,7 +215,7 @@ Instead of giving the algorithm every feature, we choose the useful ones and rem
 
 The **MNIST dataset** (G-1249) is a well-known collection of 70,000 images of handwritten digits, 0 to 9 (LeCun et al. 1998). Each image is small: 28 × 28 pixels, so 784 pixels in all.
 
-To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 8). The value in each column is that pixel's brightness. So the MNIST table has 784 features.
+To use images in ML, each image is turned into one row of a table, with one column per pixel (Figure 8). The value in each column is that pixel's brightness. So the MNIST table has 784 **features** (G-772).
 
 ![An image becomes one row with one column per pixel](images/image_to_row.png)
 
@@ -229,7 +229,7 @@ Figure 9 measures the claim on all 70,000 images. For each pixel it shows the sh
 
 ![Each square is one MNIST pixel; dark blue means the pixel is often part of a digit. Each step drops (red) the pixels blank in at least 100, 99 and 90 percent of the 70,000 images.](images/mnist_blank.gif)
 
-Feature selection keeps the important pixels, the ones in the centre, and drops the rest. The model then works with fewer columns, which brings two gains:
+**Feature selection** (G-768) keeps the important pixels, the ones in the centre, and drops the rest. The model then works with fewer columns, which brings two gains:
 
 - **better performance**, since useless columns no longer get in the way;
 - **more speed**, since there is less data to process.
@@ -238,11 +238,11 @@ Common techniques include **forward selection** (G-798; start with no columns, a
 
 ## 9. Feature extraction
 
-> **Key point:** Feature extraction builds completely new columns out of the existing ones, then keeps only the most useful new columns.
+> **Key point:** **Feature extraction** (G-762) builds completely new columns out of the existing ones, then keeps only the most useful new columns.
 
-Feature extraction is the last part. Like feature construction, extraction creates new features. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
+Feature extraction is the last part. Like **feature construction** (G-760), extraction creates new features. Unlike construction, the new columns are computed by an algorithm, not chosen by hand.
 
-The rooms and washrooms example of the [types of ML](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
+The rooms and washrooms example of the [types of ML](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without **domain knowledge** (G-631): it builds the new columns from the data alone.
 
 **PCA** (principal component analysis, G-1469), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [**PCA**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1469), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
 
@@ -254,7 +254,7 @@ The main extraction techniques are **PCA**, **LDA** (linear discriminant analysi
 
 ## 10. The feature engineering Notes, in order
 
-> **Key point:** The Notes that follow work through the four parts in detail, starting with feature transformation.
+> **Key point:** The Notes that follow work through the four parts in detail, starting with **feature transformation** (G-770).
 
 ![The order of the feature engineering Notes](images/fe_notes_order.png){width=60%}
 
@@ -284,11 +284,11 @@ The order of the Notes differs a little from the order of this Note. Each Note s
 | Feature selection | keeps only the useful columns | drop the blank edge pixels of MNIST | forward selection, backward elimination | Fewer useless columns give better performance and more speed |
 | Feature extraction | builds new columns with an algorithm | rooms and washrooms into one PCA axis | PCA, LDA, t-SNE | A few new columns keep most of the information of many |
 
-- Feature engineering uses domain knowledge to turn raw data into features that help a model perform better, because raw data arrives with gaps, text, odd values and unhelpful columns.
-- Good features matter more than a powerful algorithm, because the features limit what any model can learn.
-- Feature engineering is partly an art: there are known techniques, but no single fixed recipe, so two people given the same data often build different features.
+- Feature engineering uses domain knowledge to turn **raw data** (G-1637) into features that help a model perform better, because raw data arrives with gaps, text, odd values and unhelpful columns.
+- Good **features** (G-772) matter more than a powerful algorithm, because the features limit what any model can learn.
+- **Feature engineering** (G-761) is partly an art: there are known techniques, but no single fixed recipe, so two people given the same data often build different features.
 - Feature engineering comes after the data is gathered and studied, and before a model is trained, so the model only ever sees the prepared features.
-- Transformation's main jobs: missing values, categorical data, outliers and scaling, because most scikit-learn models refuse gaps, algorithms work only with numbers, outliers tilt a fitted line, and the column with the biggest numbers dominates distances.
+- Transformation's main jobs: missing values, categorical data, **outliers** (G-1420) and scaling, because most scikit-learn models refuse gaps, algorithms work only with numbers, outliers tilt a fitted line, and the column with the biggest numbers dominates distances.
 - Selection and extraction both reduce the number of columns: selection keeps some old ones, extraction builds new ones. Fewer columns means less data to process.
 - So turning raw data into features a model can learn from well comes down to four moves: change columns, add columns, keep some columns, or let an algorithm build new ones.
 
@@ -311,26 +311,26 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Domain knowledge (G-631) | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
 | Raw data (G-1637) | Data as it arrives, before any preparation. |
+| Domain knowledge (G-631) | Knowledge of the field the data comes from, such as medicine, property or shipping; it tells us which features make sense and which new ones would help. |
+| Feature selection (G-768) | Keeping only the useful input columns and dropping the rest. |
 | Feature transformation (G-770) | Changing a column into a form the model can use better. |
 | Feature construction (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
-| Feature selection (G-768) | Keeping only the useful input columns and dropping the rest. |
 | Feature extraction (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
-| Imputation (G-927) | Filling in missing values, for example with the mean, median or mode. |
 | Binning (G-307) | Grouping a numerical column into ranges that act as categories. |
+| Imputation (G-927) | Filling in missing values, for example with the mean, median or mode. |
 | MNIST (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | Forward selection (G-798) | Feature selection that starts empty and adds the best column at a time. |
 | Backward elimination (G-248) | Feature selection that starts with all columns and removes the worst at a time. |
 | LDA (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |
 | [Exploratory data analysis (EDA)](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732) | Exploring data with summaries and plots to find patterns. |
+| [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Feature engineering](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#71-feature-engineering) (G-761) | Choosing, removing and creating input columns (features) so that the model gets the information it needs in a form it can use. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Mode](../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
-| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Linear regression](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#1-overview) (G-1094) | A model that predicts a number from the inputs by fitting the straight line (or, with several inputs, the plane) that runs closest to all the training points. |
 | [Slope](../../../ML/06-regression/ML-049-simple-linear-regression/ML-049-simple-linear-regression.md#32-if-the-data-were-perfectly-linear) (G-1823) | How much the output changes for one unit of change in the input; $m$ in $y = mx + b$. |
 | [Standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874) | Scaling a column to mean 0 and standard deviation 1 (subtract the mean, divide by the standard deviation), so features measured on different scales become comparable. |

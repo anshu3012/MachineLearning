@@ -19,7 +19,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/clt]
 
 ![Titanic fares: the population is right-skewed (left), the means of 100 samples of 50 passengers are close to a bell (right)](images/fare_clt.png)
 
-[The central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) showed that sample means are approximately normal, centred on the population mean $\mu$, with standard error $\sigma/\sqrt{n}$. This Note uses that result on real data.
+[The central limit theorem](../MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) showed that sample means are approximately normal, centred on the population mean $\mu$, with **standard error** (G-1872) $\sigma/\sqrt{n}$. This Note uses that result on real data.
 
 The Titanic carried 1309 passengers, and we know every fare. We act as if we did not, estimate the average fare from samples, and only at the end compare with the true value. Figure 1 shows why this is a fair test: the fares are far from normal, yet the sample means form a bell.
 
@@ -59,7 +59,7 @@ The fares are strongly right-skewed (Figure 1, left): skewness 4.37 (a number fo
 
 We now draw samples as if surveying passengers:
 
-1. Draw 50 passengers at random (sample size $n = 50$, above the usual threshold of 30).
+1. Draw 50 passengers at random (**sample size** (G-1727) $n = 50$, above the usual threshold of 30).
 2. Record their fares.
 3. Repeat until we have 100 samples.
 4. Compute the mean of each sample.
@@ -120,7 +120,7 @@ $$s/\sqrt{50} = 51.34/7.07 = 7.26$$
 
 ## 5. The point estimate
 
-> **Key point:** The average of the sample means, 31.87 pounds, is our single best guess for the population mean: a point estimate.
+> **Key point:** The average of the sample means, 31.87 pounds, is our single best guess for the population mean: a **point estimate** (G-1507).
 
 By the CLT, the sample means are centred on the population mean. So their average is our best guess for $\mu$. A single number used as the best guess for an unknown parameter is a **point estimate**.
 
@@ -141,9 +141,9 @@ A point estimate is almost never exactly right. The CLT says it is close to $\mu
 
 ## 6. A range for the population mean
 
-> **Key point:** About 95% of a normal distribution lies within 2 standard deviations of its centre, so "estimate $\pm$ 2 standard errors" gives a range that contains $\mu$ about 95% of the time.
+> **Key point:** About 95% of a normal distribution lies within 2 standard deviations of its centre, so "estimate $\pm$ 2 **standard errors** (G-1872)" gives a range that contains $\mu$ about 95% of the time.
 
-The point estimate is itself a mean of normal-shaped values, so it follows a normal distribution around $\mu$. By the 68-95-99.7 rule (see [deriving the 68-95-99.7 rule](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule)), it lands within 2 of its standard deviations of $\mu$ about 95% of the time. Turned around: the range "estimate $\pm$ 2 standard deviations" contains $\mu$ about 95% of the time.
+The **point estimate** (G-1507) is itself a mean of normal-shaped values, so it follows a normal distribution around $\mu$. By the 68-95-99.7 rule (see [deriving the 68-95-99.7 rule](../../03-distributions/MA-025-standard-normal-and-z-table/MA-025-standard-normal-and-z-table.md#6-deriving-the-68-95-997-rule)), it lands within 2 of its standard deviations of $\mu$ about 95% of the time. Turned around: the range "estimate $\pm$ 2 standard deviations" contains $\mu$ about 95% of the time.
 
 The standard deviation of an estimate is its standard error (SE). Our estimate averages 100 independent sample means, each with spread $s_{\bar{x}}$ (the standard deviation of the 100 sample means). By the variance-of-a-mean rule (the spread of an average of $k$ independent values is their spread divided by $\sqrt{k}$), averaging 100 of them divides that spread by $\sqrt{100}$.
 
@@ -176,7 +176,7 @@ $$51.74/\sqrt{50} = 7.32$$
 
 ### 6.1 Why 2 standard errors
 
-> **Key point:** A wider range is more likely to contain $\mu$ but says less; 2 standard errors (95%) is the usual compromise.
+> **Key point:** A wider range is more likely to contain $\mu$ but says less; 2 **standard errors** (G-1872) (95%) is the usual compromise.
 
 We could use 1, 2 or 3 standard errors:
 
@@ -196,7 +196,7 @@ A range must be narrow enough to be useful. "The average salary in a company is 
 
 ## 7. A common mistake: dividing by the wrong square root
 
-> **Key point:** The standard error of an average of 100 sample means divides by $\sqrt{100}$, the number of samples; dividing by $\sqrt{50}$, the sample size, mixes up the two sizes.
+> **Key point:** The **standard error** (G-1872) of an average of 100 sample means divides by $\sqrt{100}$, the number of samples; dividing by $\sqrt{50}$, the sample size, mixes up the two sizes.
 
 Two sizes appear in this method, and they are easy to swap:
 
@@ -218,7 +218,7 @@ The range is then 29.73 to 34.00. This wrong range also contains 33.30, but it i
 
 > **Key point:** In practice we have one sample, and the range is $\bar{x} \pm 2s/\sqrt{n}$; for very skewed data, $n = 50$ is too small for this to be reliable.
 
-Drawing 100 samples is a teaching device: it lets us see the sampling distribution. A real survey collects one sample. Then the CLT is used directly: the one sample mean $\bar{x}$ is the point estimate, and the standard error $\sigma/\sqrt{n}$ is estimated with the sample's own standard deviation $s$:
+Drawing 100 samples is a teaching device: it lets us see the sampling distribution. A real survey collects one sample. Then the CLT is used directly: the one sample mean $\bar{x}$ is the **point estimate** (G-1507), and the standard error $\sigma/\sqrt{n}$ is estimated with the sample's own standard deviation $s$:
 
 $$\bar{x} \pm 2\thinspace\frac{s}{\sqrt{n}}$$
 
@@ -228,7 +228,7 @@ $$37.27 \pm 2 \times 51.34/\sqrt{50}$$
 
 $$37.27 \pm 14.52$$
 
-That is **22.74 to 51.79 pounds** (Figure 5, blue). The one-sample range contains 33.30, and it is much wider. Its standard error is $\sigma/\sqrt{50}$. The average of 100 samples of 50 has a standard error ten times smaller:
+That is **22.74 to 51.79 pounds** (Figure 5, blue). The one-sample range contains 33.30, and it is much wider. Its **standard error** (G-1872) is $\sigma/\sqrt{50}$. The average of 100 samples of 50 has a standard error ten times smaller:
 
 $$(\sigma/\sqrt{50})/\sqrt{100} = \sigma/\sqrt{5000}$$
 
@@ -242,7 +242,7 @@ Watch where the red points sit in Figure 6: low and to the left, below the V, be
 
 ## 9. Template: the average income of a country
 
-> **Key point:** Random representative samples of at least 30, their means, the average of the means, its standard error, and a 95% range around it.
+> **Key point:** Random representative samples of at least 30, their means, the average of the means, its **standard error** (G-1872), and a 95% range around it.
 
 The same steps estimate any population mean, such as the average yearly income in India (Figure 7 shows them with the simulated numbers below):
 
@@ -250,7 +250,7 @@ The same steps estimate any population mean, such as the average yearly income i
 
 1. **Collect several random samples** of incomes, each with $n \ge 30$. They must be representative: not only from cities, not only from one state, not only from one age group.
 2. **Compute the mean of each sample**, which gives the sampling distribution of the mean.
-3. **Average the sample means**: this is the point estimate of the population mean.
+3. **Average the sample means**: this is the **point estimate** (G-1507) of the population mean.
 4. **Compute the standard error**: the standard deviation of the sample means divided by the square root of the number of samples.
 5. **Build the 95% range**: point estimate $\pm 1.96 \times$ SE.
 6. **Report** the estimate together with the range.
@@ -271,8 +271,8 @@ The result is only as good as the samples. Biased samples (see [sampling noise a
 | One sample only | $\bar{x} \pm 2s/\sqrt{n}$ | 22.74 to 51.79 | what a real survey with one sample gets: much wider |
 
 - The CLT works on the skewed fares: the sample means are close to a bell, so normal-curve ranges apply even though the fares are not normal.
-- A range says how far off the point estimate might be; 2 standard errors is the 95% compromise, because 1 standard error misses too often and 3 give a range too wide to be useful.
-- Divide by the square root of the number of samples when averaging sample means; the sample size is already inside $s_{\bar{x}}$, so dividing by $\sqrt{50}$ makes the range about 40% too wide and the "95%" label false.
+- A range says how far off the **point estimate** (G-1507) might be; 2 standard errors is the 95% compromise, because 1 standard error misses too often and 3 give a range too wide to be useful.
+- Divide by the square root of the number of samples when averaging sample means; the **sample size** (G-1727) is already inside $s_{\bar{x}}$, so dividing by $\sqrt{50}$ makes the range about 40% too wide and the "95%" label false.
 - For extremely skewed data, a sample of 50 can be too small (the one-sample range caught the truth only 87.9% of the time, because many samples miss the rare expensive tickets); and no sample size fixes a biased sample.
 - This answers the opening question: random samples and the CLT gave an estimate of the average fare, 31.87 pounds, and a 95% range that contained the true 33.30.
 
@@ -294,5 +294,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | $\hat{\mu}$ (G-12) | An estimate of the population mean $\mu$ (the hat marks an estimate): a value computed from samples, here the mean of the sample means, used in place of the unknown $\mu$. |
 | Number of samples ($k$) (G-1365) | How many samples are drawn; different from the sample size $n$. |
 | [Standard error](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |
-| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |
 | [Sample size ($n$)](../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions) (G-1727) | The number of values in one sample, written $n$, such as 50 people; a larger $n$ makes the sample mean vary less from sample to sample (its spread is $\sigma/\sqrt{n}$). |
+| [bootstrap](../../../ML/08-trees-and-ensembles/ML-100-bagging-classifier/ML-100-bagging-classifier.md#2-seeing-bagging-on-decision-surfaces) (G-320) | BaggingClassifier setting: draw rows with replacement (True, bagging) or without (False, pasting). |

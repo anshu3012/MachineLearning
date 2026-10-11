@@ -21,7 +21,7 @@ tags: [subject/machine-learning, area/models-1, step/model, concept/regularisati
 
 Every linear model multiplies each input by a number, its **coefficient** (G-407; see [the equation](../ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation)); in $y = mx + b$ the coefficient is the slope $m$. Training chooses the coefficients to make the **loss** (G-706; see [adding the errors up](../ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up)) small, where the loss is the total of the model's errors.
 
-**Regularisation** (G-1659) is a technique that adds extra information to a model to reduce overfitting. Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
+**Regularisation** (G-1659) is a technique that adds extra information to a model to reduce **overfitting** (G-1429). Regularisation sits next to bagging and boosting as one of the main tools against high variance, and it is especially important for linear models: linear regression, logistic regression and others.
 
 There are three standard regularised versions of linear regression:
 
@@ -60,11 +60,11 @@ So the warning sign of an overfitting linear model is **large coefficients**: th
 
 > **Key point:** Ridge minimises the usual squared error plus λ times the squared slope. A steep line now costs something, so the model prefers a flatter one unless the data strongly supports the steep one.
 
-Ridge regression changes the loss function. In words: the loss is the usual sum of squared errors, plus a penalty equal to $\lambda$ times the square of the slope.
+**Ridge regression** (G-1691) changes the loss function. In words: the loss is the usual sum of squared errors, plus a penalty equal to $\lambda$ times the square of the slope.
 
 $$L = \sum_{i=1}^{n} (y_i - \hat y_i)^2 + \lambda m^2$$
 
-The symbols: $y_i$ is the actual target of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors, the loss of [Section 1](#1-overview). $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910; a setting we choose before training), at least 0, that sets how strong the penalty is. With several features, each coefficient $\beta_j$ gets its own square in the penalty, for example with three coefficients:
+The symbols: $y_i$ is the actual **target** (G-1949) of observation $i$, $\hat y_i$ ("y hat") the model's prediction for it, $n$ the number of observations, $m$ the slope, and $\sum_{i=1}^{n}$ means "add up the term for every observation $i$ from 1 to $n$". The first part, $\sum (y_i - \hat y_i)^2$, is the sum of squared errors, the loss of [Section 1](#1-overview). $\lambda$ (lambda; G-2150) is a **hyperparameter** (G-910; a setting we choose before training), at least 0, that sets how strong the penalty is. With several features, each coefficient $\beta_j$ gets its own square in the penalty, for example with three coefficients:
 
 $$\lambda(\beta_1^2 + \beta_2^2 + \beta_3^2) = \lambda \sum_{j} \beta_j^2$$
 
@@ -93,7 +93,7 @@ That is a little below the 1.53 of the slope-0.9 line.
 
 ![λ grows from 0 to 30 on the two training points. The green line is the Ridge fit (dotted: least squares); red sticks are its errors. The bars show the squared errors, the penalty λm² and their sum. After StatQuest's "Regularization Part 1: Ridge (L2) Regression" (Starmer)](images/lambda_sweep.gif)
 
-Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less variance): the **bias-variance trade-off** (G-288; see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
+Ridge gives up a little accuracy on the training data (some bias) in exchange for a model that changes less from sample to sample (less **variance** (G-2073)): the **bias-variance trade-off** (G-288; see [the trade-off](../ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). As $\lambda$ grows, variance falls and bias rises (ISL §6.2.1).
 
 Think of a tailor who fits a suit to one photo of a customer. A suit that follows every fold of that one photo fits badly on the real day. A tailor who keeps the cut a little plain, trusting the photo less, does better on average. Ridge keeps the coefficients plain in the same way.
 
@@ -123,17 +123,17 @@ The slope shrinks as alpha grows, while the intercept changes little.
 
 > **Key point:** On a degree-16 polynomial, α = 0 overfits, α = 20 follows the pattern, α = 200 is too stiff.
 
-Regularisation matters most for flexible models. Figure 5 (right) fits a degree-16 polynomial (a curve with terms up to $x^{16}$, so it can bend many times) to curved data:
+**Regularisation** (G-1659) matters most for flexible models. Figure 5 (right) fits a degree-16 polynomial (a curve with terms up to $x^{16}$, so it can bend many times) to curved data:
 
-- **alpha = 0:** the curve bends to chase individual points and swings at the edges: overfitting.
+- **alpha = 0:** the curve bends to chase individual points and swings at the edges: **overfitting** (G-1429).
 - **alpha = 20:** the penalty keeps the many coefficients small, and the curve follows the overall pattern.
-- **alpha = 200:** the coefficients are squeezed so hard that the curve is too flat in places: underfitting.
+- **alpha = 200:** the coefficients are squeezed so hard that the curve is too flat in places: **underfitting** (G-2035).
 
 The best alpha is somewhere in between and is found by trying values on held-out data, like any hyperparameter.
 
 ### 4.3 Many features: the diabetes data
 
-> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² (the share of the target's variation the model explains: 1 is perfect, 0 is no better than the average; see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)) a lot; a huge alpha destroys the model.
+> **Key point:** As alpha grows, every coefficient is pulled towards 0 (**shrinkage**, G-1796). With few training observations, a small alpha raises test R² (the share of the **target** (G-1949)'s variation the model explains: 1 is perfect, 0 is no better than the average; see [**R² score**](../ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717)) a lot; a huge alpha destroys the model.
 
 Figure 6 trains Ridge on the diabetes data (10 features, 442 observations; the target is disease progression one year later) with alpha from 0.0001 to 100,000.
 
@@ -145,7 +145,7 @@ Figure 6 trains Ridge on the diabetes data (10 features, 442 observations; the t
   - **353 training observations:** 0.478 against 0.480, almost no gain.
   - **Huge alpha:** with alpha 100,000 every coefficient is about 0 and $R^2 \approx 0$: the model just predicts the average.
 
-Why the difference? With 40 observations and 10 features, the least-squares coefficients swing a lot from sample to sample (high variance), so taming them pays off. With 353 observations the least-squares fit is already stable, so there is little variance to remove. Ridge works best where least squares has high variance (ISL §6.2.1).
+Why the difference? With 40 observations and 10 features, the least-squares coefficients swing a lot from sample to sample (high **variance** (G-2073)), so taming them pays off. With 353 observations the least-squares fit is already stable, so there is little variance to remove. Ridge works best where least squares has high variance (ISL §6.2.1).
 
 > **Python:** Ridge in scikit-learn.
 >
@@ -170,9 +170,9 @@ Why the difference? With 40 observations and 10 features, the least-squares coef
 | small | smaller coefficients; better test R² when training data is small | it tames coefficients that swing from sample to sample (0.29 to 0.42 with 40 observations) |
 | large | coefficients near 0, the model underfits | the penalty outweighs the errors, so the model just predicts the average |
 
-- Overfitting linear models have extreme coefficients, because a steep line or plane tilts sharply to pass through the training points.
+- **Overfitting** (G-1429) linear models have extreme coefficients, because a steep line or plane tilts sharply to pass through the training points.
 - Ridge adds $\lambda \sum \beta_j^2$ to the loss; the intercept is not penalised, because it only sets the average level of $y$, and shrinking it would not make the line flatter.
-- Ridge trades a little bias for less variance, and helps most where least squares has high variance, so it gains a lot with few observations and almost nothing with many.
+- Ridge trades a little bias for less **variance** (G-2073), and helps most where least squares has high variance, so it gains a lot with few observations and almost nothing with many.
 - alpha is tuned on held-out data; features should be standardised first, because the penalty depends on each coefficient's size, and that size depends on its feature's units.
 - Together these answer the opening question: adding a penalty on the squared coefficients keeps them small, so the model chases the training points less and overfits less.
 
@@ -203,9 +203,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Shrinkage (G-1796) | The pulling of a model's coefficients towards 0 by a penalty, as when Ridge's alpha grows; it makes the model rely less on any one feature and can reduce overfitting. |
 | [Coefficient ($\beta_i$)](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#3-the-equation) (G-407) | The weight of one input column: the change in the output per unit of that input, others fixed. |
 | [Loss function (error function)](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#32-adding-the-errors-up) (G-706) | A formula that measures how wrong a model's predictions are; in deep learning, the error on one training row. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Lasso regression](../../../ML/06-regression/ML-066-lasso-regression/ML-066-lasso-regression.md#1-overview) (G-1047) | Linear regression with a penalty on the sum of absolute coefficients (L1); it shrinks coefficients and can set some exactly to 0, which removes those features. |
 | [Elastic Net regression (Elastic Net)](../../../ML/06-regression/ML-068-elastic-net/ML-068-elastic-net.md#1-overview) (G-667) | Linear regression whose loss gets both the L2 (ridge) and the L1 (lasso) penalty, each with its own strength. It shrinks the coefficients and can set some to 0, so we need not choose between ridge and lasso in advance. |
-| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

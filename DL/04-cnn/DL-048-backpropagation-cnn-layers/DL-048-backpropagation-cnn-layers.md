@@ -44,7 +44,7 @@ Figure 1 shows the final result. The Notebook checks every formula against Tenso
 
 > **Key point:** The error at the output is already known from part 1: 0.2104 on our image. Five backward steps carry it to the filter.
 
-Recall the network of [part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#31-the-architecture-and-the-shapes), with its first image (a 0, so $y = 0$) and starting weights: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → ReLU → $A_1$ (4 × 4) → max pooling → $P_1$ (2 × 2) → flatten → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
+Recall the network of [part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#31-the-architecture-and-the-shapes), with its first image (a 0, so $y = 0$) and starting weights: $X$ (6 × 6) → convolution with $W_1$ (3 × 3) and $b_1$ → $Z_1$ (4 × 4) → **ReLU** (G-1668) → $A_1$ (4 × 4) → **max pooling** (G-1182) → $P_1$ (2 × 2) → **flatten** (G-788) → $F$ (4 × 1) → $Z_2 = W_2F + b_2$ → $A_2 = \sigma(Z_2)$ → loss $L$.
 
 The chains for the filter's weights and bias are
 
@@ -92,7 +92,7 @@ To keep the arithmetic easy to follow, sections 5 and 6 use the round numbers $(
 
 ## 5. Back through flatten: reshape
 
-> **Key point:** Flatten only rearranges numbers, so going back means rearranging the gradients the same way: reshape the 4 × 1 gradient into 2 × 2, the shape of $P_1$.
+> **Key point:** **Flatten** (G-788) only rearranges numbers, so going back means rearranging the gradients the same way: reshape the 4 × 1 gradient into 2 × 2, the shape of $P_1$.
 
 Flatten has no trainable parameters, and it does no arithmetic: it takes the 2 × 2 values of $P_1$ and lays them out as a 4 × 1 column $F$. Each value of $F$ is one value of $P_1$, moved. So there is nothing to differentiate in the usual sense; the backward step simply reverses the forward one.
 
@@ -112,7 +112,7 @@ So far: $\partial L/\partial P_1 = \text{reshape}\big(W_2^{\mathsf T}(a_2 - y)\b
 
 > **Key point:** Only the maximum of each window reached the output, so only it receives a gradient. Every other position of $A_1$ gets 0.
 
-Max pooling has no trainable parameters either. Going backwards we must turn the 2 × 2 gradient $\partial L/\partial P_1$ into the 4 × 4 gradient $\partial L/\partial A_1$: the reverse of max pooling.
+**Max pooling** (G-1182) has no trainable parameters either. Going backwards we must turn the 2 × 2 gradient $\partial L/\partial P_1$ into the 4 × 4 gradient $\partial L/\partial A_1$: the reverse of max pooling.
 
 In every window, max pooling passed one value forward, the maximum, and dropped the other three. The dropped values had no role in the prediction $\hat{y}$, so no role in the loss: their gradient is 0. A small change in the maximum, on the other hand, changes $P_1$ by exactly the same amount, so the maximum receives the window's gradient unchanged.
 
@@ -150,7 +150,7 @@ Sending each gradient only to the position of its window's maximum is called **g
 
 ![Max pooling backwards on the example, one window per frame. Red: the current window in $A_1$, its gradient in $\partial L/\partial P_1$, and the same window in $\partial L/\partial A_1$. Green: the position of the maximum, the only cell that receives the gradient](images/pool_backward_route.gif){width=100%}
 
-The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y$ are kept for pixels and targets. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "**switches** (G-1930)"). When a window holds two equal maxima, as in an all-zero window after ReLU, the Notebook sends the gradient to the first of them.
+The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y$ are kept for pixels and targets. To do this backward step, the forward pass must remember where each maximum was (CS231n notes call these positions the "**switches** (G-1930)"). When a window holds two equal maxima, as in an all-zero window after **ReLU** (G-1668), the Notebook sends the gradient to the first of them.
 
 ## 7. Back through ReLU: a mask
 
@@ -158,7 +158,7 @@ The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y
 
 $A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668)).
 
-**Example.** Take a 2 × 2 piece, with the gradient arriving from max pooling and the inputs of ReLU:
+**Example.** Take a 2 × 2 piece, with the gradient arriving from **max pooling** (G-1182) and the inputs of ReLU:
 
 $$\frac{\partial L}{\partial A} = \begin{bmatrix} 0.1 & -0.2 \cr0.3 & 0.4 \end{bmatrix}$$
 
@@ -198,9 +198,9 @@ We now have $\partial L/\partial Z_1$, a 4 × 4 matrix: how the loss changes wit
 
 ## 8. Back through the convolution
 
-> **Key point:** The bias was added into every cell of the feature map, so its slope is the sum of the errors of all the cells. Each filter weight multiplied a different pixel at every stop of the slide, so its slope adds up each cell's error times that pixel: the same slide-multiply-add as a convolution.
+> **Key point:** The bias was added into every cell of the **feature map** (G-766), so its slope is the sum of the errors of all the cells. Each filter weight multiplied a different pixel at every stop of the slide, so its slope adds up each cell's error times that pixel: the same slide-multiply-add as a convolution.
 
-The convolution layer, unlike flatten and max pooling, has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
+The convolution layer, unlike flatten and **max pooling** (G-1182), has trainable parameters, the filter $W_1$ and its bias $b_1$. To see the pattern clearly we shrink the example: a 3 × 3 input and a 2 × 2 filter, so $Z_1$ and $\partial L/\partial Z_1$ are 2 × 2. Everything else stays the same.
 
 $$X =$$
 
@@ -224,7 +224,7 @@ $$\qquad + x_{32}w_{21} + x_{33}w_{22} + b_1$$
 
 ### 8.1 The bias: a sum
 
-> **Key point:** The bias's slope is the sum of the errors of every cell of the feature map: one number, like the bias itself.
+> **Key point:** The bias's slope is the sum of the errors of every cell of the **feature map** (G-766): one number, like the bias itself.
 
 $b_1$ appears in all four values of $Z_1$, so a change in $b_1$ reaches the loss along four paths, and the **chain rule** (G-371; see [the chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule)) adds them:
 
@@ -252,7 +252,7 @@ In Figure 6, every arrow from $b_1$ carries the factor 1, so each path contribut
 
 ### 8.2 The filter: a convolution
 
-> **Key point:** A filter weight's slope adds up, over the four cells of the feature map, the cell's error times the pixel that weight multiplied there. Laid out, this is the error grid sliding over the image like a filter.
+> **Key point:** A filter weight's slope adds up, over the four cells of the **feature map** (G-766), the cell's error times the pixel that weight multiplied there. Laid out, this is the error grid sliding over the image like a filter.
 
 Each weight also appears in all four equations, each time multiplying a different pixel. For $w_{11}$ these pixels are $x_{11}, x_{12}, x_{21}, x_{22}$, so
 
@@ -320,7 +320,7 @@ In the 6 × 6 network of part 1, $X$ is 6 × 6 and $\partial L/\partial Z_1$ is 
 
 $$6 - 4 + 1 = 3$$
 
-> **Extra:** Goodfellow et al. (2016, §9.5, equation 9.11) give the same result for any number of channels and any stride: the gradient for kernel entry $K_{i,j,k,l}$ is a sum over output positions of the incoming gradient times the input value that entry multiplied. For a network with more convolution layers, the gradient must also pass back to the layer's input, $\partial L/\partial X$; that backward pass "is also a convolution (but with spatially-flipped filters)" (CS231n notes).
+> **Extra:** Goodfellow et al. (2016, §9.5, equation 9.11) give the same result for any number of channels and any stride: the gradient for kernel entry $K_{i,j,k,l}$ is a sum over output positions of the incoming gradient times the input value that entry multiplied. For a network with more convolution layers, the gradient must also pass back to the layer's input, $\partial L/\partial X$; that **backward pass** (G-249) "is also a convolution (but with spatially-flipped filters)" (CS231n notes).
 
 ## 9. The whole backward pass
 
@@ -329,7 +329,7 @@ $$6 - 4 + 1 = 3$$
 > - first, times the output weights;
 > - then reshape;
 > - then route to each window's maximum;
-> - then the ReLU mask;
+> - then the **ReLU mask** (G-1667);
 > - last, sum (bias) and slide over the image (filter).
 
 Putting the steps together, for one image:
@@ -391,7 +391,7 @@ With a batch of images, each image goes through these steps and the gradients ar
 
 > **Key point:** On a real 28 × 28 MNIST digit, all four gradients match `GradientTape` to within $3 \times 10^{-16}$.
 
-The Notebook builds the same kind of network at full MNIST size: a 28 × 28 digit, one 3 × 3 filter (26 × 26 feature map), ReLU, 2 × 2 max pooling (13 × 13), flatten (169 values), one sigmoid node. The task: is the digit a 1 ($y = 1$) or a 7 ($y = 0$)? The hand-coded backward pass and TensorFlow's automatic gradients agree for $W_1$, $b_1$, $W_2$ and $b_2$, with the largest difference below $3 \times 10^{-16}$, rounding error. Of the 676 values of $\partial L/\partial A_1$, 169 are non-zero: one per pooling window.
+The Notebook builds the same kind of network at full MNIST size: a 28 × 28 digit, one 3 × 3 filter (26 × 26 feature map), ReLU, 2 × 2 **max pooling** (G-1182) (13 × 13), flatten (169 values), one sigmoid node. The task: is the digit a 1 ($y = 1$) or a 7 ($y = 0$)? The hand-coded **backward pass** (G-249) and TensorFlow's automatic gradients agree for $W_1$, $b_1$, $W_2$ and $b_2$, with the largest difference below $3 \times 10^{-16}$, rounding error. Of the 676 values of $\partial L/\partial A_1$, 169 are non-zero: one per pooling window.
 
 ### 9.2 Training with these formulas only
 
@@ -401,7 +401,7 @@ Using nothing but the formulas of this Note and part 1, the Notebook trains the 
 
 ![The loss of the batch while training with the hand-derived gradients; it drops from 0.71 to near 0 within the first few hundred mini-batches](images/numpy_training.png){width=85%}
 
-Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goes from 54.7% before training to 99.0% after the first epoch and 99.4% after the second. Backpropagation through convolution, max pooling and flatten works exactly as derived.
+Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goes from 54.7% before training to 99.0% after the first epoch and 99.4% after the second. Backpropagation through convolution, **max pooling** (G-1182) and flatten works exactly as derived.
 
 ## 10. Summary
 
@@ -414,8 +414,8 @@ Figure 9 shows the loss falling. The test accuracy on 2,163 unseen 1s and 7s goe
 | Convolution | $W_1$, $b_1$ | $\partial L/\partial b_1 = \sum \partial L/\partial Z_1$; $\partial L/\partial W_1 = X \ast\partial L/\partial Z_1$ |
 
 - Layers without parameters still pass the gradient back; they just have nothing to update, because the filter's chain of derivatives runs through them.
-- Flatten: reshape. Max pooling: route to the maximum. ReLU: mask. Because flatten only moves numbers, only each window's maximum reached the output, and ReLU passed nothing where its input was negative.
-- The bias of a filter collects the sum of the gradient over the whole feature map, because the bias is added into every cell, so it reaches the loss along every path.
+- Flatten: reshape. **Max pooling** (G-1182): route to the maximum. ReLU: mask. Because flatten only moves numbers, only each window's maximum reached the output, and ReLU passed nothing where its input was negative.
+- The bias of a filter collects the sum of the gradient over the whole **feature map** (G-766), because the bias is added into every cell, so it reaches the loss along every path.
 - The gradient of a filter is the convolution of the input with the gradient of the feature map, because each filter weight multiplied a different pixel at every stop of the slide.
 - Checked against `GradientTape`, and enough to train a CNN from scratch, so these steps are exactly the gradients TensorFlow computes for us.
 

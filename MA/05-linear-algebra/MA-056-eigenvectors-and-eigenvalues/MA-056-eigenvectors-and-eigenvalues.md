@@ -16,7 +16,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/determinant
 
 ## 1. Overview
 
-> **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat (its determinant is 0), and the eigenvectors are the vectors it squishes to zero. When there are enough eigenvectors to form a basis, $A$ becomes a diagonal matrix in that basis.
+> **Key point:** The eigenvalues of a matrix $A$ are the numbers $\lambda$ that make $A - \lambda I$ squish space flat (its determinant is 0), and the eigenvectors are the vectors it squishes to zero. When there are enough eigenvectors to form a **basis** (G-262), $A$ becomes a diagonal matrix in that basis.
 
 [PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) defined eigenvectors and eigenvalues: an [**eigenvector**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) of a matrix is a vector the matrix only stretches or shrinks, without turning it, and its [**eigenvalue**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) is the stretch factor, so $A\mathbf{v} = \lambda\mathbf{v}$. Its Figure 5 showed this for the matrix $A$ with columns $[3, 0]$ and $[1, 2]$: $[1, 0]$ is stretched by 3 and $[-1, 1]$ by 2. There, NumPy found them.
 
@@ -25,15 +25,15 @@ This Note goes deeper, with the same matrix:
 - why eigenvectors come as whole lines, and what they tell us about a transformation ([Section 2](#2-eigenvectors-stay-on-their-own-span));
 - how to find eigenvalues and eigenvectors by hand (Sections [3](#3-finding-eigenvalues) and [4](#4-finding-the-eigenvectors), and Figures 4 and 5);
 - transformations with no eigenvectors, one line of them, or every vector ([Section 5](#5-rotations-shears-and-uniform-scaling));
-- the eigenbasis, which turns a matrix into a diagonal one and makes its powers easy ([Section 6](#6-the-eigenbasis)).
+- the **eigenbasis** (G-664), which turns a matrix into a diagonal one and makes its powers easy ([Section 6](#6-the-eigenbasis)).
 
 The Note reads matrices as [**linear transformations**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097), as in the [linear transformations and matrices](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation).
 
 ## 2. Eigenvectors stay on their own span
 
-> **Key point:** An eigenvector is not knocked off its span: it stays on the line it spans. Every vector on that line is an eigenvector with the same eigenvalue.
+> **Key point:** An eigenvector is not knocked off its span: it stays on the line it spans. Every vector on that line is an eigenvector with the same **eigenvalue** (G-665).
 
-Take any vector and look at its [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838), the line through the origin and its tip (see the [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
+Take any vector and look at its [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838), the line through the origin and its tip (see the [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The **eigenvectors** (G-666) are exactly the vectors that do stay on their span.
 
 For $A$ with columns $[3, 0]$ and $[1, 2]$ (rows $[3, 1]$ and $[0, 2]$):
 
@@ -63,11 +63,11 @@ A reflection shows both kinds at once (Figure 2). The matrix with rows $[0, 1]$ 
 
 ### 2.1 Why eigenvectors describe a transformation well
 
-> **Key point:** The columns of a matrix depend on the coordinate system; the eigenvectors and eigenvalues describe what the transformation itself does.
+> **Key point:** The columns of a matrix depend on the coordinate system; the eigenvectors and **eigenvalues** (G-665) describe what the transformation itself does.
 
-Picture a rotation in 3D. Its $3 \times 3$ matrix is nine numbers that are hard to read. But a vector that stays on its own span during a rotation is the **axis of rotation** (G-241), and its eigenvalue must be 1, because a rotation never stretches anything. "Turn by some angle around this axis" is a far clearer description than nine numbers.
+Picture a rotation in 3D. Its $3 \times 3$ matrix is nine numbers that are hard to read. But a vector that stays on its own **span** (G-1838) during a rotation is the **axis of rotation** (G-241), and its eigenvalue must be 1, because a rotation never stretches anything. "Turn by some angle around this axis" is a far clearer description than nine numbers.
 
-Figure 3 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three basis vectors sweep round on circles and leave their lines, but the green axis vector does not move at all:
+Figure 3 shows one. The rotation turns space by up to 120° about the line through $[1, 1, 1]$. The three **basis** (G-262) vectors sweep round on circles and leave their lines, but the green axis vector does not move at all:
 
 $$R\mathbf{u} = 1 \cdot \mathbf{u}$$
 
@@ -75,7 +75,7 @@ At 120° the rotation sends $\hat{\imath}$ to $\hat{\jmath}$, $\hat{\jmath}$ to 
 
 ![A rotation about the axis through [1, 1, 1], from 0 to 120 degrees. Red: the basis vectors x, y and z, turned off their lines. Green: the axis, an eigenvector with eigenvalue 1, which never moves.](images/rotation_axis.gif)
 
-This pattern recurs across linear algebra. Reading the columns as landing spots of the basis vectors always works, but the eigenvectors and eigenvalues get at the heart of a transformation, independent of the coordinates we happen to use.
+This pattern recurs across linear algebra. Reading the columns as landing spots of the basis vectors always works, but the **eigenvectors** (G-666) and eigenvalues get at the heart of a transformation, independent of the coordinates we happen to use.
 
 ## 3. Finding eigenvalues
 
@@ -85,7 +85,7 @@ This pattern recurs across linear algebra. Reading the columns as landing spots 
 
 > **Key point:** Write $\lambda\mathbf{v}$ as the matrix $\lambda I$ times $\mathbf{v}$, then move everything to one side.
 
-Finding eigenvectors means finding $\mathbf{v}$ and $\lambda$ with $A\mathbf{v} = \lambda\mathbf{v}$. The left side is a matrix times a vector, the right side a number times a vector. To compare them, we write the right side as a matrix too. The matrix that scales every vector by $\lambda$ sends $\hat{\imath}$ to $[\lambda, 0]$ and $\hat{\jmath}$ to $[0, \lambda]$:
+Finding **eigenvectors** (G-666) means finding $\mathbf{v}$ and $\lambda$ with $A\mathbf{v} = \lambda\mathbf{v}$. The left side is a matrix times a vector, the right side a number times a vector. To compare them, we write the right side as a matrix too. The matrix that scales every vector by $\lambda$ sends $\hat{\imath}$ to $[\lambda, 0]$ and $\hat{\jmath}$ to $[0, \lambda]$:
 
 $$\begin{bmatrix} \lambda & 0 \cr0 & \lambda \end{bmatrix} = \lambda I$$
 
@@ -107,7 +107,7 @@ $A - \lambda I$ is simply $A$ with $\lambda$ subtracted from each diagonal entry
 
 > **Key point:** Only when it squishes space onto a line (or a point); that is exactly when its determinant is 0.
 
-$\mathbf{v} = \mathbf{0}$ always solves $(A - \lambda I)\mathbf{v} = \mathbf{0}$, but the zero vector is not an eigenvector; we want a non-zero $\mathbf{v}$. A transformation can send a non-zero vector to the origin only if it squishes space into a lower dimension, like the dependent-columns case of [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture). If it kept the plane two-dimensional, only the origin would land on the origin.
+$\mathbf{v} = \mathbf{0}$ always solves $(A - \lambda I)\mathbf{v} = \mathbf{0}$, but the zero vector is not an **eigenvector** (G-666); we want a non-zero $\mathbf{v}$. A transformation can send a non-zero vector to the origin only if it squishes space into a lower dimension, like the dependent-columns case of [reading a matrix as a picture](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#6-reading-a-matrix-as-a-picture). If it kept the plane two-dimensional, only the origin would land on the origin.
 
 Squishing space into a lower dimension is measured by the determinant.
 
@@ -132,7 +132,7 @@ Squishing space into a lower dimension is measured by the determinant.
 >
 > A determinant of 0 means the transformation squishes space into a lower dimension, and that is exactly when it has no inverse (see [the cost of the inverse](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)). In NumPy: `np.linalg.det(A)`.
 
-So $\lambda$ is an eigenvalue exactly when
+So $\lambda$ is an **eigenvalue** (G-665) exactly when
 
 $$\det(A - \lambda I) = 0$$
 
@@ -142,7 +142,7 @@ Figure 4 shows this with a knob. As $\lambda$ turns from 0 upwards, $A - \lambda
 
 ### 3.3 Two worked examples
 
-> **Key point:** Subtract $\lambda$ from the diagonal, take the determinant, and solve the resulting quadratic.
+> **Key point:** Subtract $\lambda$ from the diagonal, take the **determinant** (G-598), and solve the resulting quadratic.
 
 1. **In words:** subtract $\lambda$ from each diagonal entry, compute the determinant as a polynomial in $\lambda$, and find where it is zero.
 2. **Formula:**
@@ -164,7 +164,7 @@ $$= \lambda^2 - 5\lambda + 4$$
 
 $$= (\lambda - 1)(\lambda - 4)$$
 
-So its eigenvalues are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all. $[-2, 1]$ lands on:
+So its **eigenvalues** (G-665) are 1 and 4. An eigenvalue of 1 means its eigenvectors do not move at all. $[-2, 1]$ lands on:
 
 $$\text{first: } 2 \times (-2) + 2 \times 1 = -2$$
 
@@ -196,7 +196,7 @@ $$[1 - 2,\ 4 - 3] = [-1, 1]$$
 
 ## 4. Finding the eigenvectors
 
-> **Key point:** Plug each eigenvalue back in and find all vectors that $A - \lambda I$ sends to zero: they form the line of eigenvectors.
+> **Key point:** Plug each **eigenvalue** (G-665) back in and find all vectors that $A - \lambda I$ sends to zero: they form the line of **eigenvectors** (G-666).
 
 Once we know an eigenvalue, the eigenvectors are the solutions of $(A - \lambda I)\mathbf{v} = \mathbf{0}$.
 
@@ -238,18 +238,18 @@ In Figure 4 (at $\lambda = 2$, "squished flat"), $A - 2I$ squishes the plane ont
 
 ## 5. Rotations, shears and uniform scaling
 
-> **Key point:** A 2D transformation can have no real eigenvectors (rotation), only one line of them (shear), or every vector (uniform scaling).
+> **Key point:** A 2D transformation can have no real **eigenvectors** (G-666) (rotation), only one line of them (shear), or every vector (uniform scaling).
 
-Figure 6 shows three special cases, each checked with the determinant.
+Figure 6 shows three special cases, each checked with the **determinant** (G-598).
 
 ![Three transformations with very different eigenvectors](images/special_cases.png)
 
-- **Rotation by 90°**, columns $[0, 1]$ and $[-1, 0]$. Every vector is turned off its span, so there is no eigenvector. The algebra agrees: $A - \lambda I$ has rows $[-\lambda, -1]$ and $[1, -\lambda]$, so its determinant is:
+- **Rotation by 90°**, columns $[0, 1]$ and $[-1, 0]$. Every vector is turned off its **span** (G-1838), so there is no eigenvector. The algebra agrees: $A - \lambda I$ has rows $[-\lambda, -1]$ and $[1, -\lambda]$, so its determinant is:
 
   $$(-\lambda)(-\lambda) - (-1)(1) = \lambda^2 + 1$$
 
   $\lambda^2 + 1$ is never 0 for a real $\lambda$. Its only roots are the imaginary numbers $i$ and $-i$ (where $i$ is the number whose square is $-1$), and no real root means no real eigenvector.
-- **Shear**, columns $[1, 0]$ and $[1, 1]$. Vectors on the x-axis stay fixed, so they are eigenvectors with eigenvalue 1. The polynomial $(1 - \lambda)^2$ has only the root $\lambda = 1$, and those are the only eigenvectors: one line.
+- **Shear**, columns $[1, 0]$ and $[1, 1]$. Vectors on the x-axis stay fixed, so they are eigenvectors with **eigenvalue** (G-665) 1. The polynomial $(1 - \lambda)^2$ has only the root $\lambda = 1$, and those are the only eigenvectors: one line.
 - **Scaling everything by 2**, columns $[2, 0]$ and $[0, 2]$. The only eigenvalue is 2, but every vector in the plane is an eigenvector. One eigenvalue can come with more than a line of eigenvectors.
 
 > **Python:** NumPy reports the rotation's eigenvalues as complex numbers.
@@ -263,17 +263,17 @@ Figure 6 shows three special cases, each checked with the determinant.
 
 ## 6. The eigenbasis
 
-> **Key point:** If the eigenvectors span the whole space, we can use them as basis vectors; in that basis the matrix is diagonal, with the eigenvalues on the diagonal.
+> **Key point:** If the eigenvectors **span** (G-1838) the whole space, we can use them as basis vectors; in that basis the matrix is diagonal, with the eigenvalues on the diagonal.
 
 ### 6.1 Diagonal matrices
 
-> **Key point:** When the basis vectors are themselves eigenvectors, the matrix has zeros off the diagonal and its eigenvalues on the diagonal.
+> **Key point:** When the **basis** (G-262) vectors are themselves eigenvectors, the matrix has zeros off the diagonal and its eigenvalues on the diagonal.
 
-Suppose $\hat{\imath}$ and $\hat{\jmath}$ happen to be eigenvectors: say $\hat{\imath}$ is scaled by $-1$ and $\hat{\jmath}$ by 2. Their landing spots, $[-1, 0]$ and $[0, 2]$, are the columns of
+Suppose $\hat{\imath}$ and $\hat{\jmath}$ happen to be **eigenvectors** (G-666): say $\hat{\imath}$ is scaled by $-1$ and $\hat{\jmath}$ by 2. Their landing spots, $[-1, 0]$ and $[0, 2]$, are the columns of
 
 $$D = \begin{bmatrix} -1 & 0 \cr0 & 2 \end{bmatrix}$$
 
-a **diagonal matrix** (G-601; as in [feature scaling as a stretch along the axes](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes)). Read the other way round: in any diagonal matrix, every basis vector is an eigenvector, and the diagonal entries are the eigenvalues.
+a **diagonal matrix** (G-601; as in [feature scaling as a stretch along the axes](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes)). Read the other way round: in any diagonal matrix, every basis vector is an eigenvector, and the diagonal entries are the **eigenvalues** (G-665).
 
 Diagonal matrices are easy to work with. Applying $D$ 100 times just scales each basis vector by its eigenvalue 100 times, so
 
@@ -285,11 +285,11 @@ Computing the 100th power of a non-diagonal matrix by repeated multiplication, b
 
 ### 6.2 Changing to an eigenbasis
 
-> **Key point:** Put the eigenvectors as the columns of $P$; then $P^{-1}AP$ is diagonal, and $A^k = P D^k P^{-1}$.
+> **Key point:** Put the **eigenvectors** (G-666) as the columns of $P$; then $P^{-1}AP$ is diagonal, and $A^k = P D^k P^{-1}$.
 
-Usually the basis vectors are not eigenvectors. But if a matrix has enough eigenvectors to span the whole space, we can switch to a coordinate system whose basis vectors are eigenvectors. Such a [**basis**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) is called an **eigenbasis** (G-664).
+Usually the basis vectors are not eigenvectors. But if a matrix has enough eigenvectors to **span** (G-1838) the whole space, we can switch to a coordinate system whose basis vectors are eigenvectors. Such a [**basis**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) is called an **eigenbasis** (G-664).
 
-1. **In words:** put the eigenvectors as the columns of a **change of basis matrix** (G-374) $P$. Sandwiching $A$ between $P^{-1}$ and $P$ gives the same transformation seen from the eigenbasis, and there it only scales each basis vector: a diagonal matrix of eigenvalues.
+1. **In words:** put the eigenvectors as the columns of a **change of basis matrix** (G-374) $P$. Sandwiching $A$ between $P^{-1}$ and $P$ gives the same transformation seen from the eigenbasis, and there it only scales each basis vector: a diagonal matrix of **eigenvalues** (G-665).
 2. **Formula:**
 
    $$P^{-1} A P = D$$
@@ -364,9 +364,9 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 
 ## 7. Where ML uses eigenvectors
 
-> **Key point:** PCA is an eigen-decomposition of a covariance matrix, which always has an eigenbasis; repeated multiplication drifts towards the top eigenvector.
+> **Key point:** PCA is an eigen-decomposition of a covariance matrix, which always has an **eigenbasis** (G-664); repeated multiplication drifts towards the top eigenvector.
 
-- **PCA.** The [**principal components**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) are the eigenvectors of the [**covariance matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495), and the eigenvalues are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
+- **PCA.** The [**principal components**](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) are the **eigenvectors** (G-666) of the [**covariance matrix**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495), and the **eigenvalues** (G-665) are the variances along them (see [the eigenvectors of the covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix)). A covariance matrix is symmetric (unchanged when its rows and columns are swapped), which guarantees a full eigenbasis of perpendicular eigenvectors (the spectral theorem, MML Thm 4.15): PCA never meets the shear problem. Projecting onto the top $k$ eigenvectors keeps the coordinates in the eigenbasis that carry the most variance.
 - **Powers of a matrix.** Whenever a model applies the same matrix again and again, the eigenbasis explains the result: each step multiplies the eigenbasis coordinates by their eigenvalues, so the direction with the largest eigenvalue takes over.
 
 > **Extra:** A small example of the second point. Suppose each day 90% of a website's users on page A stay there and 10% move to B, while B's users split 50/50. The matrix of one day, $T$, has columns $[0.9, 0.1]$ and $[0.5, 0.5]$ (each column says where one page's users go). Its eigenvalues come from [Section 3.3](#33-two-worked-examples):
@@ -403,10 +403,10 @@ Not every matrix has an eigenbasis. The shear of Figure 6 has only one line of e
 | shear | $(1 - \lambda)^2$ | 1 | x-axis only |
 | scaling by 2 | $(2 - \lambda)^2$ | 2 | every vector |
 
-- The last rows show that not every matrix has an eigenbasis: the rotation has no real eigenvectors and the shear only one line of them, so neither can be made diagonal.
-- An eigenvector stays on its own span; every vector on that line shares its eigenvalue, so NumPy can return each eigenvector scaled to length 1, sometimes with the sign flipped.
-- $\lambda$ is an eigenvalue exactly when $A - \lambda I$ squishes space flat: $\det(A - \lambda I) = 0$, because only a transformation that squishes space can send a non-zero vector to zero.
-- Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of eigenvectors, because the eigenvectors are exactly the vectors $A - \lambda I$ crushes to the origin.
+- The last rows show that not every matrix has an **eigenbasis** (G-664): the rotation has no real eigenvectors and the shear only one line of them, so neither can be made diagonal.
+- An eigenvector stays on its own **span** (G-1838); every vector on that line shares its eigenvalue, so NumPy can return each eigenvector scaled to length 1, sometimes with the sign flipped.
+- $\lambda$ is an **eigenvalue** (G-665) exactly when $A - \lambda I$ squishes space flat: $\det(A - \lambda I) = 0$, because only a transformation that squishes space can send a non-zero vector to zero.
+- Plug each eigenvalue back into $(A - \lambda I)\mathbf{v} = \mathbf{0}$ to get its line of **eigenvectors** (G-666), because the eigenvectors are exactly the vectors $A - \lambda I$ crushes to the origin.
 - With an eigenbasis, $P^{-1}AP$ is diagonal and powers become easy: $A^k = PD^kP^{-1}$, because in the eigenbasis $A$ only scales each coordinate by its eigenvalue and never mixes them.
 - Covariance matrices are symmetric, so they always have an eigenbasis, which is why PCA's eigen-decomposition exists for any dataset.
 - So eigenvectors and eigenvalues describe what a matrix itself does, free of the coordinate system, and an eigenbasis turns the matrix into a diagonal one.
@@ -431,19 +431,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Eigenbasis (G-664) | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |
 | Axis of rotation (G-241) | The line a 3D rotation leaves in place: an eigenvector with eigenvalue 1. |
 | Determinant (G-598) | The factor by which a matrix scales areas (volumes in 3D); 0 when it squishes space into a lower dimension. |
 | Characteristic polynomial (G-376) | A polynomial built from a square matrix $A$, $\det(A - \lambda I)$, whose roots are the eigenvalues of $A$, so solving it finds them. |
-| Eigenbasis (G-664) | A basis made of eigenvectors of a matrix. Seen in this basis the matrix only scales each basis vector, so it becomes a diagonal matrix, which makes powers such as $A^k$ easy to compute. |
 | Change of basis matrix (G-374) | A matrix $P$ that translates between two sets of axes: its columns are the new axes (basis vectors). $P^{-1}AP$ is the same transformation as $A$ seen in the new axes; in an eigenbasis it only scales. |
 | Diagonalisation (G-602) | Rewriting a matrix so that, seen along its eigenvectors, it only stretches each axis: $A = PDP^{-1}$, where $P$ holds its eigenvectors and $D$ is diagonal. This makes its powers easy to compute. |
 | Power iteration (G-1537) | Finding the top eigenvector by multiplying a vector by the matrix again and again. |
+| [Basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
 | [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Span](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) | The set of all linear combinations of some vectors: every point reachable by scaling and adding them, such as the whole plane for $\hat{\imath}$ and $\hat{\jmath}$. |
 | [Identity matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#41-a-matrix-is-a-transformation) (G-915) | The matrix that leaves every vector unchanged. |
 | [Diagonal matrix](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#72-feature-scaling-is-a-stretch-along-the-axes) (G-601) | A matrix with zeros everywhere off the diagonal; it scales each axis by its own factor. |
-| [Basis](../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#8-basis) (G-262) | A set of vectors that are linearly independent and whose span is the whole space, so every vector can be built by scaling the basis vectors and adding them; a vector's coordinates are those scales. |
 | [Principal component](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1563) | A new axis found by PCA, a direction through the data: PC1 holds the most variance, PC2 the next most at right angles to it; keeping only the first few cuts the number of features. |
 | [Covariance matrix](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495) | A square table with every feature's variance on the diagonal and every pair's covariance off it, so it sums up how the data spreads and which features move together; PCA takes its eigenvectors. |

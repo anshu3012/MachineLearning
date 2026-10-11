@@ -17,7 +17,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/csv]
 
 ## 1. Overview
 
-> **Key point:** Most ML data arrives as CSV files, and one pandas function, `read_csv`, turns them into tables, with a parameter for almost every problem a file can have.
+> **Key point:** Most ML data arrives as **CSV files** (G-513), and one pandas function, `read_csv`, turns them into tables, with a **parameter** (G-1448) for almost every problem a file can have.
 
 ![Four common ways to get data into a pandas table](images/get_data.png)
 
@@ -44,16 +44,16 @@ A **TSV file** (G-2025) (tab-separated values) is the same thing with a tab betw
 
 ## 3. The read_csv function
 
-> **Key point:** `pd.read_csv` reads a CSV file into a DataFrame; its many parameters handle the ways real files differ from the ideal.
+> **Key point:** `pd.read_csv` reads a **CSV file** (G-513) into a DataFrame; its many parameters handle the ways real files differ from the ideal.
 
 Every CSV file in this Note is read with one function, `pd.read_csv`, which returns a [**DataFrame**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data) (G-1441): the pandas name for a table. Called with only a file name, it assumes a well-behaved file:
 
 - commas between values;
 - column names on the first line;
-- UTF-8 text;
+- **UTF-8** (G-2065) text;
 - the same number of values on every line.
 
-Real files break these assumptions. The function's **parameters** (G-1448) (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation lists 44 of them in pandas 3.0 (pandas API reference, `read_csv`); this Note covers the fifteen or so that solve the common problems.
+Real files break these assumptions. The function's **parameters** (G-1448) (the named settings we pass inside the brackets, like `sep=";"`) tell it how this particular file differs. The official pandas documentation **lists** (G-1106) 44 of them in pandas 3.0 (pandas API reference, `read_csv`); this Note covers the fifteen or so that solve the common problems.
 
 ![What each read_csv parameter controls](images/parameter_map.png)
 
@@ -111,13 +111,13 @@ Some servers refuse requests that do not look like they come from a web browser.
 > pd.read_csv(StringIO(text))
 > ```
 >
-> `StringIO` wraps a string so that functions expecting a file can read it. Both ways give the same DataFrame; passing the URL straight to pandas is shorter.
+> `StringIO` wraps a string so that functions expecting a file can read it. Both ways give the same **DataFrame** (G-1441); passing the URL straight to pandas is shorter.
 
 ## 6. Separators and column names (sep, names)
 
 > **Key point:** `sep` tells pandas what separates the values; `names` supplies column names when the file has none.
 
-The character that separates one value from the next is the **separator** (G-1770), also called the delimiter. By default `sep=","`. Our movie file is a TSV, and it has no header line. Its first two lines look like this (each gap is a tab):
+The character that separates one value from the next is the **separator** (G-1770), also called the delimiter. By default `sep=","`. Our movie file is a TSV, and it has no **header** (G-884) line. Its first two lines look like this (each gap is a tab):
 
 ```
 m0   10 things i hate about you   1999   6.90   62847   ['comedy' 'romance']
@@ -154,7 +154,7 @@ Figure 4 shows the same line read both ways. Watch the tabs: once `sep` names th
 
 > **Key point:** `index_col` turns one of the file's columns into the row labels.
 
-Every DataFrame has an **index** (G-938): the labels down its left side. By default pandas numbers the rows 0, 1, 2, and so on. Our job-seekers file already has a unique number for each person, `enrollee_id`, so keeping both is redundant.
+Every **DataFrame** (G-1441) has an **index** (G-938): the labels down its left side. By default pandas numbers the rows 0, 1, 2, and so on. Our job-seekers file already has a unique number for each person, `enrollee_id`, so keeping both is redundant.
 
 > **Python:** `index_col`.
 >
@@ -186,7 +186,7 @@ Sometimes whoever saved a file left junk above the column names. In `test.csv` (
 
 ![Line numbers in a CSV file, and what header and skiprows refer to](images/line_numbers.png)
 
-**Before:** `pd.read_csv("test.csv")` uses line 0 as the header. With no names there, pandas invents `Unnamed: 0`, `Unnamed: 1`, and so on, and the real names end up as the first data row.
+**Before:** `pd.read_csv("test.csv")` uses line 0 as the **header** (G-884). With no names there, pandas invents `Unnamed: 0`, `Unnamed: 1`, and so on, and the real names end up as the first data row.
 
 **After:** `header=1` uses line 1. That line starts with `0`, a row-number column the file's author saved along with the data, so the first column is named `0`; the table below shows it next to the real columns.
 
@@ -229,11 +229,11 @@ The result has these 3 columns instead of 14. `NaN` ("not a number") is how pand
 
 ## 10. One column as a Series (squeeze)
 
-> **Key point:** A single column can be held as a Series instead of a one-column DataFrame.
+> **Key point:** A single column can be held as a Series instead of a one-column **DataFrame** (G-1441).
 
-A **Series** (G-1778) is pandas' one-column structure: a list of values with an index. A DataFrame is several Series side by side. When we load just one column, a Series is often what we want.
+A **Series** (G-1778) is pandas' one-column structure: a list of values with an **index** (G-938). A DataFrame is several Series side by side. When we load just one column, a Series is often what we want.
 
-Older pandas had a `squeeze=True` parameter for this. The parameter was removed in pandas 2, and passing it now raises a `TypeError`. Instead, we read normally and then squeeze the result:
+Older pandas had a `squeeze=True` **parameter** (G-1448) for this. The parameter was removed in pandas 2, and passing it now raises a `TypeError`. Instead, we read normally and then squeeze the result:
 
 > **Python:** Getting a Series.
 >
@@ -255,7 +255,7 @@ Squeezing is rarely needed; most code simply works with DataFrames.
 
 > **Key point:** `skiprows` takes line numbers of the file, or a rule that picks them.
 
-`skiprows` takes a list of line numbers to leave out. The numbers count lines in the file, as in Figure 5, and line 0 is the header line.
+`skiprows` takes a list of line numbers to leave out. The numbers count lines in the file, as in Figure 5, and line 0 is the **header** (G-884) line.
 
 > **Python:** `skiprows`.
 >
@@ -327,7 +327,7 @@ The same letter in the two rulebooks, as a worked example:
 | a | `61` (1 byte) | `61` (1 byte) |
 | í | `ED` (1 byte) | `C3 AD` (2 bytes) |
 
-So a file written in latin-1 holds the single byte `ED` for "í". A UTF-8 reader sees `ED`, takes it as the start of a longer letter, waits for the next bytes, finds the wrong ones, and raises the error.
+So a file written in latin-1 holds the single byte `ED` for "í". A UTF-8 **reader** (G-1640) sees `ED`, takes it as the start of a longer letter, waits for the next bytes, finds the wrong ones, and raises the error.
 
 ![The bytes around position 7044 of zomato.csv, read as UTF-8 and as latin-1](images/encoding_bytes.png)
 
@@ -348,9 +348,9 @@ When we see this error, we have two options:
 
 ## 13. Skipping bad lines (on_bad_lines)
 
-> **Key point:** A line with more values than the header stops `read_csv` with a `ParserError`; `on_bad_lines="skip"` drops such lines and loads the rest.
+> **Key point:** A line with more values than the **header** (G-884) stops `read_csv` with a `ParserError`; `on_bad_lines="skip"` drops such lines and loads the rest.
 
-Some files are mostly fine but have a few broken lines. For example, a file with 4 columns may have a line with 5 values, often because a value itself contained the separator. Our small books file (separated by `;`) has one:
+Some files are mostly fine but have a few broken lines. For example, a file with 4 columns may have a line with 5 values, often because a value itself contained the **separator** (G-1770). Our small books file (separated by `;`) has one:
 
 ```
 isbn;title;author;year
@@ -385,7 +385,7 @@ Figure 8 shows why the line breaks. Watch the title: its `;` splits it in two, s
 
 ![The books file split on ";": a good line fills 4 columns, the Flu line needs 5](images/bad_lines.png)
 
-> **Extra:** Older code writes `error_bad_lines=False`. The `error_bad_lines` parameter was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
+> **Extra:** Older code writes `error_bad_lines=False`. The `error_bad_lines` **parameter** (G-1448) was replaced by `on_bad_lines` in pandas 1.3 and removed in pandas 2 (pandas release notes), so it now raises a `TypeError`. Skipping is the quick fix; if many lines are bad, it is worth looking at them, because the real problem may be a wrong `sep`.
 
 ## 14. Choosing column types (dtype)
 
@@ -419,7 +419,7 @@ Figure 9 shows the measured memory of the column, from `memory_usage`: the same 
 
 ## 15. Reading dates (parse_dates)
 
-> **Key point:** Dates are read as plain text unless we list them in `parse_dates`; only then can we use date tools on them.
+> **Key point:** Dates are read as plain text unless we **list** (G-1106) them in `parse_dates`; only then can we use date tools on them.
 
 Our second dataset lists all 816 IPL cricket matches from 2008 to 2020, with the date of each match. By default `read_csv` reads `2008-04-18` as text. To work with a date, pandas must hold it as a [**datetime**](../../03-feature-engineering/ML-033-date-and-time/ML-033-date-and-time.md#4-converting-text-to-a-datetime-type) (G-545): a value it understands as a point in time. As text we cannot ask:
 
@@ -459,7 +459,7 @@ Sometimes the day, month and year sit in three separate columns. Older pandas co
 >
 > `pd.to_datetime` builds dates from columns named `year`, `month` and `day`.
 
-> **Extra:** Combining columns inside `parse_dates` (a nested list or a dictionary) was deprecated in pandas 2.2 and removed in pandas 3.0. The `date_parser` parameter is gone too: deprecated in pandas 2.0, removed in 3.0 (pandas release notes). To give a date layout such as day/month/year, use `date_format="%d/%m/%Y"`.
+> **Extra:** Combining columns inside `parse_dates` (a nested list or a **dictionary** (G-603)) was deprecated in pandas 2.2 and removed in pandas 3.0. The `date_parser` **parameter** (G-1448) is gone too: deprecated in pandas 2.0, removed in 3.0 (pandas release notes). To give a date layout such as day/month/year, use `date_format="%d/%m/%Y"`.
 
 ## 16. Transforming values while reading (converters)
 
@@ -492,13 +492,13 @@ Then `converters` maps a column name to the function:
 | Royal Challengers Bangalore | RCB |
 | Kings XI Punjab | Kings XI Punjab |
 
-The dictionary can hold several columns, each with its own function, so any number of transformations can happen in one read.
+The **dictionary** (G-603) can hold several columns, each with its own function, so any number of transformations can happen in one read.
 
 ## 17. Marking extra missing values (na_values)
 
-> **Key point:** `na_values` lists values that should count as missing, such as placeholders like `-` or `?`.
+> **Key point:** `na_values` **lists** (G-1106) values that should count as missing, such as placeholders like `-` or `?`.
 
-Missing values that pandas recognises are easy to handle: functions such as `dropna` (drop them) and `fillna` (fill them) work on them directly. pandas already treats blanks, `NA`, `NaN`, `null` and a few similar strings as missing.
+**Missing values** (G-1234) that pandas recognises are easy to handle: functions such as `dropna` (drop them) and `fillna` (fill them) work on them directly. pandas already treats blanks, `NA`, `NaN`, `null` and a few similar strings as missing.
 
 Trouble starts when a file marks missing values some other way, such as `-`, `?` or `not known`. pandas reads these as ordinary text, so they slip past every missing-value tool. `na_values` adds them to the list.
 
@@ -529,7 +529,7 @@ In real work we would pass the actual placeholders, for example `na_values=["-",
 
 > **Key point:** When a file is too big for memory, `chunksize` reads it a few rows at a time, so only one piece is in memory at once.
 
-A file can be larger than our computer's memory (RAM). Loading it whole then fails, or makes the computer crawl. With `chunksize`, `read_csv` returns a **reader** (G-1640) instead of a DataFrame; each time we ask it for more, it reads the next **chunk** (G-385) (a DataFrame of at most that many rows).
+A file can be larger than our computer's memory (RAM). Loading it whole then fails, or makes the computer crawl. With `chunksize`, `read_csv` returns a **reader** (G-1640) instead of a **DataFrame** (G-1441); each time we ask it for more, it reads the next **chunk** (G-385) (a DataFrame of at most that many rows).
 
 ![Reading 1,000 rows in chunks of 300](images/chunks.gif)
 
@@ -578,9 +578,9 @@ Any work goes inside the loop: counting, filtering, or computing totals that we 
 | Odd missing-value markers | `na_values` | `na_values=["-", "?"]` |
 | File too big for memory | `chunksize` | `chunksize=300` |
 
-- A CSV file is a plain-text table: one row per line, commas between values, column names on the first line. Called with only a file name, `read_csv` assumes exactly this layout.
-- `pd.read_csv` reads it into a DataFrame; each parameter fixes one way a real file differs from that ideal, so we pass only the parameters for the problems a given file has (the first column of the table).
-- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the first line (usually the header line). So when line 0 is junk and the names sit on line 1, the right call is `header=1`.
+- A **CSV file** (G-513) is a plain-text table: one row per line, commas between values, column names on the first line. Called with only a file name, `read_csv` assumes exactly this layout.
+- `pd.read_csv` reads it into a **DataFrame** (G-1441); each parameter fixes one way a real file differs from that ideal, so we pass only the parameters for the problems a given file has (the first column of the table).
+- Line numbers in `header` and `skiprows` count lines of the file, starting at 0 with the first line (usually the **header** (G-884) line). So when line 0 is junk and the names sit on line 1, the right call is `header=1`.
 - In pandas 3, `squeeze`, `error_bad_lines` and date-combining in `parse_dates` are gone; use `.squeeze("columns")`, `on_bad_lines` and `pd.to_datetime`, because older code that passes `squeeze` or `error_bad_lines` now raises a `TypeError`.
 
 ## 20. Sources
@@ -603,18 +603,18 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | CSV file (G-513) | A text file holding a table, with commas between values. |
+| Parameter (of a function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | Header (of a file) (G-884) | The line of a file that holds the column names. |
 | TSV file (G-2025) | Like a CSV file, with tabs between values. |
-| Parameter (of a function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| UTF-8 (G-2065) | The most common text encoding (the rulebook that maps characters to bytes); it covers almost every character in every language and is `read_csv`'s default. |
+| List, dictionary (G-1106) | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. |
 | Relative path (G-1665) | A file's location, starting from the folder the code runs in. |
 | User-Agent (G-2064) | A short text a browser sends with each request to say what it is; some servers refuse requests without one, so scraping code sends one too. |
 | Separator (G-1770) | The character between values on a line, such as `,` or a tab. |
-| List, dictionary (G-1106) | Python's ordered collection `[...]`, and its `key: value` pairs `{...}`. |
 | Index (G-938) | The labels down the left side of a DataFrame, one per row (0, 1, 2, ... by default); pandas uses them to name and select rows. |
 | Missing value (G-1234) | An empty entry, shown by pandas as `NaN`. |
 | Series (G-1778) | pandas' one-column structure: a list of values with an index; a DataFrame is several Series side by side. |
 | Encoding (G-685) | Two senses: the rulebook that maps text characters to stored bytes (Video 15); or turning categories into numbers (categorical encoding, Video 26). |
-| UTF-8 (G-2065) | The most common text encoding (the rulebook that maps characters to bytes); it covers almost every character in every language and is `read_csv`'s default. |
 | Reader (G-1640) | What `read_csv` returns with `chunksize`: it hands out one chunk at a time. |
 | Chunk (G-385) | A piece of a file read as a small DataFrame, so a file too large for memory can be processed one piece at a time. |
 | For loop (G-791) | Code that repeats once for each item of a collection. |

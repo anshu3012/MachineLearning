@@ -65,7 +65,7 @@ Figure 2 draws this check on the grid of outcomes, next to a pair of events that
 
 ## 4. Why this means "no difference"
 
-> **Key point:** Substituting P(A ∩ B) = P(A) P(B) into the conditional probability formula gives P(A | B) = P(A).
+> **Key point:** Substituting P(A ∩ B) = P(A) P(B) into the **conditional probability** (G-444) formula gives P(A | B) = P(A).
 
 From the [definition of conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition), $P(A \mid B) = P(A \cap B) / P(B)$. If $A$ and $B$ are independent, the top is $P(A) \times P(B)$, so
 
@@ -79,11 +79,11 @@ Knowing $B$ happened leaves the probability of $A$ exactly as it was. Figure 3 c
 
 The same argument gives $P(B \mid A) = P(B)$. An unchanged probability is the intuition behind the definition: independence means information about one event tells us nothing about the other.
 
-> **Extra:** The same result can be seen by counting. For independent events, the share of $B$'s outcomes that also belong to $A$ (that is, $n(A \cap B) / n(B)$, the conditional probability) equals the share of the whole sample space that belongs to $A$ ($n(A) / n$). In the dice example, 1 of die 1's six "3" outcomes has die 2 = 6, and 6 of all 36 outcomes do: both $1/6$.
+> **Extra:** The same result can be seen by counting. For **independent events** (G-934), the share of $B$'s outcomes that also belong to $A$ (that is, $n(A \cap B) / n(B)$, the conditional probability) equals the share of the whole sample space that belongs to $A$ ($n(A) / n$). In the dice example, 1 of die 1's six "3" outcomes has die 2 = 6, and 6 of all 36 outcomes do: both $1/6$.
 
 ## 5. Independent or not?
 
-> **Key point:** If the conditional probability changes with the condition, the events are not independent.
+> **Key point:** If the **conditional probability** (G-444) changes with the condition, the events are not independent.
 
 ![Conditioning on die 1 leaves one event unchanged and changes the other](images/independence.png){height=50%}
 
@@ -128,7 +128,7 @@ Shares from data are estimates, not exact probabilities. A large gap like this o
 
 > **Key point:** Naive Bayes assumes the features are independent given the class, so that their probabilities can simply be multiplied.
 
-With independent events, the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence, applied inside each class: it assumes the features are independent once the class is known. The **target** (G-1949; the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (the extra error and the extra sensitivity to the data, [bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); ISL §4.4.4; [the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption)).
+With **independent events** (G-934), the probability of several things happening together is just a product of separate probabilities. Naive Bayes uses the product rule to combine evidence, applied inside each class: it assumes the features are independent once the class is known. The **target** (G-1949; the output we predict) is the class, such as spam or not spam; the features are the words. For an email, the probabilities of the words "free", "offer" and "winner" given "spam" are multiplied together. Real words are not truly independent, which is why the method is called "naive", but the simplification often works well in practice: the assumption introduces some bias but reduces variance (the extra error and the extra sensitivity to the data, [bias and variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview); ISL §4.4.4; [the naive assumption](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#7-the-naive-assumption)).
 
 ![Under independence, the probability of all three words given spam is the product of the three single-word probabilities](images/nb_product.png){width=85%}
 
@@ -136,8 +136,8 @@ Figure 6 shows the product: each word's probability is estimated on its own, the
 
 ## 7. Summary
 
-- Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$, because putting the product into the conditional probability formula cancels $P(B)$.
-- Independent events can happen together; one just does not affect the other, so a coin that showed three heads still has a chance of one half for heads next (the gambler's fallacy).
+- Independent: $P(A \cap B) = P(A) \times P(B)$, equivalently $P(A \mid B) = P(A)$, because putting the product into the **conditional probability** (G-444) formula cancels $P(B)$.
+- Independent events can happen together; one just does not affect the other, so a coin that showed three heads still has a chance of one half for heads next (the **gambler's fallacy** (G-2213)).
 - On data: compare the share of A overall with the share of A inside B. Titanic: 0.384 overall against 0.742 for women, so not independent: knowing a passenger is a woman changes the chance of survival a lot.
 - Coins and separate dice are independent, because one does not influence the other; "die 1 = 6" and "sum ≥ 10" are not, because a 6 on die 1 makes a large sum more likely.
 - Naive Bayes assumes the features are independent given the class, so their probabilities can simply be multiplied; real words are not truly independent, which is why the method is called "naive".

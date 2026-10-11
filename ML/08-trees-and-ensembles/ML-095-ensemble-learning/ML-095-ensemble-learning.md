@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/models-2, step/model, concept/ensemble]
 
 ## 1. Overview
 
-> **Key point:** An ensemble trains several different models and combines their answers: a majority vote for classification, a mean for regression. The combined model is usually better than any one of them.
+> **Key point:** An ensemble trains several different models and combines their answers: a **majority vote** (G-1146) for classification, a mean for regression. The combined model is usually better than any one of them.
 
 ![An ensemble: different models trained on the data, their predictions combined into one](images/ensemble_idea.png){height=38%}
 
@@ -24,14 +24,14 @@ The word **ensemble** means a group, for example a group of musicians. [**Ensemb
 
 Ensembles are tried in almost every serious ML project and in almost every Kaggle competition (Kaggle is a website that hosts data-science contests). This Note covers:
 
-- the idea behind ensembles, the wisdom of the crowd (section 2);
+- the idea behind ensembles, the **wisdom of the crowd** (G-2124) (section 2);
 - how an ensemble predicts, and why its models must differ (section 3);
-- the four main types: voting, stacking, bagging and boosting, each with its own Notes later (section 4);
+- the four main types: voting, stacking, **bagging** (G-251) and boosting, each with its own Notes later (section 4);
 - why ensembles work (section 5), what they cost and what they give (section 6), and when to use them (section 7).
 
 ## 2. The wisdom of the crowd
 
-> **Key point:** The combined judgement of many people is often more accurate than the judgement of any one of them. Ensemble learning applies the same idea to models.
+> **Key point:** The combined judgement of many people is often more accurate than the judgement of any one of them. **Ensemble learning** (G-689) applies the same idea to models.
 
 The **wisdom of the crowd** (G-2124) is the observation that a crowd, taken together, often knows the answer better than a single member. We rely on it every day:
 
@@ -57,7 +57,7 @@ Ensemble learning rests on the same fact: a crowd of models knows more than one 
 
 ## 3. How an ensemble predicts
 
-> **Key point:** Every base model predicts; the ensemble takes the majority vote (classification) or the mean (regression).
+> **Key point:** Every base model predicts; the ensemble takes the **majority vote** (G-1146) (classification) or the mean (regression).
 
 Every ML algorithm has two stages: **training**, where it finds the pattern in the data, and **prediction**, where it answers for a new query point (a new **observation**, one record or row of the data table, as when [KNN predicts](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts)). Each observation has **features** (input variables, one column each) and a **target** (the output we predict). Training differs between the types of ensemble (section 4). Prediction works the same way for all of them.
 
@@ -69,9 +69,9 @@ An ensemble is a collection of smaller models, called **base models** (G-260). T
 
 Picture the quiz-show audience again. If everyone in it is a software developer, the poll helps with a computer science question and fails on everything else. If the audience mixes an accountant, an engineer, a doctor, a politician and a philosopher, someone is likely to know the answer whatever the topic.
 
-Models are the same: an ensemble of identical models makes the same mistakes as one model. There are three ways to make the base models different:
+Models are the same: an ensemble of identical models makes the same mistakes as one model. There are three ways to make the **base models** (G-260) different:
 
-1. **Different algorithms, same data:** for example a linear model, an SVM and a decision tree, all trained on the full dataset.
+1. **Different algorithms, same data:** for example a linear model, an SVM and a **decision tree** (G-561), all trained on the full dataset.
 2. **Same algorithm, different data:** for example three linear models, each trained on a different part of the data. Different data makes them learn differently.
 3. **Both:** different algorithms, each shown different data.
 
@@ -83,7 +83,7 @@ In Figure 3 and in Figure 6a, each dot is a data point with two features (its po
 
 > **Key point:** Each model votes for a class, and the class with the most votes wins.
 
-Take the placement data: from a student's CGPA and IQ, predict *placed* or *not placed* (as in the [placement toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)). We have 5 trained base models and one new student.
+Take the placement data: from a student's CGPA and IQ, predict *placed* or *not placed* (as in the [placement toy project](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#9-evaluating-the-model)). We have 5 trained **base models** (G-260) and one new student.
 
 We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* and 2 say *not placed*. The ensemble answers *placed*: the [**majority vote**](../../07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146), exactly as KNN votes among neighbours. Figure 4 draws this vote with 5 models; Figure 1 shows the same with 3.
 
@@ -91,7 +91,7 @@ We give the student's CGPA and IQ to every model. Suppose 3 models say *placed* 
 
 > **Key point:** Each model predicts a number, and the ensemble returns their average.
 
-Now the task is to predict the package, in lakh rupees per year (LPA), from CGPA and IQ. Every base model is a regression model and outputs a number.
+Now the task is to predict the package, in lakh rupees per year (LPA), from CGPA and IQ. Every **base model** (G-260) is a regression model and outputs a number.
 
 1. **In words:** the ensemble's prediction is the mean of the base models' predictions.
 2. **Formula:** with $n$ base models predicting $\hat y_1, \dots, \hat y_n$,
@@ -105,7 +105,7 @@ Figure 4 draws both worked examples, the vote of section 3.2 and the mean of sec
 
 ## 4. The four types of ensemble
 
-> **Key point:** Voting and stacking use different algorithms on the same data; bagging and boosting use one algorithm on varied data. They differ in how the models are trained and combined.
+> **Key point:** Voting and stacking use different algorithms on the same data; **bagging** (G-251) and boosting use one algorithm on varied data. They differ in how the models are trained and combined.
 
 ![The four main types of ensemble](images/ensemble_types.png){height=50%}
 
@@ -113,13 +113,13 @@ Figure 5 shows the four types. Each one is taught in full in later Notes; here w
 
 ### 4.1 Voting
 
-> **Key point:** Different algorithms, all trained on the same data; the final answer is the majority vote or the mean.
+> **Key point:** Different algorithms, all trained on the same data; the final answer is the **majority vote** (G-1146) or the mean.
 
-Take, say, an SVM, a logistic regression and a decision tree, and train all three on the same dataset D. For a new query point, each predicts, and we take the majority (classification) or the mean (regression). The variety comes from the algorithms being different. Voting is the subject of the next three Notes, starting with the [**voting ensemble**](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability) (G-2096).
+Take, say, an SVM, a logistic regression and a **decision tree** (G-561), and train all three on the same dataset D. For a new query point, each predicts, and we take the majority (classification) or the mean (regression). The variety comes from the algorithms being different. Voting is the subject of the next three Notes, starting with the [**voting ensemble**](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#5-why-voting-works-the-probability) (G-2096).
 
 ### 4.2 Stacking
 
-> **Key point:** Voting plus one more model on top, which learns how much weight each base model's opinion deserves.
+> **Key point:** Voting plus one more model on top, which learns how much weight each **base model** (G-260)'s opinion deserves.
 
 Stacking starts like voting: different algorithms trained on the same data. Then a further model, the **meta-model** (G-1213) (for example KNN), is trained on the base models' outputs.
 
@@ -131,13 +131,13 @@ From such observations the meta-model learns a weight for each base model: more 
 
 > **Key point:** One algorithm, many copies, each trained on a different random sample of the observations; the answers are then voted or averaged.
 
-**Bagging** (G-251) is short for **bootstrap aggregation**. All base models use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
+**Bagging** (G-251) is short for **bootstrap aggregation**. All **base models** (G-260) use the same algorithm, for example three SVMs or three logistic regressions. The variety comes from the data.
 
 Suppose the data D has 1,000 students and we decide to show each model 500 of them. We draw 500 observations at random, with replacement (each drawn observation is put back, so the same one can be drawn twice), to make D1 and train model 1 on it. Then we draw another 500 the same way for D2, and so on. Drawing random samples like this is called **bootstrapping** (G-322).
 
 The samples differ, so the models learn differently. At prediction time we vote or average as before.
 
-When the base models are decision trees, the bagging ensemble gets its own name: a [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611), a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); see [how the base model differs](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#2-difference-1-the-base-model). Later we cover [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
+When the base models are **decision trees** (G-561), the bagging ensemble gets its own name: a [**random forest**](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611), a "forest" of trees. Strictly, a random forest also picks a random subset of the features at every split (Breiman 2001); see [how the base model differs](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#2-difference-1-the-base-model). Later we cover [the core idea of bagging](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#2-the-core-idea) and [how a random forest works](../ML-102-random-forest-intro/ML-102-random-forest-intro.md#4-how-a-random-forest-works).
 
 ### 4.4 Boosting
 
@@ -159,7 +159,7 @@ The second model then passes its own mistakes to the third model, and so on. Dow
 - a **decision tree** of depth 3 draws boxes;
 - **KNN** with k = 5 draws a wiggly curve.
 
-Each decision boundary is wrong in its own places. The majority vote (black) follows a decision boundary where at least two of the three agree, so the quirks of any single model are outvoted. On 200 test points, the three models score 0.860, 0.875 and 0.870; the vote scores **0.890**, better than each.
+Each decision boundary is wrong in its own places. The **majority vote** (G-1146) (black) follows a decision boundary where at least two of the three agree, so the quirks of any single model are outvoted. On 200 test points, the three models score 0.860, 0.875 and 0.870; the vote scores **0.890**, better than each.
 
 **Regression.** In Figure 6b, four lines are fitted, each to a different set of 10 random points. One is too steep, one too flat, two are in between. Their mean (black) is not extreme in any direction: it lands in the middle, close to the real trend.
 
@@ -173,7 +173,7 @@ The vote does not always beat the best model; [hard and soft voting](../ML-097-v
 
 ## 6. Costs and benefits
 
-> **Key point:** An ensemble costs more computation. In return it usually gives better performance, lower variance (voting and bagging) or lower bias (boosting), and more robust results.
+> **Key point:** An ensemble costs more computation. In return it usually gives better performance, lower **variance** (G-2073) (voting and bagging) or lower bias (boosting), and more robust results.
 
 ### 6.1 The cost: more computation
 
@@ -181,24 +181,24 @@ The vote does not always beat the best model; [hard and soft voting](../ML-097-v
 
 Where we used to train one model, we now train many: tens, hundreds, even thousands. Training and prediction take longer. So an ensemble needs a solid advantage to be worth it, and it has three.
 
-In Figure 8, across is the number of trees; the time axis on the left is a log scale (equal distances mean equal multiplication: the labelled ticks 10, 30, 100 and 300 are each about 3 times the one before), and the right panel shows accuracy on test data that the trees did not train on. Figure 8 puts the cost next to the first benefit, for bagging ensembles of 1 to 200 full-depth trees on the two-moons data of section 5. Watch training time keep climbing with the number of trees, while test accuracy rises from 0.83 to about 0.87 by 20 trees and then levels off, above the 0.84 of one full tree.
+In Figure 8, across is the number of trees; the time axis on the left is a log scale (equal distances mean equal multiplication: the labelled ticks 10, 30, 100 and 300 are each about 3 times the one before), and the right panel shows accuracy on test data that the trees did not train on. Figure 8 puts the cost next to the first benefit, for **bagging** (G-251) ensembles of 1 to 200 full-depth trees on the two-moons data of section 5. Watch training time keep climbing with the number of trees, while test accuracy rises from 0.83 to about 0.87 by 20 trees and then levels off, above the 0.84 of one full tree.
 
 ![Bagging ensembles of 1 to 200 full-depth trees on the two-moons data. Left: training time (log scale). Right: test accuracy, averaged over 5 seeds; dashed: one full tree](images/cost_benefit.png)
 
 ### 6.2 Benefit 1: better performance
 
-> **Key point:** The combined model usually scores better than its base models.
+> **Key point:** The combined model usually scores better than its **base models** (G-260).
 
 As section 5 showed, combining models usually improves accuracy (classification) or $R^2$ (regression).
 
 ### 6.3 Benefit 2: lower variance or lower bias
 
-> **Key point:** Averaging models (voting, bagging) lowers variance and leaves bias unchanged. Training models in series (boosting) lowers bias. Either way the ensemble reaches low bias and low variance together, which a single model rarely can.
+> **Key point:** Averaging models (voting, **bagging** (G-251)) lowers variance and leaves bias unchanged. Training models in series (boosting) lowers bias. Either way the ensemble reaches low bias and low variance together, which a single model rarely can.
 
 A single model usually trades [**bias**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) against [**variance**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) (the [**bias-variance trade-off**](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288)). Ensembles escape the trade-off in two different ways:
 
 - **Bagging and voting lower variance.** They average models. Averaging cancels the errors that differ from model to model, as in Figure 2, and that part of the error is the variance. Averaging cannot remove an error that all the models share: if every model is too low by 2 on average, their mean is also too low by 2. So the bias stays the same. Bagging therefore starts from low-bias, high-variance models such as deep trees and cuts their variance (see [why bagging works](../ML-099-bagging-intuition/ML-099-bagging-intuition.md#3-why-bagging-works)).
-- **Boosting lowers bias.** Each new model corrects the mistakes the earlier ones still make. Boosting therefore starts from simple high-bias models and cuts their bias (see [parallel against sequential learning](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#3-difference-2-parallel-against-sequential-learning)).
+- **Boosting lowers bias.** Each new model corrects the mistakes the earlier ones still make. **Boosting** (G-318) therefore starts from simple high-bias models and cuts their bias (see [parallel against sequential learning](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#3-difference-2-parallel-against-sequential-learning)).
 
 In short: bagging reduces variance, boosting reduces bias.
 
@@ -206,7 +206,7 @@ In short: bagging reduces variance, boosting reduces bias.
 
 > **Key point:** The ensemble's performance changes little when the data changes.
 
-A **robust** model (**robustness**, G-1700) keeps performing well when the data it sees changes somewhat. Robustness is closely related to low variance, but it is often listed as a benefit in its own right.
+A **robust** model (**robustness**, G-1700) keeps performing well when the data it sees changes somewhat. Robustness is closely related to low **variance** (G-2073), but it is often listed as a benefit in its own right.
 
 ## 7. When to use an ensemble
 
@@ -214,9 +214,9 @@ A **robust** model (**robustness**, G-1700) keeps performing well when the data 
 
 There is rarely a reason not to try an ensemble. In a project, it usually comes last: after data cleaning, preprocessing, feature engineering, model building and evaluation, we combine models and check whether the result improves. Most of the time it does.
 
-Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a boosting algorithm, famous: in 2015, 17 of the 29 winning solutions published on Kaggle's blog used XGBoost (Chen and Guestrin 2016). On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, deep learning can take the lead. A benchmark on 45 medium-sized tables found tree-based models still ahead of deep networks (Grinsztajn et al. 2022).
+Ensembles made Kaggle competitions famous, and Kaggle in turn made XGBoost, a **boosting** (G-318) algorithm, famous: in 2015, 17 of the 29 winning solutions published on Kaggle's blog used XGBoost (Chen and Guestrin 2016). On small and medium-sized tables of data, tree ensembles often beat deep learning; on very large datasets, deep learning can take the lead. A benchmark on 45 medium-sized tables found tree-based models still ahead of deep networks (Grinsztajn et al. 2022).
 
-The order of the coming Notes: voting, then bagging, then random forests, then boosting, and stacking last.
+The order of the coming Notes: voting, then bagging, then **random forests** (G-1611), then boosting, and stacking last.
 
 ## 8. Summary
 
@@ -227,9 +227,9 @@ The order of the coming Notes: voting, then bagging, then random forests, then b
 | Bagging | one algorithm (random forest: trees) | random samples of the observations | majority vote or mean | variance |
 | Boosting | one algorithm, in series | observations weighted toward earlier mistakes | weighted combination | bias |
 
-- An ensemble combines several base models: majority vote for classification, mean for regression, because errors that go in different directions partly cancel, as the crowd's mean guess closes in on the ox's true weight.
-- The base models must differ: different algorithms, different data, or both, because identical models make the same mistakes and their vote is just one model (0.875 for three copies of one tree).
-- Ensembles cost more computation but usually improve performance and are more robust, so an ensemble is worth trying at the end of almost every project. Voting and bagging lower variance, because averaging cancels the errors that differ between models but not an error they share; boosting lowers bias, because each new model corrects the mistakes the earlier ones still make.
+- An ensemble combines several base models: **majority vote** (G-1146) for classification, mean for regression, because errors that go in different directions partly cancel, as the crowd's mean guess closes in on the ox's true weight.
+- The **base models** (G-260) must differ: different algorithms, different data, or both, because identical models make the same mistakes and their vote is just one model (0.875 for three copies of one tree).
+- Ensembles cost more computation but usually improve performance and are more robust, so an ensemble is worth trying at the end of almost every project. Voting and bagging lower **variance** (G-2073), because averaging cancels the errors that differ between models but not an error they share; boosting lowers bias, because each new model corrects the mistakes the earlier ones still make.
 - On two-moons data, three models scoring 0.860 to 0.875 give a vote scoring 0.890, because the quirks of any single boundary are outvoted by the other two; this is why a crowd of different models usually beats any one of them.
 
 ## 9. Sources
@@ -253,19 +253,19 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Wisdom of the crowd (G-2124) | The combined judgement of many is often more accurate than any one member's. |
+| Bagging (bootstrap aggregation) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
 | Base model (G-260) | One of the models inside an ensemble; the ensemble combines the base models' answers into its prediction. |
 | Meta-model (G-1213) | The final model in stacking: it takes the other models' (base models') predictions as its inputs and is trained to combine them. |
-| Bagging (bootstrap aggregation) (G-251) | Training many models on different random samples of the data and averaging them, so the result depends less on the particular sample (lower variance). |
 | Bootstrapping (G-322) | Drawing random samples of the data to train each base model. |
 | Boosting (G-318) | Combining many simple models one after another to reduce bias, the error of a model that is too simple. |
 | Robustness (G-1700) | Performing well even when the data changes somewhat. |
 | Ensemble (G-690) | Several trained models whose predictions are combined. |
+| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | [Ensemble learning](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#84-ensemble-learning) (G-689) | Combining several models into one stronger model. |
 | [Decision tree](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) | A model that predicts by asking a chain of questions about the input columns: nested if-else conditions. |
 | [Decision boundary](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555) | A line or curve that separates the classes in classification. |
-| [Majority vote](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1146) | Predicting the class that most voters choose: the k neighbours in KNN, or the base models of an ensemble. |
 | [Voting ensemble](../../../ML/08-trees-and-ensembles/ML-096-voting-ensemble/ML-096-voting-ensemble.md#1-overview) (G-2096) | Several models trained on the same data, combined by majority vote (classification) or mean (regression). |
 | [Random forest](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#1-overview) (G-1611) | Bagging with decision trees as the base models: many trees, each trained on a random sample of the rows with a random choice of features at every split, vote (classification) or are averaged (regression), which lowers the variance of a single tree. |
-| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Variance (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#1-overview) (G-2073) | How much a model's predictions change when it is trained on a different sample of the data; a different meaning from the variance of a column. |
+| [Bias (of a model)](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#2-bias) (G-287) | Error from a model being too simple to capture the true relationship. |
 | [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off) (G-288) | Lowering bias by adding complexity tends to raise variance, and the reverse. |

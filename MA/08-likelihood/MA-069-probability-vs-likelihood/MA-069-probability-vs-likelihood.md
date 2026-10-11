@@ -16,12 +16,12 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/likelihood]
 
 ## 1. Overview
 
-> **Key point:** Probability starts from known parameters and asks how likely an event is. Likelihood starts from an observed event and asks how plausible a parameter value is. Both use the same formula, read in opposite directions.
+> **Key point:** Probability starts from known parameters and asks how likely an event is. **Likelihood** (G-1086) starts from an observed event and asks how plausible a parameter value is. Both use the same formula, read in opposite directions.
 
 
 ![Probability goes from parameters to an event; likelihood goes from an observed event back to the parameters](images/tunnel.png){width=85%}
 
-The two words mean the same thing in everyday speech, which is why the difference is confusing. Picture a tunnel with a parameter at one end and an event at the other (Figure 1). Looking from the parameter end towards the event is probability. Looking from the event end back towards the parameter is likelihood.
+The two words mean the same thing in everyday speech, which is why the difference is confusing. Picture a tunnel with a parameter at one end and an event at the other (Figure 1). Looking from the parameter end towards the event is **probability** (G-1574). Looking from the event end back towards the parameter is likelihood.
 
 This Note builds the idea from three examples, each read both ways:
 
@@ -33,11 +33,11 @@ The Note then states both definitions ([Section 5](#5-the-two-definitions)) and 
 
 ## 2. A coin
 
-> **Key point:** Fair coin known: the probability of tails is 0.5. Five heads observed: the likelihood that the coin is fair is $0.5^5 = 0.031$, lower than the likelihood $0.7^5 = 0.168$ of a coin biased towards heads.
+> **Key point:** Fair coin known: the probability of tails is 0.5. Five heads observed: the **likelihood** (G-1086) that the coin is fair is $0.5^5 = 0.031$, lower than the likelihood $0.7^5 = 0.168$ of a coin biased towards heads.
 
 ### 2.1 Probability: from the parameter to the event
 
-> **Key point:** The coin follows a Bernoulli distribution with $p = 0.5$; plugging in the event "tails" gives its probability.
+> **Key point:** The coin follows a Bernoulli distribution with $p = 0.5$; plugging in the event "tails" gives its **probability** (G-1574).
 
 Tossing a coin once has two outcomes, heads or tails, so it follows a [**Bernoulli distribution**](../../03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) with one parameter $p$, the probability of heads (see [the Bernoulli distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#2-the-bernoulli-distribution)). For a fair coin, $p = 0.5$.
 
@@ -63,7 +63,7 @@ The pattern is what matters. We knew the distribution (Bernoulli) and its parame
 
 > **Key point:** We toss the coin five times and get five heads. The likelihood of "the coin is fair" given this data is $0.5^5 = 0.031$.
 
-Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the probability of five heads under $p$ is a product of five equal factors (see [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)).
+Now turn it around. We are told the coin is fair, we toss it five times, and all five come up heads. Is "fair" still believable? The tosses are independent, so the **probability** (G-1574) of five heads under $p$ is a product of five equal factors (see [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)).
 
 1. **In words:** the **likelihood** (G-1086) of a parameter value is the probability of the observed data computed with that value; the data stays fixed and we change the parameter.
 2. **Formula:**
@@ -76,11 +76,11 @@ Five heads are more than five times as plausible under $p = 0.7$ as under $p = 0
 
 ## 3. A bag of balls
 
-> **Key point:** A bag holds 3 red and 2 green balls. Probability: a drawn ball is red with probability 3/5. Likelihood: after five green draws in a row, the value $p = 0.4$ has likelihood 0.010, far below the 0.328 of a bag with 4 green balls out of 5.
+> **Key point:** A bag holds 3 red and 2 green balls. Probability: a drawn ball is red with probability 3/5. **Likelihood** (G-1086): after five green draws in a row, the value $p = 0.4$ has likelihood 0.010, far below the 0.328 of a bag with 4 green balls out of 5.
 
 ### 3.1 Probability
 
-> **Key point:** One draw is again a Bernoulli trial, with $p$ = probability of green = 2/5.
+> **Key point:** One draw is again a Bernoulli trial, with $p$ = **probability** (G-1574) of green = 2/5.
 
 A closed bag holds 3 red and 2 green balls. Drawing one ball has two outcomes, so it is again a Bernoulli trial; take green as the outcome counted by $p$, so $p$ is 2 out of 5.
 
@@ -95,11 +95,11 @@ Again we knew the parameter and computed the chance of an event: probability.
 
 ### 3.2 Likelihood
 
-> **Key point:** Five green draws make the value 2 out of 5 for $p$ implausible. Its likelihood is only 0.010 (the example below).
+> **Key point:** Five green draws make the value 2 out of 5 for $p$ implausible. Its **likelihood** (G-1086) is only 0.010 (the example below).
 
 We draw five times, putting each ball back before the next draw so that the draws are independent. All five are green. We were told that $p$ is 2 out of 5; how plausible is that now?
 
-1. **In words:** multiply the probability of green, under the value of $p$ being questioned, once per green draw.
+1. **In words:** multiply the **probability** (G-1574) of green, under the value of $p$ being questioned, once per green draw.
 2. **Formula:**
    $$L(p \mid \text{5 green}) = p^{5}$$
 3. **Example:**
@@ -118,11 +118,11 @@ So five green draws point to a bag with mostly green balls (Figure 2, right). Th
 
 ## 4. Heights: a continuous example
 
-> **Key point:** For a continuous variable, probability is an area under the density curve, and likelihood is the height of the curve at the observed value.
+> **Key point:** For a continuous variable, probability is an area under the density curve, and **likelihood** (G-1086) is the height of the curve at the observed value.
 
 ### 4.1 Probability is an area
 
-> **Key point:** With heights following $N(150, 10^2)$, the probability that a person is between 170 and 180 cm is the area under the curve there: 0.021.
+> **Key point:** With heights following $N(150, 10^2)$, the **probability** (G-1574) that a person is between 170 and 180 cm is the area under the curve there: 0.021.
 
 Heights of people are continuous: any value is possible. Assume they follow a normal distribution with mean $\mu = 150$ cm and standard deviation $\sigma = 10$ cm (see [what the normal distribution is](../../03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). The shorthand $N(150, 10^2)$ means a normal distribution with mean 150 and standard deviation 10.
 
@@ -144,7 +144,7 @@ The parameters were known and the event was a range of heights: probability.
 
 ### 4.2 Likelihood is a height
 
-> **Key point:** We measure one person at 100 cm. The likelihood of $\mu = 150$, $\sigma = 10$ is the height of the $N(150, 10^2)$ curve at 100: $1.49 \times 10^{-7}$, almost nothing.
+> **Key point:** We measure one person at 100 cm. The **likelihood** (G-1086) of $\mu = 150$, $\sigma = 10$ is the height of the $N(150, 10^2)$ curve at 100: $1.49 \times 10^{-7}$, almost nothing.
 
 Now we pick one person at random and measure 100 cm. How plausible are $\mu = 150$ and $\sigma = 10$ for this **observation** (G-1374; one recorded value)?
 
@@ -177,7 +177,7 @@ An observation of 140 cm makes $\mu = 150$ quite plausible; 100 cm or 200 cm mak
 
 > **Key point:** Keep the observation fixed and slide $\mu$: the heights trace the **likelihood function** (G-1085), which peaks at the $\mu$ equal to the observation.
 
-Because only $x - \mu$ matters, moving the observation away from $\mu$ is the same as moving $\mu$ away from the observation. The natural way to use likelihood is the second one: the data is what we have, and we try parameter values. Figure 4 fixes one person at 130 cm and slides the candidate mean from 100 to 200 cm.
+Because only $x - \mu$ matters, moving the observation away from $\mu$ is the same as moving $\mu$ away from the observation. The natural way to use **likelihood** (G-1086) is the second one: the data is what we have, and we try parameter values. Figure 4 fixes one person at 130 cm and slides the candidate mean from 100 to 200 cm.
 
 ![One person measured at 130 cm. Top: the candidate curve $N(\mu, 10^2)$ slides; the orange bar is its height at 130. Bottom: those heights against $\mu$, the likelihood function, highest at $\mu = 130$](images/likelihood_slide.gif)
 
@@ -185,7 +185,7 @@ The likelihood is highest, 0.040, when the curve is centred on the observation. 
 
 ### 4.4 The same picture with mouse weights
 
-> **Key point:** Probabilities are areas under a fixed distribution; likelihoods are heights at fixed data under a distribution that can move.
+> **Key point:** Probabilities are areas under a fixed distribution; **likelihoods** (G-1086) are heights at fixed data under a distribution that can move.
 
 A second example (Starmer, StatQuest) draws the same contrast with mouse weights following $N(32, 2.5^2)$ (Figure 5):
 
@@ -200,11 +200,11 @@ $$P(\text{data} \mid \text{distribution}) \quad\text{versus}\quad L(\text{distri
 
 In $P(32 \le \text{weight} \le 34 \mid \mu = 32, \sigma = 2.5) = 0.29$ we change the left side to ask about other weights. In $L(\mu = 32, \sigma = 2.5 \mid \text{weight} = 34) = 0.12$ the right side, the data, stays fixed, and we change the left side to try other distributions.
 
-> **Extra:** A density height is not itself a probability; [what the density at a point means](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) shows that it is probability per unit of $x$. Because a density is a rate, a likelihood for continuous data can be larger than 1. Only comparisons between likelihoods are meaningful, never a single value on its own.
+> **Extra:** A density height is not itself a **probability** (G-1574); [what the density at a point means](../../03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) shows that it is probability per unit of $x$. Because a density is a rate, a likelihood for continuous data can be larger than 1. Only comparisons between likelihoods are meaningful, never a single value on its own.
 
 ## 5. The two definitions
 
-> **Key point:** Probability: parameters known, chance of an event. Likelihood: data observed, plausibility of parameter values.
+> **Key point:** Probability: parameters known, chance of an event. **Likelihood** (G-1086): data observed, plausibility of parameter values.
 
 All three examples follow one pattern:
 
@@ -228,9 +228,9 @@ Said another way: a probability tells us how often to expect an outcome when we 
 
 ## 6. A likelihood is not a probability
 
-> **Key point:** Probabilities of all possible events add up to 1. Likelihoods of all parameter values do not: for five heads, the area under $L(p) = p^5$ is $1/6$.
+> **Key point:** Probabilities of all possible events add up to 1. **Likelihoods** (G-1086) of all parameter values do not: for five heads, the area under $L(p) = p^5$ is $1/6$.
 
-Probability and likelihood share a formula, so it is tempting to treat the likelihood as a probability distribution over the parameter. *Mathematics for Machine Learning* (MML §9.2.1, remark) warns that it is not: the likelihood is a probability distribution in the data, but not in the parameters.
+**Probability** (G-1574) and likelihood share a formula, so it is tempting to treat the likelihood as a probability distribution over the parameter. *Mathematics for Machine Learning* (MML §9.2.1, remark) warns that it is not: the likelihood is a probability distribution in the data, but not in the parameters.
 
 The coin shows both sides. With $p$ fixed at 0.5, the probabilities of all possible numbers of heads in five tosses, 0 to 5, add up to 1 (they form the binomial distribution of [the binomial distribution](../../03-distributions/MA-031-bernoulli-and-binomial/MA-031-bernoulli-and-binomial.md#3-the-binomial-distribution)). With the data fixed at five heads, the likelihood $L(p) = p^5$ over all values of $p$ from 0 to 1 does not:
 
@@ -257,9 +257,9 @@ So a likelihood value only means something next to another likelihood value for 
 | Adds up to 1? | yes, over all events | no, over all parameter values |
 | Notation | $P(\text{data} \mid \theta)$ | $L(\theta \mid \text{data})$ |
 
-- The same formula gives a probability when the parameters are fixed and a likelihood when the data is fixed, so the question (chance of an event, or plausibility of a parameter) decides which reading is meant.
-- For independent observations, the likelihood is a product, because the probability of independent events is a product: five heads give $p^5$.
-- Comparing likelihoods tells which parameter value explains the data better: 0.168 for $p = 0.7$ against 0.031 for $p = 0.5$. Picking the value at the peak of the likelihood function is maximum likelihood estimation.
+- The same formula gives a probability when the parameters are fixed and a **likelihood** (G-1086) when the data is fixed, so the question (chance of an event, or plausibility of a parameter) decides which reading is meant.
+- For independent observations, the likelihood is a product, because the **probability** (G-1574) of independent events is a product: five heads give $p^5$.
+- Comparing likelihoods tells which parameter value explains the data better: 0.168 for $p = 0.7$ against 0.031 for $p = 0.5$. Picking the value at the peak of the **likelihood function** (G-1085) is maximum likelihood estimation.
 - For continuous data, likelihood is the height of the density at the observation; probability is an area. A density is a rate, so a likelihood for continuous data can be larger than 1.
 - A likelihood is not a probability distribution over the parameters, because the area under $L(p) = p^5$ is 1/6, not 1; so a likelihood value means something only next to another likelihood value for the same data.
 
@@ -283,7 +283,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Likelihood (G-1086) | How probable the observed data is under given parameter values; read as a function of the parameters with the data fixed. |
 | Likelihood function $L(\theta \mid \text{data})$ (G-1085) | The likelihood as a function of the parameters, with the data held fixed: the product of the densities (or probabilities) of all observations. |
 | Plausibility (G-1505) | How believable a parameter value is in the light of the data; measured by its likelihood relative to other values. |
+| [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |
 | [Bernoulli distribution](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#71-bernoulli-distribution) (G-275) | The distribution of a single trial with two outcomes, such as one coin toss: 1 (success) with probability $p$, 0 (failure) with probability $1 - p$. |
 | [Independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
-| [Probability](../../../MA/02-probability/MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#2-what-a-probability-measures) (G-1574) | A number from 0 to 1 measuring how likely an event is; written $P(A)$. |

@@ -56,7 +56,7 @@ A common misunderstanding is that XGBoost is a new algorithm. XGBoost is a **lib
 So XGBoost is two things together:
 
 - **machine learning**, taken from gradient boosting (with a few changes of its own, section 8);
-- **software engineering**: parallel processing, memory handling, distributed and GPU computing (section 7).
+- **software engineering**: **parallel processing** (G-1444), memory handling, distributed and GPU computing (section 7).
 
 ## 4. A short history
 
@@ -148,7 +148,7 @@ Because it is gradient boosting underneath, we can also write our own loss funct
 
 ## 7. Speed
 
-> **Key point:** Six engineering tricks make XGBoost much faster than classic gradient boosting: parallel split search, column blocks, cache awareness, out-of-core training, distributed training and GPU training.
+> **Key point:** Six engineering tricks make XGBoost much faster than classic gradient boosting: parallel split search, **column blocks** (G-412), cache awareness, out-of-core training, distributed training and GPU training.
 
 ### 7.1 How much faster
 
@@ -226,7 +226,7 @@ XGBoost does this through its external-memory mode (Chen and Guestrin 2016, §4.
 
 > **Key point:** Several machines each take a part of the data and compute split statistics on it. The statistics are added together, and the best split is chosen from the totals.
 
-In **distributed computing** (G-625) a job is shared between several machines, called **nodes**, working in parallel. Out-of-core computing lets one machine handle big data, but it still processes one chunk at a time. With 5 nodes and a 10 GB dataset cut into 5 chunks of 2 GB, all five chunks are processed at the same moment.
+In **distributed computing** (G-625) a job is shared between several machines, called **nodes**, working in parallel. **Out-of-core computing** (G-1413) lets one machine handle big data, but it still processes one chunk at a time. With 5 nodes and a 10 GB dataset cut into 5 chunks of 2 GB, all five chunks are processed at the same moment.
 
 1. **Partition** the data: each node gets an equal share.
 2. **Work locally**: each node computes, for every feature, the split statistics on its own share.
@@ -260,11 +260,11 @@ The XGBoost GPU authors measured the gain on large public datasets (Mitchell et 
 
 XGBoost pushes software engineering on gradient boosting as far as it goes:
 
-- parallel processing (section 7.2);
-- special data structures, the column blocks (section 7.3);
+- **parallel processing** (G-1444) (section 7.2);
+- special data structures, the **column blocks** (G-412) (section 7.3);
 - cache use (section 7.4);
-- out-of-core computing (section 7.5);
-- distributed computing (section 7.6);
+- **out-of-core computing** (G-1413) (section 7.5);
+- **distributed computing** (G-625) (section 7.6);
 - GPU computing (section 7.7).
 
 Hence the name, eXtreme Gradient Boosting.
@@ -301,7 +301,7 @@ At prediction time, any observation missing F1 follows it (Chen and Guestrin 201
 
 ### 8.3 Missing values without imputation
 
-> **Key point:** Because of the default direction, XGBoost trains on data with missing values as they are, with no imputation step.
+> **Key point:** Because of the **default direction** (G-574), XGBoost trains on data with missing values as they are, with no imputation step.
 
 So far, a dataset with missing values had to be fixed first: observations dropped ([**complete case analysis**](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis) (G-425)) or values filled in ([imputing numerical data](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)). Many models refuse missing values. XGBoost does not need this step: the default direction of section 8.2 decides where each observation with a missing value goes.
 
@@ -384,7 +384,7 @@ scikit-learn's `HistGradientBoostingClassifier` and `HistGradientBoostingRegress
 
 - XGBoost is a library: gradient boosting plus engineering. Boosting stays sequential, because each tree learns from the mistakes of the one before; the parallel work is inside each tree.
 - It became famous through Kaggle: 17 of the 29 winning solutions published on Kaggle's blog in 2015 used it, because it fixed the two problems gradient boosting had left, overfitting and slow training on big data.
-- On 10,000 observations and 200 features, on one core, XGBoost trained in 1.9 seconds against 60 seconds for classic gradient boosting, with the same accuracy, because of the engineering of the speed section (parallel split search, column blocks, histogram bins).
+- On 10,000 observations and 200 features, on one core, XGBoost trained in 1.9 seconds against 60 seconds for classic gradient boosting, with the same accuracy, because of the engineering of the speed section (parallel split search, **column blocks** (G-412), histogram bins).
 - Missing values need no imputation: each split learns where to send them, so the usual step of dropping or filling gaps can be skipped.
 - Quantile bins are narrow where data is dense; only the bin edges are tried as splits (at most `max_bin` bins per feature, 256 by default; XGBoost docs), so the split search is much faster and still lands close to the best split.
 - LightGBM and CatBoost are the other major gradient boosting libraries, so they are the alternatives to try: LightGBM for speed and low memory, CatBoost for categorical columns.

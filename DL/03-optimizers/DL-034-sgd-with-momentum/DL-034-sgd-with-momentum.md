@@ -17,9 +17,9 @@ tags: [subject/deep-learning, area/dl-optimizers, step/model, concept/momentum]
 
 ## 1. Overview
 
-> **Key point:** Momentum remembers the recent slopes and moves by their running average, called the velocity. When many slopes agree, the steps grow and training speeds up; the price is that the weights shoot past the minimum and swing before settling.
+> **Key point:** Momentum remembers the recent slopes and moves by their running average, called the **velocity** (G-2085). When many slopes agree, the steps grow and training speeds up; the price is that the weights shoot past the minimum and swing before settling.
 
-**Momentum** (G-1258; Polyak 1964) is the first improved [**optimizer**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401). Plain [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) forgets every gradient as soon as it has used it. Momentum remembers them: if the last few gradients all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
+**Momentum** (G-1258; Polyak 1964) is the first improved [**optimizer**](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401). Plain [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) forgets every gradient as soon as it has used it. Momentum remembers them: if the last few **gradients** (G-863) all point the same way, it becomes confident and moves faster in that direction, like a ball gathering speed as it rolls downhill.
 
 ![Plain gradient descent and momentum along a narrow valley, same learning rate 0.01. Gradient descent drops to the valley floor and crawls along it; momentum builds speed along the valley](images/momentum_valley.gif){width=95%}
 
@@ -61,7 +61,7 @@ Figure 2 draws all three. The contour plot on the right shows the valley of Figu
 
 ## 4. Why plain gradient descent struggles
 
-> **Key point:** Deep learning losses are non-convex. Local minima, saddle points with their flat surroundings, and high curvature all slow plain gradient descent down or trap it.
+> **Key point:** Deep learning losses are non-convex. Local minima, saddle points with their flat surroundings, and high curvature all slow plain **gradient descent** (G-862) down or trap it.
 
 The losses of neural networks are non-convex (**non-convex functions**, G-1333: losses with more than one dip; [what goes wrong with a non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#4-what-goes-wrong-with-a-non-convex-loss)), which makes the minimum hard to reach for three reasons:
 
@@ -80,24 +80,24 @@ Figure 3 shows each obstacle with plain gradient descent. The middle and right m
 Batch, stochastic and mini-batch gradient descent handle these poorly ([their paths to the minimum](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#8-the-path-to-the-minimum)). Momentum was designed for exactly these situations (Goodfellow et al. 2016, §8.3.2):
 
 - high curvature;
-- small but consistent gradients;
+- small but consistent **gradients** (G-863);
 - noisy gradients.
 
 ## 5. The idea: confidence builds speed
 
-> **Key point:** If the past gradients keep pointing the same way, move faster that way. Like a ball rolling downhill, the parameters gather speed.
+> **Key point:** If the past **gradients** (G-863) keep pointing the same way, move faster that way. Like a ball rolling downhill, the parameters gather speed.
 
 **An everyday picture.** We drive from A to B and do not know the way, so we ask people. If four people in four places all point in the same direction, we become confident and drive faster that way. If two point forward and two point back, we still go forward, but slowly.
 
-**A physics picture.** A ball rolling down a hill gathers speed as it goes. Momentum in physics is mass times velocity; with a unit mass, momentum is simply the velocity (Goodfellow et al. 2016, §8.3.2). The optimizer keeps a **velocity** (G-2085) $v$: the direction and speed with which the parameters move, built from the history of past updates.
+**A physics picture.** A ball rolling down a hill gathers speed as it goes. Momentum in physics is mass times velocity; with a unit mass, momentum is simply the velocity (Goodfellow et al. 2016, §8.3.2). The **optimizer** (G-1401) keeps a **velocity** (G-2085) $v$: the direction and speed with which the parameters move, built from the history of past updates.
 
 Figure 7 (section 8) plays this picture: two balls on the same curve, the one with momentum gathering speed. Figure 1 shows the same speed-up on a loss surface.
 
-The single most important benefit of momentum is speed: it usually reaches a good solution faster than plain gradient descent.
+The single most important benefit of momentum is speed: it usually reaches a good solution faster than plain **gradient descent** (G-862).
 
 ## 6. The update rule
 
-> **Key point:** Each step keeps a fraction of the previous step, 0.9 of it as a rule, and adds the step plain gradient descent would take now. The weight moves by that sum, the velocity.
+> **Key point:** Each step keeps a fraction of the previous step, 0.9 of it as a rule, and adds the step plain gradient descent would take now. The weight moves by that sum, the **velocity** (G-2085).
 
 **The gradient.** At the current weight $w_t$ (the weight after $t$ steps) the loss has a slope, the [**gradient**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) $\nabla L(w_t)$. Take the bowl
 
@@ -107,7 +107,7 @@ Its slope at $w$ is $w$ itself, so at $w_0 = -10$
 
 $$\nabla L(w_0) = -10$$
 
-The minus sign says the loss falls to the right. Plain gradient descent, with [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta = 0.1$, moves against the slope by $\eta$ times it:
+The minus sign says the loss falls to the right. Plain **gradient descent** (G-862), with [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta = 0.1$, moves against the slope by $\eta$ times it:
 
 $$w_1 = w_0 - \eta\thinspace\nabla L(w_0)$$
 
@@ -199,11 +199,11 @@ Figure 4 draws each step as these two arrows placed head to tail. Watch the arro
 
 ### 6.1 Why the zigzag fades and speed builds
 
-> **Key point:** Across a narrow valley the gradients keep flipping sign, so they partly cancel in the velocity. Along the valley they agree, so they add up.
+> **Key point:** Across a narrow valley the gradients keep flipping sign, so they partly cancel in the **velocity** (G-2085). Along the valley they agree, so they add up.
 
-In a narrow valley, plain gradient descent can bounce between the steep walls, because each step follows the current slope, which points mostly across the valley (Goodfellow et al. 2016, §8.3.2, figure 8.5). With momentum:
+In a narrow valley, plain **gradient descent** (G-862) can bounce between the steep walls, because each step follows the current slope, which points mostly across the valley (Goodfellow et al. 2016, §8.3.2, figure 8.5). With momentum:
 
-- **Across the valley,** the gradient changes sign as the weight swings from wall to wall. In the velocity, those opposite pushes partly cancel, so the weight stops flipping at every step.
+- **Across the valley,** the **gradient** (G-863) changes sign as the weight swings from wall to wall. In the velocity, those opposite pushes partly cancel, so the weight stops flipping at every step.
 - **Along the valley,** every gradient points the same way. Those components add up, so the velocity grows and the steps lengthen.
 
 Whether gradient descent bounces depends on the step size. On the valley of Figure 1 the slope across the valley, in the $w_2$ direction, is 100 times the position:
@@ -216,7 +216,7 @@ $$w_2 \leftarrow w_2 - \eta \times 100\thinspace w_2$$
 
 $$= (1 - 100\eta)\thinspace w_2$$
 
-so each step multiplies $w_2$ by the factor $1 - 100\eta$. Three learning rates:
+so each step multiplies $w_2$ by the factor $1 - 100\eta$. Three **learning rates** (G-1068):
 
 | Learning rate $\eta$ | Factor $1 - 100\eta$ | What $w_2$ does |
 |---|---|---|
@@ -314,9 +314,9 @@ Momentum increases the step for directions whose gradients point the same way an
 
 ## 7. The role of $\beta$
 
-> **Key point:** $\beta = 0$ is plain gradient descent. $\beta$ close to 1 remembers the past for long: more speed, more overshooting. $\beta = 1$ never forgets and never settles. Usual values: 0.5, 0.9, 0.99.
+> **Key point:** $\beta = 0$ is plain **gradient descent** (G-862). $\beta$ close to 1 remembers the past for long: more speed, more **overshooting** (G-1430). $\beta = 1$ never forgets and never settles. Usual values: 0.5, 0.9, 0.99.
 
-$\beta$ is the **decay factor** (G-553): it decides how fast the influence of past velocities dies away. An old gradient's contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the velocity behaves roughly like an average of the last 10 gradients:
+$\beta$ is the **decay factor** (G-553): it decides how fast the influence of past velocities dies away. An old **gradient** (G-863)'s contribution is multiplied by $\beta$ at every step, so recent gradients count most, exactly as in an EWMA. With $\beta = 0.9$ the **velocity** (G-2085) behaves roughly like an average of the last 10 gradients:
 
 $$\frac{1}{1 - \beta} = \frac{1}{1 - 0.9} = 10$$
 
@@ -345,9 +345,9 @@ starting at $w = -3$, where the loss is about 4.9:
 1. **Faster.** The orange ball gains speed as it rolls; the blue ball moves at the pace of the slope.
 2. **Out of a local minimum.** The blue ball stops in the small dip near $w = -1.83$ (loss 1.15). The orange ball has enough speed to climb out, crosses the bump, and ends in the global minimum near $w = 2.14$ (loss $-1.24$) (Notebook).
 
-The same speed has a price: **overshooting** (G-1430). The orange ball does not stop at the [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848): it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 6, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the decay factor makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
+The same speed has a price: **overshooting** (G-1430). The orange ball does not stop at the [**global minimum**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848): it shoots past to $w = 2.85$, comes back, and swings with shrinking amplitude before settling. In Figure 6, $\beta = 0.9$ crosses the minimum again and again for the same reason. As the **decay factor** (G-553) makes the old velocities fade, the swings die out, but the time spent swinging is wasted.
 
-Momentum is still faster than plain gradient descent, but these oscillations make it slower than optimizers that damp them. The biggest problem of momentum is its momentum. The next optimizer, Nesterov accelerated gradient, reduces the swings.
+Momentum is still faster than plain gradient descent, but these oscillations make it slower than optimizers that damp them. The biggest problem of momentum is its momentum. The next optimizer, **Nesterov accelerated gradient** (G-1315), reduces the swings.
 
 > **Extra:** Escaping a dip is not guaranteed. On this curve it depends on the settings: with $\beta = 0.5$, momentum also stops in the small dip (Notebook). A ball escapes only if it has gathered enough speed before reaching the bump.
 
@@ -376,7 +376,7 @@ Figure 8 and the Notebook give:
 | Training loss, epoch 20 | 0.24 | 0.021 |
 | Validation accuracy, epoch 20 | 0.917 | 0.950 |
 
-Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps are up to 10 times longer when the gradients agree (the terminal velocity Extra in section 6), so it covers the same ground in far fewer epochs.
+Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps are up to 10 times longer when the gradients agree (the **terminal velocity** (G-1961) Extra in section 6), so it covers the same ground in far fewer epochs.
 
 ### 9.1 Momentum in Keras
 
@@ -405,10 +405,10 @@ Momentum gets to plain SGD's final loss of 0.24 by epoch 4. Its terminal steps a
 | Small local dip | stops in it | can roll through |
 | Near the minimum | arrives directly | overshoots and swings |
 
-- Momentum adds a velocity, an exponentially decaying average of past gradients, to gradient descent.
-- Gradients that agree add up (speed); gradients that flip sign cancel (less zigzag).
-- $\beta = 0$ is plain gradient descent; $\beta = 1$ never settles; 0.9 is the usual value, because $\beta$ sets how long the velocity remembers past gradients: never at 0, forever at 1.
-- The speed can carry it out of a small local minimum, and also past the global minimum: overshooting is its main weakness.
+- Momentum adds a **velocity** (G-2085), an exponentially decaying average of past gradients, to gradient descent.
+- **Gradients** (G-863) that agree add up (speed); gradients that flip sign cancel (less zigzag).
+- $\beta = 0$ is plain **gradient descent** (G-862); $\beta = 1$ never settles; 0.9 is the usual value, because $\beta$ sets how long the velocity remembers past gradients: never at 0, forever at 1.
+- The speed can carry it out of a small **local minimum** (G-1110), and also past the global minimum: overshooting is its main weakness.
 - In Keras: `SGD(learning_rate=..., momentum=0.9)`.
 
 So momentum speeds up training wherever the slopes agree (424 steps down to 59 on the valley), at the price of swings near the minimum.
@@ -433,13 +433,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Momentum (optimizer) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
 | Velocity $v$ (G-2085) | The direction and size of the current move, built from past gradients: $v_t = \beta v_{t-1} + \eta\thinspace\nabla L(w_t)$. |
+| Momentum (optimizer) (G-1258) | Gradient descent that keeps part of its past movement: each step follows an average of past gradients in which older ones count less and less (a velocity, an exponentially decaying average). |
 | Terminal velocity (G-1961) | The step size momentum reaches when every gradient is the same: $\eta g/(1-\beta)$. |
-| Decay factor $\beta$ (G-553) | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
 | Overshooting (G-1430) | Moving past the minimum because of the built-up velocity, then swinging back. |
+| Decay factor $\beta$ (G-553) | In momentum, the share of the previous update (the velocity) kept at each step; 0 gives plain gradient descent, usually 0.9. |
 | [Optimizer](../../../DL/02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#33-learning-rate-and-optimizer) (G-1401) | The rule that turns gradients into weight updates, such as plain gradient descent or Adam. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
+| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Nesterov accelerated gradient (NAG)](../../../DL/03-optimizers/DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#1-overview) (G-1315) | A version of momentum that first takes the momentum jump and then measures the gradient where it lands (the look-ahead point); seeing the slope ahead lets it brake before the minimum and swing less. |
 | [Adam](../../../DL/03-optimizers/DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | An optimizer, the rule that updates a network's weights to reduce the loss: a variant of gradient descent that keeps running averages of past gradients and of their squares, giving each weight its own step size; fairly robust to its settings, so a common default. |
 | [Contour plot](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468) | A map of a surface seen from above, with lines joining points of equal height, so a 3D shape such as a loss bowl can be drawn and read on flat paper. |
@@ -447,7 +448,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Local minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110) | A point lower than everything around it, but not the lowest overall. |
 | [Saddle point](../../../DL/03-optimizers/DL-032-optimizers-in-deep-learning/DL-032-optimizers-in-deep-learning.md#55-saddle-points) (G-1718) | A flat point that curves up in one direction and down in another. |
 | [Curvature](../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#5-the-hessian) (G-521) | How fast the slope of a surface changes; given in each direction by the Hessian. |
-| [Gradient (of the loss)](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-863) | How fast the loss changes with each weight and bias, collected in one vector (the partial derivatives of the loss); it points in the direction in which the loss rises fastest. |
 | [Learning rate ($\eta$)](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) | How strongly each update changes the model; in gradient descent, the number the slope is multiplied by to get the step size. |
 | [Exponentially weighted moving average (EWMA)](../../../DL/03-optimizers/DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#1-overview) (G-735) | A running average in which recent values count most and older values count less and less, updated as $V_t = \beta V_{t-1} + (1-\beta)\theta_t$. Momentum and Adam use it to average the gradients. |
 | [Global minimum](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-848) | The lowest point of the whole function. |

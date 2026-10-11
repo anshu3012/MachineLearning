@@ -16,23 +16,23 @@ tags: [subject/machine-learning, area/data, step/clean, concept/percentile]
 
 ## 1. Overview
 
-> **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an outlier, and we trim those rows or cap the values at the limits.
+> **Key point:** We pick a low and a high percentile, such as the 1st and the 99th; every value below the first or above the second is an **outlier** (G-1420), and we trim those rows or cap the values at the limits.
 
 [Ways to detect outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#8-ways-to-detect-outliers) listed three rules. [The z-score rule](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) covers normal features and [the IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences) covers skewed ones. This Note covers the third and simplest rule: the **percentile method** (G-1481), which works on a [**feature**](../../01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) (an input variable, one column of the data table) of any shape. Each [**observation**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) is one record (one row), here one person.
 
 Figure 1 shows the whole method, in three steps:
 
-1. choose two cut-offs;
+1. choose two **cut-offs** (G-526);
 2. turn them into a lower and an upper limit;
-3. treat the values outside them by trimming or capping.
+3. treat the values outside them by **trimming** (G-2019) or capping.
 
-Capping with percentile limits has its own name: **winsorization** (G-2123).
+Capping with **percentile** (G-1483) limits has its own name: **winsorization** (G-2123).
 
 ![The percentile method: choose two percentiles as limits, then trim or cap (winsorize)](images/overview.png){width=100%}
 
 ## 2. The percentile rule
 
-> **Key point:** Everything below the 1st percentile or above the 99th percentile is an outlier; the two cut-offs are our choice.
+> **Key point:** Everything below the 1st percentile or above the 99th percentile is an **outlier** (G-1420); the two cut-offs are our choice.
 
 ### 2.1 What a percentile says
 
@@ -40,7 +40,7 @@ Capping with percentile limits has its own name: **winsorization** (G-2123).
 
 A percentile tells where a value stands among all the others. A student whose exam score is at the 50th percentile has half the class behind them; a student at the 99th percentile has 99 percent of the class behind them. The highest score sits at the top, the 100th percentile, and the lowest at the bottom, the 0th.
 
-The $p$-th [**percentile**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) is the value that $p$% of the feature's values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's [**percentile rank**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482).
+The $p$-th [**percentile**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) is the value that $p$% of the **feature** (G-772)'s values lie below, as [percentiles in the data summary](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) explains. A percentile uses only the order of the values, never their shape. The question can also be asked the other way round: the percentile at which a given value falls is that value's [**percentile rank**](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482).
 
 Figure 2 finds a percentile rank by counting, on the heights of 14 people from the data of [Section 4](#4-the-height-and-weight-data) (every 700th person, rounded to whole inches). Watch the dots light up in two steps:
 
@@ -60,9 +60,9 @@ Both rules are in use. This Note uses the first one, "below".
 
 ### 2.2 From percentiles to limits
 
-> **Key point:** Choose a low and a high percentile; the values there are the two limits.
+> **Key point:** Choose a low and a high **percentile** (G-1483); the values there are the two limits.
 
-The idea is simple: cut off a small slice at each end of the feature, like trimming the crusts off both ends of a loaf. Everything beyond the cut is an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420). The rule treats both ends at once.
+The idea is simple: cut off a small slice at each end of the feature, like **trimming** (G-2019) the crusts off both ends of a loaf. Everything beyond the cut is an [**outlier**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420). The rule treats both ends at once.
 
 The usual **cut-offs** (G-526) are the 1st and the 99th percentile. Other common pairs are:
 
@@ -91,9 +91,9 @@ Figure 3 lines up all 10,000 heights from shortest to tallest. Watch where the t
 
 ## 3. Trimming and capping (winsorization)
 
-> **Key point:** Trimming removes the observations beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
+> **Key point:** Trimming removes the **observations** (G-1374) beyond the percentile limits; capping replaces each such value with the limit, and capping with percentile limits is called winsorization.
 
-[**Trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019), which removes the rows, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), which moves each value onto the limit it crossed, work as in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers), with the percentile limits as the limits.
+[**Trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019), which removes the rows, and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), which moves each value onto the limit it crossed, work as in [ways to treat outliers](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#7-ways-to-treat-outliers), with the **percentile** (G-1483) limits as the limits.
 
 When the capping limits are percentiles, the technique is called **winsorization**, after the statistician Charles P. Winsor (Hastings et al. 1947). Trimming with percentiles has no special name; it is simply trimming.
 
@@ -101,7 +101,7 @@ When the capping limits are percentiles, the technique is called **winsorization
 
 > **Key point:** Some people cap at the limit plus or minus a small step instead of the limit itself; neither choice is fixed, so we try both and keep what works.
 
-A few implementations do not replace an outlier with the limit itself:
+A few implementations do not replace an **outlier** (G-1420) with the limit itself:
 
 - the upper outliers become **upper limit + 1**;
 - the lower outliers become **lower limit - 1**.
@@ -110,7 +110,7 @@ The idea is to keep the capped values slightly apart from the normal ones. There
 
 ## 4. The height and weight data
 
-> **Key point:** The data has 10,000 people with their gender, height and weight; height is close to normal and its box plot shows outliers on both sides.
+> **Key point:** The data has 10,000 people with their gender, height and weight; height is close to normal and its box plot shows **outliers** (G-1420) on both sides.
 
 The data is a table of 10,000 people, 5,000 men and 5,000 women, published on Kaggle.
 
@@ -133,7 +133,7 @@ The summary numbers of `Height`:
 |---|---|---|---|---|---|---|---|
 | 10,000 | 66.37 | 3.85 | 54.26 | 63.51 | 66.32 | 69.17 | 79.00 |
 
-Figure 4 (in [Section 5](#5-finding-the-limits-and-the-outliers), where the limits are added to it) shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the feature does hold extreme values.
+Figure 4 (in [Section 5](#5-finding-the-limits-and-the-outliers), where the limits are added to it) shows the histogram: almost a bell (skewness 0.05). The box plot above it shows a few dots on both sides, so the **feature** (G-772) does hold extreme values.
 
 > **Extra:** One inch is 2.54 cm. The heights run from 54.26 inches (138 cm) to 79.00 inches (201 cm), with a mean of 66.37 inches (169 cm).
 
@@ -151,11 +151,11 @@ Figure 4 (in [Section 5](#5-finding-the-limits-and-the-outliers), where the limi
 
 ## 5. Finding the limits and the outliers
 
-> **Key point:** The 1st percentile of height is 58.13 and the 99th is 74.79; 100 heights lie below and 100 above, so 200 people are outliers.
+> **Key point:** The 1st percentile of height is 58.13 and the 99th is 74.79; 100 heights lie below and 100 above, so 200 people are **outliers** (G-1420).
 
 The two limits of [Section 2](#2-the-percentile-rule):
 
-- **lower limit:** 58.13 inches (1st percentile);
+- **lower limit:** 58.13 inches (1st **percentile** (G-1483));
 - **upper limit:** 74.79 inches (99th percentile).
 
 Figure 4 marks them as dashed lines. Exactly 100 heights lie below the lower limit (54.26 to 58.13) and 100 above the upper limit (74.79 to 79.00), in red.
@@ -177,9 +177,9 @@ The percentile limits sit well inside the box-plot whiskers. The box plot flags 
 
 ## 6. Trimming in code
 
-> **Key point:** Keeping only the observations between 58.13 and 74.79 removes 200 and leaves 9,800.
+> **Key point:** Keeping only the **observations** (G-1374) between 58.13 and 74.79 removes 200 and leaves 9,800.
 
-Trimming is a filter: keep the rows whose height lies between the two limits.
+**Trimming** (G-2019) is a filter: keep the rows whose height lies between the two limits.
 
 > **Python:** Trimming.
 >
@@ -208,7 +208,7 @@ The mean and median stay almost the same. The standard deviation drops a little,
 
 > **Key point:** Each height above 74.79 becomes 74.79 and each height below 58.13 becomes 58.13; all 10,000 rows stay.
 
-Capping goes through the feature value by value, as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) and [capping with the IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#8-capping-in-code):
+**Capping** (G-345) goes through the feature value by value, as in [capping with the z-score](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) and [capping with the IQR fences](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#8-capping-in-code):
 
 - above the upper limit: replace it with the upper limit;
 - below the lower limit: replace it with the lower limit;
@@ -216,7 +216,7 @@ Capping goes through the feature value by value, as in [capping with the z-score
 
 NumPy's **`np.where`** (G-124), called as `np.where(condition, value if true, value if false)`, does this for the whole column; two conditions need two calls, one inside the other.
 
-> **Python:** Winsorization with `np.where`.
+> **Python:** **Winsorization** (G-2123) with `np.where`.
 >
 > ```python
 > import numpy as np
@@ -254,9 +254,9 @@ Only the minimum and maximum change much: they are now exactly the limits. Figur
 
 ## 8. Choosing the cut-offs
 
-> **Key point:** Wider cut-offs, such as 0.5 and 99.5, remove less data; narrower ones, such as 5 and 95, remove more; we try a few and keep the one that gives the best results.
+> **Key point:** Wider **cut-offs** (G-526), such as 0.5 and 99.5, remove less data; narrower ones, such as 5 and 95, remove more; we try a few and keep the one that gives the best results.
 
-The percentiles decide how much data counts as an outlier, and the share is fixed by the choice itself:
+The percentiles decide how much data counts as an **outlier** (G-1420), and the share is fixed by the choice itself:
 
 | Cut-offs | Lower limit | Upper limit | Outliers |
 |---|---|---|---|
@@ -273,38 +273,38 @@ The further out the cut-offs, the less data we trim or cap. A good habit is to s
 
 ## 9. Learning the limits on the training set
 
-> **Key point:** Percentiles are learned from the data, so they should be learned on the training set only and then applied to the test set.
+> **Key point:** **Percentiles** (G-1483) are learned from the data, so they should be learned on the training set only and then applied to the test set.
 
-The limits follow the same train-only rule as the z-score limits ([learning the limits on the training set](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#11-learning-the-limits-on-the-training-set)).
+The limits follow the same train-only rule as the **z-score** (G-2141) limits ([learning the limits on the training set](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#11-learning-the-limits-on-the-training-set)).
 
 > **Extra:** With an 80/20 split (`random_state=42`), the 8,000 training rows give limits of **58.16** and **74.83**:
 >
 > - **Training set**, 8,000 rows: 80 below the lower limit, 80 above the upper limit.
 > - **Test set**, 2,000 rows: 23 below, 16 above.
 >
-> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, as expected from random sampling. Trimming the training set leaves 7,840 rows; the Notebook shows both steps.
+> On the training set the counts are exactly 1% at each end, by construction. On the test set they are only close to 1%, as expected from random sampling. **Trimming** (G-2019) the training set leaves 7,840 rows; the Notebook shows both steps.
 
 ## 10. Strengths and limits of the percentile method
 
-> **Key point:** The method is simple and works on any shape, but it always flags the chosen share of values, even when the feature has no real outliers.
+> **Key point:** The method is simple and works on any shape, but it always flags the chosen share of values, even when the feature has no real **outliers** (G-1420).
 
-- **Simple:** two percentiles give both limits; one line of code each.
-- **Shape-free:** the percentile method needs no bell shape and works on skewed features too.
+- **Simple:** two **percentiles** (G-1483) give both limits; one line of code each.
+- **Shape-free:** the **percentile method** (G-1481) needs no bell shape and works on skewed features too.
 - **Robust:** percentiles depend only on the order of the values, so extreme values cannot drag the limits out.
 
-> **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the z-score rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with only 1 value beyond its box-plot fences, would also lose 200 values (last cell of the Notebook). So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual.
+> **Extra:** The catch is the fixed share. With the 1st and 99th percentiles, exactly 2% of the rows are flagged, whatever the data looks like. `Height` is almost normal: the **z-score** (G-2141) rule finds only 7 outliers in it and the IQR rule only 8, yet the percentile rule flags 200. `Weight`, with only 1 value beyond its box-plot fences, would also lose 200 values (last cell of the Notebook). So the percentile method decides *how many* values to treat, not *whether* a value is truly unusual.
 >
 > ![Weight: the box-plot fences (green, dotted) flag 1 value, at 270 pounds; the 1st and 99th percentiles (red, dashed) flag 200](images/weight_share.png)
 >
 > In Figure 7, watch the gap between the red and the green lines: everything between them is a normal weight that the percentile rule still treats.
 >
-> The intuition: winsorization calms the tails a little; it does not hunt for errors.
+> The intuition: **winsorization** (G-2123) calms the tails a little; it does not hunt for errors.
 
 ## 11. Comparing the three detection rules
 
-> **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the percentile rule when we want to treat a fixed share of each tail in any feature.
+> **Key point:** Use the z-score rule for a normal feature, the IQR rule for a skewed one, and the **percentile** (G-1483) rule when we want to treat a fixed share of each tail in any feature.
 
-This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sigma$ the standard deviation, $Q_1$ and $Q_3$ the first and third quartile (the 25th and 75th percentiles) and $\text{IQR} = Q_3 - Q_1$. Figure 8 applies all three rules to the same `Height` feature. The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
+This Note closes the **outlier** (G-1420) group. In the table below, $\mu$ is the mean, $\sigma$ the standard deviation, $Q_1$ and $Q_3$ the first and third quartile (the 25th and 75th percentiles) and $\text{IQR} = Q_3 - Q_1$. Figure 8 applies all three rules to the same `Height` **feature** (G-772). The z-score and IQR limits lie close together near the far ends; the percentile limits sit well inside them.
 
 ![The three detection rules on Height: the z-score and IQR limits lie close to the ends and flag 7 and 8 values; the 1st and 99th percentiles lie further in and flag 200](images/three_rules.png){height=48%}
 
@@ -328,9 +328,9 @@ This Note closes the outlier group. In the table below, $\mu$ is the mean, $\sig
 | Cap (winsorize) | move values beyond a limit onto it | 10,000 rows; min 58.13, max 74.79 | keeps every row; the mean stays at 66.37 |
 | Better practice | learn the limits on the training set | 58.16 and 74.83; 39 test values outside | test rows must not shape the limits (data leakage) |
 
-- The percentile rule flags every value below a low percentile or above a high one; the cut-offs are our choice, so start wide and move them in only if the model does better.
-- Capping with percentile limits is called winsorization, so "winsorize" in code or papers means this capping step.
-- The rule works on any shape, but always flags the same share of observations (2% with 1 and 99), because the cut-offs fix the share; so on `Height` it flags 200 values where the z-score and IQR rules flag 7 and 8.
+- The **percentile** (G-1483) rule flags every value below a low percentile or above a high one; the cut-offs are our choice, so start wide and move them in only if the model does better.
+- Capping with percentile limits is called **winsorization** (G-2123), so "winsorize" in code or papers means this capping step.
+- The rule works on any shape, but always flags the same share of **observations** (G-1374) (2% with 1 and 99), because the cut-offs fix the share; so on `Height` it flags 200 values where the **z-score** (G-2141) and IQR rules flag 7 and 8.
 - Use the variables for the limits, never rounded numbers typed by hand, because rounding moved one row of 74.7857 outside the limit and removed it by mistake.
 - The limits should be learned on the training set only, so the test rows do not leak into them.
 - Together these steps answer the opening question: pick a low and a high percentile, then trim or cap every value outside them; use it to treat a fixed share of each tail, not to find truly unusual values.
@@ -355,16 +355,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Percentile method (percentile rule) (G-1481) | A way to find outliers: flag values below a low percentile or above a high one (e.g. 1st and 99th); it works for any column. |
-| Winsorization (G-2123) | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
 | Cut-offs (G-526) | The low and high percentiles chosen as outlier limits, such as the 1st and the 99th: values below the first or above the second are treated as outliers and trimmed or capped. |
+| Winsorization (G-2123) | Handling outliers by capping them at percentile limits: values beyond a chosen low or high percentile are replaced by that percentile's value. |
 | Linear interpolation (G-1092) | Placing a percentile between two neighbouring sorted values, in proportion to its position; the pandas default. |
 | `clip` (G-70) | pandas method that moves every value below a lower bound up to it and every value above an upper bound down to it. |
+| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
+| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
 | [Percentile](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483) | The value below which a given share of the data lies. |
 | [Percentile rank](../../../MA/01-descriptive-stats/MA-008-percentiles-and-box-plots/MA-008-percentiles-and-box-plots.md#32-the-percentile-of-a-given-value) (G-1482) | The percentile a given value falls at: the values below it plus half of those equal to it, as a share of all values, $(X + 0.5Y)/n \times 100$. |
-| [Outlier](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-1420) | A value far from the rest of the data. |
-| [Trimming](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) | Removing the rows that hold outliers. |
 | [Capping](../../../ML/04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345) | Replacing every value beyond a limit with the limit itself. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [`np.where`](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#10-capping-in-code) (G-124) | NumPy function that picks one value where a condition is true and another where it is false. |

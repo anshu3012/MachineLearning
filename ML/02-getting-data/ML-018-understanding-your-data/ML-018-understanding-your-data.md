@@ -213,7 +213,7 @@ A column that is mostly empty, like `Cabin`, may be dropped, or every gap filled
 
 ## 7. What does the data look like in numbers?
 
-> **Key point:** `df.describe()` summarises every numerical column with eight numbers: count, mean, standard deviation, minimum, three percentiles and maximum.
+> **Key point:** `df.describe()` summarises every numerical column with eight numbers: count, mean, standard deviation, minimum, three **percentiles** (G-1483) and maximum.
 
 The next question is what the data looks like mathematically. Numbers that summarise a column, such as its average or its range, are called **descriptive statistics**. `df.describe()` computes the common ones for every numerical column at once.
 
@@ -344,7 +344,7 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 ## 9. How are the columns related?
 
-> **Key point:** Correlation measures how two features move together, from -1 to +1; features with almost no correlation to the target may be useless.
+> **Key point:** **Correlation** (G-490) measures how two features move together, from -1 to +1; features with almost no correlation to the target may be useless.
 
 ### 9.1 Correlation
 
@@ -397,7 +397,7 @@ Not every feature in a dataset helps predict the target. Finding and removing th
 
 > **Key point:** On the Titanic, class and fare are linked to survival, while `PassengerId` is not linked at all.
 
-We only care how each feature relates to the target, `Survived`. So we compute all the correlations and keep the `Survived` column.
+We only care how each feature relates to the target, `Survived`. So we compute all the **correlations** (G-490) and keep the `Survived` column.
 
 > **Python:** Correlation with the target.
 >
@@ -441,7 +441,7 @@ The correlation check is useful at the start, and we repeat it later, after clea
 - `info` and `isnull().sum()` find the type problems and gaps to fix during cleaning, so the cleaning plan (drop a mostly empty column, fill a column with few gaps) comes from real counts.
 - `describe` gives the descriptive statistics of each numerical column; reading them closely reveals odd values, such as fares of 0, so we can check them (free tickets, crew, or a recording error) before training.
 - `df.corr()` needs `numeric_only=True` in pandas 2 and later when the table has text columns, because the bare call raises a `ValueError` on columns such as `Name`.
-- Correlation runs from -1 to +1; a feature with no link to the target, such as an ID, is a candidate for removal, because it will not help a model predict the target.
+- **Correlation** (G-490) runs from -1 to +1; a feature with no link to the target, such as an ID, is a candidate for removal, because it will not help a model predict the target.
 - Together, the seven answers are the first sketch of a new dataset: its size and shape, the problems to fix, and the columns that look useful.
 
 ## 11. Sources
@@ -464,8 +464,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Data type (dtype) (G-540) | The kind of values a column holds, such as `int64`, `float64` or `str`. |
 | Non-null (G-1337) | A cell that holds a value rather than a missing one; counting the non-null values of each column shows how much of it is missing. |
-| Standard deviation (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | Percentile (G-1483) | The value below which a given share of the data lies. |
+| Standard deviation (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | Quartiles (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
 | Duplicate row (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
 | Pearson correlation coefficient (Pearson's r) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |

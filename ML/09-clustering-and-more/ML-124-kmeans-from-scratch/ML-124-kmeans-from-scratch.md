@@ -149,7 +149,7 @@ times. For each row we keep the position of the smallest distance: 0 if the firs
 >     return np.array(cluster_group)
 > ```
 >
-> The square brackets build a list of k distances, one per centroid. `np.argmin` returns the position of the smallest value, the same as `distances.index(min(distances))`. The result has one entry per row, such as `[0, 0, 1, ...]`, and is returned as a NumPy array so it can be used for boolean indexing.
+> The square brackets build a list of k distances, one per centroid. `np.argmin` returns the position of the smallest value, the same as `distances.index(min(distances))`. The result has one entry per row, such as `[0, 0, 1, ...]`, and is returned as a NumPy array so it can be used for **boolean indexing** (G-317).
 
 ## 6. Step 4: moving the centroids
 
@@ -279,7 +279,7 @@ In the Notebook, the best of 10 starts is the good clustering (WCSS 682). scikit
 - The Euclidean distance for any number of features: `np.sqrt(np.dot(a - b, a - b))`, so the same line of code works for 2, 3 or 100 features.
 - `X[cluster_group == k].mean(axis=0)` is the new centroid of cluster k; `axis=0` gives one mean per column, a point, instead of one single number.
 - On the four blobs, k-means stopped within 10 rounds from all 30 starts; the wrong result on the students came from a bad random start, not from too few rounds.
-- Fix bad starts by restarting several times and keeping the lowest WCSS, because a lower WCSS means tighter clusters; scikit-learn's `n_init` does the same.
+- Fix bad starts by restarting several times and keeping the lowest **WCSS** (G-2102), because a lower WCSS means tighter clusters; scikit-learn's `n_init` does the same.
 - So about 40 lines of Python run the five steps of k-means and find the same clusters as scikit-learn.
 
 ## 11. Sources

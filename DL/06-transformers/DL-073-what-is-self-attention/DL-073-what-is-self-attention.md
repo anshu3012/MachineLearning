@@ -16,7 +16,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/conte
 
 ## 1. Overview
 
-> **Key point:** A word embedding (a list of numbers, a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081), that stands for a word) gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
+> **Key point:** A **word embedding** (G-2127) (a list of numbers, a [**vector**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081), that stands for a word) gives each word one fixed vector, learned from the average way the word is used. The word "bank" gets the same vector in "money bank grows" and in "river bank flows". [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) is a mechanism that takes the static embeddings of all the words of a sentence and returns new, **contextual embeddings** (G-462), in which each word's vector depends on the words around it.
 
 Every **natural language processing** (G-1305; NLP) application, whether sentiment analysis, named entity recognition or machine translation, starts from words, and computers work with numbers. The first step is always to turn words into numbers. Word embeddings do this well, but they have one weakness: they are **static** (G-1877), the same in every sentence. Self-attention is the transformer's answer to that weakness, and it is the core of the [transformer](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 
@@ -26,14 +26,14 @@ This Note explains **what** self-attention does and why it is needed. [The idea 
 
 ## 2. Prerequisites
 
-- [How one-hot encoding works](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works): a category as a vector of 0s with one 1.
+- [How one-hot encoding works](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works): a category as a **vector** (G-2081) of 0s with one 1.
 - [**Bag of words**](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250): a text as a vector of word counts.
 - [**Word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127) and Keras' `Embedding` layer.
 - [**Cosine similarity**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) (G-491): how similar two vectors are.
 
 ## 3. Turning words into numbers
 
-> **Key point:** One-hot encoding and bag of words turn words into numbers but carry no meaning. Word embeddings carry meaning: similar words get similar vectors.
+> **Key point:** One-hot encoding and bag of words turn words into numbers but carry no meaning. Word embeddings carry meaning: similar words get similar **vectors** (G-2081).
 
 Turning text into numbers is called [**vectorization**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text) (G-2084). The early methods count words (Figure 2):
 
@@ -57,11 +57,11 @@ $$= 3 + 8 = 11$$
 
 ## 4. Static embeddings hold an average meaning
 
-> **Key point:** An embedding is trained once on a whole corpus, so a word's vector reflects how the word is used **on average** in that corpus. Whatever the sentence, the word gets that one vector.
+> **Key point:** An embedding is trained once on a whole corpus, so a word's **vector** (G-2081) reflects how the word is used **on average** in that corpus. Whatever the sentence, the word gets that one vector.
 
 ### 4.1 The average, worked out
 
-> **Key point:** If "apple" is a fruit in 9 of 10 sentences, its vector leans 9 to 1 towards fruit.
+> **Key point:** If "apple" is a fruit in 9 of 10 sentences, its **vector** (G-2081) leans 9 to 1 towards fruit.
 
 Suppose we train embeddings with two dimensions, which we read as **taste** and **technology**. Sentences such as "an apple a day keeps the doctor away", "apple is healthy" and "apple is better than orange" pull the vector of "apple" towards taste; "apple makes great phones" pulls it towards technology.
 
@@ -98,11 +98,11 @@ The **nearest neighbours** (G-1306; the words whose vectors are closest) of a fe
 | apple | pie, fruit, apples, baked, banana, orange |
 | phone | telephone, cell, passport, address, number, card |
 
-"Bank" appears in 95 sentences of this corpus, and none of them mentions a river ("he works at a bank", "is there a bank near here?"). So its static vector is the money kind of bank: its cosine similarity is 0.40 with "money" and only 0.24 with "river". "Apple" is a fruit here, because the corpus never mentions the company.
+"Bank" appears in 95 sentences of this corpus, and none of them mentions a river ("he works at a bank", "is there a bank near here?"). So its **static** (G-1877) vector is the money kind of bank: its cosine similarity is 0.40 with "money" and only 0.24 with "river". "Apple" is a fruit here, because the corpus never mentions the company.
 
 ## 5. Static and contextual embeddings
 
-> **Key point:** A static embedding gives a word the same vector in every sentence. A **contextual embedding** changes the word's vector according to the other words of the sentence.
+> **Key point:** A **static embedding** (G-1877) gives a word the same vector in every sentence. A **contextual embedding** changes the word's **vector** (G-2081) according to the other words of the sentence.
 
 Static embeddings are trained once and then used again and again, in every sentence. That is the problem. Suppose we translate into Hindi the sentence
 
@@ -120,11 +120,11 @@ An embedding that changes with the sentence is a **contextual embedding** (SLP3 
 
 ## 6. Self-attention: static in, contextual out
 
-> **Key point:** Self-attention is a function: the static embeddings of all the words of a sentence go in, one contextual embedding per word comes out. In the Notebook, "bank" moves towards "river" in "river bank flows" and towards "money" in "money bank grows".
+> **Key point:** **Self-attention** (G-1763) is a function: the static embeddings of all the words of a sentence go in, one contextual embedding per word comes out. In the Notebook, "bank" moves towards "river" in "river bank flows" and towards "money" in "money bank grows".
 
-**Self-attention** is a mechanism that turns static embeddings into contextual embeddings. Think of it as a box (Figure 1). The embeddings of all the words of a sentence go in together ($e$ for an input embedding): $e_{\text{river}}, e_{\text{bank}}, e_{\text{flows}}$. Some calculations happen inside, and one new vector per word comes out ($y$ for an output): $y_{\text{river}}, y_{\text{bank}}, y_{\text{flows}}$. Each output is a **contextual embedding**: it takes into account how the word is used in this sentence. The original paper describes self-attention as "an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence" (Vaswani et al. 2017, section 2). The transformer then uses these contextual embeddings in its later layers.
+**Self-attention** is a mechanism that turns **static embeddings** (G-1877) into contextual embeddings. Think of it as a box (Figure 1). The embeddings of all the words of a sentence go in together ($e$ for an input embedding): $e_{\text{river}}, e_{\text{bank}}, e_{\text{flows}}$. Some calculations happen inside, and one new **vector** (G-2081) per word comes out ($y$ for an output): $y_{\text{river}}, y_{\text{bank}}, y_{\text{flows}}$. Each output is a **contextual embedding**: it takes into account how the word is used in this sentence. The original paper describes self-attention as "an attention mechanism relating different positions of a single sequence in order to compute a representation of the sequence" (Vaswani et al. 2017, section 2). The transformer then uses these **contextual embeddings** (G-462) in its later layers.
 
-The Notebook passes the two phrases through the simplest form of self-attention, the one the next Note builds from scratch, with the real embeddings of section 4.2. The cosine similarity of the vector for "bank" with "money" and with "river":
+The Notebook passes the two phrases through the simplest form of self-attention, the one the next Note builds from scratch, with the real embeddings of section 4.2. The **cosine similarity** (G-491) of the vector for "bank" with "money" and with "river":
 
 | Vector for "bank" | Similarity to "money" | Similarity to "river" |
 |---|---|---|
@@ -151,10 +151,10 @@ How the box computes its output, and how it learns to do so for a particular tas
 | "bank" in "river bank flows" | the money meaning (similarity 0.24 to "river") | moved to the river meaning (0.71) |
 | Produced by | an embedding (Word2Vec, GloVe, Keras `Embedding`) | self-attention |
 
-- Every NLP task starts by turning words into numbers, because computers work with numbers: one-hot, bag of words, TF-IDF, then word embeddings, which capture meaning where the counting methods keep every pair of words equally far apart.
-- A static embedding holds the average meaning of a word in its training corpus, because it is trained once over every use of the word and then looked up from a table that ignores the neighbours.
-- A word with several meanings needs a vector that depends on the sentence: a contextual embedding, because otherwise "bank" in "river bank flows" keeps the money meaning.
-- Self-attention takes the static embeddings of a sentence and returns contextual embeddings, one per word, so the neighbours alone can move "bank" to the river meaning (0.71 to "river").
+- Every NLP task starts by turning words into numbers, because computers work with numbers: one-hot, bag of words, TF-IDF, then **word embeddings** (G-2127), which capture meaning where the counting methods keep every pair of words equally far apart.
+- A **static embedding** (G-1877) holds the average meaning of a word in its training corpus, because it is trained once over every use of the word and then looked up from a table that ignores the neighbours.
+- A word with several meanings needs a **vector** (G-2081) that depends on the sentence: a contextual embedding, because otherwise "bank" in "river bank flows" keeps the money meaning.
+- **Self-attention** (G-1763) takes the static embeddings of a sentence and returns contextual embeddings, one per word, so the neighbours alone can move "bank" to the river meaning (0.71 to "river").
 - That is what self-attention is for: fixing the one weakness of word embeddings, that they are the same in every sentence.
 
 ## 8. Sources
@@ -181,11 +181,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Static embedding (G-1877) | An embedding that gives a word the same vector in every sentence, so "bank" gets one vector in both "money bank" and "river bank"; self-attention fixes this by making the vector depend on context. |
 | PPMI (G-1544) | Positive pointwise mutual information: a score of how much more often two words appear together than by chance, with negative scores set to 0. |
 | Average meaning (G-237) | What a static embedding stores: the word's meaning averaged over all its uses in the training corpus. |
+| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Vector](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-2081) | A list of numbers: a 1D tensor. |
 | [Self-attention (intra-attention)](../../../DL/06-transformers/DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) | Attention in which the words of one sequence attend to each other (the queries, keys and values all come from that sequence); it gives each word a new vector that depends on the words around it. |
 | [Natural language processing (NLP)](../../../ML/01-foundations/ML-008-applications-of-ml/ML-008-applications-of-ml.md#71-sentiment-analysis) (G-1305) | The part of ML that works with human language. |
 | [Bag of words](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#42-bag-of-words) (G-250) | The simplest way to turn texts into feature vectors: list every unique word (the vocabulary), give each word one dimension, and count how often each word appears in the text. |
-| [Word embedding](../../../DL/05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127) | A learned real-valued vector for each word; words used in similar ways get nearby vectors. |
 | [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#61-two-phrases-as-two-arrows) (G-491) | A score from -1 to 1 for how closely two vectors point the same way: the cosine of the angle between them. It ignores their lengths, so it compares texts or word embeddings by direction only. |
 | [Vectorization (of data)](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#62-3d-text) (G-2084) | Converting data such as text into vectors of numbers, because ML algorithms work only with numbers. |
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |

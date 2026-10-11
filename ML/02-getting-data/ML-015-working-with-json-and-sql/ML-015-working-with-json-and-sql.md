@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/data, step/get-data, concept/json-sql]
 
 ## 1. Overview
 
-> **Key point:** pandas reads JSON files, JSON from the web and tables from SQL databases straight into a **DataFrame** (G-1441; pandas' table of rows and columns), just as `read_csv` reads a CSV file.
+> **Key point:** pandas reads JSON files, JSON from the web and tables from **SQL** (G-1857) databases straight into a **DataFrame** (G-1441; pandas' table of rows and columns), just as `read_csv` reads a CSV file.
 
 CSV is not the only way data arrives. Two other formats are everywhere: **JSON**, the format of most web services, and **SQL databases**, where companies keep most of their records. `pandas` is the Python library for tables of data; its DataFrame is introduced in [loading and cleaning the data](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#3-loading-and-cleaning-the-data). Figure 1 shows the three sources covered here and the pandas function that turns each one into a DataFrame.
 
@@ -65,7 +65,7 @@ A request written in SQL is called a **query**. Company data (customers, orders,
 
 ## 4. Reading a JSON file
 
-> **Key point:** `pd.read_json("file.json")` turns a JSON file into a DataFrame, with one row per object and one column per key.
+> **Key point:** `pd.read_json("file.json")` turns a **JSON** (G-987) file into a DataFrame, with one row per object and one column per key.
 
 Our example is a recipe dataset, `train.json`, from a Kaggle competition. Each recipe has three things:
 
@@ -111,7 +111,7 @@ Figure 4 counts the dishes of each cuisine. There are 20 cuisines, and they are 
 | `nrows` | Read only the first few rows |
 | `chunksize` | Read a large file a piece at a time, so it does not fill the computer's memory (RAM) |
 
-The pandas documentation for `read_json` lists every option. Trying the options is worthwhile on a few different JSON datasets.
+The pandas documentation for `read_json` lists every option. Trying the options is worthwhile on a few different **JSON** (G-987) datasets.
 
 > **Extra:** `nrows` and `chunksize` only work with `lines=True`. The `lines=True` setting is for **JSON Lines** files (`.jsonl`), which hold one JSON object per line instead of one big list. `train.json` is one big list, so `pd.read_json("data/train.json", nrows=5)` gives an error: "nrows can only be passed if lines=True".
 
@@ -121,7 +121,7 @@ The pandas documentation for `read_json` lists every option. Trying the options 
 
 > **Key point:** `read_json` also accepts a web address, so we can load an API's reply directly into a DataFrame.
 
-The file does not have to be on our computer. If a web address returns JSON, we pass the address instead of a file name.
+The file does not have to be on our computer. If a web address returns **JSON** (G-987), we pass the address instead of a file name.
 
 Our example is a free exchange-rate API. The address below returns how much one Indian rupee is worth in every other currency, updated daily.
 
@@ -148,7 +148,7 @@ On 3 October 2026, one rupee was worth 0.0104 US dollars, 0.00923 euros and 1.64
 
 ## 6. Getting an SQL database ready
 
-> **Key point:** Before Python can read SQL data, the data must be loaded into a database; here that is the `world` database with three tables.
+> **Key point:** Before Python can read **SQL** (G-1857) data, the data must be loaded into a database; here that is the `world` **database** (G-544) with three tables.
 
 Our example is the `world` dataset, shared as one file, `world.sql`. A `.sql` file is a list of SQL commands that create tables and fill them with rows.
 
@@ -177,18 +177,18 @@ After the import, the database holds three tables (Figure 6):
 
 ## 7. Connecting Python to the database
 
-> **Key point:** A connector library builds a bridge between Python and the database; through that connection, pandas sends queries and gets back rows.
+> **Key point:** A connector library builds a bridge between Python and the **database** (G-544); through that connection, pandas sends queries and gets back rows.
 
 Python and a database are two separate programs. To let them talk, we need a **connector**: a library that opens a **connection** between them.
 
-For MySQL the connector is `mysql.connector`; for SQLite it is `sqlite3`, which comes with Python. Figure 7 shows the bridge.
+For MySQL the connector is `mysql.connector`; for **SQLite** (G-1859) it is `sqlite3`, which comes with Python. Figure 7 shows the bridge.
 
 ![Python talks to the database through a connection](images/sql_flow.png)
 
 To connect to MySQL, we tell `connect` four things:
 
-- **host:** the address of the machine running the database server. `localhost` means our own computer; a database on a remote server (for example on AWS) would need that server's address.
-- **user:** the user name. With XAMPP it starts as `root`.
+- **host:** the address of the machine running the **database server** (G-543). `localhost` means our own computer; a database on a remote server (for example on AWS) would need that server's address.
+- **user:** the user name. With **XAMPP** (G-2130) it starts as `root`.
 - **password:** with XAMPP it starts empty, `""`.
 - **database:** which database on the server to use, here `world`.
 
@@ -213,7 +213,7 @@ To connect to MySQL, we tell `connect` four things:
 
 ## 8. Reading query results into a DataFrame
 
-> **Key point:** `pd.read_sql_query(query, conn)` runs an SQL query through the connection and returns the result as a DataFrame.
+> **Key point:** `pd.read_sql_query(query, conn)` runs an **SQL** (G-1857) query through the connection and returns the result as a DataFrame.
 
 `read_sql_query` needs two things: the query, written as text, and the connection. To get the whole `city` table, the query is `SELECT * FROM city`: `SELECT *` means "give me all columns" and `FROM city` names the table the columns come from.
 
@@ -233,9 +233,9 @@ To connect to MySQL, we tell `connect` four things:
 
 ### 8.1 Filtering rows with WHERE
 
-> **Key point:** Changing the query changes what comes back; `WHERE` lets the database filter rows before they reach pandas.
+> **Key point:** Changing the query changes what comes back; `WHERE` lets the **database** (G-544) filter rows before they reach pandas.
 
-Anyone who knows SQL can shape the data with the query itself. To keep only Indian cities, we add `WHERE CountryCode = 'IND'`: 341 rows come back instead of 4,079. Changing `'IND'` to `'USA'` gives the 274 American cities (Figure 8).
+Anyone who knows **SQL** (G-1857) can shape the data with the query itself. To keep only Indian cities, we add `WHERE CountryCode = 'IND'`: 341 rows come back instead of 4,079. Changing `'IND'` to `'USA'` gives the 274 American cities (Figure 8).
 
 ![WHERE keeps only the matching rows](images/sql_where.png)
 
@@ -276,7 +276,7 @@ The same works on any table. To get every country whose life expectancy is above
 >     print(chunk.shape)   # (1000, 5) four times, then (79, 5)
 > ```
 
-There are other ways to work with SQL from Python, but this one is simple and covers most needs. Getting data from an API, with more control than a single URL, comes in the next Note.
+There are other ways to work with **SQL** (G-1857) from Python, but this one is simple and covers most needs. Getting data from an API, with more control than a single URL, comes in the next Note.
 
 ## 9. Summary
 
@@ -286,11 +286,11 @@ There are other ways to work with SQL from Python, but this one is simple and co
 | JSON from a URL | The web address | `read_json` | 166 exchange rates, 7 columns |
 | SQL database | A connection and a query | `read_sql_query` | 4,079 cities; 341 in India |
 
-- JSON is the universal text format that APIs reply in, because almost every programming language can read and write it; objects become rows and keys become columns.
+- **JSON** (G-987) is the universal text format that APIs reply in, because almost every programming language can read and write it; objects become rows and keys become columns.
 - `read_json` takes a file name or a URL, so an API's reply loads straight into a DataFrame. `nrows` and `chunksize` need `lines=True`, because they work only on JSON Lines files, with one object per line.
-- SQL is the language for querying databases. A connector (`mysql.connector`, `sqlite3`) opens the connection, because Python and the database are two separate programs.
+- **SQL** (G-1857) is the language for querying databases. A connector (`mysql.connector`, `sqlite3`) opens the connection, because Python and the **database** (G-544) are two separate programs.
 - `read_sql_query` runs the query and returns a DataFrame. `WHERE` filters rows inside the database, so only the rows we need reach pandas (341 Indian cities instead of all 4,079).
-- The pandas code is the same for MySQL and SQLite; only the connection changes, so the Notebook can use the SQLite file and skip installing a database server.
+- The pandas code is the same for MySQL and **SQLite** (G-1859); only the connection changes, so the Notebook can use the SQLite file and skip installing a database server.
 
 ## 10. Sources
 
@@ -310,8 +310,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| JSON (JavaScript Object Notation) (G-987) | A plain-text format for structured data, made of objects and arrays, that almost every language can read; used by APIs. |
 | SQL (Structured Query Language) (G-1857) | The language for asking a database for data. |
+| JSON (JavaScript Object Notation) (G-987) | A plain-text format for structured data, made of objects and arrays, that almost every language can read; used by APIs. |
 | Database (G-544) | A program that stores data as tables and answers queries. |
 | `read_json` (G-130) | pandas function that reads JSON from a file or a URL into a DataFrame. |
 | Database server (G-543) | A program that holds databases and answers queries, such as MySQL. |

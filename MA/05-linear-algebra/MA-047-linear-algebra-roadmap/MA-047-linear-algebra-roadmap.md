@@ -14,7 +14,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/linear-alge
 
 ## 1. Overview
 
-> **Key point:** Linear algebra for ML splits into eight modules: scalars, vectors, matrices, tensors, eigenvalues and eigenvectors, matrix factorisation, advanced topics, and tools.
+> **Key point:** Linear algebra for ML splits into eight modules: scalars, vectors, matrices, tensors, eigenvalues and eigenvectors, **matrix factorisation** (G-1177), advanced topics, and tools.
 
 ![The eight modules of linear algebra for ML](images/roadmap.png){height=62%}
 
@@ -39,11 +39,11 @@ Why ML needs it (high dimensions, data as numbers, GPU speed) is explained in [w
 
 ### 2.1 A neural network is matrix maths
 
-> **Key point:** One layer of a neural network is three steps of linear algebra: multiply a vector by a matrix, add a vector, and set the negative numbers to 0.
+> **Key point:** One layer of a neural network is three steps of linear algebra: multiply a vector by a **matrix** (G-1180), add a vector, and set the negative numbers to 0.
 
 The models do their work with the same objects. Figure 3 follows one iris flower through one layer of a [**neural network**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316), with numbers picked by hand so that every step can be checked:
 
-1. **Multiply.** The flower is the vector $[0.5, 0.4]$: its petal width and its sepal width, both rescaled to lie between 0 and 1 (a raw iris sepal width is 2 to 4.4 cm, never 0.4). The layer's [**weights**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
+1. **Multiply.** The flower is the **vector** (G-2081) $[0.5, 0.4]$: its petal width and its sepal width, both rescaled to lie between 0 and 1 (a raw iris sepal width is 2 to 4.4 cm, never 0.4). The layer's [**weights**](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-2106) form a matrix. Multiplying the vector by the matrix gives two new numbers, each a sum of the inputs times one column of weights. In Figure 3 the weight matrix has the rows $[-2, -1]$ and $[1, 0.5]$, so, one entry per line:
 
    $$0.5 \times (-2) = -1$$
 
@@ -75,10 +75,10 @@ The next layer repeats the same three steps on $[0.6, 0]$ with its own weights a
 
 Every topic on the roadmap can be known in two ways:
 
-- **Numerically:** how to carry out the operation, such as multiplying two matrices or finding an eigenvalue by hand.
-- **Geometrically:** what the operation does to arrows and to space, such as a matrix turning and stretching every vector.
+- **Numerically:** how to carry out the operation, such as multiplying two matrices or finding an **eigenvalue** (G-665) by hand.
+- **Geometrically:** what the operation does to arrows and to space, such as a **matrix** (G-1180) turning and stretching every vector.
 
-The numeric skill carries a calculation through. The geometric skill tells us which tool fits a problem, why the tool works and how to read its result. NumPy does the numeric half for us (section 4.8), so the geometric half is the one worth our time. The maths Notes that follow therefore start each topic from its picture and then give the numbers.
+The numeric skill carries a calculation through. The geometric skill tells us which tool fits a problem, why the tool works and how to read its result. **NumPy** (G-1369) does the numeric half for us (section 4.8), so the geometric half is the one worth our time. The maths Notes that follow therefore start each topic from its picture and then give the numbers.
 
 ## 3. How to read the roadmap
 
@@ -92,13 +92,13 @@ The roadmap marks every topic in three ways:
 
 - **Importance.** A *very important* topic appears almost everywhere in ML and DL; an *important* topic appears in several places; a *normal* topic is still worth learning.
 - **"Later".** A few specialised topics are needed only by particular algorithms. We can skip them now and learn them when we reach that algorithm. Most of them sit in the last modules.
-- **Why it matters.** Every topic comes with a one-line description and where ML and DL use it. For example, vectors represent data points in ML, and features, weights and biases in DL.
+- **Why it matters.** Every topic comes with a one-line description and where ML and DL use it. For example, **vectors** (G-2081) represent data points in ML, and features, weights and biases in DL.
 
 Everything not marked "later" is worth covering in one go before moving deep into ML and DL.
 
 ## 4. The eight modules
 
-> **Key point:** Vectors and matrices are the core; tensors, eigenvectors and factorisations build on them; a few advanced topics wait until an algorithm needs them.
+> **Key point:** Vectors and matrices are the core; **tensors** (G-1957), eigenvectors and factorisations build on them; a few advanced topics wait until an algorithm needs them.
 
 ![A preview of six modules, each picture taken from the Note that teaches it: a vector as a point (Note MA-048), cosine similarity (Note MA-050), matrices as transformations (Note MA-053), tensors (Note ML-010), eigenvectors (Note MA-056) and the eigen-decomposition in PCA (Note ML-047)](images/module_thumbs.png){width=85%}
 
@@ -112,7 +112,7 @@ Figure 5 shows what each module looks like once we study it; the subsection numb
 
 ### 4.2 Vectors
 
-> **Key point:** Vectors are where linear algebra starts, and where ML data starts: every observation of a dataset is a vector.
+> **Key point:** **Vectors** (G-2081) are where linear algebra starts, and where ML data starts: every observation of a dataset is a vector.
 
 Each **observation** (G-1374; one record, one row of the data table) is a vector. This module tries to cover everything about vectors that ML uses:
 
@@ -130,9 +130,9 @@ Each **observation** (G-1374; one record, one row of the data table) is a vector
 
 ### 4.3 Matrices
 
-> **Key point:** Matrices come in two parts: the school-level mechanics, then the intuition of what a matrix does.
+> **Key point:** Matrices come in two parts: the school-level mechanics, then the intuition of what a **matrix** (G-1180) does.
 
-The first part is the mechanics taught in school mathematics (classes 11 and 12): what matrices are, types of matrices, operations with a scalar and with a vector, the inverse and the determinant.
+The first part is the mechanics taught in school mathematics (classes 11 and 12): what matrices are, types of matrices, operations with a **scalar** (G-1743) and with a vector, the inverse and the determinant.
 
 The second part is conceptual: the rank of a matrix, column space, change of basis, solving a system of linear equations, linear transformations, and the dot product seen as the engine of matrix multiplication. [**Linear transformations**](../MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) are marked very important.
 
@@ -146,13 +146,13 @@ What a [**tensor**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#
 
 ### 4.5 Eigenvalues and eigenvectors
 
-> **Key point:** Eigenvectors are the directions a matrix only stretches; PCA is built on them.
+> **Key point:** Eigenvectors are the directions a **matrix** (G-1180) only stretches; PCA is built on them.
 
 Anyone who has studied PCA has met [**eigenvalues**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) and [**eigenvectors**](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666). They are taught in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues), and in depth in [eigenvectors stay on their own span](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span).
 
 ### 4.6 Matrix factorisation
 
-> **Key point:** Factorising a matrix splits it into simpler matrices; LU, QR, eigen-decomposition and SVD are the ones ML meets.
+> **Key point:** Factorising a **matrix** (G-1180) splits it into simpler matrices; LU, QR, eigen-decomposition and SVD are the ones ML meets.
 
 **Matrix factorisation** (G-1177), or **decomposition**, writes one matrix as a product of simpler ones. Four techniques are marked important: LU decomposition, QR decomposition, eigen-decomposition and SVD (singular value decomposition). Eigen-decomposition appears in [the eigenvectors of PCA](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#43-the-eigenvectors-of-the-covariance-matrix) and [the eigenbasis](../MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#6-the-eigenbasis); SVD starts in [every matrix turns a circle into an ellipse](../MA-057-svd-geometry/MA-057-svd-geometry.md#3-every-matrix-turns-a-circle-into-an-ellipse); LU and QR come in a later maths Note.
 
@@ -185,7 +185,7 @@ All linear algebra in the ML and DL world runs through **NumPy** (G-1369), so a 
 > np.linalg.eig(A)               # eigenvalues, eigenvectors
 > ```
 >
-> Figure 6 draws what the last lines compute: the length of $v$ is 5, and $A$ has eigenvalues 1.38 and 3.62, so it stretches its two eigenvectors by those factors without turning them.
+> Figure 6 draws what the last lines compute: the length of $v$ is 5, and $A$ has **eigenvalues** (G-665) 1.38 and 3.62, so it stretches its two eigenvectors by those factors without turning them.
 
 ![Left: v = (3, 4) has length 5. Right: A = [[2, 1], [1, 3]] stretches its eigenvectors (thick arrows) by its eigenvalues 1.38 and 3.62 (thin arrows), along the same lines.](images/numpy_outputs.png){height=34%}
 
@@ -195,7 +195,7 @@ All linear algebra in the ML and DL world runs through **NumPy** (G-1369), so a 
 
 **Lesson series:**
 
-- **Sanderson, G., *Essence of Linear Algebra*, 3Blue1Brown, 3blue1brown.com.** An animated series that builds the geometric intuition for vectors, matrices and transformations. Each lesson is dense, so it pays to go through it more than once.
+- **Sanderson, G., *Essence of Linear Algebra*, 3Blue1Brown, 3blue1brown.com.** An animated series that builds the geometric intuition for **vectors** (G-2081), matrices and transformations. Each lesson is dense, so it pays to go through it more than once.
 - **Strang, G., *18.06 Linear Algebra*, MIT OpenCourseWare, ocw.mit.edu.** About 35 lectures by a renowned professor. The course covers far more than ML needs, but it is the place for depth.
 
 **Books:**
@@ -209,9 +209,9 @@ All linear algebra in the ML and DL world runs through **NumPy** (G-1369), so a 
 - **Khan Academy, Linear Algebra.**
 - **Coursera, Mathematics for Machine Learning: Linear Algebra** (Imperial College London).
 
-The vectors Notes that follow this one cover the first module in depth; the rest of the matrix and eigen topics come in later maths Notes.
+The vectors Notes that follow this one cover the first module in depth; the rest of the **matrix** (G-1180) and eigen topics come in later maths Notes.
 
-> **Extra:** One more free book worth knowing: *Mathematics for Machine Learning* by Deisenroth, Faisal and Ong (mml-book.github.io). Its chapters 2 to 4 (Linear Algebra, Analytic Geometry, Matrix Decompositions) cover the vectors, matrices, eigenvalues and factorisations of this roadmap, including SVD in section 4.5.
+> **Extra:** One more free book worth knowing: *Mathematics for Machine Learning* by Deisenroth, Faisal and Ong (mml-book.github.io). Its chapters 2 to 4 (Linear Algebra, Analytic Geometry, Matrix Decompositions) cover the vectors, matrices, **eigenvalues** (G-665) and factorisations of this roadmap, including SVD in section 4.5.
 
 ## 6. Summary
 
@@ -229,7 +229,7 @@ The vectors Notes that follow this one cover the first module in depth; the rest
 - Statistics and linear algebra are the two pillars of ML and DL: statistics is how we see the data, and linear algebra stores it and does every calculation on it.
 - Learn the unmarked topics in one go, because they appear almost everywhere in ML and DL; leave the "later" topics until an algorithm needs them, because only that algorithm uses them.
 - For every topic, know where ML uses it, so each "later" topic can be picked up when its algorithm arrives.
-- Learn each topic's picture as well as its numbers, because NumPy does the numbers and the picture tells which tool fits a problem.
+- Learn each topic's picture as well as its numbers, because **NumPy** (G-1369) does the numbers and the picture tells which tool fits a problem.
 - So the roadmap answers, module by module, which linear algebra ML needs now and which can wait.
 
 ## 7. Sources
@@ -262,13 +262,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bias (of a perceptron)](../../../DL/01-basics/DL-004-perceptron/DL-004-perceptron.md#31-inputs-weights-and-bias) (G-284) | The weight on a constant input of 1; it shifts the boundary away from the origin. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
-| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Tensor](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) | A container of numbers arranged along one or more axes. |
+| [Scalar](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1743) | A single number, such as 5 or -6: a 0D tensor; multiplying a vector by it scales the vector, which is where the name comes from. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Linear transformation](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097) | A change of the whole plane by a matrix that keeps grid lines straight and evenly spaced, and the origin fixed; algebraically, $L(\mathbf{v} + \mathbf{w}) = L(\mathbf{v}) + L(\mathbf{w})$ and $L(c\mathbf{v}) = cL(\mathbf{v})$. |
 | [Normal equation](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-1344) | A formula that gives all linear-regression coefficients in one step, with no iterations (a closed-form solution): $\beta = (X^{\mathsf T}X)^{-1}X^{\mathsf T}y$. |
 | [Composition](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#22-following-the-basis-vectors) (G-431) | Applying one transformation and then another, seen as one overall transformation. |
-| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
 | [Quadratic form](../../../MA/07-optimisation/MA-068-linear-and-quadratic-programming/MA-068-linear-and-quadratic-programming.md#31-the-problem) (G-1597) | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
 | [Moore–Penrose pseudo-inverse ($A^{+}$)](../../../MA/05-linear-algebra/MA-060-svd-in-machine-learning/MA-060-svd-in-machine-learning.md#51-inverting-the-svd) (G-1262) | The closest thing to an inverse for a matrix that is not square or has no inverse (a generalised inverse): the SVD inverted with zero singular values left at zero, $V\Sigma^{+}U^{\mathsf T}$. |

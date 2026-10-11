@@ -24,7 +24,7 @@ Every call to `fit` needs a number of **epochs** (G-696; full passes over the tr
 In Figure 1 the horizontal axis is the epoch and the vertical axis is the loss. The blue line is the loss on the training data, and the orange line is the **validation loss**: the loss on held-out data (observations not used to adjust the weights). Watch where the orange line turns upward. The Note has three parts:
 
 1. section 3 trains a network for 3,500 epochs and watches it overfit;
-2. section 4 adds the `EarlyStopping` callback;
+2. section 4 adds the `EarlyStopping` **callback** (G-341);
 3. section 5 explains its settings.
 
 The Notebook (`DL-022-early-stopping.ipynb`) runs every step.
@@ -120,7 +120,7 @@ In Figure 2 and in the right panel of Figure 3, the background colour is the cla
 
 ## 4. Early stopping in Keras
 
-> **Key point:** An `EarlyStopping` object passed to `fit` as a callback stops training once the validation loss has not improved for a set number of epochs.
+> **Key point:** An `EarlyStopping` object passed to `fit` as a **callback** (G-341) stops training once the validation loss has not improved for a set number of epochs.
 
 ### 4.1 Callbacks
 
@@ -134,7 +134,7 @@ Keras implements early stopping as a **callback** (G-341): an object whose code 
 
 We build and compile exactly the same network, with the same starting weights. Then we create an `EarlyStopping` object and pass it to `fit` in a list.
 
-> **Python:** Adding the callback.
+> **Python:** Adding the **callback** (G-341).
 >
 > ```python
 > from keras.callbacks import EarlyStopping
@@ -162,7 +162,7 @@ Training stops by itself at epoch 503 (Figure 1, right). The best validation los
 2. waited 50 epochs for a real improvement;
 3. saw none, and stopped.
 
-Figure 3 replays this run. The black dot marks the best epoch as Keras counts it, with `min_delta`: epoch 453, not 469. Watch the patience counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
+Figure 3 replays this run. The black dot marks the best epoch as Keras counts it, with `min_delta`: epoch 453, not 469. Watch the **patience** (G-1466) counter: it stays at 0 while the validation loss keeps falling, climbs once the curve flattens, and stops training at 50. The second part lets the same run go on to epoch 3,500: the validation loss rises, while the decision boundary barely changes.
 
 ![Early stopping as it happens. Left: training and validation loss with Keras' patience counter and the best epoch so far (black dot). Right: the decision boundary at the same epoch. After the stop at epoch 503, the same run continues without early stopping to epoch 3,500](images/early_stop_anim.gif){width=100%}
 
@@ -217,7 +217,7 @@ In Figure 4 the horizontal axis is the epoch and the vertical axis is the valida
 
 > **Key point:** Stop if the monitored quantity does not beat a given value; rarely used.
 
-`baseline` is a value the monitored quantity must beat. If it does not improve on the baseline within the patience window, training stops. Choosing such a number needs a good understanding of the data, so it is usually left at `None`.
+`baseline` is a value the monitored quantity must beat. If it does not improve on the baseline within the **patience** (G-1466) window, training stops. Choosing such a number needs a good understanding of the data, so it is usually left at `None`.
 
 ### 5.4 restore_best_weights
 
@@ -225,7 +225,7 @@ In Figure 4 the horizontal axis is the epoch and the vertical axis is the valida
 
 When training stops at epoch 503, the model holds the weights of epoch 503, not of the best epoch 469. With `restore_best_weights=True`, Keras keeps a copy of the best weights and puts them back at the end.
 
-Here the difference is tiny: validation loss 0.449 with the restored weights against 0.450 without, because the loss barely moved in those 34 epochs. With a larger patience or a faster-rising validation loss, the difference grows, so `True` is a sensible choice to try.
+Here the difference is tiny: validation loss 0.449 with the restored weights against 0.450 without, because the loss barely moved in those 34 epochs. With a larger **patience** (G-1466) or a faster-rising validation loss, the difference grows, so `True` is a sensible choice to try.
 
 ## 6. Summary
 
@@ -236,9 +236,9 @@ Here the difference is tiny: validation loss 0.449 with the restored weights aga
 | Risk | overfitting, wasted time | stopping too early if patience is small |
 
 - Training too long overfits: the training loss falls while the validation loss rises.
-- `EarlyStopping` is a callback: it checks the validation loss after every epoch and stops when it has not improved for `patience` epochs, so training ends soon after the best epoch without guessing.
+- `EarlyStopping` is a **callback** (G-341): it checks the validation loss after every epoch and stops when it has not improved for `patience` epochs, so training ends soon after the best epoch without guessing.
 - Monitor a validation score, because that is where overfitting shows; leave `mode="auto"`, because Keras works out from the name whether lower or higher is better.
-- Give it enough patience to ride out short bumps; consider `restore_best_weights=True`, so the model ends with the weights of the best epoch, not the last one.
+- Give it enough **patience** (G-1466) to ride out short bumps; consider `restore_best_weights=True`, so the model ends with the weights of the best epoch, not the last one.
 
 So the number of epochs no longer has to be guessed: set a large limit and let the validation loss decide when to stop (503 epochs here instead of 3,500).
 

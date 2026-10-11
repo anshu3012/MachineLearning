@@ -16,7 +16,7 @@ tags: [subject/machine-learning, area/descriptive, area/models-1, step/foundatio
 
 ## 1. Overview
 
-> **Key point:** Numerical features rarely repeat exactly, so counting fails. Gaussian Naive Bayes assumes each feature follows a normal distribution within each class, and uses the normal curve's height (density) in place of a counted probability.
+> **Key point:** Numerical features rarely repeat exactly, so counting fails. Gaussian Naive Bayes assumes each feature follows a **normal distribution** (G-1343) within each class, and uses the normal curve's height (density) in place of a counted probability.
 
 So far every **feature** (G-772; input variable, one column of the data table) was categorical, so probabilities came from counting. This Note handles **numerical** features such as height or weight, and introduces **Gaussian Naive Bayes** (G-830), the most common variant for them.
 
@@ -72,7 +72,7 @@ In Figure 1, watch the gap at 185 cm: counting puts all its probability on the e
 
 > **Key point:** Assume each feature is normally distributed within each class. Estimate the mean and standard deviation, then read off the curve's height at the new value.
 
-Gaussian Naive Bayes assumes that, within each class, each numerical feature follows a **normal** (Gaussian) [**distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343), the bell curve (see [what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
+**Gaussian Naive Bayes** (G-830) assumes that, within each class, each numerical feature follows a **normal** (Gaussian) [**distribution**](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343), the bell curve (see [what the normal distribution is](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)).
 
 For each class and each feature, three steps:
 
@@ -166,7 +166,7 @@ The male height row was worked out in [Section 3](#3-the-assumption-normal-distr
 | female, height | 185 - 165.12 = 19.88 | 2.089 | 0.1128 | 23.85 | 0.00473 |
 | female, weight | 170 - 132.50 = 37.50 | 1.587 | 0.2838 | 59.23 | 0.00479 |
 
-Now the scores, multiplying the prior and the two densities, one product per line:
+Now the scores, multiplying the **prior** (G-1565) and the two densities, one product per line:
 
 Male:
 
@@ -240,7 +240,7 @@ The log is an increasing function, so the class with the larger score also has t
 
 > **Key point:** The feature whose two curve heights differ most has the largest say.
 
-Both priors are 0.5, so the 49-fold gap between the scores comes only from the densities. Figure 3 gives each feature's share:
+Both **priors** (G-1565) are 0.5, so the 49-fold gap between the scores comes only from the densities. Figure 3 gives each feature's share:
 
 - height, in favour of male:
   $$0.03615 / 0.00473 = 7.6$$
@@ -263,7 +263,7 @@ Watch the right-hand chart: for short heights the female curve is much higher an
 
 ## 7. When the data is not normal
 
-> **Key point:** The normal assumption can be wrong. Other variants assume other distributions: multinomial for counts, Bernoulli for yes/no, categorical for categories.
+> **Key point:** The normal assumption can be wrong. Other variants assume other **distributions** (G-1343): multinomial for counts, Bernoulli for yes/no, categorical for categories.
 
 The normal assumption is a choice, and it can be poor, for example for a skewed feature like income. Naive Bayes can use any distribution that suits the data, giving different variants:
 
@@ -283,10 +283,10 @@ Each variant suits one kind of data (scikit-learn user guide §1.9), so we look 
 ## 8. Summary
 
 - Numerical values rarely repeat, so $P(x \mid \text{class})$ cannot be counted: a value never seen before would get 0 and wipe out the score.
-- Gaussian Naive Bayes fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$, so every value, seen or not, gets a non-zero likelihood; the same small interval scales every class's density equally, so comparing densities gives the same decision as comparing probabilities.
+- **Gaussian Naive Bayes** (G-830) fits a normal curve (mean, standard deviation) per class and feature, and uses the density at $x$, so every value, seen or not, gets a non-zero **likelihood** (G-1086); the same small interval scales every class's density equally, so comparing densities gives the same decision as comparing probabilities.
 - New person 185 cm, 170 lb: male score $5.5 \times 10^{-4}$, female $1.1 \times 10^{-5}$: male (98%), because 185 cm and 170 lb sit near the male curves and far out in the tails of the female ones.
-- With many features, add the logs of the factors instead of multiplying them, to avoid underflow; the log keeps the order, so the winner is the same.
-- A feature's say is the ratio of its two curve heights, so you can see which feature decides (here height 7.6 times, weight 6.4 times); the decision boundary is where the scores are equal.
+- With many features, add the logs of the factors instead of multiplying them, to avoid **underflow** (G-2036); the log keeps the order, so the winner is the same.
+- A feature's say is the ratio of its two curve heights, so you can see which feature decides (here height 7.6 times, weight 6.4 times); the **decision boundary** (G-555) is where the scores are equal.
 - Other variants (multinomial, Bernoulli, categorical) suit other kinds of features, because the normal assumption can be poor, for example for a skewed feature or for counts.
 - So numerical features need only one change to Naive Bayes: read the likelihood off a fitted curve instead of counting it.
 
@@ -311,11 +311,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | BernoulliNB (G-277) | Naive Bayes for binary (yes/no) inputs. |
 | GaussianNB (G-833) | scikit-learn's Gaussian Naive Bayes. |
 | MultinomialNB (G-1277) | Naive Bayes for count data, such as word counts. |
+| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Prior](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-1565) | The probability of an event before any evidence is seen. |
-| [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [Mean](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1203) | The average of the values; the centre of the data. |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |

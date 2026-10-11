@@ -16,11 +16,11 @@ tags: [subject/statistics, area/descriptive, step/foundations, concept/probabili
 
 ## 1. Overview
 
-> **Key point:** A random variable turns the outcomes of a random experiment into numbers; a probability distribution says how likely each number is, and it comes as a PMF, a PDF or a CDF.
+> **Key point:** A random variable turns the outcomes of a random experiment into numbers; a **probability distribution** (G-1571) says how likely each number is, and it comes as a PMF, a PDF or a CDF.
 
 ![The family of probability distribution functions](images/dist_family.png)
 
-Figure 1 is the map of this Note and the three after it. A **probability distribution function** (G-1570) is a formula that links every outcome to its probability. The function has two kinds, one for each kind of random variable, and both lead to a third function, the CDF.
+Figure 1 is the map of this Note and the three after it. A **probability distribution function** (G-1570) is a formula that links every outcome to its probability. The function has two kinds, one for each kind of **random variable** (G-1620), and both lead to a third function, the CDF.
 
 This Note builds the base:
 
@@ -28,13 +28,13 @@ This Note builds the base:
 - distributions as tables (section 3);
 - why we want a formula instead (sections 4 and 5);
 - the famous distributions and why they matter (sections 6 and 7);
-- their parameters (section 8).
+- their **parameters** (G-1449) (section 8).
 
-The three functions themselves are taught in the [**probability mass function**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572), the [**probability density function**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#2-the-probability-of-one-exact-value-is-0) (G-1568) and the cumulative distribution function, for a [discrete variable](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) and for a [continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable).
+The three functions themselves are taught in the [**probability mass function**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572), the [**probability density function**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#2-the-probability-of-one-exact-value-is-0) (G-1568) and the **cumulative distribution function** (G-515), for a [discrete variable](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) and for a [continuous variable](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#7-the-cdf-of-a-continuous-variable).
 
 ## 2. Random variables
 
-> **Key point:** An algebra variable holds one unknown value; a random variable can take several values, and which one appears is decided by chance.
+> **Key point:** An algebra variable holds one unknown value; a **random variable** (G-1620) can take several values, and which one appears is decided by chance.
 
 ### 2.1 Algebra variables and random variables
 
@@ -42,14 +42,14 @@ The three functions themselves are taught in the [**probability mass function**]
 
 In algebra, a variable stands for one unknown value. In $x + 5 = 10$ we simplify and get $x = 5$: there is exactly one answer.
 
-Statistics and probability use a different kind of variable. A **random variable** (G-1620) is the set of possible numerical values of a random experiment. A random variable differs from an algebra variable in two ways:
+Statistics and probability use a different kind of variable. A **random variable** (G-1620) is the set of possible numerical values of a **random experiment** (G-1610). A random variable differs from an algebra variable in two ways:
 
 - **A random variable holds many values.** A die can show any of 1 to 6.
 - **The value that appears is random.** We cannot solve for it; we can only say how likely each value is.
 
 ### 2.2 Random experiments
 
-> **Key point:** A random experiment has an outcome we cannot predict; the random variable writes its outcomes as numbers.
+> **Key point:** A random experiment has an outcome we cannot predict; the **random variable** (G-1620) writes its outcomes as numbers.
 
 A [**random experiment**](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#21-random-experiment) (G-1610) is any experiment whose outcome is random: tossing a coin, rolling a die, picking a student and asking their CGPA. Figure 2 turns three such experiments into random variables.
 
@@ -69,7 +69,7 @@ Turning outcomes into numbers pays off in the notation. Instead of the sentence 
 
 > **Key point:** A discrete random variable takes separate values (a die never shows 1.5); a continuous one can take any value in a range (a CGPA can be 8.527).
 
-Random variables come in the same two kinds as numerical data (see [discrete and continuous data](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data)):
+**Random variables** (G-1620) come in the same two kinds as numerical data (see [discrete and continuous data](../../01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#62-discrete-and-continuous-data)):
 
 - A **discrete random variable** (G-617) takes separate values. The coin gives 0 or 1, the die 1 to 6; a value of 1.5 or 1.6 can never appear.
 - A **continuous random variable** (G-466) can take any value in a range. A CGPA can be 8.5, 8.52, 8.527 or 6.532: every decimal between 0 and 10 is possible.
@@ -78,7 +78,7 @@ The difference decides which function describes the variable (Figure 1): a PMF f
 
 ## 3. Probability distributions as tables
 
-> **Key point:** A probability distribution lists every possible outcome of a random variable with its probability, like a frequency table with probabilities in place of counts.
+> **Key point:** A probability distribution lists every possible outcome of a **random variable** (G-1620) with its probability, like a frequency table with probabilities in place of counts.
 
 A **probability distribution** (G-1571) is a list of all the possible outcomes of a random variable, each with its probability. The list looks like the [**frequency distribution table**](../../01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table) (G-807), with probabilities instead of counts.
 
@@ -148,19 +148,19 @@ Figure 4 also shows the way out. The table for 10 dice would have 51 rows, but i
 1. **Any outcome at once:** we plug in any $x$ and the formula returns its $y$.
 2. **A graph:** a formula can be plotted, and the graph shows the shape of the distribution at a glance.
 
-The formula $y = f(x)$ is the probability distribution function: a mathematical function that links every possible outcome of a random variable to its probability. For one die:
+The formula $y = f(x)$ is the **probability distribution function** (G-1570): a mathematical function that links every possible outcome of a random variable to its probability. For one die:
 
 $$f(x) = 1/6 \quad \text{for } x = 1, \dots, 6$$
 
 $$f(x) = 0 \quad \text{for any other } x$$
 
-> **Extra:** "Probability distribution" (the table, or the idea) and "probability distribution function" (the formula) are used interchangeably in most books. Both mean the description of how likely each value is; the table and the formula are two ways of writing it down.
+> **Extra:** "**Probability distribution** (G-1571)" (the table, or the idea) and "probability distribution function" (the formula) are used interchangeably in most books. Both mean the description of how likely each value is; the table and the formula are two ways of writing it down.
 
 ## 5. Discrete and continuous graphs
 
 > **Key point:** The graph of a discrete distribution has values only at separate points; the graph of a continuous one is an unbroken curve.
 
-The two kinds of random variable give two kinds of graph (Figure 5):
+The two kinds of **random variable** (G-1620) give two kinds of graph (Figure 5):
 
 - **Discrete:** a die has values only at 1, 2, ..., 6. At 1.5 there is nothing, because 1.5 is not in the sample space. The graph is a set of separate bars or sticks with gaps between them.
 - **Continuous:** a CGPA has a value at every point from 0 to 10, so the graph is an unbroken curve. We can pick any $x$ and read off its $y$.
@@ -171,7 +171,7 @@ The unbroken curve is what a histogram turns into. Measure many students and sta
 
 - **No empty bins.** A bin in which we happened to measure nobody does not mean such a student is impossible. The curve still gives that range a small probability.
 - **Any range.** The curve gives the probability of a CGPA between 7.021 and 7.317 as easily as between 7 and 8; a histogram can answer only for whole bins.
-- **Little data is enough.** A curve needs only a few numbers, such as a mean (the average) and a standard deviation (how far values typically lie from the mean; see [standard deviation](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term)), which are the parameters of section 8, and those can be estimated from a small sample.
+- **Little data is enough.** A curve needs only a few numbers, such as a mean (the average) and a standard deviation (how far values typically lie from the mean; see [standard deviation](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term)), which are the **parameters** (G-1449) of section 8, and those can be estimated from a small sample.
 
 The two graphs also differ in what the height means. For the die, the height is a probability. For the CGPA curve the y axis is labelled [**probability density**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), which is not a probability; [what the density at a point means](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) explains why.
 
@@ -179,9 +179,9 @@ The two graphs also differ in what the height means. For the die, the height is 
 
 > **Key point:** For a discrete variable the function is a PMF (mass); for a continuous one it is a PDF (density); either can be turned into a CDF (cumulative).
 
-The probability distribution function is the umbrella term for three functions (Figure 1):
+The **probability distribution function** (G-1570) is the umbrella term for three functions (Figure 1):
 
-- [**Probability mass function (PMF)**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572): the probability distribution function of a **discrete** random variable, such as the die.
+- [**Probability mass function (PMF)**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572): the probability distribution function of a **discrete** **random variable** (G-1620), such as the die.
 - [**Probability density function (PDF)**](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568): the probability distribution function of a **continuous** random variable, such as the CGPA.
 - [**Cumulative distribution function (CDF)**](../MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515): built from either of them; it gives the probability that the variable is **at most** $x$.
 
@@ -189,7 +189,7 @@ The probability distribution function is the umbrella term for three functions (
 
 ## 6. Famous distributions
 
-> **Key point:** Data from very different fields often follows one of a few common shapes; these famous distributions have names, known formulas and known parameters.
+> **Key point:** Data from very different fields often follows one of a few common shapes; these famous distributions have names, known formulas and known **parameters** (G-1449).
 
 When people in many fields (science, medicine, engineering, economics) plotted the distributions of their data, the same few shapes kept appearing. These are the **famous probability distributions** (G-753). Figure 6 shows eight of them: discrete ones as bars, continuous ones as curves.
 
@@ -213,7 +213,7 @@ The graph of a distribution is only $x$ (outcomes) against $y$ (their probabilit
 - If most marks sit around 8, with few below 7, most of the class is strong.
 - If a country's salary distribution has a big mass of high earners, it is probably a developed country; if most of the mass sits at low salaries, poverty is likely widespread.
 
-**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The normal distribution has been studied for a long time and its mathematics is fully worked out. Knowing that a feature is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
+**2. Ready-made knowledge.** If our data's shape matches a famous distribution, we can apply everything known about that distribution to our data. The **normal distribution** (G-1343) has been studied for a long time and its mathematics is fully worked out. Knowing that a feature is normal, we immediately know, for example, that about 95% of its values lie within two standard deviations of the mean.
 
 ## 8. Parameters of a distribution
 
@@ -221,7 +221,7 @@ The graph of a distribution is only $x$ (outcomes) against $y$ (their probabilit
 
 Every famous distribution comes with a few numbers written next to its name in Figure 6: $\mu$ and $\sigma$, $a$ and $b$, $n$ and $p$, $\lambda$. These are its **parameters** (G-1449): numerical values that determine the shape, location and scale of the distribution. Changing them changes the graph, like turning a knob on a radio.
 
-Figure 7 turns the two knobs of the normal distribution:
+Figure 7 turns the two knobs of the **normal distribution** (G-1343):
 
 - **$\mu$, the location (mean):** moves the curve left or right without changing its shape.
 - **$\sigma$, the scale (standard deviation):** widens or narrows the curve. A wider curve is lower, because the total area under it stays the same (see [area under the curve is probability](../MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability)).
@@ -244,9 +244,9 @@ The word "parameter" is the same as in [parameters and statistics](../../01-desc
 | PMF / PDF / CDF | Discrete / continuous / cumulative | die / CGPA / $P(X \le x)$ | the kind of variable decides which function to use |
 | Parameters | Knobs that set location, scale and shape | normal: $\mu$, $\sigma$ | a few numbers, estimated from a sample, describe the whole curve |
 
-- Random variables get capital letters; their values get small letters, so $X = x$ reads "the random variable $X$ takes the value $x$".
+- **Random variables** (G-1620) get capital letters; their values get small letters, so $X = x$ reads "the random variable $X$ takes the value $x$".
 - A table cannot list too many outcomes or a continuous range; a function can, and it can be plotted.
-- In these Notes, PDF means probability density function, because "probability distribution function" shortens to PDF too.
+- In these Notes, PDF means **probability density function** (G-1568), because "probability distribution function" shortens to PDF too.
 - A distribution shows the shape of the data; matching a famous one lets us reuse its known mathematics (for a normal feature, about 95% of values lie within two standard deviations of the mean).
 
 ## 10. Sources
@@ -267,21 +267,21 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
+| Probability distribution (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | Probability distribution function (G-1570) | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF. |
 | Random variable (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
+| Parameters (of a distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
 | Discrete random variable (G-617) | A random variable that takes separate values, such as a die's face. |
 | Continuous random variable (G-466) | A random variable that can take any value in a range, such as a CGPA. |
-| Probability distribution (G-1571) | A list of every possible outcome of a random variable with its probability. |
 | Equiprobable (G-704) | Equally likely: every outcome has the same probability, as the six faces of a fair die, so each has probability 1 divided by the number of outcomes. |
 | Famous probability distributions (G-753) | Common named shapes such as normal, uniform, binomial and Poisson. |
-| Parameters (of a distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
 | [Probability mass function (PMF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#3-the-probability-mass-function) (G-1572) | The function that gives the probability of each exact value of a discrete random variable, such as $P(X = 3) = 1/6$ for a fair die; its probabilities add up to 1. |
 | [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf) (G-1568) | A curve showing how likely each value is; areas under it are probabilities. |
+| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
 | [Random experiment](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#21-random-experiment) (G-1610) | An experiment whose outcome cannot be predicted, such as a coin toss. |
 | [Sample space](../../../MA/02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#24-sample-space) (G-1729) | The set of all possible outcomes of an experiment, such as $\lbrace1, \dots, 6\rbrace$ for a die; every event is a subset of it, so probabilities are worked out inside it. |
 | [Frequency distribution table](../../../MA/01-descriptive-stats/MA-007-frequency-tables-and-graphs/MA-007-frequency-tables-and-graphs.md#21-frequency-distribution-table) (G-807) | A table of each value or category with the number of times it occurs. |
 | [Probability density](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
-| [Cumulative distribution function (CDF)](../../../MA/03-distributions/MA-021-pmf-and-discrete-cdf/MA-021-pmf-and-discrete-cdf.md#8-the-cumulative-distribution-function-of-a-discrete-variable) (G-515) | For every value $x$, the probability that the random variable comes out at most $x$: $P(X \le x)$. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Normal distribution](../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343) | A symmetric, bell-shaped distribution: most values sit near the mean and they get rarer the further out we go; its mean and standard deviation set its centre and width. |
 | [68-95-99.7 rule (empirical rule)](../../../ML/04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-53) | In a column shaped like a bell curve (a normal distribution), about 68.3%, 95.4% and 99.7% of values lie within 1, 2 and 3 standard deviations of the mean. |
