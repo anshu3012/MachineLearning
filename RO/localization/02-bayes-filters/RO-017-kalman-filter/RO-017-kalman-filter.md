@@ -125,15 +125,41 @@ The shift $b$ moves the Gaussian without widening it. That the result is still a
 
 ### 2.4 Adding independent errors adds variances
 
-The robot's next position is its present position plus the commanded 0.5 m plus a random slip $w$. When two errors are independent, their variances add:
+The robot's next position is its present position $x$ plus the commanded 0.5 m plus a random slip $w$. The estimate $\hat{x}$ moves by the same 0.5 m. The error is the true position minus the estimate; call the present one $e$. The next error:
 
-$$\text{Var}(x + w) = \text{Var}(x) + \text{Var}(w)$$
+$$(x + 0.5 + w) - (\hat{x} + 0.5)$$
 
-**Why.** Square the summed error:
+$$= x - \hat{x} + w$$
 
-$$(x + w)^2 = x^2 + 2xw + w^2$$
+$$= e + w$$
 
-with $x$ and $w$ measured from their means. Averaged, the middle term is zero: the two errors are independent and each has mean zero, so a positive $x$ meets a positive $w$ as often as a negative one. What is left is the two variances. So every slip adds its variance, and the commands' drift grows step by step.
+The present error has mean 0, because the estimate is the mean, and variance $p$ (Section 2.2). The slip has mean 0 and does not depend on $e$, so the two errors are independent. Their variances add:
+
+$$\text{Var}(e + w) = \text{Var}(e) + \text{Var}(w)$$
+
+**Why.** Take a present error of 1 m or −1 m and a slip of 0.1 m or −0.1 m, all four pairs equally likely. Square each next error:
+
+$$(1 + 0.1)^2 = 1 + 0.2 + 0.01$$
+
+$$(1 - 0.1)^2 = 1 - 0.2 + 0.01$$
+
+$$(-1 + 0.1)^2 = 1 - 0.2 + 0.01$$
+
+$$(-1 - 0.1)^2 = 1 + 0.2 + 0.01$$
+
+Average the four squares; each +0.2 cancels a −0.2:
+
+$$\text{Var}(e + w) = 1 + 0.01$$
+
+The same in symbols:
+
+$$(e + w)^2 = e^2 + 2ew + w^2$$
+
+Averaged, the $2ew$ parts cancel the same way: whatever $e$ is, the slip is as often negative as positive.
+
+$$\text{Var}(e + w) = \text{Var}(e) + \text{Var}(w)$$
+
+So every slip adds its variance, and the commands' drift grows step by step.
 
 ### 2.5 The linear Gaussian system
 
