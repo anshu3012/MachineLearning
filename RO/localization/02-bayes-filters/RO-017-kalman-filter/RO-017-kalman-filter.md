@@ -197,13 +197,22 @@ Both are linear with normal noise, which meets conditions 1 and 2. The first bel
 
 ## 3. Predict: the Gaussian moves and widens
 
-> **Key point:** The command moves the estimate; the slip widens it. The predicted variance is the old variance plus $Q$.
+> **Key point:** The command moves the estimate; the slip widens it. The predicted variance is the old variance plus the slip's variance $Q$, 0.01 m².
 
 **The idea.** First the drift of Figure 1: why do the commands alone miss by 0.27 m? The robot is commanded 0.5 m, so our best guess moves 0.5 m. But each command adds a slip we cannot see, so we are less sure than before, and the doubt piles up.
 
-**The standard terms.** The uncertainty the motion adds at each step is the **process noise** (G-2509), with variance $Q$ (kalmanfilter.net process noise). The estimate before the step's reading is the **predicted estimate** (G-2512), $\bar{x}$, also called the prior or a priori estimate, with variance $\bar{p}$.
+**The standard terms.** The random slip the motion adds at each step is the **process noise** (G-2509) (kalmanfilter.net). The estimate before the step's reading is the **predicted estimate** (G-2512), also called the prior or a priori estimate.
 
-**The formulas.** The mean goes through the motion; the variances add ([Section 2.4](#24-adding-independent-errors-adds-variances)):
+**The formulas.** At each step:
+
+- $\hat{x}$ is the estimate after the last step, in m (0 m at the start);
+- $p$ is its variance, in m² (1 m² at the start);
+- $u$ is the command, 0.5 m;
+- $Q$ is the slip's variance, 0.01 m²;
+- $\bar{x}$ is the predicted estimate, in m;
+- $\bar{p}$ is its variance, in m².
+
+The mean goes through the motion; the variances add ([Section 2.4](#24-adding-independent-errors-adds-variances)):
 
 $$\bar{x} = \hat{x} + u$$
 
@@ -227,7 +236,7 @@ This is the drift of Figure 1: the commands alone only ever widen the Gaussian, 
 
 ## 4. Update: the gain that makes the estimate most certain
 
-> **Key point:** The new estimate is a weighted average of the prediction and the reading. The weight on the reading that gives the smallest variance is the Kalman gain $K = \bar{p}/(\bar{p} + R)$: large when the prediction is unsure, small when the reading is.
+> **Key point:** The new estimate is a weighted average of the prediction and the reading. The weight on the reading that gives the smallest variance is the Kalman gain $K = \bar{p}/(\bar{p} + R)$, where $\bar{p}$ is the prediction's variance and $R$ the reading's: large when the prediction is unsure, small when the reading is.
 
 ### 4.1 Two estimates of one position
 
@@ -240,7 +249,12 @@ The beacon stops the drift but jumps. The update decides how far to follow each 
 
 The reading's error has a variance $R$, the **measurement noise** (G-2510) variance, which comes from the sensor's datasheet or from a calibration ([Section 7.1](#71-r-measure-the-sensor)).
 
-Neither should be thrown away. A natural blend is a weighted average, with weight $k$ on the reading and $1 - k$ on the prediction:
+Neither should be thrown away. A natural blend is a weighted average:
+
+- $z$ is the beacon's reading, in m (0.82 m at step 1);
+- $\bar{x}$ is the predicted estimate, in m (0.5 m at step 1);
+- $k$ is the weight on the reading, a number from 0 to 1; the prediction gets $1 - k$;
+- $\hat{x}$ is the blended estimate, in m.
 
 $$\hat{x} = k\thinspace z + (1 - k)\thinspace\bar{x}$$
 
@@ -249,6 +263,10 @@ Which $k$? Taking $k = 0$ keeps the prediction, $k = 1$ takes the reading, and a
 ### 4.2 The variance of the blend
 
 To find that $k$, we write the blend's variance as a function of $k$. The prediction's error and the reading's error are independent. By [Section 2.3](#23-a-linear-function-keeps-a-gaussian-a-gaussian), scaling an error by $k$ scales its variance by $k^2$; by [Section 2.4](#24-adding-independent-errors-adds-variances), independent variances add:
+
+- $p(k)$ is the variance of the blend for weight $k$, in m²;
+- $R$ is the reading's variance, 0.16 m²;
+- $\bar{p}$ is the prediction's variance, 1.01 m² at step 1.
 
 $$p(k) = k^2 R + (1 - k)^2\thinspace\bar{p}$$
 
@@ -280,7 +298,7 @@ $$kR + k\bar{p} = \bar{p}$$
 
 $$k = \frac{\bar{p}}{\bar{p} + R}$$
 
-This best weight is the **Kalman gain** (G-2508), written $K$ (kalmanfilter.net 1D; Becker ch.4). For step 1:
+This best weight is the **Kalman gain** (G-2508), written $K$ (kalmanfilter.net; Becker ch.4). For step 1:
 
 $$K_1 = \frac{1.01}{1.01 + 0.16}$$
 
@@ -288,7 +306,7 @@ $$= 1.01 / 1.17 = 0.863$$
 
 The reading gets 86 percent of the say, because our first guess (variance 1.01) was far less certain than the beacon (0.16).
 
-**Checks at easy values** (kalmanfilter.net 1D):
+**Checks at easy values** (kalmanfilter.net):
 
 - A perfect sensor, $R = 0$: the top and bottom of the gain are equal, so $K = 1$, and the estimate is the reading.
 - A perfect prediction, $\bar{p} = 0$: $K = 0$, and the reading is ignored.
@@ -338,7 +356,7 @@ $$= \frac{R}{\bar{p} + R}\thinspace\bar{p}$$
 
 $$= (1 - K)\thinspace\bar{p}$$
 
-(kalmanfilter.net 1D).
+(kalmanfilter.net).
 
 For step 1:
 
@@ -370,7 +388,7 @@ The same numbers as [Section 4.4](#44-the-updated-estimate-and-its-variance): th
 
 > **Key point:** Predict, then update, every step. The gain starts high, while the first guess is vague, and settles to a fixed value once the variance stops changing.
 
-One step has cut the variance from 1.01 to 0.138 m². The ten steps of Figure 1 are this loop run ten times: predict with the drifting command, update with the jumping reading (Figure 6). The filter keeps only $\hat{x}$ and $p$ from one step to the next: it never stores the past readings, yet its estimate uses all of them (kalmanfilter.net 1D; Labbe ch.4).
+One step has cut the variance from 1.01 to 0.138 m². The ten steps of Figure 1 are this loop run ten times: predict with the drifting command, update with the jumping reading (Figure 6). The filter keeps only $\hat{x}$ and $p$ from one step to the next: it never stores the past readings, yet its estimate uses all of them (kalmanfilter.net; Labbe ch.4).
 
 ![The one-dimensional Kalman filter as a loop: predict moves the mean by u and adds Q to the variance; update computes K, moves the mean a fraction K towards the reading and multiplies the variance by 1 − K](images/kf_cycle.png)
 
@@ -469,7 +487,7 @@ $H$ is the **measurement matrix** (G-2515): it picks out of the state what the s
 
 ### 6.3 The five lines in matrix form
 
-Each line is the one-dimensional line with numbers replaced by matrices (Labbe ch.6; kalmanfilter.net multivariate; Freiburg KF slides); the gain's denominator gets its own row and name, $S$. The [transpose](../../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2012) $F^{\mathsf T}$ flips a matrix over its diagonal, and $S^{-1}$ is the [inverse](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968), here simply 1 divided by the number $S$.
+Each line is the one-dimensional line with numbers replaced by matrices (Labbe ch.6; kalmanfilter.net; Freiburg KF slides); the gain's denominator gets its own row and name, $S$. The [transpose](../../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#21-projecting-one-point) (G-2012) $F^{\mathsf T}$ flips a matrix over its diagonal, and $S^{-1}$ is the [inverse](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968), here simply 1 divided by the number $S$.
 
 | Step | One number | Matrix form |
 |---|---|---|
@@ -552,13 +570,13 @@ A model run alongside the real system and corrected this way is a **state observ
 
 ### 7.1 R: measure the sensor
 
-The measurement noise $R$ is the variance of the beacon's error, the jumps of Figure 1, so it can be measured: put the robot on a mark at a known position and record many readings (kalmanfilter.net 1D). We parked the robot at exactly 2.00 m and took 100 readings (`data/beacon_calibration.csv`):
+The measurement noise $R$ is the variance of the beacon's error, the jumps of Figure 1, so it can be measured: put the robot on a mark at a known position and record many readings (kalmanfilter.net). We parked the robot at exactly 2.00 m and took 100 readings (`data/beacon_calibration.csv`):
 
 $$\text{mean} = 2.018 \text{ m}$$
 
 $$\text{sample variance} = 0.134 \text{ m}^2$$
 
-The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (kalmanfilter.net 1D). The mean, 2.018 m, also shows no sizeable bias, which matters because the Kalman filter assumes the noise has mean zero.
+The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (kalmanfilter.net). The mean, 2.018 m, also shows no sizeable bias, which matters because the Kalman filter assumes the noise has mean zero.
 
 ### 7.2 Q: tune the motion noise
 
@@ -570,7 +588,7 @@ $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, 
 | 0.01 (right) | 0.22 | 0.187 m | none |
 | 1 (too big) | 0.88 | 0.353 m | trusts each reading, copies its noise |
 
-The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net process noise, where a too-small $Q$ causes a lag error).
+The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error).
 
 ![Error of three filters on one 50-step run; the legend gives each filter's RMSE over all 2000 runs. Q = 0.0001 lags below the truth for long stretches; Q = 1 jumps with every reading; Q = 0.01 stays closest to zero](images/tuning.png)
 
