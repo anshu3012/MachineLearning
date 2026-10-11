@@ -16,7 +16,7 @@ Every move makes the robot [less sure where it is](../RO-007-why-a-robot-is-neve
 - motion as a probability distribution over end poses, and why its value is a density (Section 2);
 - wheel odometry: how wheel encoders measure the motion, and why it drifts (Section 3);
 - the odometry motion model: turn, drive, turn, each with its own noise (Section 4);
-- drawing random end poses from a motion model, with the small amount of sampling theory it needs (Section 5);
+- drawing random end poses from a motion model (Section 5);
 - the velocity motion model, for when only the commanded speeds are known (Section 6);
 - using a map to rule out end poses inside walls (Section 7).
 
@@ -181,15 +181,9 @@ $$\delta_{\text{rot2}} = 1.524 - 0.524 - 0.500$$
 
 $$= 0.500 \text{ rad}$$
 
-A check from geometry: the robot drove an arc of a circle of radius 0.5 m, turning 1 rad. The straight line from the start to the end of an arc points exactly halfway between the start and end headings, so each turn is half of 1 rad, 0.500 rad. The line's length, the chord, is:
-
-$$2 \times 0.5 \times \sin(0.5) = 0.479 \text{ m}$$
-
-Both agree with the numbers above.
-
 ### 4.3 Noise on each of the three parts
 
-The true motion is odometry's motion plus noise. We could put one bell-shaped spread around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. Section 5.3 shows the shapes this gives. Each noise has a standard deviation that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
+The true motion is odometry's motion plus noise. We could put one bell-shaped spread around the end pose, but in practice a separate noise on each of the three parts matches real robots better. The robot makes three separate motions, and each goes wrong in its own way: a wrong first turn sends it off at a wrong angle, a wrong drive changes only the distance, a wrong second turn changes only the end heading. Section 5.2 shows the shapes this gives. Each noise has a standard deviation that grows with the size of the motion, because a longer drive or a bigger turn gives the wheels more chance to slip (Freiburg slides):
 
 $$\sigma_{\text{rot1}} = \alpha_1 \lvert\delta_{\text{rot1}}\rvert + \alpha_2\thinspace\delta_{\text{trans}}$$
 
@@ -244,41 +238,17 @@ $$3.14 \times 6.72 \times 3.63 = 76.7$$
 
 The value 76.7 is a density per radian, per metre and per radian, so it can be far above 1. On its own it means little; it is useful for comparison. The pose (2.10, 1.60, 1.50), which needs a first turn of 0.882 rad instead of 0.5, scores $8.7 \times 10^{-7}$: about a hundred million times less likely. The notebook `RO-008-probabilistic-motion-models.ipynb` computes both.
 
-Scoring every pose on a fine grid around the start and shading each by its density draws the shape of the distribution. Its typical shape is curved like a banana, a **banana-shaped distribution** (G-2328). Section 5.3 shows why.
+Scoring every pose on a fine grid around the start and shading each by its density draws the shape of the distribution. Its typical shape is curved like a banana, a **banana-shaped distribution** (G-2328). Section 5.2 shows why.
 
 ## 5. Drawing sample poses
 
-> **Key point:** Particle filters need random end poses that follow the motion model. We get them by drawing a random noise for each of the three parts and driving turn, drive, turn; normal noise itself can be made from uniform random numbers.
+> **Key point:** Particle filters need random end poses that follow the motion model. We get them by drawing a random noise for each of the three parts and driving turn, drive, turn.
 
 ### 5.1 Why sample instead of scoring
 
 Scoring needs a grid over all poses, and a pose has three numbers, so the grid is large: 100 values each of $x$, $y$ and $\theta$ make a million cells to score after every move. A cloud of sample poses describes the same distribution where it matters: more samples where the density is high, few where it is low. To build the cloud we need to draw random numbers that follow a chosen distribution. Drawing a random value so that, over many draws, values come up as often as the distribution says is **sampling** (G-2326) from that distribution.
 
-### 5.2 Normal and triangular noise from uniform random numbers
-
-Every computer can draw **uniform** random numbers: any value in a range, such as from $-b$ to $b$, equally likely, the [uniform distribution](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043). We build the other noises from it (Freiburg slides). Figure 6 checks each recipe with 20 000 draws, for $b = 0.1$.
-
-![Left: 20 000 uniform numbers between -0.1 and 0.1 form a flat block. Middle: half the sum of 12 of them forms a bell that matches the normal density with standard deviation 0.1. Right: the square root of 6 over 2 times the sum of 2 of them forms a triangle that matches the triangular density with standard deviation 0.1](images/sampling.png)
-
-**Normal noise with standard deviation $b$.** Add 12 uniform numbers from $-b$ to $b$ and halve the sum (Freiburg slides):
-
-$$\text{sample} = \frac{1}{2}\sum_{i=1}^{12} \text{rand}(-b,\ b)$$
-
-Why a bell: a sum of many independent random numbers is close to normal, whatever their own shape, by the [central limit theorem](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364); twelve is already enough for the eye in Figure 6. Why standard deviation $b$: one uniform number from $-b$ to $b$ has variance $b^2/3$, and for independent numbers [variances add](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). Halving divides the variance by 4:
-
-$$12 \times \frac{b^2}{3} = 4b^2$$
-
-$$\frac{4b^2}{4} = b^2$$
-
-So the standard deviation is $b$; the notebook measures 0.1002 for $b = 0.1$.
-
-**Triangular noise with standard deviation $b$.** Add only 2 uniform numbers and scale by $\sqrt{6}/2$. Two dice show why the result is a triangle: a total of 7 can be made in six ways, a total of 2 or 12 in only one. The variance check:
-
-$$2 \times \frac{b^2}{3} \times \frac{6}{4} = b^2$$
-
-A **triangular distribution** (G-2327) has a hard edge: it never gives noise larger than $\sqrt{6}\thinspace b$, about 2.45 times $b$. The normal distribution allows any size of error, however rarely, which for a robot would mean being carried off to another room. If a robot's error is known to stay within a bound, the triangular distribution says so.
-
-### 5.3 Sampling the odometry model
+### 5.2 Sampling the odometry model
 
 To draw one end pose (Freiburg slides, `sample_motion_model`):
 
@@ -319,13 +289,9 @@ $$\theta' = 0.524 + 0.550 + 0.480 = 1.554$$
 
 This sample ends 3.5 cm left of and 1.4 cm below the model's end point, and faces 1.7° further left.
 
-Figure 7 draws 500 such samples for three noise settings. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel.
+Figure 6 draws 500 such samples for three noise settings. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel.
 
 ![500 sampled end positions for the same odometry reading under three noise settings: the Note's noise gives a round cloud around (2.249, 1.409); mostly turning noise bends it into a banana around the start; mostly driving noise stretches it along the line from the start](images/banana.png)
-
-Repeating the sampling move after move, with no readings, shows the cloud growing (Figure 8). Each sample takes the last one's end pose as its start, so errors pile up: the spread grows from 3.5 cm after one step of 0.3 m to 22 cm after eight steps. Only a reading can shrink it again, as in the previous Note.
-
-![Animation: 500 samples follow odometry steps of turn 0.1 rad, drive 0.3 m, turn 0.1 rad from (2, 1); the cloud grows from 0.035 m after one step to 0.100 m after four and 0.222 m after eight, and bends along the curved path](images/spread.gif)
 
 ## 6. The velocity motion model
 
@@ -342,8 +308,6 @@ held for a time step $\Delta t = 1$ s. RO-001 predicted the path with small [Eul
 **The turning point.** A robot driving at $v$ while turning at $\omega$ circles a point at the [turning radius](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-forward-speed-and-turn-rate) (G-2293) on its left, square to its heading (RO-001):
 
 $$R = \frac{v}{\omega} = \frac{0.5}{1} = 0.5 \text{ m}$$
-
-In this Note $R$ is always this turning radius. The Kalman filter uses the same letter for a different thing, the [measurement noise](../RO-017-kalman-filter/RO-017-kalman-filter.md#71-r-measure-the-sensor) of the sensor.
 
 Square to the heading, to the left, is the direction $(-\sin\theta,\ \cos\theta)$, the robot's left arrow in RO-001. So the turning point is:
 
@@ -373,11 +337,7 @@ $$y' = 1.433 - 0.5 \times 0.047 = 1.409$$
 
 ![The velocity model without noise: v = 0.5 m/s and omega = 1 rad/s give a turning radius of 0.5 m; the turning point (1.750, 1.433) lies 0.5 m to the robot's left; in 1 s the robot turns 1 rad about it and ends at (2.249, 1.409) facing 87.3 degrees](images/velocity_arc.png)
 
-Figure 9 draws the construction. One Euler step of 1 s would instead put the robot at (2.433, 1.250), 24 cm away, because it drives straight along the start heading. Substituting the turning point gives the form used in the Freiburg slides:
-
-$$x' = x - R\sin\theta + R\sin(\theta + \omega\Delta t)$$
-
-$$y' = y + R\cos\theta - R\cos(\theta + \omega\Delta t)$$
+Figure 7 draws the construction. One Euler step of 1 s would instead put the robot at (2.433, 1.250), 24 cm away, because it drives straight along the start heading.
 
 A gotcha: $R = v/\omega$ has no value when $\omega = 0$. A robot driving straight has no turning point, so code must use the straight-line step when $\omega$ is zero or tiny:
 
@@ -393,9 +353,9 @@ $$\hat v = v + \text{sample}(\alpha_1 \lvert v\rvert + \alpha_2 \lvert\omega\rve
 
 $$\hat\omega = \omega + \text{sample}(\alpha_3 \lvert v\rvert + \alpha_4 \lvert\omega\rvert)$$
 
-where $\text{sample}(b)$ draws normal noise with standard deviation $b$ (Section 5.2). With $\alpha_1 = 0.1$, $\alpha_2 = 0.02$, $\alpha_3 = 0.1$ and $\alpha_4 = 0.1$, the forward speed varies by about 0.07 m/s and the turn rate by about 0.15 rad/s.
+where $\text{sample}(b)$ draws normal noise with standard deviation $b$. With $\alpha_1 = 0.1$, $\alpha_2 = 0.02$, $\alpha_3 = 0.1$ and $\alpha_4 = 0.1$, the forward speed varies by about 0.07 m/s and the turn rate by about 0.15 rad/s.
 
-These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 10, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, $\hat\gamma$, a small extra turn at the end (Freiburg slides):
+These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 8, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, $\hat\gamma$, a small extra turn at the end (Freiburg slides):
 
 $$\hat\gamma = \text{sample}(\alpha_5 \lvert v\rvert + \alpha_6 \lvert\omega\rvert)$$
 
@@ -425,13 +385,11 @@ $$\theta' = 1.424 + 0.02 \times 1 = 1.444$$
 
 A faster, gentler drive: the sample ends 4.4 cm further right and 2.2 cm higher than the noise-free end, facing 4.6° less far round.
 
-> **Extra:** Scoring a pose with the velocity model works backwards (Thrun et al. 2005 §5.3, as in the Freiburg slides, `motion_model_velocity`). Given the start pose and a possible end pose, find the circle that leaves the start along its heading and passes through the end position; its centre lies on the line halfway between the two positions, square to the line joining them. The circle's radius and the angle turned give the speeds $\hat v$ and $\hat\omega$ that would have produced this end position, and the difference between the end heading and the arc's heading gives $\hat\gamma$. The density is then the product of three normal densities, exactly as in Section 4.4.
-
 ## 7. Ruling out poses inside walls
 
 > **Key point:** A map tells the robot where it cannot be. For small steps we multiply the motion model by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
 
-The motion models so far know nothing about the surroundings, so they happily put samples inside walls (Figure 11, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
+The motion models so far know nothing about the surroundings, so they happily put samples inside walls (Figure 9, left, red). With a map $m$ of the free space we want the motion model that also knows the map:
 
 $$p(x_t \mid u_t,\ x_{t-1},\ m)$$
 
@@ -448,9 +406,7 @@ This is the **map-consistent motion model** (G-2329). When sampling, it becomes 
 
 ![Left: one big step of 0.48 m; of 500 samples, 95 land inside a wall and are rejected, but 14 land beyond the wall in free space and are kept, though the robot could not have driven through the wall. Right: the same motion in twenty small steps, rejecting and redrawing at each step: no sample gets beyond the wall](images/map_reject.png)
 
-The approximation checks only where a sample ends, not the path to it. That is why it needs small steps. In Figure 11, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the total spread is the same, and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter.
-
-> **Extra:** Rejection sampling also draws samples from any density $f$ we can compute but not sample directly (Freiburg slides). Draw a value $x$ uniformly over the range of $f$, and a height $y$ uniformly from 0 to the largest value of $f$. Keep $x$ if the point $(x, y)$ lies under the curve, $y < f(x)$; otherwise reject it and draw again. Values where $f$ is high are kept more often, in proportion to $f$.
+The approximation checks only where a sample ends, not the path to it. That is why it needs small steps. In Figure 9, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the total spread is the same, and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter.
 
 ## 8. Summary
 
@@ -464,8 +420,8 @@ The approximation checks only where a sample ends, not the path to it. That is w
 - Wheel odometry turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
 - The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one spread on the end pose; its standard deviations grow with the motion, because bigger motions slip more.
 - Scoring a pose multiplies three normal densities (76.7 for a close pose, $8.7 \times 10^{-7}$ for a far one), so filters can compare poses on a grid.
-- Sampling draws noisy turn, drive, turn and moves the robot; half the sum of 12 uniform numbers gives normal noise of standard deviation $b$, because the central limit theorem shapes it and the variances add to $b^2$.
-- Rotation noise bends the cloud into a banana, because a wrong turn sends the robot the same distance in a wrong direction; with no readings the cloud keeps growing (3.5 cm to 22 cm over eight steps).
+- Sampling draws noisy turn, drive, turn and moves the robot.
+- Rotation noise bends the cloud into a banana, because a wrong turn sends the robot the same distance in a wrong direction; with no readings the cloud keeps growing.
 - The velocity model drives an exact arc about the turning point $R = v/\omega$ to the left; it needs a third noise $\gamma$, because two noisy speeds alone tie the end heading to the end position.
 - A map rules out poses inside obstacles by rejecting samples there, which is safe only for small steps, because the check looks at where a sample ends, not at the path to it.
 
@@ -501,9 +457,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | atan2 (G-2325) | A function atan2(rise, run) that returns the direction of a line over the full circle from its rise and run given separately; needed because the plain inverse tangent of the ratio cannot tell opposite directions apart. |
 | Banana-shaped distribution (G-2328) | The curved cloud of end positions a motion model gives when turning noise is large: a wrong first turn sends the robot the right distance in a wrong direction, so the positions spread along an arc around the start. |
 | Sampling (from a distribution) (G-2326) | Drawing random values so that, over many draws, each value comes up as often as a given distribution says; it turns a motion model into a cloud of possible poses for particle filters. |
-| Triangular distribution (G-2327) | A distribution whose density is a triangle, highest in the middle and zero beyond a hard edge; used for motion noise when errors are known never to exceed a bound, and sampled as a scaled sum of two uniform numbers. |
 | Map-consistent motion model (G-2329) | A motion model that also uses the map, approximated for small steps by multiplying the plain motion model by 1 for free poses and 0 for poses inside obstacles; it stops the robot's estimate from passing through walls. |
-| Rejection sampling (G-2330) | Drawing samples and keeping only those that pass a test, drawing again otherwise; used to keep motion samples out of obstacles and, more generally, to sample from any density that can be computed. |
+| Rejection sampling (G-2330) | Drawing samples and keeping only those that pass a test, drawing again otherwise; used to keep motion samples out of obstacles. |
 | [Kinematic model](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297) | Equations that give how a robot's configuration changes from its speed inputs alone, ignoring masses and forces, such as $\dot{x} = v\cos\theta$, $\dot{y} = v\sin\theta$, $\dot{\theta} = \omega$; used to predict motion at low speed. |
 | [Dead reckoning](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311) | Working out a robot's position from a known start by adding up its own moves, without looking at its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
 | [Standard deviation of a random variable](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
@@ -513,6 +468,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Forward kinematics (wheeled robot)](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#43-wheel-speeds-to-forward-speed-and-turn-rate) (G-2294) | Working out the robot's forward speed and turn rate from its wheel speeds, used to predict where the robot goes. |
 | [Euler step](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299) | One step of predicting motion: hold the rates fixed for a short time $\Delta t$ and add rate times $\Delta t$ to each quantity; repeated, it traces a path, more accurately the smaller $\Delta t$ is. |
 | [Independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
-| [Uniform distribution](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
-| [Central limit theorem](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#4-the-central-limit-theorem) (G-364) | For large enough samples, the means of many samples follow a normal distribution centred on the population mean, whatever the shape of the data (if its variance is finite); this justifies confidence intervals and hypothesis tests on means. |
 | [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2293) | The distance from the point a robot is turning about (the turning point, or instantaneous centre of curvature) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |

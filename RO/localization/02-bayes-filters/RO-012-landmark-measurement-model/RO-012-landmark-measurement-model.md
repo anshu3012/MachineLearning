@@ -80,8 +80,6 @@ $$\hat r = \sqrt{(m_{c,x} - x)^2 + (m_{c,y} - y)^2}$$
 
 $$\hat\varphi = \operatorname{atan2}(m_{c,y} - y,\ m_{c,x} - x) - \theta$$
 
-A check at an easy pose: a robot at (2, 3.8) facing along x, with the pole straight ahead at (4.4, 3.8). Then $\Delta y = 0$, the direction is 0°, and the predicted bearing is 0°: straight ahead, as it should be.
-
 ### 3.2 Why atan2 and not arctan
 
 Take the green pole, at (0.4, 3.2). From A:
@@ -209,43 +207,13 @@ Figure 4 draws the range bell over every position of the room as a surface: a cu
 
 ### 5.2 Two and three landmarks: rings meet
 
-The green pole's range, 1.95 m, gives a second ring. A position that fits both readings must lie on both rings, and two circles cross in at most two points. With the first pole at the origin and the second at distance $a$ along the x-axis, the crossing points of circles of radius $d_1$ and $d_2$ are (Freiburg sensor-model slides, "Distances only"):
-
-$$x = \frac{a^2 + d_1^2 - d_2^2}{2a}$$
-
-$$y = \pm\sqrt{d_1^2 - x^2}$$
-
-The formula comes from the two circle equations:
-
-$$x^2 + y^2 = d_1^2$$
-
-$$(x - a)^2 + y^2 = d_2^2$$
-
-Subtract the second equation from the first. The $y^2$ terms cancel:
-
-$$x^2 - (x - a)^2 = d_1^2 - d_2^2$$
-
-Multiply out the bracket:
-
-$$2ax - a^2 = d_1^2 - d_2^2$$
-
-Solve for $x$:
-
-$$x = \frac{a^2 + d_1^2 - d_2^2}{2a}$$
-
-Putting that $x$ back into the first circle gives $y$. For pink and green, 4.04 m apart:
-
-$$x = \frac{16.36 + 9.61 - 3.80}{8.09} = 2.74$$
-
-$$y = \pm\sqrt{9.61 - 7.51} = \pm 1.45$$
-
-Turned back into room coordinates, the two crossing points are (1.91, 1.96), close to the true (2, 2), and (1.48, 4.83), which lies outside the room. The map rules the second one out. Finding a position from distances to known points is **trilateration** (G-2406), the principle GPS uses with satellites.
+The green pole's range, 1.95 m, gives a second ring. A position that fits both readings must lie on both rings. Two circles cross in at most two points, and here one of the two lies outside the room. Finding a position from distances to known points is **trilateration** (G-2406), the principle GPS uses with satellites.
 
 Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in Section 4.2. With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
 
 ![Animation over the room: first the density of the pink range reading, a ring around the pink pole; then pink times green, which leaves one bright spot near (1.9, 2.0); then pink times green times blue, one sharp spot at (1.90, 1.98) next to the true position (2, 2), marked by a black cross](images/rings.gif)
 
-The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading. With bearings only, as from a simple camera that cannot judge distance, two landmarks seen a fixed angle apart put the robot on a circle through both, and a third landmark fixes the pose; finding a position from angles to known points is **triangulation** (G-2409) (Freiburg sensor-model slides, "Bearings only"; LaValle §11.5.1: three non-collinear "homing" sensors determine the state). A sensor that reports only bearings is a **bearing-only sensor** (G-2407); its model is Section 4.1 with the range bell left out, because there is no range to compare (Freiburg sensor-model slides, "Landmarks": a sensor provides "distance, or bearing, or distance and bearing").
+The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading.
 
 ## 6. Sampling poses from a landmark reading
 
@@ -253,7 +221,7 @@ The bearings add the heading. Once the position is known, a bearing says which w
 
 ### 6.1 Why turn a reading around
 
-A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself, and [random particles](../RO-016-particle-filter/RO-016-particle-filter.md#52-the-kidnapped-robot-and-random-particles) are its other remedy for a lost filter; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
+A particle filter keeps a cloud of guessed poses and moves them with the motion model. If the robot is carried somewhere else, or starts with no idea where it is, none of its guesses may lie near the truth, and weighting them by the measurement model cannot fix that. A remedy is to add guesses drawn from the reading itself: poses where the robot could be, given what it just saw. Lenser and Veloso used exactly this on soccer-playing legged robots, adding poses drawn from the landmark readings whenever the filter was lost ("sensor resetting localization", Lenser and Veloso 2000). Drawing poses that fit a reading is **sampling poses from a measurement** (G-2408) (Thrun §6.6.3). The [particle filter loop](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) runs the filter itself; drawing random values from a distribution is [sampling](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326).
 
 ### 6.2 The recipe, and where the heading comes from
 
@@ -345,12 +313,10 @@ So the opening question has its answer: three coloured poles, each reduced to tw
 - Schwertfeger, J. (2007). "Tutorial on a Probabilistic Measurement Model based on Landmark Range and Bearing Information". Brown University CS148. https://cs.brown.edu/courses/cs148/tutorials/measurement_model_tutorial.pdf (Brown CS148 tutorial)
 - Burgard, W. et al., *Introduction to Mobile Robotics*, "Probabilistic Sensor Models" slides, University of Freiburg, http://ais.informatik.uni-freiburg.de/teaching/ss23/robotics/slides/07-sensor-models.pdf (Freiburg sensor-model slides)
 - Lenser, S. and Veloso, M. (2000). "Sensor Resetting Localization for Poorly Modelled Mobile Robots". *IEEE International Conference on Robotics and Automation*. https://www.ri.cmu.edu/publications/sensor-resetting-localization-for-poorly-modelled-mobile-robots (Lenser and Veloso 2000)
-- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §11.5.1 "Landmark sensors". Free online: https://lavalle.pl/planning/node574.html (LaValle)
 - Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. §6.6 (feature-based measurement models), §6.6.3 (sampling poses). Cited only for what the free sources above confirm or the Note derives. (Thrun)
 
 **Other references**
 
-- Carlotta A. Berry, PhD, "Advanced Mobile Robotics: 4-2s Landmark-based Detection Sensor Model Example", YouTube, https://www.youtube.com/watch?v=7xwHe3vAqZc (a second worked example; the notebook reproduces its density 0.606)
 - Oriolo, G., "Localization: Landmark-based and SLAM" slides, Sapienza University of Rome, https://www.diag.uniroma1.it/~oriolo/amr/slides/Localization3_Slides.pdf
 
 ## 9. Key terms
@@ -364,8 +330,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Angle wrapping (G-2404) | Adding or subtracting full turns until an angle or angle difference lies between −180° and 180°, so that 175° and −178° count as 7° apart, not 353°; needed whenever bearings or headings are compared. |
 | Landmark measurement model (G-2401) | The density of a landmark reading (range, bearing) given a pose and the map: a Gaussian of the range error times a Gaussian of the bearing error, with the errors taken as independent; it scores how well a guessed pose explains what the robot saw. |
 | Trilateration (G-2406) | Finding a position from measured distances to points at known places: each distance puts the robot on a circle, and the circles meet at the position; GPS works this way. |
-| Triangulation (G-2409) | Finding a position from measured angles (bearings) to points at known places; with three landmarks that are not in a line, the bearings fix the pose. |
-| Bearing-only sensor (G-2407) | A sensor that reports only the direction to a landmark, not its distance, such as a simple camera; its model keeps only the bearing term, and several landmarks are needed to fix the pose. |
 | Sampling poses from a measurement (G-2408) | Drawing poses that fit one reading: for a landmark, a random angle around it, the measured range plus noise, and the heading that makes the landmark appear at the measured bearing; used to add good guesses to a particle filter that is lost. |
 | [Measurement model $p(z \mid x, m)$](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) | The density of getting sensor readings $z$ if the robot were at pose $x$ in map $m$ (also sensor or observation model); read over poses it is a likelihood that tells a filter which poses fit the readings. |
 | [Range (of a landmark reading)](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature) (G-2343) | The distance from the robot to a sensed landmark, such as 2.236 m; together with the bearing it fixes where the landmark is relative to the robot. |

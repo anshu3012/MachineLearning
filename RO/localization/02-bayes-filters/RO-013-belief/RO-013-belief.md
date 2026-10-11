@@ -48,15 +48,7 @@ The robot's run in Figure 2 is the running example of this Note:
 
 ### 2.2 The information state: everything the robot knows
 
-The framed part of Figure 2 is everything the robot knows at time $t$: what it knew at the start, followed by every command and every reading so far. This list is the **information state** (G-2431), also called the history information state (LaValle §11.1.2). At time 2 it is:
-
-$$\eta_2 = (u_1,\ z_1,\ u_2,\ z_2)$$
-
-$$\eta_2 = (\text{stay},\ \text{door},\ \text{move 2},\ \text{door})$$
-
-The Greek letter $\eta$ (eta) is LaValle's name for it. Each new step adds one command and one reading:
-
-$$\eta_t = (\eta_{t-1},\ u_t,\ z_t)$$
+The framed part of Figure 2 is everything the robot knows at time $t$: what it knew at the start, followed by every command and every reading so far. This list is the **information state** (G-2431), also called the history information state (LaValle §11.1.2). At time 2 it is the list (stay, door, move 2, door). Each new step adds one command and one reading.
 
 Why give the list a name? Because it is the only thing a robot's decisions can be based on. A rule such as "if you think you are at the second door, open it" has to be a rule on what the robot knows, not on its true cell, which it never sees (LaValle §11.1.3).
 
@@ -90,17 +82,11 @@ $$= \lbrace3 \rbrace$$
 
 ![The set of possible cells: after reading door it is {1, 3, 7}; after moving 1, 2 or 3 cells it is the union {2, 3, 4} with {4, 5, 6} and {8, 9, 0}; after reading door again only cell 3 is both reachable and a door](images/sets.png)
 
-Figure 3 shows the three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible states is the **nondeterministic information state** (G-2432), also called the set-valued information state (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs. LaValle gives the two rules in general form, with $F(x, u)$ the set of cells that command $u$ can lead to from cell $x$, and $H(z)$ the set of cells where reading $z$ is possible:
-
-$$\text{after a move: } \bigcup_{x \in S} F(x, u)$$
-
-$$\text{after a reading: } S \cap H(z)$$
-
-Here $S$ is the set before the step.
+Figure 3 shows the three sets. Only cell 3 can be reached from a door by one move and is itself a door, so the robot knows exactly where it is. This set of possible states is the **nondeterministic information state** (G-2432), also called the set-valued information state (LaValle §11.2.2). It is far shorter than the history: at most 10 cells, however long the robot runs.
 
 ### 3.2 Why a set is not enough
 
-Now use the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell, so $H(\text{door})$ is the whole hallway, and the intersection removes nothing:
+Now use the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell, so for any set $S$ of possible cells the intersection removes nothing:
 
 $$S \cap \lbrace0, 1, \ldots, 9 \rbrace= S$$
 
@@ -232,11 +218,7 @@ Why is the reading $z_t$ not in it? A reading does not move the robot. It helps 
 
 For a real wheeled robot, $x_t$ is a pose and the table becomes a probability density over poses: the [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density). Here the hallway keeps it a small table.
 
-**A small piece of maths: Markov chains.** A sequence of states where the next state depends only on the current one is a **Markov chain** (G-2437) (CS188 §8.1). Our robot repeating "move 2" without looking is one. Its transition probabilities fit in a table with one row per "from" cell and one column per "to" cell, the **transition matrix** (G-2438). Row 1 of our 10 × 10 transition matrix, with columns for cells 0 to 9, is:
-
-$$(0,\ 0,\ 0.1,\ 0.8,\ 0.1,\ 0,\ 0,\ 0,\ 0,\ 0)$$
-
-Every row has the same three numbers, shifted to start at its own cell. Every row adds to 1, because from any cell the robot ends somewhere.
+A sequence of states where the next state depends only on the current one is a **Markov chain** (G-2437) (CS188 §8.1).
 
 ### 5.2 What the sensor reads in each place: the measurement probability
 
@@ -269,17 +251,13 @@ Why does it depend on $x_t$ alone? Once the true cell is known, how the robot go
 
 Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place given reading? Because $p(z \mid x)$ is the one we can measure. We park the robot in front of a door 100 times and count how often it reads "door"; doing the same at a wall gives the other row. This direction, from cause to effect, is easy to collect; the other direction, from effect back to cause, is what Bayes' theorem computes from it (Labbe ch.2). For a real range sensor the table becomes the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture).
 
-> **Extra:** These are the same numbers as the door sensor in Thrun's door world, the running example of the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#2-the-door-world): there, the sensor reads "open" with probability 0.6 when the door is open and 0.2 when it is closed (PR §2.4.2). Keeping them equal lets the two Notes share one sensor.
-
 ## 6. The whole picture: the hidden Markov model
 
-> **Key point:** States form a hidden Markov chain driven by the commands; each reading depends only on its own state. Drawn as a graph, this is a dynamic Bayes network, and the probability of a whole story is a product of one factor per arrow.
+> **Key point:** States form a hidden Markov chain driven by the commands; each reading depends only on its own state. Drawn as a graph, this is a dynamic Bayes network.
 
 ### 6.1 A small piece of maths: Bayesian networks
 
-Many probability models are easiest to read as a drawing. Each variable is a circle. Arrows go into a variable from the variables its probability depends on directly; in robot models they usually run from cause to effect. Each variable then needs only one table: its probability given the variables with arrows into it, its **parents**. Such a drawing is a **Bayesian network** (G-2442) (CS188 §6.3). The probability of all variables together is the product of these tables, one per circle.
-
-Why a product? The [chain rule of probability](../../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#4-step-2-the-chain-rule) (G-369) always writes a joint probability as a product of conditional probabilities. The missing arrows say which conditions can be dropped, so each factor shrinks to "given my parents" (CS188 §6.3).
+A Bayesian network draws each variable as a circle, with arrows into it from the variables its probability depends on directly. Each circle has one table, its probability given the circles with arrows into it, and the probability of all variables together is the product of these tables (CS188 §6.3).
 
 ### 6.2 The robot as a dynamic Bayes network
 
@@ -300,62 +278,7 @@ A Bayesian network that repeats the same columns over time is a **dynamic Bayes 
 
 Remove the commands from Figure 8 and a well-known model is left: a Markov chain whose states are hidden, each state producing a reading we can see. This is a **hidden Markov model** (G-2439), or HMM (CS188 §8.2). Speech recognition and weather tracking use the same model; in robotics the hidden state is the robot's place and the reading is its sensor.
 
-HMM texts use their own words for the two tables:
-
-| Robotics name | HMM name | In our hallway |
-|---|---|---|
-| state transition probability | transition probability | 0.1, 0.8, 0.1 |
-| measurement probability | emission probability | 0.6 or 0.2 for "door" |
-
-Written as a table with one row per state and one column per possible reading, the emission probabilities form the **emission matrix** (G-2440). For our hallway it has 10 rows; the two kinds of row are the two rows of the table in Section 5.2. With the commands added back, the robot's model is an HMM whose transitions depend on the command; Thrun calls this the dynamic Bayes network of the robot and its environment (PR §2.3.3).
-
-### 6.4 The probability of one whole story
-
-A **story** here is one full guess at the hidden cells, together with the commands and readings. The network says its probability is a product with one factor per arrow, plus the starting belief. For two time steps:
-
-$$p(x_{0:2}, z_{1:2} \mid u_{1:2}) = p(x_0)$$
-
-$$\times\ p(x_1 \mid u_1, x_0)\ p(z_1 \mid x_1)$$
-
-$$\times\ p(x_2 \mid u_2, x_1)\ p(z_2 \mid x_2)$$
-
-**The true story.** The robot starts in cell 1, stays, reads "door", moves to cell 3, reads "door". One factor per line:
-
-$$p(x_0 = 1) = 0.1$$
-
-$$p(x_1 = 1 \mid \text{stay},\ x_0 = 1) = 1$$
-
-$$p(\text{door} \mid x_1 = 1) = 0.6$$
-
-$$p(x_2 = 3 \mid \text{move 2},\ x_1 = 1) = 0.8$$
-
-$$p(\text{door} \mid x_2 = 3) = 0.6$$
-
-The product:
-
-$$0.1 \times 1 \times 0.6 \times 0.8 \times 0.6$$
-
-$$= 0.0288$$
-
-**A rival story.** Start in cell 7 (also a door), stay, move to cell 9. Every factor is the same except the last one, because cell 9 is a wall:
-
-$$p(\text{door} \mid x_2 = 9) = 0.2$$
-
-$$0.1 \times 1 \times 0.6 \times 0.8 \times 0.2$$
-
-$$= 0.0096$$
-
-The true story is three times as probable as the rival, for the same reason as in Section 4.1: the second reading fits a door three times better than a wall.
-
-This product is what ties the belief to the model. Add up the probabilities of all stories that end in cell 3, and divide by the sum over all stories; the notebook does this for all 1000 stories of three cells:
-
-$$\text{stories ending in cell 3: } 0.0312$$
-
-$$\text{all stories: } 0.1008$$
-
-$$0.0312 / 0.1008 = 0.3095$$
-
-That is $\text{bel}(x_2 = 3)$ from Figure 5. So the belief is the share of all story probability that ends in each cell. Adding up 1000 stories works for 2 steps but not for 200; the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gets the same numbers with one short update per step, and the [grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#53-the-most-likely-path-the-viterbi-algorithm) also find the single most probable story.
+With the commands added back, the robot's model is an HMM whose transitions depend on the command; Thrun calls this the dynamic Bayes network of the robot and its environment (PR §2.3.3).
 
 The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us try other reading sequences.
 
@@ -373,7 +296,7 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 - A belief describes the robot's knowledge, not its position, because the robot is always in exactly one cell.
 - The predicted belief is taken after the command and before the reading, because a move adds doubt and a reading removes it.
 - The state transition probability $p(x_t \mid u_t, x_{t-1})$ and the measurement probability $p(z_t \mid x_t)$ are all the robot needs, because a complete state makes the past irrelevant once the current cell is known.
-- Drawn as a dynamic Bayes network (a hidden Markov model with commands), the probability of a whole story is a product of one factor per arrow, so the belief is the share of all story probability that ends in each cell.
+- Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of Section 5 are all the model needs.
 
 So the answer to the opening question: the robot should keep its belief. It is short, it loses nothing the robot needs from its history, and it says how strongly the readings point to each cell.
 
@@ -406,10 +329,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Predicted belief (G-2436) | The belief after the latest command but before the latest reading, $\overline{\text{bel}}(x_t) = p(x_t \mid z_{1:t-1}, u_{1:t})$; it separates the doubt a move adds from the knowledge a reading brings. |
 | State transition probability (G-2434) | The probability of the next state given the command and the previous state, $p(x_t \mid u_t, x_{t-1})$, such as 0.8 for "move 2" taking the robot from cell 1 to cell 3; it tells the robot how a command changes where it is. |
 | Markov chain (G-2437) | A sequence of random states in which the next state depends only on the current one, not on earlier ones, such as a robot repeating "move 2"; it lets a whole sequence be described by one table of transition probabilities. |
-| Transition matrix (G-2438) | A table of a Markov chain's transition probabilities, one row per "from" state and one column per "to" state, each row adding to 1; it stores in one place how the state moves. |
 | Measurement probability (G-2435) | The probability of a sensor reading given the true state, $p(z_t \mid x_t)$, such as 0.6 for reading "door" in front of a door; it tells the robot how well each state explains a reading. |
-| Bayesian network (G-2442) | A drawing of random variables as circles with arrows into each from the variables it depends on directly (its parents), plus one table per variable giving its probability given its parents; the probability of all variables together is the product of those tables. |
 | Dynamic Bayes network (G-2441) | A Bayesian network that repeats the same variables at every time step, such as states, commands and readings of a robot; it shows which variable depends on which over time, so a whole run's probability splits into small factors. |
 | Hidden Markov model (HMM) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
-| Emission probability (emission matrix) (G-2440) | The HMM name for the measurement probability: the probability of each observation given each hidden state, stored as a table with one row per state and one column per observation; it links what is seen to what is hidden. |
-| [Chain rule of probability](../../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#4-step-2-the-chain-rule) (G-369) | Writing a joint probability as a product of conditional probabilities, one variable at a time. |

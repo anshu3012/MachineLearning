@@ -97,12 +97,6 @@ $$\text{sd} \approx |h'(\mu)| \times \text{sd of } x$$
 
 Carrying a mean and a spread through a function this way, with its value and slope at the mean, is **first-order uncertainty propagation** (G-2519) (Labbe ch.9; Becker ch.13).
 
-**Check far from the beacon.** Input mean 1 m, standard deviation 0.5 m (Figure 2, first frame):
-
-$$\text{sd} \approx 0.928 \times 0.5 = 0.464$$
-
-The 200,000 pushed samples have mean 5.388 and standard deviation 0.464; the tangent line gives 5.385 and 0.464. Where the curve is nearly straight over the width of the bell, the approximation is almost exact.
-
 ### 3.3 When the tangent line fails
 
 The tangent line describes the curve well only near the point where it touches. The farther the bell spreads, and the more the curve bends inside it, the worse the approximation (Labbe ch.9; Freiburg EKF slides). The three frames of Figure 2, from the notebook:
@@ -119,37 +113,7 @@ Near the bend, the tangent bell puts its mean too low and is too narrow, so a fi
 
 A robot's pose has several numbers, $(x, y, \theta)$, and a function of several numbers has a slope for each pair of output and input. The table of all these slopes is the [Jacobian](../../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980), and it plays the part of the slope: near a point, the function behaves like multiplying by that matrix.
 
-**The motion of a wheeled robot.** The robot of [pose and differential drive](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model), at pose $(2, 1, 30^\circ)$, drives $d = 1$ m straight:
-
-$$x' = x + d\cos\theta$$
-
-$$y' = y + d\sin\theta$$
-
-$$\theta' = \theta$$
-
-These are curved in $\theta$. Their Jacobian with respect to $(x, y, \theta)$ has one row per output and one column per input. Only the $\theta$ column is new: the slope of $x'$ in $\theta$ is $-d\sin\theta$ and of $y'$ is $d\cos\theta$. At 30 degrees:
-
-$$-1 \times \sin 30^\circ = -0.5$$
-
-$$1 \times \cos 30^\circ = 0.866$$
-
-$$G = \begin{bmatrix} 1 & 0 & -0.5 \cr0 & 1 & 0.866 \cr0 & 0 & 1 \end{bmatrix}$$
-
-This $G$ is the **motion Jacobian** (G-2522). Take the start covariance with standard deviations 0.1 m in $x$ and $y$ and 0.3 rad in heading:
-
-$$P = \begin{bmatrix} 0.01 & 0 & 0 \cr0 & 0.01 & 0 \cr0 & 0 & 0.09 \end{bmatrix}$$
-
-The matrix version of "variance times slope squared" is $G P G^{\mathsf T}$ ([the matrix Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form)). Its position part:
-
-$$\text{var } x' = 0.01 + 0.5^2 \times 0.09 = 0.0325$$
-
-$$\text{var } y' = 0.01 + 0.866^2 \times 0.09 = 0.0775$$
-
-$$\text{cov} = -0.5 \times 0.866 \times 0.09 = -0.039$$
-
-Figure 3 compares this ellipse with 3000 sampled end poses. Unsure heading sweeps the end point along an arc, so the true cloud is a curved band, a banana; the ellipse covers it roughly, with its mean 0.04 m ahead of the cloud's. Over 200,000 samples the cloud's mean is (2.828, 1.478); the ellipse's is (2.866, 1.500) (notebook). The 3000 samples drawn in Figure 3 give a mean of (2.820, 1.486). With a heading spread of 0.3 rad (17°) the straight-line picture is still usable; with a much larger one the banana would bend round and the ellipse would not fit it (Labbe ch.9; Thrun §5.3).
-
-![3000 sampled end poses after driving 1 m from (2, 1, 30 degrees) with a heading spread of 0.3 rad form a curved banana; the EKF's ellipse of two standard deviations from G P G-transpose covers it roughly, with its mean 0.04 m ahead](images/banana.png)
+For motion the Jacobian is called $G$, the **motion Jacobian** (G-2522), and it carries the covariance as $G P G^{\mathsf T}$.
 
 ## 4. The extended Kalman filter
 
@@ -232,7 +196,7 @@ matching $p_1$.
 
 ### 4.3 Sixteen steps, past the beacon
 
-Figure 4 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. Watch the slope $H$ in the lower panel:
+Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. Watch the slope $H$ in the lower panel:
 
 | Step | Prediction (m) | Slope $H$ | Gain $K$ | Variance after (m²) | Estimate (m) | True (m) |
 |---|---|---|---|---|---|---|
@@ -246,14 +210,14 @@ Figure 4 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beac
 ![Top: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance rises from −0.94 through 0 at the beacon to +0.62](images/ekf_run.png)
 
 - Far from the beacon the slope is near −1: each reading pins the position down, and the variance stays between 0.007 and 0.011 m².
-- Near the beacon the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 4 widens; the filter is coasting on its commands.
+- Near the beacon the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 3 widens; the filter is coasting on its commands.
 - Past the beacon the slope turns positive and the gain changes sign with it; the readings pin the position down again.
 
 The filter needs no special case for any of this: recomputing $H$ at every prediction is all it takes.
 
 ### 4.4 The limits of the EKF
 
-**One bell holds one side.** Positions 4 m and 8 m give the same reading; so do 1 m and 11 m. Figure 5 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
+**One bell holds one side.** Positions 4 m and 8 m give the same reading; so do 1 m and 11 m. Figure 4 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A bell has one peak, so it cannot say "here or at the mirror place"; a [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-bell-curve-is-not-enough) can keep both until the readings decide (Labbe ch.12).
 
 ![The same 16 readings fed to an EKF started at 0 m (follows the truth) and one started at 11 m (follows the mirror path, wrong by up to 10.5 m with narrow error bars, until the robot passes the beacon at 6 m)](images/mirror.png)
 
@@ -271,7 +235,7 @@ The unscented Kalman filter pushes a few chosen sample points through the curve 
 
 ### 5.1 Why we need a check
 
-The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 5 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
+The EKF's variance comes from tangent lines and from the $Q$ and $R$ we chose, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether it is honest. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8).
 
 ### 5.2 The innovation and its covariance
 
@@ -297,7 +261,7 @@ $$0.242^2 / 0.902 = 0.065$$
 
 **Why it should average 1.** If the filter is honest, $y$ is a bell with mean 0 and variance $S$, so $y / \sqrt{S}$ is a standard bell and its square averages 1. A squared standard bell follows the [chi-square distribution](../../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#31-built-from-squared-normal-draws) (G-378) with 1 degree of freedom; with $m$ readings at once, the NIS follows chi-square with $m$ degrees of freedom and averages $m$ (Chen et al. 2018). For one reading, 95 percent of honest NIS values lie below 3.84 (notebook), and an innovation two standard deviations out gives an NIS of 4.
 
-**On one run.** Figure 6 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right $R$, 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a band half as wide, and 13 percent fall outside: its surprises are bigger than it admits (Labbe ch.8).
+**On one run.** Figure 5 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right $R$, 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a band half as wide, and 13 percent fall outside: its surprises are bigger than it admits (Labbe ch.8).
 
 ![Innovations of one 60-step run with the band of two predicted standard deviations: with R = 0.01 2 percent fall outside; with R = 0.0025 the band is half as wide and 13 percent fall outside](images/innovation.png)
 
@@ -311,7 +275,7 @@ or $\tilde{\mathbf{x}}^{\mathsf T} P^{-1} \tilde{\mathbf{x}}$ for a state of $n$
 
 $$(0.73 - 0.755)^2 / 0.0112 = 0.056$$
 
-One value says little; the test averages many. We simulated 500 runs of 16 steps, ran three EKFs on each, and averaged NEES and NIS at each step (Figure 7). If the filter is honest, an average of 500 chi-square values with 1 degree of freedom lies between 0.88 and 1.13 in 95 percent of cases (notebook):
+One value says little; the test averages many. We simulated 500 runs of 16 steps, ran three EKFs on each, and averaged NEES and NIS at each step (Figure 6). If the filter is honest, an average of 500 chi-square values with 1 degree of freedom lies between 0.88 and 1.13 in 95 percent of cases (notebook):
 
 | Filter | Average NEES | Average NIS | Verdict |
 |---|---|---|---|
@@ -341,7 +305,7 @@ The innovations should also look like random noise: centred on zero and with no 
 | NIS, NEES | squared surprise or error over its predicted variance, average 1 per variable | tests whether the filter's variance is honest |
 
 - A curve bends a bell: near the beacon the readings pile up against 2 m with skewness 1.89, so a mean and variance alone no longer describe them.
-- Linearising at the mean is almost exact where the curve is straight over the bell's width (sd 0.464 both ways at 1 m) and too narrow where it bends (0.36 against 0.57 for a wide bell at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
+- Linearising at the mean is almost exact where the curve is straight over the bell's width (sd 0.46 both ways at 1 m) and too narrow where it bends (0.36 against 0.57 for a wide bell at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
 - The EKF uses the curved functions for the means and their slopes for the covariances, so with straight-line models it is exactly the Kalman filter.
 - The slope sets how much a reading tells: at 0.94 the position is pinned to 0.106 m; under the beacon it is near 0 and the filter coasts on its commands.
 - One bell holds one hypothesis, so an EKF started on the wrong side follows the mirror path, 10.5 m off with tiny error bars; multi-bump beliefs need a particle filter.
@@ -365,7 +329,7 @@ So the beacon that measures a distance, not a position, still locates the robot:
 **Other references**
 
 - NPTEL-NOC IITM, "Introduction to Robotics, #34 Extended Kalman Filter", YouTube, https://www.youtube.com/watch?v=c7V5_uQ2ues
-- Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. §3.3 "The Extended Kalman Filter", §5.3 (sampled motion and its banana shape); cited for what the Freiburg slides and Labbe confirm (Thrun)
+- Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. §3.3 "The Extended Kalman Filter"; cited for what the Freiburg slides and Labbe confirm (Thrun)
 - Bar-Shalom, Y., Li, X. R. and Kirubarajan, T. (2001). *Estimation with Applications to Tracking and Navigation*. Wiley. The origin of the NEES and NIS tests, cited by Chen et al. 2018
 
 ## 8. Key terms
@@ -375,7 +339,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | First-order uncertainty propagation (G-2519) | Carrying a mean and a spread through a function by its value and slope at the mean: mean out ≈ $h(\mu)$, standard deviation out ≈ slope × standard deviation in (with a Jacobian, $J P J^{\mathsf T}$); accurate when the function is nearly straight across the spread. |
-| Motion Jacobian $G$ (G-2522) | The slopes of the motion model at the last estimate, such as the column $(-d\sin\theta, d\cos\theta, 1)$ for heading in a driving robot; the EKF uses it to carry the covariance forward as $G P G^{\mathsf T} + Q$. |
+| Motion Jacobian $G$ (G-2522) | The table of slopes of the motion model at the last estimate, one row per new state variable and one column per old one; the EKF uses it to carry the covariance forward as $G P G^{\mathsf T} + Q$. |
 | Extended Kalman filter (EKF) (G-2520) | The Kalman filter for curved motion and sensor models: it moves the mean through the curved functions and uses their Jacobians at the latest estimate in place of $F$ and $H$, so it can track one-bump beliefs through nonlinear models. |
 | Measurement Jacobian $H$ (G-2521) | The slopes of the sensor model at the predicted state, one row per reading and one column per state variable; the EKF uses it to compute the innovation covariance and the gain, and its size says how much a reading tells about the state. |
 | Consistent filter (filter honesty) (G-2524) | A filter whose real errors are as large as its own reported covariance says, on average; only then can its uncertainty be trusted by a controller or planner. |

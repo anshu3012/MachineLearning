@@ -178,17 +178,7 @@ $$\text{bel}(x_t) = \eta\ p(z_t \mid x_t)\ \overline{\text{bel}}(x_t)$$
 
 This is the **correction step** (G-2448), also called the measurement update (PR §2.4.1). It multiplies each state's predicted belief by how well that state explains the reading, then rescales with $\eta$ so the beliefs add to 1.
 
-**At $t = 1$, the reading is "sense open":**
-
-$$\text{open: } 0.6 \times 0.5 = 0.3$$
-
-$$\text{closed: } 0.2 \times 0.5 = 0.1$$
-
-$$\eta = 1 / 0.4 = 2.5$$
-
-$$\text{bel}(x_1 = \text{open}) = 0.75$$
-
-$$\text{bel}(x_1 = \text{closed}) = 0.25$$
+At $t = 1$ the prediction changed nothing, so the correction repeats [Section 3.1](#31-why-the-robot-needs-bayes-theorem): the belief in open becomes 0.75.
 
 **At $t = 2$, the reading is again "sense open":**
 
@@ -293,7 +283,7 @@ The first two together are the [Markov property](../RO-007-why-a-robot-is-never-
 
 ## 6. The same two steps on a continuous position
 
-> **Key point:** For a position that can take any value, the sum of the prediction step becomes an integral. When the beliefs are Gaussian, prediction always widens the belief and correction always narrows it, even below the width of the reading.
+> **Key point:** For a position that can take any value, the sum of the prediction step becomes an integral; the correction step is unchanged.
 
 Positions in a real hallway are not 2 door states but any number of metres. The belief becomes a [probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), and the sum over previous states becomes an [integral](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957), a sum over infinitely many thin slices:
 
@@ -303,55 +293,13 @@ $$\times\ \text{bel}(x_{t-1})\ dx_{t-1}$$
 
 The correction step is unchanged: multiply by $p(z_t \mid x_t)$ and rescale so the area under the curve is 1 (PR §2.4.1).
 
-**A worked example.** A robot drives along a straight hallway. Its belief about its position is a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), a bell curve with:
-
-$$\text{mean} = 0 \text{ m}$$
-
-$$\text{standard deviation} = 0.6 \text{ m}$$
-
-It drives forward 3 m; its odometry says the real distance varies with a standard deviation of 0.9 m. Then a sensor reads 3.6 m, with a standard deviation of 0.7 m. Figure 6 plays both steps, computed on a 1 cm grid in the notebook.
-
-![The continuous Bayes filter: the belief at 0 m with sd 0.6 m slides to 3 m and widens to sd 1.08 m after the move; a reading of 3.6 m with sd 0.7 m arrives; their normalised product has mean 3.42 m and sd 0.59 m, narrower than both](images/gauss_filter.gif)
-
-**Predict.** The curve slides to 3 m, and it widens. For Gaussians the variances (squared standard deviations) add, because the error of the old position and the error of the move are [independent errors that add](../RO-017-kalman-filter/RO-017-kalman-filter.md#24-adding-independent-errors-adds-variances) (Labbe ch.4):
-
-$$0.6^2 + 0.9^2 = 1.17$$
-
-$$\sqrt{1.17} = 1.08 \text{ m}$$
-
-The robot knows less about its position after moving than before. That is not a flaw of the maths: moving without looking can only lose information.
-
-**Correct.** Multiply the predicted curve by the reading's curve and rescale. For two Gaussians the product is again a Gaussian, with a variance smaller than either (Labbe ch.4):
-
-$$\frac{1.17 \times 0.49}{1.17 + 0.49} = 0.345$$
-
-$$\sqrt{0.345} = 0.59 \text{ m}$$
-
-Why smaller than either? The formula is the reading's variance times a fraction below 1:
-
-$$0.49 \times \frac{1.17}{1.17 + 0.49}$$
-
-$$= 0.49 \times 0.705 = 0.345$$
-
-The same holds the other way round, so the product is narrower than both the predicted belief (1.08 m) and the reading itself (0.7 m). Two independent noisy opinions about the same position contain more information than either alone.
-
-The new mean is a weighted average of the prediction, 3 m, and the reading, 3.6 m. Each one is weighted by the other one's variance, so the more certain opinion gets the larger weight (Labbe ch.4):
-
-$$\frac{0.49 \times 3 + 1.17 \times 3.6}{1.17 + 0.49}$$
-
-$$= \frac{1.47 + 4.212}{1.66}$$
-
-$$= 3.42 \text{ m}$$
-
-The mean lies between the two, nearer the reading, because the reading has the smaller variance (0.49 against 1.17).
-
-The [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#3-predict-the-bell-moves-and-widens) derives these Gaussian formulas in general, including [why multiplying two bells gives a narrower bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-bells).
+The numbers for Gaussian beliefs are worked in [why multiplying two bells gives a narrower bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-bells).
 
 ## 7. The belief is the probabilistic information state
 
 > **Key point:** The belief can be updated from the previous belief, the newest command and the newest reading alone. So it carries everything the history knew, and the robot can throw the history away.
 
-The [set of possible states](../RO-013-belief/RO-013-belief.md#3-summary-1-the-set-of-cells-the-robot-could-be-in) also had two update rules, one per event. LaValle puts the two summaries side by side (Figure 7):
+The [set of possible states](../RO-013-belief/RO-013-belief.md#3-summary-1-the-set-of-cells-the-robot-could-be-in) also had two update rules, one per event. LaValle puts the two summaries side by side (Figure 6):
 
 - after a move, the **union** of all reachable states becomes the **sum** over all previous states (the prediction step);
 - after a reading, the **intersection** with the states that fit becomes **multiply by $p(z \mid x)$ and rescale** (the correction step).
@@ -370,7 +318,7 @@ The Bayes filter says what to compute, not how to store a belief over a continuo
 
 - **[grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter):** chop the space into cells and keep one probability per cell, as in the hallway; the sum stays a sum;
 - **[particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#3-a-belief-as-a-cloud-of-samples):** keep a cloud of sample states; dense clouds mean high belief;
-- **[Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#2-why-two-numbers-are-enough-the-linear-gaussian-system):** assume every belief is a Gaussian and keep only its mean and spread, as in Section 6;
+- **[Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#2-why-two-numbers-are-enough-the-linear-gaussian-system):** assume every belief is a Gaussian and keep only its mean and spread;
 - **[extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#2-the-kalman-filter-in-brief-and-why-curves-break-it):** the Kalman filter for curved motion and sensor models.
 
 Each is a different bet about what shape the belief is allowed to have. Knowing the Bayes filter tells us what each of them is trying to compute, and what breaks when its bet is wrong.
@@ -387,7 +335,7 @@ Each is a different bet about what shape the belief is allowed to have. Knowing 
 - The prediction step adds up every way of reaching each state (the law of total probability), because the robot does not know its previous state; a push raised the door belief to 0.95 before the robot looked.
 - The correction step multiplies by $p(z_t \mid x_t)$ and divides by the sum, so the beliefs add to 1; the normaliser never has to be known in advance.
 - The derivation is exact under three assumptions (readings depend only on the current state, motion only on the previous state and command, the newest command says nothing about the past), so the filter fails in the ways those assumptions fail.
-- On a continuous position the sum becomes an integral; for Gaussian beliefs prediction widens the belief (1.08 m), because independent errors add their variances, and correction narrows it below both inputs (0.59 m), because two independent opinions carry more information than either.
+- On a continuous position the sum of the prediction step becomes an integral, because there are infinitely many previous positions to add up; the correction step is unchanged.
 - The belief needs only the last belief, $u_t$ and $z_t$, so it is the probabilistic information state and the robot never stores its history.
 
 So the answer to the opening question: predict with the motion model after every command, correct with the measurement model after every reading, and keep nothing but the belief.
@@ -400,7 +348,7 @@ So the answer to the opening question: predict with the motion model after every
 - Cyrill Stachniss, "Bayes Filter (Cyrill Stachniss)", YouTube, https://www.youtube.com/watch?v=0lKHFJpaZvE
 - Carlotta A. Berry, PhD, "Advanced Mobile Robotics Lecture 2-2a: Recursive Bayesian Updating for State Estimation", YouTube, https://www.youtube.com/watch?v=3W6IxGNsKX4
 - NPTEL IIT Madras, "Introduction to Robotics: Recursive State Estimation, Bayes Filter Illustration" (#30), YouTube, https://www.youtube.com/watch?v=8PtZx6SeJ2s
-- Labbe, R. *Kalman and Bayesian Filters in Python*, ch.2 "Discrete Bayes Filter" (section "Bayes Theorem and the Total Probability Theorem") and ch.4 "One Dimensional Kalman Filters" (sums and products of Gaussians). https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python (Labbe ch.2, Labbe ch.4)
+- Labbe, R. *Kalman and Bayesian Filters in Python*, ch.2 "Discrete Bayes Filter" (section "Bayes Theorem and the Total Probability Theorem"). https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python (Labbe ch.2)
 - LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §11.2.3 "Probabilistic information spaces". Free online: https://lavalle.pl/planning/node552.html (LaValle)
 - DeNero, J., Klein, D. et al. *CS 188: Introduction to Artificial Intelligence*, online textbook, UC Berkeley. §8.2.1 "The forward algorithm" (the two steps derived from marginalisation and Bayes' rule). https://inst.eecs.berkeley.edu/~cs188/textbook/hmms/hmm.html
 

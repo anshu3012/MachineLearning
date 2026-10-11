@@ -1,0 +1,52 @@
+[
+ {
+  "cell_type": "markdown",
+  "id": "b66b1c9d",
+  "metadata": {},
+  "source": [
+   "## 2. A pose through the motion model (Note, Section 3.4)"
+  ]
+ },
+ {
+  "cell_type": "code",
+  "execution_count": 3,
+  "id": "fd1e0724",
+  "metadata": {
+   "execution": {
+    "iopub.execute_input": "2026-10-08T02:23:43.035658Z",
+    "iopub.status.busy": "2026-10-08T02:23:43.035459Z",
+    "iopub.status.idle": "2026-10-08T02:23:43.061122Z",
+    "shell.execute_reply": "2026-10-08T02:23:43.060139Z"
+   }
+  },
+  "outputs": [
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "G =\n",
+     " [[ 1.     0.    -0.5  ]\n",
+     " [ 0.     1.     0.866]\n",
+     " [ 0.     0.     1.   ]]\n",
+     "G P G^T =\n",
+     " [[ 0.0325 -0.039  -0.045 ]\n",
+     " [-0.039   0.0775  0.0779]\n",
+     " [-0.045   0.0779  0.09  ]]\n",
+     "samples: mean 2.828 1.478  covariance\n",
+     " [[ 0.0333 -0.0339]\n",
+     " [-0.0339  0.0723]]\n"
+    ]
+   }
+  ],
+  "source": [
+   "th, d = np.radians(30), 1.0\n",
+   "G = np.array([[1, 0, -d * np.sin(th)], [0, 1, d * np.cos(th)], [0, 0, 1]])\n",
+   "P = np.diag([0.01, 0.01, 0.09])\n",
+   "print(\"G =\\n\", G.round(3)); print(\"G P G^T =\\n\", (G @ P @ G.T).round(4))\n",
+   "N = 200_000\n",
+   "X, Y, T = rng.normal(2, 0.1, N), rng.normal(1, 0.1, N), rng.normal(th, 0.3, N)\n",
+   "X2, Y2 = X + d * np.cos(T), Y + d * np.sin(T)\n",
+   "print(\"samples: mean\", X2.mean().round(3), Y2.mean().round(3), \" covariance\\n\", np.cov(X2, Y2).round(4))"
+  ]
+ }
+]

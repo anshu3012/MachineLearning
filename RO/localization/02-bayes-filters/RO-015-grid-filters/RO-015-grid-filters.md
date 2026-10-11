@@ -90,7 +90,7 @@ Each move spreads every bump over three cells, so the peak shrinks:
 |---|---|---|---|---|---|
 | Highest cell | 1.00 | 0.80 | 0.56 | 0.29 | 0.11 |
 
-The belief tends to 0.1 in every cell, where the robot started before it knew anything. A prediction can only lose information; only readings bring it back (Labbe ch.2). The belief that repeated moves settle into, and that one more move leaves unchanged, is the **stationary distribution** (G-2463) of the motion (CS188 §8.1). Here it is flat, because the hallway is a loop and every cell looks the same to the motion.
+The belief tends to 0.1 in every cell, where the robot started before it knew anything. A prediction can only lose information; only readings bring it back (Labbe ch.2).
 
 ### 2.5 Sense and move together
 
@@ -165,8 +165,6 @@ Most of those millions of cells hold a belief close to zero: the robot is not in
 ![Left: an 8 m by 8 m floor cut into 64 fixed 1 m cells, with the belief concentrated in one spot. Right: the same floor cut adaptively into 19 cells: 4 m cells where the belief is near zero, down to 0.5 m cells at the peak](images/decomposition.png)
 
 Figure 7 compares the two on an 8 m by 8 m floor. The fixed grid uses 64 cells of 1 m. The adaptive one uses 19 cells, yet its smallest cells (0.5 m) are finer than the fixed grid's where the belief peaks. The price is bookkeeping: cells must be split and merged as the belief moves.
-
-> **Extra:** A related trick keeps the fixed grid but updates only the cells whose belief is above a small threshold, the selective update of Fox, Burgard and Thrun. During global localization most of the belief quickly falls below the threshold, so most cells are skipped (Fox 1999, §3.4.2).
 
 ## 4. The binary Bayes filter
 
@@ -260,58 +258,14 @@ $$l = 3.70: \quad p = 0.976$$
 
 The notebook checks that Bayes' theorem applied five times gives the same 0.976.
 
+This filter, a static binary state updated in log odds, is the **binary Bayes filter** (G-2466) (PR §4.2).
+
 ### 4.4 Why work in log odds
 
 Two reasons:
 
 1. **Adding is cheaper than multiplying and rescaling.** A map can hold millions of cells, each updated at every scan; one addition per cell is the cheapest update possible, and every cell can be updated at the same time (Freiburg mapping slides: the log odds update "only requires to compute sums").
 2. **Probabilities near 0 or 1 round off.** Run 40 readings of "open" in ordinary probabilities. The odds become 3 to the power 40, about 12 billion billion, and the computer stores $p(\text{open})$ as exactly 1.0. After that, a reading of "closed" changes nothing, because 1.0 times anything, divided by itself, is still 1.0. In log odds the same run reaches 43.94, and a "closed" reading moves it to 43.25, as it should. The notebook shows both.
-
-### 4.5 The inverse measurement model
-
-So far the robot used $p(z \mid x)$: how likely the reading is for each state. In the binary Bayes filter it is usual to use the other direction, $p(x \mid z)$: how likely the state is, given one reading on its own. This is the **inverse measurement model** (G-2468) (PR §4.2). For the door, with an even prior:
-
-$$p(\text{open} \mid \text{sense open}) = 0.75$$
-
-$$p(\text{open} \mid \text{sense closed}) = 0.33$$
-
-Why turn the model round? Because the state is a single yes or no, while the reading can be large, such as a whole camera image. Writing down how likely every possible image is for an open door is very hard; learning to say "open" or "closed" from one image is much easier (PR §4.2).
-
-The update in log odds is then (PR §4.2; UW CSE 571):
-
-$$l_t = l_{t-1} + \ln \frac{p(x \mid z_t)}{1 - p(x \mid z_t)} - l_0$$
-
-where $l_0$ is the log odds of the prior, before any reading:
-
-$$l_0 = \ln \frac{p(x)}{1 - p(x)}$$
-
-Why subtract $l_0$? The inverse model already includes the prior once, because it answers "how likely is open after this one reading, starting from the prior". Section 4.2 gives the same fact as a formula. Applied to one reading on its own, starting from the prior, it says:
-
-$$\text{odds of } p(x \mid z)$$
-
-$$= \text{Bayes factor} \times \text{prior odds}$$
-
-Take the log of both sides:
-
-$$\ln \frac{p(x \mid z)}{1 - p(x \mid z)}$$
-
-$$= \ln(\text{Bayes factor}) + l_0$$
-
-So the log of the Bayes factor, the amount each reading should add, is:
-
-$$\ln(\text{Bayes factor}) = \ln \frac{p(x \mid z)}{1 - p(x \mid z)} - l_0$$
-
-Put this into "new log odds = old log odds + log of the Bayes factor" and we get the update above. Without the $-l_0$, the prior would be counted again at every reading. With an even prior, $l_0 = 0$, and each "sense open" adds:
-
-$$\ln \frac{0.75}{0.25} = \ln 3 = 1.10$$
-
-the same step as in Section 4.3. This filter, a static binary state updated in log odds, is the **binary Bayes filter** (G-2466) (PR §4.2).
-
-> **Extra:** With an uneven prior the subtraction matters. Suppose doors in this building are usually closed, with a prior of 0.2 for open. The inverse model for "sense open" is then:
->
-> $$\frac{0.6 \times 0.2}{0.6 \times 0.2 + 0.2 \times 0.8} = 0.43$$
->
-> With the $-l_0$ term the filter gives 0.43 after one reading, which matches Bayes' theorem. Without it the filter gives 0.16, because it counted the prior of 0.2 twice.
 
 ## 5. Looking back: smoothing and the most likely path
 
@@ -414,7 +368,7 @@ The best is from cell 1, so the back-pointer of cell 3 at $t = 2$ is cell 1, and
 
 $$m_2(3) = 0.6 \times 0.048 = 0.0288$$
 
-This 0.0288 is the probability of the "true story" in [belief](../RO-013-belief/RO-013-belief.md#64-the-probability-of-one-whole-story): the best path into cell 3 is that story.
+This 0.0288 is the probability of the best path into cell 3, which is the robot's true path: cell 1, then cell 3.
 
 **At $t = 3$, cell 5.** The best way in is from cell 3 at $t = 2$:
 
@@ -434,17 +388,16 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 |---|---|---|---|
 | Histogram filter | where the robot is now | slide and blur (predict), multiply and rescale (correct) | every cell, every step |
 | Static or adaptive cells | how to cut a continuous space | fixed grid, or fine cells only where the belief is high | adaptive saves cells, costs bookkeeping |
-| Binary Bayes filter | a fixed yes-or-no state | add the log odds of the inverse model, subtract $l_0$ | one addition per reading |
+| Binary Bayes filter | a fixed yes-or-no state | add the log of the Bayes factor for each reading | one addition per reading |
 | Forward-backward | where the robot was at an earlier time | multiply forward $\alpha$ and backward $\beta$, rescale | two passes over the run |
 | Viterbi | the single most likely path | maximum instead of sum, then follow back-pointers | 10 × 10 per step, not 10 to the power $T$ |
 
 - The histogram filter runs the Bayes filter exactly on a list of cells, because the sum over previous states has only as many terms as there are cells.
 - Sensing multiplies each cell by $p(z \mid x)$ and rescales, so cells that explain the reading gain belief; moving convolves the belief with the motion kernel, because the same move error applies in every cell.
-- Moving without reading flattens the belief to the stationary distribution, so a robot must keep reading its sensors to stay localized.
+- Moving without reading flattens the belief, so a robot must keep reading its sensors to stay localized.
 - A wrong reading moves the tallest bar but never removes the true cell, so the filter recovers after a few correct readings.
 - Fine cells explode in number with the space size and the number of state variables (7.2 million for a 30 m floor), so adaptive decompositions put small cells only where the belief is high.
 - For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in log odds it adds a fixed number; this is fast and does not round to 0 or 1.
-- The inverse measurement model is used because the state is simple and the reading may be complex; subtracting $l_0$ stops the prior from being counted at every reading.
 - Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
 
 So the answer to the opening question: a computer runs the Bayes filter by cutting the space into cells and doing a multiply, a slide and a rescale on the list of their probabilities; the same model, run backwards and with maxima, also reconstructs the past.
@@ -461,9 +414,8 @@ So the answer to the opening question: a computer runs the Bayes filter by cutti
 - DataMListic, "Forward-Backward Algorithm | HMM Part 3", YouTube, https://www.youtube.com/watch?v=QBDvFVmpgd0 (used for the idea of alpha, beta and gamma only)
 - Carlotta A. Berry, PhD, "Advanced Mobile Robotics: Lecture 5-1 Discrete Bayes Filters" (grid size and tree-based cells), YouTube, https://www.youtube.com/watch?v=m-a8WRKv7nM
 - Labbe, R. *Kalman and Bayesian Filters in Python*, ch.2 "Discrete Bayes Filter" (sensing, prediction as convolution, loss of information, bad sensor data, drawbacks and limitations). https://github.com/rlabbe/Kalman-and-Bayesian-Filters-in-Python/blob/master/02-Discrete-Bayes.ipynb (Labbe ch.2)
-- Fox, D., Burgard, W. and Thrun, S. (1999). Markov localization for mobile robots in dynamic environments. *Journal of Artificial Intelligence Research* 11, 391–427. §3.4 grid sizes and selective update, §6 the need for variable-resolution grids. https://jair.org/index.php/jair/article/view/10246 (Fox 1999)
+- Fox, D., Burgard, W. and Thrun, S. (1999). Markov localization for mobile robots in dynamic environments. *Journal of Artificial Intelligence Research* 11, 391–427. §3.4 grid sizes, §6 the need for variable-resolution grids. https://jair.org/index.php/jair/article/view/10246 (Fox 1999)
 - Luft, L., Burgard, W. et al. (Uni Freiburg), *Introduction to Mobile Robotics*, "Grid Maps and Mapping with Known Poses" slides (binary Bayes filter per cell, log odds update "only requires to compute sums"). http://ais.informatik.uni-freiburg.de/teaching/ss23/robotics/slides/12-occupancy-mapping.pdf (Freiburg mapping slides)
-- University of Washington, CSE 571 Robotics (2020), "Occupancy grid mapping" slides (binary Bayes filter in log odds). https://courses.cs.washington.edu/courses/cse571/20sp/slides/09-occupancy-mapping.pdf (UW CSE 571)
 - DeNero, J., Klein, D. et al. *CS 188: Introduction to Artificial Intelligence*, online textbook, UC Berkeley. §8.1 Markov models, §8.2 hidden Markov models, §8.3 the Viterbi algorithm. https://inst.eecs.berkeley.edu/~cs188/textbook/hmms/viterbi.html (CS188)
 - Jurafsky, D. and Martin, J. H. *Speech and Language Processing*, 3rd ed. draft, Appendix A "Hidden Markov Models" (the count of possible paths, forward, backward and smoothed probabilities, Viterbi). https://web.stanford.edu/~jurafsky/slp3/A.pdf (J&M App. A)
 
@@ -480,12 +432,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Histogram filter (discrete Bayes filter) (G-2461) | The Bayes filter run on a space cut into cells, keeping one probability per cell; sensing multiplies each cell by $p(z \mid x)$ and rescales, moving slides and blurs the list. It makes the Bayes filter computable for a continuous position. |
 | Motion kernel (G-2462) | The short list of move probabilities, such as (0.1, 0.8, 0.1) for one cell short, exact, one cell too far, slid along the belief in the prediction step; it spreads each cell's belief over the cells the robot may have reached. |
-| Stationary distribution (G-2463) | The belief that repeated moves without readings settle into and that one more move leaves unchanged, such as 0.1 in every cell of a looped hallway; it shows that prediction alone loses all knowledge. |
 | Static decomposition (G-2464) | Cutting the state space into cells fixed before the robot starts, usually a regular grid such as 15 cm cells and 2° headings; simple, but it spends as much work on empty regions as where the robot is. |
 | Adaptive (dynamic) decomposition (G-2465) | Cutting the state space into cells that change with the belief: small cells where the belief is high, large cells where it is near zero, as in a quadtree; it gives fine detail with far fewer cells. |
 | Static state (G-2467) | A state that the robot's commands do not change while it is being estimated, such as a door nobody touches; the prediction step then does nothing and only readings update the belief. |
-| Inverse measurement model (G-2468) | The probability of the state given one reading on its own, $p(x \mid z)$, such as 0.75 for "door open" after one "sense open"; used when the state is a simple yes or no but the reading is complex, such as a camera image. |
-| Binary Bayes filter (G-2466) | The Bayes filter for a yes-or-no state that does not change, such as "door open" or "this map cell is occupied", run in log odds: each reading adds the log odds of the inverse measurement model and subtracts the prior's log odds. It is fast and does not round to 0 or 1. |
+| Binary Bayes filter (G-2466) | The Bayes filter for a yes-or-no state that does not change, such as "door open" or "this map cell is occupied", run in log odds: each reading adds the log of its Bayes factor. It is fast and does not round to 0 or 1. |
 | Filtering (state estimation) (G-2469) | Estimating the current state from the readings so far, $p(x_t \mid z_{1:t})$; what a robot needs while it drives, and what the Bayes filter computes. |
 | Smoothing (G-2470) | Estimating the state at an earlier time using all readings, including later ones, $p(x_t \mid z_{1:T})$; later readings often settle where the robot was, such as raising the true starting cell from 0.19 to 0.36. |
 | Most likely path (G-2476) | The one sequence of hidden states with the highest probability given all readings, such as cells 1, 3, 5; one consistent answer for a whole run, found by the Viterbi algorithm. |

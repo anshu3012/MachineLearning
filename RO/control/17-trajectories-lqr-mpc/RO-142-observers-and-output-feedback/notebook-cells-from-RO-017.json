@@ -1,0 +1,30 @@
+[
+ {
+  "cell_type": "code",
+  "execution_count": 8,
+  "id": "d05d6282",
+  "metadata": {
+   "execution": {
+    "iopub.execute_input": "2026-10-08T02:14:03.486773Z",
+    "iopub.status.busy": "2026-10-08T02:14:03.486579Z",
+    "iopub.status.idle": "2026-10-08T02:14:03.493131Z",
+    "shell.execute_reply": "2026-10-08T02:14:03.492360Z"
+   }
+  },
+  "outputs": [
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "position sensor O = [[1.0, 0.0], [1.0, 1.0]]  rank 2\n",
+     "speed sensor O = [[0.0, 1.0], [0.0, 1.0]]  rank 1\n"
+    ]
+   }
+  ],
+  "source": [
+   "for name, Hm in ((\"position sensor\", H), (\"speed sensor\", np.array([[0.0, 1.0]]))):\n",
+   "    O = np.vstack([Hm, Hm @ F])\n",
+   "    print(name, \"O =\", O.tolist(), \" rank\", np.linalg.matrix_rank(O))"
+  ]
+ }
+]

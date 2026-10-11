@@ -1,6 +1,6 @@
 ---
 title: "Particle Filter"
-tags: [subject/robotics, area/localization, concept/particle-filter, concept/resampling, concept/monte-carlo-localization]
+tags: [subject/robotics, area/localization, concept/particle-filter, concept/resampling]
 ---
 
 ## 1. Overview
@@ -21,8 +21,7 @@ The particle filter stores the belief as a set of sample guesses instead. This N
 - why a cloud of samples can stand for a belief, and how accurate it is (Section 3);
 - the three steps, move, weigh and resample, worked by hand and then run on the corridor (Section 4);
 - the low-variance sampler, the standard way to resample (Section 4.3);
-- what goes wrong with too few particles, and the fixes (Section 5);
-- where the particle filter sits among the other filters (Section 6).
+- what goes wrong with too few particles, and the fixes (Section 5).
 
 ## 2. The running example and the Bayes filter in brief
 
@@ -124,8 +123,6 @@ $$\text{bel}(x_t) \approx \lbrace\langle x_t^{[m]},\ w_t^{[m]} \rangle \rbrace$$
 
 The probability of a region is the sum of the weights of the particles in it (with weights that add up to 1). Equal weights give the plain sample count of Section 3.2.
 
-A filter whose belief is not a formula with a fixed list of numbers (a mean and a variance, say) is a **nonparametric filter** (G-2505); the grid filter and the particle filter are both nonparametric, and the detail they can show grows with the computation spent (Freiburg PF slides; Thrun §4.3).
-
 ## 4. The particle filter, step by step
 
 > **Key point:** Each round moves every particle by the command plus its own random slip, weighs it by how well it explains the reading, and resamples the set in proportion to the weights.
@@ -208,39 +205,9 @@ $$0.024 / 7.749 = 0.0031$$
 
 The division by the total is the $\eta$ of the update formula in Section 2.2: we never need to know it in advance.
 
-### 4.2.1 Why weighting gives the right belief: importance sampling
+### 4.2.1 Why weighting gives the right belief
 
-We want particles drawn from the updated belief $\text{bel}(x)$, but we cannot draw from it directly: its shape is the unknown we are computing. What we have are particles drawn from the predicted belief $\overline{\text{bel}}(x)$, because the move step (Section 4.4) produces them. The trick is to keep those particles and correct for the mismatch with weights.
-
-The distribution we want samples from is the **target distribution** (G-2497), $f$; the one we can sample from is the **proposal distribution** (G-2496), $g$. A sample drawn from $g$ at a place where $f$ is twice as high as $g$ should count twice. So each sample gets the weight
-
-$$w = f(x) / g(x)$$
-
-and a weighted set of samples from $g$ then stands for $f$. Drawing from one distribution and weighting by the ratio to stand for another is **importance sampling** (G-2495) (Freiburg PF slides; Labbe ch.12). It needs $g$ to be above zero wherever $f$ is.
-
-For the particle filter, the target and the proposal are the two sides of the update formula:
-
-$$f(x) = \eta\ p(z \mid x)\ \overline{\text{bel}}(x)$$
-
-$$g(x) = \overline{\text{bel}}(x)$$
-
-Their ratio is
-
-$$\frac{f(x)}{g(x)} = \eta\ p(z \mid x)$$
-
-so the weight is just the sensor model, up to the constant $\eta$ that normalising removes (Freiburg PF slides). That is the weight of Section 4.2.
-
-**Check on the corridor.** At the start the particles come from the even belief, 0.1 per metre. Under it, the three doors (3 m in all) hold 0.3 of the probability and the walls (7 m) hold 0.7. Weighting by the first reading:
-
-$$\text{doors: } 0.3 \times 2.567 = 0.770$$
-
-$$\text{walls: } 0.7 \times 0.024 = 0.017$$
-
-Normalised, the doors' share is:
-
-$$0.770 / (0.770 + 0.017) = 0.978$$
-
-or 0.326 per door, and the exact belief from the grid gives 0.326 per door too (notebook). The weighted cloud is the updated belief.
+After the move step (Section 4.4), the particles are samples of the predicted belief $\overline{\text{bel}}(x)$. The update of Section 2.2 multiplies that belief by $p(z \mid x)$ and rescales. Giving each particle the weight $p(z \mid x)$ and normalising does that same update on the cloud, so the weighted cloud stands for the updated belief $\text{bel}(x)$ (Freiburg PF slides). It is the multiply-then-rescale of the [histogram filter's sense step](../RO-015-grid-filters/RO-015-grid-filters.md#22-sense-multiply-then-rescale), with particles in place of cells.
 
 ### 4.3 Resample: copy the heavy particles, drop the light ones
 
@@ -356,11 +323,11 @@ Putting the steps together gives the particle filter of Thrun Table 4.3, as also
 2. **Normalise** the weights so they add up to 1.
 3. **Resample:** draw $M$ particles from the weighted set in proportion to the weights (low-variance sampler); they form $\mathcal X_t$, each with weight $1/M$.
 
-Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use (Section 6). The particle filter applied to robot localization is **Monte Carlo localization** (MCL) (G-2504) (Freiburg PF slides).
+Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use (Section 3.1).
 
 ## 5. Particle deprivation
 
-> **Key point:** If no particle is near the true state, no step can create one there, and the filter settles on a wrong answer. More particles, a few random particles each round and fewer, smarter resamplings are the fixes.
+> **Key point:** If no particle is near the true state, no step can create one there, and the filter settles on a wrong answer. More particles and fewer, smarter resamplings are the fixes.
 
 ### 5.1 Too few particles
 
@@ -378,26 +345,9 @@ With 5 particles, the start often has no particle at door 1, the robot's true do
 
 The problem grows with the number of state variables. A cloud of 100 points covers a 10 m line densely, but spread over a room's $(x, y, \theta)$ the same 100 points leave wide gaps, so the number of particles needed grows very fast with the state's dimension (Labbe ch.12).
 
-### 5.2 The kidnapped robot and random particles
+### 5.2 Other fixes
 
-A harder test: the robot is localized, then picked up and put down somewhere else without being told. This is the **kidnapped robot problem** (G-2503) (Freiburg PF slides). All particles sit at the old place, every reading fits them badly, but normalising the weights hides that, and the cloud stays where it is.
-
-The fix: after each resampling, replace a few particles with random ones spread over the whole map. Adding random particles in this way is **random particle injection** (G-2502); it amounts to assuming the robot may be teleported at any moment with a small probability (Freiburg PF slides).
-
-We tested it on a longer run: the robot drives 0.5 m per step and reads at every step; at step 30 it is moved 5 m. Over 200 runs with 200 particles each (Figure 9):
-
-![Average error over 200 runs. Both versions localize within about 15 steps. After the kidnap at step 30, the filter without random particles stays about 5 m off; with 5 percent random particles the error falls back below 0.3 m by step 45](images/kidnap.png)
-
-| Version | Error before the kidnap (m) | Runs recovered by step 59 (percent) |
-|---|---|---|
-| no random particles | 0.19 | 1.0 |
-| 5 percent random particles | 0.22 | 88.5 |
-
-The random particles cost a little accuracy before the kidnap (0.22 m against 0.19 m), because 5 percent of the cloud is always somewhere useless. In exchange, a lost filter can find the robot again: the random particles that land near the new position explain the readings well, get heavy and are copied.
-
-### 5.3 Other fixes
-
-- **More particles.** The direct fix, paid for in computation (Labbe ch.12). Adaptive Monte Carlo localization (AMCL) changes the number each round: many while the belief is spread out, few once it is one tight cluster (Thrun §8.3).
+- **More particles.** The direct fix, paid for in computation (Labbe ch.12).
 - **Resample less often.** Each resampling throws away variety. One rule resamples only when the weights have become uneven: when the effective number of particles
 
   $$
@@ -407,40 +357,26 @@ The random particles cost a little accuracy before the kidnap (0.22 m against 0.
   falls below half of $M$ (Labbe ch.12). With equal weights it equals $M$; with all weight on one particle it equals 1.
 - **A very accurate sensor is a trap.** If the sensor curve is much narrower than the gaps between particles, almost every particle gets a weight near zero and the cloud collapses onto one or two. Pretending the sensor is noisier than it is, or using more particles, keeps enough particles alive (Labbe ch.12).
 
-## 6. The particle filter among the Bayes filters
-
-> **Key point:** All three filters run the same predict and update; they differ in how they store the belief, which decides what shapes they can hold and what they cost.
-
-| | Grid filter | Particle filter | Kalman filter |
-|---|---|---|---|
-| Belief stored as | one number per cell | $M$ weighted samples | a mean and a covariance |
-| Shapes it can hold | any, at the grid's resolution | any, given enough particles | one bell curve |
-| Models it needs | any | any we can sample from and evaluate | linear, with Gaussian noise |
-| Cost grows with state dimension | very fast | fast | slowly |
-| Our corridor | works | works | fails after reading 1 |
-
-Sources: Labbe ch.12 (summary); Freiburg PF slides; Freiburg KF slides. The [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-bell-is-two-numbers) is the cheapest when its conditions hold, and its extended form handles curved models with one bump ([extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#41-the-algorithm)); the particle filter is the choice when the belief has several bumps, as in our corridor or in a robot that must find itself on a map from scratch.
-
-## 7. Summary
+## 6. Summary
 
 | Step | What it does | Why |
 |---|---|---|
 | Start | spread $M$ particles evenly, weight $1/M$ | the robot knows nothing yet |
 | Move | each particle moves by $u$ plus its own slip | samples the predicted belief, no integral needed |
-| Weigh | $w = p(z \mid x)$, then normalise | importance sampling turns the predicted cloud into the updated belief |
+| Weigh | $w = p(z \mid x)$, then normalise | weighting by $p(z \mid x)$ and rescaling turns the predicted cloud into the updated belief |
 | Resample | draw $M$ new particles in proportion to weight | puts the computation where the belief is |
 
 - A cloud of samples can stand for any belief, because the share of samples in a region estimates its probability; the estimate's spread shrinks like one over the square root of $M$ (0.030 at 100 particles, 0.008 at 1000).
-- One bell curve cannot hold "door 2 or door 3": its peak lands at 5.73 m, in front of wall, so a multi-bump belief needs a nonparametric filter.
-- A particle's weight is the height of the sensor curve at the reading (2.567 at a door, 0.024 at a wall), because target over proposal reduces to $p(z \mid x)$.
+- One bell curve cannot hold "door 2 or door 3": its peak lands at 5.73 m, in front of wall, so a belief with several bumps needs a filter whose belief can take any shape, such as particles.
+- A particle's weight is the height of the sensor curve at the reading (2.567 at a door, 0.024 at a wall), because weighting by $p(z \mid x)$ and normalising is the multiply-and-rescale of the update step.
 - Resampling with the low-variance sampler keeps every particle with weight at least $1/M$ and halves the randomness of plain resampling, so good guesses are not lost by chance.
 - Each particle gets its own slip in the move step, so copies spread out and the cloud keeps covering the possible positions.
 - The weighted mean is a safe answer only for one cluster; with two it can fall in front of a wall.
-- Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100), and a kidnapped robot is lost for good, so filters add a few random particles each round (88.5 percent recovered with 5 percent random particles).
+- Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100).
 
 So the robot of the opening, which saw a door and could be at any of three, ends after three readings and two moves with 96 percent of its belief at door 3, where it is: the cloud held all three doors as long as the readings could not tell them apart.
 
-## 8. Sources
+## 7. Sources
 
 **Built from**
 
@@ -454,9 +390,8 @@ So the robot of the opening, which saw a door and could be at any of three, ends
 **Other references**
 
 - Thrun, S., Burgard, W. and Fox, D. (2005). *Probabilistic Robotics*. MIT Press. §4.3 "The Particle Filter", Table 4.3 (particle filter), Table 4.4 (low-variance sampler); cited for what the Freiburg slides and Labbe confirm (Thrun)
-- Burgard, W. et al. (Uni Freiburg), *Introduction to Mobile Robotics*, "Bayes Filter – Kalman Filter" slides, http://ais.informatik.uni-freiburg.de/teaching/ss23/robotics/slides/10-kalman.pdf (Freiburg KF slides)
 
-## 9. Key terms
+## 8. Key terms
 
 Terms taught in this Note come first; linked terms are recaps, taught in the Note the link opens.
 
@@ -464,19 +399,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Monte Carlo estimate (G-2493) | An estimate of a probability or an average made by counting or averaging random samples, such as the share of samples at door 3; it needs no formula for the distribution, and its spread shrinks like one over the square root of the number of samples. |
 | Particle (G-2491) | One sample guess of the full state, such as a position of 1.6 m, together with a weight; a particle filter keeps $M$ of them so that together they stand for the belief. |
-| Nonparametric filter (G-2505) | A filter whose belief is not a formula with a fixed list of numbers (such as a mean and a variance) but a grid or a set of samples, so it can take any shape; grid and particle filters are nonparametric. |
 | Particle filter (G-2492) | A Bayes filter that stores the belief as a set of weighted samples (particles) and runs each round as move, weigh, resample; it can hold beliefs of any shape, such as three bumps at three doors. |
 | Importance weight (G-2494) | The weight a particle gets from a reading: the height of the sensor model $p(z \mid x)$ at that reading, normalised over all particles; it says how well the particle explains what the robot sensed. |
-| Target distribution (G-2497) | In importance sampling, the distribution we want samples from but cannot draw directly; in a particle filter, the updated belief after a reading. |
-| Proposal distribution (G-2496) | In importance sampling, the distribution the samples are actually drawn from; in a particle filter, the predicted belief produced by the move step. |
-| Importance sampling (G-2495) | Drawing samples from a distribution we can sample (the proposal) and weighting each by target over proposal, so the weighted samples stand for a distribution we cannot sample directly (the target). |
 | Resampling (particle filter) (G-2498) | Drawing a fresh set of $M$ particles, with replacement, from the weighted set, each pick in proportion to weight, then giving all weight $1/M$; heavy particles are copied and light ones dropped, so computation goes where the belief is. |
 | Multinomial resampling (G-2500) | Plain resampling: $M$ independent random numbers each pick a particle in proportion to weight; simple, but a good particle can get no copy by chance. |
 | Low-variance sampler (systematic resampling) (G-2499) | A way to resample with one random start between 0 and $1/M$ and $M$ pointers $1/M$ apart along the stacked weights; it keeps every particle with weight at least $1/M$, adds little randomness and runs in time proportional to $M$. |
-| Monte Carlo localization (MCL) (G-2504) | The particle filter used to find a robot's pose on a known map: particles are poses, moved by the motion model and weighed by the sensor model against the map. |
-| Particle deprivation (G-2501) | The failure in which no particles are left near the true state, so the filter settles confidently on a wrong answer; caused by too few particles or unlucky resampling, and fought with more particles or random particles. |
-| Kidnapped robot problem (G-2503) | The test in which a localized robot is moved elsewhere without being told; a filter passes only if it can notice and relocalize, which a plain particle filter cannot. |
-| Random particle injection (G-2502) | Replacing a few particles after each resampling with random ones spread over the whole map, so a lost or kidnapped filter can find the robot again, at a small cost in accuracy. |
+| Particle deprivation (G-2501) | The failure in which no particles are left near the true state, so the filter settles confidently on a wrong answer; caused by too few particles or unlucky resampling, and fought with more particles and fewer resamplings. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
 | [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |

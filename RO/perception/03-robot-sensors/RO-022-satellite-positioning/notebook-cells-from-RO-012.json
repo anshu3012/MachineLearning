@@ -1,0 +1,35 @@
+[
+ {
+  "cell_type": "code",
+  "execution_count": 6,
+  "id": "8a0fdb01",
+  "metadata": {
+   "execution": {
+    "iopub.execute_input": "2026-10-08T02:25:44.354838Z",
+    "iopub.status.busy": "2026-10-08T02:25:44.354685Z",
+    "iopub.status.idle": "2026-10-08T02:25:44.359474Z",
+    "shell.execute_reply": "2026-10-08T02:25:44.358530Z"
+   }
+  },
+  "outputs": [
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "a = 4.0447  x = 2.7403  y = +- 1.4494\n",
+     "meeting points: [1.905 1.96 ] [1.475 4.827]\n"
+    ]
+   }
+  ],
+  "source": [
+   "p1, p2 = np.array(LM['pink']), np.array(LM['green'])\n",
+   "d1, d2 = READ['pink'][0], READ['green'][0]\n",
+   "a = np.linalg.norm(p2 - p1)\n",
+   "x = (a ** 2 + d1 ** 2 - d2 ** 2) / (2 * a)\n",
+   "y = np.sqrt(d1 ** 2 - x ** 2)\n",
+   "u = (p2 - p1) / a; nrm = np.array([-u[1], u[0]])\n",
+   "print('a =', a.round(4), ' x =', x.round(4), ' y = +-', y.round(4))\n",
+   "print('meeting points:', (p1 + x * u + y * nrm).round(3), (p1 + x * u - y * nrm).round(3))"
+  ]
+ }
+]

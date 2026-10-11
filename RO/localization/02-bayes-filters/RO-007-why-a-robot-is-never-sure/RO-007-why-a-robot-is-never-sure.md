@@ -161,15 +161,15 @@ $$3 \times 0.1875 + 7 \times 0.0625 = 1$$
 
 ![After one reading "door": a perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_reading.png)
 
-Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. The same holds in the room of Figure 5: the robot cannot be sure it is not in the middle of the room, because it may be looking at a flat obstacle that is not on its map, such as a box, so those poses keep a low but nonzero probability. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter.
+Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter.
 
 ## 4. The state: what the robot keeps track of
 
-> **Key point:** The state is every quantity the robot needs to predict what happens next: its pose, often its speeds, the things around it that can change, and sometimes its own health. A state is complete when knowing it now makes the past useless for predicting the future.
+> **Key point:** The state is every quantity the robot needs to predict what happens next: its pose, often its speeds, and the things around it that can change. A state is complete when knowing it now makes the past useless for predicting the future.
 
 ### 4.1 State: from one number to many
 
-In the hallway the robot needs one number, its cell. A robot on a floor needs three, its [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280): position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°). A robot in 3D, such as a drone, needs six: three for position and three angles.
+In the hallway the robot needs one number, its cell. A robot on a floor needs three, its [pose](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280): position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°).
 
 The collection of quantities the robot keeps track of because they decide what happens next is its **state** (G-2314), written $x_t$ at time $t$. In the hallway run of Section 3.2 the robot is in cell 3 at time 2:
 
@@ -179,9 +179,7 @@ Depending on the robot and the task, the state can also include:
 
 - the **pose** of the robot;
 - the **speeds** of the robot, when it does not stop the moment its motors stop (Section 4.2);
-- the **settings of its actuators**, such as the joint angles of an arm it carries;
-- the **positions of things around it**: fixed things such as walls and doors are kept in a [map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for), while things that move, such as people, go into the state, often with their speeds;
-- the **robot's own health**, such as its battery level or the wear on its gears.
+- the **positions of things around it**: fixed things such as walls and doors are kept in a [map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for), while things that move, such as people, go into the state, often with their speeds.
 
 ### 4.2 Why the speed can belong to the state
 
@@ -207,8 +205,6 @@ That test gives the definition. A state is a **complete state** (G-2315) if know
 
 A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its belief, it needs only the latest state, not every reading since it was switched on. The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) is built on it.
 
-The same test catches a door that people open and close. If the map treats the door as always closed, the robot's recent readings at that door tell it something the state does not hold (whether the door is open now), so the state is not complete. Adding "door open or closed" to the state makes it complete again.
-
 In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000).
 
 ## 5. Controls and measurements: two streams of data
@@ -232,12 +228,6 @@ The data that reaches a robot comes in two kinds (Thrun 2000; Khamis L5):
   $$
 
 We keep them apart because they do opposite things to the robot's knowledge (Section 6). A control causes the state to change; a measurement does not change the state, it only tells the robot something about it.
-
-A list of all measurements from time 1 to time $t$ is written $z_{1:t}$, and likewise $u_{1:t}$ for controls. In the hallway run:
-
-$$z_{1:2} = (\text{door},\ \text{door})$$
-
-$$u_{1:2} = (\text{stay},\ \text{move 2})$$
 
 ### 5.2 The order in time
 
@@ -330,7 +320,7 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 - Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than hope for perfect ones.
 - One reading "door" fits three cells, so the robot keeps all three at 0.33; a single best guess is right only one time in three and, once contradicted, has nothing left.
 - With a noisy sensor the robot weights places instead of crossing them out, because crossing out would delete the true place whenever a reading is wrong (64 percent of the time over two readings at two doors, with a sensor that sees a door 60 percent of the time).
-- The state holds what decides the future: pose, speeds when the robot coasts, moving things around it, its health; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
+- The state holds what decides the future: pose, speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
 - A control comes first and changes the state; a measurement follows and reports on it, so each step of a filter is "move, then look".
 - Moves spread the distribution (0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
 

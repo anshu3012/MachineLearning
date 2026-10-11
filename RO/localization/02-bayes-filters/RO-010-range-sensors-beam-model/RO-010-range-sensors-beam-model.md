@@ -308,8 +308,6 @@ So the scan says pose A is about 215 times more likely than pose B, the right an
 > ```
 > `mixture` is defined in the notebook `RO-010-range-sensors-beam-model.ipynb`.
 
-> **Extra:** Ray casting is the expensive step: every beam of every guessed pose walks through the map. A particle filter tries hundreds of poses per scan, so implementations precompute expected ranges for a grid of poses and angles, trading memory for speed (Freiburg slides). The [likelihood field model](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#31-look-only-at-where-the-beam-ends) avoids ray casting altogether.
-
 ## 6. Learning the model's numbers from data
 
 > **Key point:** Record many readings of a wall at a known distance and choose the weights and widths that make those readings most likely. The causes are hidden, so EM finds them by alternating "which cause made each reading?" with "refit each cause".
@@ -330,12 +328,7 @@ The principle is [maximum likelihood estimation](../../../../MA/08-likelihood/MA
 
 $$\ell = \sum_{i=1}^{n} \log p(z_i \mid z^{\ast})$$
 
-where each $p(z_i \mid z^{\ast})$ is the mixture of Section 5 at $z^{\ast} = 3$ m. The log of a sum of four parts does not split into simple pieces, so setting the derivative to zero gives no closed formula, exactly as for a [Gaussian mixture](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#9-why-maximum-likelihood-has-no-closed-form). Two ways out:
-
-- **Search** the parameter values, for example by hill climbing or gradient ascent on $\ell$, and fix the last weight so that the weights sum to 1 (Freiburg slides, "Approximation").
-- **EM:** guess which cause made each reading, refit each cause to its readings, and repeat (UW CSE 571 slides; Thrun §6.3.4; De Laet et al. 2008, Algorithm 1).
-
-EM is the standard choice for mixtures, because each of its steps has a simple formula.
+where each $p(z_i \mid z^{\ast})$ is the mixture of Section 5 at $z^{\ast} = 3$ m. The log of a sum of four parts does not split into simple pieces, so setting the derivative to zero gives no closed formula, exactly as for a [Gaussian mixture](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#9-why-maximum-likelihood-has-no-closed-form). The standard way out for mixtures is EM, which guesses which cause made each reading, refits each cause to its readings, and repeats; each of its steps has a simple formula (UW CSE 571 slides; Thrun §6.3.4; De Laet et al. 2008, Algorithm 1).
 
 ### 6.3 EM for the beam model
 
@@ -392,22 +385,7 @@ Figure 9 plays the rounds. After round 1 the bell has already narrowed onto the 
 | 2 | 0.727 | 0.135 | 0.047 | 0.092 | 0.052 | 1.53 | 445 |
 | 60 | 0.733 | 0.150 | 0.047 | 0.070 | 0.051 | 1.75 | 448 |
 
-### 6.4 Did EM find the truth?
-
-Because we simulated the readings, we know the cause of each one, so we can check the answer:
-
-| Number | Used to simulate | In this sample | EM |
-|---|---|---|---|
-| $w_{\text{hit}}$ | 0.75 | 0.733 | 0.733 |
-| $w_{\text{short}}$ | 0.12 | 0.141 | 0.150 |
-| $w_{\max}$ | 0.05 | 0.047 | 0.047 |
-| $w_{\text{rand}}$ | 0.08 | 0.079 | 0.070 |
-| $\sigma_{\text{hit}}$ (m) | 0.05 | 0.051 | 0.051 |
-| $\lambda_{\text{short}}$ (per m) | 2.0 | 2.08 | 1.75 |
-
-The "in this sample" column holds the true share of each cause among these 1000 readings, and the spread and rate of the readings that truly were hits and short readings. EM matches the hits and the failures closely. It confuses some random readings below 3 m with short readings, because there the two shapes overlap: a random reading of 0.4 m looks exactly like a short one. That moves about 1 percent of the weight from random to short and makes the fitted short curve a little flatter. A single reading cannot settle which cause made it, so more data, or data from walls at several distances, is the cure.
-
-> **Extra:** In practice the parameters depend on the distance to the wall and on the angle at which the beam meets it, so they are learned for several expected ranges and angles (Freiburg slides, "Influence of angle to obstacle").
+Random readings below 3 m look exactly like short ones, because there the two shapes overlap, so EM moves some weight between those two causes.
 
 ## 7. A catalogue of sensor models
 
@@ -423,11 +401,6 @@ The beam model is one entry in a family. A model is needed for every sensor the 
 | **Depth-mapping sensor** (G-2386) | the distance to the nearest surface along each beam | the laser scan of Figure 1 | this Note and the [likelihood field](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#3-the-likelihood-field-model) |
 | **Boundary sensor** (G-2387) | whether the robot touches, or is close to, an obstacle | a bumper, or "within 0.5 m of a wall" | yes/no readings |
 | **Odometry sensor** (G-2388) | how far the robot has moved, from its wheel turns | "1.02 m since the last step" | the [odometry motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#4-the-odometry-motion-model) |
-
-Two things in the table are worth a note:
-
-- A landmark sensor that reports only the direction tells the robot which way the landmark lies but not how far; one that reports only the distance tells it how far but not which way (LaValle §11.5.1, the "homing" and "Geiger counter" sensors). The landmark measurement model shows how combining several such readings fixes the pose.
-- Odometry is a reading about motion, not about the world, so robots usually treat it as an input to the motion model rather than as a measurement (Freiburg motion-model slides, "Odometry model: calculate posterior p(x′ | x, u)"; LaValle §11.5.1, "Odometry sensors"). The [odometry motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#4-the-odometry-motion-model) (G-2323) gives it its own density of the next pose.
 
 ## 8. Summary
 
@@ -465,7 +438,6 @@ So the opening question has its answer: the four readings of Figure 1 are about 
 
 **Other references**
 
-- Burgard, W. et al., *Introduction to Mobile Robotics*, "Probabilistic Motion Models" slides, University of Freiburg, http://ais.informatik.uni-freiburg.de/teaching/ss23/robotics/slides/06-motion-models.pdf (Freiburg motion-model slides)
 - ROS `amcl` package, parameter definitions `AMCL.cfg`, https://github.com/ros-planning/navigation/blob/noetic-devel/amcl/cfg/AMCL.cfg (ROS amcl)
 - Cyrill Stachniss's lecture is part of his course on state estimation; the same slides appear in "MSR Course 05: Motion and Sensor Models", YouTube, https://www.youtube.com/watch?v=rjpbE-X23wc
 

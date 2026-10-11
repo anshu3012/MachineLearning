@@ -1,0 +1,47 @@
+[
+ {
+  "cell_type": "markdown",
+  "id": "c5588e6e",
+  "metadata": {},
+  "source": [
+   "## 5. The kidnapped robot (Note, Section 5.2)\n",
+   "\n",
+   "200 runs of 60 steps, 200 particles; at step 30 the robot is moved 5 m."
+  ]
+ },
+ {
+  "cell_type": "code",
+  "execution_count": 8,
+  "id": "d26b0405",
+  "metadata": {
+   "execution": {
+    "iopub.execute_input": "2026-10-08T02:04:42.136783Z",
+    "iopub.status.busy": "2026-10-08T02:04:42.136627Z",
+    "iopub.status.idle": "2026-10-08T02:04:45.683270Z",
+    "shell.execute_reply": "2026-10-08T02:04:45.682382Z"
+   }
+  },
+  "outputs": [
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "random share 0.00: mean error steps 25-29 0.19 m, runs recovered by step 59 1.0 percent\n"
+    ]
+   },
+   {
+    "name": "stdout",
+    "output_type": "stream",
+    "text": [
+     "random share 0.05: mean error steps 25-29 0.22 m, runs recovered by step 59 88.5 percent\n"
+    ]
+   }
+  ],
+  "source": [
+   "for inject in (0.0, 0.05):\n",
+   "    E = np.array([kidnap_run(inject, s) for s in range(200)])\n",
+   "    print(f\"random share {inject:.2f}: mean error steps 25-29 {E[:, 25:30].mean():.2f} m,\"\n",
+   "          f\" runs recovered by step 59 {100 * np.mean(E[:, 59] < 0.5):.1f} percent\")"
+  ]
+ }
+]

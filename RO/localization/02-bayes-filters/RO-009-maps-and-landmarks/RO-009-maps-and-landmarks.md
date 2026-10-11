@@ -11,7 +11,7 @@ tags: [subject/robotics, area/localization, concept/map, concept/landmark, conce
 
 A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. Readings mean nothing without that map. This Note is about the map itself, for the room of Figure 1:
 
-- what a map is, and the main families of maps: metric and topological, feature-based and grid (Sections 2 and 3);
+- what a map is, and the main families of maps: feature-based and grid (Sections 2 and 3);
 - how to store an obstacle exactly, as a polygon made of half-planes, and test whether a point is inside it (Section 4);
 - two other common models, triangle meshes and bitmaps, and what each costs (Section 5);
 - how a robot pulls landmarks out of a laser scan and describes each by its range, bearing and signature (Section 6).
@@ -30,22 +30,11 @@ $$m = \lbrace m_1,\ m_2,\ \dots,\ m_N \rbrace$$
 
 Each $m_i$ is one object, such as the pink pole at (1 m, 3 m). Fixed things, such as walls and furniture, belong in the map; things that move, such as people, belong in the robot's [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) instead.
 
-### 2.2 Metric and topological maps
-
-There are two broad ways to describe a building, shown in Figure 2:
-
-- A **metric map** (G-2332) gives every object at its coordinates in metres, so distances on the map are real distances. A city street map and our room of Figure 1 are metric maps.
-- A **topological map** (G-2333) lists places, such as rooms, and which places connect to which: a graph of nodes and edges. A metro map is one: it shows which stations connect, not how far apart they are.
-
-![The same flat as a metric map, with walls at measured coordinates, and as a topological map: three places, living room, kitchen and bedroom, as nodes, with the doors between them as edges](images/topological.png)
-
-A topological map is small and fits route-finding between rooms. It needs places that the robot can recognise, so it fails in large open spaces such as a desert or a car park, where there are no rooms to split the space into. Localization needs positions in metres, so this chapter uses metric maps.
-
 ## 3. Feature-based and grid maps
 
 > **Key point:** A feature-based map lists only landmarks and where they are; a grid map gives every cell of space a value, free or occupied. The first is tiny but says nothing about free space; the second is large but answers "can the robot be here?" at once.
 
-Metric maps come in two kinds (Thrun et al. 2005 §6.2). Figure 3 draws our room both ways.
+Maps come in two kinds (Thrun et al. 2005 §6.2). Figure 2 draws our room both ways.
 
 ![The room as a feature-based map, only the pink pole at (1, 3) and the green pole at (6, 0.8): 6 numbers; and as a grid map of 0.1 m cells, black where the walls, table, cabinet and poles are: 70 by 40 = 2800 cells](images/map_types.png)
 
@@ -109,8 +98,6 @@ Doubling every number gives whole numbers and the same line, with the same signs
 
 $$f_2(x, y) = 3x - y - 14$$
 
-Checks: at the other corner (5.5, 2.5), $f_2$ is 0, so the line goes through both corners; at the point (6, 1), outside the table, $f_2$ is 3, positive as the outward normal promises.
-
 ### 4.3 A convex polygon is where every half-plane agrees
 
 The table is a [convex set](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-479): the segment between any two of its points stays inside it. A convex polygon is the overlap, the [intersection](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-967), of one half-plane per edge, each taking the side that holds the polygon (LaValle §3.1.1). Our table's four edge functions, each scaled to whole numbers and signed so that the inside is negative:
@@ -123,7 +110,7 @@ $$f_3 = 2x + 8y - 31$$
 
 $$f_4 = 11 - 4x + y$$
 
-Figure 4 adds the four half-planes one at a time; what is left inside all of them is the table.
+Figure 3 adds the four half-planes one at a time; what is left inside all of them is the table.
 
 ![Animation: the half-planes f1 = 1 − y ≤ 0, f2 = 3x − y − 14 ≤ 0, f3 = 2x + 8y − 31 ≤ 0 and f4 = 11 − 4x + y ≤ 0 are shaded one at a time; the region inside all four is the table. The point (4, 2) gives all four values at most 0 and is inside; the point (5.5, 1.5) gives f2 = 1 and is outside](images/half_planes.gif)
 
@@ -141,11 +128,11 @@ All four are negative: inside. For the point (5.5, 1.5):
 
 $$f_2 = 16.5 - 1.5 - 14 = 1$$
 
-One positive value is enough: outside, on the far side of the right edge. In logic, the table's test joins the four conditions with AND (LaValle §3.1.1): $f_1 \le 0$ AND $f_2 \le 0$, and so on for all four edges. Each half-plane is one simple shape that more complex shapes are built from, a **geometric primitive** (G-2337) (LaValle §3.1.1).
+One positive value is enough: outside, on the far side of the right edge. In logic, the table's test joins the four conditions with AND (LaValle §3.1.1): $f_1 \le 0$ AND $f_2 \le 0$, and so on for all four edges.
 
 ### 4.4 Non-convex obstacles are unions of convex pieces
 
-The cabinet is L-shaped, so it is not convex: the segment between a point in one arm and a point in the other leaves the cabinet (Figure 5). No set of half-planes taken together with AND can describe it, because their overlap is always convex. Instead we cut it into convex pieces, two rectangles, and take their [union](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-2045) (LaValle §3.1.1):
+The cabinet is L-shaped, so it is not convex: the segment between a point in one arm and a point in the other leaves the cabinet (Figure 4). No set of half-planes taken together with AND can describe it, because their overlap is always convex. Instead we cut it into convex pieces, two rectangles, and take their [union](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-2045) (LaValle §3.1.1):
 
 $$R_1:\ 5.6 \le x \le 7,\ \ 3.4 \le y \le 4$$
 
@@ -162,15 +149,13 @@ A point is in the cabinet if it is in $R_1$ OR in $R_2$. The point (6.2, 3.0), i
 
 So it is free. Every obstacle made of straight edges can be written this way, as a union of intersections of half-planes; the pieces may overlap, as $R_1$ and $R_2$ do in the corner (LaValle §3.1.1).
 
-> **Extra:** Replacing the straight lines by curves, such as a circle $x^2 + y^2 - 1 \le 0$, gives primitives for round obstacles. Unions and intersections of such polynomial primitives are called semi-algebraic sets; they describe smooth shapes exactly, at the price of harder computations (LaValle §3.1.2).
-
 ## 5. Triangle meshes and bitmaps
 
 > **Key point:** In 3D, obstacles are often stored as many triangles, which graphics hardware draws fast but which do not say what is inside. A bitmap marks every cell that touches an obstacle; it is simple and fits sensor data, but finer cells cost many more cells.
 
 ### 5.1 Triangle meshes
 
-Real objects are 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 6 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
+Real objects are 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
 
 ![The table as a 3D triangle mesh: 8 corner points, at floor height and at 0.75 m, joined into 12 triangles covering the top, the bottom and the four sides](images/mesh.png)
 
@@ -178,11 +163,11 @@ Triangles are popular because graphics hardware is built to draw them (LaValle �
 
 ### 5.2 Bitmaps and occupancy grids
 
-The simplest model of all splits the room into square cells and marks each one: 1 if the cell contains any point of an obstacle, 0 if it does not. This is a **bitmap** (G-2339) of the obstacles, the same thing as the black-and-white image of Figure 7 (LaValle §3.1.3).
+The simplest model of all splits the room into square cells and marks each one: 1 if the cell contains any point of an obstacle, 0 if it does not. This is a **bitmap** (G-2339) of the obstacles, the same thing as the black-and-white image of Figure 6 (LaValle §3.1.3).
 
 ![Bitmaps of the room's furniture: with 0.5 m cells, 112 cells of which 47 are black, a coarse blocky outline; with 0.1 m cells, 2800 cells of which 617 are black, close to the true table, cabinet and poles drawn as outlines](images/bitmap.png)
 
-To read Figure 7: each small square is one cell, black for 1 (some obstacle inside) and white for 0; the coloured outlines are the exact polygons of Section 4. The cell size sets the trade-off. Black area overstates the obstacles, because a cell turns black when an obstacle covers any part of it. The table, cabinet and poles really cover 5.13 m²:
+To read Figure 6: each small square is one cell, black for 1 (some obstacle inside) and white for 0; the coloured outlines are the exact polygons of Section 4. The cell size sets the trade-off. Black area overstates the obstacles, because a cell turns black when an obstacle covers any part of it. The table, cabinet and poles really cover 5.13 m²:
 
 | Cell size | Cells | Black cells | Black area |
 |---|---|---|---|
@@ -208,7 +193,7 @@ Landmarks can be natural objects (trees, doors, road signs) or artificial ones p
 
 ### 6.2 Finding the poles in a scan
 
-Figure 8 shows a simulated scan from our robot at (2, 1) facing 30°: 360 beams, one per degree, each with 1 cm of range noise. The grey dots are where the beams hit: walls, the near side of the table, and two small clusters.
+Figure 7 shows a simulated scan from our robot at (2, 1) facing 30°: 360 beams, one per degree, each with 1 cm of range noise. The grey dots are where the beams hit: walls, the near side of the table, and two small clusters.
 
 ![360 scan points from the robot at (2, 1) facing 30 degrees: grey dots along the walls and the table's near side; two small clusters are extracted as poles, the pink one at range 2.23 m and bearing 87 degrees from 5 beams, the green one at range 4.00 m and bearing −33 degrees from 3 beams](images/scan_features.png)
 
@@ -229,7 +214,7 @@ The extracted bearings are off by less than half a degree, because the beams are
 
 ### 6.3 Range, bearing and signature
 
-Each extracted landmark is reported as three numbers (Thrun et al. 2005 §6.6, as in the Brown CS148 tutorial), shown in Figure 9:
+Each extracted landmark is reported as three numbers (Thrun et al. 2005 §6.6, as in the Brown CS148 tutorial), shown in Figure 8:
 
 - its **range** (G-2343) $r$: the distance from the robot to the landmark;
 - its **bearing** (G-2344) $\varphi$: the angle from the robot's heading to the landmark, positive to the left, negative to the right;
@@ -258,27 +243,7 @@ Why each of the three numbers is needed:
 - **Range and bearing** fix where the landmark is relative to the robot. Range alone puts it anywhere on a circle around the robot; bearing alone, anywhere along a ray from it.
 - **The signature** says which landmark of the map the reading belongs to. Without it, two identical poles would leave the robot with two explanations of every reading, like the three identical doors of the [hallway](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places); with it, the reading "pink" can only be the pole at (1, 3).
 
-### 6.4 From a reading to the map, and back
-
-If the robot knows its pose, a reading tells it where the landmark is in the room. It goes the distance $r$ in the direction heading plus bearing:
-
-$$x_m = x + r\cos(\theta + \varphi)$$
-
-$$y_m = y + r\sin(\theta + \varphi)$$
-
-For the extracted pink pole, the direction is:
-
-$$\theta + \varphi = 30^\circ + 87.0^\circ = 117.0^\circ$$
-
-so:
-
-$$x_m = 2 + 2.232 \times (-0.454) = 0.99$$
-
-$$y_m = 1 + 2.232 \times 0.891 = 2.99$$
-
-within 1 cm of the true pole at (1, 3). Repeating this from many known poses and averaging is how feature-based maps are built.
-
-The other direction is localization: the map is known and the pose is not. Then a single landmark reading cannot fix the pose; with the range alone it only says the robot stands somewhere on a circle of radius $r$ around the landmark, and two or three landmarks together pin it down. The [landmark measurement model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#5-where-can-the-robot-be) builds that step.
+In localization the map is known and the pose is not. Then a single landmark reading cannot fix the pose; with the range alone it only says the robot stands somewhere on a circle of radius $r$ around the landmark, and two or three landmarks together pin it down. The [landmark measurement model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#5-where-can-the-robot-be) builds that step.
 
 ## 7. Summary
 
@@ -291,7 +256,6 @@ The other direction is localization: the map is known and the pose is not. Then 
 | Bitmap / occupancy grid | 0 or 1 (or a probability) per cell | read the cell | simple; built from sensors | overstates obstacles; finer costs more |
 
 - A map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
-- Metric maps give coordinates and topological maps give connections; localization needs metric maps, because it works in metres.
 - A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the map-consistent motion model needs.
 - A half-plane is one sign test, $f(x, y) \le 0$; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are unions of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
@@ -308,7 +272,7 @@ So the opening question, what the robot compares its readings with, has its answ
 - Steven M. LaValle, "Motion Planning: Life in C-Space" (ICRA tutorial), YouTube, 3:35–8:16, https://www.youtube.com/watch?v=ERaZJru80bM (LaValle, Life in C-space)
 - Cyrill Stachniss, "Observation Models", YouTube, 32:42–36:17, https://www.youtube.com/watch?v=SfwxLpdFB-o (Stachniss, Observation models)
 - Carlotta A. Berry, "Advanced Mobile Robotics: Lecture 4-1a", YouTube, 4:07–5:38, https://www.youtube.com/watch?v=zNanMwnBT5w (Berry, Lecture 4-1a)
-- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §3.1.1 polygonal models (convex polygons as intersections of half-planes, non-convex polygons as unions, the logical predicate), §3.1.2 semi-algebraic models, §3.1.3 other models (3D triangles, bitmaps, occupancy grids). Free online: https://lavalle.pl/planning/node78.html (LaValle)
+- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §3.1.1 polygonal models (convex polygons as intersections of half-planes, non-convex polygons as unions, the logical predicate), §3.1.3 other models (3D triangles, bitmaps, occupancy grids). Free online: https://lavalle.pl/planning/node78.html (LaValle)
 - Schwertfeger, S. (2007). "Tutorial on a Probabilistic Measurement Model based on Landmark Range and Bearing Information", Brown University CS148. https://cs.brown.edu/courses/cs148/tutorials/measurement_model_tutorial.pdf (Brown CS148 tutorial)
 
 **Other references**
@@ -324,12 +288,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Map (G-2331) | A robot's list of the objects in its surroundings that matter, with their positions and properties, such as the pink pole at (1, 3); readings only give positions relative to the robot, and the map turns them into a pose. |
-| Metric map (G-2332) | A map that gives every object at its coordinates in metres, so distances on the map are real distances; localization needs it because it works out the pose in metres. |
-| Topological map (G-2333) | A map that lists places, such as rooms, and which places connect, as a graph of nodes and edges (like a metro map); small and good for routes between rooms, but it fails in open spaces with no recognisable places. |
 | Feature-based map (G-2334) | A map that stores only landmarks, each with its coordinates and signature, such as (1, 3, pink); very compact, but it says nothing about which space is free. |
 | Location-based map (grid map) (G-2335) | A map that splits space into cells and stores a value for every cell, occupied or free, free space included (2800 cells for a 7 m by 4 m room at 0.1 m); larger, but it answers at once whether a pose is free. |
 | Half-plane (G-2336) | All points on one side of a line, together with the line: the points where $a x + b y + c \le 0$; one sign test, used as a building block for polygon obstacles. |
-| Geometric primitive (G-2337) | A simple shape that is easy to store and test, such as a half-plane, from which complex obstacles are built by intersections and unions. |
 | Triangle mesh (G-2338) | A set of triangles, each given by three corner points in space, that together cover an object's surface (a table as 12 triangles on 8 corners); fast to draw in 3D, but it does not say what is inside. |
 | Bitmap (obstacle bitmap) (G-2339) | A grid of cells marked 1 if the cell contains any obstacle point and 0 otherwise, like a black-and-white image; simple and natural for sensor data, but it overstates obstacles, and finer cells cost many more cells. |
 | Occupancy grid (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensors are never sure. |

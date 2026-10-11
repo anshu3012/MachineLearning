@@ -270,7 +270,7 @@ the lowest point of Figure 3. The standard deviation has fallen from 1 m to 0.37
 
 ### 4.5 The same answer from multiplying bells
 
-The Bayes filter's update multiplies the predicted belief by the sensor model and rescales, as the [continuous Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#6-the-same-two-steps-on-a-continuous-position) previewed. Both are bells here, and the product of two bells is again a bell (Labbe ch.4; Freiburg KF slides), with mean and variance:
+The Bayes filter's update multiplies the predicted belief by the sensor model and rescales, as the [continuous Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#6-the-same-two-steps-on-a-continuous-position) does. Both are bells here, and the product of two bells is again a bell (Labbe ch.4; Freiburg KF slides), with mean and variance:
 
 $$\text{mean} = \frac{R\thinspace\bar{x} + \bar{p}\thinspace z}{\bar{p} + R}$$
 
@@ -357,7 +357,7 @@ What to see in Figures 6 and 7:
 
 ### 6.1 Why a vector state: the hidden speed
 
-So far the filter knew the commanded 0.5 m per step. Suppose instead we do not know the robot's speed, only that it drives roughly steadily: a person is pushing a trolley, or the odometry is unreliable. We still want the speed, for example because a speed controller needs it (Section 6.5), but nothing measures it.
+So far the filter knew the commanded 0.5 m per step. Suppose instead we do not know the robot's speed, only that it drives roughly steadily: a person is pushing a trolley, or the odometry is unreliable. We still want the speed, for example because a speed controller needs it ([Section 6.6](#66-the-state-a-controller-needs-the-filter-as-an-observer)), but nothing measures it.
 
 We put the speed into the state. The state is now a vector (a list of numbers) with two entries:
 
@@ -452,23 +452,7 @@ Figure 8 runs all ten readings. The speed estimate jumps around at first, then s
 
 Could we do the same with a speed sensor and no position sensor? No. Every position, shifted by the same amount, gives exactly the same speed readings, so no number of speed readings can tell where the robot is.
 
-A system is **observable** (G-2517) if its whole state can be worked out from its readings (and commands) over time (FBS §8.1). The test: stack the measurement matrix and what it sees one step later,
-
-$$\mathcal{O} = \begin{bmatrix} H \cr HF \end{bmatrix}$$
-
-and check that its [rank](../../../../MA/05-linear-algebra/MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#7-linear-dependence-and-independence) (G-1627) equals the number of state variables, here 2 (FBS Theorem 8.1). For the position sensor:
-
-$$H = \begin{bmatrix} 1 & 0 \end{bmatrix}$$
-
-$$HF = \begin{bmatrix} 1 & 1 \end{bmatrix}$$
-
-The two rows point in different directions: rank 2, observable. Two position readings one second apart give the position and, from their difference, the speed. For a speed sensor:
-
-$$H = \begin{bmatrix} 0 & 1 \end{bmatrix}$$
-
-$$HF = \begin{bmatrix} 0 & 1 \end{bmatrix}$$
-
-The rows are the same: rank 1, not observable. Figure 9 shows what that does to the filter: with the speed sensor, the variance of the position estimate grows every step, to 2.68 m² after ten steps; with the position sensor it falls to 0.066 m² (notebook). A Kalman filter on an unobservable system runs without error messages but cannot shrink the uncertainty in the hidden direction, so checking observability comes before building the filter.
+A system is **observable** (G-2517) if its whole state can be worked out from its readings (and commands) over time (FBS §8.1). Figure 9 shows what a speed sensor alone does to the filter: with the speed sensor, the variance of the position estimate grows every step, to 2.68 m² after ten steps; with the position sensor it falls to 0.066 m² (notebook). A Kalman filter on an unobservable system runs without error messages but cannot shrink the uncertainty in the hidden direction, so checking observability comes before building the filter.
 
 ![Variance of the position estimate over ten steps: with a position sensor it stays small and ends at 0.066; with only a speed sensor it grows steadily to 2.68](images/observability.png)
 
@@ -494,11 +478,7 @@ $$\text{mean} = 2.018 \text{ m}$$
 
 $$\text{sample variance} = 0.134 \text{ m}^2$$
 
-The datasheet value is 0.16 m². With 100 readings, a sample variance itself scatters from sample to sample. For normal readings its standard deviation is:
-
-$$0.16 \times \sqrt{2 / 99} = 0.023 \text{ m}^2$$
-
-The datasheet and the measured value differ by about one such scatter, the size of difference chance alone produces. Sensor datasheets are the other source of $R$ (kalmanfilter.net 1D). The mean, 2.018 m, also shows no sizeable bias, which matters because the Kalman filter assumes the noise has mean zero.
+The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (kalmanfilter.net 1D). The mean, 2.018 m, also shows no sizeable bias, which matters because the Kalman filter assumes the noise has mean zero.
 
 ### 7.2 Q: tune the motion noise
 
@@ -518,8 +498,6 @@ The readings alone give 0.399 m. Too small a $Q$ makes the filter overconfident 
 
 **How to tell when it is wrong without knowing the truth.** On a real robot the truth is unknown, but the innovations are not: a well-tuned filter's innovations look like random noise of the size its own $S$ predicts. Testing them is the subject of [filter honesty](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-filter-honesty-is-the-filter-telling-the-truth-about-itself) in the next Note.
 
-> **Extra:** The letters differ between books. kalmanfilter.net, Labbe and the Freiburg slides use $Q$ for the motion noise and $R$ for the sensor noise, as here. Thrun's *Probabilistic Robotics* uses the opposite: $R_t$ for the motion and $Q_t$ for the sensor. Check which convention a text uses before copying a formula.
-
 ## 8. Summary
 
 | Line | Formula | Why |
@@ -535,7 +513,7 @@ The readings alone give 0.399 m. Too small a $Q$ makes the filter overconfident 
 - The Kalman gain is derived, not chosen: it is the weight on the reading that minimises the updated variance, and it equals the Bayes update of two multiplied bells (0.776 m and 0.138 m² at step 1 either way).
 - The gain is high while the estimate is vague (0.863 at step 1) and settles near 0.22 once prediction and reading balance, so wild readings are damped.
 - In matrix form the covariance links position and speed, so position readings estimate a speed nobody measures (0.421 m/s against a true 0.48 m/s).
-- Observability decides what readings can pin down: position readings give both variables (rank 2), speed readings never give the position, whose variance grows to 2.68 m².
+- Observability decides what readings can pin down: position readings give both variables, speed readings never give the position, whose variance grows to 2.68 m².
 - The Kalman filter is the observer with the best gain for the given noises, so it supplies the full state a controller needs from partial sensors.
 - $R$ is measured from the sensor, $Q$ is tuned; too small a $Q$ drifts, too large a $Q$ is noisy, and only the ratio matters.
 
@@ -577,7 +555,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Steady-state gain (G-2518) | The fixed value the Kalman gain settles to once the variance added by each prediction balances the variance removed by each update, such as 0.22 for $Q = 0.01$ and $R = 0.16$. |
 | State transition matrix $F$ (G-2514) | The matrix that carries the state one step forward in a linear model, such as $F = [[1, 1], [0, 1]]$ for position and speed with 1 s steps (position plus speed, speed unchanged). |
 | Measurement matrix $H$ (G-2515) | The matrix that turns the state into the reading the sensor should give, such as $H = [1, 0]$ for a sensor that sees position but not speed. |
-| Observability (G-2517) | Whether a system's whole state can be worked out from its readings and commands over time; tested by the rank of $[H;\ HF;\ \ldots]$, and needed before a filter can pin down every state variable. |
+| Observability (G-2517) | Whether a system's whole state can be worked out from its readings and commands over time; a filter needs it before it can pin down every state variable. |
 | State observer (G-2516) | A model run alongside the real system and corrected by a gain times the gap between the measured and the predicted reading, so it rebuilds states no sensor measures for a controller to use; the Kalman filter is the observer with the best gain for the given noises. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
 | [Variance of a random variable](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) | How spread out a random variable's values are: the expected squared distance from its expected value, $\mathrm{Var}(X) = E[(X - E[X])^2]$. |
@@ -585,4 +563,3 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Multivariate normal distribution](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal) (G-1283) | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
 | [Transpose](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Inverse matrix](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) | The matrix that undoes another: their product is the identity matrix. |
-| [Rank (of a matrix)](../../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#5-a-matrix-of-rank-1) (G-1627) | The number of linearly independent columns of a matrix, that is, how many directions its columns really span; a column that is a combination of others does not add to it. |
