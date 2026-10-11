@@ -52,7 +52,8 @@ for line in (ROOT / "glossary.md").read_text(encoding="utf-8").split("\n"):
     elif not (ROOT / link.group(1)).exists() or link.group(2) not in heads(ROOT / link.group(1)):
         errors.append(f"{m.group(1)}: Home {link.group(1)}#{link.group(2)} does not exist")
     concept = line.rstrip().rstrip("|").rsplit("|", 1)[-1].strip()
-    if "Course map](" not in line and concept.lower() not in {c["name"].lower() for c in b.CONCEPTS.values()}:
+    on_map = link and link.group(1).startswith(("MA/", "ML/", "DL/"))  # the course map covers the main site only
+    if on_map and "Course map](" not in line and concept.lower() not in {c["name"].lower() for c in b.CONCEPTS.values()}:
         errors.append(f"{m.group(1)}: Concept '{concept}' is missing or unknown")
 
 # 4. Previews: the Note names the idea, links its Home, or cites a glossary term of it, outside the box
