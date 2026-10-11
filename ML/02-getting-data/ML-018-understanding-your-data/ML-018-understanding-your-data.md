@@ -348,13 +348,13 @@ For example, if we add the first two passengers to the table a second time, `dup
 
 ### 9.1 Correlation
 
-> **Key point:** A positive correlation means both columns rise together; a negative one means one rises as the other falls; near 0 means no straight-line link.
+> **Key point:** A positive correlation means both columns rise together; a negative one means one rises as the other falls; near 0 means no linear (straight-line) link.
 
 **Correlation** (G-490) measures how a change in one feature goes with a change in another. pandas computes the **Pearson correlation coefficient** (G-1474), written $r$, which always lies between $-1$ and $+1$ (Figure 7):
 
 - **Close to +1:** when one goes up, the other goes up too.
 - **Close to -1:** when one goes up, the other goes down. The two are inversely related.
-- **Close to 0:** no straight-line relationship.
+- **Close to 0:** no linear relationship.
 
 ![Three patterns of points and their correlation values](images/correlation_patterns.png)
 
@@ -422,7 +422,7 @@ The correlation check is useful at the start, and we repeat it later, after clea
 > **Extra:** Correlation has two limits worth remembering:
 >
 > - **Text columns are skipped.** `Sex` is missing from Figure 9, yet it matters most: coded as female 1 and male 0, its correlation with `Survived` is +0.54.
-> - **Only straight-line links count.** A feature with $r$ near 0 can still be related to the target in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
+> - **Only linear links count.** A feature with $r$ near 0 can still be related to the target in a curved or more complex way, so a low $r$ is a hint, not proof, that a column is useless.
 
 ## 10. Summary
 
@@ -468,7 +468,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Percentile (G-1483) | The value below which a given share of the data lies. |
 | Quartiles (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
 | Duplicate row (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
-| Pearson correlation coefficient (Pearson's r) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| Pearson correlation coefficient (Pearson's r) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
 | Mean (G-1203) | The average of the values; the centre of the data. |
 | Understanding the data (G-2038) | The project stage where we learn what is in the data before cleaning or modelling. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

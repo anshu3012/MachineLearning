@@ -53,7 +53,7 @@ So when we use an algorithm of the first kind on a skewed feature, we try to mak
 
 There is no fixed list of transformations. Any formula can be one: $x^2 + 2x$ is a valid transformation too, and we can write our own custom function. The goal is always the same: get a distribution as close to normal as possible.
 
-> **Extra:** Why a long tail hurts a linear model. Linear and logistic regression fit one straight-line formula through all the data. In a feature like fare, a handful of huge values (500 against a typical 15) pull that line towards themselves and squash all the ordinary values together. Pulling the tail in gives the ordinary values room to matter.
+> **Extra:** Why a long tail hurts a linear model. Linear and logistic regression fit one linear formula through all the data. In a feature like fare, a handful of huge values (500 against a typical 15) pull that line towards themselves and squash all the ordinary values together. Pulling the tail in gives the ordinary values room to matter.
 >
 > Strictly speaking, linear regression's normality assumption is about its errors, not its features (Kutner et al. 2005, §1.8). The practical rule still holds: a feature without a long tail is easier for these models to use, as Section 7 measures.
 
@@ -586,7 +586,7 @@ So on this data the log transform wins, as expected for a right-skewed column. O
 | Custom | any $f(x)$ | depends on $f$ | try anything | depends on $f$ |
 
 - A mathematical transformation applies one formula to every value of a feature, usually to bring the feature closer to a normal distribution.
-- Linear and logistic regression benefit from close-to-normal features, because a few huge values pull their one straight-line formula towards themselves; decision trees and random forests do not care, because the log keeps the order of the values and a tree's questions split the rows the same way.
+- Linear and logistic regression benefit from close-to-normal features, because a few huge values pull their one linear formula towards themselves; decision trees and random forests do not care, because the log keeps the order of the values and a tree's questions split the rows the same way.
 - Check normality with a density plot, the skewness, and a Q-Q plot: points on the line mean normal. Checking first matters, because forcing a log onto a feature that is not right-skewed (`Age`, 0.36 to -2.24) makes it less normal.
 - `FunctionTransformer(func=...)` applies any function; `np.log1p` is safe when a feature has zeros, because it adds 1 before the log, so a fare of 0 becomes 0 instead of minus infinity.
 - Combine `FunctionTransformer` with `ColumnTransformer` to transform only the features that need it, so a column that is already close to normal is left alone.

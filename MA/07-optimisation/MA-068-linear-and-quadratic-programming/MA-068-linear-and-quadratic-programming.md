@@ -27,7 +27,7 @@ For each family we write the problem, solve a small example from the picture, de
 
 ## 2. Linear programming
 
-> **Key point:** A linear program is a shopping-list problem with straight-line rules: get the most profit (or the least cost) from a plan that must obey limits. The best plan always sits at a corner of the region of allowed plans.
+> **Key point:** A linear program is a shopping-list problem with linear rules (each one a straight line on the plan's graph): get the most profit (or the least cost) from a plan that must obey limits. The best plan always sits at a corner of the region of allowed plans.
 
 ### 2.1 The problem
 
@@ -223,11 +223,11 @@ Figure 6 draws the last column of the table. Flour is not the bottleneck: 3 bags
 
 ## 3. Quadratic programming
 
-> **Key point:** A quadratic program is the same kind of problem with straight-line rules, but the quantity to minimise is a smooth bowl, not a straight slope. The lowest point of the bowl inside the region can be inside, on an edge, or at a corner.
+> **Key point:** A quadratic program is the same kind of problem with linear rules (each one a straight line on the plan's graph), but the quantity to minimise is a smooth bowl, not a straight slope. The lowest point of the bowl inside the region can be inside, on an edge, or at a corner.
 
 ### 3.1 The problem
 
-> **Key point:** Same straight-line rules as a linear program, but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
+> **Key point:** Same linear rules as a linear program, but the thing to minimise is a bowl, so its level curves are ellipses and the answer can lie on an edge.
 
 **In plain words.** Roll a marble in a bowl. Without a fence it settles at the bottom. Now fence off a triangle that does not contain the bottom. The marble rolls as far downhill as the fence lets it, and stops against the fence. Figures 7 and 8 show the bowl, as a surface and as contour ellipses, and the triangle.
 
@@ -512,11 +512,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Linear program (G-1093) | A problem of making a straight-line (linear) function as small as possible when the allowed choices are limited by linear inequalities (linear constraints). It is a common kind of convex problem with its own fast solvers. |
+| Linear program (G-1093) | A problem of making a linear function as small as possible when the allowed choices are limited by linear inequalities (linear constraints). It is a common kind of convex problem with its own fast solvers. |
 | Quadratic program (G-1598) | A problem of finding the lowest point of a bowl-shaped function with squared terms (a convex quadratic) while meeting limits written as linear inequalities (constraints). |
 | Polytope (G-1518) | The region where a set of linear inequalities all hold, such as the feasible region of a linear program: a polygon in two dimensions. |
 | Vertex (G-2258) | A corner of the feasible region; a linear program always has a best point at a vertex. |
-| Simplex algorithm (G-2259) | A way to find the best corner of the region allowed by straight-line limits (solving a linear program): walk from one corner (vertex) to a neighbouring, better one until no neighbour is better. |
+| Simplex algorithm (G-2259) | A way to find the best corner of the region allowed by linear limits (solving a linear program): walk from one corner (vertex) to a neighbouring, better one until no neighbour is better. |
 | Quadratic form (G-1597) | An expression such as $\mathbf{x}^{\mathsf T}A\mathbf{x}$ that turns a vector into one number made only of squared entries and products of pairs of entries, such as $x_1^2 + 3x_2^2$; it is the curved part of a quadratic program's objective. |
 | Positive definite matrix (G-1530) | A symmetric matrix that curves upward in every direction: its eigenvalues are all positive, and its quadratic form is a strictly convex bowl. |
 | [Convex optimisation problem](../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#61-the-definition) (G-478) | A search for the lowest point of a bowl-shaped (convex) function inside an allowed region with no dents or holes (convex inequality constraints, affine equality constraints). In such a problem every local minimum is the global one. |

@@ -159,7 +159,7 @@ We score each model under three conditions:
 |---|---|---|---|
 | Mean $R^2$ | 0.71 | 0.73 | 0.67 |
 
-The three models are about equally good, and they work in very different ways: a straight-line formula, a set of yes/no rules, and a smooth curved surface. Those are the right conditions for a vote: members that are accurate and make different mistakes (see [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models)).
+The three models are about equally good, and they work in very different ways: a linear formula, a set of yes/no rules, and a smooth curved surface. Those are the right conditions for a vote: members that are accurate and make different mistakes (see [more models, and correlated models](../ML-096-voting-ensemble/ML-096-voting-ensemble.md#52-more-models-and-correlated-models)).
 
 ### 4.2 The voting regressor
 

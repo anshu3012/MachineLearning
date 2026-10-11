@@ -230,7 +230,7 @@ The optimizer is Adam (the [Adam](../../03-optimizers/DL-038-adam/DL-038-adam.md
 |---|---|---|---|---|---|---|
 | Learning rate | $1.75 \times 10^{-7}$ | $1.75 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $6.99 \times 10^{-4}$ | $3.49 \times 10^{-4}$ | $1.40 \times 10^{-4}$ |
 
-Doubling the step from 1,000 to 2,000 doubles the rate (the straight-line rise). Multiplying the step by 4, from 4,000 to 16,000, halves it (the inverse square root). By step 100,000, the end of base training, the rate is one fifth of the peak.
+Doubling the step from 1,000 to 2,000 doubles the rate (the linear rise). Multiplying the step by 4, from 4,000 to 16,000, halves it (the inverse square root). By step 100,000, the end of base training, the rate is one fifth of the peak.
 
 ![The learning rate of the base model over its 100,000 training steps](images/warmup.png){width=95%}
 

@@ -292,7 +292,7 @@ Picking the same column for both axes gives no useful plot: every dot would lie 
 
 > **Key point:** The Correlations section shows the correlation of every pair of columns as a heatmap; dark blue is a strong positive link, dark red a strong negative one.
 
-**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in [correlation](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation). The Correlations section computes it for every pair and draws the results as a heatmap. Figure 9 shows **Pearson's r**, the coefficient for straight-line relationships between numbers.
+**Correlation** measures how strongly two columns move together, from $-1$ to $+1$, as defined in [correlation](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation). The Correlations section computes it for every pair and draws the results as a heatmap. Figure 9 shows **Pearson's r**, the coefficient for linear (straight-line) relationships between numbers.
 
 ![Pearson's r for every pair of numerical columns](images/report_correlations.png){height=50%}
 
@@ -319,7 +319,7 @@ So at a glance we learn which **features** (input variables, one column each) re
 >
 > By default only the "Auto" tab is computed. The Notebook switches on Pearson's r as well, as above. The same way, `"spearman"`, `"kendall"`, `"phi_k"` and `"cramers"` add more tabs.
 
-> **Extra:** Pearson's r only works for two numerical columns, and only sees straight-line links. Other coefficients cover the other cases:
+> **Extra:** Pearson's r only works for two numerical columns, and only sees linear (straight-line) links. Other coefficients cover the other cases:
 >
 > - **Spearman's** and **Kendall's** coefficients measure whether two columns rise together at all, even along a curve, by comparing the ranks of the values instead of the values (Spearman 1904; Kendall 1938). Example: $x = 1, 2, 3, 4$ and $y = 1, 4, 9, 16$ lie on a curve. Their ranks are 1, 2, 3, 4 in both lists, identical, so Spearman's coefficient is exactly 1, while Pearson's $r$ is 0.98 because the points are not on a straight line.
 > - **Cramér's V** measures the link between two categorical columns, from 0 (none) to 1 (complete) (Cramér 1946). For `Sex` and `Survived` the counts are 81 females who died, 233 females who survived, 468 males who died and 109 males who survived; the computer gives $V = 0.54$, a strong link.
@@ -430,5 +430,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Coefficient of variation (CV)](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#8-coefficient-of-variation) (G-408) | Standard deviation divided by mean: spread relative to the average. |
 | [Kurtosis](../../../MA/03-distributions/MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#1-overview) (G-1021) | How heavy the tails of a distribution are compared with a normal curve; the fourth moment. |
-| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
 | [Cramér's V](../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#72-strength-of-a-relationship-cramérs-v) (G-500) | A measure of how strongly two categorical features are related, from 0 (no relationship) to 1 (perfect relationship), made by rescaling the chi-square statistic. |

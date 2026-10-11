@@ -89,7 +89,7 @@ Figure 2 plots every observation (student) by CGPA and IQ, coloured by placement
 - Placed students (green) mostly have a CGPA above about 6.
 - IQ makes much less difference: both groups have high and low IQs.
 
-The two groups could be separated, roughly, by a straight line. A straight-line split makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
+The two groups could be separated, roughly, by a straight line. A linear split (one straight line) makes **logistic regression** (G-1120) a good choice of algorithm. Logistic regression is a classification algorithm that finds the line that best separates the two classes. How it finds that line is shown in [logistic regression by gradient descent](../../07-classification/ML-074-logistic-gradient-descent/ML-074-logistic-gradient-descent.md#2-the-idea-on-one-weight).
 
 ## 5. Inputs and output
 

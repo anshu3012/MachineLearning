@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/extended-kalman-filter, conc
 
 ![Top: a radio beacon on the corridor wall at 6 m, 2 m to the side; the robot reads its straight-line distance to it. Bottom: that distance as a function of position, a curve with its lowest point at 2 m under the beacon; positions 4 m and 8 m both read 2.83 m](images/beacon.png)
 
-With the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview), the corridor robot blends its drifting commands and its jumping readings, and its estimate misses by 0.17 m, against 0.27 m for the commands alone and 0.51 m for the readings. That works because the ceiling system reports the position itself plus noise, a straight-line function of the position. Now the robot has a new sensor in the same corridor: a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
+With the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview), the corridor robot blends its drifting commands and its jumping readings, and its estimate misses by 0.17 m, against 0.27 m for the commands alone and 0.51 m for the readings. That works because the ceiling system reports the position itself plus noise, a linear function of the position. Now the robot has a new sensor in the same corridor: a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
 
 The reading is no longer the position plus noise. It is a curved function of the position:
 
@@ -17,7 +17,7 @@ The reading is no longer the position plus noise. It is a curved function of the
 - under the beacon, the distance stops changing: it bottoms out at 2 m;
 - past the beacon, it grows again, so 4 m and 8 m give the same reading.
 
-The Kalman filter needs straight-line models (Section 2), so it cannot use this reading as it is. This Note adds the extended Kalman filter, which straightens the curve at the current estimate, and a check that tells when the result has gone wrong:
+The Kalman filter needs linear models (Section 2), so it cannot use this reading as it is. This Note adds the extended Kalman filter, which straightens the curve at the current estimate, and a check that tells when the result has gone wrong:
 
 - pushing a bell through a curve, and the tangent-line fix (Section 3);
 - the extended Kalman filter, step by step on the corridor (Section 4);
@@ -26,14 +26,14 @@ The Kalman filter needs straight-line models (Section 2), so it cannot use this 
 
 ## 2. The Kalman filter in brief, and why curves break it
 
-> **Key point:** The Kalman filter is exact only because straight-line functions keep a bell a bell. A curved function does not.
+> **Key point:** The Kalman filter is exact only because linear functions keep a bell a bell. A curved function does not.
 
 To see why the curved distance of Figure 1 breaks it, recall what the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) does. It keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
 
 - **predict:** move the mean with the command and add the process noise $Q$ to the variance;
 - **update:** blend in the reading $z$ with the [Kalman gain](../RO-017-kalman-filter/RO-017-kalman-filter.md#43-the-best-weight-the-kalman-gain) (G-2508), which gives the reading the weight that makes the new variance smallest.
 
-Both steps rest on one fact: a [straight-line function keeps a bell a bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-straight-line-function-keeps-a-bell-a-bell), with the variance multiplied by the slope squared. The update also assumed the reading was a straight-line function of the position, $z = Hx + v$. Our new reading is
+Both steps rest on one fact: a [linear function keeps a bell a bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-bell-a-bell), with the variance multiplied by the slope squared. The update also assumed the reading was a linear function of the position, $z = Hx + v$. Our new reading is
 
 $$h(x) = \sqrt{(6 - x)^2 + 2^2}$$
 
@@ -239,7 +239,7 @@ To tell when the result has gone wrong, the filter's own variance is no help. Th
 
 ### 5.2 The innovation and its covariance
 
-Every step, before it sees the reading, the filter predicts it: $h(\bar{x})$. It also predicts how far off the reading will be. The innovation $z - h(\bar{x})$ has two independent sources of error, the prediction's and the sensor's. The prediction's error reaches the reading through the slope $H$, so its variance is multiplied by $H^2$ ([variance times slope squared](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-straight-line-function-keeps-a-bell-a-bell)); then the [two independent variances add](../RO-017-kalman-filter/RO-017-kalman-filter.md#24-adding-independent-errors-adds-variances):
+Every step, before it sees the reading, the filter predicts it: $h(\bar{x})$. It also predicts how far off the reading will be. The innovation $z - h(\bar{x})$ has two independent sources of error, the prediction's and the sensor's. The prediction's error reaches the reading through the slope $H$, so its variance is multiplied by $H^2$ ([variance times slope squared](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-bell-a-bell)); then the [two independent variances add](../RO-017-kalman-filter/RO-017-kalman-filter.md#24-adding-independent-errors-adds-variances):
 
 $$S = H\bar{P}H^{\mathsf T} + R$$
 
@@ -307,7 +307,7 @@ The innovations should also look like random noise: centred on zero and with no 
 - The beacon's distance is a curve (2 m at its lowest, 2.83 m at both 4 m and 8 m), yet the EKF still locates the robot from it, ending the 16 steps at 7.749 m against a true 7.86 m, because it straightens the curve at every prediction.
 - A curve bends a bell: near the beacon the readings pile up against 2 m with skewness 1.89, so a mean and variance alone no longer describe them.
 - Linearising at the mean is almost exact where the curve is straight over the bell's width (sd 0.46 both ways at 1 m) and too narrow where it bends (0.36 against 0.57 for a wide bell at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
-- The EKF uses the curved functions for the means and their slopes for the covariances, so with straight-line models it is exactly the Kalman filter.
+- The EKF uses the curved functions for the means and their slopes for the covariances, so with linear models it is exactly the Kalman filter.
 - The slope sets how much a reading tells: at 0.94 the position is pinned to 0.106 m; under the beacon it is near 0 and the filter coasts on its commands.
 - One bell holds one hypothesis, so an EKF started on the wrong side follows the mirror path, 10.5 m off with tiny error bars; multi-bump beliefs need a particle filter.
 - An honest filter's NEES and NIS average 1 per variable (1.00 and 1.01 in our runs); values near 3 or a rising NEES flag noises set too small, and NIS works without the truth, so it can run on the robot.

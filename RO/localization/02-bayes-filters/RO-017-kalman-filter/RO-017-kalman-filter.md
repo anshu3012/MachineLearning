@@ -29,7 +29,7 @@ This Note builds the filter on that corridor, one step at a time, in the order o
 
 ## 2. Why two numbers are enough: the linear Gaussian system
 
-> **Key point:** If the motion (the commands) and the sensor (the beacon) are straight-line functions of the state with added bell-shaped noise, a bell-shaped belief stays bell-shaped through every step. Then the whole belief is a mean and a variance.
+> **Key point:** If the motion (the commands) and the sensor (the beacon) are **linear** functions of the state (a fixed multiple of the state plus a constant, $y = ax + b$, whose graph is a straight line) with added bell-shaped noise, a bell-shaped belief stays bell-shaped through every step. Then the whole belief is a mean and a variance.
 
 ### 2.1 The Bayes filter in brief
 
@@ -55,11 +55,11 @@ $$p_0 = 1 \text{ m}^2$$
 
 The true start is 0.3 m; the filter does not know that.
 
-### 2.3 A straight-line function keeps a bell a bell
+### 2.3 A linear function keeps a bell a bell
 
-> **Key point:** Passing a normal variable through a straight line $y = ax + b$ gives another normal variable: the mean goes through the line and the variance is multiplied by $a^2$.
+> **Key point:** Passing a normal variable through a linear function $y = ax + b$, whose graph is a straight line, gives another normal variable: the mean goes through the line and the variance is multiplied by $a^2$.
 
-Take a normal variable $x$ with mean 1 and standard deviation 0.5, and the straight-line function
+Take a normal variable $x$ with mean 1 and standard deviation 0.5, and the linear function
 
 $$y = 2x + 1$$
 
@@ -107,8 +107,8 @@ with $x$ and $w$ measured from their means. Averaged, the middle term is zero: t
 
 The two facts above are all the Kalman filter needs. A system is a **linear Gaussian system** (G-2507) when (Freiburg KF slides; Thrun §3.2):
 
-1. the next state is a straight-line function of the state and the command, plus normal noise;
-2. the reading is a straight-line function of the state, plus normal noise;
+1. the next state is a linear function of the state and the command, plus normal noise;
+2. the reading is a linear function of the state, plus normal noise;
 3. the first belief is normal.
 
 Our robot is one:
@@ -513,7 +513,7 @@ The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts 
 | update variance | $p = (1 - K)\thinspace\bar{p}$ | blending two independent estimates beats either |
 
 - The corridor robot's two poor sources make one good one: the filter misses by 0.17 m against 0.27 m for the drifting commands and 0.51 m for the jumping beacon, because at every step the gain gives each source the trust its variance earns.
-- In a linear Gaussian system the belief stays a bell, because straight-line functions keep bells bells and independent variances add, so a mean and a variance carry the whole belief.
+- In a linear Gaussian system the belief stays a bell, because linear functions keep bells bells and independent variances add, so a mean and a variance carry the whole belief.
 - The predict step widens the bell by $Q$, so the commands alone always drift: after 100 steps the standard deviation would be 1.4 m.
 - The Kalman gain is derived, not chosen: it is the weight on the reading that minimises the updated variance, and it equals the Bayes update of two multiplied bells (0.776 m and 0.138 m² at step 1 either way).
 - The gain is high while the estimate is vague (0.863 at step 1) and settles near 0.22 once prediction and reading balance, so the beacon's jumps are damped.
@@ -522,7 +522,7 @@ The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts 
 - The Kalman filter is the observer with the best gain for the given noises, so it supplies the full state a controller needs from partial sensors.
 - $R$ is measured from the sensor, $Q$ is tuned; too small a $Q$ drifts like the commands, too large a $Q$ follows every jump, and only the ratio matters.
 
-The robot can now blend drifting commands and jumping readings with two numbers per step. Still missing: the filter needs straight-line models, and a range beacon's reading is a curve of the position, which the [extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#1-overview) straightens.
+The robot can now blend drifting commands and jumping readings with two numbers per step. Still missing: the filter needs linear models, and a range beacon's reading is a curve of the position, which the [extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#1-overview) straightens.
 
 ## 9. Sources
 
@@ -549,7 +549,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Linear Gaussian system (G-2507) | A system whose next state and whose readings are straight-line functions of the state plus normal noise, starting from a normal belief; in it the belief stays normal, so the Kalman filter is exact. |
+| Linear Gaussian system (G-2507) | A system whose next state and whose readings are linear functions of the state plus normal noise, starting from a normal belief; in it the belief stays normal, so the Kalman filter is exact. |
 | Kalman filter (G-2506) | The Bayes filter for a linear Gaussian system: it keeps the belief as a mean and a (co)variance and updates them with a predict step and an update step, blending a model's prediction with a sensor reading so the result is as certain as possible. |
 | Process noise $Q$ (G-2509) | The random part of the motion the model leaves out (wheel slip, pushes), given as its variance or covariance $Q$; it widens the belief at every predict step and is usually set by tuning. |
 | Predicted estimate (a priori) (G-2512) | The estimate and its variance after the predict step and before the step's reading, $\bar{x}$ and $\bar{p}$; it says what the model alone expects. |

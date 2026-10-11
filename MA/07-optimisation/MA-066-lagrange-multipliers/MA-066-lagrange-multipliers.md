@@ -274,7 +274,7 @@ In both cases the product $\lambda\thinspace g(\mathbf{x}^\ast)$ is 0: either $\
 
 ### 5.1 From a wall to a price
 
-> **Key point:** A hard constraint is an infinite penalty outside the feasible region; the Lagrangian replaces that wall with a straight-line penalty $\lambda g$.
+> **Key point:** A hard constraint is an infinite penalty outside the feasible region; the Lagrangian replaces that wall with a linear penalty $\lambda g$.
 
 Think of the fence round the valley. A **hard** fence is an electric wall: any step outside costs infinitely much, any step inside costs nothing. A **soft** fence is a fine: every unit of rule-breaking costs a fixed number of rupees, and being well inside even earns a small credit. The soft fence is easier to work with, and with the right fine it keeps the hiker in the same place.
 

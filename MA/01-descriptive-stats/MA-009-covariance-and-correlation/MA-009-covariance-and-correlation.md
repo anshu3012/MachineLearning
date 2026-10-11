@@ -16,7 +16,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/causation,
 
 ## 1. Overview
 
-> **Key point:** Covariance gives the direction of the straight-line relationship between two numerical features; correlation divides it by the two standard deviations, which adds the strength and removes the effect of units.
+> **Key point:** Covariance gives the direction of the linear (straight-line) relationship between two numerical features; correlation divides it by the two standard deviations, which adds the strength and removes the effect of units.
 
 ![Covariance by quadrants: each point's product of distances from the two means](images/quadrants.png)
 
@@ -142,7 +142,7 @@ In Figure 4, each positive rectangle on one side is cancelled by an equal negati
 
 $$s_{xy} = \frac{0}{4} = 0$$
 
-Yet $y$ is completely fixed by $x$. Covariance sees only a straight-line trend: zero covariance means no linear relationship, and a curved one can still be there.
+Yet $y$ is completely fixed by $x$. Covariance sees only a linear trend: zero covariance means no linear relationship, and a curved one can still be there.
 
 ![Five points on the curve $y = x^2$. The red rectangles (negative products) cancel the blue ones (positive products), so the covariance is 0 although the points follow the curve exactly](images/zero_cov_curve.png){height=35%}
 
@@ -342,7 +342,7 @@ Establishing causation needs more than data that happens to be collected: contro
 | Measure | Formula | Range | Tells | Depends on units? | Why it matters |
 |---|---|---|---|---|---|
 | Covariance (sample) | $\sum (x_i - \bar{x})(y_i - \bar{y}) / (n-1)$ | any number | direction | yes | its size changes with the units, so read only its sign; it is the step that computes $r$ |
-| Correlation $r$ | $\text{cov}(x, y) / (s_x s_y)$ | $-1$ to $+1$ | direction and strength | no | free of units, so it is the measure used to study a straight-line relationship |
+| Correlation $r$ | $\text{cov}(x, y) / (s_x s_y)$ | $-1$ to $+1$ | direction and strength | no | free of units, so it is the measure used to study a linear (straight-line relationship |
 
 | Example | Covariance | $r$ |
 |---|---|---|
@@ -353,7 +353,7 @@ Establishing causation needs more than data that happens to be collected: contro
 - Points in quadrants I and III push the covariance up; II and IV push it down, because two distances with the same sign give a positive product. So the sign can be guessed by drawing the two mean lines on a scatter plot.
 - $\text{cov}(a x, c y) = ac\thinspace\text{cov}(x, y)$, but $r$ stays the same, because the same factors scale the two standard deviations and cancel.
 - The covariance of a feature with itself is its variance, which is why a covariance matrix has the variances on its diagonal.
-- Zero covariance means no straight-line relationship; a curve such as $y = x^2$ can still be there, because covariance sees only a straight-line trend.
+- Zero covariance means no linear relationship; a curve such as $y = x^2$ can still be there, because covariance sees only a linear trend.
 - Two points always give $r = \pm 1$, because one straight line passes through any two points; trust $r$ only with enough data.
 - Correlation does not imply causation; a confounding variable can drive both features, so a strong $r$ is not evidence that one feature causes the other.
 - Correlation turns the scatter plot into one number for direction and strength, so it is the measure to check, for example before linear regression.
@@ -395,4 +395,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Population](../../../MA/01-descriptive-stats/MA-004-what-is-statistics/MA-004-what-is-statistics.md#4-population-and-sample) (G-1525) | The entire group of individuals or objects we want to study. |
 | [Linear relationship](../../../ML/06-regression/ML-055-linear-regression-assumptions/ML-055-linear-regression-assumptions.md#2-assumption-1-a-linear-relationship) (G-1095) | A relationship between two columns that follows a straight line. |
 | [Standard deviation](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
-| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for straight-line relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| [Pearson correlation coefficient (Pearson's r)](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |

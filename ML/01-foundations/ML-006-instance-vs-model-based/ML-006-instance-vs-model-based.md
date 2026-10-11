@@ -195,7 +195,7 @@ After training, a model-based algorithm keeps only the function. To classify a n
 
 The function is described by a few numbers called **parameters** (G-1450). For example:
 
-- in a straight-line model, the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
+- in a linear model (a straight line), the parameters are the line's **slope** (G-1823) and **intercept** (G-960);
 - in a neural network, the parameters are its **weights** (G-2106);
 - in Naive Bayes ([comparing posteriors](../../07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#4-the-strategy-compare-posteriors)), the parameters are probabilities.
 

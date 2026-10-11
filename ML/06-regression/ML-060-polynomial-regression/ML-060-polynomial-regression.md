@@ -55,7 +55,7 @@ $$\hat{y} = \beta_0 + \beta_1 x + \beta_2 x^2$$
 
 Here $\hat{y}$ ("y hat") is the predicted target and $\beta_0$, $\beta_1$, $\beta_2$ are the coefficients (numbers the fit learns).
 
-The fitted model is a curve in $x$, but it is still a straight-line combination of its coefficients: each coefficient just multiplies a feature. This is what "**linear** regression" means here: linear in the coefficients, not in $x$. With made-up numbers $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 3$ the prediction at $x = 2$ is
+The fitted model is a curve in $x$, but it is still a linear combination of its coefficients: each coefficient just multiplies a feature. This is what "**linear** regression" means here: linear in the coefficients, not in $x$. With made-up numbers $\beta_0 = 1$, $\beta_1 = 2$, $\beta_2 = 3$ the prediction at $x = 2$ is
 
 $$1 + 2 \times 2 + 3 \times 2^2 = 1 + 4 + 12 = 17$$
 
