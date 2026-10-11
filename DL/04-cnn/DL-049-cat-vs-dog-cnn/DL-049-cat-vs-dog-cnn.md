@@ -33,10 +33,10 @@ This Note puts the CNN Notes into practice. The task is **binary image classific
 ## 2. Prerequisites
 
 - [The general CNN architecture](../DL-045-lenet-5/DL-045-lenet-5.md#3-the-general-cnn-architecture): convolution and pooling blocks, Flatten, dense layers.
-- [**Strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): the size of each layer's output.
+- [**Strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900) and [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182): the size of each layer's output.
 - [Building a network in Keras](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras): building, compiling and training a Keras model.
 - [Why unscaled inputs break training](../../02-training/DL-023-data-scaling-in-ann/DL-023-data-scaling-in-ann.md#4-why-unscaled-inputs-break-training): why inputs are scaled.
-- [Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting), [dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): ways to reduce overfitting.
+- [Ways to reduce overfitting](../../02-training/DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#4-ways-to-reduce-overfitting), [**dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639) and [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training): ways to reduce overfitting.
 
 ## 3. The dataset
 
@@ -158,7 +158,7 @@ The design follows [the general CNN architecture](../DL-045-lenet-5/DL-045-lenet
 >
 > The output layer has one node with a [**sigmoid**](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798): its value is the probability that the photo shows a dog (label 1).
 
-Each output size follows from the formula of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
+Each output size follows from the formula of [**strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900): a $3 \times 3$ convolution without padding removes 2 pixels, and $2 \times 2$ pooling with stride 2 halves the size, rounding down:
 
 $$256 \to 254 \text{ (convolution)}$$
 $$254 \to 127 \text{ (pooling)}$$
@@ -264,7 +264,7 @@ We try two of them together. A `BatchNormalization` layer goes after each of the
 
 The two additions help, but only a little (Figure 6; Notebook). The validation accuracy at epoch 10 rises from 78.9% to 80.3%, the gap shrinks from 0.20 to 0.17, and the final validation loss is about half as large (0.76 against 1.34). The model with batch normalisation and dropout learns more slowly at first (61% validation accuracy after one epoch, against 73%), so it starts to overfit later: its gap stays below 0.05 up to and including epoch 5 (Figure 6, right). By epoch 10 it is overfitting too. Its training accuracy is 97.4%, and its validation loss has risen since epoch 5.
 
-Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (see [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)). Stronger remedies for this model are more varied training data, which [data augmentation](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) creates, and stopping near the epoch of the lowest validation loss.
+Dropout of 0.1 removes only one node in ten, and the mild regularising effect of batch normalisation is a side benefit rather than a cure (see [batch normalisation](../../02-training/DL-031-batch-normalization/DL-031-batch-normalization.md#4-how-batch-normalisation-works-during-training)). Stronger remedies for this model are more varied training data, which [**data augmentation**](../DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) creates, and stopping near the epoch of the lowest validation loss.
 
 ### 8.1 What the mistakes look like
 
@@ -361,15 +361,15 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
 | [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Batch (mini-batch)](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) | A small group of training observations used for one update; Keras uses 32 by default. |
 | [Generator](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#25-generative-adversarial-network-gan) (G-843) | The GAN network that creates new data. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
 | [Epoch](../../../DL/01-basics/DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696) | One full update of the parameters using the whole training set. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
-| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Sigmoid function](../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |
 | [Data augmentation](../../../DL/04-cnn/DL-050-data-augmentation/DL-050-data-augmentation.md#1-overview) (G-531) | Enlarging a dataset by making changed copies of its examples, such as zoomed or shifted images. |
-| [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [Batch normalisation](../../../DL/01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#64-batch-normalisation) (G-266) | A layer placed between layers of a network that re-centres and re-scales its inputs during training; this keeps the activations away from the flat ends of sigmoid and tanh, which helps against vanishing gradients. |

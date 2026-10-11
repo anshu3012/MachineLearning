@@ -237,13 +237,13 @@ Figure 10 draws both checks as two circles: the customers we flagged and the cus
 
 Choosing metrics deserves real time and thought, just like choosing the data.
 
-> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [precision](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision). [**Precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) asks: of the customers we flagged, how many really left? [**Recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
+> **Extra:** The second check has standard names, covered in [the confusion matrix](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#4-the-confusion-matrix) and [**precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547). [**Precision**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#2-precision) (G-1547) asks: of the customers we flagged, how many really left? [**Recall**](../../07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) asks: of the customers who really left, how many did we flag? On top of these model metrics, the business metric, the churn rate itself, tells us whether the discounts are working.
 
 ## 9. Step 6: Online or batch learning
 
 > **Key point:** Churn changes quickly, so online learning would suit it best; if that is too hard, we retrain in batches, for example every week.
 
-We also decide at the start how the model will learn once it is in production (see [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) and [online learning](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is)):
+We also decide at the start how the model will learn once it is in production (see [**batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) (G-265) and [**online learning**](../ML-005-online-learning/ML-005-online-learning.md#2-what-online-learning-is) (G-1391)):
 
 - [**Batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#31-how-batch-learning-works) (G-265): train on our machine, deploy to the server, and periodically take the model down, retrain it on new data and deploy it again.
 - [**Online learning**](../ML-005-online-learning/ML-005-online-learning.md#21-learning-in-small-steps) (G-1391): the model keeps learning on the server from data as it arrives.

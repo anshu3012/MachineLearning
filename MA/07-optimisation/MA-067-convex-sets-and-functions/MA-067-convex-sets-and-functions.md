@@ -188,7 +188,7 @@ A [**strictly convex function**](../MA-065-convex-and-non-convex-cost-functions/
 
 **Two related ideas.**
 
-- **Concave function** (G-438): the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm ($\ln$) is concave. So is the dual function of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem),
+- **Concave function** (G-438): the negative of a convex function, an upside-down bowl. Every chord lies on or below the graph. The natural logarithm ($\ln$) is concave. So is the dual function of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem) (G-1036),
   $$D(\lambda) = 3\lambda - \frac{3\lambda^2}{8}$$
 
   $$D(4) = 3 \times 4 - \frac{3 \times 16}{8}$$
@@ -463,7 +463,7 @@ This rule covers the regularised losses of earlier Notes:
 
 ![Left: the surface of x² + 2y² (a bowl) with the line x + y = 3 lifted onto it (green) and the lowest allowed point (red). Middle: the same surface from above, as contours of x² + 2y², and the feasible half-plane x + y ≥ 3 (green); the lowest feasible point is (2, 1), on the contour of value 6 (dashed). Right: the dual function D(λ) = 3λ − 3λ²/8 peaks at λ = 4 with the same value 6](images/primal_dual.png)
 
-**Worked example.** The problem of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems), drawn in Figure 10 (left and middle). The function $x^2 + 2y^2$ is the bowl of the Lagrange multipliers Note: its surface is on the left, the same bowl seen from above is the contour map in the middle, with the same colours and the same red point (2, 1):
+**Worked example.** The problem of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#2-constrained-optimisation-problems) (G-1036), drawn in Figure 10 (left and middle). The function $x^2 + 2y^2$ is the bowl of the Lagrange multipliers Note: its surface is on the left, the same bowl seen from above is the contour map in the middle, with the same colours and the same red point (2, 1):
 
 $$\text{minimise } f(x, y) = x^2 + 2y^2$$
 
@@ -508,7 +508,7 @@ and $g_1$ is linear, hence convex. There are no equality constraints.
 For a convex optimisation problem:
 
 - **Every local minimum is a global minimum.** The argument of the [convex and non-convex cost functions](../MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#32-why-convexity-matters-one-minimum) works inside a convex feasible region too, because the segment towards a lower point stays feasible.
-- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [Lagrange multipliers](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) is the answer.
+- **The first-order conditions are enough.** Without constraints, a point with zero gradient is the answer (Section 4.2). With constraints, a point that satisfies the [**KKT conditions**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1013) of the [**Lagrange multipliers**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#5-inequality-constraints) (G-1036) is the answer.
 - [**Strong duality**](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#62-weak-and-strong-duality) (G-1903). The primal problem is the original minimisation; the dual problem maximises the dual function built with the Lagrange multipliers (see [the dual function and the dual problem](../MA-066-lagrange-multipliers/MA-066-lagrange-multipliers.md#61-the-dual-function-and-the-dual-problem)). The maximum of the dual function equals the primal minimum. In the example:
   $$\text{primal minimum} = f(2, 1) = 6$$
   $$\text{dual maximum} = D(4)$$

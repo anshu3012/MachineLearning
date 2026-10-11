@@ -33,7 +33,7 @@ Figure 1 shows LeNet-5. This Note covers:
 
 - [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding) and [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182).
 - [The MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): [**Flatten**](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788), Dense layers, softmax output and counting [**parameters**](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448).
-- [Tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668), two activation functions (functions applied to each node's sum).
+- [**Tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) (G-1947) and [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668), two activation functions (functions applied to each node's sum).
 
 ## 3. The general CNN architecture
 
@@ -93,7 +93,7 @@ LeNet-5 expects a 32 × 32 greyscale image. Layer by layer (Figure 1):
 7. **Fully connected:** 84 nodes, tanh.
 8. **Output:** 10 nodes with softmax, one for each digit.
 
-The activation is [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh)).
+The activation is [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947), not ReLU. ReLU is the usual choice in today's CNNs, but in 1998 tanh was the best activation function available (see [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) (G-1947)).
 
 ### 4.3 The shapes, layer by layer
 
@@ -242,6 +242,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Flatten layer](../../../DL/01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#41-flatten-from-an-image-to-a-row) (G-788) | A layer that reshapes a multi-dimensional input into one dimension; no parameters. |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
+| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
@@ -251,5 +252,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
 | [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
 | [Average pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#81-max-average-and-l2-pooling) (G-238) | Pooling that replaces each window of a feature map with the mean of its values, which shrinks the map; unlike max pooling, it fades strong values such as edges. |
-| [Tanh (hyperbolic tangent)](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is) (G-1947) | An activation function that squashes any number into an S-curve from $-1$ to 1, centred on 0: $\tanh(z) = (e^{z}-e^{-z})/(e^{z}+e^{-z})$, with derivative $1 - \tanh^2(z)$. |
 | [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |

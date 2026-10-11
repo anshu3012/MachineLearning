@@ -31,7 +31,7 @@ All the numbers in this Note are hypothetical, chosen by hand so that the arrows
 ## 2. Prerequisites
 
 - [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value): query, key and value vectors, and the weighted sum of values.
-- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor): dividing the scores by $\sqrt{d_k}$.
+- [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#6-choosing-the-scaling-factor) (G-1745): dividing the scores by $\sqrt{d_k}$.
 - [What is self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings): contextual embeddings, and the two meanings of "bank".
 - [Linear transformations and matrices](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation): multiplying a vector by a matrix moves the vector.
 - [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5: vectors pointing the same way have a large dot product.
@@ -66,7 +66,7 @@ They point in quite different directions (Figure 3, and the grey arrows in Figur
 
 > **Key point:** Multiplying an embedding by $W_Q$, $W_K$ and $W_V$ moves it to three new places: its query, key and value vectors. One arrow becomes three.
 
-Multiplying a vector by a matrix is a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097): it moves the vector somewhere else (the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation)). [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) applies three such transformations to each embedding: they give its **query**, [**key**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) and [**value**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) vectors. Our $2 \times 2$ matrices are
+Multiplying a vector by a matrix is a [**linear transformation**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#3-what-makes-a-transformation-linear) (G-1097): it moves the vector somewhere else (the [**linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation) (G-1097)). [**Self-attention**](../DL-077-why-self-attention/DL-077-why-self-attention.md#1-overview) (G-1763) applies three such transformations to each embedding: they give its **query**, [**key**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#7-three-roles-query-key-and-value) (G-1011) and [**value**](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#1-overview) (G-2068) vectors. Our $2 \times 2$ matrices are
 
 $$W_Q = \begin{pmatrix} 0.2 & 0.1 \cr0.1 & 0.3 \end{pmatrix}$$
 
@@ -99,7 +99,7 @@ Two embeddings have become six vectors. The embeddings themselves are not used a
 
 > **Key point:** The dot product of bank's query with each key measures how closely the two arrows point the same way. Scaling and the softmax turn these scores into weights that sum to 1.
 
-We follow the word "bank"; "money" goes through exactly the same steps. Its new vector depends on how similar "bank" is to every word of the sentence, itself included. The similarity of two arrows is their [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634): large when they point the same way, small when the angle between them is wide (the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning), section 5).
+We follow the word "bank"; "money" goes through exactly the same steps. Its new vector depends on how similar "bank" is to every word of the sentence, itself included. The similarity of two arrows is their [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634): large when they point the same way, small when the angle between them is wide (the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning) (G-634), section 5).
 
 1. **In words:** take the dot product of bank's query with every key, divide by $\sqrt{d_k}$, then apply the softmax.
 2. **Formula:** here $d_k = 2$, and $j$ runs over the two words, money and bank:

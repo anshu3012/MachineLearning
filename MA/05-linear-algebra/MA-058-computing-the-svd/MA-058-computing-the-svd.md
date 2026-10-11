@@ -512,7 +512,7 @@ A column times a row is a whole matrix of rank 1. Every matrix can be built out 
 > np.linalg.matrix_rank(C) # 1
 > ```
 >
-> `matrix_rank` from [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) works exactly this way: it counts the singular values that are not (almost) zero.
+> `matrix_rank` from [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838) works exactly this way: it counts the singular values that are not (almost) zero.
 
 ## 6. The four subspaces
 

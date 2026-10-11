@@ -39,7 +39,7 @@ scikit-learn can draw a fitted tree with `plot_tree` (built on matplotlib) or ex
 The drawing has several weaknesses:
 
 - **Features appear as indexes.** The split $x_3 \le 0.8$ does not say which feature $x_3$ is. With many features we cannot remember every index position. ($x_3$ is the petal width.)
-- **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (see [Gini impurity](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity)).
+- **Some information is noise for most readers**, such as the Gini value (**Gini impurity**, G-847) of every node (see [**Gini impurity**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity) (G-847)).
 - **Some information is hard to read:** `value = [0, 49, 5]` means 0 setosa, 49 versicolor and 5 virginica, but we must remember the class order.
 - **The data is invisible.** We see the threshold 0.8 but not why the split falls there.
 
@@ -198,7 +198,7 @@ Petal width was asked twice on the path ($> 0.80$, then $> 1.75$), and the two c
 
 > **Key point:** The tree's `feature_importances_` shows which features it relied on; for iris, petal width does almost all the work.
 
-The [**feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of a feature (see [feature importance](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance)) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
+The [**feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764) of a feature (see [**feature importance**](../ML-093-regression-trees/ML-093-regression-trees.md#75-feature-importance) (G-764)) is its share of all the impurity reduction in the tree. Figure 6 shows it for the fully grown iris tree.
 
 ![Feature importance of the fully grown iris tree](images/importance.png){height=24%}
 

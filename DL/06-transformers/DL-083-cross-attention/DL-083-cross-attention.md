@@ -39,7 +39,7 @@ The Note then shows the weights of a small trained translation model (section 7)
 - [**Multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-1268): heads, $W_O$, the parameter count $4d^2 + 4d$.
 - [Attention mechanism](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) and [Bahdanau and Luong attention](../DL-070-bahdanau-vs-luong-attention/DL-070-bahdanau-vs-luong-attention.md#6-the-two-compared): attention in the RNN encoder–decoder.
 - [Transformer encoder](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#5-inside-one-encoder-block): the encoder's output, one vector per input word.
-- [Masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future): the decoder's first attention layer.
+- [**Masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172): the decoder's first attention layer.
 
 ## 3. What the decoder needs to know
 
@@ -49,7 +49,7 @@ Take a translation from English into French: "I want ice cream for dessert." bec
 
 Suppose the decoder has written "je veux de la" and must now write the next word. What does the choice depend on?
 
-1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [masked self-attention](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) layer.
+1. **What it has written so far.** After "je veux de la", only certain words fit. Relating a word to the other words of its own sentence is the job of self-attention; in the decoder it is the [**masked self-attention**](../DL-082-masked-self-attention/DL-082-masked-self-attention.md#6-the-fix-mask-the-future) (G-1172) layer.
 2. **What the input sentence says.** "crème" is right because the English sentence says "ice cream". The decoder needs to know which English words matter for the word it is writing. Losing track of a single input word can reverse the meaning: in "Don't eat the delicious looking pizza", a translation that drops "don't" tells the reader to eat it (StatQuest, "Transformer Neural Networks", 28:30).
 
 The second need is a relationship between two different sequences: for every French word, how strongly it relates to every English word. We can picture it as a table with one row per French word and one column per English word, with "crème" strongly tied to "ice" and "cream", and "veux" to "want".
@@ -165,7 +165,7 @@ Keras' `MultiHeadAttention` layer takes a `query`, a `value` and an optional `ke
 > out, w = mha(query=X_dec, value=H_enc, key=H_enc, return_attention_scores=True)
 > ```
 
-The same layer, given `X_dec` as both query and value, does self-attention and returns a $4 \times 4$ weight matrix. The layer is identical; only its inputs decide which kind of attention it is. A cross-attention layer therefore also has the same parameters as a self-attention layer: at the paper's sizes ($d_{model} = 512$, 8 heads), 1,050,624 in both cases, the $4d^2 + 4d$ of the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (Notebook).
+The same layer, given `X_dec` as both query and value, does self-attention and returns a $4 \times 4$ weight matrix. The layer is identical; only its inputs decide which kind of attention it is. A cross-attention layer therefore also has the same parameters as a self-attention layer: at the paper's sizes ($d_{model} = 512$, 8 heads), 1,050,624 in both cases, the $4d^2 + 4d$ of the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#6-multi-head-attention-in-the-transformer) (G-1268) (Notebook).
 
 ## 6. Output: one vector per output word
 

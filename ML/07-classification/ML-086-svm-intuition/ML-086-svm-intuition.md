@@ -63,7 +63,7 @@ The rest of this Note works with two features, where the separator is a line.
 
 Now take two features. Each point is one observation, its two coordinates are its features, and its colour is the target.
 
-Figure 3 shows two classes, green and red, that are linearly separable (a straight line can put each class on its own side; see [when logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [hyperplanes](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane), so we write each one with the letter $\pi$ ("pi"). Here $\pi$ is only a name for the separator, not the number 3.14.
+Figure 3 shows two classes, green and red, that are linearly separable (a straight line can put each class on its own side; see [when logistic regression works](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#2-when-logistic-regression-works)). Two lines, $\pi_1$ (black) and $\pi_2$ (blue), both put every green point on one side and every red point on the other. In more dimensions the dividers are planes or [**hyperplanes**](../../06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#22-more-inputs-a-hyperplane) (G-911), so we write each one with the letter $\pi$ ("pi"). Here $\pi$ is only a name for the separator, not the number 3.14.
 
 ![Two lines that both separate the classes perfectly](images/two_lines.png){height=40%}
 

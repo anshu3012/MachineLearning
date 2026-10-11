@@ -34,7 +34,7 @@ Figure 1 sorts the types by the two questions of the Key point. Each type also h
 
 ![The two questions. Is the input one value or a sequence? Is the output one value or a sequence? Each answer pair gives one type; only the three with a sequence on at least one side are RNNs](images/two_questions.png){width=80%}
 
-The type also changes how backpropagation runs through the network, which the **backpropagation through time** (G-246; [backpropagation through time](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn)) covers.
+The type also changes how backpropagation runs through the network, which the **backpropagation through time** (G-246; [**backpropagation through time**](../DL-059-backpropagation-through-time/DL-059-backpropagation-through-time.md#3-the-setup-a-many-to-one-rnn) (G-246)) covers.
 
 ## 2. Prerequisites
 

@@ -189,7 +189,7 @@ Figure 4 shows how $\lambda$ changes the shape:
 
 > **Key point:** A Poisson variable has mean $\lambda$ and variance $\lambda$: one number fixes both its centre and its spread.
 
-The [**expected value**](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) is the sum of every value times its probability (see [expected value](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
+The [**expected value**](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725) is the sum of every value times its probability (see [**expected value**](../../02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value) (G-725)). Applied to the Poisson PMF, this long sum simplifies to $\lambda$. The variance, from the same shortcut formula $E[Y^2] - (E[Y])^2$, is also $\lambda$.
 
 1. **In words:** the average count is the rate, and so is the variance; the [**standard deviation**](../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) is the square root of the rate.
 2. **Formula:**
@@ -387,7 +387,7 @@ The result is the Poisson PMF of section 3, with $k$ in place of $y$. The $e^{-\
 
 A count follows a Poisson distribution when these three conditions hold (Ross §4.7):
 
-1. **Events are independent** (G-934; see [independent events](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)). One question does not make the next more or less likely.
+1. **Events are independent** (G-934; see [**independent events**](../../02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)). One question does not make the next more or less likely.
 2. **The rate is constant.** The average count is the same for every interval of the same length; an exam week with more questions breaks this.
 3. **Events happen one at a time.** Two events never happen at exactly the same moment.
 

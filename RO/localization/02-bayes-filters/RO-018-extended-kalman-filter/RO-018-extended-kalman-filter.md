@@ -28,7 +28,7 @@ The Kalman filter needs linear models (Section 2), so it cannot use this reading
 
 > **Key point:** The Kalman filter is exact only because linear functions keep a Gaussian a Gaussian. A nonlinear function, such as the beacon distance, does not.
 
-To see why the nonlinear beacon distance of Figure 1 breaks it, recall what the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) does. It keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
+To see why the nonlinear beacon distance of Figure 1 breaks it, recall what the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) (G-2506) does. It keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
 
 - **predict:** move the mean with the command and add the process noise $Q$ to the variance;
 - **update:** blend in the reading $z$ with the [Kalman gain](../RO-017-kalman-filter/RO-017-kalman-filter.md#43-the-best-weight-the-kalman-gain) (G-2508), which gives the reading the weight that makes the new variance smallest.
@@ -224,7 +224,7 @@ The filter needs no special case for any of this: recomputing $H$ at every predi
 The other limits (Freiburg EKF slides; Labbe ch.11):
 
 - **Strongly nonlinear models.** Where the Gaussian is wide compared with the bend (Section 3.3), the linearised covariance is wrong, usually too small, and the filter becomes overconfident.
-- **Jacobians must exist.** A model with steps, like the door map of the [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#21-the-corridor-the-sensor-and-the-motion) (1.0 m beside wall, 1.5 m at a door), has slope 0 almost everywhere and no slope at the edges, so the EKF cannot use it.
+- **Jacobians must exist.** A model with steps, like the door map of the [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#21-the-corridor-the-sensor-and-the-motion) (G-2492) (1.0 m beside wall, 1.5 m at a door), has slope 0 almost everywhere and no slope at the edges, so the EKF cannot use it.
 - **Jacobians must be derived.** Deriving them by hand is error-prone for big models; symbolic tools such as SymPy can do it (Labbe ch.11).
 
 The unscented Kalman filter pushes a few chosen sample points through the nonlinear function instead of a tangent line, and the particle filter pushes many; both avoid Jacobians at a higher cost (Labbe ch.9; Freiburg EKF slides). Each of these limits can leave the EKF wrong while its variance says it is sure, so it needs a check.

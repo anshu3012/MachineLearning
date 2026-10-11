@@ -28,7 +28,7 @@ Figure 1 shows the path this Note follows for one die:
 3. the distribution gives each number's probability;
 4. from the distribution we compute the **expected value** $E[X]$, the centre (3.5 for one die), and the **variance** $\mathrm{Var}(X)$, the spread (35/12 for one die).
 
-Random variables, discrete and continuous ones, and probability distributions are introduced in [random variables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [probability distributions as tables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables). Here we look closer at what a random variable is, then compute its mean and variance.
+Random variables, discrete and continuous ones, and probability distributions are introduced in [**random variables**](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) (G-1620) and [probability distributions as tables](../../03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables). Here we look closer at what a random variable is, then compute its mean and variance.
 
 ## 2. A random variable is a function
 
@@ -217,7 +217,7 @@ The difference has expected value 0 because the table is symmetric: each positiv
 >
 > $$E[X] = p$$
 >
-> The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in [empirical probability](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability).
+> The average of 0/1 values is the share of 1s, which is why `tosses.mean()` gave the share of heads in [**empirical probability**](../MA-011-empirical-and-theoretical-probability/MA-011-empirical-and-theoretical-probability.md#3-empirical-probability) (G-678).
 
 ### 3.4 Checking by simulation
 

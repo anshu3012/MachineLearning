@@ -35,7 +35,7 @@ The Notebook (`ML-097-voting-classifier.ipynb`) runs every experiment. The Dash 
 
 Recall the setup: base models M1, M2, M3 are trained on the same data D. For a query point $x_q$, each predicts a class (0 or 1 for a two-class problem), and the voting classifier returns the most common one, the **mode** of the predictions.
 
-A **decision surface** (G-560; the feature plane coloured by the class a model predicts at each point, see [decision surfaces](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces)) shows this best. The line where the colour changes is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). The app `app.py` offers:
+A **decision surface** (G-560; the feature plane coloured by the class a model predicts at each point, see [**decision surfaces**](../../07-classification/ML-085-knn/ML-085-knn.md#5-decision-surfaces) (G-560)) shows this best. The line where the colour changes is the [**decision boundary**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#41-learning-a-decision-boundary) (G-555). The app `app.py` offers:
 
 - six toy datasets with two **features** (input variables, the columns of the data table), such as concentric circles, a U shape, two spirals and XOR;
 - five base models: KNN, logistic regression, Gaussian naive Bayes, SVM and random forest (a forest of trees, covered in later Notes).

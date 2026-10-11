@@ -203,7 +203,7 @@ Two techniques speed up training:
 [**Overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) means learning the training data too closely, noise included, so that the model fails on new data (see the [bias-variance](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off)). A deep network has many parameters, some have millions of weights, so it tends to overfit. Three fixes have their own Notes:
 
 - **L1 and L2 regularisation** (G-1026, G-1029), as for linear models (see the [**ridge regression**](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients) (G-1691)), adapted to networks in [regularisation in deep learning](../DL-026-regularization-in-dl/DL-026-regularization-in-dl.md#5-the-penalty-term).
-- [**Dropout**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off random neurons during training (see the [dropout](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works)).
+- [**Dropout**](../DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639): switch off random neurons during training (see the [**dropout**](../DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639)).
 - **Early stopping** (section 3.6, and the [early stopping](../DL-022-early-stopping/DL-022-early-stopping.md#4-early-stopping-in-keras)).
 
 ## 5. Summary

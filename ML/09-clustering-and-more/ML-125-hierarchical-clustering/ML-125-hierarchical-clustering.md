@@ -227,7 +227,7 @@ Figure 7 runs all four linkages, with 2 clusters, on three datasets:
 
 ![Single, complete, average and Ward linkage (2 clusters) on moons with a clear gap, noisy moons, and a big and a small group](images/linkage_compare.png){height=58%}
 
-So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN ([density-based clustering](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering)) was built for that case: DBSCAN finds clusters of any shape and labels noise points (Ester et al. 1996).
+So the linkage is a real choice that depends on the data. When the groups have odd shapes and also noise, DBSCAN ([**density-based clustering**](../ML-126-dbscan/ML-126-dbscan.md#4-density-based-clustering) (G-588)) was built for that case: DBSCAN finds clusters of any shape and labels noise points (Ester et al. 1996).
 
 ## 9. Choosing the number of clusters from the dendrogram
 

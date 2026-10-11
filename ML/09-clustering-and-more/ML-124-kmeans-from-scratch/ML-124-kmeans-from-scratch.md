@@ -251,7 +251,7 @@ Figure 9 runs both starts round by round. Watch the status in each panel's title
 
 ![The bad start (left) and the good start (right) on the students, one assign-and-move round per frame, with the WCSS after each round. The bad run stops in round 3 at WCSS 2,280, the good run in round 4 at WCSS 682](images/start_race.gif){height=40%}
 
-The two runs can be compared by their WCSS (see [WCSS](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are)): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
+The two runs can be compared by their WCSS (see [**WCSS**](../ML-122-kmeans-intuition/ML-122-kmeans-intuition.md#51-wcss-how-tight-the-clusters-are) (G-2102)): 2,280 for the bad start and 682 for the good one. Lower is better, so the fix is simple (ESL §14.3.6):
 
 1. run k-means from several random starts;
 2. keep the run with the lowest WCSS.

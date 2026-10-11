@@ -119,7 +119,7 @@ If $\sigma$ is unknown, the exact test is the t-test (see [the one-sample t-test
 
 > $\alpha$ is the probability of rejecting the null hypothesis when it is actually true.
 
-With $\alpha = 0.05$, if we ran 100 tests in which $H_0$ was in fact true, about 5 would still reject it. This mistake is called a [**Type I error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) (see [Type I error](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error)).
+With $\alpha = 0.05$, if we ran 100 tests in which $H_0$ was in fact true, about 5 would still reject it. This mistake is called a [**Type I error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032) (see [**Type I error**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#21-type-i-error) (G-2032)).
 
 Think of $\alpha$ as the sensitivity setting of a smoke alarm. A very sensitive alarm (large $\alpha$) goes off for burnt toast as well as for real fires; a dull one (small $\alpha$) rarely gives false alarms but needs more smoke before it sounds.
 

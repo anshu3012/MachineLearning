@@ -333,7 +333,7 @@ where each $p(z_i \mid z^{\ast})$ is the mixture of Section 5 at $z^{\ast} = 3$ 
 
 The hidden piece of information is the cause of each reading, a [latent variable](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#52-the-latent-variable) (G-1050). The [EM algorithm](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) (G-675) repeats two steps from a starting guess. We start from equal weights 0.25, $\sigma_{\text{hit}} = 0.3$ m and $\lambda_{\text{short}} = 0.5$ per m.
 
-**E-step: share each reading among the causes.** For each reading, compute each weighted part and divide by their sum. The shares are the [responsibilities](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-1687) $e_{i,c}$ of cause $c$ for reading $i$; they add up to 1 over the four causes ([E-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps), G-654). With the starting guess, the weighted parts (per m) for three readings:
+**E-step: share each reading among the causes.** For each reading, compute each weighted part and divide by their sum. The shares are the [responsibilities](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#32-the-standard-terms) (G-1687) $e_{i,c}$ of cause $c$ for reading $i$; they add up to 1 over the four causes ([**E-step**](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654), G-654). With the starting guess, the weighted parts (per m) for three readings:
 
 | Reading | hit | short | max | rand | sum |
 |---|---|---|---|---|---|
@@ -351,7 +351,7 @@ Dividing each row by its sum gives the responsibilities:
 
 The 3.02 m reading is mostly a hit, the 1.00 m reading mostly a short reading, the 5.00 m reading almost surely a failure.
 
-**M-step: refit each cause to its share of the readings.** Each cause is now fitted like a single distribution, with each reading counted by its responsibility (the [M-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled), G-1139). With $n = 1000$ readings (Thrun §6.3.4; De Laet et al. 2008, Eq. 65–66):
+**M-step: refit each cause to its share of the readings.** Each cause is now fitted like a single distribution, with each reading counted by its responsibility (the [**M-step**](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139), G-1139). With $n = 1000$ readings (Thrun §6.3.4; De Laet et al. 2008, Eq. 65–66):
 
 - **Weights:** a cause's weight is its average responsibility, its share of the readings.
 

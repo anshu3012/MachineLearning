@@ -124,7 +124,7 @@ Reaching only the people most likely to buy is called **targeted marketing** (G-
 
 Google and Facebook do the same with the data of their users. Most internet products are free to use, which leads to a well-known saying: *if you are not paying for the product, you are the product.*
 
-> **Extra:** Grouping customers by their buying behaviour without being told the groups is [**clustering**](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401), a kind of **unsupervised learning** (G-2058; [clustering](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering)). In marketing it is called **customer segmentation** (G-525).
+> **Extra:** Grouping customers by their buying behaviour without being told the groups is [**clustering**](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401), a kind of **unsupervised learning** (G-2058; [**clustering**](../ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401)). In marketing it is called **customer segmentation** (G-525).
 
 ### 3.3 Product placement on shelves
 
@@ -132,7 +132,7 @@ Google and Facebook do the same with the data of their users. Most internet prod
 
 In a supermarket, someone has decided which product sits next to which in the aisles. The placement is often decided with ML.
 
-[**Association rule learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning) (G-218) finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [association rule learning](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning).
+[**Association rule learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning) (G-218) finds how strongly two products are linked: how often they are bought together. If the link is strong, the shop keeps the two products next to each other. The classic example is baby diapers and beer, covered in [**association rule learning**](../ML-003-types-of-ml/ML-003-types-of-ml.md#35-association-rule-learning) (G-218).
 
 Without these three uses of ML (stocking, profiles, placement), retail companies would not run nearly as well as they do today.
 
@@ -256,7 +256,7 @@ As soon as the drop is detected, engineers are sent to repair that robotic arm.
 
 The same idea works in any factory, not only Tesla's. Predictive maintenance is one of the ways ML is changing the manufacturing sector.
 
-> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of [**anomaly detection**](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201), which [anomaly detection](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) lists as a use of unsupervised learning.
+> **Extra:** Spotting readings that drift away from a machine's normal behaviour is a form of [**anomaly detection**](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201), which [**anomaly detection**](../ML-003-types-of-ml/ML-003-types-of-ml.md#34-anomaly-detection) (G-201) lists as a use of unsupervised learning.
 
 ## 7. Social media
 

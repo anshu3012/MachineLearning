@@ -35,7 +35,7 @@ With 1,000 observations and a batch size of 100, the data splits into 10 batches
 
 > **Key point:** Batch size n is batch gradient descent; batch size 1 is stochastic gradient descent; anything between is mini-batch.
 
-The **batch size** (G-267) is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose before training, not one the model learns. Read the three types of [batch gradient descent](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) and [stochastic gradient descent](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#1-overview) by batch size:
+The **batch size** (G-267) is a [**hyperparameter**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910): a setting we choose before training, not one the model learns. Read the three types of [**batch gradient descent**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) and [**stochastic gradient descent**](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#1-overview) (G-1892) by batch size:
 
 - [**batch gradient descent**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#1-overview) (G-264) is batch size $n$;
 - [**stochastic gradient descent**](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) is batch size 1;

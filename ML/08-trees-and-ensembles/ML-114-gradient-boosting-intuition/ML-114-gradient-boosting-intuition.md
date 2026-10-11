@@ -106,7 +106,7 @@ A negative residual means we predicted too much; a positive one, too little. A r
 
 > **Key point:** Model 2 is a regression tree with the same features, but its target is the residual column, not the package. Model 2 learns how wrong model 1 is for each kind of student.
 
-Training on the mistakes is the central idea of gradient boosting. Model 2 is a **regression tree** (G-1654; see [regression trees](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview)):
+Training on the mistakes is the central idea of gradient boosting. Model 2 is a **regression tree** (G-1654; see [**regression trees**](../ML-093-regression-trees/ML-093-regression-trees.md#1-overview) (G-1654)):
 
 - **features:** IQ and CGPA, as before;
 - **target:** *res1*, the mistakes of model 1, not the package.

@@ -216,7 +216,7 @@ Odds of 9 mean 9 parts open to 1 part closed:
 
 $$p(\text{open}) = \frac{9}{9 + 1} = 0.9$$
 
-the same 0.9 as in the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#32-a-second-reading-bayes-theorem-with-background-knowledge).
+the same 0.9 as in the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#32-a-second-reading-bayes-theorem-with-background-knowledge) (G-2446).
 
 ### 4.3 Log odds turn the products into sums
 
@@ -275,7 +275,7 @@ Every filter so far answers where the robot is now; the same numbers can also sa
 
 ### 5.1 Three questions about a run
 
-Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [belief](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
+Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [**belief**](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach) (G-2433): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
 
 1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the histogram filter of Section 2 does it.
 2. **Where was the robot at an earlier time, given all readings, including later ones?** This is **smoothing** (G-2470).

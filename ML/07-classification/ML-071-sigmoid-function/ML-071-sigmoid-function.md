@@ -204,7 +204,7 @@ None of the values is 0, so every point updates the weights.
 
   $$y - \hat y = 1 - 0.80 = 0.20$$
 
-  so $w$ grows by $0.20\thinspace\eta\thinspace x$. As in the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point), adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
+  so $w$ grows by $0.20\thinspace\eta\thinspace x$. As in the [**perceptron trick**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point) (G-1485), adding $x$ moves a positive point further onto the positive side: the line moves away from it, a push.
 - **C**:
 
   $$y - \hat y = 1 - 0.30 = 0.70$$
@@ -228,7 +228,7 @@ For a positive point (green, $y = 1$):
 
 For a correct point, the push is strongest when it is just on the correct side, near the line, and fades as it gets further away. The negative points (blue) mirror this. The curve shows exactly the behaviour planned in the table of Section 2.2.
 
-Figure 7 shows the pushes on data. It starts where the step perceptron of the [perceptron trick](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
+Figure 7 shows the pushes on data. It starts where the step perceptron of the [**perceptron trick**](../ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485) stopped on its 24 students: every student is correct, but the line is only 0.14 away from the nearest one. Now the sigmoid rule runs, with learning rate 0.5. Each frame picks one student (red ring) and the arrow shows the push on the line; its length is $|y - \hat y|$. Watch the arrow lengths: at pick 1 the student is 0.16 from the line and pushes with strength 0.45; at pick 6 the student is 1.98 away and pushes with only 0.03. Every pick moves the line a little, and after 40 picks the smallest distance to a student has grown from 0.14 to 0.54.
 
 ![The sigmoid rule on 24 students, starting from the line where the step perceptron stopped (dashed in the last frame). Each frame: the picked student (ring) pushes the line away; the arrow's length is the strength |y − ŷ|. Near students push hard, far students gently. After 40 picks the smallest distance from the line to a student has grown from 0.14 to 0.54.](images/push_pull_run.gif)
 

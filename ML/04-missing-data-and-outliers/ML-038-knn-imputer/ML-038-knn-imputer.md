@@ -50,7 +50,7 @@ An observation with two numbers is a point on a flat plane; one with three numbe
 
 Close points are similar observations. [**Similarity**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) between observations is therefore measured as a distance: the smaller the distance, the more similar the observations.
 
-[Instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) draws this picture in 2D: a new point, the 3 points nearest to it, and their vote on its label. Imputation uses the same picture with one change: the neighbours' values are averaged instead of voted on.
+[**Instance-based learning**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-955) draws this picture in 2D: a new point, the 3 points nearest to it, and their vote on its label. Imputation uses the same picture with one change: the neighbours' values are averaged instead of voted on.
 
 ### 3.2 The k nearest neighbours
 
@@ -74,7 +74,7 @@ Figure 2 lays out the other rows of the Note's example by their distance from ro
 
 ![The rows of the five-row example placed by their distance from row 2. For k = 1 to 4 the k nearest rows (orange) are averaged: 25, 32.5, 31.67 and 36.25. Values checked with scikit-learn's KNNImputer.](images/k_sweep.gif){height=30%}
 
-> **Extra:** The same idea gives the [**k-nearest neighbours (KNN)**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an **instance-based learner** (G-955; see [instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning)): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
+> **Extra:** The same idea gives the [**k-nearest neighbours (KNN)**](../../07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) algorithm, a model that predicts a new observation's label from its k nearest training observations. KNN is an **instance-based learner** (G-955; see [**instance-based learning**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning) (G-955)): it stores the training observations instead of learning a formula. The KNN imputer uses the same search to predict a missing value instead of a label.
 
 ## 4. Distance between observations with missing values
 
@@ -363,8 +363,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Random sample imputation](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) (G-1616) | Filling each gap with a value drawn at random from the column's known values. |
 | [Iterative imputer](../../../ML/04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-978) | Filling missing values by predicting each column from the other columns, over and over (multivariate imputation); its algorithm is MICE. |
 | [Similarity](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-1805) | How alike two data points are, measured as a distance: the closer two points are, the more similar; instance-based methods such as KNN use it to find the nearest examples. |
-| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
+| [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
 | [Missing indicator](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#6-missing-indicator) (G-1233) | A 0/1 (True/False) column recording whether a value was missing, added next to the imputed column so the model can learn whether being missing itself matters. |
 | [Mean imputation](../../../ML/04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197) | Filling every gap with the mean of the column's known values. |
 | [Grid search](../../../ML/04-missing-data-and-outliers/ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#71-the-idea) (G-872) | Training a model for every combination of listed settings and keeping the best by cross-validation. |

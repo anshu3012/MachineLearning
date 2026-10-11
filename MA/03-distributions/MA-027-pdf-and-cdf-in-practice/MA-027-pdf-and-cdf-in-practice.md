@@ -34,7 +34,7 @@ tags: [subject/statistics, area/descriptive, step/understand, concept/cdf, conce
 
 The **iris dataset** (G-973) describes 150 iris flowers, 50 of each of three species: setosa, versicolor and virginica. For every flower it gives four measurements in centimetres: sepal length, sepal width, petal length and petal width. The classic machine learning task is to predict the species from these four numbers.
 
-Each of the four measurements is a feature, an input used for the prediction, and the species is the target. [**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps the features that help to predict and removes the ones that do not (see [feature selection](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Suppose we may keep only two of the four. Which two?
+Each of the four measurements is a feature, an input used for the prediction, and the species is the target. [**Feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps the features that help to predict and removes the ones that do not (see [**feature selection**](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Suppose we may keep only two of the four. Which two?
 
 ### 2.2 Reading the class PDFs
 

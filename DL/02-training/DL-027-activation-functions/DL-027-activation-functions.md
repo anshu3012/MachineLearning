@@ -48,7 +48,7 @@ Take a network with two inputs, one hidden layer of two nodes and one output nod
 
 $$z = w_1 x_1 + w_2 x_2 + b_1$$
 
-The node then outputs $a = g(z)$. The function $g$ is the [activation function](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function), also called the **transfer function** (G-2004). With $n$ inputs the output is
+The node then outputs $a = g(z)$. The function $g$ is the [**activation function**](../../01-basics/DL-004-perceptron/DL-004-perceptron.md#33-the-activation-function) (G-165), also called the **transfer function** (G-2004). With $n$ inputs the output is
 
 $$a = g\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
 

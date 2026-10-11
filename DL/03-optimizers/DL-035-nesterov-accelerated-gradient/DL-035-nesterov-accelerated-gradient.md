@@ -38,7 +38,7 @@ Figure 1 shows the difference. On this valley momentum needs 59 steps to bring t
 
 ## 2. Prerequisites
 
-- [Momentum's update rule](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule): the velocity, and [overshooting](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting).
+- [Momentum's update rule](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#6-the-update-rule): the velocity, and [**overshooting**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#8-escaping-a-local-minimum-and-the-cost-overshooting) (G-1430).
 - [The exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#4-the-formula): the decay factor $\beta$, the share of the old average kept at each step.
 
 ## 3. Momentum's problem: oscillations

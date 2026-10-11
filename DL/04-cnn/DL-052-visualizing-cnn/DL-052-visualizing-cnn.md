@@ -35,9 +35,9 @@ This Note covers:
 ## 2. Prerequisites
 
 - [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): filters, feature maps, edge detectors.
-- [Max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling): halving a feature map by keeping the largest value in each block.
+- [**Max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182): halving a feature map by keeping the largest value in each block.
 - [Pretrained models in Keras](../DL-051-pretrained-models/DL-051-pretrained-models.md#6-pretrained-models-in-keras): VGG16 and loading pretrained networks.
-- [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu): the activation $\max(0, x)$, which turns every negative value into 0.
+- [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668): the activation $\max(0, x)$, which turns every negative value into 0.
 
 ## 3. Two things to look at
 
@@ -293,13 +293,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Blank map (G-313) | A feature map that is entirely zero for a given photo: its pattern is nowhere in the photo. |
 | Top activations (G-1986) | The photos (or patches) that give a feature map its largest values. |
 | [Black box model (black box)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#75-inference-which-feature-mattered) (G-311) | A model whose inner workings are hidden: it gives predictions without showing how each input contributed. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
+| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [ImageNet](../../../DL/01-basics/DL-003-nn-types-history-applications/DL-003-nn-types-history-applications.md#36-2012-imagenet-and-after) (G-920) | A very large labelled image dataset with a yearly classification competition. |
 | [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
-| [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
-| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
 | [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | [Simple cell](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1807) | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |

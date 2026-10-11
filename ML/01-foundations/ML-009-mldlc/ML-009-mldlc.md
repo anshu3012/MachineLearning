@@ -165,7 +165,7 @@ Figure 4 puts the five sources side by side. Watch the middle column: every sour
 
 ![Five places data lives, how we fetch it from each, and the one usable dataset they all end in](images/data_sources.png)
 
-> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). Each source is worked through step by step: [CSV files](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files), [JSON](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is), [**SQL**](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is) (G-1857), [APIs](../../02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) and [web scraping](../../02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#2-when-we-need-web-scraping).
+> **Extra:** In ETL, *extract* copies data out of the source systems, *transform* cleans and reshapes it, and *load* writes it into the warehouse. Apache Spark is a widely used tool for processing data that is too big for one computer, by spreading the work over a cluster of machines (Zaharia et al. 2016). Each source is worked through step by step: [**CSV files**](../../02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#2-csv-and-tsv-files) (G-513), [**JSON**](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#2-what-json-is) (G-987), [**SQL**](../../02-getting-data/ML-015-working-with-json-and-sql/ML-015-working-with-json-and-sql.md#3-what-sql-is) (G-1857), [APIs](../../02-getting-data/ML-016-fetching-data-from-api/ML-016-fetching-data-from-api.md#2-what-an-api-is) and [**web scraping**](../../02-getting-data/ML-017-web-scraping/ML-017-web-scraping.md#2-when-we-need-web-scraping) (G-2105).
 
 ## 5. Data preprocessing
 
@@ -190,7 +190,7 @@ Figure 5 shows three of these problems in the Titanic file of Figure 2.
 ![Dirty data on the Titanic file: empty cells in three columns, fare outliers far above the median of 14, and two columns on very different scales](images/dirty_data.png)
 
 - **Left (missing values):** one bar per column that has empty cells; the length of the bar is the number of empty cells out of 891: `Cabin` 687, `Age` 177, `Embarked` 2.
-- **Middle (outliers):** a [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) of the fares. The box holds the middle half of the fares, and the line inside it is the median, 14. The whiskers reach the fares that are not far from the box, and each dot beyond them is a fare far from the rest (see [box plot](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot)). The highest dot is 512.
+- **Middle (outliers):** a [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329) of the fares. The box holds the middle half of the fares, and the line inside it is the median, 14. The whiskers reach the fares that are not far from the box, and each dot beyond them is a fare far from the rest (see [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329)). The highest dot is 512.
 - **Right (different scales):** each bar runs from a feature's smallest to its largest value: `Age` from 0.42 to 80, `Fare` from 0 to 512. Many algorithms compare observations by the distance between them (Section 5.2). In such a distance, the large `Fare` numbers would count far more than the `Age` numbers.
 
 ### 5.2 Common preprocessing tasks
@@ -233,7 +233,7 @@ Figure 6 runs three of these checks on the Titanic file.
 
 ![EDA in miniature on the Titanic file: the age distribution, survival by sex, and the balance of the target](images/eda_views.png)
 
-- **Left (univariate):** a [**histogram**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) of `Age`. Each bar counts the passengers whose known age falls in one 5-year range (see [histogram](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram)). Most passengers were between 20 and 40.
+- **Left (univariate):** a [**histogram**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899) of `Age`. Each bar counts the passengers whose known age falls in one 5-year range (see [**histogram**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#6-histogram) (G-899)). Most passengers were between 20 and 40.
 - **Middle (bivariate):** the share of each sex that survived. 74% of women survived against 19% of men, so Sex is clearly linked to the target.
 - **Right (balance of the target):** the number of passengers in each class of the target, explained below.
 
@@ -241,7 +241,7 @@ A dataset is **imbalanced** (G-921) when one class has far more observations tha
 
 In Figure 6 (right), 549 passengers died and 342 survived: about 62 percent against 38 percent. The two classes differ, but much less than in a typical imbalanced example such as 450 against 50 (see [what imbalanced data looks like](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#2-what-imbalanced-data-looks-like)).
 
-> **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1; see [**random undersampling**](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#5-random-undersampling) (G-1619)). Univariate, bivariate and multivariate analysis are worked through in [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) and [scatter plot: two numerical columns](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#3-scatter-plot-two-numerical-columns).
+> **Extra:** "Handling" imbalance usually means collecting more observations of the small class, creating extra copies or synthetic observations of it (oversampling), or dropping some observations of the large class (undersampling) (He and Garcia 2009, §3.1; see [**random undersampling**](../../09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#5-random-undersampling) (G-1619)). Univariate, bivariate and multivariate analysis are worked through in [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2050) and [scatter plot: two numerical columns](../../02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#3-scatter-plot-two-numerical-columns).
 
 ### 6.3 Time spent on EDA pays back later
 
@@ -261,7 +261,7 @@ The **features** are the input variables, one column each in the data table. The
 
 **Feature engineering** (G-761) means creating new features from the existing ones, or making intelligent changes to existing features.
 
-In Figure 2, the family-size cell is such a new feature: it is built from two existing columns. *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in [dimensionality reduction](../ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction), is **feature construction** (G-760; see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)).
+In Figure 2, the family-size cell is such a new feature: it is built from two existing columns. *Example: house prices.* Replacing the rooms and washrooms columns with one hand-made area column, as in [dimensionality reduction](../ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction), is **feature construction** (G-760; see [**feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction) (G-760)).
 
 Feature engineering is one of the most important techniques in the whole workflow; its parts are listed in [the four parts of feature engineering](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering).
 
@@ -274,7 +274,7 @@ Some datasets have 100 or 200 features. We do not keep them all, for two reasons
 1. **Many features do not help.** Not every feature affects the target. We find the ones that do not and remove them.
 2. **Fewer features train faster.** The more features there are, the longer training takes.
 
-Choosing which features to keep is called **feature selection** (G-768; see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)).
+Choosing which features to keep is called **feature selection** (G-768; see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)).
 
 ## 8. Model training, evaluation and selection
 
@@ -295,7 +295,7 @@ So we train algorithms from different families on the same data:
 - **linear models:** a weighted sum of the features, like the score in Section 1.1;
 - **kernel-based methods:** models such as the support vector machine that lift the data into more dimensions, where a straight boundary can split it (see [the kernel trick](../../07-classification/ML-089-kernel-trick-intuition/ML-089-kernel-trick-intuition.md#3-the-kernel-trick));
 - **ensemble methods:** many models combined into one (Section 8.4);
-- [**neural networks**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316): layers of simple connected units, loosely inspired by neurons in the brain (see [neural networks](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
+- [**neural networks**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316): layers of simple connected units, loosely inspired by neurons in the brain (see [**neural networks**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316)).
 
 Then we gather all the results to decide which model to use. **Model training** (G-1255) means giving the data to an algorithm so that it learns the pattern.
 
@@ -311,7 +311,7 @@ In the **evaluation** step, we measure every trained model with [**performance m
 | Regression | Mean squared error (G-1201) |
 | Clustering | Dunn index |
 
-> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Accuracy and mean squared error are worked through in [accuracy](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#21-the-idea) and [mean squared error](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse). One tiny number for each, made up for illustration:
+> **Extra:** *Accuracy* is the share of predictions that are correct. *Mean squared error* is the average of the squared differences between the predicted and the true values, so smaller is better. The *Dunn index* is the smallest distance between two clusters divided by the largest size (diameter) of any cluster, so it is higher when clusters are tight and far apart from each other (Dunn 1974). Accuracy and mean squared error are worked through in [accuracy](../../07-classification/ML-075-accuracy-confusion-matrix/ML-075-accuracy-confusion-matrix.md#21-the-idea) and [**mean squared error**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#3-mean-squared-error-mse) (G-1201). One tiny number for each, made up for illustration:
 
 - *Accuracy:* 8 correct predictions out of 10.
 
@@ -341,8 +341,8 @@ Hyperparameter tuning is like adjusting a TV for a late-night movie: we change t
 
 **Ensemble learning** (G-689) connects several ML models to make one new, more powerful model. The main techniques are:
 
-- [**bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251): copies of one kind of model, each trained on a different random sample of the data, vote or average (see [bagging](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging));
-- [**boosting**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318): models trained one after another, each one focusing on the mistakes of the ones before (see [boosting](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting));
+- [**bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251): copies of one kind of model, each trained on a different random sample of the data, vote or average (see [**bagging**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#43-bagging) (G-251));
+- [**boosting**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318): models trained one after another, each one focusing on the mistakes of the ones before (see [**boosting**](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#44-boosting) (G-318));
 - [**stacking**](../../08-trees-and-ensembles/ML-121-stacking-blending/ML-121-stacking-blending.md#1-overview) (G-1866): a final model learns how to combine the other models' predictions (see [stacking](../../08-trees-and-ensembles/ML-095-ensemble-learning/ML-095-ensemble-learning.md#42-stacking));
 - **cascading:** models in a chain, where each later model only sees the cases that the earlier ones passed on (Viola and Jones 2001).
 

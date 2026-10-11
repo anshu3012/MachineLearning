@@ -22,7 +22,7 @@ A pooling layer comes right after a convolution layer (a layer that slides filte
 
 ![Max pooling with a 2 × 2 window and stride 2: each window of the 4 × 4 feature map is replaced by its largest value, giving a 2 × 2 map](images/maxpool_slide.gif){width=85% height=50%}
 
-Figure 1 shows the most common kind, **max pooling** (G-1182). Its window is 2 × 2 numbers, and its stride, the number of cells the window moves each time, is 2 ([strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides)). This Note covers:
+Figure 1 shows the most common kind, **max pooling** (G-1182). Its window is 2 × 2 numbers, and its stride, the number of cells the window moves each time, is 2 ([**strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900)). This Note covers:
 
 - the two problems (section 3);
 - how max pooling works (section 4);
@@ -35,7 +35,7 @@ Figure 1 shows the most common kind, **max pooling** (G-1182). Its window is 2 �
 ## 2. Prerequisites
 
 - [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation): feature maps, [ReLU after convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#9-positive-and-negative-values-and-relu) and [volumes of feature maps](../DL-042-convolution-operation/DL-042-convolution-operation.md#11-many-filters).
-- [Strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides): the stride and the output-size formula.
+- [**Strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900): the stride and the output-size formula.
 
 ## 3. Why pooling is needed
 
@@ -125,7 +125,7 @@ A pooling layer needs three settings:
 
    $$P = \begin{bmatrix} 5&3\cr7&4 \end{bmatrix}$$
 
-The 4 × 4 feature map has become 2 × 2. The output size follows the formula of [strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) without padding (Dumoulin and Visin 2016, Relationship 7):
+The 4 × 4 feature map has become 2 × 2. The output size follows the formula of [**strides**](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#5-strides) (G-1900) without padding (Dumoulin and Visin 2016, Relationship 7):
 
 $$\lfloor (4 - 2)/2 \rfloor + 1 = 2$$
 
@@ -333,7 +333,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Global pooling (G-849) | Pooling that uses the whole feature map as one window, giving one number per map (its max or its average). It can replace the Flatten layer and needs far fewer parameters in the next layer, which reduces overfitting. |
 | Image segmentation (G-2268) | Dividing an image into regions by saying which pixels belong to which object. |
 | Pooling layer (G-1520) | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
+| [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
-| [Stride](../../../DL/04-cnn/DL-043-padding-and-strides/DL-043-padding-and-strides.md#51-what-a-stride-is) (G-1900) | The number of pixels the filter moves at each step; a stride larger than 1 makes the output smaller. |
 | [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |

@@ -37,7 +37,7 @@ How the perceptron learns its weights starts with the [perceptron trick](../DL-0
 
 - The general form of a line, its positive and negative sides, and the step function: the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#3-the-line-and-its-two-sides) (G-1485), sections 3 and 7.
 - Lines, planes and hyperplanes: the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703).
-- The dot product: the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product).
+- The dot product: the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634).
 
 ## 3. The parts of a perceptron
 
@@ -69,7 +69,7 @@ The orange block computes the **summation** (G-1915), a [**weighted sum**](../..
    $$b \times 1 = 3 \times 1 = 3$$
    $$z = 100 + 10.2 + 3 = 113.2$$
 
-The sum $w_1x_1 + w_2x_2$ is the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of the weight vector with the input vector (a vector is a list of numbers, here $(w_1, w_2)$ and $(x_1, x_2)$; see the [dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product)).
+The sum $w_1x_1 + w_2x_2$ is the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) of the weight vector with the input vector (a vector is a list of numbers, here $(w_1, w_2)$ and $(x_1, x_2)$; see the [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634)).
 
 ### 3.3 The activation function
 
@@ -191,7 +191,7 @@ The figure keeps $w_1$ and $b$ and changes only $w_2$.
 
 The bigger a weight compared with the others, the more the line turns to follow that input.
 
-> **Another way to see it:** Reading weights as importance is only fair when the inputs are on the same scale. IQ runs to about 150 while CGPA stops at 10, so a weight on IQ is multiplied by much bigger numbers. Standardize the inputs first (see the [standardization](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula)) and then compare the size of the weights. Section 8 shows a case where the raw weights even get the sign wrong.
+> **Another way to see it:** Reading weights as importance is only fair when the inputs are on the same scale. IQ runs to about 150 while CGPA stops at 10, so a weight on IQ is multiplied by much bigger numbers. Standardize the inputs first (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)) and then compare the size of the weights. Section 8 shows a case where the raw weights even get the sign wrong.
 
 ## 7. What a perceptron does geometrically
 
@@ -206,7 +206,7 @@ Then $z = w_1x_1 + w_2x_2 + b = 0$ becomes
 
 $$Ax + By + C = 0$$
 
-This is the general form of a line (see the [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#31-the-general-form-of-a-line), section 3).
+This is the general form of a line (see the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#31-the-general-form-of-a-line) (G-1485), section 3).
 
 - $z \geq 0$ is the region on the positive side of the line: predict 1, placed.
 - $z < 0$ is the region on the negative side: predict 0, not placed.
@@ -221,7 +221,7 @@ Figure 7 shows where this line comes from, for the same trained perceptron. It i
 
 So a trained perceptron is nothing more than a line that splits the plane into two [**decision regions**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#5-in-scikit-learn) (G-557), one per class. This line is the perceptron's decision boundary. One line gives exactly two regions, so the perceptron is a **binary classifier** (G-302): it separates exactly two classes.
 
-With three inputs the points live in 3D and $z = 0$ is a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), like a sheet held across a room. With four or more inputs it is a **hyperplane** (G-911; see the [equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane)). In every case there are two regions.
+With three inputs the points live in 3D and $z = 0$ is a [**plane**](../../../ML/06-regression/ML-052-multiple-linear-regression/ML-052-multiple-linear-regression.md#21-two-inputs-a-plane) (G-1502), like a sheet held across a room. With four or more inputs it is a **hyperplane** (G-911; see the [**equation of a hyperplane**](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#3-from-a-line-to-a-hyperplane) (G-703)). In every case there are two regions.
 
 ### 7.1 The big limitation
 
@@ -328,10 +328,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Supervised learning](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1919) | Learning from data with inputs and outputs, to predict outputs. |
 | [Perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1485) | Moving a line towards each misclassified point until the classes are separated. |
 | [Equation of a hyperplane](../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#4-the-vector-form) (G-703) | One equation for a flat boundary in any number of dimensions, a line in 2D, a plane in 3D, a hyperplane beyond: $w^{\mathsf T}x + w_0 = 0$. |
+| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Parameter (of a function)](../../../ML/02-getting-data/ML-014-working-with-csv/ML-014-working-with-csv.md#3-the-read_csv-function) (G-1448) | A named setting passed to a function, like `sep=";"`. |
 | [Weighted sum](../../../DL/06-transformers/DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#6-step-3-a-weighted-sum-of-the-value-vectors) (G-2119) | In self-attention, the value vectors multiplied by their weights and added together; the result is the word's new, context-aware vector. |
-| [Dot product](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) | Multiplying two vectors entry by entry and adding the products, $u^{\mathsf T}x$, which gives one number. It is large when the vectors point the same way, so it measures similarity and gives projections. |
 | [Step function](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#72-predicting) (G-1889) | A function that outputs 1 for positive inputs and 0 otherwise; the classic perceptron uses it to turn its score into a class. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

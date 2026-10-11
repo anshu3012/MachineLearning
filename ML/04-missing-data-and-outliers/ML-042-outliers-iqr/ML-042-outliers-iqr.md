@@ -32,7 +32,7 @@ Figure 1 shows the whole method, in three steps:
 
 > **Key point:** The IQR method is meant for a feature that is skewed, not normal.
 
-A feature is [**skewed**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) when its values have a long tail on one side (see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)). The [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) does not fit such a feature, because it assumes a bell shape.
+A feature is [**skewed**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) when its values have a long tail on one side (see [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)). The [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#2-the-condition-a-normal-feature) (G-2139) does not fit such a feature, because it assumes a bell shape.
 
 The IQR method makes no such assumption. The IQR method is built only on [**percentiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1483), which do not care about the shape of the feature: the $p$-th percentile is the value below which $p$ percent of the sorted data lies. Think of the middle half of a queue sorted by height: a single giant joining the end of the queue does not change who stands in the middle half. To use the IQR method we need two ideas from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050): the [**box plot**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-329), a picture of a box from $Q_1$ to $Q_3$ with a line at the median and dots for the outliers, and the IQR.
 
@@ -44,7 +44,7 @@ The IQR method makes no such assumption. The IQR method is built only on [**perc
 
 > **Key point:** Sort the values; the median splits them into two halves; $Q_1$ and $Q_3$ are the middles of the halves, and the IQR is the distance between them.
 
-Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot), section 8).
+Sort the values and cut the sorted list into four equal parts. The three cut points are the [**quartiles**](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (G-1602): $Q_1$ (the 25th percentile), the **median** (G-1209, the 50th percentile) and $Q_3$ (the 75th percentile). They are taught in the [understanding your data](../../02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#72-percentiles) (section 7.2). The distance from $Q_1$ to $Q_3$ is the [**interquartile range**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-966), $\text{IQR} = Q_3 - Q_1$: the width of the middle half of the data ([**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#8-box-plot) (G-2050), section 8).
 
 Figure 2 finds them by hand for the exam marks of the first nine students of Section 5. Watch each step add one line:
 
@@ -73,7 +73,7 @@ The last frame draws the box from $Q_1$ to $Q_3$ with the median inside it. Its 
 
 > **Key point:** Step 1.5 IQR out from each side of the box; a value beyond either point is an outlier.
 
-The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) come from the [univariate analysis](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
+The two box-plot [**fences**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-776) come from the [**univariate analysis**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#81-whiskers-and-outliers) (G-2050) (section 8.1). The IQR method uses exactly those fences as its lower and upper limits. Step by step:
 
 1. **In words:** measure the width of the box, the IQR. Go one and a half box-widths below $Q_1$ for the lower fence, and one and a half above $Q_3$ for the upper fence.
 2. **Formula:**
@@ -101,7 +101,7 @@ The plan for any skewed feature is therefore short:
 2. compute the two fences;
 3. trim or cap every value outside them.
 
-> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of the [z-score method](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule). The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
+> **Extra:** The fences are robust: they hardly move when a few values are extreme. $Q_1$ and $Q_3$ depend only on the order of the middle values, so a few extreme values cannot drag them out, unlike the mean and standard deviation of the [**z-score method**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139). The factor 1.5 comes from John Tukey, who introduced the box plot (Tukey 1977). Some people also use 3: a point beyond $Q_3 + 3\thinspace\text{IQR}$ (or below $Q_1 - 3\thinspace\text{IQR}$) is called an "extreme" outlier, and one only beyond the 1.5 fences a "mild" one (NIST 7.1.6).
 
 ## 4. Treating the outliers: trimming or capping
 

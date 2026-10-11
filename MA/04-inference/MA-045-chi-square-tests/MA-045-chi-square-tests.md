@@ -185,7 +185,7 @@ The p-value is the same too, 0.302. The goodness-of-fit test is the proportion t
 
 > **Key point:** Is the gender mix the same in every age group, or do gender and age group go together?
 
-The **chi-square test of independence** (G-380) asks whether two categorical features are related. The counts go in a **contingency table** (G-464; see the [contingency tables](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables)):
+The **chi-square test of independence** (G-380) asks whether two categorical features are related. The counts go in a **contingency table** (G-464; see the [**contingency tables**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464)):
 
 | | child | adult | elderly | row total |
 |---|---|---|---|---|

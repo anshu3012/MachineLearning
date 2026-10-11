@@ -23,7 +23,7 @@ The Notes so far built the [**multi-layer perceptron (MLP)**](../DL-003-nn-types
 
 - how it is organised (see the [MLP notation](../DL-008-mlp-notation/DL-008-mlp-notation.md#2-the-setup-layers-and-data));
 - why it can form curved **decision boundaries** (G-555; see the [MLP intuition](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons));
-- how it predicts, by **forward propagation** (G-797; see the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product)).
+- how it predicts, by **forward propagation** (G-797; see the [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797)).
 
 How it *learns* its weights is [**backpropagation**](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247), the subject of later Notes (see [the steps of backpropagation](../DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). Before that theory, three small projects show a network being built, trained and used in code:
 
@@ -92,7 +92,7 @@ The two text columns are balanced enough: France 5,014, Germany 2,509, Spain 2,4
 
 RowNumber, CustomerId and Surname identify a customer but say nothing about whether they will leave, so we drop them. A careful project would first check every other feature with [**exploratory data analysis**](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#6-exploratory-data-analysis-eda) (G-732); here we keep the remaining ten.
 
-A network only takes numbers, so Geography and Gender are one-hot encoded (**one-hot encoding**, G-1379) with `get_dummies` (G-845) and `drop_first=True` (see the [one-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#61-get_dummies), section 6). Geography becomes two columns, `Geography_Germany` and `Geography_Spain` (France is 0, 0), and Gender becomes one, `Gender_Male` (female is 0). The encoding leaves 11 features.
+A network only takes numbers, so Geography and Gender are one-hot encoded (**one-hot encoding**, G-1379) with `get_dummies` (G-845) and `drop_first=True` (see the [**one-hot encoding**](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#61-get_dummies) (G-1379), section 6). Geography becomes two columns, `Geography_Germany` and `Geography_Spain` (France is 0, 0), and Gender becomes one, `Gender_Male` (female is 0). The encoding leaves 11 features.
 
 > **Python:** Dropping and encoding.
 >
@@ -110,7 +110,7 @@ A network only takes numbers, so Geography and Gender are one-hot encoded (**one
 
 We separate X (11 columns) from y (`Exited`) and split 80/20 with `train_test_split` (a **train-test split**, G-1998), as in the [toy project](../../../ML/01-foundations/ML-012-toy-project/ML-012-toy-project.md#6-training-and-test-sets). The split leaves 8,000 training observations and 2,000 test observations.
 
-The features live on very different scales: Balance and EstimatedSalary run to six digits, NumOfProducts is 1 to 4. With such inputs the weights take much longer to settle during training (the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#2-the-network-and-the-observation) section shows what raw inputs do to a sigmoid). So before a network sees any data we [**standardize**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#65-yeo-johnson) (G-1875) every feature to mean 0, standard deviation 1 (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874)).
+The features live on very different scales: Balance and EstimatedSalary run to six digits, NumOfProducts is 1 to 4. With such inputs the weights take much longer to settle during training (the [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#2-the-network-and-the-observation) (G-797) section shows what raw inputs do to a sigmoid). So before a network sees any data we [**standardize**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#65-yeo-johnson) (G-1875) every feature to mean 0, standard deviation 1 (see the [**standardization**](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#41-the-idea-how-many-standard-deviations-from-the-mean) (G-1874)).
 
 ![The 11 features of the 8,000 training customers. Left: raw values; right: after standardizing. Each box spans the middle half of a feature's values, and the whiskers reach towards its extremes.](images/scales.png)
 
@@ -232,7 +232,7 @@ Compiling tells Keras how the model will be trained. Two settings are needed:
 
 > **Key point:** One epoch is one pass over all 8,000 training customers; after 10 epochs the loss fell from 0.71 to 0.43.
 
-`fit` does the training. We give it the scaled training inputs, the training outputs and the number of [**epochs**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696): how many times the network goes through the whole training set (see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop)). We choose 10.
+`fit` does the training. We give it the scaled training inputs, the training outputs and the number of [**epochs**](../DL-005-perceptron-trick/DL-005-perceptron-trick.md#7-loops-and-epochs) (G-696): how many times the network goes through the whole training set (see the [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#23-when-to-stop) (G-862)). We choose 10.
 
 In plain words, `fit` repeats one small loop: show the network a few customers, measure how wrong it is, and change the weights a little. Figure 4 draws the loop.
 
@@ -264,7 +264,7 @@ What does the falling loss change? Figure 5 follows the network's predicted prob
 3. **Epochs 6 to 10.** The probabilities start to spread out: leavers drift to the right and stayers to the left. The highest probability climbs back from 0.424 (after epoch 5) to 0.498.
 4. **After epoch 10.** Not one probability has crossed 0.5, so with the threshold of section 6 the network predicts "stays" for every customer. Section 6.2 shows what that does to accuracy.
 
-> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every [**batch**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) of 32 observations (Keras docs, `Model.fit`), which is **mini-batch gradient descent** (G-1222; see the [mini-batch gradient descent](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works)). The number of updates per epoch:
+> **Extra:** Each epoch line also shows `250/250`. Keras does not update the weights once per epoch: by default it updates them after every [**batch**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#1-overview) (G-263) of 32 observations (Keras docs, `Model.fit`), which is **mini-batch gradient descent** (G-1222; see the [**mini-batch gradient descent**](../../../ML/06-regression/ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222)). The number of updates per epoch:
 >
 > $$\frac{8{,}000}{32} = 250$$
 >
@@ -285,7 +285,7 @@ After training, the 40 parameters live inside the model, one layer at a time. `m
 > W2.ravel(), b2          # [-0.734 -1.314 0.572], [-0.571]
 > ```
 
-The [**weight matrix**](../DL-010-forward-propagation/DL-010-forward-propagation.md#41-the-weight-matrix) (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product). It has 11 rows and 3 columns, so the number of weights is:
+The [**weight matrix**](../DL-010-forward-propagation/DL-010-forward-propagation.md#41-the-weight-matrix) (G-2109) has one row per input node and one column per receiving node, exactly the $W^{1}$ of the [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797). It has 11 rows and 3 columns, so the number of weights is:
 
 $$11 \times 3 = 33$$
 

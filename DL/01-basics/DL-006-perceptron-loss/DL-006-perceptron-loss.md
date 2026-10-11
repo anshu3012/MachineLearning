@@ -203,7 +203,7 @@ So the formula is the "value in the line's equation" loss of Section 5.3, writte
 
 Figure 7 plots the loss of one point against $s = y f(x)$ (the label times the value, positive when the point is correct). The perceptron loss (red) is 0 for every point on its correct side and rises steadily the further a point is on the wrong side.
 
-> **Extra:** The SVM's [hinge loss](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every observation's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
+> **Extra:** The SVM's [**hinge loss**](../../../ML/07-classification/ML-088-svm-soft-margin/ML-088-svm-soft-margin.md#5-the-soft-margin-loss) (G-898) is $\max(0, 1 - s)$ (blue, dashed): the same shape shifted right by 1. A point must be correct by a margin ($s \geq 1$) before it costs nothing. The perceptron loss accepts any correct point, however close to the line. Once every point is on its correct side, every observation's gradient is 0 (section 7.1), so the updates stop at the first separating line reached, even one that passes very close to the points of one class.
 
 ### 6.3 Minimising it
 
@@ -223,7 +223,7 @@ $$w_2 \leftarrow w_2 - \eta\thinspace\frac{\partial L}{\partial w_2}$$
 
 $$b \leftarrow b - \eta\thinspace\frac{\partial L}{\partial b}$$
 
-with a [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta$ such as 0.1, the size of each step (see the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)).
+with a [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068) $\eta$ such as 0.1, the size of each step (see the [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move) (G-862)).
 
 The symbol $\frac{\partial L}{\partial w_1}$ is the [**partial derivative**](../../../ML/06-regression/ML-050-linear-regression-maths/ML-050-linear-regression-maths.md#41-the-shape-of-e) (G-1457) of $L$ with respect to $w_1$: how much $L$ changes when $w_1$ alone is nudged up a little and the other parameters stay fixed. A small check with one point, $(-2, -2)$ with $y = +1$, on the line $w_1 = 2$, $w_2 = 3$, $b = 4$, whose loss is $\max(0, -f)$:
 
@@ -293,7 +293,7 @@ $$w_2 \leftarrow w_2 + \eta\thinspace y_i x_{i2}$$
 
 $$b \leftarrow b + \eta\thinspace y_i$$
 
-and no change for a correct observation. Updating after every observation, instead of averaging over all observations first, is [stochastic gradient descent](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works).
+and no change for a correct observation. Updating after every observation, instead of averaging over all observations first, is [**stochastic gradient descent**](../../../ML/06-regression/ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892).
 
 > **Python:** Training with the perceptron loss.
 >

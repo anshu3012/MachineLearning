@@ -49,7 +49,7 @@ These problems together are the **curse of dimensionality** (G-520): the problem
 
 > **Key point:** In images, every pixel is a feature. Many pixels, such as the ones at the edges, carry almost no information.
 
-Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST (the classic set of handwritten-digit images) carry almost nothing (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
+Image data shows the curse clearly: every pixel is one feature, and the blank edge pixels of MNIST (the classic set of handwritten-digit images) carry almost nothing (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Here we measure this on a smaller version, scikit-learn's digits dataset: 1,797 images of 8 × 8 pixels, so 64 features. Figure 1 shows one image and how much each pixel changes across all the images.
 
 ![Edge pixels barely change from image to image](images/pixel_usefulness.png)
 
@@ -173,7 +173,7 @@ The fix for both is to bring the number of features down to the optimal number.
 
 > **Key point:** Dimensionality reduction lowers the number of features. Dimensionality reduction comes in two kinds: feature selection keeps the best features; feature extraction builds new ones.
 
-**Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction):
+**Dimensionality reduction** (G-611) means reducing the number of features in the data while keeping as much of the useful information as possible. Its two kinds are the last two parts of feature engineering, taught in [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) and [**feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-762):
 
 - **Feature selection** keeps a subset of the existing features unchanged, for example with forward selection (add the most useful feature, one at a time) or backward elimination (drop the least useful feature, one at a time).
 - **Feature extraction** builds new features, each a mix of all the old ones, so that a few new features hold most of the information.

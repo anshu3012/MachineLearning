@@ -258,7 +258,7 @@ Halving blindly would turn a sample mean of, say, 45 into "significant evidence 
 
 ### 6.3 How often would a sample of 25 find it?
 
-> **Extra:** Drawing 4000 random samples of 25 ages and testing each, **95%** reject $H_0: \mu = 40$ at the 5% level. That 95% is the power of this test (G-1539) (see [power of a test](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test); the chance that the test rejects $H_0$ when $H_0$ is false): the true mean, 29.88, is far from 40, so almost every sample sees the gap. A claim closer to the truth is harder to reject: against $H_0: \mu = 35$, only 53% of samples of 25 reject, and the other 47% make a Type II error (failing to reject a false $H_0$). A smaller gap needs a larger sample, just as a faint star needs a bigger telescope.
+> **Extra:** Drawing 4000 random samples of 25 ages and testing each, **95%** reject $H_0: \mu = 40$ at the 5% level. That 95% is the power of this test (G-1539) (see [**power of a test**](../MA-040-errors-power-and-tails/MA-040-errors-power-and-tails.md#3-power-of-a-test) (G-1539); the chance that the test rejects $H_0$ when $H_0$ is false): the true mean, 29.88, is far from 40, so almost every sample sees the gap. A claim closer to the truth is harder to reject: against $H_0: \mu = 35$, only 53% of samples of 25 reject, and the other 47% make a Type II error (failing to reject a false $H_0$). A smaller gap needs a larger sample, just as a faint star needs a bigger telescope.
 
 ## 7. Back to the five lessons
 

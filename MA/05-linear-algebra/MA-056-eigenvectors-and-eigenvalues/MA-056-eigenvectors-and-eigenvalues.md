@@ -33,7 +33,7 @@ The Note reads matrices as [**linear transformations**](../MA-053-linear-transfo
 
 > **Key point:** An eigenvector is not knocked off its span: it stays on the line it spans. Every vector on that line is an eigenvector with the same eigenvalue.
 
-Take any vector and look at its [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838), the line through the origin and its tip (see the [span](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
+Take any vector and look at its [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838), the line through the origin and its tip (see the [**span**](../MA-052-linear-combinations-span-and-basis/MA-052-linear-combinations-span-and-basis.md#6-span) (G-1838)). During a transformation, most vectors are knocked off their span; it would be a coincidence for a vector to land on its own line. The eigenvectors are exactly the vectors that do stay on their span.
 
 For $A$ with columns $[3, 0]$ and $[1, 2]$ (rows $[3, 1]$ and $[0, 2]$):
 

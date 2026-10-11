@@ -111,8 +111,8 @@ Data analysis, which ML depends on heavily, is built almost entirely on statisti
 
 | Branch | Its job in ML | Example | Why it matters | Where it is taught |
 |---|---|---|---|---|
-| Linear algebra | Represent data and act on it | A table as a matrix | the computer acts on a whole table in one step | [**Vectors**](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is) (G-2079), [tensors](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) |
-| Calculus | Reduce the error (optimisation) | Gradient descent | the slope of the error says which way to change the model | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) |
+| Linear algebra | Represent data and act on it | A table as a matrix | the computer acts on a whole table in one step | [**Vectors**](../../05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is) (G-2079), [**tensors**](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#2-what-a-tensor-is) (G-1957) |
+| Calculus | Reduce the error (optimisation) | Gradient descent | the slope of the error says which way to change the model | [**Gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) |
 | Probability | Decide under uncertainty | Pick the more likely class | we can still decide when the data cannot settle a case | [**Events**](../../02-probability/MA-010-events-and-types-of-events/MA-010-events-and-types-of-events.md#2-the-five-basic-terms) (G-717) onward |
 | Statistics | Draw conclusions from data | Find outliers, related features | an outlier or an unrelated feature can mislead the model | [Statistics roadmap](../../01-descriptive-stats/MA-003-statistics-roadmap/MA-003-statistics-roadmap.md#3-the-four-modules) |
 

@@ -132,7 +132,7 @@ $$(2 \times 1) + 1 = 3$$
 
 $$12 + 8 + 3 = 23$$
 
-The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797; computing the prediction layer by layer, see [forward propagation](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes)) gives these values:
+The hidden nodes use the sigmoid, the output is linear, and the loss is $(y - \hat{y})^2$; the same reasoning works for classification. For numbers we take one **observation** (G-1374; one record, one row of the data table) $x = (0.5, -1, 2)$ with $y = 1$ and fixed random weights. **Forward propagation** (G-797; computing the prediction layer by layer, see [**forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) (G-797)) gives these values:
 
 $$O_{11} = 0.783$$
 

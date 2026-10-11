@@ -239,7 +239,7 @@ The nested formula is what a neural network is, as a function: a chain of matrix
 >
 > a matrix with one row of activations per student (for $n = 2$ students, a $2 \times 3$ matrix).
 >
-> With rows instead of columns, no transpose is needed (as in section 7.1 of the [linear transformations](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
+> With rows instead of columns, no transpose is needed (as in section 7.1 of the [**linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#71-one-matrix-for-the-whole-dataset) (G-1097)). scikit-learn's `MLPClassifier` and Keras both store each layer's weights with shape (nodes in, nodes out), exactly like our $W^{1}$, and use this row form: a Keras `Dense` layer computes `activation(dot(input, kernel) + bias)` (Keras docs, `Dense`). The Notebook loads our hand-set weights into both and gets the same 0.594.
 
 ### 6.1 Another way to see it: the forward pass for every input
 

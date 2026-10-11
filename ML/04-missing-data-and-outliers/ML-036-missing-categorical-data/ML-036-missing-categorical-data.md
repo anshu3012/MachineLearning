@@ -51,7 +51,7 @@ Mode imputation also works on a numerical column, since numbers have a mode too.
 
 Mode imputation rests on three conditions:
 
-1. [**The data is MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) (missing completely at random, see [MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)). The gaps have no pattern, so the observations with a gap look like the others.
+1. [**The data is MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192) (missing completely at random, see [**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)). The gaps have no pattern, so the observations with a gap look like the others.
 2. **Few values are missing**, as a rule of thumb up to about 5% of the feature. The 5% limit is the same as for mean and median imputation.
 3. **One category dominates.** The mode should appear far more often than every other category. If Mumbai, Delhi and Kolkata each make up about a third of the column, guessing Mumbai for every gap is wrong two times out of three.
 
@@ -82,7 +82,7 @@ Figure 2 fills the 547 gaps of the `FireplaceQu` feature in the training set (Se
 
 The aim is to tell the ML algorithm which rows had no value. The algorithm then treats "Missing" like any other category and can learn whether it matters.
 
-This is the categorical version of [**arbitrary value imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) for numerical columns ([arbitrary value imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#5-arbitrary-value-imputation)), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
+This is the categorical version of [**arbitrary value imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview) (G-208) for numerical columns ([**arbitrary value imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#5-arbitrary-value-imputation) (G-208)), where gaps are filled with a value such as 99 or -1 that cannot occur naturally. In a categorical column, a word plays that role.
 
 ### 3.2 When to use it
 
@@ -208,7 +208,7 @@ A second check looks at the target. If the houses with a gap were like the TA ho
 
 ![Sale prices as density curves. Left: houses in the most frequent category against houses with a gap. Right: the most frequent category before and after imputation](images/price_kde.png){width=100%}
 
-In Figure 5 the houses with a gap are labelled NaN, as in Figure 1. In the left curves, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value ([MCAR](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar)), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
+In Figure 5 the houses with a gap are labelled NaN, as in Figure 1. In the left curves, look at where each curve peaks: the curve of the houses with a gap sits well to the left of the TA curve. The means say the same in numbers: the houses with a gap sold for a mean of 102,000 dollars against 188,000 for TA houses, a difference of 86,000 dollars. Under MCAR, the gaps would not depend on any value ([**MCAR**](../ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#51-missing-completely-at-random-mcar) (G-1192)), so the houses with a gap would sell for about the same as the rest. They do not, so these gaps are not MCAR. Yet there are only 64 of them, so adding them to the 1,050 TA houses changes the TA curve very little (Figure 5, top right): its mean falls from 188,000 to 183,000 dollars.
 
 For `GarageQual`, mode imputation is acceptable. Few values are missing, so even a poor guess cannot change much.
 

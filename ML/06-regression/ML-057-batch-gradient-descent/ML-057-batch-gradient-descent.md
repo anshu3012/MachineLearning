@@ -32,7 +32,7 @@ Gradient descent comes in three main types. The update rule is the same in all t
 | [**Stochastic gradient descent (SGD)**](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) | 1, chosen at random | $n$ |
 | [**Mini-batch gradient descent**](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) | a small random group, for example 32 | $n$ / batch size |
 
-[Gradient descent on one feature](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) already used batch gradient descent. This Note extends it to any number of features, writes it with matrices, and codes it. [Stochastic gradient descent](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) and [mini-batch gradient descent](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) are taught next.
+[Gradient descent on one feature](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) already used batch gradient descent. This Note extends it to any number of features, writes it with matrices, and codes it. [**Stochastic gradient descent**](../ML-058-stochastic-gradient-descent/ML-058-stochastic-gradient-descent.md#3-how-stochastic-gradient-descent-works) (G-1892) and [**mini-batch gradient descent**](../ML-059-mini-batch-gradient-descent/ML-059-mini-batch-gradient-descent.md#3-how-it-works) (G-1222) are taught next.
 
 ## 2. Gradient descent with many features
 

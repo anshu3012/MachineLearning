@@ -76,7 +76,7 @@ Explicit programming is how traditional software is built. The top half of Figur
 
 In ML we do not write the logic. The bottom half of Figure 1 shows what we do instead:
 
-1. We collect **data** that contains both inputs and their outputs. Each input variable is a [**feature**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), one piece of information the model uses, stored as one column of the data table ([features](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) are taught in full later), the output we want to predict is the [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), and each record is an **observation** (G-1374; one row of the table).
+1. We collect **data** that contains both inputs and their outputs. Each input variable is a [**feature**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772), one piece of information the model uses, stored as one column of the data table ([**features**](../ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) are taught in full later), the output we want to predict is the [**target**](../ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949), and each record is an **observation** (G-1374; one row of the table).
 2. We give the data to an **ML algorithm**, a general method for finding patterns.
 3. The algorithm explores the data and finds the **pattern** between input and output. This step is called [**training**](../ML-009-mldlc/ML-009-mldlc.md#81-training-many-algorithms) (G-1255).
 4. The result is a **model** (G-1256): the logic, found by the algorithm instead of written by us.
@@ -146,7 +146,7 @@ $$1 \times 2 + 1 \times 3 + 0 = 5$$
    $$1.40 - 2.40 + 3.00 = 2.00$$
 
    The answer is 2.00 instead of 15, and its dots lie far below the dashed line.
-2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [gradient descent](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea)).
+2. **One training step.** The model answers all 20 pairs (the two pairs of the table plus 18 random pairs from 0 to 10), measures how far each answer is from the true sum, and moves each parameter a little in the direction that shrinks that error. This repeated nudging is **gradient descent** (G-862; see [**gradient descent**](../../06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862)).
 3. **After 3,000 steps.** The parameters are $w_1 = 1.00$, $w_2 = 1.00$ and $c = 0.04$, every dot sits on the dashed line, and the answer for 7 and 8 is 14.99. Nobody wrote "add" into the model: the values 1, 1 and 0 are addition, and they were found in the data.
 
 The hand-written program cannot do this. The program was coded to add exactly two numbers, so with more than two it fails until someone rewrites the code. A model has the same limit at first (the formula above takes exactly two numbers), but the fix is different: we add rows with three or four numbers to the data and train again, and nobody writes new logic. Handling new cases through data instead of code is the key difference, and a large part of why ML is so powerful in industry.

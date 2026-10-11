@@ -134,7 +134,7 @@ Both sets are filled from the same bag: the 564 known training ages. Drawing tes
 
 > **Key point:** The density curve and the box barely move, and the variance changes from 204.35 to 200.03.
 
-Figure 3 compares the original `Age` (blue) with the random sample imputed one (orange). For contrast, it also shows mean imputation (green dashed; [mean imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation)).
+Figure 3 compares the original `Age` (blue) with the random sample imputed one (orange). For contrast, it also shows mean imputation (green dashed; [**mean imputation**](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) (G-1197)).
 
 ![Age before and after imputation: the random sample curve lies on the original, while mean imputation creates a tall peak and many new outliers](images/random_age.png){width=100%}
 

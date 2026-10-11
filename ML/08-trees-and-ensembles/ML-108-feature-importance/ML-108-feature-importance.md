@@ -42,7 +42,7 @@ The Notebook (`ML-108-feature-importance.ipynb`) runs every example.
 
 > **Key point:** Keep the features with high importance and drop the rest.
 
-Too many features hurt: training slows down, and useless features can mislead the model. [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps only the useful features (see [feature selection](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
+Too many features hurt: training slows down, and useless features can mislead the model. [**Feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-768) keeps only the useful features (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768)). Feature importance is one way to do it: compute the importance of every feature, keep the important ones, drop the others.
 
 Take MNIST (see [the MNIST data](../../05-dimensionality/ML-048-pca-mnist/ML-048-pca-mnist.md#2-the-mnist-data)): 42,000 images of handwritten digits, each 28 × 28 = 784 pixels, stored as one row of 784 pixel columns plus a label. Digits are written in the middle of the image, so the pixels near the border are almost always blank. Border pixels cannot help tell a 0 from a 4; the central pixels can.
 

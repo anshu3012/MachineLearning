@@ -15,7 +15,7 @@ A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, 
 
 The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) gives the rule for updating such a belief. Two other ways of running it struggle here:
 
-- the **grid filter**, or [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter), stores one number per cell, which is fine on a 10 m line but grows very fast with the number of state variables;
+- the **grid filter**, or [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461), stores one number per cell, which is fine on a 10 m line but grows very fast with the number of state variables;
 - the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-gaussian-is-two-numbers) (G-2506) stores the belief as a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), and one Gaussian has only one mode (Section 3.1).
 
 The particle filter stores the belief as a set of sample guesses instead. This Note builds it on the corridor of Figure 1:
@@ -66,7 +66,7 @@ The filter never sees the true positions; they are there so we can check its ans
 
 ### 2.2 The Bayes filter in brief
 
-The robot's **belief** $\text{bel}(x_t)$ is a probability distribution over where it is at time $t$, given every command and reading so far ([**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433)). The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) updates it in two steps per round.
+The robot's **belief** $\text{bel}(x_t)$ is a probability distribution over where it is at time $t$, given every command and reading so far ([**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433)). The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) updates it in two steps per round.
 
 **Predict** with the command $u_t$: every place $x_{t-1}$ the robot may have been sends probability to the places the move may take it.
 
@@ -295,7 +295,7 @@ Figure 7 runs the filter with 100 particles through the three readings and two m
 - after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two modes, at doors 2 and 3;
 - after move 2 and reading 3 (frames 7 and 8), one cluster is left, at door 3, around the robot.
 
-The blue line in the lower panel is the exact belief from a fine grid (a [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) with 2000 cells); the grey bars follow it.
+The blue line in the lower panel is the exact belief from a fine grid (a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461) with 2000 cells); the grey bars follow it.
 
 ![The particle filter on the corridor, one stage per frame: 100 particles spread evenly, weighed by reading 1 (three clusters), resampled, moved 2.5 m, weighed by reading 2 (two clusters), resampled, moved again, weighed by reading 3 (one cluster at door 3). Bottom: the particle histogram against the exact belief](images/pf_loop.gif)
 
@@ -377,7 +377,7 @@ The problem grows with the number of state variables. A cloud of 100 points cove
 - The weighted mean is a safe answer only for one cluster; with two it can fall in front of a wall.
 - Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100).
 
-The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is a single Gaussian, two numbers, a mean and a variance, carry all of it, which is the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview).
+The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is a single Gaussian, two numbers, a mean and a variance, carry all of it, which is the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2506).
 
 ## 7. Sources
 

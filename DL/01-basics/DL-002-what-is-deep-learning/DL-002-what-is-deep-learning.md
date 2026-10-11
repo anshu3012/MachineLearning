@@ -19,7 +19,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/dl-intro
 
 > **Key point:** Deep learning is the part of ML that uses neural networks: layers of simple units that learn their own features from raw data. Deep learning needs more data, hardware and time than ML, and it is harder to explain, but on images, text and speech it is far stronger.
 
-The [deep learning](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) already placed [**deep learning (DL)**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
+The [**deep learning**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) already placed [**deep learning (DL)**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#5-deep-learning) (G-568) inside ML and showed its two big advantages: it learns features by itself, and it keeps improving with more data. This Note goes further in three directions:
 
 1. What a neural network looks like, and the technical definition of DL built on **representation learning** (G-1670).
 2. Five practical differences between DL and ML.
@@ -37,9 +37,9 @@ Figure 1 shows the idea that runs through this Note: in DL the features come fro
 
 > **Key point:** ML finds the input-output relationship with statistical techniques; DL finds it with a neural network.
 
-Both ML and DL do the same job: in **supervised learning** (G-1919; learning from examples that come with the right answer), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a [**neural network**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316), a structure of simple connected units loosely inspired by the brain (see [neural networks](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks)).
+Both ML and DL do the same job: in **supervised learning** (G-1919; learning from examples that come with the right answer), they find the relationship between the inputs and the output. Most ML algorithms do it with statistical techniques. DL does it with a [**neural network**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316), a structure of simple connected units loosely inspired by the brain (see [**neural networks**](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#51-neural-networks) (G-1316)).
 
-The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [perceptron](../DL-004-perceptron/DL-004-perceptron.md#5-perceptron-and-biological-neuron) shows.
+The reasoning behind the brain as a model is simple: to build intelligent machines, copy the most intelligent thing we know. The copy is very loose, as the [**perceptron**](../DL-004-perceptron/DL-004-perceptron.md#5-perceptron-and-biological-neuron) (G-1486) shows.
 
 ### 2.2 The parts of a neural network
 
@@ -210,7 +210,7 @@ Interpretability matters wherever we must justify a decision. Suppose a social n
 ML models are often much easier to explain:
 
 - [**Logistic regression**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#1-overview) (G-1120) on CGPA and IQ learns one weight for each input: $w_1$ for CGPA and $w_2$ for IQ. The larger weight marks the more important input (on inputs of similar scale), so we can tell a student "your CGPA is too low".
-- [**A decision tree**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else)).
+- [**A decision tree**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561) is a flowchart of questions, so it shows exactly why a point got its class (see the [**decision trees**](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else) (G-561)).
 
 > **Extra:** Researchers have built tools that explain single predictions of any model, including networks, such as LIME and SHAP, and heat maps of the image regions a CNN used. LIME, for example, fits a simple model that imitates the network near one input (Ribeiro et al. 2016, §3). So these tools explain the network from outside; its own weights stay unreadable.
 

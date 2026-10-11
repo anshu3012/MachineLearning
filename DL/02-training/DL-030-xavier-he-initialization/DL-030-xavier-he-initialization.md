@@ -42,7 +42,7 @@ The Xavier tanh line still drifts down, from 0.63 at layer 1 to 0.32 at layer 5 
 
 - [The four starts that fail](../DL-029-weight-initialization/DL-029-weight-initialization.md#4-do-not-start-every-weight-at-zero).
 - [Variance](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#4-variance) and [standard deviation](../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation): the average squared distance from the mean, and its square root.
-- [Tanh](../DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) and [**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668).
+- [**Tanh**](../DL-027-activation-functions/DL-027-activation-functions.md#7-tanh) (G-1947) and [**ReLU**](../DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668).
 
 ## 3. The spread must depend on the number of inputs
 

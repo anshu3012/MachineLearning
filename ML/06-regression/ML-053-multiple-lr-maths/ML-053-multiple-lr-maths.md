@@ -592,7 +592,7 @@ The cost of the inverse is why there is a second method, [**gradient descent**](
 - `LinearRegression` uses the closed-form (OLS) solution;
 - **`SGDRegressor`** (G-1783) uses gradient descent.
 
-For most tabular data the number of features is small, and `LinearRegression` is the usual choice. [Gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) is taught next.
+For most tabular data the number of features is small, and `LinearRegression` is the usual choice. [**Gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) is taught next.
 
 > **Extra:** $X^{\mathsf T}X$ has no inverse when one feature can be built exactly from others (**multicollinearity**, G-1273, as in [the dummy variable trap](../../03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#3-the-dummy-variable-trap)). Then the normal equation has no unique answer. Libraries handle this with a "pseudo-inverse" or with regularisation ([penalising large coefficients](../ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients)). scikit-learn's `LinearRegression` takes the first route (LAPACK, DGELSD).
 

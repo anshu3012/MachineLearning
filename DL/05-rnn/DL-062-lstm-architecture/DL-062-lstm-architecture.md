@@ -29,7 +29,7 @@ Figure 1 is the whole cell. By the end of this Note, every symbol in it has a me
 - [Two differences between an RNN and an LSTM](../DL-061-lstm/DL-061-lstm.md#7-two-differences-between-an-rnn-and-an-lstm): cell state and hidden state, three inputs and two outputs.
 - [RNN forward propagation: the formulas](../DL-056-rnn-forward-propagation/DL-056-rnn-forward-propagation.md#53-the-formulas): time steps, row vectors, the weight matrices of a recurrent layer.
 - [What one node computes](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) and [a layer as one matrix product](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product): a layer of nodes computes weights times inputs, plus biases, through an activation.
-- [The sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#61-shape-and-slope) (output between 0 and 1) and [tanh](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope) (output between $-1$ and 1).
+- [The sigmoid](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#61-shape-and-slope) (output between 0 and 1) and [**tanh**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#71-shape-and-slope) (G-1947) (output between $-1$ and 1).
 
 ## 3. What the cell must do
 

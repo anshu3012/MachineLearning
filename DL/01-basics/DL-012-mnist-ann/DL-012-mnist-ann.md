@@ -120,7 +120,7 @@ Flatten only rearranges numbers, so it has no weights and nothing to train.
 Figure 4 shows the network:
 
 - **Input layer:** 784 nodes, one per pixel.
-- **Hidden layer:** 128 nodes with the **ReLU** activation (G-1668; a node outputs its weighted sum $z$ if $z$ is positive and 0 otherwise, so ReLU(3) = 3 and ReLU($-2$) = 0), the usual default for hidden layers (Goodfellow et al. 2016, §6.3; see [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) among the activation functions).
+- **Hidden layer:** 128 nodes with the **ReLU** activation (G-1668; a node outputs its weighted sum $z$ if $z$ is positive and 0 otherwise, so ReLU(3) = 3 and ReLU($-2$) = 0), the usual default for hidden layers (Goodfellow et al. 2016, §6.3; see [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) among the activation functions).
 - **Output layer:** 10 nodes, one per class.
 
 With more than two classes the output layer has **one node per class**, and the class whose node gives the highest probability is the prediction (see [more nodes in the output layer](../DL-009-mlp-intuition/DL-009-mlp-intuition.md#43-more-nodes-in-the-output-layer)). The 10 nodes use **softmax**, which turns their 10 scores into 10 probabilities that add up to 1 (see [the softmax function](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#2-the-softmax-function)). So for every image the network gives P(0), P(1), ..., P(9).

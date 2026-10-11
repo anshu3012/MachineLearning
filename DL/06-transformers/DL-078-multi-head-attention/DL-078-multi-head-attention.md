@@ -34,7 +34,7 @@ This Note shows the one limitation of that formula, then the fix that the transf
 ## 2. Prerequisites
 
 - [Query, key and value vectors](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#8-query-key-and-value-vectors-from-learned-matrices) from $W_Q$, $W_K$, $W_V$, and [the matrix form for a whole sentence](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#83-all-words-at-once).
-- [Scaled dot-product attention](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#7-the-full-formula-in-code): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, and Keras' `MultiHeadAttention` layer with one head.
+- [**Scaled dot-product attention**](../DL-075-scaled-dot-product-attention/DL-075-scaled-dot-product-attention.md#7-the-full-formula-in-code) (G-1745): $\text{softmax}(QK^T/\sqrt{d_k})\thinspace V$, and Keras' `MultiHeadAttention` layer with one head.
 - [Static and contextual embeddings](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#5-static-and-contextual-embeddings).
 - [**Linear transformations**](../../../MA/05-linear-algebra/MA-053-linear-transformations-and-matrices/MA-053-linear-transformations-and-matrices.md#5-the-matrix-of-a-transformation) (G-1097): multiplying by a matrix maps a vector to a new vector, possibly of a different length.
 

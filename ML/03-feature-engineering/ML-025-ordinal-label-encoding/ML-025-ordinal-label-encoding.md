@@ -176,7 +176,7 @@ scikit-learn has a class for exactly this, the [**column transformer**](../ML-02
 
 > **Key point:** As with scaling, the train-test split comes before the encoding.
 
-Whenever we do a feature transformation, we split the data first. The encoder learns from the training set only, and is then applied to both the training set and the test set. [Standardization](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) followed the same rule for scaling.
+Whenever we do a feature transformation, we split the data first. The encoder learns from the training set only, and is then applied to both the training set and the test set. [**Standardization**](../ML-023-standardization/ML-023-standardization.md#62-split-before-scaling) (G-1874) followed the same rule for scaling.
 
 With 20% of the rows held back for testing, the training set has 40 rows and the test set 10.
 

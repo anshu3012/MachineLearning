@@ -118,7 +118,7 @@ Both flag exactly the same rows. Section 9 does it the second way.
 
 > **Key point:** Trimming deletes the outlier rows; capping replaces each outlier with the limit it crossed.
 
-Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [trimming](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) and [capping](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
+Both treatments, [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345), are described in [**trimming**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#71-trimming) (G-2019) and [**capping**](../ML-040-what-are-outliers/ML-040-what-are-outliers.md#72-capping) (G-345). With the limits of Section 3.2, capping turns a CGPA of 9.12 into 8.81 and a CGPA of 4.89 into 5.11.
 
 ## 6. The placement data
 
@@ -142,7 +142,7 @@ Two features are candidates for outlier detection: `cgpa` and `placement_exam_ma
 
 ![CGPA is bell-shaped; the placement exam marks have a long tail to the right](images/distributions.png)
 
-- **`cgpa`** is close to normal: a bell. Its [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [skewness](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness)).
+- **`cgpa`** is close to normal: a bell. Its [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), a number for how lopsided a distribution is, is $-0.01$ (0 means perfectly symmetric; see [**skewness**](../../02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817)).
 - **`placement_exam_marks`** is right-skewed (skewness 0.84): many students scored low and only a few scored high.
 
 So the z-score method can only be used on `cgpa`. The marks feature needs the [IQR rule](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#2-the-condition-a-skewed-feature).

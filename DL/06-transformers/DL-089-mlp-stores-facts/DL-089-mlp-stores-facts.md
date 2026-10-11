@@ -121,7 +121,7 @@ The ReLU then clips every negative answer to 0. Without it, the input "Phelps" w
 
 Figure 3 puts the table's columns side by side. Grey shows the raw answer; ReLU removes the $-1$ of "Phelps"; GELU keeps a small negative value and lowers the "yes" to 0.84 (Extra below).
 
-> **Extra:** GPT-2 uses GELU, $x\thinspace\Phi(x)$ (Hendrycks and Gimpel 2016), instead of ReLU ([GELU](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu)). GELU has the same overall shape but is smooth: the toy neuron would give 0.84 for Michael Jordan instead of 1, 0 for one name, and $-0.16$ instead of 0 for "Phelps" (Notebook). The gate is softer but still separates the full name from the rest.
+> **Extra:** GPT-2 uses GELU, $x\thinspace\Phi(x)$ (Hendrycks and Gimpel 2016), instead of ReLU ([**GELU**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#64-gelu) (G-834)). GELU has the same overall shape but is smooth: the toy neuron would give 0.84 for Michael Jordan instead of 1, 0 for one name, and $-0.16$ instead of 0 for "Phelps" (Notebook). The gate is softer but still separates the full name from the rest.
 
 ## 5. Columns write directions
 

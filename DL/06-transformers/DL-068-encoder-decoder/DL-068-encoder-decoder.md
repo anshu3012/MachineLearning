@@ -232,7 +232,7 @@ Early in training almost every prediction is wrong. A decoder fed its own wrong 
 
 > **Key point:** A one-hot vector is as long as the vocabulary; an embedding is a short, dense, learned vector.
 
-With a vocabulary of 100,000 words, every one-hot input vector has 100,000 numbers, all but one of them 0. An **embedding layer** maps each word to a short dense vector instead, such as 3 or 1,000 numbers, learned so that words used in similar ways get similar vectors (see [word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings)). An embedding layer goes in front of the encoder and in front of the decoder. The vectors can come pre-trained (Word2Vec and GloVe are two published sets of ready-made word vectors) or be learned with the model, as in the Notebook, where they fit the translation data. Sutskever et al. (2014) used learned embeddings of 1,000 numbers per word.
+With a vocabulary of 100,000 words, every one-hot input vector has 100,000 numbers, all but one of them 0. An **embedding layer** maps each word to a short dense vector instead, such as 3 or 1,000 numbers, learned so that words used in similar ways get similar vectors (see [**word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127)). An embedding layer goes in front of the encoder and in front of the decoder. The vectors can come pre-trained (Word2Vec and GloVe are two published sets of ready-made word vectors) or be learned with the model, as in the Notebook, where they fit the translation data. Sutskever et al. (2014) used learned embeddings of 1,000 numbers per word.
 
 ### 8.2 Deep (stacked) LSTMs
 

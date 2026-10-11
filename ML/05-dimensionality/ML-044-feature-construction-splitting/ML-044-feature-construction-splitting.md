@@ -32,7 +32,7 @@ Figure 1 shows the two ideas on the Titanic data. Construction combines `SibSp` 
 
 Every earlier technique had a fixed procedure. Standardization, for example, always subtracts the mean and divides by the standard deviation. Feature construction has no such procedure.
 
-[**Feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)). Three things decide which feature we build:
+[**Feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) means creating a new feature by hand, from existing features, because we believe it will help the model (see [**feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction) (G-760)). Three things decide which feature we build:
 
 - **intuition:** a sense of what could matter for the target;
 - [**domain knowledge**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#2-what-feature-engineering-is) (G-631): knowing the field the data comes from;
@@ -342,7 +342,7 @@ Why the family type helps more when one-hot encoded. As one number 0, 1, 2 with 
 | What it does | builds a new feature from existing ones | breaks one feature into several |
 | When to use it | domain knowledge suggests a more meaningful feature | one cell holds several facts (not tidy) |
 | Titanic example | `SibSp` + `Parch` + 1 $\rightarrow$ family size $\rightarrow$ family type | `Name` $\rightarrow$ `Title` |
-| Other examples | strike rate, economy rate, price per square foot | `Cabin` $\rightarrow$ deck and number ([mixed variables](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is)) |
+| Other examples | strike rate, economy rate, price per square foot | `Cabin` $\rightarrow$ deck and number ([**mixed variables**](../../03-feature-engineering/ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) (G-1237)) |
 | Measured gain (logistic regression) | +0.8 points as 0/1/2, +3.3 one-hot | +12.2 points one-hot |
 | pandas tools | column arithmetic, `np.select` | `.str.split`, `.str[i]` |
 

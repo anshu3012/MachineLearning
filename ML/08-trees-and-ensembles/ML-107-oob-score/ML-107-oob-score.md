@@ -74,7 +74,7 @@ Figure 1 runs these steps on 6 observations and 4 trees:
 
 For a regressor, the OOB prediction of an observation is the **mean** of its OOB trees' numbers, and `oob_score_` is the $R^2$ of those predictions ([**R² score**](../../06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#6-r²-score) (G-1717); see also [the out-of-bag score of the bagging regressor](../ML-101-bagging-regressor/ML-101-bagging-regressor.md#44-the-out-of-bag-score)).
 
-> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is [**soft voting**](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) ([soft voting](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
+> **Extra:** scikit-learn does not count hard votes. Each OOB tree gives its class probabilities for the observation (the share of each class in the leaf the observation lands in), the probabilities are added up, and the class with the largest total wins. Adding probabilities in this way is [**soft voting**](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828) ([**soft voting**](../ML-097-voting-classifier/ML-097-voting-classifier.md#32-soft-voting) (G-1828)). The totals, divided by the number of OOB trees, are stored in `oob_decision_function_`. On our data, hard votes and soft votes give the same score.
 
 ## 4. The OOB score in scikit-learn
 

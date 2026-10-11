@@ -19,7 +19,7 @@ tags: [subject/machine-learning, area/models-2, area/production, step/model, ste
 
 > **Key point:** k-means splits the data into k clusters by repeating two moves: give every point to its nearest centroid, then move every centroid to the mean of its points. The elbow method helps us choose k.
 
-**K-means** (G-996) is a [**clustering**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) algorithm: it puts similar **observations** (G-1374; records, one row of the data table each) in the same group without being told what the groups are (clustering is **unsupervised learning**, G-2058, learning from inputs only: see [clustering](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering)). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
+**K-means** (G-996) is a [**clustering**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) algorithm: it puts similar **observations** (G-1374; records, one row of the data table each) in the same group without being told what the groups are (clustering is **unsupervised learning**, G-2058, learning from inputs only: see [**clustering**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401)). Clustering is used everywhere: e-commerce sites cluster customers, colleges cluster students, photo apps cluster images.
 
 Binning ([**k-means binning**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins) (G-995)) already ran the k-means loop on a single column. This Note runs it on two **features** (G-772; input variables, one column of the data table each), where each observation is a point and distances are measured in a plane, and adds what was missing there: the starting centroids, the stopping test and how to choose k. Figure 1 shows the whole algorithm on 18 students.
 
@@ -27,8 +27,8 @@ Binning ([**k-means binning**](../../03-feature-engineering/ML-031-binning-binar
 
 ## 2. Prerequisites
 
-- Clustering and unsupervised learning: [clustering](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering).
-- k-means on one column, and the word centroid: [k-means binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins).
+- Clustering and unsupervised learning: [**clustering**](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401).
+- k-means on one column, and the word centroid: [**k-means binning**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins) (G-995).
 - The Euclidean distance (the straight-line distance between two points): [the Euclidean distance](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance).
 - Putting features on one scale (standardization): [the standardization formula](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula).
 
@@ -46,7 +46,7 @@ Many features are where k-means earns its place. We explain k-means in two dimen
 
 > **Key point:** 1 choose k; 2 pick k starting centroids; 3 assign every point to its nearest centroid; 4 move each centroid to the mean of its points; 5 stop if no centroid moved, otherwise go back to step 3.
 
-Steps 3 to 5 are the loop of [k-means binning](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins): assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two features, run on the 18 students of Figure 1.
+Steps 3 to 5 are the loop of [**k-means binning**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#71-how-k-means-finds-the-bins) (G-995): assign every value to its nearest centroid, move each centroid to the mean of its values, repeat until nothing changes. Here we add what that Note left out: choosing k, the starting centroids, and the loop on two features, run on the 18 students of Figure 1.
 
 ### 4.1 Step 1: choose k
 

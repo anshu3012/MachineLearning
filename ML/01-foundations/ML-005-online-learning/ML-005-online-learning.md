@@ -82,7 +82,7 @@ Figure 4 tests the first reason on a problem that keeps changing: the Electricit
 ![Online vs batch on the Electricity market data. Orange: a batch model trained once on the first 4 weeks. Green: an online model that starts from the same 4 weeks, then each day predicts that day and learns from it. Each line is the weekly accuracy, smoothed as a running average of the last 8 weeks.](images/elec_online.gif)
 
 1. **The same start.** Both models learn from the first 4 weeks of data.
-2. **Batch.** The orange model is then frozen, as in [batch learning](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning).
+2. **Batch.** The orange model is then frozen, as in [**batch learning**](../ML-004-batch-learning/ML-004-batch-learning.md#3-batch-learning) (G-265).
 3. **Online.** The green model keeps going. Each day it first predicts that day's 48 half hours, and then learns from their true answers with one small update.
 4. **The result.** Over 130 weeks, the online model is right 71.7 percent of the time and the frozen batch model 68.0 percent. Where the market changes, for example around week 25 and after week 120, the frozen model falls behind while the online model recovers.
 

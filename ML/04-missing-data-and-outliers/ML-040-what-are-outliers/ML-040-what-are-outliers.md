@@ -206,7 +206,7 @@ Capping with limits set by percentiles is called [**winsorization**](../ML-043-o
 > **Key point:** An outlier can also be treated as a missing value, or hidden inside a range by discretization.
 
 - **Treat as missing:** replace each outlier with `NaN` and then fill it in with any imputation technique, from [mean and median imputation](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation) to [iterative imputation](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview).
-- [**Discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [discretization](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
+- [**Discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#1-overview) (G-619), or binning: turn the numbers into ranges, such as 0 to 10, 10 to 20, ..., 90 to 100 (see [**discretization**](../../03-feature-engineering/ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization) (G-619)). An extreme value of 99 just falls into the last range with all the other high values, so it no longer stands out.
 
 Trimming and capping are used far more, and they are what Notes ML-041 to ML-043 focus on.
 
@@ -244,7 +244,7 @@ The cut-offs are our choice, depending on the problem: 1 and 99, 2.5 and 97.5, o
 
 | Note | Detection rule | Use when |
 |---|---|---|
-| [z-score (ML-041)](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) | z-score: mean ± 3 standard deviations | the column is roughly normal |
+| [**z-score (ML-041)**](../ML-041-outliers-zscore/ML-041-outliers-zscore.md#1-overview) (G-2141) | z-score: mean ± 3 standard deviations | the column is roughly normal |
 | [IQR (ML-042)](../ML-042-outliers-iqr/ML-042-outliers-iqr.md#1-overview) | IQR: box-plot fences | the column is skewed |
 | [percentiles (ML-043)](../ML-043-outliers-percentile/ML-043-outliers-percentile.md#1-overview) | percentiles, and winsorization | any column |
 

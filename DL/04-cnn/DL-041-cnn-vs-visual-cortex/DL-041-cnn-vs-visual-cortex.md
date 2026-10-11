@@ -28,7 +28,7 @@ The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#5-how-a-cnn-
 
 Figure 1 places these steps on one timeline, with time running from left to right.
 
-Two CNN parts are named in the key point above. A **filter** is a small grid of weights slid over the image; its output is large where its pattern is present ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). **Pooling** keeps the largest value of each small window of a filter's output ([max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling)).
+Two CNN parts are named in the key point above. A **filter** is a small grid of weights slid over the image; its output is large where its pattern is present ([convolution](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation)). **Pooling** keeps the largest value of each small window of a filter's output ([**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182)).
 
 ## 2. Prerequisites
 
@@ -133,7 +133,7 @@ Like the brain, its first layers recognise simple features such as edges, and la
 
 > **Key point:** Convolution layers, pooling layers and training by backpropagation: the first working CNNs, used to read handwritten digits and bank cheques.
 
-In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [LeNet-5](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
+In 1989 Yann LeCun introduced convolutional networks trained with backpropagation (LeCun 1989, cited in Goodfellow et al. 2016, §9.10). His networks combined convolution layers, pooling layers and backpropagation. Their 1998 version, **LeNet-5** (G-1080; see the [**LeNet-5**](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) (G-1080)), was part of a check-reading system that "is deployed commercially and reads several million checks per day" (LeCun et al. 1998). From there, serious research on CNNs began.
 
 ### 6.3 AlexNet and after
 
@@ -184,13 +184,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Receptive field (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | Preferred stimulus (G-1554) | The pattern, such as an edge of one orientation, that a cell responds to most. |
 | Neocognitron (G-1314) | An early pattern-recognition network, built by Fukushima in 1980 from S-cells and C-cells; a forerunner of CNNs. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
 | [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
-| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
 | [Clustering](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#32-clustering) (G-401) | Splitting data into groups of similar rows. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |

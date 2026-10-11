@@ -31,7 +31,7 @@ This Note covers how KNN predicts, how to run it in scikit-learn, how to choose 
 
 > **Key point:** Distance, sort, keep k, vote. Nothing else.
 
-[Instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) already showed one KNN prediction step by step on the student data. Each student is one **observation** (G-1374; one record, a row of the data table). Each has two **features** (G-772; input variables, one column each), CGPA and IQ, and a **target** (G-1949; the output we predict): the placement result (1 = placed, 0 = not placed). A new student, the **query point** (G-1605), arrives with a known CGPA and IQ, and we must predict placement.
+[**Instance-based learning**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#31-how-it-works) (G-955) already showed one KNN prediction step by step on the student data. Each student is one **observation** (G-1374; one record, a row of the data table). Each has two **features** (G-772; input variables, one column each), CGPA and IQ, and a **target** (G-1949; the output we predict): the placement result (1 = placed, 0 = not placed). A new student, the **query point** (G-1605), arrives with a known CGPA and IQ, and we must predict placement.
 
 KNN does it in five steps:
 
@@ -121,7 +121,7 @@ We hold back 20% of the observations as a test set (the [train-test split](../..
 
 The features have very different ranges. `radius_mean` is in the tens (14, 11, 19, ...), while `compactness_mean` is a small decimal. In a Euclidean distance, a feature measured in tens outweighs a feature measured in hundredths, so the small-number features would hardly count. An everyday picture: comparing two houses by price in rupees and by number of rooms, the price differences (lakhs) swamp the room differences (one or two).
 
-We fix this with **standardization** (G-1874; the [standardization](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula)): each value has the feature's mean subtracted and is then divided by the feature's standard deviation, so every feature ends with mean 0 and standard deviation 1. A small instance with invented numbers, three houses with prices 40, 60 and 80 lakh rupees (mean 60, standard deviation 20) and 2, 3 and 4 rooms (mean 3, standard deviation 1):
+We fix this with **standardization** (G-1874; the [**standardization**](../../03-feature-engineering/ML-023-standardization/ML-023-standardization.md#42-the-formula) (G-1874)): each value has the feature's mean subtracted and is then divided by the feature's standard deviation, so every feature ends with mean 0 and standard deviation 1. A small instance with invented numbers, three houses with prices 40, 60 and 80 lakh rupees (mean 60, standard deviation 20) and 2, 3 and 4 rooms (mean 3, standard deviation 1):
 
 | House | Price | (Price - 60) / 20 | Rooms | (Rooms - 3) / 1 |
 |---|---|---|---|---|
@@ -259,7 +259,7 @@ The red line in Figure 3 shows the result. The best test accuracy is at **k = 3:
 
 > **Extra:** Choosing k by its test-set score has a flaw: the test set is no longer unseen. We tried 15 models on the same 114 test observations and kept the luckiest, so the 99.1% is an optimistic score, not an honest estimate for new patients. Picking k on the test set is the same kind of leak as fitting the scaler on the test set.
 >
-> The right way is [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) on the training set only (the [pipelines](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
+> The right way is [**cross-validation**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-510) on the training set only (the [**pipelines**](../../03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline) (G-1499), section 8): for each k we average the scores over 5 folds of the 455 training observations, keep the k with the best average, then score the test set **once**.
 >
 > The blue line in Figure 3 is this cross-validation accuracy. Cross-validation picks **k = 10** (97.1% average), not 3. The final, honest test accuracy with k = 10 is **97.4%**.
 >
@@ -332,7 +332,7 @@ With 90,000 points packed together, the coloured dots merge into solid areas, an
 
 > **Key point:** Small k follows every point, outliers included (overfitting); k = n always predicts the majority class (underfitting). A middle k is best.
 
-[Overfitting](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) and underfitting, and their link to [high variance and high bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), show up clearly in KNN. Figure 5 trains KNN on the same two features with four values of k.
+[**Overfitting**](../../01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) and underfitting, and their link to [high variance and high bias](../../06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off), show up clearly in KNN. Figure 5 trains KNN on the same two features with four values of k.
 
 ![Decision surfaces for k = 1, 5, 20 and k = n = 455, with test accuracy on the same two features](images/k_surfaces.png){height=60%}
 
@@ -393,7 +393,7 @@ Knowing when not to use an algorithm matters as much as knowing how it works. KN
 
 > **Key point:** KNN is a lazy learner: training only stores the data, and every prediction computes a distance to every training observation.
 
-KNN is **lazy learning** (G-1057; **instance-based learning**, G-955, see [instance-based learning](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training)): training only stores the points, and all the work waits for a query. For each query, KNN computes n distances, sorts them and votes.
+KNN is **lazy learning** (G-1057; **instance-based learning**, G-955, see [**instance-based learning**](../../01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training) (G-955)): training only stores the points, and all the work waits for a query. For each query, KNN computes n distances, sorts them and votes.
 
 So training is fast and prediction is slow. With 500,000 observations and 100 features, every single prediction needs 500,000 distances and a sort. On a website, a user who clicks "predict" and waits 3 seconds may simply leave; internet companies care a lot about **latency** (G-1048), the delay between a request and its answer.
 
@@ -407,7 +407,7 @@ Figure 7 measures the two times on random data with 30 features. "Training" on 5
 
 > **Key point:** With many features, the curse of dimensionality makes all points nearly equally far apart, and KNN depends entirely on distances.
 
-With many features, say 500, the **curse of dimensionality** (G-520; the [curse of dimensionality](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of [that section](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble): 67 times farther in 2 features, only 1.1 times in 1,000).
+With many features, say 500, the **curse of dimensionality** (G-520; the [**curse of dimensionality**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble) (G-520)) sets in. In high dimensions the farthest point is barely farther than the nearest one (Figure 4 of [that section](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#4-why-more-dimensions-cause-trouble): 67 times farther in 2 features, only 1.1 times in 1,000).
 
 When every point is about equally far, the "nearest" neighbours are not really near, so their votes say little about the query point. KNN relies on nothing but distances, so once distances are distorted, its predictions are too (ISL §3.5). For very high-dimensional data, we either avoid KNN or first reduce the number of features.
 
@@ -487,6 +487,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | KNeighborsClassifier (G-1016) | scikit-learn's KNN classifier; `n_neighbors=5` by default. |
 | meshgrid (G-1211) | NumPy function that builds every combination of x and y values: the grid for a decision surface. |
 | Square-root rule (G-1862) | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
+| [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
@@ -501,7 +502,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Underfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#72-underfitting) (G-2035) | Being too simple to capture the pattern; fails on all data. |
 | [Lazy learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#32-no-real-training) (G-1057) | Another name for instance-based learning: no work until a question arrives. |
-| [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520) | The problems that appear when data has too many dimensions: lower performance and more computation. |
 | [Imbalanced data](../../../ML/01-foundations/ML-009-mldlc/ML-009-mldlc.md#62-what-we-do-during-eda) (G-921) | Data in which one class is much rarer than another. |
 | [Recall (sensitivity)](../../../ML/07-classification/ML-076-precision-recall-f1/ML-076-precision-recall-f1.md#3-recall) (G-1641) | Of all items that really are positive, the fraction the model found. |

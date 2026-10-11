@@ -199,7 +199,7 @@ For regression the usual loss is **mean squared error (MSE)**: the average of th
 
 > **Key point:** R² compares the model's squared error with that of always predicting the average; the first network scores $-0.06$.
 
-`model.predict` returns one number per test student, the predicted chance. We score the predictions with **R²** (G-1717; see the [regression metrics](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula), section 6): 1 means perfect, 0 means no better than predicting the average for everyone. The formula compares two mean squared errors:
+`model.predict` returns one number per test student, the predicted chance. We score the predictions with **R²** (G-1717; see the [**regression metrics**](../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#62-the-formula) (G-1652), section 6): 1 means perfect, 0 means no better than predicting the average for everyone. The formula compares two mean squared errors:
 
 $$R^2 = 1 - \frac{E_{\text{model}}}{E_{\text{average}}}$$
 

@@ -25,7 +25,7 @@ It is the same 5 m by 4 m room, pose A and person as in the beam model, with one
 
 ### 2.1 It is slow
 
-For each guessed pose, the beam model walks every beam through the map until it meets an obstacle ([ray casting](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model), G-2376). A particle filter, which tries many poses at once, multiplies that work. With 1000 guessed poses, 30 beams each, and up to 500 steps of 1 cm per beam:
+For each guessed pose, the beam model walks every beam through the map until it meets an obstacle ([**ray casting**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2376), G-2376). A particle filter, which tries many poses at once, multiplies that work. With 1000 guessed poses, 30 beams each, and up to 500 steps of 1 cm per beam:
 
 $$1000 \times 30 \times 500$$
 
@@ -199,7 +199,7 @@ So the trade is: physics for speed and smoothness. It pays when many poses must 
 
 ### 5.1 The problem: odometry drifts
 
-The smooth score of Section 3, with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([wheel odometry](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration), G-2321: motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
+The smooth score of Section 3, with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([**wheel odometry**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration) (G-2321), G-2321: motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
 
 Our test: the robot takes scan 1 at (2, 2, 0), then drives to (2.3, 2.1, 5°). Odometry claims it reached (2.3, 2.0, 0): it missed the 0.1 m sideways slip and the 5° turn. Each scan has 360 beams, one per degree.
 

@@ -244,7 +244,7 @@ So the steepest direction is perpendicular to the contour line, and it is the di
 
 ![Zooming in on $(1, 1)$: the contour lines $f = 4$ (blue) and $f = 4.1$ (purple) become straight and parallel. Of the arrows that raise $f$ by 0.1, the shortest (orange, length 0.017) crosses at a right angle and points along the gradient $[3, 5]$. Idea after Khan Academy, "Gradient and contour maps"; our own function](images/contour_zoom.gif){height=45%}
 
-At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
+At $(1, 1)$ the gradient $[3, 5]$ (orange) points up and to the right. Its opposite, $[-3, -5]$ (green), points into the bowl: the direction [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862) steps in, $\mathbf x_{\text{new}} = \mathbf{x} - \eta\thinspace\nabla f(\mathbf{x})$.
 
 ### 4.3 The slope in any direction
 
@@ -520,7 +520,7 @@ The notation also reads like fractions: $\partial \mathbf{x}$ appears "below" in
 Hand-derived gradients are easy to get wrong, and a wrong gradient makes training fail quietly. The definition of the partial derivative gives a simple test, called **gradient checking** (G-860):
 
 1. **In words:** estimate each partial derivative with a small step $h$ (say $10^{-4}$), then compare the whole estimated gradient with the formula's.
-2. **Example first.** The squared-error loss of [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together) on three points, inputs $x = [1, 2, 3]$ and targets $y = [2, 4, 5]$. A line with slope $m$ and intercept $b$ predicts $m x_i + b$ for point $i$; the loss adds up the squared misses ($\sum_i$ means "add over the points $i = 1, 2, 3$"):
+2. **Example first.** The squared-error loss of [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#6-both-parameters-m-and-b-together) (G-862) on three points, inputs $x = [1, 2, 3]$ and targets $y = [2, 4, 5]$. A line with slope $m$ and intercept $b$ predicts $m x_i + b$ for point $i$; the loss adds up the squared misses ($\sum_i$ means "add over the points $i = 1, 2, 3$"):
    $$L(m, b) = \sum_i (y_i - m x_i - b)^2$$
    At $m = 1$, $b = 0$ the predictions are $1, 2, 3$, and the misses (the residuals $r_i$) are
    $$r = [2 - 1,\ 4 - 2,\ 5 - 3] = [1,\ 2,\ 2]$$

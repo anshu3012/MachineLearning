@@ -82,7 +82,7 @@ If the table of data had one more column, "which curve produced this point", the
 
 The two halves of the circle are each easy on their own:
 
-- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#8-responsibilities), Section 8).
+- **If we knew the parameters**, the responsibilities are one application of Bayes' theorem per observation (the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#8-responsibilities) (G-829), Section 8).
 - **If we knew the responsibilities**, the parameters are weighted averages (the [slope-zero condition for a mean](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#92-setting-the-derivative-for-a-mean-to-0)).
 
 So we guess the parameters, compute responsibilities, recompute the parameters from them, and repeat. MML (§11.3) names the two steps:
@@ -134,7 +134,7 @@ The algorithm was proposed by Dempster, Laird and Rubin in 1977 (MML §11.3). sc
 
 We use the running example of MML §11.2: seven observations $-3, -2.5, -1, 0, 2, 4, 5$, three components starting at $N(-4, 1)$, $N(0, 0.2)$ and $N(8, 3)$ (the second number is the variance), weights $1/3$ each, and log-likelihood $\ell = -28.33$.
 
-The E-step at this start is exactly the responsibility table already worked out in the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) (Section 8.2):
+The E-step at this start is exactly the responsibility table already worked out in the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#82-soft-assignment) (G-829) (Section 8.2):
 
 | $x_n$ | $-3$ | $-2.5$ | $-1$ | $0$ | $2$ | $4$ | $5$ | $N_k$ |
 |---|---|---|---|---|---|---|---|---|
@@ -225,7 +225,7 @@ Figure 5 starts EM deliberately badly: two round-ish components centred at (2 mi
 
 - **Iteration 1:** the first M-step pulls both means into the data, but both ellipses are long and cover parts of both groups.
 - **Iterations 2 to 9:** the components trade eruptions. Orange shrinks onto the short eruptions, blue onto the long ones.
-- **From iteration 10:** the parameters stop changing. The final components have weights 0.36 and 0.64 and means (2.04 minutes, 54.5 minutes) and (4.29, 80.0): short eruptions after a wait of about 55 minutes, long eruptions after about 80. The waiting times match the two bumps of the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#2-one-normal-curve-is-not-enough) (Section 2). scikit-learn's `GaussianMixture` reaches the same log-likelihood, $-1130.3$ (Notebook, Section 2).
+- **From iteration 10:** the parameters stop changing. The final components have weights 0.36 and 0.64 and means (2.04 minutes, 54.5 minutes) and (4.29, 80.0): short eruptions after a wait of about 55 minutes, long eruptions after about 80. The waiting times match the two bumps of the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#2-one-normal-curve-is-not-enough) (G-829) (Section 2). scikit-learn's `GaussianMixture` reaches the same log-likelihood, $-1130.3$ (Notebook, Section 2).
 
 ## 6. Why the log-likelihood never decreases
 
@@ -317,7 +317,7 @@ Each orange bound is a parabola that lies under the black curve and touches it a
 
 "Never decreases" does not mean "finds the highest point". MML (§11.4.5) notes that EM can converge to a **local maximum** (G-1109) of the log-likelihood, a point higher than everything near it but not the highest overall, and suggests several runs from different starting points.
 
-Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). The Iris flowers are harder: 150 observations with four features each and three overlapping species, the data of the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means). The Notebook runs EM 20 times with three components, each run starting its means at three randomly chosen observations. The ARI (adjusted Rand index) scores how well the result matches the species: 1 for a perfect match.
+Old Faithful is too easy to show this: from 20 random starts, EM found the same answer every time (Notebook, Section 4). The Iris flowers are harder: 150 observations with four features each and three overlapping species, the data of the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means) (G-829). The Notebook runs EM 20 times with three components, each run starting its means at three randomly chosen observations. The ARI (adjusted Rand index) scores how well the result matches the species: 1 for a perfect match.
 
 | Final log-likelihood | ARI against the species | Number of starts |
 |---|---|---|
@@ -365,7 +365,7 @@ With these 0/1 responsibilities the two EM steps become the two steps of the [k-
 | E-step: compute $r_{nk}$ | $r_{nk} = 1$ for the nearest centre, 0 otherwise | assign each observation to its nearest centroid |
 | M-step: $\mu_k = \sum_n r_{nk}\mathbf x_n / N_k$ | the plain mean of the observations assigned to $k$ | move each centroid to the mean of its cluster |
 
-A GMM keeps the soft curve and also learns each cluster's shape and size; the [Gaussian mixture models](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means) (Section 11.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
+A GMM keeps the soft curve and also learns each cluster's shape and size; the [**Gaussian mixture models**](../MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#112-compared-with-k-means) (G-829) (Section 11.2) showed on the Iris flowers that modelling the shape is what lifts the GMM above k-means (ARI 0.90 against 0.73).
 
 ## 9. EM is a minorize–maximize (MM) algorithm
 

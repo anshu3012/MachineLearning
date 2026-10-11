@@ -84,7 +84,7 @@ Every story is split into sentences at a full stop, question mark or exclamation
 
 > **Key point:** `TextVectorization` builds the vocabulary from the training sentences and replaces every word by its index. We keep the 3,000 most frequent words; every other word becomes `[UNK]`.
 
-A model needs numbers, so every word gets an integer, as in [integer encoding](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the [**out-of-vocabulary (OOV) token**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras) (G-1416) for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
+A model needs numbers, so every word gets an integer, as in [**integer encoding**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#3-integer-encoding) (G-956). We build the vocabulary from the training sentences only. They contain 4,288 different words; `TextVectorization(max_tokens=3000)` keeps 3,000 entries: index 0 is the padding value, index 1 is `[UNK]`, the [**out-of-vocabulary (OOV) token**](../DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#32-tokenizing-in-keras) (G-1416) for any word outside the vocabulary, and the 2,998 most frequent words follow ("the" is 2, "and" is 3).
 
 The first sentence, "A certain king had a beautiful garden, and in the garden stood a tree which bore golden apples.", becomes
 

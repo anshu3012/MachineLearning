@@ -55,7 +55,7 @@ The Notebook (`ML-105-random-forest-hyperparameters.ipynb`) runs every experimen
 
 > **Key point:** "sqrt" takes the square root of the number of features, "log2" its base-2 logarithm, a decimal a share, and `None` all of them; each rounds down.
 
-At every split, a tree draws `max_features` features at random and picks the best split among them (**node-level column sampling**, G-1325; see [node-level feature sampling](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling)). With $p$ features:
+At every split, a tree draws `max_features` features at random and picks the best split among them (**node-level column sampling**, G-1325; see [**node-level feature sampling**](../ML-104-bagging-vs-random-forest/ML-104-bagging-vs-random-forest.md#32-random-forest-node-level-sampling) (G-1325)). With $p$ features:
 
 1. **In words:** turn the setting into a number of features, then round down (but never below 1).
 2. **Formula:**

@@ -23,7 +23,7 @@ Earlier we saw how a trained [perceptron predicts](../DL-004-perceptron/DL-004-p
 
 The trick itself is taught in full in two earlier Notes, and we do not repeat it here:
 
-- the [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 7 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
+- the [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485): positive and negative sides of a line, how $A$, $B$ and $C$ move it, the add-or-subtract update, the learning rate (its Figure 7 animates the line swinging towards a misclassified point in small steps), and the single rule $w \leftarrow w + \eta(y - \hat{y})x$;
 - the [code of the trick](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#3-the-code): the code, an animation of the line moving update by update (its Figure 3), and why the final line depends on the random order.
 
 This Note has these parts:
@@ -38,7 +38,7 @@ This Note has these parts:
 ## 2. Prerequisites
 
 - The [parts of a perceptron](../DL-004-perceptron/DL-004-perceptron.md#3-the-parts-of-a-perceptron): weights, bias, summation and step activation.
-- The [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) and its [code](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#3-the-code).
+- The [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#5-the-perceptron-trick) (G-1485) and its [code](../../../ML/07-classification/ML-070-perceptron-code/ML-070-perceptron-code.md#3-the-code).
 
 ## 3. The trick in one picture
 
@@ -66,7 +66,7 @@ In Figure 2, watch three things in order:
    $$-2(4) - 2(5) + 4 = -14 < 0$$
    The point is now on the negative side, as it should be.
 
-The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068), such as 0.01, so the line moves in small steps. The [perceptron trick](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point) works through both cases, and the [learning rate](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#63-small-steps-the-learning-rate) is taught there too.
+The update changes all three numbers at once, so the line turns and slides in one move. For a positive point on the negative side we add instead of subtracting. In practice we do not subtract the whole point: we multiply it by a small [**learning rate**](../../../ML/01-foundations/ML-005-online-learning/ML-005-online-learning.md#5-the-learning-rate) (G-1068), such as 0.01, so the line moves in small steps. The [**perceptron trick**](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#6-moving-the-line-towards-a-point) (G-1485) works through both cases, and the [learning rate](../../../ML/07-classification/ML-069-perceptron-trick/ML-069-perceptron-trick.md#63-small-steps-the-learning-rate) is taught there too.
 
 ## 4. The trick in perceptron terms
 

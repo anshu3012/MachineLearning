@@ -228,7 +228,7 @@ Vaswani et al. (2017, §3.1) put a layer normalisation after each of the two sub
 
 ![One transformer encoder block. After self-attention and after the feed-forward network, the sub-layer's input is added back (residual connection) and the sum is layer-normalised, word vector by word vector](images/add_norm.png){width=75%}
 
-The $x +$ part, a **residual connection** (G-1681; adding a layer's input back to its output), and the full block are explained in [add and norm](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm).
+The $x +$ part, a **residual connection** (G-1681; adding a layer's input back to its output), and the full block are explained in [**add and norm**](../DL-081-transformer-encoder/DL-081-transformer-encoder.md#52-add-and-norm) (G-172).
 
 With $d_{\text{model}} = 512$, a `LayerNormalization` layer holds 1,024 parameters: $\gamma$ and $\beta$ for each of the 512 features, all trainable. A `BatchNormalization` layer of the same size holds 2,048, of which 1,024 are the non-trainable moving means and variances (Notebook).
 

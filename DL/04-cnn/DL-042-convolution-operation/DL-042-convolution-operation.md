@@ -38,7 +38,7 @@ Figure 1 shows the whole **convolution operation** (G-481) on a tiny image. This
 - The [CNN intuition](../DL-040-cnn-intuition/DL-040-cnn-intuition.md#41-an-image-is-a-grid-of-numbers): an image is a grid of pixel values, and the first layers of a CNN look for edges.
 - The [MNIST ANN](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#3-scaling-the-pixels): the MNIST digits and scaling pixels to 0–1.
 - The [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu): ReLU.
-- The [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation): how weights are learned.
+- The [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) (G-247): how weights are learned.
 
 ## 3. How images are stored
 
@@ -264,7 +264,7 @@ The [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strid
 
 > **Key point:** In a CNN the filter values are weights. They start random and backpropagation sets them, so the network builds the filters its task needs.
 
-People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247), exactly like the weights of an ANN (see the [backpropagation](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
+People have designed many filters by hand: left, right, top and bottom edge detectors and others. A CNN does not need them. In deep learning we only choose the filter size and the number of filters; the values start random and are learned during training by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247), exactly like the weights of an ANN (see the [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation) (G-247)). The values that come out depend on the training data. Learning its own filters, instead of relying on hand-made ones, is one of the main reasons CNNs became so successful.
 
 The Notebook shows this happening. A small CNN with one convolution layer of 8 filters (3 × 3), followed by Flatten (turns the grid of numbers into one long list) and a softmax output layer (one probability per digit), trains for 2 epochs on MNIST and reaches 96.7% test accuracy.
 
@@ -377,9 +377,9 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Cross-correlation (G-508) | The slide, multiply and add of a CNN filter done without first flipping the filter; a true convolution flips it. Most deep learning libraries compute cross-correlation and call it convolution, which does not matter because the filter values are learned. |
 | [Convolutional neural network (CNN)](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#1-overview) (G-484) | A neural network that slides small filters over its input to find patterns such as edges, using at least one convolutional layer; the standard network for images. |
 | [Convolution layer](../../../DL/04-cnn/DL-040-cnn-intuition/DL-040-cnn-intuition.md#3-what-makes-a-network-a-cnn) (G-480) | A layer that slides small filters over its input to find features. |
+| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | [Pixel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-1501) | One dot of an image, stored as one or more numbers. |
 | [Channel](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#64-4d-images) (G-375) | One colour layer of an image (red, green or blue). |
 | [Transpose](../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
-| [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |

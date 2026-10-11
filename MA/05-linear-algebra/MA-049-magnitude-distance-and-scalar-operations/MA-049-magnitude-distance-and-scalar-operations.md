@@ -145,7 +145,7 @@ $$\sqrt{125} \approx 11.18$$
 
 > **Key point:** Many algorithms decide by distance: a new point gets the class of the vectors nearest to it.
 
-A lot of ML algorithms compute Euclidean distances inside. The clearest example is [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
+A lot of ML algorithms compute Euclidean distances inside. The clearest example is [**K-nearest neighbours**](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) (KNN, G-998), a classification algorithm. To classify a new iris flower from its sepal length and petal length, KNN treats the flower as a vector, computes its distance to every flower in the data, and gives it the species of the nearest ones.
 
 ![Five labelled vectors in 3D and a query vector; the query takes the class of the nearest one](images/knn_3d.png){height=45%}
 

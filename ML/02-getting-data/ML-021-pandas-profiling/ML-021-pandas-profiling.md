@@ -159,7 +159,7 @@ In seconds, the alerts point to the columns that need cleaning and the columns t
 
 > **Key point:** The Variables section gives each column its own block of statistics and a chart, chosen by the column's type.
 
-The second section is the [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (one column at a time), done for every column at once. A drop-down menu picks one column, or shows all of them one below the other. What each block contains depends on the column's type.
+The second section is the [**univariate analysis**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2050) (one column at a time), done for every column at once. A drop-down menu picks one column, or shows all of them one below the other. What each block contains depends on the column's type.
 
 Some columns are not worth studying. `PassengerId` is just a running number, as its alerts already said, so we skip it.
 
@@ -361,7 +361,7 @@ The last section shows real rows, in two tabs: First rows and Last rows. They gi
 
 > **Key point:** We run a profiling report first on every new dataset, read it section by section, and write down what we notice.
 
-The report covers in seconds what took the [first questions](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [univariate analysis](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview) by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it (Figure 12):
+The report covers in seconds what took the [first questions](../ML-018-understanding-your-data/ML-018-understanding-your-data.md#3-how-big-is-the-data), [**univariate analysis**](../ML-019-univariate-analysis/ML-019-univariate-analysis.md#2-univariate-bivariate-and-multivariate-analysis) (G-2050) and [bivariate and multivariate analysis](../ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#1-overview) by hand. The report does not replace understanding: it lists facts, and we decide what they mean. A good way to use it (Figure 12):
 
 1. Build the report as soon as we get a new dataset.
 2. Read it in order: Overview and Alerts, then each variable, then Interactions, Correlations and Missing values.

@@ -52,10 +52,10 @@ Figure 1 shows both ideas at work on the students data.
 | Optimizer | What it adds | Its problem |
 |---|---|---|
 | [Batch gradient descent](../../02-training/DL-020-gradient-descent-in-neural-networks/DL-020-gradient-descent-in-neural-networks.md#4-batch-gradient-descent-in-a-network) | the basic step | slow |
-| [Momentum](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) | speed from past gradients | overshoots and oscillates |
+| [**Momentum**](../DL-034-sgd-with-momentum/DL-034-sgd-with-momentum.md#5-the-idea-confidence-builds-speed) (G-1258) | speed from past gradients | overshoots and oscillates |
 | [NAG](../DL-035-nesterov-accelerated-gradient/DL-035-nesterov-accelerated-gradient.md#4-two-pushes-at-once-or-one-after-the-other) | look ahead, damp the oscillations | can stay in small dips |
-| [AdaGrad](../DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large) | a learning rate per parameter (sparse features) | the learning rate only shrinks |
-| [RMSProp](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) | forget old gradients | no correction for starting at 0 |
+| [**AdaGrad**](../DL-036-adagrad/DL-036-adagrad.md#5-the-idea-shrink-the-learning-rate-where-the-gradients-are-large) (G-168) | a learning rate per parameter (sparse features) | the learning rate only shrinks |
+| [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) (G-1697) | forget old gradients | no correction for starting at 0 |
 
 ![The two lines of optimizers. Left (blue): speed from past gradients. Right (orange): a learning rate per parameter. Adam takes the average of gradients from the left line and the average of squared gradients from the right line](images/family_tree.png){width=85%}
 

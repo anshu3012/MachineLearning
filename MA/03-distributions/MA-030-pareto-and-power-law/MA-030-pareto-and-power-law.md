@@ -322,7 +322,7 @@ The normal distribution is so well studied that once data is normal, many calcul
 | Log, $\log(1 + x)$ | pulls in a long right tail; makes log-normal data normal | [function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform) |
 | Reciprocal, square, square root | other fixed formulas, for other shapes of skew | [function transformer](../../../ML/03-feature-engineering/ML-029-function-transformer/ML-029-function-transformer.md#6-reciprocal-square-and-square-root-transforms) |
 | Box-Cox | learns the best power $\lambda$; positive values only | [**power transformer**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#3-box-cox-transform) (G-1542) |
-| Yeo-Johnson (G-2136) | Box-Cox adapted to zeros and negative values | [power transformer](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#4-yeo-johnson-transform) |
+| Yeo-Johnson (G-2136) | Box-Cox adapted to zeros and negative values | [**power transformer**](../../../ML/03-feature-engineering/ML-030-power-transformer/ML-030-power-transformer.md#4-yeo-johnson-transform) (G-1542) |
 
 Each of those Notes checks the result with a Q-Q plot and shows the effect on a model's score, so the workflow is:
 

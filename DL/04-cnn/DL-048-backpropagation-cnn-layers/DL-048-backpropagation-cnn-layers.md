@@ -37,7 +37,7 @@ Figure 1 shows the final result. The Notebook checks every formula against Tenso
 ## 2. Prerequisites
 
 - [The small CNN of part 1](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#3-a-small-cnn): the network, its [forward equations](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#4-forward-propagation), [the chains of derivatives](../DL-047-backpropagation-in-cnn/DL-047-backpropagation-in-cnn.md#52-the-chains), and $\partial L/\partial Z_2 = a_2 - y$.
-- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) and [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+- [The convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) and [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182).
 - [Backpropagation as chain rule plus memoization](../../01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#5-where-memoization-comes-in): backpropagation stores one gradient per step and reuses it.
 
 ## 3. The plan
@@ -156,7 +156,7 @@ The indices $i, j$ and $r, c$ help when writing the code; the letters $x$ and $y
 
 > **Key point:** ReLU let positive values through unchanged and turned negative values into 0. Going back, it lets the error through unchanged where its input was positive and blocks it (0) where its input was negative.
 
-$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see [ReLU](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu)).
+$A_1 = \text{ReLU}(Z_1)$ applies $\max(0, z)$ to each of the 16 cells of $Z_1$ separately. Think of a gate on each cell: open where the input was positive, shut where it was negative. A shut gate passed nothing forward, so a small change in that input changes nothing: its slope is 0. An open gate passed the input unchanged: its slope is 1 (see [**ReLU**](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668)).
 
 **Example.** Take a 2 × 2 piece, with the gradient arriving from max pooling and the inputs of ReLU:
 

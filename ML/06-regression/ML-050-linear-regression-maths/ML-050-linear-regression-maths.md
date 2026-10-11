@@ -48,7 +48,7 @@ Figure 2 runs both on the placement data. Each point of the map on the right (th
 
 Why have both? With one or a few features, OLS is fast and exact. With very many features, the OLS formula becomes expensive to compute, because it needs the inverse of a matrix with one row and one column per feature ([the cost of the inverse](../ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#7-the-cost-of-the-inverse)), and gradient descent works better.
 
-scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; [gradient descent](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) is taught separately.
+scikit-learn uses both: `LinearRegression` uses OLS, and `SGDRegressor` uses gradient descent. This Note derives OLS; [**gradient descent**](../ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) is taught separately.
 
 ## 3. The error function
 
@@ -337,7 +337,7 @@ $$m = \frac{1}{2} = 0.5$$
 
 $$b = 2 - 0.5 \times 2 = 1$$
 
-These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) of $x$ and $y$; the bottom is $n$ times the [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [variance](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
+These are the values found by hand in Section 4.2. Now in words: the top of the $m$ formula is $n$ times the [**covariance**](../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#3-covariance) (G-496) of $x$ and $y$; the bottom is $n$ times the [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#21-the-rule-keep-the-bigger-spread) (G-2074) of $x$ (see [covariance](../../05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#32-covariance) and [**variance**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#5-variance) (G-2074)). So the slope is how much $x$ and $y$ move together, divided by how much $x$ moves on its own.
 
 Figure 9 shows what the top of the formula adds up. Move the axes to the point of means. A student with both CGPA and package above average (top right) gives a positive product $(x_i - \bar{x})(y_i - \bar{y})$; so does a student below average on both (bottom left). A student above on one and below on the other gives a negative product. In the placement data 125 of the 160 products are positive and add up to $103.06$; the 35 negative ones add up to only $-1.86$. So the sum is $101.204$, a clearly upward slope.
 

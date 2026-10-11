@@ -301,7 +301,7 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 - The state transition probability $p(x_t \mid u_t, x_{t-1})$ and the measurement probability $p(z_t \mid x_t)$ are all the robot needs, because a complete state makes the past irrelevant once the current cell is known.
 - Drawn as a dynamic Bayes network (a hidden Markov model with commands), each state depends only on the previous state and its command, and each reading only on its own state, so the two tables of Section 5 are all the model needs.
 
-The robot now knows what to keep in memory: its belief. Still missing: by definition the belief depends on the whole history, which grows forever; updating it from only the newest command and reading is the [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#1-overview).
+The robot now knows what to keep in memory: its belief. Still missing: by definition the belief depends on the whole history, which grows forever; updating it from only the newest command and reading is the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#1-overview) (G-2446).
 
 ## 8. Sources
 

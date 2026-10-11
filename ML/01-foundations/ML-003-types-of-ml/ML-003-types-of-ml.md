@@ -134,7 +134,7 @@ What the groups give us:
 
 With two features we could spot the groups by eye. Clustering also works with hundreds of features, where no human can see the groups.
 
-**Hierarchical clustering** (G-893; see [hierarchical clustering](../../09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
+**Hierarchical clustering** (G-893; see [**hierarchical clustering**](../../09-clustering-and-more/ML-125-hierarchical-clustering/ML-125-hierarchical-clustering.md#4-two-kinds-of-hierarchical-clustering) (G-893)) goes one step further and finds groups within groups, for example sub-segments inside each customer segment.
 
 ### 3.3 Dimensionality reduction
 
@@ -151,9 +151,9 @@ Each feature is a **dimension** (G-610). (A tensor's dimensions mean something e
 
 ![Combining two related features into one](images/feature_extraction.png)
 
-The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called **feature construction** (G-760; see [feature construction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction)).
+The data has one feature fewer and loses almost no information. Making such a feature by hand, from domain knowledge, is called **feature construction** (G-760; see [**feature construction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#7-feature-construction) (G-760)).
 
-When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (G-762; see [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction)).
+When an algorithm such as PCA computes the new features from the data instead, with no domain knowledge, the process is called **feature extraction** (G-762; see [**feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-762)).
 
 **Visualisation.** A graph can show at most 3 dimensions. To see data with hundreds of features, we reduce them to 2 or 3 features and plot those.
 

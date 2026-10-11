@@ -44,7 +44,7 @@ The robot's belief $\text{bel}(x_t)$ is a probability distribution over its posi
 - **predict** with the command $u_t$, spreading the belief by the motion model $p(x_t \mid u_t, x_{t-1})$;
 - **update** with the reading $z_t$, multiplying by the sensor model $p(z_t \mid x_t)$ and rescaling to a total of 1.
 
-For a general belief these steps act on whole curves, which is costly: the [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#3-a-belief-as-a-cloud-of-samples) needs hundreds of samples to store one. The Kalman filter instead uses the case in which the belief is always a Gaussian, which needs no samples at all.
+For a general belief these steps act on whole curves, which is costly: the [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#3-a-belief-as-a-cloud-of-samples) (G-2492) needs hundreds of samples to store one. The Kalman filter instead uses the case in which the belief is always a Gaussian, which needs no samples at all.
 
 ### 2.2 A Gaussian is two numbers
 
@@ -175,7 +175,7 @@ Sections 2.3 and 2.4 give the two facts the Kalman filter needs: a linear functi
 
 1. the next state is a linear function of the state and the command, plus normal noise;
 2. the reading is a linear function of the state, plus normal noise;
-3. the first [belief](../RO-013-belief/RO-013-belief.md#42-the-definition), before any command or reading, is normal.
+3. the first [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), before any command or reading, is normal.
 
 Our robot meets all three. At step $t$:
 

@@ -182,7 +182,7 @@ The derivative is the rate of change of the output per unit of input, near $x$. 
 - $f'(x) < 0$: increasing $x$ decreases $f$;
 - $f'(x) = 0$: the tangent is flat, as at the bottom of a valley.
 
-The sign is all [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
+The sign is all [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862) needs: to go downhill, move $x$ against the sign of the derivative. For $f(x) = x^2$ at $x = 1$, $f'(1) = 2 > 0$, so we move left, towards the minimum at 0.
 
 > **Python:** A computer can estimate a derivative with a small $h$, straight from the definition. Such an estimate is a **numerical derivative** (G-1368; or finite difference).
 >
@@ -552,7 +552,7 @@ a straight line through $(x_0, f(x_0))$ with slope $f'(x_0)$: the tangent line o
 
 Figure 12 shows why. The tangent line hugs the curve near $x_0 = 4$, and the curve bends away from it more and more as we move further out.
 
-Linearisation is the picture behind [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate (the size of each step, see [how far to move](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)) keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
+Linearisation is the picture behind [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move) (G-862). Each step trusts the tangent line, which is only reliable near the current point. A small learning rate (the size of each step, see [how far to move](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#22-how-far-to-move)) keeps the step inside the region where the tangent line is a good guide; with a step that is too large, gradient descent can overshoot and fail to converge (MML §7.1.1).
 
 ### 6.4 A polynomial is its own Taylor polynomial
 

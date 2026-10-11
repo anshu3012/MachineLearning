@@ -104,7 +104,7 @@ In Figure 3, $p$ is the probability that one model is right. The horizontal axis
 
 Take three independent models, M1, M2 and M3, each with accuracy 0.7. On a new point, each is right with probability 0.7 and wrong with probability 0.3.
 
-Because the models are independent, the probability of a combination of outcomes is the product of the separate probabilities (the multiplication rule for [independent events](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition)). Figure 4 lists all 8 combinations.
+Because the models are independent, the probability of a combination of outcomes is the product of the separate probabilities (the multiplication rule for [**independent events**](../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934)). Figure 4 lists all 8 combinations.
 
 ![Every combination of right and wrong for three independent models of accuracy 0.7](images/prob_tree.png){height=50%}
 

@@ -91,7 +91,7 @@ Each is a [**posterior**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018
 
 > **Key point:** Each posterior equals likelihood × prior / evidence. The evidence is the same for every class, so it can be dropped.
 
-With $A$ = the class and $B$ = the three feature values, [Bayes' theorem](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) gives
+With $A$ = the class and $B$ = the three feature values, [**Bayes' theorem**](../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) gives
 
 $$P(\text{win} \mid B) = \frac{P(B \mid \text{win}) \times P(\text{win})}{P(B)}$$
 

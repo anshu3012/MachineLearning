@@ -54,7 +54,7 @@ PCA works like a photographer who walks around the stadium to find the best angl
 
 > **Key point:** To choose between two features, project the points onto each axis and keep the feature whose points are more spread out.
 
-PCA is a feature extraction technique, but it is easiest to understand by first looking at **feature selection**: keeping some existing features and dropping the rest (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) and [feature extraction](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) for the two ideas).
+PCA is a feature extraction technique, but it is easiest to understand by first looking at **feature selection**: keeping some existing features and dropping the rest (see [**feature selection**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#8-feature-selection) (G-768) and [**feature extraction**](../../03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-762) for the two ideas).
 
 Take made-up data about 30 flats with three features (one observation per flat): the number of rooms, the number of grocery shops nearby, and the price. The made-up counts are drawn as decimals, such as 2.4 rooms, so that the points do not stack on top of each other. Suppose we must drop one of the two input features.
 

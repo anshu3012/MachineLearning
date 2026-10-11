@@ -41,9 +41,9 @@ We follow one sentence, "How are you", through the encoder. Along the way we:
 
 ## 2. Prerequisites
 
-- [Multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel): 8 heads, concatenation, $W_O$; one 512-number output per word.
-- [Positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need): a 512-number vector per position, added to the word's embedding.
-- [Layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works): each word's vector normalised by its own mean and standard deviation, then scaled by $\gamma$ and shifted by $\beta$.
+- [**Multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268): 8 heads, concatenation, $W_O$; one 512-number output per word.
+- [**Positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) (G-1528): a 512-number vector per position, added to the word's embedding.
+- [**Layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) (G-1054): each word's vector normalised by its own mean and standard deviation, then scaled by $\gamma$ and shifted by $\beta$.
 - [Self-attention step by step](../DL-074-self-attention-step-by-step/DL-074-self-attention-step-by-step.md#82-the-refined-computation): contextual embeddings from queries, keys and values.
 - [**Forward propagation**](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797): a dense layer as a matrix product plus a bias, followed by an activation.
 - [Vanishing and exploding gradients](../../01-basics/DL-018-vanishing-exploding-gradients/DL-018-vanishing-exploding-gradients.md#3-the-vanishing-gradient-problem): why deep networks are hard to train.
@@ -73,7 +73,7 @@ The purple box of Figure 1 does three things to "How are you":
 
 1. **Tokenisation.** The sentence is split into [**tokens**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#4-tokens) (G-1981), the units the model reads. With word-level tokenisation, each token is a word: "how", "are", "you". The paper itself uses pieces of words, a method called byte-pair encoding (Vaswani et al. 2017, §5.1).
 2. **Embedding.** Each token becomes a learned vector of $d_{\text{model}} = 512$ numbers (see [**word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127)).
-3. **Positional encoding.** The vector of each position, also 512 numbers, is added to the word's embedding, so that the model knows the word order (the [positional encoding](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need)).
+3. **Positional encoding.** The vector of each position, also 512 numbers, is added to the word's embedding, so that the model knows the word order (the [**positional encoding**](../DL-079-positional-encoding/DL-079-positional-encoding.md#6-the-formula-of-attention-is-all-you-need) (G-1528)).
 
 ![The three input steps for "How are you": the sentence is split into tokens, each token gets a 512-number embedding, and the positional encoding of its position is added. The three sums are the rows of $X$](images/input_steps.png){width=100%}
 
@@ -108,7 +108,7 @@ $$x_{\text{how}} = [0.5,\ 2.0,\ -0.5,\ 1.2]$$
 
 > **Key point:** Multi-head attention turns each word's vector into a contextual vector of the same size, using every word of the sentence.
 
-The first sub-layer is the multi-head attention of the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel), with queries, keys and values all taken from $X$. The embedding of a word is the same in every sentence; attention mixes in the other words, so "bank" in "river bank" gets a different vector from "bank" in "money bank". Its output $Z$ has one 512-number row per word, $z_1, z_2, z_3$, each aware of the whole sentence.
+The first sub-layer is the multi-head attention of the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#5-the-idea-several-self-attentions-in-parallel) (G-1268), with queries, keys and values all taken from $X$. The embedding of a word is the same in every sentence; attention mixes in the other words, so "bank" in "river bank" gets a different vector from "bank" in "money bank". Its output $Z$ has one 512-number row per word, $z_1, z_2, z_3$, each aware of the whole sentence.
 
 For "how" in the tiny block, the multi-head attention above (with the Notebook's weights) gives:
 
@@ -122,7 +122,7 @@ The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sub
 
 **Add.** Besides going through the attention, $X$ also takes a second path that skips the attention (the red arrow). At the "add" box, the two meet: $Z' = X + Z$. The addition works because both are $3 \times 512$; the paper keeps every sub-layer's output at $d_{\text{model}} = 512$ "to facilitate these residual connections" (Vaswani et al. 2017, §3.1). A path that skips a sub-layer and is added back is a **residual connection** (also called a skip connection). Section 7.1 explains why it is there.
 
-**Norm.** Each row of $Z'$ is then normalised on its own: subtract the row's mean, divide by its standard deviation, multiply by $\gamma$ and add $\beta$ (the [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works)). The result is $Z_{\text{norm}}$.
+**Norm.** Each row of $Z'$ is then normalised on its own: subtract the row's mean, divide by its standard deviation, multiply by $\gamma$ and add $\beta$ (the [**layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) (G-1054)). The result is $Z_{\text{norm}}$.
 
 1. **In words:** add the word's input to its attention output, then standardise the 4 (in the full model, 512) numbers of the sum.
 2. **Formula:**
@@ -142,7 +142,7 @@ The paper writes the output of each sub-layer as $\text{LayerNorm}(x + \text{Sub
 
 **Attention as a change.** Read the addition the other way round: the word's vector $x$ stays, and attention adds a change $z$ to it. The [self-attention geometrically](../DL-076-self-attention-geometric-intuition/DL-076-self-attention-geometric-intuition.md#73-adding-the-change-back), section 7.3, draws this as an arrow $e$ with a change $\Delta e$ placed at its tip, and measures how small the change is in a trained model (Sanderson 2024, Ch 6). The feed-forward network of section 5.3 adds a second change in the same way (Figure 6).
 
-**Why normalise here.** The outputs of attention have no fixed range, and adding $X$ can make them larger still. Training is more stable when the numbers stay in a small range; layer normalisation brings every word's vector back to mean 0 and standard deviation 1 before the next sub-layer (Ba et al. 2016; the [layer normalisation](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works)).
+**Why normalise here.** The outputs of attention have no fixed range, and adding $X$ can make them larger still. Training is more stable when the numbers stay in a small range; layer normalisation brings every word's vector back to mean 0 and standard deviation 1 before the next sub-layer (Ba et al. 2016; the [**layer normalisation**](../DL-080-layer-normalization/DL-080-layer-normalization.md#61-how-it-works) (G-1054)).
 
 ### 5.3 The feed-forward network
 
@@ -260,7 +260,7 @@ The Notebook repeats the whole block by hand in NumPy, from $X$ to $Y_{\text{nor
 
 **Shapes.** Every sub-layer maps $3 \times 512$ to $3 \times 512$, so the 6 blocks can be chained, and the encoder's output is again $3 \times 512$: one vector per input word, now informed by the whole sentence. The Notebook passes a $3 \times 512$ input through 6 Keras blocks and gets $3 \times 512$ out. For a sentence of $n$ words, read $n$ for 3.
 
-**Parameters.** The counts follow from the layer sizes, with $d = 512$ and $d_{\text{ff}} = 2048$ (the attention formula is derived in the [multi-head attention](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head), section 6.1):
+**Parameters.** The counts follow from the layer sizes, with $d = 512$ and $d_{\text{ff}} = 2048$ (the attention formula is derived in the [**multi-head attention**](../DL-078-multi-head-attention/DL-078-multi-head-attention.md#61-why-64-numbers-per-head-the-same-cost-as-one-head) (G-1268), section 6.1):
 
 | Part | Formula | Parameters |
 |---|---|---|

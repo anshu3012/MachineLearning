@@ -351,7 +351,7 @@ Every share moved by at most 0.1 percentage points. A large change, for example 
 | Complete case analysis | drops every row with a gap in the chosen columns | data is MCAR and each column is missing under about 5% |
 | Remove the column | drops a column that is mostly missing | almost all of the column is missing |
 | Univariate imputation | fills a gap from the same column (mean, median, mode, ...) | [numerical](../ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#1-overview), [categorical](../ML-036-missing-categorical-data/ML-036-missing-categorical-data.md#1-overview) and [indicator and random sample](../ML-037-missing-indicator-random-sample/ML-037-missing-indicator-random-sample.md#1-overview) imputation |
-| Multivariate imputation | fills a gap using other columns (KNN, MICE) | [KNN imputer](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) and [MICE](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) |
+| Multivariate imputation | fills a gap using other columns (KNN, MICE) | [**KNN imputer**](../ML-038-knn-imputer/ML-038-knn-imputer.md#1-overview) (G-1017) and [**MICE**](../ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#1-overview) (G-1216) |
 
 - Most scikit-learn models cannot train on missing values, so we remove or impute them first.
 - Complete case analysis (listwise deletion) keeps only rows with a value in every chosen column: `df.dropna(subset=cols)`. It is the easiest fix, but it also throws away the good values in every dropped row, and the losses add up across columns (five columns missing at most 4% each cost 10.3% of the rows).

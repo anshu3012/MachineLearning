@@ -67,7 +67,7 @@ The weights always add up to 1. We add them to the table as a new column, *weigh
 
 > **Key point:** Train a decision stump on the data and record its prediction for every observation.
 
-We train a [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559): a decision tree with `max_depth=1` (see [decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity; [**information gain**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain) (G-946) and [**Gini impurity**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity) (G-847) compare the two). Call the result **model 1**.
+We train a [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559): a decision tree with `max_depth=1` (see [**decision stumps**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559)). The stump tries every cut on x1 and on x2, for example "x1 > 5" or "x2 < 10", and keeps the one with the largest information gain (or the largest drop in Gini impurity; [**information gain**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#7-information-gain) (G-946) and [**Gini impurity**](../ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#8-gini-impurity) (G-847) compare the two). Call the result **model 1**.
 
 We then pass the training observations through model 1 and write its predictions in a new column. Suppose they are:
 

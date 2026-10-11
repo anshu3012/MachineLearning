@@ -39,7 +39,7 @@ pandas (section 6) and scikit-learn (section 7) can both do the work.
 
 > **Key point:** Numbering nominal categories 0, 1, 2 invents an order that does not exist.
 
-ML algorithms need numbers, but real-world categorical data is almost always stored as text. Converting it is our job. For ordinal data we use ordinal encoding (see [ordinal encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding)).
+ML algorithms need numbers, but real-world categorical data is almost always stored as text. Converting it is our job. For ordinal data we use ordinal encoding (see [**ordinal encoding**](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding) (G-1404)).
 
 Take a feature `color` with three categories: Yellow, Blue and Red. Colour is nominal: no colour is greater than another.
 

@@ -35,7 +35,7 @@ Skewness was introduced in the [**univariate analysis**](../../../ML/02-getting-
 
 > **Key point:** A normal distribution is perfectly symmetric; skewness measures the asymmetry, so the larger it is, the less we can treat the data as normal.
 
-A normal distribution is a symmetric bell with a specific formula (see the [normal distribution](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is)). [**Skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
+A normal distribution is a symmetric bell with a specific formula (see the [**normal distribution**](../MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-1343)). [**Skewness**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817) is a measure of the asymmetry of a probability distribution: the degree to which a dataset deviates from that symmetric shape.
 
 - In a **symmetric** distribution with one peak, the mean, median and mode are equal, and the two tails are equally long.
 - In a **skewed** distribution the mean, median and mode differ, and one tail is longer than the other.
@@ -46,7 +46,7 @@ So skewness is a warning light. The more it grows, the less the data looks like 
 
 > **Key point:** The skew is named after the long tail; a tail event has a very low probability but a very large effect.
 
-[**Positive skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1533), or right skew, has a long right tail and [**negative skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1312), or left skew, a long left tail, as the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
+[**Positive skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1533), or right skew, has a long right tail and [**negative skew**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1312), or left skew, a long left tail, as the [**univariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-2050) (section 10) shows. The tail is where the outliers are, and in finance it gets special attention.
 
 A **tail event** (G-1943) is an event with a very low probability of happening that has a huge impact when it does. Investors who fund start-ups are an example. Out of 50 companies they invest in, perhaps 45 to 48 fail and the money is lost.
 
@@ -99,7 +99,7 @@ Figure 4 shows this as the skewness changes smoothly. Each shape keeps its peak 
 
 Skewness is the third [**statistical moment**](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments) (G-1882): where the mean uses the values themselves and the variance their squared distances, skewness uses **cubed** distances (moments are explained in the [kurtosis and Q-Q plots](../MA-028-kurtosis-and-qq-plots/MA-028-kurtosis-and-qq-plots.md#21-statistical-moments)). Cubing keeps the sign, so values far above the mean push the total up and values far below push it down.
 
-We worked the population version, $g_1$, by hand in the [univariate analysis](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness). The version in pandas' `skew()` and Excel's `SKEW` is the **sample skewness** (G-1728):
+We worked the population version, $g_1$, by hand in the [**univariate analysis**](../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-2050). The version in pandas' `skew()` and Excel's `SKEW` is the **sample skewness** (G-1728):
 
 1. **In words:** standardize every value with the sample mean and sample standard deviation, cube, add up, and multiply by a factor that corrects for small samples.
 2. **Formula:** for $n$ values with sample mean $\bar{x}$ and sample standard deviation $s$ (divided by $n - 1$),

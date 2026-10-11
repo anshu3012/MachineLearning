@@ -53,7 +53,7 @@ The blue curve is a mixture of two normals: weight 0.36 around 54.7 minutes and 
 | one normal (2 parameters) | $-1095$ |
 | mixture of two normals (5 parameters) | $-1034$ |
 
-A higher log-likelihood means the model finds the observed data more probable (the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle)). The gap of 61 means the data is $e^{61}$ times more probable under the mixture.
+A higher log-likelihood means the model finds the observed data more probable (the [**maximum likelihood estimation**](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle) (G-1191)). The gap of 61 means the data is $e^{61}$ times more probable under the mixture.
 
 MML (Chapter 11 introduction) makes the same point: a single Gaussian has limited modelling power, while a mixture can describe data with several clusters (**multimodal** data, G-1275, see the [measures of central tendency](../../01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode)).
 
@@ -332,7 +332,7 @@ The mixture is $p(\mathbf{x}) = \sum_k \pi_k\thinspace N(\mathbf{x} \mid \boldsy
 
 > **Key point:** $r_{nk} = \pi_k N(x_n \mid \mu_k, \sigma_k^2) \thinspace/\thinspace\sum_j \pi_j N(x_n \mid \mu_j, \sigma_j^2)$.
 
-Section 4.1 computed each share as "the curve's weighted height divided by the total of the weighted heights". That is **Bayes' theorem** (G-269; see the [Bayes' theorem](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts)) for the question "having seen $x_n$, which component produced it?", with the **prior** $P(z = k) = \pi_k$ (the chance of curve $k$ before seeing the point), the **likelihood** $N(x_n \mid \mu_k, \sigma_k^2)$ (how well curve $k$ explains the point) and the **evidence** $p(x_n)$ (the total over all curves).
+Section 4.1 computed each share as "the curve's weighted height divided by the total of the weighted heights". That is **Bayes' theorem** (G-269; see the [**Bayes' theorem**](../../02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-269)) for the question "having seen $x_n$, which component produced it?", with the **prior** $P(z = k) = \pi_k$ (the chance of curve $k$ before seeing the point), the **likelihood** $N(x_n \mid \mu_k, \sigma_k^2)$ (how well curve $k$ explains the point) and the **evidence** $p(x_n)$ (the total over all curves).
 
 1. **In words:** the **responsibility** of component $k$ for point $n$ is that component's share of the mixture density at $x_n$.
 2. **Formula** (MML equations 11.17 and 11.72):
@@ -378,7 +378,7 @@ Plain version first. Section 4.2 updated a curve using the shares, and the share
 
 > **Key point:** $\ell(\theta) = \sum_n \log \sum_k \pi_k N(x_n \mid \mu_k, \sigma_k^2)$: a sum of logs of sums.
 
-For **i.i.d.** (G-933; independent and identically distributed: each point is drawn separately from the same distribution) data the likelihood is a product over the points (the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#5-the-likelihood-of-many-measurements)), and each factor is now a mixture density.
+For **i.i.d.** (G-933; independent and identically distributed: each point is drawn separately from the same distribution) data the likelihood is a product over the points (the [**maximum likelihood estimation**](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#5-the-likelihood-of-many-measurements) (G-1191)), and each factor is now a mixture density.
 
 1. **In words:** for each point, add up its weighted component densities, take the log, then add the logs over all points.
 2. **Formula** (MML equation 11.10):
@@ -439,7 +439,7 @@ So the three conditions form a set of equations that depend on each other, and M
 
 > **Key point:** If one component sits exactly on one observation and its variance shrinks to 0, the likelihood grows without limit. Maximum likelihood then prefers a useless spike.
 
-MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [maximum likelihood estimation](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#42-the-peak-is-where-the-slope-is-zero) (Section 4.2, Extra):
+MML (§11.5) warns that maximum likelihood for a mixture can overfit badly in exactly this way. The derivation is the one-point case of the [**maximum likelihood estimation**](../MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#42-the-peak-is-where-the-slope-is-zero) (G-1191) (Section 4.2, Extra):
 
 1. **In words:** put the mean of component 1 on an observation $x_1$. The density of $x_1$ then contains the term $\pi_1/(\sigma_1\sqrt{2\pi})$, which grows without limit as $\sigma_1 \to 0$. Every other point keeps a positive density from the remaining components, so the whole likelihood grows without limit.
 2. **Formula:**
@@ -460,7 +460,7 @@ Such a spike describes one point, not a cluster. In practice libraries keep the 
 
 > **Key point:** KDE places one kernel on every observation with a fixed width; a GMM places $K$ components and learns their centres, widths and weights.
 
-The [**density estimation**](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) (G-586) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. [Density estimation](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) already placed a GMM between parametric and non-parametric methods.
+The [**density estimation**](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) (G-586) built a **kernel density estimate** (KDE, G-1005) by placing one small normal curve on every observation and averaging. A GMM also adds normal curves, but only $K$ of them, with every centre, width and weight fitted to the data. [**Density estimation**](../../03-distributions/MA-023-density-estimation-kde/MA-023-density-estimation-kde.md#5-kernel-density-estimation-kde) (G-586) already placed a GMM between parametric and non-parametric methods.
 
 | | KDE | GMM |
 |---|---|---|

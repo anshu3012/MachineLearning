@@ -343,7 +343,7 @@ The three relations between two events were described in words in [types of even
 | Relation | Conditional | Joint | Taught in |
 |---|---|---|---|
 | Independent | $P(A \mid B) = P(A)$ | $P(A \cap B) = P(A)\thinspace P(B)$ | [**independent events**](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) |
-| Dependent | $P(A \mid B) \ne P(A)$ | $P(A \cap B) = P(A \mid B)\thinspace P(B)$ | [conditional probability](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) |
+| Dependent | $P(A \mid B) \ne P(A)$ | $P(A \cap B) = P(A \mid B)\thinspace P(B)$ | [**conditional probability**](../MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) |
 | Mutually exclusive | $P(A \mid B) = 0$ | $P(A \cap B) = 0$ | [**mutually exclusive events**](../MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#2-the-definition) (G-1286) |
 
 For independent events the conditional probability equals the marginal one; the joint probability is the product of the marginals. The general rule $P(A \cap B) = P(A \mid B)\thinspace P(B)$ holds for every pair of events; independence is the special case $P(A \mid B) = P(A)$.

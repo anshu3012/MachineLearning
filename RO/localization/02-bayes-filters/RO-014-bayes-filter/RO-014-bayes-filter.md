@@ -11,7 +11,7 @@ So far the robot keeps a [**belief**](../RO-013-belief/RO-013-belief.md#42-the-d
 
 ![Thrun's door world: a door that is open (left) or closed (right); a robot in front of it with an arm that can push the door and a sensor that reads open or closed](images/door_world.png)
 
-We leave the hallway of [belief](../RO-013-belief/RO-013-belief.md#1-overview) for Thrun's door world (Figure 1): 2 states instead of 10 cells, so every sum can be done by hand (PR §2.4.2). The [grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#1-overview) bring the filter back to the hallway. This Note covers:
+We leave the hallway of [**belief**](../RO-013-belief/RO-013-belief.md#1-overview) (G-2433) for Thrun's door world (Figure 1): 2 states instead of 10 cells, so every sum can be done by hand (PR §2.4.2). The [grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#1-overview) bring the filter back to the hallway. This Note covers:
 
 - one reading at a time, with Bayes' theorem that remembers earlier readings (Section 3);
 - the filter itself, a prediction step and a correction step, worked on the door (Section 4);
@@ -23,7 +23,7 @@ We leave the hallway of [belief](../RO-013-belief/RO-013-belief.md#1-overview) f
 
 > **Key point:** One state (the door, open or closed), two commands (push, do nothing), one noisy sensor. Its two probability tables are all the filter needs.
 
-The **state** $x_t$ is the door at time $t$: open or closed. The robot does not know it. The two tables of [belief](../RO-013-belief/RO-013-belief.md#5-the-two-tables-that-drive-the-belief) describe the robot (PR §2.4.2); with them and its last belief, the filter never needs the list of past readings.
+The **state** $x_t$ is the door at time $t$: open or closed. The robot does not know it. The two tables of [**belief**](../RO-013-belief/RO-013-belief.md#5-the-two-tables-that-drive-the-belief) (G-2433) describe the robot (PR §2.4.2); with them and its last belief, the filter never needs the list of past readings.
 
 **The measurement probability** $p(z_t \mid x_t)$: the sensor reads "open" or "closed", and is sometimes wrong.
 
@@ -140,7 +140,7 @@ The direct way to know the belief is to recompute it from the whole history at e
 
 ### 4.2 The prediction step
 
-After the command, before the reading, the robot wants its [predicted belief](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) $\overline{\text{bel}}(x_t)$. It does not know the previous state, so it considers every previous state, asks how likely the command takes it to $x_t$, and weights that by how much it believed in that previous state. Adding these up is the law of total probability:
+After the command, before the reading, the robot wants its [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436) $\overline{\text{bel}}(x_t)$. It does not know the previous state, so it considers every previous state, asks how likely the command takes it to $x_t$, and weights that by how much it believed in that previous state. Adding these up is the law of total probability:
 
 $$\overline{\text{bel}}(x_t) = \sum_{x_{t-1}} p(x_t \mid u_t, x_{t-1})$$
 

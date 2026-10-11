@@ -190,7 +190,7 @@ Two things to take from the example:
 - **The order matters again:** $P(A \mid B) = 0.7$ but $P(B \mid A) = 0.58$, as in Section 4.
 - **The events affect each other:** $P(A \mid B) = 0.7$ is not $P(A) = 0.6$, so knowing B changes the chance of A. Such events are [dependent events](../MA-016-independent-events/MA-016-independent-events.md#5-independent-or-not) (G-590). When knowing B changes nothing, the events are [independent](../MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (the probability of one does not change when the other is known).
 
-Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [Bayes' theorem](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof).
+Setting the two forms of the rule equal and dividing, as in steps 2 and 3, is [**Bayes' theorem**](../MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269).
 
 ## 6. Summary
 

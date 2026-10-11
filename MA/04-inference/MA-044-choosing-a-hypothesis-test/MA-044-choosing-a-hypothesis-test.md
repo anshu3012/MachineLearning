@@ -198,7 +198,7 @@ Adding a second categorical feature changes the question: is there a difference 
 - $H_0$: gender and age group are independent (the share of men is the same in every age group);
 - $H_1$: they are related.
 
-The counts go in a [**contingency table**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464), as in the [contingency tables](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables); pandas builds it with `pd.crosstab` (see [two categorical columns](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#7-heatmap-two-categorical-columns)):
+The counts go in a [**contingency table**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464), as in the [**contingency tables**](../../02-probability/MA-013-venn-diagrams-and-contingency-tables/MA-013-venn-diagrams-and-contingency-tables.md#3-contingency-tables) (G-464); pandas builds it with `pd.crosstab` (see [two categorical columns](../../../ML/02-getting-data/ML-020-bivariate-multivariate-analysis/ML-020-bivariate-multivariate-analysis.md#7-heatmap-two-categorical-columns)):
 
 | | child | adult | elderly |
 |---|---|---|---|
@@ -398,7 +398,7 @@ $$H_0: \mu_{\text{child}} = \mu_{\text{adult}} = \mu_{\text{elderly}}$$
 
 $$H_1: \text{at least one mean differs}$$
 
-The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [one-way ANOVA](../MA-046-one-way-anova/MA-046-one-way-anova.md#5-the-f-statistic) builds the F statistic and explains why three t-tests would not do.
+The mean weights are 28.5, 69.8 and 65.0 kg. ANOVA computes $F$ as the spread between the group means divided by the spread inside the groups, from the individual weights (the nine-mark example of the linked Note shows every step), and gives $F = 203$ and $p < 0.001$, so we reject $H_0$. The [**one-way ANOVA**](../MA-046-one-way-anova/MA-046-one-way-anova.md#5-the-f-statistic) (G-1389) builds the F statistic and explains why three t-tests would not do.
 
 The two tests of this section are one method. ANOVA also works with two groups, and on the adult heights of section 8.1 it gives $F = 26.9$ with $p = 0.00003$: the same p-value as the t-test, and $F = t^2 = 5.18^2$. A two-sample t-test is one-way ANOVA with two groups.
 

@@ -163,7 +163,7 @@ $$20000^2 = 400{,}000{,}000$$
 
 $$\sqrt{100 + 400{,}000{,}000} = 20{,}000.0025$$
 
-The age gap adds almost nothing. [**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [standardization](../ML-023-standardization/ML-023-standardization.md#3-types-of-feature-scaling) and the [**normalization**](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1349).
+The age gap adds almost nothing. [**Feature scaling**](../../01-foundations/ML-012-toy-project/ML-012-toy-project.md#7-scaling-the-inputs) (G-767) puts all columns on a similar range; its two main techniques, standardization and normalization, are taught in the [**standardization**](../ML-023-standardization/ML-023-standardization.md#3-types-of-feature-scaling) (G-1874) and the [**normalization**](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1349).
 
 ### 6.6 Other transformations
 
@@ -244,7 +244,7 @@ Feature extraction is the last part. Like feature construction, extraction creat
 
 The rooms and washrooms example of the [types of ML](../../01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#33-dimensionality-reduction) (section 3.3, Dimensionality reduction) shows the idea: two related columns are replaced by one new column, the flat's area. An extraction algorithm does the same without domain knowledge: it builds the new columns from the data alone.
 
-**PCA** (principal component analysis, G-1469), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [PCA](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
+**PCA** (principal component analysis, G-1469), the best-known extraction technique, rotates the axes so that a few new axes hold most of the information, and keeps those; the [**PCA**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#4-how-pca-finds-the-new-features) (G-1469), section 4, shows the rotation step by step. If we start with 5 columns, PCA creates 5 new ones; we might keep the 2 most useful, so the number of columns goes down and none of the old columns is used directly.
 
 ![PCA turns 5 old columns into 5 new ones; we keep the 2 most useful](images/pca_columns.png){width=85%}
 
@@ -262,15 +262,15 @@ Figure 11 is the short version of the table below.
 
 | Part | Topic | Notes |
 |---|---|---|
-| Transformation | Feature scaling | [standardization](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula), [normalization](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) |
-| Transformation | Encoding categorical data | [ordinal and label encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding), [one-hot encoding](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) |
+| Transformation | Feature scaling | [**standardization**](../ML-023-standardization/ML-023-standardization.md#4-the-standardization-formula) (G-1874), [**normalization**](../ML-024-normalization/ML-024-normalization.md#4-min-max-scaling) (G-1349) |
+| Transformation | Encoding categorical data | [ordinal and label encoding](../ML-025-ordinal-label-encoding/ML-025-ordinal-label-encoding.md#4-ordinal-encoding-versus-label-encoding), [**one-hot encoding**](../ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#22-one-column-per-category) (G-1379) |
 | Transformation | Applying transformations to the right columns | [**column transformer**](../ML-027-column-transformer/ML-027-column-transformer.md#5-the-easy-way-columntransformer) (G-415), [**pipelines**](../ML-028-pipelines/ML-028-pipelines.md#2-what-a-pipeline-is) (G-1499) |
 | Transformation | Mathematical transforms | [log and other function transforms](../ML-029-function-transformer/ML-029-function-transformer.md#5-log-transform), [Box-Cox and Yeo-Johnson](../ML-030-power-transformer/ML-030-power-transformer.md#3-box-cox-transform) |
 | Transformation | Binning, mixed variables, dates and times | [binning](../ML-031-binning-binarization/ML-031-binning-binarization.md#3-discretization), [**mixed variables**](../ML-032-mixed-variables/ML-032-mixed-variables.md#2-what-a-mixed-variable-is) (G-1237), [dates and times](../ML-033-date-and-time/ML-033-date-and-time.md#4-converting-text-to-a-datetime-type) |
 | Transformation | Missing values: removing rows, imputation | [removing rows](../../04-missing-data-and-outliers/ML-034-complete-case-analysis/ML-034-complete-case-analysis.md#4-complete-case-analysis), [mean and median imputation](../../04-missing-data-and-outliers/ML-035-imputing-numerical-data/ML-035-imputing-numerical-data.md#2-mean-and-median-imputation), [KNN imputation](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#3-the-nearest-neighbour-idea), [iterative imputation](../../04-missing-data-and-outliers/ML-039-iterative-imputer-mice/ML-039-iterative-imputer-mice.md#5-step-0-fill-with-the-column-means) |
 | Transformation | Outliers: what they are, detecting and removing them | [what outliers are](../../04-missing-data-and-outliers/ML-040-what-are-outliers/ML-040-what-are-outliers.md#2-what-an-outlier-is), [**z-score method**](../../04-missing-data-and-outliers/ML-041-outliers-zscore/ML-041-outliers-zscore.md#3-the-68-95-997-rule) (G-2139), [IQR method](../../04-missing-data-and-outliers/ML-042-outliers-iqr/ML-042-outliers-iqr.md#3-the-fences), [**percentile method**](../../04-missing-data-and-outliers/ML-043-outliers-percentile/ML-043-outliers-percentile.md#2-the-percentile-rule) (G-1481) |
 | Construction | Feature construction and splitting | [feature construction](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#2-feature-construction) |
-| Extraction | Curse of dimensionality, PCA | [**curse of dimensionality**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520), [PCA](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#3-feature-extraction-a-new-feature) |
+| Extraction | Curse of dimensionality, PCA | [**curse of dimensionality**](../../05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is) (G-520), [**PCA**](../../05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#3-feature-extraction-a-new-feature) (G-1469) |
 | Selection | Forward selection, backward elimination and others | later, after the main algorithms |
 
 The order of the Notes differs a little from the order of this Note. Each Note stands on its own, so it can also be read when the topic comes up in a project.

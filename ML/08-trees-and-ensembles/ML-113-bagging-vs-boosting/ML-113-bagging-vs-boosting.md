@@ -37,7 +37,7 @@ We want low bias and low variance, but a single model usually trades one for the
 Boosting needs base models with **high bias and low variance**:
 
 - a **shallow decision tree** (G-1785), whose depth is very small;
-- above all the [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559), a tree of depth 1 ([decision stumps](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps)).
+- above all the [**decision stump**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559), a tree of depth 1 ([**decision stumps**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#22-decision-stumps) (G-559)).
 
 A stump is not good on the training data, but it hardly changes when the data changes. Adding many stumps in sequence, each fixing the last one's mistakes, lowers the bias step by step while the variance stays fairly low: on noisy data it creeps up only with very many stumps (average test accuracy 0.846 with 50 stumps, 0.837 with 1,500, in [the experiment on the number of stages](../ML-112-adaboost-hyperparameters/ML-112-adaboost-hyperparameters.md#3-n_estimators-from-underfitting-to-overfitting)). ESL §15.2 states the same contrast: bagged trees improve only through lower variance, while boosting grows its trees adaptively to remove bias.
 

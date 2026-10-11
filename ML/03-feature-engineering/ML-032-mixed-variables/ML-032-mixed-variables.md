@@ -49,7 +49,7 @@ Indian Railways coach labels work the same way: in `S5` or `B2`, the letter give
 
 Figure 2 pulls the two parts of each value apart.
 
-Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number. Breaking one feature into one new feature per fact it holds is called **[feature splitting](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature)** (G-769, taught in full later).
+Treating `C85` as one category gives far too many categories, since almost every cabin is different. The fix is to split each value into two new features: a categorical feature for the letter and a numerical feature for the number. Breaking one feature into one new feature per fact it holds is called **[**feature splitting**](../../05-dimensionality/ML-044-feature-construction-splitting/ML-044-feature-construction-splitting.md#52-splitting-a-feature) (G-769)** (G-769, taught in full later).
 
 ### 2.2 Type 2: number in some rows, category in others
 

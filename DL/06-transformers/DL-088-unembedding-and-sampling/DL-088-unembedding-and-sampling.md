@@ -29,7 +29,7 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
 
 ## 2. Prerequisites
 
-- [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding): the decoder-only model, the residual stream, the final LayerNorm and the tied unembedding.
+- [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding) (G-855): the decoder-only model, the residual stream, the final LayerNorm and the tied unembedding.
 - [Transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8: the output layer (linear and softmax) and the word "logits".
 - [**Softmax regression**](../../../ML/07-classification/ML-078-softmax-regression/ML-078-softmax-regression.md#22-the-formula) (G-1833): the softmax function.
 - [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#5-the-geometric-meaning): a dot product is large when two vectors point the same way.
@@ -51,7 +51,7 @@ Figure 1 shows the temperature on GPT-2 small's real logits after "Once upon a t
    $$z = W_E\thinspace h$$
 3. **Example:** after "Steve Jobs was the founder of", the largest logits are " Apple" $-75.4$, " Microsoft" $-77.4$, " the" $-78.5$, " IBM" $-78.9$ (Notebook).
 
-GPT-2 has no separate output matrix: the same $W_E$ that turned tokens into vectors at the input turns the last vector back into token scores (the [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding), §7.1). Sanderson (2024, Ch 5) calls the output matrix the **unembedding matrix** (G-2039) $W_U$; in GPT-2, $W_U$ is $W_E$ itself. The raw outputs $z_k$ are the **logits** (Sanderson 2024, Ch 5; the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8).
+GPT-2 has no separate output matrix: the same $W_E$ that turned tokens into vectors at the input turns the last vector back into token scores (the [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#71-the-tied-unembedding) (G-855), §7.1). Sanderson (2024, Ch 5) calls the output matrix the **unembedding matrix** (G-2039) $W_U$; in GPT-2, $W_U$ is $W_E$ itself. The raw outputs $z_k$ are the **logits** (Sanderson 2024, Ch 5; the [transformer decoder](../DL-084-transformer-decoder/DL-084-transformer-decoder.md#8-the-output-layer-linear-and-softmax), §8).
 
 ### 3.2 Logits measure alignment, once the shared direction is removed
 
@@ -85,7 +85,7 @@ Without removing the mean row, the raw cosine misleads: its correlation with the
 
 > **Key point:** In generation, only the last position's logits are used. The last vector must therefore carry everything in the text that matters for the next token.
 
-One pass gives logits at every position, and training uses all of them (the [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#72-every-position-predicts), §7.2). When generating, though, the model needs only what comes after the last token, so it unembeds only the last vector (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word), §6). Sanderson (2024, Ch 6) gives a vivid case: a long mystery novel that ends "… therefore the murderer was". The last vector, the one for "was", must by then hold whatever in the whole story points to the murderer. Attention is how earlier tokens get their information into it (Figure 3).
+One pass gives logits at every position, and training uses all of them (the [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#72-every-position-predicts) (G-855), §7.2). When generating, though, the model needs only what comes after the last token, so it unembeds only the last vector (the [transformer inference](../DL-085-transformer-inference/DL-085-transformer-inference.md#6-later-steps-the-input-grows-by-one-word), §6). Sanderson (2024, Ch 6) gives a vivid case: a long mystery novel that ends "… therefore the murderer was". The last vector, the one for "was", must by then hold whatever in the whole story points to the murderer. Attention is how earlier tokens get their information into it (Figure 3).
 
 ![One pass of GPT-2 small gives a final vector at every position. Generation multiplies only the last one, $h_6$, by $W_E^{\mathsf T}$; the other five are computed but not used for the next token](images/last_vector.png){width=95%}
 
@@ -181,7 +181,7 @@ Greedy decoding on "Once upon a time there was a" gives (Notebook):
 
 > "… a great deal of confusion about the meaning of the word "fool." The word "fool" was used in the Old Testament to mean a person who is not a good person, who is not"
 
-The same happens in the published greedy example of the Hugging Face guide (von Platen 2020), which our model reproduces word for word (the [GPT](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#74-generation-predict-pick-append-repeat), §7.4): "I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". Holtzman et al. (2020, abstract) report the same for maximisation-based decoding in general: the text is "bland, incoherent, or gets stuck in repetitive loops". They also show why loops persist: "The probability of a repeated phrase increases with each repetition, creating a positive feedback loop" (Holtzman et al. 2020, Figure 4).
+The same happens in the published greedy example of the Hugging Face guide (von Platen 2020), which our model reproduces word for word (the [**GPT**](../DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#74-generation-predict-pick-append-repeat) (G-855), §7.4): "I'm not sure if I'll ever be able to walk with my dog. I'm not sure if I'll ever be able to walk". Holtzman et al. (2020, abstract) report the same for maximisation-based decoding in general: the text is "bland, incoherent, or gets stuck in repetitive loops". They also show why loops persist: "The probability of a repeated phrase increases with each repetition, creating a positive feedback loop" (Holtzman et al. 2020, Figure 4).
 
 ### 6.2 Sampling at different temperatures
 

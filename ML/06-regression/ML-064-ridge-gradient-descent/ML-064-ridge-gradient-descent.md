@@ -345,7 +345,7 @@ Think of pouring water into an ice-cube tray: stop pouring early and every cube 
 
 > **Key point:** On data where linear regression overfits badly, stopping early helps about as much as the ridge penalty.
 
-We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in [early stopping](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
+We give the model 65 features (the 10 diabetes measurements plus their squares and pairwise products) and train on 200 patients, as in [**early stopping**](../ML-057-batch-gradient-descent/ML-057-batch-gradient-descent.md#5-early-stopping) (G-656). With so many features for so few observations, plain least squares has high variance, the case where shrinkage helps (ISL §6.2.1). Averaged over 50 random splits, test R² is:
 
 | Model | Test R² |
 |---|---|

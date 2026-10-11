@@ -29,7 +29,7 @@ In more detail, the two differ in two things:
 
 ## 2. Prerequisites
 
-- [Attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step): context vectors, alignment scores, softmax over the input positions.
+- [**Attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#5-the-context-vector-at-each-step) (G-226): context vectors, alignment scores, softmax over the input positions.
 - [Encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture): encoder, decoder, teacher forcing.
 - [Dot product and cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#53-the-angle-between-two-vectors): the dot product as a measure of similarity.
 - [**Forward propagation**](../../01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#4-layer-1-as-one-matrix-product) (G-797): a dense layer as a matrix product.

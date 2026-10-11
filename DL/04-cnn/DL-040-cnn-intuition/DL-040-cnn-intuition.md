@@ -35,7 +35,7 @@ This Note covers:
 
 - [Combining perceptrons into an MLP](../../01-basics/DL-009-mlp-intuition/DL-009-mlp-intuition.md#3-combining-two-perceptrons): layers of nodes, each combining the outputs of the previous layer.
 - [The network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network): handwritten digits classified by an ANN (an ordinary network of Dense layers) with a Flatten layer.
-- [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting): a model that fits the training data too closely and fails on new data.
+- [**Overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): a model that fits the training data too closely and fails on new data.
 
 ## 3. What makes a network a CNN
 
@@ -46,7 +46,7 @@ A CNN is a neural network whose [**architecture**](../../01-basics/DL-002-what-i
 A CNN is built from three kinds of layers:
 
 1. **Convolution layers:** they slide small filters (small grids of numbers) over the image to find features. Taught in [the convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation).
-2. [**Pooling layers**](../DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520): they shrink the result. Taught in [max pooling](../DL-044-pooling/DL-044-pooling.md#4-max-pooling).
+2. [**Pooling layers**](../DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520): they shrink the result. Taught in [**max pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182).
 3. **Fully connected layers:** ordinary Dense layers, in which every node is connected to every node of the next layer, as in [the MNIST network](../../01-basics/DL-012-mnist-ann/DL-012-mnist-ann.md#4-the-network). They are often called **FC layers** (**fully connected (Dense) layers**, G-583).
 
 The design of CNNs was inspired by the visual cortex, the part of the brain we see with (see [from the visual cortex to CNNs](../DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#6-from-the-visual-cortex-to-cnns)).
@@ -100,7 +100,7 @@ That is 320 weights and biases, because each filter is reused at every position 
 
 > **Key point:** With so many connections, the network can memorise tiny details of the training images instead of learning patterns that hold on new ones.
 
-Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (**overfitting**, G-1429; see [overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
+Connecting every pixel to every node gives the network an enormous number of weights to fit, so it tries to capture every minute pattern of the training images. The network then does well on the training data but worse on test data: it **overfits** (**overfitting**, G-1429; see [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). The CS231n notes make the same point: full connectivity on images "is wasteful and the huge number of parameters would quickly lead to overfitting".
 
 ### 4.4 Problem 3: the spatial arrangement is lost
 
@@ -198,7 +198,7 @@ $$0.98 + (-0.50) = 0.48$$
 
 The first cell of the feature map is $0.48$; the figure shows $0.49$ because the program uses the unrounded weights. Only the two pixels with ink contribute; every blank pixel gives a product of 0.
 
-Nobody chose the filter's values. Like the dense weights, they started random and were fitted to the two letters (the script `experiments/toy_cnn.py`). In a real CNN they are learned by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247); [filters are learned, not designed](../DL-042-convolution-operation/DL-042-convolution-operation.md#8-filters-are-learned-not-designed) shows this on MNIST. The same four steps, with more filters and more layers, make up every CNN in the Notes that follow: the [convolution operation](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding), [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521) and [**LeNet-5**](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) (G-1080) each take one part of Figure 8 and study it closely.
+Nobody chose the filter's values. Like the dense weights, they started random and were fitted to the two letters (the script `experiments/toy_cnn.py`). In a real CNN they are learned by [**backpropagation**](../../01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247); [filters are learned, not designed](../DL-042-convolution-operation/DL-042-convolution-operation.md#8-filters-are-learned-not-designed) shows this on MNIST. The same four steps, with more filters and more layers, make up every CNN in the Notes that follow: the [**convolution operation**](../DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481), [padding and strides](../DL-043-padding-and-strides/DL-043-padding-and-strides.md#4-zero-padding), [**pooling**](../DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1521) and [**LeNet-5**](../DL-045-lenet-5/DL-045-lenet-5.md#4-lenet-5) (G-1080) each take one part of Figure 8 and study it closely.
 
 ### 6.2 What the CNN gained
 
@@ -281,11 +281,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Primitive feature (G-1561) | A basic feature such as an edge, found by the first layers. |
 | Spatial arrangement (G-1851) | Where each pixel sits relative to the others; an ANN that flattens the image loses it, while a CNN's filters use it by looking at neighbouring pixels. |
 | [Time series](../../../ML/01-foundations/ML-010-tensors/ML-010-tensors.md#63-3d-time-series) (G-1975) | Data recorded at regular time intervals. |
+| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Architecture (of a network)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#54-architectures-and-transfer-learning) (G-209) | How a network's nodes are connected: how many, of what kind, and which connections. |
 | [Artificial neural network (ANN)](../../../DL/01-basics/DL-002-what-is-deep-learning/DL-002-what-is-deep-learning.md#22-the-parts-of-a-neural-network) (G-216) | The simplest neural network: neurons in layers, each layer connected to the next by weights. |
 | [Convolution operation](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#6-the-convolution-operation) (G-481) | Sliding a small filter over an input and, at each position, multiplying cell by cell and adding up, so the output (a feature map) is large where the input contains the filter's pattern, such as an edge. |
 | [Matrix product](../../../MA/05-linear-algebra/MA-054-matrix-multiplication-as-composition/MA-054-matrix-multiplication-as-composition.md#3-why-the-product-is-written-right-to-left) (G-1179) | The single matrix $BA$ that does the same as applying $A$ and then $B$ (their composition), so a chain of transformations can be done as one multiplication. |
 | [Pooling layer](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1520) | A CNN layer that shrinks the feature map from a convolution layer by replacing each small window with one number, such as its maximum; this cuts the computation and makes the features less sensitive to small shifts. |
+| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Dense (fully connected) layer](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#41-the-first-architecture) (G-583) | A layer whose every node receives the output of every node in the layer before. |
 | [Receptive field](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1642) | The area of the image that one cell (or one unit of a network) responds to. |
 | [Simple cell](../../../DL/04-cnn/DL-041-cnn-vs-visual-cortex/DL-041-cnn-vs-visual-cortex.md#51-simple-cells) (G-1807) | A nerve cell in the brain's first visual area (V1) that responds to an edge of one orientation at one place in a small patch of the view (its receptive field). |
@@ -294,14 +296,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Flattening](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#8-gradients-of-matrices) (G-789) | Reshaping a matrix into one long vector so that derivatives stay matrices. |
 | [Forward propagation](../../../DL/01-basics/DL-010-forward-propagation/DL-010-forward-propagation.md#1-overview) (G-797) | Passing one row of inputs through the network, layer by layer, to get the prediction. |
 | [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#1-overview) (G-247) | The algorithm that computes the gradient of the loss with respect to every weight and bias by applying the chain rule backward from the output; gradient descent then uses these gradients to train the network. |
-| [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429) | Learning the training data too closely, noise included; fails on new data. |
 | [Edge](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#5-edges-are-changes-in-intensity) (G-661) | In an image, a place where the intensity changes sharply, such as where a dark region meets a light one. Finding edges is the first job of a CNN's filters. |
 | [Filter (kernel)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#41-a-moving-average) (G-777) | A small grid of weights slid over the image; at each position it multiplies and adds, so it responds strongly where its pattern (such as an edge) appears and produces a feature map. Its depth equals the input's number of channels. |
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | [Edge detector (filter)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-659) | A filter whose feature map is large along edges of one direction. |
 | [Feature map (CNN)](../../../DL/04-cnn/DL-042-convolution-operation/DL-042-convolution-operation.md#61-filter-and-feature-map) (G-766) | The grid of numbers a filter produces; large where the filter's pattern is present. |
 | [ReLU](../../../DL/02-training/DL-027-activation-functions/DL-027-activation-functions.md#8-relu) (G-1668) | Rectified linear unit, the activation $\max(0, z)$: it passes a positive input unchanged and turns a negative one into 0; the usual default activation for hidden layers. |
-| [Max pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#4-max-pooling) (G-1182) | Pooling that keeps only the largest value in each window (usually 2 × 2), which shrinks the feature map while keeping the strongest response in each region. |
 | [Pooling](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#41-where-pooling-sits) (G-1521) | Replacing each small window of a feature map with one summary number, to shrink the map. |
 | [LeNet-5](../../../DL/04-cnn/DL-045-lenet-5/DL-045-lenet-5.md#41-background) (G-1080) | An early network for reading handwritten digits, built by LeCun et al. in 1998 (a CNN): two blocks of convolution then pooling (conv-pool blocks), then layers of 120, 84 and 10 nodes. |
 | [Translation invariance](../../../DL/04-cnn/DL-044-pooling/DL-044-pooling.md#32-features-tied-to-their-location) (G-2011) | The output stays (almost) the same when the input is shifted slightly. |

@@ -72,7 +72,7 @@ The result: **96.8% accuracy**, but each of the 8,400 test images needs 33,600 d
 
 PCA in scikit-learn follows the same fit and transform pattern as scalers and encoders:
 
-1. **Fit** `PCA` on the training set: it centres the pixels, computes the covariance matrix and its eigenvectors (see [the covariance matrix](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) and [eigenvectors](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues)).
+1. **Fit** `PCA` on the training set: it centres the pixels, computes the covariance matrix and its eigenvectors (see [the covariance matrix](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) and [**eigenvectors**](../ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#4-eigenvectors-and-eigenvalues) (G-666)).
 2. **Transform** both sets: project every image onto the kept components.
 3. **Train KNN** on the transformed training set and test it on the transformed test set.
 
@@ -318,6 +318,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [MNIST](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#81-pixels-as-columns-the-mnist-dataset) (G-1249) | A dataset of about 70,000 handwritten-digit images of 28 × 28 pixels. |
 | [Classification](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification) (G-395) | Predicting which of a fixed set of categories (classes) a row belongs to, learned from examples whose answers are known (supervised learning with a categorical output). |
 | [K-nearest neighbours (KNN)](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts) (G-998) | Predicting from the answers of the k closest stored points. |
-| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [Eigenvector](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-666) | A non-zero vector that a matrix only stretches or shrinks, without turning it off its own line: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvectors of the covariance matrix are the directions of the principal components. |
+| [Eigenvalue](../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#42-the-vectors-that-do-not-turn) (G-665) | The number by which a matrix stretches or shrinks one of its eigenvectors: $A\mathbf v = \lambda\mathbf v$. In PCA, the eigenvalues of the covariance matrix are the variances along the principal components. |
 | [LDA](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#9-feature-extraction) (G-1059) | Linear discriminant analysis: a way to build new columns that uses the class labels (a supervised method), along the directions that best separate the classes. |

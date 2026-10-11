@@ -26,7 +26,7 @@ Gradient boosting for regression ([a mean and trees on the residuals](../ML-114-
 
 > **Key point:** Boosting combines many high-bias models into one low-bias model; for classification the loss becomes the log loss, and the first model and the leaf values change with it.
 
-Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are **weak learners** (G-2104; [weak learners](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([boosting lowers the bias](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models)).
+Gradient boosting adds small models in stages, each learning from the mistakes of the ones before. The small models are **weak learners** (G-2104; [**weak learners**](../ML-109-adaboost-intuition/ML-109-adaboost-intuition.md#21-weak-learners) (G-2104)), models that are only a little better than guessing: high bias, low variance. Adding many of them lowers the bias step by step, which is why boosting fixes underfitting ([boosting lowers the bias](../ML-113-bagging-vs-boosting/ML-113-bagging-vs-boosting.md#21-boosting-high-bias-low-variance-models)).
 
 For classification, the loss is the **log loss** (G-303; [the log loss](../../07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function)) instead of the squared error. Three things change:
 

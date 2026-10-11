@@ -239,7 +239,7 @@ Five optimizers improve gradient descent along the two ideas of Figure 1:
 | [**RMSProp**](../DL-037-rmsprop/DL-037-rmsprop.md#4-the-fix-an-average-that-forgets) (G-1697) | AdaGrad that forgets old gradients | AdaGrad's learning rate shrinking to nothing |
 | [**Adam**](../DL-038-adam/DL-038-adam.md#4-the-update-rule) (G-169) | momentum and RMSProp together | both |
 
-Momentum, RMSProp and Adam all keep an [exponentially weighted moving average](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma) (EWMA): a running average that gives recent values more weight. We study the EWMA first.
+Momentum, RMSProp and Adam all keep an [**exponentially weighted moving average**](../DL-033-exponentially-weighted-moving-average/DL-033-exponentially-weighted-moving-average.md#3-two-rules-behind-the-ewma) (G-735) (EWMA): a running average that gives recent values more weight. We study the EWMA first.
 
 ![The EWMA is the shared tool: Momentum averages the gradients, RMSProp the squared gradients, and Adam keeps both averages](images/ewma_users.png){width=80%}
 

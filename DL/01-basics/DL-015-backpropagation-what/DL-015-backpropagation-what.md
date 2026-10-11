@@ -34,7 +34,7 @@ Figure 1 runs the whole algorithm once, for one student. The rest of this Note b
 
 ## 2. Prerequisites
 
-- [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$ (each parameter $w$ moves against its derivative of the loss $L$, by the learning rate $\eta$).
+- [**Gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862): the update $w \leftarrow w - \eta\thinspace\partial L/\partial w$ (each parameter $w$ moves against its derivative of the loss $L$, by the learning rate $\eta$).
 - [**Forward propagation**](../DL-010-forward-propagation/DL-010-forward-propagation.md#3-what-one-node-computes) (G-797): how a network makes a prediction.
 - [Naming the weights, biases and outputs](../DL-008-mlp-notation/DL-008-mlp-notation.md#5-naming-weights): $W_{ij}^{k}$, $b_{kj}$, $O_{kj}$ (section 3 shows each with a value).
 - [The chain rule](../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule).
@@ -124,7 +124,7 @@ The network says 0.32 LPA where the data says 4. The loss is large because the w
 
 > **Key point:** Each of the 9 parameters moves by the learning rate times the derivative of the loss with respect to it.
 
-Every parameter is updated with the [gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) rule, where $\eta$ is the learning rate (the step size) and $\partial L/\partial W$ is the derivative of the loss with respect to the weight $W$:
+Every parameter is updated with the [**gradient descent**](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea) (G-862) rule, where $\eta$ is the learning rate (the step size) and $\partial L/\partial W$ is the derivative of the loss with respect to the weight $W$:
 
 $$W_{\text{new}} = W_{\text{old}} - \eta \frac{\partial L}{\partial W_{\text{old}}}$$
 

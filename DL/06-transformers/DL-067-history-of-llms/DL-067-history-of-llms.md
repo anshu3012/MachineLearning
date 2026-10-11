@@ -28,7 +28,7 @@ The five stages:
 The last block of the deep learning Notes works with **sequence-to-sequence** models, the family behind machine translation, chatbots and ChatGPT. This Note is the map for that block. It tells the story stage by stage: what each stage invented, who invented it, and what problem it left for the next stage. In Figure 1, watch the stages appear one at a time: each red line is the problem a stage left, and the next box is the idea that fixed it. The architectures themselves each get their own Notes later:
 
 - the [encoder–decoder](../DL-068-encoder-decoder/DL-068-encoder-decoder.md#4-the-architecture);
-- [attention](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing);
+- [**attention**](../DL-069-attention-mechanism/DL-069-attention-mechanism.md#4-the-idea-look-back-at-the-input-while-writing) (G-226);
 - [self-attention](../DL-073-what-is-self-attention/DL-073-what-is-self-attention.md#6-self-attention-static-in-contextual-out);
 - the [transformer](../DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is).
 

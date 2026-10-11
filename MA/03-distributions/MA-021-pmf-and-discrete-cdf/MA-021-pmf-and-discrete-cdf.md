@@ -23,7 +23,7 @@ tags: [subject/statistics, area/descriptive, step/foundations, step/understand, 
 
 Figure 1 shows the whole Note in one animation. The blue bars are the PMF of the sum of two dice: the probability of each exact sum. Stacking every bar up to $x$ gives the CDF: the probability of a sum of $x$ or less.
 
-[**Random variables**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620), distributions and the PMF/PDF/CDF family are introduced in [random variables](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) and [PMF, PDF and CDF](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf). Here we build the two functions for discrete variables, in this order:
+[**Random variables**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#21-algebra-variables-and-random-variables) (G-1620), distributions and the PMF/PDF/CDF family are introduced in [**random variables**](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#2-random-variables) (G-1620) and [PMF, PDF and CDF](../MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#51-pmf-pdf-and-cdf). Here we build the two functions for discrete variables, in this order:
 
 - PMF from a list of outcomes, on three coin flips (section 2);
 - PMF from a formula (sections 3, 4 and 6);

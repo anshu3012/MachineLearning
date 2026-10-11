@@ -36,7 +36,7 @@ Then we test the result on a larger dataset, MNIST (section 10).
 - [The hyperparameters of a network](../../02-training/DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#3-tuning-the-hyperparameters).
 - [Why grid and random search are not enough](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#2-why-grid-search-and-random-search-are-not-enough) and [Bayesian search](../../../ML/09-clustering-and-more/ML-128-optuna/ML-128-optuna.md#3-bayesian-search).
 - [Building](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras), [compiling and fitting](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#5-compiling-and-training) a Keras model, and the [**validation set**](../../01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067; rows held out from training and used to compare models).
-- [Dropout](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) and [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
+- [**Dropout**](../../02-training/DL-024-dropout/DL-024-dropout.md#4-how-dropout-works) (G-639) and [activation functions](../../02-training/DL-027-activation-functions/DL-027-activation-functions.md#3-what-an-activation-function-is).
 
 ## 3. The problem: too many choices
 
@@ -480,8 +480,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Conditional hyperparameter (G-442) | A hyperparameter that exists only for some values of another, such as `units_3`. |
 | `hp.Float` (G-91) | Tells the tuner that a setting to tune (a hyperparameter) is a decimal number in a range; `sampling="log"` spreads its values evenly over powers of ten. |
 | [Validation set](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#73-tracking-accuracy-and-a-validation-set) (G-2067) | Data held back from training to check and tune a model before the final test. |
-| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Dropout](../../../DL/02-training/DL-024-dropout/DL-024-dropout.md#41-switching-nodes-off) (G-639) | Switching off a random set of input and hidden nodes at every training step, to reduce overfitting. |
+| [Hyperparameter](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-910) | A setting of an algorithm chosen before training, such as a tree's `max_depth`. |
 | [Hyperparameter tuning](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#9-hyperparameter-tuning-with-a-pipeline) (G-909) | Trying several hyperparameter values and keeping the best. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

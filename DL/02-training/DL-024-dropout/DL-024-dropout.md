@@ -32,7 +32,7 @@ Code for regression and classification is in [dropout for regression](../DL-025-
 
 ## 2. Prerequisites
 
-- [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting): a model that fits the training data's noise and fails on new data.
+- [**Overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429): a model that fits the training data's noise and fails on new data.
 - [Column sampling and voting](../../../ML/08-trees-and-ensembles/ML-102-random-forest-intro/ML-102-random-forest-intro.md#42-using-the-forest): how a random forest builds many different trees and combines them.
 - [Fixing overfitting](../DL-021-improving-a-neural-network/DL-021-improving-a-neural-network.md#44-overfitting): where dropout sits among the fixes for a neural network.
 
@@ -40,7 +40,7 @@ Code for regression and classification is in [dropout for regression](../DL-025-
 
 > **Key point:** Many layers of many fully connected nodes can capture every small pattern of the training data, noise included. Five fixes: more data, a simpler network, early stopping, regularisation, dropout.
 
-Overfitting is learning the training data too closely, noise included, so that the model does well on the training data and poorly on new data (see [overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting)). In a classification problem, an overfitted model has a wiggly **decision boundary** (G-555; the line or curve separating the classes) that wraps around every training point; a good model has a smoother decision boundary that captures the real pattern.
+Overfitting is learning the training data too closely, noise included, so that the model does well on the training data and poorly on new data (see [**overfitting**](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting) (G-1429)). In a classification problem, an overfitted model has a wiggly **decision boundary** (G-555; the line or curve separating the classes) that wraps around every training point; a good model has a smoother decision boundary that captures the real pattern.
 
 Neural networks are prone to overfitting, for three reasons:
 

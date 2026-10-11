@@ -18,7 +18,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/features, concept/meani
 
 > **Key point:** In a trained [**word embedding**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#61-sparse-and-dense-representations) (G-2127), meaning lives in **directions** (G-613): the arrow from "man" to "woman" points roughly the same way as the arrow from "uncle" to "aunt", so adding it to "uncle" lands next to "aunt". A [**dot product**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#3-computing-the-dot-product) (G-634) with a direction measures how much of that meaning a word carries, in GloVe and in GPT-2's first layer alike.
 
-A [word embedding](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) gives each word a dense vector (a short list of numbers, for example 100), learned so that words used in similar ways get similar vectors. The [first look at embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) used *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
+A [**word embedding**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127) gives each word a dense vector (a short list of numbers, for example 100), learned so that words used in similar ways get similar vectors. The [first look at embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#73-what-the-embedding-learned) used *distances*: similar words sit close together. This Note looks at *directions*: what the arrow between two word vectors means, and what we can do with it.
 
 We use two real embedding tables:
 
@@ -33,8 +33,8 @@ Figure 1 shows the central idea on real GloVe vectors. We cannot draw 100 dimens
 
 ## 2. Prerequisites
 
-- [Word embeddings](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings): dense, learned vectors; the embedding layer as a lookup table.
-- [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity): the dot product, its sign, and cosine similarity as the angle between two vectors.
+- [**Word embeddings**](../../05-rnn/DL-057-rnn-sentiment-analysis/DL-057-rnn-sentiment-analysis.md#6-word-embeddings) (G-2127): dense, learned vectors; the embedding layer as a lookup table.
+- [**Cosine similarity**](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity) (G-491): the dot product, its sign, and cosine similarity as the angle between two vectors.
 - [The dot product as a projection](../../../MA/05-linear-algebra/MA-055-dot-product-and-duality/MA-055-dot-product-and-duality.md#2-the-dot-product-as-a-projection): the dot product with a unit vector is the length of the projection onto it.
 - [Three views of a vector](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#22-three-views-arrow-list-and-point): a vector as a point or an arrow in $n$ dimensions; subtracting two vectors gives the arrow from one to the other.
 
