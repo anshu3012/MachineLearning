@@ -224,7 +224,7 @@ k (`n_neighbors`, G-992) is a [**hyperparameter**](../../03-feature-engineering/
 
 Why the square root: theory says k should grow as the training set grows, so each vote averages more **neighbours** (G-1306), but stay a tiny fraction of n, so the neighbours stay close to the new point. With both, KNN's error approaches the best error possible as n grows (Anava and Levy 2016, §1). The square root does both:
 
-| n | k = √n | k as a share of n |
+| n | $k = \sqrt{n}$ | k as a share of n |
 |---|---|---|
 | 400 | 20 | 5% |
 | 10,000 | 100 | 1% |
@@ -466,7 +466,7 @@ KNN cannot answer such a question. KNN labels a query point by its **neighbours*
 **Other references**
 
 - **ISL:** James, G., Witten, D., Hastie, T. and Tibshirani, R. *An Introduction to Statistical Learning*, 2nd edition. Springer, 2021. Section 2.2.3, pp. 39–42 (KNN and the choice of K); Section 3.5, pp. 108–109 (curse of dimensionality, interpretability).
-- **Anava and Levy 2016:** Anava, O. and Levy, K. Y. "k*-Nearest Neighbors: From Global to Local". *NeurIPS* 2016, arXiv:1701.07266. §1 (k-NN is consistent when k grows with n while k/n shrinks to 0; k = √n is a widely mentioned rule of thumb that often gives poor results on finite samples, so k is usually chosen by cross-validation).
+- **Anava and Levy 2016:** Anava, O. and Levy, K. Y. "k*-Nearest Neighbors: From Global to Local". *NeurIPS* 2016, arXiv:1701.07266. §1 (k-NN is consistent when k grows with n while k/n shrinks to 0; $k = \sqrt{n}$ is a widely mentioned rule of thumb that often gives poor results on finite samples, so k is usually chosen by cross-validation).
 - **scikit-learn docs:** `sklearn.neighbors.KNeighborsClassifier` (metric, p); user guide Section 1.6.4, "Nearest Neighbor Algorithms", scikit-learn 1.9.
 
 ## 10. Key terms
