@@ -8,8 +8,8 @@ the repo's Notes are not touched.
 
 Every link to another Note opens a box too, so a tap never leaves the page by surprise: a link followed by a
 code opens that code's box; any other gets <span class="gloss-def" data-link> right after it, with the glossary
-meaning when a term matches the link (its section is the term's Home, or its text names a term homed in that
-Note) and a link to the section the original link opens. Home and chapter pages (index.md) keep plain links.
+meaning when the link's words name a term taught in that Note (or contain the name of a term taught in that
+section), and a link to the section the original link opens. Home and chapter pages (index.md) keep plain links.
 Usage: python3 site/glossary_terms.py <repo> <quartz>/content
 """
 import glob
@@ -70,11 +70,13 @@ def norm(text):
 
 def link_box(text, target, name, anchor, ctx):
     entries, info = ctx["entries"], ctx["notes"]
-    homed = ctx["homes"].get((name, anchor or ""), [])
     words = norm(text)
-    named = [c for c in (homed if len(homed) > 1 else ctx["by_note"].get(name, []))
+    # the link's words name a term taught in that Note, or contain the name of a term taught in that section
+    named = [c for c in ctx["by_note"].get(name, [])
              if words in {norm(entries[c][0]), norm(entries[c][0]) + "s", norm(entries[c][0]) + "es"}]
-    code = homed[0] if len(homed) == 1 else (named[0] if named else None)
+    within = [c for c in ctx["homes"].get((name, anchor or ""), [])
+              if norm(entries[c][0]) and re.search(r"\b" + re.escape(norm(entries[c][0])), words)]
+    code = (named or within or [None])[0]
     title, heads = info.get(name, (name, {}))
     where = f"{title}, §{heads[anchor]}" if anchor in heads else title
     lead = f"**{entries[code][0]}:** {entries[code][1]} " if code else ""

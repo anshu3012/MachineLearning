@@ -2,7 +2,9 @@
 // code as <button class="gloss" data-g> and its hidden <span class="gloss-def" data-g> box after the bracket;
 // this script toggles the box. A link to another Note opens a box as well: the box of the code right after it,
 // or the <span class="gloss-def" data-link> box the build put after it, which links to the section. Ctrl/Cmd-click
-// still follows the link. Renders nothing itself: it only carries the script and the style.
+// still follows the link. A bold term with a code but no link (a term taught in this Note) opens its code's box
+// too and looks like a link, so every term looks and acts the same wherever it is taught.
+// Renders nothing itself: it only carries the script and the style.
 // build-content.sh copies this file to quartz/components/; quartz.layout.ts imports it.
 import { QuartzComponent, QuartzComponentConstructor } from "./types"
 
@@ -38,8 +40,25 @@ document.addEventListener("nav", () => {
       else box.hidden = !box.hidden
       a.setAttribute("aria-expanded", String(btn ? btn.getAttribute("aria-expanded") === "true" : !box.hidden))
     }
+    a.classList.add("opens-box")
     a.addEventListener("click", open)
     window.addCleanup?.(() => a.removeEventListener("click", open))
+  }
+  for (const term of document.querySelectorAll("article strong")) {
+    const next = term.nextElementSibling
+    const gap = term.nextSibling
+    if (term.closest("a, .gloss-def") || !next || !next.matches("button.gloss") || !gap || gap.nodeType !== 3 || gap.textContent.trim() !== "(") continue
+    term.classList.add("gloss-term")
+    term.setAttribute("role", "button")
+    term.setAttribute("tabindex", "0")
+    const open = (e) => {
+      if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return
+      e.preventDefault()
+      next.click()
+    }
+    term.addEventListener("click", open)
+    term.addEventListener("keydown", open)
+    window.addCleanup?.(() => { term.removeEventListener("click", open); term.removeEventListener("keydown", open) })
   }
 })
 `
@@ -69,6 +88,16 @@ button.gloss:focus-visible { outline: 2px solid var(--secondary); outline-offset
   line-height: 1.5;
 }
 .gloss-def[hidden] { display: none; }
+.page article strong.gloss-term {  /* beats Quartz's ".page article p > strong" colour */
+  color: var(--secondary);
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+strong.gloss-term:focus-visible { outline: 2px solid var(--secondary); outline-offset: 2px; }
+a.opens-box .external-icon { display: none; }
 `
 
 export default (() => GlossaryTerms) satisfies QuartzComponentConstructor
