@@ -84,7 +84,7 @@ What if the robot keeps moving and never reads its sensor? Figure 5 starts it su
 
 ![After 1 move the highest cell holds 0.80, after 3 moves 0.56, after 10 moves 0.29, after 80 moves 0.11: the belief flattens towards 0.1 in every cell](images/lose_info.gif)
 
-Each move spreads every bump over three cells, so the peak shrinks:
+Each move spreads the belief of every cell over three cells, so the highest cell's belief shrinks:
 
 | Moves without a reading | 0 | 1 | 3 | 10 | 80 |
 |---|---|---|---|---|---|
@@ -135,7 +135,7 @@ The first line is the prediction step with the sum over the old cells $i$; the s
 > bel = sense(move(bel), True)          # 0.3095 at cell 3
 > ```
 
-The notebook `RO-015-grid-filters.ipynb` runs every example in this Note.
+The notebook `RO-015-grid-filters.ipynb` runs every example in this Note. Ten cells of 1 m make the sum exact on the hallway, but they place the robot only to the nearest metre.
 
 ## 3. Cutting a real space into cells
 
@@ -164,7 +164,7 @@ Most of those millions of cells hold a belief close to zero: the robot is not in
 
 ![Left: an 8 m by 8 m floor cut into 64 fixed 1 m cells, with the belief concentrated in one spot. Right: the same floor cut adaptively into 19 cells: 4 m cells where the belief is near zero, down to 0.5 m cells at the peak](images/decomposition.png)
 
-Figure 7 compares the two on an 8 m by 8 m floor. The fixed grid uses 64 cells of 1 m. The adaptive one uses 19 cells, yet its smallest cells (0.5 m) are finer than the fixed grid's where the belief peaks. The price is bookkeeping: cells must be split and merged as the belief moves.
+Figure 7 compares the two on an 8 m by 8 m floor. The fixed grid uses 64 cells of 1 m. The adaptive one uses 19 cells, yet its smallest cells (0.5 m) are finer than the fixed grid's where the belief peaks. The price is bookkeeping: cells must be split and merged as the belief moves. The smallest grid of all has just 2 cells.
 
 ## 4. The binary Bayes filter
 
@@ -266,6 +266,8 @@ Two reasons:
 
 1. **Adding is cheaper than multiplying and rescaling.** A map can hold millions of cells, each updated at every scan; one addition per cell is the cheapest update possible, and every cell can be updated at the same time (Freiburg mapping slides: the log odds update "only requires to compute sums").
 2. **Probabilities near 0 or 1 round off.** Run 40 readings of "open" in ordinary probabilities. The odds become 3 to the power 40, about 12 billion billion, and the computer stores $p(\text{open})$ as exactly 1.0. After that, a reading of "closed" changes nothing, because 1.0 times anything, divided by itself, is still 1.0. In log odds the same run reaches 43.94, and a "closed" reading moves it to 43.25, as it should. The notebook shows both.
+
+Every filter so far answers where the robot is now; the same numbers can also say where it was.
 
 ## 5. Looking back: smoothing and the most likely path
 
@@ -400,7 +402,7 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 - For a static yes-or-no state each reading multiplies the odds by the Bayes factor, so in log odds it adds a fixed number; this is fast and does not round to 0 or 1.
 - Later readings tell where the robot was earlier: forward-backward raised the true starting cell from 0.19 to 0.36, and the Viterbi algorithm recovered the true path 1, 3, 5 with 200 comparisons instead of 1000 path products.
 
-The robot can now run the Bayes filter on a computer, one number per cell, and look back over a recorded run. Still missing: cells multiply with every extra state variable, 7.2 million for one 30 m floor; the [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#1-overview) keeps samples only where the belief is, and the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) keeps one bell as two numbers.
+The robot can now run the Bayes filter on a computer, one number per cell, and look back over a recorded run. Still missing: cells multiply with every extra state variable, 7.2 million for one 30 m floor; the [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#1-overview) keeps samples only where the belief is, and the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) keeps a belief shaped like a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), as two numbers.
 
 ## 7. Sources
 
@@ -454,3 +456,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Log-odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
 | [Sigmoid function](../../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798) | An S-shaped function that squashes any number into the range 0 to 1, $\sigma(z) = 1/(1 + e^{-z})$; it turns a score into a probability, as in logistic regression. |
 | [Dynamic programming](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#33-the-memoized-version) (G-652) | Solving a problem by storing the answer to each overlapping sub-problem the first time it is computed and looking it up afterwards, so no work is repeated; memoization is one form of it. |
+| [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |

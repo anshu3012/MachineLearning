@@ -47,14 +47,14 @@ Figure 2 plays what happens to a robot that starts surely at 0 m on a long strai
 
 The chance that the robot is exactly where it thinks shrinks with every move:
 
-| Moves | Robot thinks | Chance it is exactly there | Spread (standard deviation) |
+| Moves | Robot thinks | Chance it is exactly there | Standard deviation |
 |---|---|---|---|
 | 1 | 2 m | 0.80 | 0.45 m |
 | 2 | 4 m | 0.66 | 0.63 m |
 | 4 | 8 m | 0.49 | 0.89 m |
 | 8 | 16 m | 0.33 | 1.26 m |
 
-The spread is the [standard deviation](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870), the typical distance between the true position and the reckoned one. Why does it grow? One move has variance 0.2 m², the average squared miss from the commanded 2 m:
+The last column is the [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) of the true position: the typical distance between the true position and the reckoned one, so it says how widely the robot may be off. Why does it grow? One move has variance 0.2 m², the average squared miss from the commanded 2 m:
 
 $$0.1 \times (1 - 2)^2 = 0.1$$
 
@@ -68,9 +68,11 @@ The moves slip independently, and for independent moves the [variances add](../.
 
 $$\text{variance} = 8 \times 0.2 = 1.6$$
 
-$$\text{spread} = \sqrt{1.6} = 1.26 \text{ m}$$
+$$\text{standard deviation} = \sqrt{1.6}$$
 
-The spread keeps growing, more slowly than the number of moves but without limit. Dead reckoning is good over short stretches; over longer ones its error grows until something outside the robot corrects it. The notebook `RO-007-why-a-robot-is-never-sure.ipynb` checks the table with 100 000 simulated robots.
+$$= 1.26 \text{ m}$$
+
+The standard deviation keeps growing, more slowly than the number of moves but without limit. Dead reckoning is good over short stretches; over longer ones its error grows until something outside the robot corrects it. The notebook `RO-007-why-a-robot-is-never-sure.ipynb` checks the table with 100 000 simulated robots.
 
 ### 2.2 Five sources of uncertainty
 
@@ -88,7 +90,7 @@ Figure 4 shows sensor noise and the environment at work on one wall. A distance 
 
 ![A histogram of 200 readings of one wall from one spot: 190 cluster around 2.00 m between 1.92 and 2.07 m, and 10 readings taken while a person walked past lie between 0.6 and 1.2 m](images/wall_readings.png)
 
-So no reading and no move can be taken at face value. The rest of this Note is about how a robot can still work out where it is.
+So no reading and no move can be taken at face value. Section 3 starts with the reading: "door" fits three cells, and the robot must still say where it is.
 
 ## 3. Keep a distribution, not one best guess
 
@@ -163,7 +165,7 @@ $$3 \times 0.1875 + 7 \times 0.0625 = 1$$
 
 ![After one reading "door": a perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_reading.png)
 
-Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter.
+Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; Section 4 asks what a robot must track in general.
 
 ## 4. The state: what the robot keeps track of
 
@@ -207,7 +209,7 @@ That test gives the definition. A state is a **complete state** (G-2315) if know
 
 A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its belief, it needs only the latest state, not every reading since it was switched on. The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) is built on it.
 
-In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000).
+In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000). The robot never sees its state directly; Section 5 names the two kinds of data it does receive.
 
 ## 5. Controls and measurements: two streams of data
 
@@ -242,11 +244,11 @@ The robot starts in some state $x_0$. Then each time step has two parts:
 
 Figure 9 draws this chain with the hallway run below it. Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's pose in a known map (Thrun 2000).
 
-How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) is the first; the [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) is the second.
+How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) is the first; the [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) is the second. Before those models, Section 6 shows what each stream does to the hallway robot's distribution.
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
-> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move spreads the robot's distribution (from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
+> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its standard deviation grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
 
 Now we drop both simplifications: the moves are the noisy moves of Section 2.1, and the sensor is the noisy sensor of Section 3.3. Take a robot that knows it is in cell 3, as after Section 3.2. It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
@@ -292,9 +294,9 @@ $$P(6 \mid \text{door}) = \frac{0.032}{0.464} = 0.069$$
 
 $$P(5 \mid \text{door}) = \frac{0.002}{0.464} = 0.004$$
 
-Cells 8 and 9 get the same as cells 6 and 5. The spread after each stage tells the story in one number (the [standard deviation](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) of the distribution):
+Cells 8 and 9 get the same as cells 6 and 5. The standard deviation of the distribution after each stage tells the story in one number:
 
-| Stage | Spread |
+| Stage | Standard deviation |
 |---|---|
 | sure in cell 3 | 0 m |
 | after $u_3$ | 0.45 m |
@@ -325,7 +327,7 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 - With a noisy sensor the robot weights places instead of crossing them out, because crossing out would delete the true place whenever a reading is wrong (64 percent of the time over two readings at two doors, with a sensor that sees a door 60 percent of the time).
 - The state holds what decides the future: pose, speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
 - A control comes first and changes the state; a measurement follows and reports on it, so each step of a filter is "move, then look".
-- Moves spread the distribution (0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
+- Moves widen the distribution (standard deviation 0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
 
 The robot can now say where it might be as a probability for every cell, and why moves spread it and readings narrow it. Still missing: by how much a move blurs the pose, which the [motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#1-overview) gives.
 

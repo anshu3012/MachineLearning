@@ -1,6 +1,6 @@
 \documentclass[tikz,border=8pt]{standalone}
 \input{../../../../../tools/tikz-style.tex}
-% Velocity model, noise-free: v = 0.5 m/s, omega = 1 rad/s, so R = v/omega = 0.5 m. The turning point C lies R to the
+% Velocity model, noise-free: v = 0.5 m/s, omega = 1 rad/s, so R = v/omega = 0.5 m. The ICC C lies R to the
 % robot's left, at (1.75, 1.433). In 1 s the robot turns 1 rad about C and ends at (2.249, 1.409), heading 87.3 deg.
 \begin{document}
 \begin{tikzpicture}[scale=11, every node/.append style={font=\large}]
@@ -14,7 +14,7 @@
   \draw[-{Stealth[length=3mm]}, corange, line width=2pt] (A) -- ++(30:0.13) node[right, font=\normalsize] {heading 30°};
   \draw[-{Stealth[length=3mm]}, corange, line width=2pt] (B) -- ++(87.3:0.12) node[above, font=\normalsize] {heading 87.3°};
   \fill[black] (A) circle (0.008) node[below, font=\normalsize] {start $(2,\ 1)$};
-  \fill[cgreen] (C) circle (0.01) node[above left, font=\normalsize] {turning point $(1.750,\ 1.433)$};
+  \fill[cgreen] (C) circle (0.01) node[above left, font=\normalsize] {ICC $(1.750,\ 1.433)$};
   \fill[black] (B) circle (0.008) node[right=8pt, font=\normalsize] {end $(2.249,\ 1.409)$};
 \end{tikzpicture}
 \end{document}

@@ -1,6 +1,6 @@
 """Four ways to drive a differential-drive robot (r = 0.05 m, L = 0.2 m), each played for 2 s from pose (0, 0, 0):
 equal wheel speeds 0.5/0.5 -> straight; 0.2/-0.2 -> spin on the spot; 0.4/0 -> pivot about the left wheel (R = 0.1 m);
-0.6/0.4 -> circle of radius 0.5 m. v = (vR + vL)/2, omega = (vR - vL)/L. Green dot: the turning point.
+0.6/0.4 -> circle of radius 0.5 m. v = (vR + vL)/2, omega = (vR - vL)/L. Green dot: the ICC.
 Run: python four_cases.py -> four_cases.gif, four_cases_frames.png"""
 from pathlib import Path
 
@@ -39,7 +39,7 @@ def frame(t):
                       row=r, col=c)
         for tr in robot(tuple(p[k])):
             fig.add_trace(tr, row=r, col=c)
-        if abs(w) > 1e-9:                                     # turning point: distance v/w to the robot's left
+        if abs(w) > 1e-9:                                     # ICC: distance v/w to the robot's left
             R = v / w
             x, y, th = p[k]
             fig.add_trace(go.Scatter(x=[x - R * np.sin(th)], y=[y + R * np.cos(th)], mode="markers",
@@ -50,7 +50,7 @@ def frame(t):
         fig.update_yaxes(scaleanchor=f"x{i if i > 1 else ''}", scaleratio=1, row=(i - 1) // 2 + 1, col=(i - 1) % 2 + 1)
     fig.update_layout(template="simple_white", width=1100, height=1000, font=FONT, showlegend=False,
                       margin=dict(l=40, r=20, t=150, b=50),
-                      title=dict(x=0.5, y=0.975, font=dict(size=24), text=f"t = {t:.1f} s   (green dot: turning point; speeds in m/s, ω in rad/s)"))
+                      title=dict(x=0.5, y=0.975, font=dict(size=24), text=f"t = {t:.1f} s   (green dot: ICC; speeds in m/s, ω in rad/s)"))
     fig.update_annotations(selector=dict(yref="paper"), font_size=19)
     return fig
 

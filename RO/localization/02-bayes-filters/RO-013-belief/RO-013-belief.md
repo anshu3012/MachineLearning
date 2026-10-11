@@ -102,7 +102,7 @@ The set never shrinks, however many readings arrive. Crossing places out only wo
 
 The second thing the robot can keep in memory: instead of "possible" or "impossible", one probability for each of the 10 cells. Together they form a [probability distribution](../../../../MA/03-distributions/MA-020-random-variables-and-distributions/MA-020-random-variables-and-distributions.md#3-probability-distributions-as-tables) (a list of every outcome with its probability, adding to 1). Figure 4 plays the running example.
 
-![The belief over the 10 cells in five stages: uniform at 0.1; after reading door, three bumps of 0.19 at the doors; after moving 2 cells, the bumps sit at cells 3, 5 and 9; because the move is uncertain, they spread to 0.16; after reading door again, one main bump of 0.31 at cell 3. An arrow marks the true cell](images/belief_story.gif)
+![The belief over the 10 cells in five stages: uniform at 0.1; after reading door, three peaks (modes) of 0.19 at the doors; after moving 2 cells, the modes sit at cells 3, 5 and 9; because the move is uncertain, they spread to 0.16; after reading door again, one main mode of 0.31 at cell 3. An arrow marks the true cell](images/belief_story.gif)
 
 What to watch in each stage:
 
@@ -112,10 +112,10 @@ What to watch in each stage:
    \frac{1}{10} = 0.1
    $$
 
-2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time.
-3. **Moves 2 cells.** Every bump moves 2 cells to the right, with the robot.
-4. **The move is uncertain.** The move may have been 1 or 3 cells, so each bump spreads onto its neighbours and gets lower (0.19 becomes 0.16).
-5. **Reads "door" again.** Only the bump at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
+2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the belief, a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is **multimodal** (G-1275).
+3. **Moves 2 cells.** Every mode moves 2 cells to the right, with the robot.
+4. **The move is uncertain.** The move may have been 1 or 3 cells, so each mode spreads onto its neighbours and gets lower (0.19 becomes 0.16).
+5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
 
 Why do the door cells get 0.19 in stage 2? The sensor reads "door" three times as often at a door as at a wall:
 
@@ -259,7 +259,7 @@ Why do we write $p(z \mid x)$, reading given place, and not $p(x \mid z)$, place
 
 ### 6.1 A small piece of maths: Bayesian networks
 
-A Bayesian network draws each variable as a circle, with arrows into it from the variables its probability depends on directly. Each circle has one table, its probability given the circles with arrows into it, and the probability of all variables together is the product of these tables (CS188 §6.3).
+The two tables of Section 5 say what depends on what: the next cell on the cell and the command, the reading on the cell alone. A Bayesian network draws each variable as a circle, with arrows into it from the variables its probability depends on directly. Each circle has one table, its probability given the circles with arrows into it, and the probability of all variables together is the product of these tables (CS188 §6.3).
 
 ### 6.2 The robot as a dynamic Bayes network
 
@@ -335,3 +335,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Measurement probability (G-2435) | The probability of a sensor reading given the true state, $p(z_t \mid x_t)$, such as 0.6 for reading "door" in front of a door; it tells the robot how well each state explains a reading. |
 | Dynamic Bayes network (G-2441) | A Bayesian network that repeats the same variables at every time step, such as states, commands and readings of a robot; it shows which variable depends on which over time, so a whole run's probability splits into small factors. |
 | Hidden Markov model (HMM) (G-2439) | A Markov chain whose states cannot be seen, where each state produces an observation that can, such as hidden robot cells producing "door" or "wall" readings; it is the model behind robot state estimation, speech recognition and many trackers. |
+| [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
+| [Multimodal](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |

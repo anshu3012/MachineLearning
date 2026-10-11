@@ -16,7 +16,7 @@ The room is smaller and emptier than the [7 m by 4 m room with poles and furnitu
 A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317): what the sensors report about the world at one moment. To test a guessed pose we need a rule that answers one question: how likely are these four readings if the robot stood at that pose? This Note builds the standard rule for range sensors:
 
 - what a range sensor reports, and why the question above is the one to ask (Section 2);
-- why a bell curve around the expected distance is not enough (Section 3);
+- why a Gaussian around the expected range is not enough (Section 3);
 - the four causes of a reading and the shape each one gives, with the reason for every shape (Section 4);
 - how the four shapes combine into one model, and what the model says about Figure 1 (Section 5);
 - how to learn the model's numbers from recorded readings, by maximum likelihood and the EM algorithm (Section 6);
@@ -53,7 +53,7 @@ $$z_{B}^{\ast} = 2.0 \text{ m}$$
 
 ![Ray casting in a grid map: from pose A at (2, 2) the forward ray walks cell by cell and enters the wall cells after 3.0 m; from pose B at (3, 2) it does so after 2.0 m](images/raycast.png)
 
-The reading was 1.00 m, which matches neither 3.0 nor 2.0. We need a number for "how well does a reading of 1.00 m fit an expected range of 3.0 m?", one that tolerates small sensor errors and the odd surprise. That number is the **measurement model** (G-2374), also called the sensor model or observation model (Thrun §6.1):
+The reading was 1.00 m, which matches neither 3.0 nor 2.0. We need a number for "how well does a reading of 1.00 m fit an expected range of 3.0 m?", one that tolerates small sensor errors and an odd reading now and then. That number is the **measurement model** (G-2374), also called the sensor model or observation model (Thrun §6.1):
 
 $$p(z \mid x, m)$$
 
@@ -80,11 +80,11 @@ Independence that holds only once a third thing is known is [conditional indepen
 
 > **Extra:** The assumption is not exact. A person blocks several neighbouring beams at once, and their errors are then linked. The product then counts that one person several times, which makes the model overconfident (Freiburg sensor-model slides, "Summary beam-based model"). Implementations therefore use only a subset of the beams of each scan: the ROS localization package AMCL uses 30 evenly spaced beams per scan by default (ROS amcl, `laser_max_beams`).
 
-## 3. Why a bell curve alone fails
+## 3. Why a Gaussian alone fails
 
 > **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true pose outright.
 
-The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the expected range plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). With the spread of a good laser, $\sigma = 0.05$ m, the density of a reading $z$ is:
+The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the expected range plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). A good laser's readings typically lie about 0.05 m from the true distance: its [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) is $\sigma = 0.05$ m. The density of a reading $z$ is:
 
 $$\mathcal{N}(z;\ z^{\ast}, \sigma^2) = \frac{1}{\sigma\sqrt{2\pi}}\ e^{-\frac{1}{2}\left(\frac{z - z^{\ast}}{\sigma}\right)^2}$$
 
@@ -108,11 +108,11 @@ $$\approx 0$$
 
 The number $e^{-800}$ is so small that a computer stores it as exactly 0 (the notebook checks).
 
-![A Gaussian of spread 0.05 m around the expected range 3 m. The reading 1.00 m, caused by a person, sits far out in the tail, where the density is about e to the minus 800, effectively 0](images/gaussian_fails.png)
+![A Gaussian with standard deviation 0.05 m around the expected range 3 m. The reading 1.00 m, caused by a person, sits far out in the tail, where the density is about e to the minus 800, effectively 0](images/gaussian_fails.png)
 
-Because the scan density is a product, one zero beam makes the whole scan density zero, whatever the other beams say. So the true pose A gets 0. The wrong pose B does worse on most beams but escapes the zero: its forward beam expects 2 m, and its backward beam expects 3 m but reads 2.04 m. Those two densities are tiny but not zero, and B ends up with a scan density of about $4 \times 10^{-164}$. A bell curve alone would prefer the wrong pose, only because a person stepped in front of the robot.
+Because the scan density is a product, one zero beam makes the whole scan density zero, whatever the other beams say. So the true pose A gets 0. The wrong pose B does worse on most beams but escapes the zero: its forward beam expects 2 m, and its backward beam expects 3 m but reads 2.04 m. Those two densities are tiny but not zero, and B ends up with a scan density of about $4 \times 10^{-164}$. A Gaussian alone would prefer the wrong pose, only because a person stepped in front of the robot.
 
-The cure is not a wider bell: that would make every reading near the wall less informative too. Instead we list the other ways a reading can come about, and give each its own shape.
+The cure is not a wider Gaussian: that would make every reading near the wall less informative too. Instead we list the other ways a reading can come about, and give each its own shape.
 
 ## 4. The four causes of a reading
 
@@ -120,17 +120,17 @@ The cure is not a wider bell: that would make every reading near the wall less i
 
 The person's reading is one of four ways a beam can come back. Figure 4 shows the shape each gives for the forward beam at pose A ($z^{\ast} = 3$ m, $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
 
-![The four densities of the beam model for an expected range of 3 m: a narrow bell at 3 m (measurement noise), a curve that starts high at 0 and falls off until it stops at 3 m (unexpected objects), a spike at 5 m (failures), and a flat line at height 0.2 from 0 to 5 m (random readings)](images/four_parts.png)
+![The four densities of the beam model for an expected range of 3 m: a narrow Gaussian at 3 m (measurement noise), a curve that starts high at 0 and falls off until it stops at 3 m (unexpected objects), a spike at 5 m (failures), and a flat line at height 0.2 from 0 to 5 m (random readings)](images/four_parts.png)
 
-### 4.1 Measurement noise: a bell around the expected range
+### 4.1 Measurement noise: a Gaussian around the expected range
 
-When the beam does reach the mapped wall, the reading still differs a little from $z^{\ast}$: limited resolution, temperature, the surface. This **measurement noise** (G-2378) is the Gaussian of Section 3, with one change. Readings below 0 or above $z_{\max}$ cannot occur, so the bell is cut to the range from 0 to $z_{\max}$ and scaled up so its area is 1 again:
+When the beam does reach the mapped wall, the reading still differs a little from $z^{\ast}$: limited resolution, temperature, the surface. This **measurement noise** (G-2378) is the Gaussian of Section 3, with one change. Readings below 0 or above $z_{\max}$ cannot occur, so the Gaussian is cut to the range from 0 to $z_{\max}$ and scaled up so its area is 1 again:
 
 $$p_{\text{hit}}(z) = \eta\ \mathcal{N}(z;\ z^{\ast}, \sigma_{\text{hit}}^2)$$
 
-for $0 \le z \le z_{\max}$, and 0 outside. A bell cut to a range and rescaled is a [truncated normal](../../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#62-with-keras-initialisers) (G-2023). The **normalizer** (G-2382) $\eta$ (eta) is one over the area of the bell that lies inside the range, so that the whole density again has area 1 (Thrun §6.3.1).
+for $0 \le z \le z_{\max}$, and 0 outside. A Gaussian cut to a range and rescaled is a [truncated normal](../../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#62-with-keras-initialisers) (G-2023). The **normalizer** (G-2382) $\eta$ (eta) is one over the area of the Gaussian that lies inside the range, so that the whole density again has area 1 (Thrun §6.3.1).
 
-For our wall at 3 m, the bell lies far inside the range (40 $\sigma$ from 0 and from 5 m), so $\eta = 1.000$. It matters near the edge. If the wall were 4.98 m away, about a third of the bell would lie beyond 5 m:
+For our wall at 3 m, the Gaussian lies far inside the range (40 $\sigma$ from 0 and from 5 m), so $\eta = 1.000$. It matters near the edge. If the wall were 4.98 m away, about a third of the Gaussian would lie beyond 5 m:
 
 $$\text{area inside} = 0.655$$
 
@@ -221,7 +221,7 @@ $$p_{\max}(z) = 1 \text{ if } z = z_{\max}, \text{ else } 0$$
 
 A distribution that puts all its probability on one value is a **point mass** (G-2383). A point mass has no height, only a probability, so it cannot be added to densities as it stands. In code we draw it as a narrow box one sensor step wide (1 cm), of height 100 per metre, so its area is 1 (Figure 4, third panel).
 
-### 4.4 Random readings: a flat floor
+### 4.4 Random readings: the uniform part
 
 Some readings have no cause we can model: cross-talk between sonars, reflections that come back by a strange path, electronic glitches (Thrun §6.3.1; Freiburg slides). We know nothing about where such a **random measurement** (G-2381) lands, so we give every value from 0 to $z_{\max}$ the same density, a [uniform distribution](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043):
 
@@ -229,7 +229,7 @@ $$p_{\text{rand}}(z) = \frac{1}{z_{\max}}$$
 
 $$= \frac{1}{5} = 0.2 \text{ per m}$$
 
-The flat floor has a job: no reading between 0 and 5 m ever gets a density of exactly 0, so one strange reading can never wipe out a whole scan.
+The uniform part $p_{\text{rand}}$ has a job: no reading between 0 and 5 m ever gets a density of exactly 0, so one strange reading can never wipe out a whole scan.
 
 ## 5. The beam model: one mixture of four shapes
 
@@ -247,16 +247,16 @@ The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-model
 
 | Cause | Weight | Shape |
 |---|---|---|
-| hit, measurement noise | $w_{\text{hit}} = 0.75$ | bell, $\sigma_{\text{hit}} = 0.05$ m |
+| hit, measurement noise | $w_{\text{hit}} = 0.75$ | Gaussian, $\sigma_{\text{hit}} = 0.05$ m |
 | unexpected object | $w_{\text{short}} = 0.12$ | exponential, $\lambda_{\text{short}} = 2$ per m |
 | failure | $w_{\max} = 0.05$ | spike at 5 m |
-| random | $w_{\text{rand}} = 0.08$ | flat, 0.2 per m |
+| random | $w_{\text{rand}} = 0.08$ | uniform, 0.2 per m |
 
-Figure 7 stacks the four weighted parts; the black top edge is the mixture. Its odd shape, with the falling start, the dip just before the wall, the bell, the flat floor and the spike at the end, is the sum of four simple shapes.
+Figure 7 stacks the four weighted parts; the black top edge is the mixture. Its odd shape, with the falling start, the dip just before the wall, the Gaussian, the uniform part and the spike at the end, is the sum of four simple shapes.
 
-![The beam model for an expected range of 3 m, built by stacking the weighted parts: a green floor (random), an orange falling curve up to 3 m (unexpected objects), the blue bell at 3 m (measurement noise, cut off at the top) and the purple spike at 5 m (failure). The black top edge is the mixture; it is 0.049 at 1.00 m and 0.016 at 4.00 m](images/mixture.png)
+![The beam model for an expected range of 3 m, built by stacking the weighted parts: a green uniform layer (random), an orange falling curve up to 3 m (unexpected objects), the blue Gaussian at 3 m (measurement noise, cut off at the top) and the purple spike at 5 m (failure). The black top edge is the mixture; it is 0.049 at 1.00 m and 0.016 at 4.00 m](images/mixture.png)
 
-**Worked example: the person's reading, 1.00 m, at pose A.** The bell and the spike give 0 there. The other two parts:
+**Worked example: the person's reading, 1.00 m, at pose A.** The Gaussian and the spike give 0 there. The other two parts:
 
 $$0.12 \times 0.271 = 0.0326$$
 
@@ -289,11 +289,11 @@ The beam densities (per m), from the notebook:
 | 270° | 5.886 | 5.886 |
 | product | 6.26 | 0.029 |
 
-The forward beam costs both poses the same, because both explain 1.00 m only as a short reading. The backward beam decides: it fits A's expected 2 m well and B's expected 3 m badly. The ratio of the two scan densities:
+The forward beam costs both poses about the same, because both explain 1.00 m only as a short reading. The backward beam decides: it fits A's expected 2 m well and B's expected 3 m badly. The ratio of the two scan densities:
 
 $$\frac{6.26}{0.029} = 215$$
 
-So the scan says pose A is about 215 times more likely than pose B, the right answer. The bell curve alone gave A exactly 0.
+So the scan says pose A is about 215 times more likely than pose B, the right answer. The Gaussian alone gave A exactly 0.
 
 > **Python:** the beam model for a whole scan, as in the UChicago class 05 algorithm.
 > ```python
@@ -317,7 +317,7 @@ The answer of Section 5.2, pose A about 215 times more likely than pose B, rests
 
 The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 8 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of Section 5, so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
 
-![1000 readings of a wall 3 m away as counts per 0.05 m bin. Left: a tall peak at 3 m. Right, zoomed to counts up to 25: a falling pile of short readings near 0, a thin floor of random readings, and a bar of 47 readings at the maximum range of 5 m](images/wall_data.png)
+![1000 readings of a wall 3 m away as counts per 0.05 m bin. Left: a tall peak at 3 m. Right, zoomed to counts up to 25: a falling pile of short readings near 0, a thin uniform layer of random readings, and a bar of 47 readings at the maximum range of 5 m](images/wall_data.png)
 
 Some numbers are easy. With nobody around, the readings scatter only by measurement noise, and $\sigma_{\text{hit}}$ is their standard deviation, the [MLE of a normal distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation) (G-1242). The weights cannot be read off like that: a reading of 2.95 m could be a hit or a short reading, and nothing in the reading says which.
 
@@ -359,7 +359,7 @@ The 3.02 m reading is mostly a hit, the 1.00 m reading mostly a short reading, t
   w_c = \frac{1}{n} \sum_i e_{i,c}
   $$
 
-- **Spread of the hits:** the responsibility-weighted variance around $z^{\ast}$, the same formula as the MLE of a normal with weighted readings.
+- **Standard deviation of the hits:** the responsibility-weighted variance around $z^{\ast}$, the same formula as the MLE of a normal with weighted readings.
 
   $$
   \sigma_{\text{hit}}^2 = \frac{\sum_i e_{i,\text{hit}}\ (z_i - z^{\ast})^2}{\sum_i e_{i,\text{hit}}}
@@ -373,7 +373,7 @@ The 3.02 m reading is mostly a hit, the 1.00 m reading mostly a short reading, t
 
 This last formula ignores the cut at $z^{\ast}$. That is safe when the curve has nearly died out before $z^{\ast}$, as here, where only $e^{-6} = 0.0025$ of the exponential lies beyond 3 m.
 
-Figure 9 plays the rounds. After round 1 the bell has already narrowed onto the wall; after a few rounds the curve follows the bars, and the log-likelihood has stopped rising. EM never lowers the log-likelihood from one round to the next ([why the log-likelihood never decreases](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#6-why-the-log-likelihood-never-decreases)).
+Figure 9 plays the rounds. After round 1 the Gaussian has already narrowed onto the wall; after a few rounds the curve follows the bars, and the log-likelihood has stopped rising. EM never lowers the log-likelihood from one round to the next ([why the log-likelihood never decreases](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#6-why-the-log-likelihood-never-decreases)).
 
 ![Animation of EM fitting the beam model. Each frame is one round: blue bars are the 1000 readings, the black line is how many readings the current model expects per bin, the right panel is the log-likelihood. Round 0 is a flat, wide guess with log-likelihood −932; by round 60 the weights are hit 0.733, short 0.150, max 0.047, rand 0.070, sigma 0.051 m, lambda 1.75 per m, log-likelihood 448](images/em_fit.gif)
 
@@ -405,10 +405,10 @@ The beam model answers the question of Figure 1 for a laser; it is one entry in 
 
 | Part | Density | Why this shape |
 |---|---|---|
-| measurement noise | bell around $z^{\ast}$, cut to $[0, z_{\max}]$ | small errors scatter symmetrically around the true distance |
+| measurement noise | Gaussian around $z^{\ast}$, cut to $[0, z_{\max}]$ | small errors scatter symmetrically around the true distance |
 | unexpected object | exponential, from 0 up to $z^{\ast}$ | only the first blocker counts, and each extra free stretch is one more condition; nothing behind the wall can block |
 | failure | spike at $z_{\max}$ | a lost pulse is reported as the maximum range |
-| random | flat, $1 / z_{\max}$ | no reading may ever have density 0 |
+| random | uniform, $1 / z_{\max}$ | no reading may ever have density 0 |
 
 - The four readings of Figure 1 are about 215 times more likely from pose A than from pose B, even though a person blocks the forward beam, because the beam model lets a short reading cost a pose a factor instead of everything; the six numbers behind that answer can be learned from a thousand readings of one wall.
 - A range finder reports the distance to the first surface along each beam, so a guessed pose can be tested by ray casting the map to get the expected ranges and comparing.
@@ -458,7 +458,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Unexpected object ($p_{\text{short}}$) (G-2379) | Something not in the map, such as a person, that blocks the beam before the mapped surface and gives a short reading; modelled as an exponential from 0 up to $z^{\ast}$, because only the first blocker counts. |
 | Max-range reading ($p_{\max}$) (G-2380) | A reading of exactly $z_{\max}$ that a sensor gives when its pulse never returns (glass, black or shiny surfaces, nothing in range); modelled as a spike at $z_{\max}$. |
 | Point mass (G-2383) | A distribution that puts all its probability on one value, such as a reading of exactly $z_{\max}$; it has no density height, so code draws it as a very narrow box of area 1. |
-| Random measurement ($p_{\text{rand}}$) (G-2381) | A reading with no modelled cause, such as cross-talk or a stray reflection; modelled as a flat density $1/z_{\max}$ so that no reading ever has density 0. |
+| Random measurement ($p_{\text{rand}}$) (G-2381) | A reading with no modelled cause, such as cross-talk or a stray reflection; modelled as a uniform density $1/z_{\max}$ (the uniform part $p_{\text{rand}}$) so that no reading ever has density 0. |
 | Beam model (G-2377) | The measurement model of a range finder that mixes four densities for one reading (measurement noise, unexpected objects, failures, random readings) with weights that add up to 1, so no single odd reading can rule out the true pose. |
 | Intrinsic parameters (of a sensor model) (G-2384) | The numbers that describe a sensor and its surroundings rather than the pose, such as the beam model's four weights, $\sigma_{\text{hit}}$ and $\lambda_{\text{short}}$; they are learned from recorded readings. |
 | Landmark sensor (G-2385) | A sensor that reports the direction or distance to a known point in the world, such as a camera that sees a coloured pole; each kind of report needs its own measurement model. |
@@ -472,6 +472,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
 | [Conditional independence](../../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| [Standard deviation of a random variable](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) | The square root of a random variable's variance, in the units of $X$; it says how far values typically fall from the expected value. |
 | [Truncated normal](../../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#62-with-keras-initialisers) (G-2023) | A normal distribution restricted to a range and rescaled so its area is 1; it keeps its bell shape inside the range. Keras' normal initialisers cut at two standard deviations: values beyond are redrawn. |
 | [Exponential distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#31-the-distribution-of-waiting-times) (G-733) | The pattern of waiting times between random events: short waits are common and long waits rare (a right-skewed continuous distribution). |
 | [Uniform distribution](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-2043) | A distribution in which every outcome in a range is equally likely. |
@@ -485,4 +486,4 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [E-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#31-the-two-steps) (G-654) | The expectation step of the EM algorithm: using the current parameters, give every point its responsibilities (the probability that it came from each component), a soft assignment that the M-step then uses. |
 | [M-step](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#21-one-round-recalled) (G-1139) | The second step of each EM round (maximisation): with the responsibilities held fixed, re-estimate each component's mean, covariance and weight as responsibility-weighted averages, so the fit to the data improves. |
 | [MLE of an exponential rate](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#33-the-derivation) (G-1243) | The rate of an exponential distribution that makes the observed waiting times most likely: one over their mean, $\hat\lambda = n/\sum x_i = 1/\bar{x}$. |
-| [Odometry motion model](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#4-the-odometry-motion-model) (G-2323) | A motion model that splits the pose change reported by odometry into a first turn, a straight drive and a second turn, and adds independent noise to each, with a spread that grows with the motion; used when wheel encoders exist. |
+| [Odometry motion model](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#4-the-odometry-motion-model) (G-2323) | A motion model that splits the pose change reported by odometry into a first turn, a straight drive and a second turn, and adds independent noise to each, with a standard deviation that grows with the motion; used when wheel encoders exist. |

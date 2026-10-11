@@ -21,7 +21,7 @@ It is the same 5 m by 4 m room, pose A and person as in the beam model, with one
 
 ## 2. Why the beam model is not enough
 
-> **Key point:** The beam model needs a ray cast for every beam of every guessed pose, and a tiny change of pose can make a beam slip past an edge and change its score a hundredfold.
+> **Key point:** The beam model needs a ray cast for every beam of every guessed pose, and a tiny change of pose can make a beam slip past an edge and change its score 270-fold.
 
 ### 2.1 It is slow
 
@@ -52,7 +52,7 @@ A score that jumps like this is hard to search: a method that improves a guess b
 
 ## 3. The likelihood field model
 
-> **Key point:** Turn each reading into the point where the beam ended. A reading is likely if that end point lies close to an obstacle in the map; the density is a bell of the distance to the nearest obstacle, plus a small floor.
+> **Key point:** Turn each reading into the point where the beam ended. A reading is likely if that end point lies close to an obstacle in the map; the density is a Gaussian of the distance to the nearest obstacle, plus a small uniform part.
 
 ### 3.1 Look only at where the beam ends
 
@@ -82,14 +82,14 @@ $$d(3, 2) = 1.0 \text{ m (box corner)}$$
 
 An end point 3 cm from a wall is what a good reading looks like; one 1 m away from everything is not. We turn the distance into a density with two parts (Thrun §6.4; Freiburg slides, "Endpoint model"; UChicago class 05):
 
-- **a bell of the distance:** sensor noise scatters end points a little around the surface, so we use a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) of $d$ with mean 0 and spread $\sigma$;
-- **a flat floor:** readings with no modelled cause, such as the person, must not get density 0, for the same reason as the [random part of the beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#44-random-readings-a-flat-floor).
+- **a Gaussian of the distance:** sensor noise scatters end points a little around the surface, so we use a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) of $d$ with mean 0 and [**standard deviation**](../../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (G-1871) $\sigma$, the typical distance of an end point from the surface;
+- **a uniform part:** readings with no modelled cause, such as the person, must not get density 0, so every reading from 0 to $z_{\max}$ gets the same small density, the [**random measurement** part $p_{\text{rand}}$](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#44-random-readings-the-uniform-part) (G-2381) of the beam model.
 
   $$
   p(z^k \mid x, m) = w_{\text{hit}}\ \mathcal{N}(d;\ 0, \sigma^2) + \frac{w_{\text{rand}}}{z_{\max}}
   $$
 
-We use $w_{\text{hit}} = 0.9$, $w_{\text{rand}} = 0.1$, $\sigma = 0.1$ m and $z_{\max} = 5$ m. The spread is wider than the beam model's 0.05 m, because $d$ also absorbs small errors in the map and the pose. The ROS localization package uses 0.2 m by default (ROS amcl, `laser_sigma_hit`).
+We use $w_{\text{hit}} = 0.9$, $w_{\text{rand}} = 0.1$, $\sigma = 0.1$ m and $z_{\max} = 5$ m. The standard deviation is wider than the beam model's 0.05 m, because $d$ also absorbs small errors in the map and the pose. The ROS localization package uses 0.2 m by default (ROS amcl, `laser_sigma_hit`).
 
 **Worked example: the 90° beam,** $d = 0.03$ m. The Gaussian at $d = 0$ has height 3.989 per m:
 
@@ -101,7 +101,7 @@ $$0.9 \times 3.814 = 3.432$$
 
 $$3.432 + 0.1 / 5 = 3.452 \text{ per m}$$
 
-**The person's beam,** $d = 1.0$ m, ten spreads away. The bell part is about $e^{-50}$, so only the floor is left:
+**The person's beam,** $d = 1.0$ m, ten standard deviations away. The Gaussian part is about $e^{-50}$, so only the uniform part is left:
 
 $$0.9 \times 3.989 \times e^{-50} \approx 0$$
 
@@ -149,6 +149,8 @@ The true pose scores highest, and poses a few centimetres or degrees away score 
 > ```
 > `F` is the precomputed field of Section 4 and `lookup` reads the grid cell under each end point; both are in `RO-011-likelihood-fields-and-scan-matching.ipynb`.
 
+Every score still needs the distance $d$ from each end point to the nearest obstacle, and finding it at every guessed pose would bring back the slowness of Section 2.1. Section 4 computes it once, for the whole map.
+
 ## 4. Precomputing the field
 
 > **Key point:** The density depends only on where the end point lands, not on the pose, so we compute it once for every cell of the map and store it. That stored picture is the likelihood field.
@@ -165,17 +167,17 @@ The stored grid of "distance from this cell to the nearest occupied cell" is the
 
 Putting each cell's distance into the density of Section 3.2 gives the density an end point would have in that cell. The grid of these densities is the **likelihood field** (G-2393) of the map (Thrun §6.4; Freiburg slides, "Example"). We build it in three views, from the familiar to the compact.
 
-**A line through the room.** Figure 5 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the floor of 0.02 within about 0.3 m (three spreads).
+**A line through the room.** Figure 5 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the uniform part's 0.02 within about 0.3 m (three standard deviations).
 
-![Along the line y = 0.9 m across the room. Top: the distance to the nearest obstacle, zero at the left wall, the box and the right wall, rising linearly away from each and levelling off at 0.9 m, the distance to the bottom wall. Bottom: the likelihood field, a plateau of 3.61 on each obstacle that drops to the floor of 0.02 within about 0.3 m](images/field_slice.png)
+![Along the line y = 0.9 m across the room. Top: the distance to the nearest obstacle, zero at the left wall, the box and the right wall, rising linearly away from each and levelling off at 0.9 m, the distance to the bottom wall. Bottom: the likelihood field, a plateau of 3.61 on each obstacle that drops to the uniform level of 0.02 within about 0.3 m](images/field_slice.png)
 
-**The whole room as a surface.** Doing this for every line gives a surface over the floor plan (Figure 6): height is the density of an end point at that spot. Ridges stand along the walls and around the box; a flat floor lies everywhere else.
+**The whole room as a surface.** Doing this for every line gives a surface over the floor plan (Figure 6): height is the density of an end point at that spot. Ridges stand along the walls and around the box; a flat low plain at 0.02 lies everywhere else.
 
-![The likelihood field of the room drawn as a 3D surface, seen from above at a slant: high yellow ridges along the four walls and around the box, a flat dark floor elsewhere; colour and height both show the density](images/field_surface.png)
+![The likelihood field of the room drawn as a 3D surface, seen from above at a slant: high yellow ridges along the four walls and around the box, a flat dark plain elsewhere; colour and height both show the density](images/field_surface.png)
 
-**The same surface from straight above.** Looking down on Figure 6 and keeping only the colours gives Figure 7, the usual way to draw a likelihood field: bright means an end point here is likely, dark means unlikely. The 12 end points of the scan at pose A are drawn on it. Eleven sit on bright ridges; the person's end point sits on the dark floor. Scoring a pose means placing the scan's end points on this picture and reading off the colours.
+**The same surface from straight above.** Looking down on Figure 6 and keeping only the colours gives Figure 7, the usual way to draw a likelihood field: bright means an end point here is likely, dark means unlikely. The 12 end points of the scan at pose A are drawn on it. Eleven sit on bright ridges; the person's end point sits in the dark area. Scoring a pose means placing the scan's end points on this picture and reading off the colours.
 
-![The likelihood field of the room seen from above as a colour map, bright yellow along the walls and around the box, dark elsewhere. The 12 end points of the scan at pose A are red dots: 11 on the bright ridges, and the person's end point at (3, 2) on the dark floor](images/field_map.png)
+![The likelihood field of the room seen from above as a colour map, bright yellow along the walls and around the box, dark elsewhere. The 12 end points of the scan at pose A are red dots: 11 on the bright ridges, and the person's end point at (3, 2) in the dark area](images/field_map.png)
 
 The field is computed once per map, so its cost does not grow with the number of poses tried. Scoring a pose then costs one look-up per beam, with no ray casting: this is the speed-up of Section 2.1 (Freiburg slides: "highly efficient, uses 2D tables only"). The ROS localization package AMCL uses this model by default (ROS amcl, `laser_model_type`).
 
@@ -187,7 +189,7 @@ The model "ignores physical properties of beams" (Freiburg slides, "Properties o
 
 ![A guessed pose C above the box, facing down. A reading of 1.98 m would end next to the bottom wall, which the likelihood field scores 3.45 per m; the beam model knows the box blocks the beam after 0.8 m and gives 0.016 per m](images/sees_through.png)
 
-**It does not model people.** The field has no short-reading part. A person's reading is scored only by the floor, 0.02 per m, wherever it lands. That is mild in practice, because the floor still keeps the scan's product from reaching 0, and the person costs every guessed pose the same.
+**It does not model people.** The field has no short-reading part. A person's reading is scored only by the uniform part $p_{\text{rand}}$, 0.02 per m, wherever it lands. That is mild in practice, because the uniform part still keeps the scan's product from reaching 0, and the person costs every guessed pose the same.
 
 So the trade is: physics for speed and smoothness. It pays when many poses must be scored, as in a particle filter, and when the score is searched by small steps, as in scan matching (Freiburg slides, "Properties of endpoint model").
 
@@ -220,7 +222,7 @@ Figure 9 plays a few candidates. At the odometry guess, scan 2's end points sit 
 
 Because the field is smooth, the score also rises smoothly towards the best candidate, so the search can be refined by small steps, for example by gradient ascent from the best grid point (Freiburg slides: the distance grid "is smooth w.r.t. to small changes in robot position"; Olson 2009).
 
-> **Extra:** The field must be dense enough. With 72 beams per scan (one every 5°), scan 1's end points 3 m away lie about 0.26 m apart, more than twice the field's spread of 0.1 m. The field then has dark gaps between the points, and the same search picks $(0.28, 0.1, 7^\circ)$ instead of the true motion (the notebook shows it). Denser scans, a wider $\sigma$, or a field built from several scans fix it.
+> **Extra:** The field must be dense enough. With 72 beams per scan (one every 5°), scan 1's end points 3 m away lie about 0.26 m apart, more than twice the field's standard deviation of 0.1 m. The field then has dark gaps between the points, and the same search picks $(0.28, 0.1, 7^\circ)$ instead of the true motion (the notebook shows it). Denser scans, a wider $\sigma$, or a field built from several scans fix it.
 
 ## 6. Correlation-based map matching
 
@@ -228,7 +230,7 @@ Because the field is smooth, the score also rises smoothly towards the best cand
 
 ### 6.1 A local map from the scan
 
-A third way to score a pose also avoids a ray cast per beam: it compares maps instead of points. We mark, on cells of 0.1 m, every cell that holds an end point of scan 2. This small grid built from the robot's own readings is a **local map** (G-2398). Placed at a candidate pose, it should line up with the global map's occupied cells (Freiburg slides, "Map matching: generate small, local maps from sensor data and match local maps against global model"). Comparing the two grids cell by cell to score the placement is **map matching** (G-2397) (Thrun §6.5).
+Scan matching compared one scan with another. A third way to score a pose compares the scan with the global map, again without a ray cast per beam: it compares maps instead of points. We mark, on cells of 0.1 m, every cell that holds an end point of scan 2. This small grid built from the robot's own readings is a **local map** (G-2398). Placed at a candidate pose, it should line up with the global map's occupied cells (Freiburg slides, "Map matching: generate small, local maps from sensor data and match local maps against global model"). Comparing the two grids cell by cell to score the placement is **map matching** (G-2397) (Thrun §6.5).
 
 ### 6.2 Multiply and add
 
@@ -246,7 +248,7 @@ The raw sum has a flaw: it rewards a local map for marking many cells. In the ro
 
 ### 6.3 Why we normalise: the correlation coefficient
 
-The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. It subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by both spreads, so the result lies between −1 and +1 (MA-009):
+The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. It subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by the two maps' standard deviations, so the result lies between −1 and +1 (MA-009):
 
 $$r = \frac{\sum_i (g_i - \bar g)(l_i - \bar l)}{\sqrt{\sum_i (g_i - \bar g)^2\ \sum_i (l_i - \bar l)^2}}$$
 
@@ -307,7 +309,7 @@ So map matching found the motion to within one cell (0.1 m) and one degree. The 
 | map matching | a local map of the scan | a grid comparison | in steps of a cell | no |
 
 - The likelihood field fixes both problems of the beam model: scoring the 12-beam scan takes about 0.045 ms instead of 11 ms, and the score of a beam rises smoothly as the robot slides past the box's edge instead of jumping 270-fold, because each pose needs only one look-up per beam on a field computed once in advance.
-- The likelihood field model scores a reading by the distance from its end point to the nearest obstacle, because a correct reading ends on a surface; the density is a bell of that distance plus a floor, so no reading scores 0.
+- The likelihood field model scores a reading by the distance from its end point to the nearest obstacle, because a correct reading ends on a surface; the density is a Gaussian of that distance plus a uniform part $p_{\text{rand}}$, so no reading scores 0.
 - The distances depend only on where the end point lands, not on the pose, so the whole field is computed once with a distance transform and every later score is a look-up: about 250 times faster than the beam model in our test.
 - The field changes smoothly with the pose, because moving the robot moves each end point only a little, so a search by small steps can climb it; the beam model jumps when a beam slips past an edge.
 - The price is physics: the field ignores what lies along the beam, so it can score a reading that would have to pass through a wall, and it has no part for people.
@@ -341,7 +343,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Beam endpoint (G-2392) | The point where a beam ends: the robot's position plus the reading along the beam's direction, $(x + z\cos(\theta + \theta_k),\ y + z\sin(\theta + \theta_k))$; the likelihood field model looks only at this point. |
-| Likelihood field model (G-2391) | A measurement model for range finders that scores each reading by how close its beam endpoint lands to an obstacle in the map (a Gaussian of that distance plus a flat floor); it is fast and smooth because it skips ray casting, but it ignores what lies along the beam. |
+| Likelihood field model (G-2391) | A measurement model for range finders that scores each reading by how close its beam endpoint lands to an obstacle in the map (a Gaussian of that distance plus a small uniform part $p_{\text{rand}}$, so no reading scores 0); it is fast and smooth because it skips ray casting, but it ignores what lies along the beam. |
 | Distance transform (G-2394) | A grid that stores, for every cell of a map, the distance to the nearest occupied cell (with straight-line distances, the Euclidean distance transform); it lets a likelihood field be built in one pass. |
 | Likelihood field (G-2393) | A grid over the map that stores, for each cell, the density of a beam endpoint landing there; computed once from the distance transform, so scoring a pose becomes one look-up per beam. |
 | Scan matching (G-2395) | Aligning two range scans to find the motion between the poses they were taken from, for example by sliding the second scan over a likelihood field built from the first; it corrects drifting odometry. |
@@ -352,5 +354,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Ray casting](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2376) | Finding the expected range by walking along a beam's direction through the map until the first occupied cell; it turns a guessed pose and a map into the readings the robot should see. |
 | [Gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| [Standard deviation](../../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
+| [Random measurement ($p_{\text{rand}}$)](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#44-random-readings-the-uniform-part) (G-2381) | A reading with no modelled cause, such as cross-talk or a stray reflection; modelled as a uniform density $1/z_{\max}$ (the uniform part $p_{\text{rand}}$) so that no reading ever has density 0. |
 | [Wheel odometry](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#31-from-encoder-ticks-to-a-new-pose) (G-2321) | Working out a robot's pose by adding up the wheel motion its encoders measure: ticks to wheel distances, to the robot's move and turn, to a new pose; accurate over short distances but it drifts, because every error stays in the sum. |
 | [Pearson correlation coefficient (Pearson's r)](../../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#91-correlation) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |

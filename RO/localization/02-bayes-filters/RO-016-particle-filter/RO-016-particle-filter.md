@@ -5,18 +5,18 @@ tags: [subject/robotics, area/localization, concept/particle-filter, concept/res
 
 ## 1. Overview
 
-> **Key point:** A particle filter keeps the robot's belief as a cloud of guesses. Each reading reweighs the guesses, resampling keeps the good ones, and each move shifts them all; the cloud can take any shape, including several bumps at once.
+> **Key point:** A particle filter keeps the robot's belief as a cloud of guesses. Each reading reweighs the guesses, resampling keeps the good ones, and each move shifts them all; the cloud can take any shape, including several peaks at once.
 
 ![A corridor that loops round a block, opened out from 0 to 10 m, with three doors set back into the right-hand wall; the robot at 2.1 m reads 1.46 m to the side. Below: the map, the reading expected at each position](images/corridor.png)
 
 So far the robot can run the Bayes filter with a [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter): one probability per cell of the 10-cell hallway. That breaks when the state grows: a floor robot's pose $(x, y, \theta)$ already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-explodes). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
 
-A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, but it does not know where it is. Its side sensor reads 1.46 m, which means "a door is beside me". Three doors fit that reading, so the honest answer to "where am I?" is "at door 1, door 2 or door 3, about equally likely": a belief with three bumps.
+A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, but it does not know where it is. Its side sensor reads 1.46 m, which means "a door is beside me". Three doors fit that reading, so the reading's answer to "where am I?" is "at door 1, door 2 or door 3, about equally likely": a belief with a peak at each door. These peaks are the belief's three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is **multimodal** (G-1275).
 
-The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gives the rule for updating such a belief. Two ways of running it are already known, and both struggle here:
+The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gives the rule for updating such a belief. Two other ways of running it struggle here:
 
 - the **grid filter**, or [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter), stores one number per cell, which is fine on a 10 m line but grows very fast with the number of state variables;
-- the **Kalman filter** of [the Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-gaussian-is-two-numbers) stores the belief as one bell curve, and one bell curve cannot have three bumps (Section 3.1).
+- the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-gaussian-is-two-numbers) stores the belief as a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), and one Gaussian has only one mode (Section 3.1).
 
 The particle filter stores the belief as a set of sample guesses instead. This Note builds it on the corridor of Figure 1:
 
@@ -47,11 +47,11 @@ $$h(x) = 1.0 \text{ m beside plain wall}$$
 
 For example, $h(2.0) = 1.5$ m and $h(3.0) = 1.0$ m.
 
-**The sensor model.** The sensor is noisy: its error follows a [normal distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) with mean 0 and standard deviation $\sigma_z = 0.15$ m. So the reading $z$ at position $x$ has the density
+**The sensor model.** The sensor is noisy: its error follows a Gaussian, also called a [normal distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) with mean 0 and standard deviation $\sigma_z = 0.15$ m. So the reading $z$ at position $x$ has the density
 
 $$p(z \mid x) = \mathcal{N}(z;\ h(x),\ \sigma_z^2)$$
 
-a bell curve centred on the expected reading. The [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#5-the-beam-model-one-mixture-of-four-shapes) explains why real range sensors need a richer curve; one bell is enough for this Note.
+a Gaussian centred on the expected reading. The [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#5-the-beam-model-one-mixture-of-four-shapes) explains why real range sensors need a richer curve; one Gaussian is enough for this Note.
 
 **The motion model.** Each move is commanded as $u = 2.5$ m. The wheels slip, so the true move is 2.5 m plus a random slip with standard deviation $\sigma_u = 0.15$ m, a simple [probabilistic motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density).
 
@@ -82,40 +82,40 @@ The two formulas are exact, but they hold whole curves, and an integral over a c
 
 ## 3. A belief as a cloud of samples
 
-> **Key point:** The three-door belief of Figure 1 has bumps that one bell curve cannot hold, but many samples drawn from it can: the share of samples in a region estimates the probability of that region. Giving each sample a weight lets us change the distribution without moving the samples.
+> **Key point:** The three-door belief of Figure 1 has modes that one Gaussian cannot hold, but many samples drawn from it can: the share of samples in a region estimates the probability of that region. Giving each sample a weight lets us change the distribution without moving the samples.
 
-### 3.1 Why one bell curve is not enough
+### 3.1 Why one Gaussian is not enough
 
-After the second reading, the exact belief (computed on a fine grid, Section 4.5) has two bumps, one at door 2 and one at door 3 (Figure 2). The robot has seen "door, then 2.5 m later door again", and two places fit.
+The simplest way to store the curve would be one Gaussian. After the second reading, the exact belief (computed on a fine grid, Section 4.5) has two modes, one at door 2 and one at door 3 (Figure 2). The robot has seen "door, then 2.5 m later door again", and two places fit.
 
-![The exact belief after the second reading has two bumps, at door 2 and door 3; the single normal curve with the same mean and spread peaks at 5.73 m, in front of plain wall](images/gaussian_fails.png)
+![The exact belief after the second reading has two modes, at door 2 and door 3; the single Gaussian with the same mean and standard deviation peaks at 5.73 m, in front of plain wall](images/gaussian_fails.png)
 
-Try to describe this belief by one bell curve, as a Kalman filter must. The best we can do is a curve with the same mean and standard deviation:
+Try to describe this belief by one Gaussian, as a Kalman filter must. The best we can do is a Gaussian with the same mean and standard deviation:
 
 $$\text{mean} = 5.73 \text{ m}$$
 
 $$\text{standard deviation} = 1.31 \text{ m}$$
 
-Figure 2 shows the result: the red curve peaks at 5.73 m, in front of plain wall, the one stretch where the last reading says the robot cannot be. One bell curve has one bump, so it cannot hold "here or there" (Labbe ch.12). We need a way of storing a belief that can take any shape.
+Figure 2 shows the result: the red curve peaks at 5.73 m, in front of plain wall, the one stretch where the last reading says the robot cannot be. One Gaussian has one mode, so it cannot hold "here or there" (Labbe ch.12). We need a way of storing a belief that can take any shape.
 
 ### 3.2 Samples stand for a distribution: the Monte Carlo idea
 
 Suppose we could draw guesses of the robot's position from its belief, many of them. Where the belief is high, guesses would fall often; where it is low, rarely. Then the guesses alone would answer every question about the belief: "how likely is door 3?" becomes "what share of the guesses is at door 3?".
 
-Estimating a probability or an average by counting random samples is a **Monte Carlo estimate** (G-2493) (Labbe ch.12). It needs no formula for the distribution's shape, which is why it can follow two bumps, a step or anything else.
+Estimating a probability or an average by counting random samples is a **Monte Carlo estimate** (G-2493) (Labbe ch.12). It needs no formula for the distribution's shape, which is why it can follow two modes, a step or anything else.
 
 Its price is randomness: a different set of samples gives a slightly different answer. More samples give a steadier answer. In our corridor, the share of weight at door 3 after the third reading is exactly 0.956. Estimated by the particle filter of Section 4 with $M$ particles, repeated 1000 times (notebook):
 
-| Samples $M$ | Average estimate | Spread (standard deviation) |
+| Samples $M$ | Average estimate | Standard deviation |
 |---|---|---|
 | 100 | 0.950 | 0.030 |
 | 1000 | 0.956 | 0.008 |
 
-Ten times the samples cut the spread by a little under four times, close to the square root of 10, which is 3.16. The spread of an average of independent draws, its [standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872), shrinks at that same rate.
+Ten times the samples cut the standard deviation by a little under four times, close to the square root of 10, which is 3.16. The standard deviation of an average of independent draws, its [standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872), shrinks at that same rate.
 
-Figure 3 shows the same thing as a picture: the particles' histogram after the second reading, for three sample sizes, against the exact belief. With 20 samples the two bumps are ragged; with 2000 the bars follow the curve.
+Figure 3 shows the same thing as a picture: the particles' histogram after the second reading, for three sample sizes, against the exact belief. With 20 samples the bars around the two modes are ragged; with 2000 the bars follow the curve.
 
-![The particle histogram after the second reading against the exact belief: with 20 particles the bars are ragged, with 200 closer, with 2000 they follow the two bumps](images/cloud_vs_exact.png)
+![The particle histogram after the second reading against the exact belief: with 20 particles the bars are ragged, with 200 closer, with 2000 they follow the two modes](images/cloud_vs_exact.png)
 
 ### 3.3 Weighted samples
 
@@ -123,7 +123,7 @@ In a particle filter each sample is a **particle** (G-2491): one guess of the fu
 
 $$\text{bel}(x_t) \approx \lbrace\langle x_t^{[m]},\ w_t^{[m]} \rangle \rbrace$$
 
-The probability of a region is the sum of the weights of the particles in it (with weights that add up to 1). Equal weights give the plain sample count of Section 3.2.
+The probability of a region is the sum of the weights of the particles in it (with weights that add up to 1). Equal weights give the plain sample count of Section 3.2. What is left is how to move and reweigh the particles as each command and reading arrives.
 
 ## 4. The particle filter, step by step
 
@@ -153,9 +153,9 @@ Frame 1 of Figure 7 (Section 4.5) shows this cloud.
 
 $$w^{[m]} = p(z \mid x^{[m]})$$
 
-The result is the **importance weight** (G-2494) of the particle. It is the height of the bell curve, centred on the particle's expected reading $h(x^{[m]})$, at the reading $z$ (Figure 5). It is a height, not an area: the area under a density over a single point is zero, and the height is what a [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#42-likelihood-is-a-height) (G-1086) is. The height is a density, not a probability, so it can be larger than 1.
+The result is the **importance weight** (G-2494) of the particle. It is the height of the Gaussian, centred on the particle's expected reading $h(x^{[m]})$, at the reading $z$ (Figure 5). It is a height, not an area: the area under a density over a single point is zero, and the height is what a [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#42-likelihood-is-a-height) (G-1086) is. The height is a density, not a probability, so it can be larger than 1.
 
-![Left: five particles on the corridor, three at doors (blue) and two beside wall (grey). Right: the sensor's bell curve centred on 1.5 m for a door particle and on 1.0 m for a wall particle; at the reading 1.46 m the heights are 2.567 and 0.024](images/weight_by_hand.png)
+![Left: five particles on the corridor, three at doors (blue) and two beside wall (grey). Right: the sensor's Gaussian centred on 1.5 m for a door particle and on 1.0 m for a wall particle; at the reading 1.46 m the heights are 2.567 and 0.024](images/weight_by_hand.png)
 
 **Worked example.** Take five particles, with the reading $z = 1.46$ m and $\sigma_z = 0.15$ m. For particle 2, at 1.6 m in front of door 1, the gap between reading and expected reading is:
 
@@ -259,12 +259,12 @@ The stretches end at the running totals of the weights:
 - **No good particle is lost.** A particle whose weight is at least $1/M$ owns a stretch at least as long as the pointer spacing, so at least one pointer must land in it. Particles 2, 3 and 5 (weight 0.3313, above 0.2) are always kept (Freiburg PF slides).
 - **Less randomness.** All pointers move together with the one random start, so the number of copies a particle gets can only be the whole number just below or just above $M$ times its weight. For particle 3, five times 0.3313 is 1.66, so it gets 1 or 2 copies. Over 100,000 repeats (notebook):
 
-| Method | Average copies of particle 3 | Spread of copies | Share of repeats with no copy |
+| Method | Average copies of particle 3 | Standard deviation of copies | Share of repeats with no copy |
 |---|---|---|---|
 | Low-variance | 1.655 | 0.475 | 0.000 |
 | Plain | 1.654 | 1.052 | 0.135 |
 
-Both give the same average, so neither favours any particle; the low-variance sampler is less than half as spread. It also needs one pass along the list, a running time proportional to $M$, against $M \log M$ for plain resampling with a search per draw (Freiburg PF slides; Labbe ch.12).
+Both give the same average, so neither favours any particle; the low-variance sampler's standard deviation is less than half as large. It also needs one pass along the list, a running time proportional to $M$, against $M \log M$ for plain resampling with a search per draw (Freiburg PF slides; Labbe ch.12).
 
 > **Python:** the low-variance sampler in four lines.
 > ```python
@@ -291,8 +291,8 @@ Each particle's new position is one sample from $p(x_t \mid u_t, x_{t-1})$, so t
 
 Figure 7 runs the filter with 100 particles through the three readings and two moves. Watch three things:
 
-- after reading 1 (frame 2), the particles at the three doors grow and the rest shrink: three bumps;
-- after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two bumps, at doors 2 and 3;
+- after reading 1 (frame 2), the particles at the three doors grow and the rest shrink: three modes;
+- after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two modes, at doors 2 and 3;
 - after move 2 and reading 3 (frames 7 and 8), one cluster is left, at door 3, around the robot.
 
 The blue line in the lower panel is the exact belief from a fine grid (a [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) with 2000 cells); the grey bars follow it.
@@ -325,7 +325,7 @@ Putting the steps together gives the particle filter of Thrun Table 4.3, as also
 2. **Normalise** the weights so they add up to 1.
 3. **Resample:** draw $M$ particles from the weighted set in proportion to the weights (low-variance sampler); they form $\mathcal X_t$, each with weight $1/M$.
 
-Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use (Section 3.1).
+Every line uses the models only to draw a sample or to evaluate a density. No model needs to be linear, smooth or Gaussian: our map is a step, which a Kalman filter could not use (Section 3.1). With 100 particles the loop found the right door; with fewer, it can fail.
 
 ## 5. Particle deprivation
 
@@ -369,15 +369,15 @@ The problem grows with the number of state variables. A cloud of 100 points cove
 | Resample | draw $M$ new particles in proportion to weight | puts the computation where the belief is |
 
 - The robot of Figure 1, which saw a door and could be at any of three (about 0.33 each), ends after three readings and two moves with 0.96 of its belief at door 3, where it is, because the cloud held all three doors until the readings could tell them apart.
-- A cloud of samples can stand for any belief, because the share of samples in a region estimates its probability; the estimate's spread shrinks like one over the square root of $M$ (0.030 at 100 particles, 0.008 at 1000).
-- One bell curve cannot hold "door 2 or door 3": its peak lands at 5.73 m, in front of wall, so a belief with several bumps needs a filter whose belief can take any shape, such as particles.
+- A cloud of samples can stand for any belief, because the share of samples in a region estimates its probability; the estimate's standard deviation shrinks like one over the square root of $M$ (0.030 at 100 particles, 0.008 at 1000).
+- One Gaussian cannot hold "door 2 or door 3": its peak lands at 5.73 m, in front of wall, so a multimodal belief needs a filter whose belief can take any shape, such as particles.
 - A particle's weight is the height of the sensor curve at the reading (2.567 at a door, 0.024 at a wall), because weighting by $p(z \mid x)$ and normalising is the multiply-and-rescale of the update step.
 - Resampling with the low-variance sampler keeps every particle with weight at least $1/M$ and halves the randomness of plain resampling, so good guesses are not lost by chance.
 - Each particle gets its own slip in the move step, so copies spread out and the cloud keeps covering the possible positions.
 - The weighted mean is a safe answer only for one cluster; with two it can fall in front of a wall.
 - Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100).
 
-The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is one bell, two numbers are enough, which is the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview).
+The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is a single Gaussian, two numbers, a mean and a variance, carry all of it, which is the [Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview).
 
 ## 7. Sources
 
@@ -400,14 +400,16 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Monte Carlo estimate (G-2493) | An estimate of a probability or an average made by counting or averaging random samples, such as the share of samples at door 3; it needs no formula for the distribution, and its spread shrinks like one over the square root of the number of samples. |
+| Monte Carlo estimate (G-2493) | An estimate of a probability or an average made by counting or averaging random samples, such as the share of samples at door 3; it needs no formula for the distribution, and its standard deviation shrinks like one over the square root of the number of samples. |
 | Particle (G-2491) | One sample guess of the full state, such as a position of 1.6 m, together with a weight; a particle filter keeps $M$ of them so that together they stand for the belief. |
-| Particle filter (G-2492) | A Bayes filter that stores the belief as a set of weighted samples (particles) and runs each round as move, weigh, resample; it can hold beliefs of any shape, such as three bumps at three doors. |
+| Particle filter (G-2492) | A Bayes filter that stores the belief as a set of weighted samples (particles) and runs each round as move, weigh, resample; it can hold beliefs of any shape, such as a belief with three modes, one at each of three doors. |
 | Importance weight (G-2494) | The weight a particle gets from a reading: the height of the sensor model $p(z \mid x)$ at that reading, normalised over all particles; it says how well the particle explains what the robot sensed. |
 | Resampling (particle filter) (G-2498) | Drawing a fresh set of $M$ particles, with replacement, from the weighted set, each pick in proportion to weight, then giving all weight $1/M$; heavy particles are copied and light ones dropped, so computation goes where the belief is. |
 | Multinomial resampling (G-2500) | Plain resampling: $M$ independent random numbers each pick a particle in proportion to weight; simple, but a good particle can get no copy by chance. |
 | Low-variance sampler (systematic resampling) (G-2499) | A way to resample with one random start between 0 and $1/M$ and $M$ pointers $1/M$ apart along the stacked weights; it keeps every particle with weight at least $1/M$, adds little randomness and runs in time proportional to $M$. |
 | Particle deprivation (G-2501) | The failure in which no particles are left near the true state, so the filter settles confidently on a wrong answer; caused by too few particles or unlucky resampling, and fought with more particles and fewer resamplings. |
+| [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
+| [Multimodal](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
 | [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872) | How much a statistic, such as the sample mean, changes from one sample to the next, so how precise it is as an estimate. It is the standard deviation of the sampling distribution; for the mean, $\sigma/\sqrt{n}$. |

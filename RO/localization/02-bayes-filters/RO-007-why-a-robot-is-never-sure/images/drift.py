@@ -37,7 +37,7 @@ def frame(k):
                       margin=dict(l=90, r=30, t=110, b=70),
                       title=dict(x=0.5, y=0.93, font=dict(size=22),
                                  text=f"after {k} move{'s' if k != 1 else ''} of 2 m, no readings:  "
-                                      f"spread (standard deviation) {sd[k]:.2f} m"))
+                                      f"standard deviation {sd[k]:.2f} m"))
     return fig
 
 

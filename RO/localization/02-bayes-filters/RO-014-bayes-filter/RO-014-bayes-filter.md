@@ -79,7 +79,7 @@ Dividing by the sum is the same as multiplying by its inverse, written $\eta$ (e
 
 $$\eta = 1 / 0.4 = 2.5$$
 
-This number is the **normaliser** (G-2382): whatever factor makes the products add to 1, the same job it does for the [cut bell of the beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-bell-around-the-expected-range). We never need $p(z)$ from anywhere else, because it is always the sum of the products (PR §2.2).
+This number is the **normaliser** (G-2382): whatever factor makes the products add to 1, the same job it does for the [cut Gaussian of the beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-gaussian-around-the-expected-range). We never need $p(z)$ from anywhere else, because it is always the sum of the products (PR §2.2).
 
 ### 3.2 A second reading: Bayes' theorem with background knowledge
 
@@ -124,7 +124,7 @@ $$p(\text{closed} \mid z_1, z_2) = 0.1$$
 
 ![Belief that the door is open: 0.5 before any reading, 0.75 after the first sense open, 0.9 after the second](images/two_readings.png)
 
-Figure 2 shows the belief growing with each reading. The robot never went back to the first reading: it kept one number, 0.75, and reused it. That reuse is the whole idea of a filter.
+Figure 2 shows the belief growing with each reading. The robot never went back to the first reading: it kept one number, 0.75, and reused it. That reuse is the whole idea of a filter. So far, though, nothing has changed the door between readings.
 
 ## 4. The Bayes filter: predict, then correct
 
@@ -134,7 +134,7 @@ Figure 2 shows the belief growing with each reading. The robot never went back t
 
 Section 3 kept only the last answer, but it assumed nothing changes the door. Once the robot pushes, the door may change between readings, and a robot that drives changes its own position. The belief must now follow two kinds of event: commands, which change the state and usually add doubt, and readings, which add knowledge (see the [predicted belief](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading)).
 
-The honest way to know the belief is to recompute it from the whole history at every step (Figure 3, top). That is an archive, not a filter: after an hour at 10 readings a second, it holds 36,000 readings and keeps growing. The Bayes filter keeps only the last belief and updates it with the newest command and reading (Figure 3, bottom). Updating a belief from the previous belief in this way is **recursive state estimation** (G-2450) (PR §2.4).
+The direct way to know the belief is to recompute it from the whole history at every step (Figure 3, top). That is an archive, not a filter: after an hour at 10 readings a second, it holds 36,000 readings and keeps growing. The Bayes filter keeps only the last belief and updates it with the newest command and reading (Figure 3, bottom). Updating a belief from the previous belief in this way is **recursive state estimation** (G-2450) (PR §2.4).
 
 ![Top: an archive keeps every command and reading and recomputes the belief from all of them. Bottom: a filter turns the previous belief into the new one using only the newest command u_t and reading z_t](images/recursion.png)
 
@@ -215,7 +215,7 @@ Then return $\text{bel}(x_t)$ and wait for the next command and reading.
 > bel = bel / bel.sum()             # correct: [0.983, 0.017]
 > ```
 
-The matrix product `bel @ T_push` is the sum of the prediction step: entry $j$ adds belief times transition probability over every previous state $i$. The notebook `RO-014-bayes-filter.ipynb` runs both steps and checks every number above.
+The sum of the prediction step is the matrix product `bel @ T_push`: entry $j$ adds belief times transition probability over every previous state $i$. The notebook `RO-014-bayes-filter.ipynb` runs both steps and checks every number above. The two steps dropped the history; the next section checks that nothing was lost.
 
 ## 5. Why the two steps give the exact belief
 
@@ -277,7 +277,7 @@ That is the prediction step, and its last factor is the belief one step earlier:
 2. the next state depends only on the previous state and the newest command (Line 4);
 3. the newest command does not tell us about the previous state (Line 5).
 
-The first two together are the [Markov property](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (PR §2.4.4): the current state is a complete summary of the past. When they hold, the Bayes filter is not an approximation; it gives the exact belief. When they fail, for example when people walk around a robot whose map does not include them, the readings are no longer independent given the robot's pose, and the filter can become overconfident (PR §2.4.4; Fox 1999).
+The first two together are the [Markov property](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (PR §2.4.4): the current state is a complete summary of the past. When they hold, the Bayes filter is not an approximation; it gives the exact belief. When they fail, for example when people walk around a robot whose map does not include them, the readings are no longer independent given the robot's pose, and the filter can become overconfident (PR §2.4.4; Fox 1999). Nothing in the derivation needed the door's two states, so the same two steps hold for a position that can take any value.
 
 ## 6. The same two steps on a continuous position
 
@@ -291,7 +291,7 @@ $$\times\ \text{bel}(x_{t-1})\ dx_{t-1}$$
 
 The correction step is unchanged: multiply by $p(z_t \mid x_t)$ and rescale so the area under the curve is 1 (PR §2.4.1).
 
-The numbers for Gaussian beliefs are worked in [why multiplying two bells gives a narrower bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-gaussians).
+For a belief shaped like a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), the numbers are worked in [multiplying two Gaussians gives a narrower Gaussian](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-gaussians). Whatever its shape, the belief is still all the robot keeps; the next section shows why that is enough.
 
 ## 7. The belief is the probabilistic information state
 
@@ -306,7 +306,7 @@ In LaValle's words, marginalisation and Bayes' rule are "the probabilistic equiv
 
 ![Left: the set-valued updates, union after a move and keep-the-states-that-fit after a reading. Right: the belief updates, the sum of the prediction step and the multiply-and-rescale of the correction step](images/set_vs_prob.png)
 
-The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). Section 5 showed that the new belief needs only the old belief, $u_t$ and $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3).
+The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). Section 5 showed that the new belief needs only the old belief, $u_t$ and $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3). The belief is enough to keep; the next section asks how to store it when the pose is continuous.
 
 ## 8. One equation, many filters
 
@@ -316,8 +316,8 @@ The Bayes filter keeps only the last belief, but it says what to compute, not ho
 
 - **[grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter):** chop the space into cells and keep one probability per cell, as in the hallway; the sum stays a sum;
 - **[particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#3-a-belief-as-a-cloud-of-samples):** keep a cloud of sample states; dense clouds mean high belief;
-- **[Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#2-why-two-numbers-are-enough-the-linear-gaussian-system):** assume every belief is a Gaussian and keep only its mean and spread;
-- **[extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#2-the-kalman-filter-in-brief-and-why-curves-break-it):** the Kalman filter for curved motion and sensor models.
+- **[Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#2-why-two-numbers-are-enough-the-linear-gaussian-system):** assume every belief is a Gaussian and keep only its mean and variance;
+- **[extended Kalman filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#2-the-kalman-filter-in-brief-and-why-nonlinear-functions-break-it):** the Kalman filter for motion and sensor models whose graphs are curves, not straight lines: **nonlinear functions** (G-2530).
 
 Each is a different bet about what shape the belief is allowed to have. Knowing the Bayes filter tells us what each of them is trying to compute, and what breaks when its bet is wrong.
 
@@ -371,9 +371,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) | The rule that reverses a conditional probability: from $P(B \mid A)$ it gives $P(A \mid B)$, so a belief about $A$ can be updated after seeing $B$; $P(A \mid B) = P(B \mid A) P(A) / P(B)$. |
 | [Evidence](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#3-the-names-of-the-four-parts) (G-718) | The overall chance of seeing what we observed, counted over every possible hypothesis, written $P(E)$. Bayes' theorem divides by it: posterior = likelihood × prior / evidence. |
 | [Law of total probability](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#1-overview) (G-1053) | The rule for the overall probability of an event: add its probability under each case, weighted by how likely that case is, $P(B) = \sum_i P(B \mid A_i) P(A_i)$, when the cases $A_i$ are mutually exclusive and cover every possibility. |
-| [Normalizer $\eta$](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-bell-around-the-expected-range) (G-2382) | The factor that rescales a set of numbers, or a density, so that they add up (or integrate) to 1; it is always one over the current total: the sum of the products in the Bayes filter (1/0.4 = 2.5 after a reading in the door world), the area under the cut curve in the beam model (1/0.655 = 1.53). |
+| [Normalizer $\eta$](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-gaussian-around-the-expected-range) (G-2382) | The factor that rescales a set of numbers, or a density, so that they add up (or integrate) to 1; it is always one over the current total: the sum of the products in the Bayes filter (1/0.4 = 2.5 after a reading in the door world), the area under the cut curve in the beam model (1/0.655 = 1.53). |
 | [Multiplication rule](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#5-the-multiplication-rule) (G-2212) | The chance that both A and B happen is the chance of B times the chance of A given B: $P(A \cap B) = P(A \mid B) \times P(B)$. |
 | [Conditional independence](../../../../ML/07-classification/ML-082-naive-bayes-maths/ML-082-naive-bayes-maths.md#5-step-3-the-naive-assumption) (G-443) | Independence that holds once a third variable is known: given the class, knowing one feature tells nothing more about another. Naive Bayes assumes it so it can multiply one probability per feature. |
 | [Probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
 | [Integration](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957) | Finding the area under a curve by adding up infinitely many thin strips. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| [Nonlinear function](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#1-overview) (G-2530) | A function whose graph is not a straight line, so it is not a fixed multiple of the input plus a constant, such as the beacon distance $h(x) = \sqrt{(6 - x)^2 + 4}$; it bends a Gaussian into another shape, which is why the Kalman filter cannot use it as it is and the extended Kalman filter linearises it. |

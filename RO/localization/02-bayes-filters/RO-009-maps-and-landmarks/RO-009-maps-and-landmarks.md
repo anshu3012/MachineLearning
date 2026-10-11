@@ -155,7 +155,7 @@ So it is free. Every obstacle made of straight edges can be written this way, as
 
 ### 5.1 Triangle meshes
 
-The room's table and cabinet are really 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
+Half-planes describe the table's outline on the floor plan, but the room's table and cabinet are really 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
 
 ![The table as a 3D triangle mesh: 8 corner points, at floor height and at 0.75 m, joined into 12 triangles covering the top, the bottom and the four sides](images/mesh.png)
 
@@ -189,7 +189,7 @@ An object makes a good **landmark** (G-2342) when two things hold:
 1. the robot can **detect** it reliably, such as a pole that stands out in a laser scan or a coloured marker in a camera image;
 2. the robot can **tell it apart** from the other landmarks: tree 1 from tree 2, the pink pole from the green one.
 
-Landmarks can be natural objects (trees, doors, road signs) or artificial ones put there for the robot (coloured markers, reflectors). Some are passive, only seen; others are active and send a signal, such as a radio beacon (Freiburg sensor-model slides).
+Landmarks can be natural objects (trees, doors, road signs) or artificial ones put there for the robot (coloured markers, reflectors). Some are passive, only seen; others are active and send a signal, such as a radio beacon (Freiburg sensor-model slides). The two poles of our room are passive landmarks; the next step finds them in the scan.
 
 ### 6.2 Finding the poles in a scan
 

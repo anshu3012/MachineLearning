@@ -5,16 +5,16 @@ tags: [subject/robotics, area/localization, concept/landmark-measurement-model, 
 
 ## 1. Overview
 
-> **Key point:** A landmark reading is a range and a bearing to a known point. The model predicts both from a guessed pose and scores the guess with two bells around the predictions. One reading puts the robot on a ring; three readings pin it to one spot, and a reading can also be turned around to propose poses.
+> **Key point:** A landmark reading is a range and a bearing to a known point. The model predicts both from a guessed pose and scores the guess with two Gaussians around the predictions. One reading puts the robot on a ring; three readings pin it to one spot, and a reading can also be turned around to propose poses.
 
 ![The 5 m by 4 m room with three coloured poles: pink at (4.4, 3.8), green at (0.4, 3.2), blue at (3.2, 0.4). The robot at A = (2, 2, 0) reads each one as a range and a bearing: pink 3.10 m at 40 degrees, green 1.95 m at 141 degrees, blue 2.05 m at −55 degrees](images/overview.png)
 
 The [likelihood field](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#3-the-likelihood-field-model) lets the robot score a laser scan about 250 times faster than the beam model. What still breaks: a scan gives hundreds of distances, all of which look alike: wall, wall, wall. This Note adds readings that say which object was seen. A camera that spots a pink pole gives far less data, but the data says exactly which object it saw, and the map says exactly where that object stands. Such a recognisable object at a known place is a landmark. Robots [pull landmarks out of sensor data](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#62-finding-the-poles-in-a-scan), and each one is seen as a range (how far), a bearing (at what angle from the robot's heading) and a signature (what it looks like, here its colour).
 
-Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. This Note builds it:
+Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. The question is: how well does a guessed pose, such as A or a pose B 1 m to its right, explain these three readings? This Note builds the model that answers it:
 
 - what range and bearing a pole should show from a guessed pose, and the two pitfalls in computing the angle (Section 3);
-- the density of a reading, and why it is a product of two bells (Section 4);
+- the density of a reading, and why it is a product of two Gaussians (Section 4);
 - why one reading puts the robot on a ring, and several readings pin it down (Section 5);
 - how to turn one reading around and draw poses that fit it (Section 6).
 
@@ -42,7 +42,7 @@ A sensor that gives both numbers, such as a laser that picks poles out of its sc
 
 $$(m_{c,x},\ m_{c,y}) = (4.4,\ 3.8)$$
 
-When colours repeat, the correspondence is unknown and must be worked out too; later Notes on SLAM deal with that.
+When colours repeat, the correspondence is unknown and must be worked out too; later Notes on SLAM deal with that. Here each pole is known, so for any guessed pose the robot can ask what that pole should read.
 
 ## 3. What a guessed pose predicts
 
@@ -106,31 +106,31 @@ Scoring a reading means comparing it with the prediction. For range, the differe
 
 $$175 - (-178) = 353^\circ$$
 
-A bell around the prediction would call that a wild miss. The fix is to add or subtract 360° until the difference lies between −180° and 180°:
+A bell-shaped error curve around the prediction, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), would call that a wild miss. The fix is to add or subtract 360° until the difference lies between −180° and 180°:
 
 $$353^\circ - 360^\circ = -7^\circ$$
 
-This is **angle wrapping** (G-2404), the wrap-around of headings on a dial, where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect).
+This is **angle wrapping** (G-2404), the wrap-around of headings on a dial, where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect). With the prediction and a fair way to subtract angles, the robot can now score how far each reading lies from what pose A predicts.
 
 ## 4. The landmark measurement model
 
-> **Key point:** The density of a reading is a bell of the range error times a bell of the bearing error, because the two errors are taken as independent. Several landmarks multiply in the same way.
+> **Key point:** The density of a reading is a Gaussian of the range error times a Gaussian of the bearing error, because the two errors are taken as independent. Several landmarks multiply in the same way.
 
-### 4.1 Two bells, multiplied
+### 4.1 Two Gaussians, multiplied
 
-The pink pole reads 3.10 m and 40°, but from pose A it should read 3.00 m and 36.87°: the real reading differs from the prediction by sensor noise. As for the [measurement noise of a laser](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-bell-around-the-expected-range), small errors follow a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) centred on 0. Our sensor has these spreads:
+The pink pole reads 3.10 m and 40°, but from pose A it should read 3.00 m and 36.87°: the real reading differs from the prediction by sensor noise. As for the [measurement noise of a laser](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#41-measurement-noise-a-gaussian-around-the-expected-range), small errors follow a Gaussian centred on 0. Our sensor has these [**standard deviations**](../../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (G-1871), the typical size of each error:
 
 $$\sigma_r = 0.1 \text{ m}$$
 
 $$\sigma_\varphi = 5^\circ = 0.0873 \text{ rad}$$
 
-We treat the range error and the bearing error as independent: knowing that the range came out 10 cm long says nothing about the bearing (Brown CS148 tutorial, Eq. 13). For [independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) the probabilities multiply, and so do the densities. So the density of one reading is the product of two bells:
+We treat the range error and the bearing error as independent: knowing that the range came out 10 cm long says nothing about the bearing (Brown CS148 tutorial, Eq. 13). For [independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) the probabilities multiply, and so do the densities. So the density of one reading is the product of two Gaussians:
 
 $$p(z \mid x, m) = \mathcal{N}(r - \hat r;\ 0, \sigma_r^2)$$
 
 $$\qquad \times\ \mathcal{N}(\varphi - \hat\varphi;\ 0, \sigma_\varphi^2)$$
 
-with the bearing difference wrapped. A camera can confuse colours, so Thrun adds a third bell for the signature; with known correspondence that factor is the same for every pose and can be left out (Thrun §6.6; Brown CS148 tutorial, Eq. 16–17). This is the **landmark measurement model** (G-2401) with known correspondence (Thrun §6.6, Table 6.4; Freiburg sensor-model slides, "Probabilistic Model").
+with the bearing difference wrapped. A camera can confuse colours, so Thrun adds a third Gaussian for the signature; with known correspondence that factor is the same for every pose and can be left out (Thrun §6.6; Brown CS148 tutorial, Eq. 16–17). This is the **landmark measurement model** (G-2401) with known correspondence (Thrun §6.6, Table 6.4; Freiburg sensor-model slides, "Probabilistic Model").
 
 **Worked example: the pink pole at pose A.** The errors:
 
@@ -140,21 +140,21 @@ $$\varphi - \hat\varphi = 40^\circ - 36.87^\circ = 3.13^\circ$$
 
 $$3.13^\circ = 0.0546 \text{ rad}$$
 
-The range bell. Its peak height is one over $\sigma_r\sqrt{2\pi}$:
+The range Gaussian. Its peak height is one over $\sigma_r\sqrt{2\pi}$:
 
 $$\frac{1}{0.1 \times 2.507} = 3.989 \text{ per m}$$
 
-The error is one spread, so:
+The error is one standard deviation, so:
 
 $$3.989 \times e^{-\frac{1}{2} \times 1^2}$$
 
 $$= 3.989 \times 0.607 = 2.420 \text{ per m}$$
 
-The bearing bell. Its peak height:
+The bearing Gaussian. Its peak height:
 
 $$\frac{1}{0.08727 \times 2.5066} = 4.572 \text{ per rad}$$
 
-The error, in spreads:
+The error, in standard deviations:
 
 $$\frac{0.0546}{0.0873} = 0.627$$
 
@@ -180,7 +180,7 @@ Readings of different landmarks come from separate detections, so their errors a
 
 $$9.09 \times 14.70 \times 15.01 = 2006$$
 
-At the wrong pose B = (3, 2, 0), one metre to the right, the pink pole should appear at 2.28 m and 52°, the green at 2.86 m and 155°, the blue at 1.61 m and −83°. Every reading misses by several spreads, and the product is about $10^{-43}$. The readings say A, overwhelmingly.
+At the wrong pose B = (3, 2, 0), one metre to the right, the pink pole should appear at 2.28 m and 52°, the green at 2.86 m and 155°, the blue at 1.61 m and −83°. Every reading misses by several standard deviations, and the product is about $10^{-43}$. The readings say A, overwhelmingly.
 
 > **Python:** the model for one reading (Brown CS148 tutorial, Table 2).
 > ```python
@@ -193,6 +193,8 @@ At the wrong pose B = (3, 2, 0), one metre to the right, the pink pole should ap
 > ```
 > `gauss` is the Gaussian density and `wrap` wraps an angle to (−π, π]; both are in `RO-012-landmark-measurement-model.ipynb`.
 
+These scores judge poses the robot already guessed. The next section asks the reverse: which positions fit the readings at all?
+
 ## 5. Where can the robot be?
 
 > **Key point:** One range reading allows every position on a ring around the landmark. Two rings meet in at most two points, and a third ring, or the map, picks one.
@@ -201,7 +203,7 @@ At the wrong pose B = (3, 2, 0), one metre to the right, the pink pole should ap
 
 Section 4 scored two guessed poses, A and B. Now turn the question around: the readings of Figure 1 are fixed, and we ask which robot positions fit them, starting with one. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
 
-Figure 4 draws the range bell over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
+Figure 4 draws the range Gaussian over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
 
 ![The density of the pink pole's range reading over every robot position in the room, drawn as a surface: a curved ridge of radius 3.10 m around the pink pole, about 0.2 m wide, with the true position A on its crest](images/ring_surface.png)
 
@@ -213,7 +215,7 @@ Figure 5 multiplies the range densities in, one pole at a time; the product of d
 
 ![Animation over the room: first the density of the pink range reading, a ring around the pink pole; then pink times green, which leaves one bright spot near (1.9, 2.0); then pink times green times blue, one sharp spot at (1.90, 1.98) next to the true position (2, 2), marked by a black cross](images/rings.gif)
 
-The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading.
+The bearings add the heading. Once the position is known, a bearing says which way the robot faces: the pole must appear at the measured angle from the heading. Rings and bearings say where the robot could be; Section 6 turns them into poses the robot can try.
 
 ## 6. Sampling poses from a landmark reading
 
@@ -231,11 +233,11 @@ Section 5.1 says the robot lies on a ring around the pole, at any angle. So we p
 2. Draw a noisy range and bearing:
 
    $$
-   \tilde r = r + \text{noise of spread } \sigma_r
+   \tilde r = r + \text{noise of std. dev. } \sigma_r
    $$
 
    $$
-   \tilde\varphi = \varphi + \text{noise of spread } \sigma_\varphi
+   \tilde\varphi = \varphi + \text{noise of std. dev. } \sigma_\varphi
    $$
 
 3. Place the robot at distance $\tilde r$ from the pole, in direction $\gamma$:
@@ -280,7 +282,7 @@ The recipe gives back pose A exactly. With the real reading (3.10 m, 40°) it gi
 
 ### 6.3 The samples
 
-Figure 7 draws 200 poses from the pink reading. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with spread 0.10 m and its bearing averages 39.8° with spread 4.9°: the samples reproduce the reading and its noise, as they should.
+Figure 7 draws 200 poses from the pink reading. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with standard deviation 0.10 m and its bearing averages 39.8° with standard deviation 4.9°: the samples reproduce the reading and its noise, as they should.
 
 ![200 poses drawn from the pink pole's reading (3.10 m, 40 degrees): dots on a ring of radius about 3.1 m around the pole, each with a short arrow for its heading, turned so the pole appears 40 degrees to its left. The true pose A is on the ring; most of the ring lies outside the room](images/sampled.png)
 
@@ -295,11 +297,11 @@ Only 64 of the 200 samples lie inside the room. One reading does not know about 
 | density of a reading | $\mathcal{N}(r - \hat r) \times \mathcal{N}(\varphi - \hat\varphi)$ | range and bearing errors taken as independent |
 | a pose from a reading | $m + \tilde r(\cos\gamma, \sin\gamma)$, $\theta = \gamma + 180^\circ - \tilde\varphi$ | the robot lies on a ring; the bearing fixes its heading |
 
-- The opening question has its answer: the three readings of Figure 1 score the true pose A at 2006 and the pose B one metre away at about $10^{-43}$, because each pole, reduced to a range and a bearing, misses by several spreads from the wrong pose.
+- The opening question has its answer: the three readings of Figure 1 score the true pose A at 2006 and the pose B one metre away at about $10^{-43}$, because each pole, reduced to a range and a bearing, misses by several standard deviations from the wrong pose.
 - A landmark reading is a range, a bearing and a signature; the signature gives the correspondence, so the robot knows which map landmark to predict.
 - The expected bearing uses atan2, because the plain arctangent of $\Delta y / \Delta x$ loses the signs and can point the opposite way (−36.87° instead of 143.13° for the green pole).
 - Bearing differences are wrapped into −180° to 180°, because 175° and −178° are 7° apart, not 353°.
-- The density of a reading is the product of a range bell and a bearing bell, because the two errors are taken as independent; readings of several landmarks multiply for the same reason. It is a density, so it can exceed 1 (9.09 for the pink pole).
+- The density of a reading is the product of a range Gaussian and a bearing Gaussian, because the two errors are taken as independent; readings of several landmarks multiply for the same reason. It is a density, so it can exceed 1 (9.09 for the pink pole).
 - One range reading fits a whole ring of positions; two rings cross in at most two points, and a third reading or the map picks one; here the three poles put the robot within 10 cm of the truth.
 - A reading can be turned around to draw poses that fit it: a random angle around the landmark, the measured range, and the heading $\gamma + 180^\circ - \varphi$, so that a lost particle filter can put guesses where the robot could really be.
 
@@ -340,6 +342,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Euclidean distance](../../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [atan2](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#42-turn-drive-turn) (G-2325) | A function atan2(rise, run) that returns the direction of a line over the full circle from its rise and run given separately; needed because the plain inverse tangent of the ratio cannot tell opposite directions apart. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
+| [Standard deviation](../../../../ML/02-getting-data/ML-018-understanding-your-data/ML-018-understanding-your-data.md#71-count-mean-standard-deviation-minimum-and-maximum) (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | [Independent events](../../../../MA/02-probability/MA-016-independent-events/MA-016-independent-events.md#2-the-definition) (G-934) | Events where one happening does not change the probability of the other. |
 | [Probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569) | The height of a continuous distribution's curve; compares how likely nearby values are. |
 | [Sampling (from a distribution)](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#51-why-sample-instead-of-scoring) (G-2326) | Drawing random values so that, over many draws, each value comes up as often as a given distribution says; it turns a motion model into a cloud of possible poses for particle filters. |

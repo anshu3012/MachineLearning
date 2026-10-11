@@ -17,10 +17,10 @@ assert np.allclose(predict(b1), bb2) and abs(b2[3] - 0.3095) < 1e-4
 
 STAGES = [  # (title, belief, true cell)
     ("1. No idea yet: every cell 0.1", b0, 1),
-    ("2. Reads 'door': three bumps, one per door", b1, 1),
-    ("3. Moves 2 cells right: the bumps move with it", shifted, 3),
-    ("4. The move is uncertain: the bumps spread out", bb2, 3),
-    ("5. Reads 'door' again: one main bump, at cell 3", b2, 3),
+    ("2. Reads 'door': three modes, one per door", b1, 1),
+    ("3. Moves 2 cells right: the modes move with it", shifted, 3),
+    ("4. The move is uncertain: the modes spread out", bb2, 3),
+    ("5. Reads 'door' again: one main mode, at cell 3", b2, 3),
 ]
 
 

@@ -21,9 +21,9 @@ gauss = np.exp(-0.5 * ((xs - m) / s) ** 2) / (s * np.sqrt(2 * np.pi))
 fig = go.Figure()
 for a, b in DOORS:
     fig.add_vrect(x0=a, x1=b, fillcolor=ORANGE, opacity=0.15, line_width=0)
-fig.add_trace(go.Scatter(x=xs, y=bel, mode="lines", line=dict(color=BLUE, width=4), name="exact belief: two bumps"))
+fig.add_trace(go.Scatter(x=xs, y=bel, mode="lines", line=dict(color=BLUE, width=4), name="exact belief: two modes"))
 fig.add_trace(go.Scatter(x=xs, y=gauss, mode="lines", line=dict(color=RED, width=4, dash="dash"),
-                         name="one normal curve, same mean and spread"))
+                         name="one Gaussian, same mean and standard deviation"))
 fig.add_vline(x=m, line=dict(color=RED, width=2, dash="dot"))
 fig.add_annotation(x=m, y=0.62, text=f"its peak: {m:.2f} m,<br>in front of plain wall", showarrow=False,
                    font=dict(size=19, color=RED), yanchor="bottom")

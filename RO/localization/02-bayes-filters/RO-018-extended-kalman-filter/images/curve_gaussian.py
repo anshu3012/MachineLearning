@@ -45,7 +45,7 @@ def frame(mu, s):
                           f"input: mean {mu} m, sd {s} m<br>true output: mean {ys.mean():.2f}, sd {ys.std():.2f}"
                           f"   |   tangent line: mean {m_lin:.2f}, sd {s_lin:.2f}")))
     fig.add_annotation(xref="paper", yref="paper", x=0.98, y=0.66, showarrow=False, align="right", font=dict(size=16),
-                       text="orange: pushed samples<br>purple: tangent-line bell")
+                       text="orange: pushed samples<br>purple: tangent-line Gaussian")
     return fig
 
 
