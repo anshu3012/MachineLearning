@@ -16,7 +16,7 @@ A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, 
 The [Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) gives the rule for updating such a belief. Two ways of running it are already known, and both struggle here:
 
 - the **grid filter**, or [histogram filter](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter), stores one number per cell, which is fine on a 10 m line but grows very fast with the number of state variables;
-- the **Kalman filter** of [the Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-bell-is-two-numbers) stores the belief as one bell curve, and one bell curve cannot have three bumps (Section 3.1).
+- the **Kalman filter** of [the Kalman filter](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-gaussian-is-two-numbers) stores the belief as one bell curve, and one bell curve cannot have three bumps (Section 3.1).
 
 The particle filter stores the belief as a set of sample guesses instead. This Note builds it on the corridor of Figure 1:
 

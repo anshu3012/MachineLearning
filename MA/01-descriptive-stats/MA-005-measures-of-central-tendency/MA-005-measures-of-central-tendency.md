@@ -367,7 +367,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Population mean ($\mu$) (G-1524) | The mean of every value in the population. |
 | Sample mean ($\bar{x}$) (G-1725) | The average of the values in a sample, $\bar{x}$: add them up and divide by $n$; it is used as the estimate of the population mean $\mu$. |
 | Median (G-1209) | The middle value of sorted data; the 50% percentile. |
-| Mode (G-1251) | The most common value of a column. |
+| Mode (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | Multimodal (G-1275) | Having more than one mode (two modes: bimodal). |
 | Weight (in a weighted mean) (G-2111) | A number saying how much a value counts in a weighted mean. |
 | Weighted mean (G-2117) | A mean in which each value is multiplied by a weight saying how much it counts. |

@@ -33,7 +33,7 @@ To see why the curved distance of Figure 1 breaks it, recall what the [Kalman fi
 - **predict:** move the mean with the command and add the process noise $Q$ to the variance;
 - **update:** blend in the reading $z$ with the [Kalman gain](../RO-017-kalman-filter/RO-017-kalman-filter.md#43-the-best-weight-the-kalman-gain) (G-2508), which gives the reading the weight that makes the new variance smallest.
 
-Both steps rest on one fact: a [linear function keeps a bell a bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-bell-a-bell), with the variance multiplied by the slope squared. The update also assumed the reading was a linear function of the position, $z = Hx + v$. Our new reading is
+Both steps rest on one fact: a [linear function keeps a bell a bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-gaussian-a-gaussian), with the variance multiplied by the slope squared. The update also assumed the reading was a linear function of the position, $z = Hx + v$. Our new reading is
 
 $$h(x) = \sqrt{(6 - x)^2 + 2^2}$$
 
@@ -239,7 +239,7 @@ To tell when the result has gone wrong, the filter's own variance is no help. Th
 
 ### 5.2 The innovation and its covariance
 
-Every step, before it sees the reading, the filter predicts it: $h(\bar{x})$. It also predicts how far off the reading will be. The innovation $z - h(\bar{x})$ has two independent sources of error, the prediction's and the sensor's. The prediction's error reaches the reading through the slope $H$, so its variance is multiplied by $H^2$ ([variance times slope squared](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-bell-a-bell)); then the [two independent variances add](../RO-017-kalman-filter/RO-017-kalman-filter.md#24-adding-independent-errors-adds-variances):
+Every step, before it sees the reading, the filter predicts it: $h(\bar{x})$. It also predicts how far off the reading will be. The innovation $z - h(\bar{x})$ has two independent sources of error, the prediction's and the sensor's. The prediction's error reaches the reading through the slope $H$, so its variance is multiplied by $H^2$ ([variance times slope squared](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-gaussian-a-gaussian)); then the [two independent variances add](../RO-017-kalman-filter/RO-017-kalman-filter.md#24-adding-independent-errors-adds-variances):
 
 $$S = H\bar{P}H^{\mathsf T} + R$$
 

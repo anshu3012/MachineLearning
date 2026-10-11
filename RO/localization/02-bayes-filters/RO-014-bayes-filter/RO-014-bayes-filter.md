@@ -291,7 +291,7 @@ $$\times\ \text{bel}(x_{t-1})\ dx_{t-1}$$
 
 The correction step is unchanged: multiply by $p(z_t \mid x_t)$ and rescale so the area under the curve is 1 (PR §2.4.1).
 
-The numbers for Gaussian beliefs are worked in [why multiplying two bells gives a narrower bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-bells).
+The numbers for Gaussian beliefs are worked in [why multiplying two bells gives a narrower bell](../RO-017-kalman-filter/RO-017-kalman-filter.md#45-the-same-answer-from-multiplying-gaussians).
 
 ## 7. The belief is the probabilistic information state
 
