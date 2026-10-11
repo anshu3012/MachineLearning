@@ -9,6 +9,7 @@ The project exists so that a beginner can **learn**, building intuition from bas
 - **Voice:** a professional textbook in the "we" voice. Never mention a video, the teacher (including by name in examples, such as "Nitish"), "he", the course, CampusX, YouTube, or "Video N" in the body text. The one exception is the **Built from** list in Sources (section 8), which credits the source videos by channel, title and link. No narration about a lecture, and no fluff.
 - **Order:** the transcript drives the content and its order, invisibly. Material beyond the transcript is marked as an Extra box, or sourced in the text.
 - **Language:** plain, simple English. Short sentences, one idea per paragraph. Write "rupees", never the ₹ sign.
+- **Subject names:** write the full name with its code, "Maths (MA)", "Machine Learning (ML)", "Deep Learning (DL)", "Robotics (RO)"; bare codes only inside IDs.
 - **Naming** (see `docs/STYLE-naming.md`):
   - No sentence starts with a vague "It", "This" or "That" pointing back at an idea; name the thing instead.
   - Use **feature**, **target** and **observation**, each defined in plain words on first use. Use "column" and "row" only for the table, DataFrame or matrix itself.
@@ -150,6 +151,7 @@ The user read the chain-rule section of a maths Note: "In words: the value of f 
 - **Define before use.** The first time a function, variable or symbol appears, write what it is with a concrete value: "f(x, y) = x² + y², so f(2, 3) = 13", not "a function f". Every set or space symbol (ℝ, ℝ^D, ∈, ∑) is explained on first use in plain words with a small instance ("ℝ² means pairs of numbers such as (2, 3)").
 - **One step per line, shown.** A calculation is a stack of display lines or a table: each product on its own line with its numbers, then the sum on the next line. Never "add the two products" in a sentence. A process is shown by a figure or animation, with the text pointing at it.
 - **No maths rolled into prose.** Formulas and numbers live in display lines or tables, not inside sentences. Inline maths is only for naming a single symbol already defined (for example "the slope m").
+- **Derivations are plain maths.** Numbers first, then the same steps in symbols, paired; one move per line; no narration, labels, tables or pictures inside the derivation; short.
 - **Explain every picture's point.** A section titled "one picture of every shape" is not an explanation: say what the reader should see, why, and what to conclude, in plain steps next to the figure.
 - Run this check on every section of every Note: could a beginner with ADHD follow it one line at a time without guessing what any symbol means?
 
@@ -238,6 +240,7 @@ An independent reader, not shown the user's examples, found these in randomly ch
 - **Leakage counts as a training-data problem:** features ranked, selected or scaled on the full data before a split or cross-validation let the test data help choose the model.
 - **When the text gives a reason for a result, the reason matches the model's own internals** (the filter's weights, the tree's leaves, the code): "the bar left the receptive field" is wrong if it is still inside on the negative side.
 - **Every display line names its quantity**, especially when its digits repeat a nearby number (a p-value of 0.47 next to a 0.47 kg gain).
+- **Rounded numbers reproduce the arithmetic shown.** If the text or a frame divides or multiplies rounded values, the shown result must come out of the shown values: 6.26 / 0.029 is 216, so a result of 215 needs 0.0291. Write enough figures.
 - **A unit keeps one meaning in a Note** (GB as 1024³ bytes, or decimal, not both).
 - **A symbol keeps one meaning in a Note**, and each glossary tag (G-N) is the ID of the term actually meant.
 
@@ -292,7 +295,7 @@ The user, on RO-017: "The predicted variance is the old variance plus Q … what
 ## 29. Anything that happens over time, in steps, in a loop or in a sequence is an animation (user, 2026-10-11)
 The user, on RO-010 (10 figures, 2 animations): "one of the most illustration and animation dependent sections barely has any animations? why?", then: "anything which happens over time, or in steps or in loop or a sequence deserve a animation".
 - **What counts:** a process the text walks through: a beam travelling out and stopping, a ray checked cell by cell, a scan sweeping a room, a loop of predict and update, an algorithm's rounds, a search towards a best value, a sum or product built up term by term, a picture built up layer by layer.
-- **A still is not enough** for these, even a good one; question 10 ("a figure or an animation") does not excuse it. A still stays for what does not change: a shape, a map, a comparison at one moment.
+- **A still is not enough** for these, even a good one; checklist item 54 ("a figure or animation") does not excuse it. A still stays for what does not change: a shape, a map, a comparison at one moment.
 - **The animation sits next to the text it shows** (§21), uses the Note's own numbers, and holds its last frame. Each GIF has a frames grid for the PDF (`images/gifkit.py`).
 
-Every agent runs `docs/NOTE-CHECKLIST.md` on each Note it touches and reports it question by question.
+Every agent runs `docs/NOTE-CHECKLIST.md` on each Note it touches and reports it item by item.
