@@ -75,9 +75,9 @@ A filter uses a motion model in two ways, and this Note builds both:
 
 ### 3.1 From encoder ticks to a new pose
 
-The **motion model** (G-2319) needs a control $u_t$, the command or an odometry reading. To see how far off a move went, the robot can measure what its wheels really did instead of trusting the command. A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned (Figure 3).
+The **motion model** (G-2319) needs a control $u_t$, the command or an odometry reading. To see how far off a move went, the robot can measure what its wheels really did instead of trusting the command. A **wheel encoder** (G-2320) is a sensor that counts how far a wheel turns. A common kind is a disc with evenly spaced slots fixed to the motor shaft. A light shines through the slots onto a light sensor, which gives one pulse, or tick, each time a slot passes (Freiburg slides). Knowing how many slots make a full turn, the robot turns the tick count into the angle the wheel turned. In Figure 3, watch both discs turn for 0.1 s while their counters run up to 191 and 127 ticks; the three boxes then turn those counts into a new pose, and each later 0.1 s starts from the pose before it.
 
-![Left: an optical encoder, a slotted disc on the wheel shaft between a light and a sensor; each passing slot gives one tick. Right: the three steps of wheel odometry with the Note's numbers: 191 and 127 ticks give wheel distances 60.0 mm and 39.9 mm, which give a forward move of 49.95 mm and a turn of 0.1005 rad, which move the pose from (2, 1, 0.5236) to (2.0433, 1.0250, 0.6241)](images/encoder.png)
+![Animation: the right and the left wheel's encoder discs, each a slotted disc between a light and a sensor (24 slots drawn; the real disc has 1000), turn for one step of 0.1 s while their counters run up to 191 and 127 ticks. The three steps of wheel odometry then fill in: one tick is 0.314 mm, so the wheels rolled 60.0 mm and 39.9 mm; that gives a forward move of 49.95 mm and a turn of 0.1005 rad; the pose (x and y in m, heading in rad) moves from (2, 1, 0.5236) to (2.0433, 1.0250, 0.6241), and the robot below moves there. The step repeats four times with the same counts, each from the last pose; the last frame lists the five poses, up to (2.1851, 1.1639, 1.0263) after 0.5 s](images/encoder_anim.gif)
 
 Working out the robot's pose by adding up the wheel motion the encoders measure is **wheel odometry** (G-2321). It takes three steps. Our encoders give 1000 ticks per wheel turn; our wheels have radius $r = 0.05$ m and are $L = 0.2$ m apart (RO-001). In one step of 0.1 s the right encoder counts 191 ticks and the left 127.
 
@@ -133,7 +133,9 @@ Figure 4 shows how much a small systematic error costs. The model assumes both w
 
 $$\Delta\theta = \frac{10.1 - 10}{0.2} = 0.5 \text{ rad}$$
 
-![A robot whose right wheel is 1 percent larger than the model thinks: odometry says it drove straight to (10, 0); really it curved left to (9.64, 2.46), 2.49 m away](images/calib_drift.png)
+In Figure 4, watch the grey robot, where odometry puts the robot, drive straight while the real robot (red) curves left: the gap between them grows with every metre.
+
+![Animation: a robot whose right wheel is 1 percent larger than the model thinks. Both encoders count the same ticks, so odometry's robot (grey) drives straight along x, while the real robot (red) curves left; each frame adds 1 m of ticks, and the gap between the two grows. The last frame: odometry says (10, 0); really the robot has turned 0.50 rad and is at (9.64, 2.46), 2.49 m away](images/calib_anim.gif)
 
 The true robot ends at (9.64 m, 2.46 m), 2.49 m from where odometry puts it. Finding the real wheel radii and separation of one particular robot by driving known paths is **odometry calibration** (G-2322); it removes most of the systematic error, while the random error stays and needs a probabilistic model.
 
@@ -175,7 +177,9 @@ Whatever path the robot took, any such change of pose can be done in three simpl
 - $\delta_{\text{trans}}$ is the straight drive, in m;
 - $\delta_{\text{rot2}}$ is the second turn, in rad.
 
-![Odometry from (2, 1) facing 30 degrees to (2.249, 1.409) facing 87.3 degrees, as turn, drive, turn: first turn 0.500 rad to face the end point, drive 0.479 m along the straight line, second turn 0.500 rad to the end heading. The robot really drove the dashed arc](images/odometry_model.png)
+In Figure 5, watch the faint robot drive the arc the robot really drove, then watch the robot redo the move as turn, drive, turn: it lands on the same pose, so the three numbers carry the whole move.
+
+![Animation of odometry from (2, 1) facing 30 degrees to (2.249, 1.409) facing 87.3 degrees. First a faint robot drives the dashed arc the robot really drove; odometry keeps only its start and end pose. Then the robot redoes the move as turn, drive, turn: first turn 0.500 rad to face the end point, drive 0.479 m along the straight line, second turn 0.500 rad to the end heading. The last frame shows the three parts, and the robot on the same end pose as the arc](images/odometry_anim.gif)
 
 The drive is the straight-line distance between the two positions:
 
@@ -328,9 +332,9 @@ $$\theta' = 0.524 + 0.550 + 0.480 = 1.554$$
 
 This sample ends 3.5 cm left of and 1.4 cm below the model's end point, and faces 1.7° further left.
 
-Figure 6 draws 500 such samples for three noise settings. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel. All of this needs odometry; a robot without encoders has only its command.
+Figure 6 first plays this worked sample one motion at a time, then draws 500 such samples for three noise settings; watch the middle cloud, with mostly turning noise, bend as it fills. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel. All of this needs odometry; a robot without encoders has only its command.
 
-![500 sampled end positions for the same odometry reading under three noise settings: the Note's noise gives a round cloud around (2.249, 1.409); mostly turning noise bends it into a banana around the start; mostly driving noise stretches it along the line from the start](images/banana.png)
+![Animation of sampling the odometry model. First one draw, zoomed in: with the noise +0.05 rad, −0.03 m and −0.02 rad the robot turns 0.550 rad, drives 0.449 m and turns 0.480 rad, and ends at (2.214, 1.395) facing 1.554 rad, 3.5 cm left of and 1.4 cm below the model's end (red ×); the dashed arc is the noise-free path of Figure 1. Then 500 draws fill in for each of three noise settings. The last frame: the Note's noise gives a round cloud around (2.249, 1.409); mostly turning noise bends it into a banana around the start; mostly driving noise stretches it along the line from the start](images/banana_anim.gif)
 
 ## 6. The velocity motion model
 
@@ -386,9 +390,9 @@ $$x' = 1.750 + 0.5 \times 0.999 = 2.249$$
 
 $$y' = 1.433 - 0.5 \times 0.047 = 1.409$$
 
-![The velocity model without noise: v = 0.5 m/s and omega = 1 rad/s give a turning radius of 0.5 m; the ICC (1.750, 1.433) lies 0.5 m to the robot's left; in 1 s the robot turns 1 rad about it and ends at (2.249, 1.409) facing 87.3 degrees](images/velocity_arc.png)
+Figure 7 plays the construction: watch the green radius swing 1 rad about the ICC and carry the robot along the blue arc, while a faint robot takes one Euler step of 1 s instead. The Euler step ends at (2.433, 1.250), 24 cm away, because it drives straight along the start heading.
 
-Figure 7 draws the construction. One Euler step of 1 s would instead put the robot at (2.433, 1.250), 24 cm away, because it drives straight along the start heading.
+![Animation of the velocity model without noise: v = 0.5 m/s and omega = 1 rad/s give a turning radius of 0.5 m; the ICC (1.750, 1.433) lies 0.5 m to the robot's left. Over 1 s the green radius swings 1 rad about the ICC, and the robot drives the blue arc to (2.249, 1.409), facing 87.3 degrees. A faint robot takes one Euler step of 1 s instead, its heading held at 30 degrees, and ends at (2.433, 1.250); the last frame shows both ends, 24 cm apart](images/velocity_anim.gif)
 
 A gotcha: $R = v/\omega$ has no value when $\omega = 0$. A robot driving straight has no ICC, so code must use the straight-line step when $\omega$ is zero or tiny:
 
@@ -469,7 +473,9 @@ $$\approx \eta\thinspace p(x_t \mid u_t, x_{t-1})\thinspace\pi(x_t)$$
 
 This is the **map-consistent motion model** (G-2329). When **sampling** (G-2326), it becomes a simple rule: draw a sample with the motion model; if it lies inside an obstacle, throw it away and draw again. Keeping only the draws that pass a test, and drawing again otherwise, is **rejection sampling** (G-2330) (Freiburg slides).
 
-![Left: one big step of 0.48 m; of 500 samples, 95 land inside a wall and are rejected, but 14 land beyond the wall in free space and are kept, though the robot could not have driven through the wall. Right: the same motion in twenty small steps, rejecting and redrawing at each step: no sample gets beyond the wall](images/map_reject.png)
+Figure 9 tries both on our step. On the left, watch the cloud jump out in one step: samples that end inside the wall turn red, and samples that end beyond it stay. On the right, watch the cloud creep up in twenty small steps and stop at the wall.
+
+![Animation of sampling with a map; a wall 8 cm thick lies across the cloud of our 0.48 m step. Left: one big step; the 500 samples fly out from the start, and only where they end is checked: 95 end inside the wall and are rejected (red), but 14 end beyond the wall in free space and are kept (purple), though the robot could not have driven through the wall. Right: the same motion in twenty small steps of about 2.4 cm; after each step, draws that land in the wall flash red and are drawn again. The last frame: no sample gets beyond the wall](images/map_reject_anim.gif)
 
 The approximation checks only where a sample ends, not the path to it. That is why it needs small steps. In Figure 9, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the final cloud has the same **standard deviation** (G-1870), and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter.
 

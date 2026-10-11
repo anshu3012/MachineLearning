@@ -20,8 +20,9 @@ def _poly(pts, x, y, th):
     return x + c * p[:, 0] - s * p[:, 1], y + s * p[:, 0] + c * p[:, 1]
 
 
-def robot(q, scale=1.0, color=BLUE, opacity=1.0, arrow=True):
-    """Traces of the robot at pose q = (x, y, th): body, two wheels and a heading arrow. scale enlarges the drawing."""
+def robot(q, scale=1.0, color=BLUE, opacity=1.0, arrow=True, fill="rgba(76,120,168,0.18)"):
+    """Traces of the robot at pose q = (x, y, th): body, two wheels and a heading arrow. scale enlarges the drawing;
+    color and fill are the body's outline and fill."""
     x, y, th = q
     k = scale
     body = [(-0.15 * k, -0.1 * k), (0.11 * k, -0.1 * k), (0.11 * k, 0.1 * k), (-0.15 * k, 0.1 * k), (-0.15 * k, -0.1 * k)]
@@ -30,7 +31,7 @@ def robot(q, scale=1.0, color=BLUE, opacity=1.0, arrow=True):
     out = []
     bx, by = _poly(body, x, y, th)
     out.append(go.Scatter(x=bx, y=by, mode="lines", fill="toself", line=dict(color=color, width=2),
-                          fillcolor="rgba(76,120,168,0.18)", opacity=opacity, hoverinfo="skip"))
+                          fillcolor=fill, opacity=opacity, hoverinfo="skip"))
     for sgn in (1, -1):
         wx, wy = _poly(wheel(sgn), x, y, th)
         out.append(go.Scatter(x=wx, y=wy, mode="lines", fill="toself", line=dict(color="black", width=1),
