@@ -28,7 +28,12 @@ We answer it in steps:
 - the two probability tables that tell the robot how commands and readings change the belief ([Section 5](#5-the-two-tables-that-drive-the-belief));
 - one picture of how states, commands and readings depend on each other, the **hidden Markov model** (G-2439) ([Section 6](#6-the-whole-picture-the-hidden-markov-model)).
 
-The [**state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. Here the state $x_t$ is the robot's cell at time $t$, the command is $u_t$ and the reading is $z_t$.
+The [**state**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) is what the robot keeps track of, and the [commands and readings](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) are the two streams of data it receives. In symbols:
+
+- $t$ is the time step, counted 1, 2, 3;
+- $x_t$ is the state, the robot's cell at time $t$, a cell number from 0 to 9 (cell 1 at $t = 1$);
+- $u_t$ is the command at time $t$, such as "move 2";
+- $z_t$ is the reading at time $t$, "door" or "wall".
 
 ## 2. What the robot knows: its history
 
@@ -88,7 +93,12 @@ Figure 3 shows the three sets. Only cell 3 can be reached from a door by one mov
 
 ### 3.2 Why a set is not enough
 
-Now use the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell, so for any set $S$ of possible cells the intersection removes nothing:
+Now use the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell. In symbols:
+
+- $S$ is the set of cells the robot could be in before the reading, such as $\lbrace0, 2, 3, 4, 5, 6, 8, 9 \rbrace$ after the move of [Section 3.1](#31-the-set-step-by-step);
+- $\lbrace0, 1, \ldots, 9 \rbrace$ is the set of cells where "door" can be read, which is now all 10 cells.
+
+So the intersection $\cap$ removes nothing:
 
 $$S \cap \lbrace0, 1, \ldots, 9 \rbrace= S$$
 
@@ -133,16 +143,19 @@ The figure shows 0.1875 rounded to 0.19. The exact rule behind this share-counti
 
 ### 4.2 The definition
 
-The robot's probability for each cell, given everything it knows, is its **belief** (G-2433). Written out:
+The robot's probability for each cell, given everything it knows, is its **belief** (G-2433). Each symbol:
 
-$$\text{bel}(x_t) = p(x_t \mid z_{1:t},\ u_{1:t})$$
-
-Each symbol:
-
-- $x_t$ is the cell at time $t$; the belief has one value for every possible cell;
+- $t$ is the time step, here 2;
+- $\text{bel}(x_t)$ is the belief, the probability that the robot is in cell $x_t$ at time $t$, a number from 0 to 1 (0.31 for cell 3 at $t = 2$);
+- $x_t$ is the cell at time $t$, any cell number from 0 to 9; the belief has one value for every possible cell;
+- $p(\ldots)$ is the probability of what stands left of the bar;
 - $z_{1:t}$ means all readings from time 1 to $t$, here $(z_1, z_2) = (\text{door}, \text{door})$ at $t = 2$;
 - $u_{1:t}$ means all commands from time 1 to $t$, here $(\text{stay}, \text{move 2})$;
 - the bar $\mid$ is read "given", as in a [**conditional probability**](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444).
+
+Written out:
+
+$$\text{bel}(x_t) = p(x_t \mid z_{1:t},\ u_{1:t})$$
 
 The right-hand side conditions on $z_{1:t}$ and $u_{1:t}$: exactly the **information state** (G-2431) of [Section 2.2](#22-the-information-state-everything-the-robot-knows). So the belief is a summary of the history, made of 10 numbers however long the history grows (PR §2.3.4). At $t = 2$ in our run:
 
@@ -158,13 +171,20 @@ The robot is always in exactly one cell. A **belief** (G-2433) of 0.19 on three 
 
 ### 4.4 Why the whole history appears in the definition
 
-The definition conditions on every command and reading since the start, which looks like the long list we wanted to avoid. It is there because the robot does not know its earlier cells either: if it knew $x_{t-1}$, that one cell plus the latest command and reading would be enough, but it only has the history (PR §2.3.4). The [derivation of the Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) shows that the **belief** (G-2433) can still be computed step by step from the previous belief alone, so the robot never stores the history itself.
+The definition conditions on every command and reading since the start, which looks like the long list we wanted to avoid. It is there because the robot does not know its earlier cells either: if it knew its previous cell $x_{t-1}$, that one cell plus the latest command and reading would be enough, but it only has the history (PR §2.3.4). The [derivation of the Bayes filter](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) shows that the **belief** (G-2433) can still be computed step by step from the previous belief alone, so the robot never stores the history itself.
 
 ### 4.5 The predicted belief: after the move, before the reading
 
 > **Key point:** The predicted belief is the **belief** (G-2433) after the latest command but before the latest reading. Commands lose knowledge, readings gain it, so we track the belief between the two.
 
-The two kinds of event act in opposite directions, as [moving and sensing](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) showed. A move adds doubt, because the robot cannot be sure how far it went. A reading removes doubt, because it rules places in or out. So it pays to look at the belief halfway through a step: after the command $u_t$, before the reading $z_t$. This is the **predicted belief** (G-2436), written with a bar:
+The two kinds of event act in opposite directions, as [moving and sensing](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) showed. A move adds doubt, because the robot cannot be sure how far it went. A reading removes doubt, because it rules places in or out. So it pays to look at the belief halfway through a step: after the command $u_t$, before the reading $z_t$. This is the **predicted belief** (G-2436), written with a bar. At time $t$:
+
+- $\overline{\text{bel}}(x_t)$ is the predicted belief, the probability that the robot is in cell $x_t$ after the command and before the reading, a number from 0 to 1 (0.1625 for cell 3 at $t = 2$);
+- $x_t$ is the cell at time $t$, any cell number from 0 to 9;
+- $z_{1:t-1}$ means all readings before time $t$, here only $z_1$ = door at $t = 2$;
+- $u_{1:t}$ means all commands from time 1 to $t$, here (stay, move 2) at $t = 2$.
+
+Written out:
 
 $$\overline{\text{bel}}(x_t) = p(x_t \mid z_{1:t-1},\ u_{1:t})$$
 
@@ -199,6 +219,13 @@ The command "move 2" does not always move the robot 2 cells. Suppose tests on th
 Figure 6 draws the three outcomes from cell 1.
 
 ![From cell 1, the command move 2 ends in cell 2 with probability 0.1, cell 3 with 0.8 and cell 4 with 0.1](images/transition.png)
+
+For one move:
+
+- $x_{t-1}$ is the cell before the move, cell 1 in Figure 6;
+- $u_t$ is the command, "move 2";
+- $x_t$ is the cell after the move, cell 2, 3 or 4 in Figure 6;
+- $p(x_t \mid u_t,\ x_{t-1})$ is the probability of landing in cell $x_t$, a number from 0 to 1 (0.8 for cell 3).
 
 The probability of landing in cell $x_t$, given the command $u_t$ and the previous cell $x_{t-1}$, is the **state transition probability** (G-2434) (PR §2.3.3):
 
@@ -235,6 +262,12 @@ Figure 7 draws both columns for all 10 cells.
 
 ![Left: the probability of reading door is 0.6 at cells 1, 3 and 7 and 0.2 elsewhere. Right: the probability of reading wall is 0.4 at the doors and 0.8 elsewhere](images/measurement.png)
 
+For one reading:
+
+- $x_t$ is the true cell at time $t$, such as cell 3;
+- $z_t$ is the reading at time $t$, "door" or "wall";
+- $p(z_t \mid x_t)$ is the probability of reading $z_t$ in cell $x_t$, a number from 0 to 1 (0.6 for "door" in cell 3).
+
 The probability of a reading $z_t$ given the true cell $x_t$ is the **measurement probability** (G-2435) (PR §2.3.3):
 
 $$p(z_t \mid x_t)$$
@@ -269,9 +302,9 @@ Figure 8 draws the hallway robot this way, its hidden cells, commands and door r
 
 Reading the arrows:
 
-- two arrows point into $x_t$, from $x_{t-1}$ and from $u_t$: its table is the **state transition probability** (G-2434) $p(x_t \mid u_t, x_{t-1})$ of [Section 5.1](#51-how-a-command-moves-the-robot-the-state-transition-probability);
-- one arrow points into $z_t$, from $x_t$: its table is the **measurement probability** (G-2435) $p(z_t \mid x_t)$ of [Section 5.2](#52-what-the-sensor-reads-in-each-place-the-measurement-probability);
-- no arrow goes from $z_1$ to $z_2$: given the cells, one reading says nothing about another;
+- two arrows point into the cell $x_t$, from the previous cell $x_{t-1}$ and from the command $u_t$: its table is the **state transition probability** (G-2434) $p(x_t \mid u_t, x_{t-1})$ of [Section 5.1](#51-how-a-command-moves-the-robot-the-state-transition-probability);
+- one arrow points into the reading $z_t$, from the cell $x_t$: its table is the **measurement probability** (G-2435) $p(z_t \mid x_t)$ of [Section 5.2](#52-what-the-sensor-reads-in-each-place-the-measurement-probability);
+- no arrow goes from the first reading $z_1$ to the second $z_2$: given the cells, one reading says nothing about another;
 - the shaded circles are what the robot knows (its **information state** (G-2431)); the white ones are hidden.
 
 A Bayesian network that repeats the same columns over time is a **dynamic Bayes network** (G-2441) (PR §2.3.3). Every robot **state** (G-2314) estimator in this chapter rests on this one drawing.
@@ -288,9 +321,9 @@ The notebook `RO-013-belief.ipynb` checks every number in this Note and lets us 
 
 | What the robot keeps | Size | After a move | After a reading | Weakness |
 |---|---|---|---|---|
-| History (information state) | grows every step | add $u_t$ | add $z_t$ | too long to keep |
+| History (information state) | grows every step | add the command $u_t$ | add the reading $z_t$ | too long to keep |
 | Set of possible cells | at most 10 cells | union of reachable cells | keep cells that fit | stops shrinking with a sensor that can be wrong; no "how likely" |
-| Belief | 10 probabilities | shift and spread | multiply up the cells that fit, then rescale | needs the two tables of Section 5 |
+| Belief | 10 probabilities | shift and spread | multiply up the cells that fit, then rescale | needs the two tables of [Section 5](#5-the-two-tables-that-drive-the-belief) |
 
 - The answer to the opening question: the robot should keep its **belief** (G-2433), 10 probabilities instead of a history of 36,000 readings after one hour, and in the running example its tallest bar after two steps, 0.31, is the true cell 3.
 - The robot cannot see its true cell; it only knows its commands and readings, so every decision must be based on that history, the **information state** (G-2431).

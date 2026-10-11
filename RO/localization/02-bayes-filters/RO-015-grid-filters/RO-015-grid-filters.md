@@ -94,7 +94,7 @@ The belief tends to 0.1 in every cell, where the robot started before it knew an
 
 ### 2.5 Sense and move together
 
-A real robot alternates: move, read, move, read. Figure 6 runs seven steps. The true robot starts in cell 1 and really moves 2 cells each time (cells 1, 3, 5, 7, 9, 1, 3). Every reading is correct except at $t = 5$, where the sensor says "door" in front of the wall of cell 9.
+A real robot alternates: move, read, move, read. Figure 6 runs seven steps; $t$ counts them from 1 to 7. The true robot starts in cell 1 and really moves 2 cells each time (cells 1, 3, 5, 7, 9, 1, 3). Every reading is correct except at $t = 5$, where the sensor says "door" in front of the wall of cell 9.
 
 ![Seven steps of the histogram filter: orange frames show the predicted belief after each move, blue frames the belief after each reading; the tallest bar follows the true cell except at t = 5, after the wrong reading, when it jumps to cell 3; at t = 6 and t = 7 it is back on the true cell](images/hist_filter.gif)
 
@@ -110,7 +110,18 @@ The wrong reading at $t = 5$ moves the tallest bar to cell 3, a door. But the tr
 
 ### 2.6 The formal version
 
-With the cells numbered $k = 0, \ldots, 9$, let $p_{k,t}$ be the **belief** (G-2433) in cell $k$ at time $t$ and $\bar p_{k,t}$ the predicted belief. The **histogram filter** (G-2461) is (PR §4.1.1):
+With the cells numbered 0 to 9, at time step $t$:
+
+- $k$ is the number of a cell after the move, 0 to 9;
+- $i$ is the number of a cell before the move, 0 to 9;
+- $p_{i,t-1}$ is the **belief** (G-2433) in cell $i$ one step earlier, a number from 0 to 1 (0.1875 for cell 1 after the first reading);
+- $p(x_k \mid u_t,\ x_i)$ is the chance that the command $u_t$ takes the robot from cell $i$ to cell $k$ (0.8 for "move 2" from cell 1 to cell 3);
+- $\bar p_{k,t}$ is the predicted belief in cell $k$, after the move and before the reading (0.1625 for cell 3 at $t = 2$);
+- $p(z_t \mid x_k)$ is the chance of the reading $z_t$ when the robot is in cell $k$ (0.6 for "door" at a door, 0.2 at a wall);
+- $\eta$ is the factor that rescales the cells so they add to 1, one over the sum of the products (the sum is 0.32 after the first reading, [Section 2.2](#22-sense-multiply-then-rescale));
+- $p_{k,t}$ is the belief in cell $k$ at time $t$, a number from 0 to 1 (0.3095 for cell 3 at $t = 2$).
+
+The **histogram filter** (G-2461) is (PR §4.1.1):
 
 $$\bar p_{k,t} = \sum_{i} p(x_k \mid u_t,\ x_i)\ p_{i,t-1}$$
 
@@ -143,7 +154,13 @@ The notebook `RO-015-grid-filters.ipynb` runs every example in this Note. Ten ce
 
 ### 3.1 Why the number of cells explodes
 
-Cells turned the sum over infinitely many positions into 10 terms, at a price: with cells of 1 m, the robot's position is never known better than "somewhere in this metre". Smaller cells give a sharper answer, but every cell costs memory and time, because both steps visit every cell. A real floor robot has a pose: position $x$, $y$ and heading $\theta$ (see [**pose**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280)), so the grid has three directions. For a 30 m by 30 m floor with 15 cm cells and the heading in steps of 2° (Fox 1999):
+Cells turned the sum over infinitely many positions into 10 terms, at a price: with cells of 1 m, the robot's position is never known better than "somewhere in this metre". Smaller cells give a sharper answer, but every cell costs memory and time, because both steps visit every cell. A real floor robot has a pose, its position and heading (see [**pose**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280)), so the grid has three directions. On a 30 m by 30 m floor (Fox 1999):
+
+- $x$ is the position along the floor, in m, from 0 to 30 m in cells of 15 cm;
+- $y$ is the position across the floor, in m, from 0 to 30 m in cells of 15 cm;
+- $\theta$ is the heading, the direction the robot faces, in degrees, from 0° to 360° in steps of 2°.
+
+Counting the cells:
 
 $$\frac{30}{0.15} = 200 \text{ cells along } x$$
 
@@ -178,11 +195,25 @@ The same situation appears in mapping: whether one small square of the floor is 
 
 ### 4.2 Each reading multiplies the odds
 
-The [odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) of the door being open compare the two possibilities:
+The [odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1376) of the door being open compare the two possibilities. In symbols:
+
+- $p(\text{open})$ is the probability that the door is open, 0.5 at the start;
+- $p(\text{closed})$ is the probability that it is closed, 0.5 at the start.
+
+The odds are their ratio:
 
 $$\text{odds} = \frac{p(\text{open})}{p(\text{closed})}$$
 
-Why does a reading multiply the odds? Write Bayes' theorem once for "open" and once for "closed", after a reading $z$. Both share the same denominator $p(z)$:
+Why does a reading multiply the odds? Write Bayes' theorem once for "open" and once for "closed", after one reading. In symbols:
+
+- $z$ is the reading, "sense open" or "sense closed";
+- $p(z \mid \text{open})$ is the chance of that reading when the door is open (0.6 for "sense open");
+- $p(z \mid \text{closed})$ is the chance of that reading when the door is closed (0.2 for "sense open");
+- $p(z)$ is the overall chance of the reading, the same denominator in both lines;
+- $p(\text{open} \mid z)$ is the probability that the door is open after the reading (0.75 after one "sense open" from 0.5);
+- $p(\text{closed} \mid z)$ is the probability that it is closed after the reading.
+
+Both lines share the same denominator $p(z)$:
 
 $$p(\text{open} \mid z) = \frac{p(z \mid \text{open})\ p(\text{open})}{p(z)}$$
 
@@ -198,7 +229,7 @@ The left side is the new odds; the last fraction is the old odds. The ratio of t
 
 $$\text{new odds} = \text{old odds} \times \frac{p(z \mid \text{open})}{p(z \mid \text{closed})}$$
 
-We never need $p(z)$, the normaliser $\eta$ of the correction step, which is why odds are convenient.
+We never need $p(z)$, whose inverse is the normaliser $\eta$ of the correction step, which is why odds are convenient.
 
 For a reading of "sense open" the factor is:
 
@@ -220,7 +251,14 @@ the same 0.9 as in the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-fi
 
 ### 4.3 Log odds turn the products into sums
 
-Taking the logarithm turns a product into a sum. The natural log of the **odds** (G-1376) is the [log odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116):
+Taking the logarithm turns a product into a sum. The natural log of the **odds** (G-1376) is the [log odds](../../../../ML/08-trees-and-ensembles/ML-116-gradient-boosting-classification/ML-116-gradient-boosting-classification.md#4-stage-1-the-log-odds-of-class-1) (G-1116). In symbols:
+
+- $p$ is the probability that the door is open, a number from 0 to 1 (0.5 at the start);
+- $1 - p$ is the probability that it is closed;
+- $\ln$ is the natural logarithm;
+- $l$ is the log odds, a number with no unit that can be any size (0 at the start).
+
+Written out:
 
 $$l = \ln \frac{p}{1 - p}$$
 
@@ -250,7 +288,7 @@ $$1.50 + 1.10 = 2.60$$
 
 $$2.60 + 1.10 = 3.70$$
 
-To read a probability back out, undo the log, which is the [sigmoid function](../../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798):
+To read a probability back out, undo the log, which is the [sigmoid function](../../../../ML/07-classification/ML-071-sigmoid-function/ML-071-sigmoid-function.md#4-the-sigmoid-function) (G-1798); $e$, about 2.718, is the base of the natural log:
 
 $$p = 1 - \frac{1}{1 + e^{l}}$$
 
@@ -275,7 +313,7 @@ Every filter so far answers where the robot is now; the same numbers can also sa
 
 ### 5.1 Three questions about a run
 
-Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [**belief**](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach) (G-2433): at $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
+Now the second half of the opening question: what else the same cell probabilities tell us. Take the hallway robot's run from [**belief**](../RO-013-belief/RO-013-belief.md#21-why-the-true-cell-is-out-of-reach) (G-2433): at time step $t = 1$ it stays and reads "door"; at $t = 2$ it moves 2 and reads "door"; at $t = 3$ it moves 2 and reads "wall". Its true cells are 1, 3 and 5. The [**hidden Markov model**](../RO-013-belief/RO-013-belief.md#63-hidden-markov-model) (G-2439) of the robot can answer three different questions (CS188 §8.2–8.3; J&M App. A):
 
 1. **Where is the robot now, given the readings so far?** This is **filtering** (G-2469); the **histogram filter** (G-2461) of [Section 2](#2-the-histogram-filter) does it.
 2. **Where was the robot at an earlier time, given all readings, including later ones?** This is **smoothing** (G-2470).
@@ -290,15 +328,29 @@ At $t = 1$ the filter knew only the first reading, so cells 1, 3 and 7 were equa
 The **forward-backward algorithm** (G-2471) makes this exact. It combines two quantities for every cell $x$ and time $t$ (J&M App. A):
 
 - the **forward probability** (G-2472) $\alpha_t(x)$: the probability of the readings up to $t$ and of being in cell $x$ at $t$. It is the **histogram filter** (G-2461) before rescaling; at $t = 1$ it is 0.06 at the doors and 0.02 at the walls ([Section 2.2](#22-sense-multiply-then-rescale));
-- the **backward probability** (G-2473) $\beta_t(x)$: the probability of the readings **after** $t$, given cell $x$ at $t$. It is computed from the end backwards, starting from 1 at the last step.
+- the **backward probability** (G-2473) $\beta_t(x)$: the probability of the readings **after** $t$, given cell $x$ at $t$. It is computed from the end backwards, starting from 1 at the last step; for cell 1 at $t = 1$ it is 0.4144 (worked below).
 
 ![The chain x1, x2, x3 with readings door, door, wall. A forward arrow alpha_1 brings the evidence of readings up to t = 1; a backward arrow beta_1 brings the evidence of readings after t = 1; their product, rescaled, is the smoothed belief](images/fwd_bwd.png)
 
-Figure 10 shows the idea: $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed **belief** (G-2433):
+Figure 10 shows the idea: $\alpha$ carries the evidence from the past, $\beta$ from the future. Their product, rescaled to add to 1, is the smoothed **belief** (G-2433). In symbols:
+
+- $\eta$ is the factor that rescales the products so they add to 1, one over their total over all cells (the total is 0.06896);
+- $\gamma_t(x)$ is the smoothed belief in cell $x$ at time $t$, a number from 0 to 1 (0.36 for cell 1 at $t = 1$).
+
+Written out:
 
 $$\gamma_t(x) = \eta\ \alpha_t(x)\ \beta_t(x)$$
 
-Why does a plain product work? Write the two pieces out:
+Why does a plain product work? In symbols:
+
+- $T$ is the last time step, 3 in our run;
+- $z_{1:t}$ is the readings from time 1 to $t$, only "door" at $t = 1$;
+- $z_{t+1:T}$ is the readings after $t$, ("door", "wall") at $t = 1$;
+- $z_{1:T}$ is all readings of the run, ("door", "door", "wall");
+- $x_t = x$ means that the robot is in cell $x$ at time $t$;
+- a comma inside $p(\ldots)$ means "and".
+
+Written out, the two pieces are:
 
 $$\alpha_t(x) = p(z_{1:t},\ x_t = x)$$
 
@@ -352,11 +404,20 @@ Figure 11 compares the two. Using the later readings nearly doubles the belief i
 
 **Smoothing** (G-2470) gives a probability for each cell at each time. Sometimes we want one answer instead: the single path of cells that best explains all readings. Trying every path is hopeless for long runs: with 10 cells and $T$ steps there are 10 to the power $T$ paths, 1000 for our 3 steps but a 1 followed by 100 zeros for 100 steps (J&M App. A).
 
-The **Viterbi algorithm** (G-2474) avoids this with one observation: the best path to a cell at time $t$ must continue the best path to some cell at time $t - 1$. So for each cell it keeps only the probability of the best path ending there, $m_t(x)$, and which cell that path came from, the **back-pointer** (G-2477) (CS188 §8.3). It is the forward algorithm with the sum replaced by a maximum:
+The **Viterbi algorithm** (G-2474) avoids this with one observation: the best path to a cell at time $t$ must continue the best path to some cell at time $t - 1$. So for each cell it keeps only the probability of the best path ending there, and which cell that path came from, the **back-pointer** (G-2477) (CS188 §8.3). For each cell $x$ at time $t$:
+
+- $x'$ is a cell at time $t - 1$, where the path may come from;
+- $m_{t-1}(x')$ is the probability of the best path ending in cell $x'$ at time $t - 1$ (0.06 at a door and 0.02 at a wall at $t = 1$);
+- $p(x \mid u_t, x')$ is the chance that the command $u_t$ takes the robot from cell $x'$ to cell $x$ (0.8 for "move 2" from cell 1 to cell 3);
+- $\max_{x'}$ keeps the largest value over all cells $x'$;
+- $p(z_t \mid x)$ is the chance of the reading $z_t$ in cell $x$ (0.6 for "door" at cell 3);
+- $m_t(x)$ is the probability of the best path ending in cell $x$ at time $t$ (0.0288 for cell 3 at $t = 2$).
+
+It is the forward algorithm with the sum replaced by a maximum:
 
 $$m_t(x) = p(z_t \mid x)\ \max_{x'} p(x \mid u_t, x')\ m_{t-1}(x')$$
 
-Here $x'$ runs over the cells at $t - 1$. Storing each sub-answer once and reusing it is [dynamic programming](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#33-the-memoized-version) (G-652).
+Storing each sub-answer once and reusing it is [dynamic programming](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#33-the-memoized-version) (G-652).
 
 **At $t = 2$, cell 3.** The best path into cell 3 comes from cell 1, cell 2 or cell 0, and $m_1$ is 0.06 at a door and 0.02 at a wall:
 
@@ -382,7 +443,11 @@ Figure 12 draws all 30 values on a **trellis** (G-2475): one column of cells per
 
 $$\text{most likely path: } 1 \rightarrow 3 \rightarrow 5$$
 
-These are the true cells. The notebook checks all 1000 paths by brute force and finds the same path with the same probability, 0.0184. The Viterbi algorithm needed only 10 × 10 comparisons for each of the two steps after the first, 200 in all, against 1000 paths; for 100 steps it needs 10,000 against 10 to the power 100 (J&M App. A).
+These are the true cells. The notebook checks all 1000 paths by brute force and finds the same path with the same probability, 0.0184. The Viterbi algorithm needed only 10 × 10 comparisons for each of the two steps after the first:
+
+$$2 \times 10 \times 10 = 200$$
+
+against 1000 paths; for 100 steps it needs 10,000 against 10 to the power 100 (J&M App. A).
 
 ## 6. Summary
 
@@ -392,10 +457,10 @@ These are the true cells. The notebook checks all 1000 paths by brute force and 
 | Static or adaptive cells | how to cut a continuous space | fixed grid, or fine cells only where the belief is high | adaptive saves cells, costs bookkeeping |
 | Binary Bayes filter | a fixed yes-or-no state | add the log of the Bayes factor for each reading | one addition per reading |
 | Forward-backward | where the robot was at an earlier time | multiply forward $\alpha$ and backward $\beta$, rescale | two passes over the run |
-| Viterbi | the single most likely path | maximum instead of sum, then follow back-pointers | 10 × 10 per step, not 10 to the power $T$ |
+| Viterbi | the single most likely path | maximum instead of sum, then follow back-pointers | 10 × 10 per step, not 10 to the power $T$ for $T$ steps |
 
 - The histogram filter runs the **Bayes filter** (G-2446) exactly on a list of cells, because the sum over previous states has only as many terms as there are cells: 10 on the hallway instead of infinitely many, and only 3 of them count for each new cell.
-- Sensing multiplies each cell by $p(z \mid x)$ and rescales, so cells that explain the reading gain **belief** (G-2433); moving convolves the belief with the motion kernel, because the same move error applies in every cell.
+- Sensing multiplies each cell by the measurement probability $p(z \mid x)$ and rescales, so cells that explain the reading gain **belief** (G-2433); moving convolves the belief with the motion kernel, because the same move error applies in every cell.
 - Moving without reading flattens the belief, so a robot must keep reading its sensors to stay localized.
 - A wrong reading moves the tallest bar but never removes the true cell, so the filter recovers after a few correct readings.
 - Fine cells explode in number with the space size and the number of state variables (7.2 million for a 30 m floor), so **adaptive decompositions** (G-2465) put small cells only where the belief is high.

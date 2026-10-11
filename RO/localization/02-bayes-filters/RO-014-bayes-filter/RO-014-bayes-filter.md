@@ -23,7 +23,14 @@ We leave the hallway of [**belief**](../RO-013-belief/RO-013-belief.md#1-overvie
 
 > **Key point:** One state (the door, open or closed), two commands (push, do nothing), one noisy sensor. Its two probability tables are all the filter needs.
 
-The **state** $x_t$ is the door at time $t$: open or closed. The robot does not know it. The two tables of [**belief**](../RO-013-belief/RO-013-belief.md#5-the-two-tables-that-drive-the-belief) (G-2433) describe the robot (PR §2.4.2); with them and its last belief, the filter never needs the list of past readings.
+The robot does not know whether the door is open. The two tables of [**belief**](../RO-013-belief/RO-013-belief.md#5-the-two-tables-that-drive-the-belief) (G-2433) describe the robot (PR §2.4.2); with them and its last belief, the filter never needs the list of past readings. At step $t$:
+
+- $x_t$ is the **state**, the door at time $t$: open or closed;
+- $x_{t-1}$ is the door one step earlier;
+- $x_0$ is the door at the start, before any command;
+- $u_t$ is the command: push or do nothing (do nothing at $t = 1$, push at $t = 2$);
+- $z_t$ is the reading: "sense open" or "sense closed" ("sense open" at both steps);
+- $\text{bel}(x_t)$ is the robot's belief, its probability for each door state at time $t$, a number from 0 to 1 (0.5 for open at the start).
 
 **The measurement probability** $p(z_t \mid x_t)$: the sensor reads "open" or "closed", and is sometimes wrong.
 
@@ -59,7 +66,16 @@ $$\text{bel}(x_0 = \text{closed}) = 0.5$$
 
 ### 3.1 Why the robot needs Bayes' theorem
 
-First the readings alone: can the robot take in a new reading without going back to the old ones? For now, nobody touches the door; the robot only reads. Its table tells it $p(z \mid x)$: how often the sensor reads "open" for each kind of door. The robot needs the other direction, $p(x \mid z)$: given the reading, how likely is each kind of door? [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) turns one into the other:
+First the readings alone: can the robot take in a new reading without going back to the old ones? For now, nobody touches the door; the robot only reads. Its table tells it $p(z \mid x)$: how often the sensor reads "open" for each kind of door. The robot needs the other direction, $p(x \mid z)$: given the reading, how likely is each kind of door? For one reading:
+
+- $x$ is the door, open or closed;
+- $z$ is the reading, here "sense open";
+- $p(x)$ is the prior, the **belief** (G-2433) in each door before the reading, 0.5 for open and 0.5 for closed;
+- $p(z \mid x)$ is the chance of the reading given the door, from the table (0.6 for an open door, 0.2 for a closed one);
+- $p(z)$ is the overall chance of the reading, 0.4 for "sense open" (found below);
+- $p(x \mid z)$ is the belief in each door after the reading (0.75 for open, found below).
+
+[Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) turns one into the other:
 
 $$p(x \mid z) = \frac{p(z \mid x)\ p(x)}{p(z)}$$
 
@@ -83,13 +99,19 @@ This number is the [**normaliser**](../RO-010-range-sensors-beam-model/RO-010-ra
 
 ### 3.2 A second reading: Bayes' theorem with background knowledge
 
-One reading leaves a 0.25 chance of a closed door. To be surer, the robot reads again and again gets "open". Now the **belief** (G-2433) must depend on both readings. Bayes' theorem still works if every term also carries the earlier readings behind the bar. With $C$ standing for that background knowledge:
+One reading leaves a 0.25 chance of a closed door. To be surer, the robot reads again and again gets "open". Now the **belief** (G-2433) must depend on both readings. For the second reading:
+
+- $x$ is the door, open or closed;
+- $z$ is the new reading, here the second reading $z_2$, "sense open";
+- $C$ is the background knowledge, everything known before $z$, here the first reading $z_1$, "sense open".
+
+Bayes' theorem still works if every term also carries the earlier readings $C$ behind the bar:
 
 $$p(x \mid z, C) = \frac{p(z \mid x, C)\ p(x \mid C)}{p(z \mid C)}$$
 
 This is **Bayes' rule with background knowledge** (G-2452) (PR §2.2). It holds for the same reason as the plain rule: the joint probability of $x$ and $z$ given $C$ can be split two ways by the [multiplication rule](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#5-the-multiplication-rule) (G-2212), and setting the two equal gives the formula.
 
-With $x$ the door, $z = z_2$ and $C = z_1$, two of the terms are known:
+With $z_2$ in place of $z$ and $z_1$ in place of $C$, two of the terms are known:
 
 - $p(x \mid z_1)$ is the answer of [Section 3.1](#31-why-the-robot-needs-bayes-theorem): the old posterior becomes the new prior;
 - $p(z_2 \mid x, z_1)$ asks how likely the second reading is, given the door **and** the first reading.
@@ -140,13 +162,23 @@ The direct way to know the belief is to recompute it from the whole history at e
 
 ### 4.2 The prediction step
 
-After the command, before the reading, the robot wants its [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436) $\overline{\text{bel}}(x_t)$. It does not know the previous state, so it considers every previous state, asks how likely the command takes it to $x_t$, and weights that by how much it believed in that previous state. Adding these up is the **law of total probability** (G-1053):
+After the command, before the reading, the robot wants its [**predicted belief**](../RO-013-belief/RO-013-belief.md#45-the-predicted-belief-after-the-move-before-the-reading) (G-2436) $\overline{\text{bel}}(x_t)$. It does not know the previous state, so it considers every previous state, asks how likely the command takes it to $x_t$, and weights that by how much it believed in that previous state. At step $t$:
+
+- $x_{t-1}$ is the door before the command, open or closed;
+- $x_t$ is the door after the command, open or closed;
+- $u_t$ is the command, push at $t = 2$;
+- $\text{bel}(x_{t-1})$ is the belief before the command, a number from 0 to 1 (0.75 for open after $t = 1$);
+- $p(x_t \mid u_t, x_{t-1})$ is the state transition probability of [Section 2](#2-the-door-world), the chance that the command turns door $x_{t-1}$ into door $x_t$ (0.8 for a push that opens a closed door);
+- $\sum_{x_{t-1}}$ adds over every possible previous state, here open and closed;
+- $\overline{\text{bel}}(x_t)$ is the predicted belief, after the command and before the reading, a number from 0 to 1 (0.95 for open at $t = 2$).
+
+Adding up every way of reaching $x_t$ is the **law of total probability** (G-1053):
 
 $$\overline{\text{bel}}(x_t) = \sum_{x_{t-1}} p(x_t \mid u_t, x_{t-1})$$
 
 $$\times\ \text{bel}(x_{t-1})$$
 
-The sum runs over every possible previous state. This is the **prediction step** (G-2447), also called the motion update or time update (PR §2.4.1).
+This is the **prediction step** (G-2447), also called the motion update or time update (PR §2.4.1).
 
 **At $t = 2$, the command is "push"**, and the **belief** (G-2433) after $t = 1$ is 0.75 open ([Section 4.3](#43-the-correction-step) computes it). Figure 4 draws the four paths. Two of them end with the door open:
 
@@ -170,7 +202,15 @@ $$\overline{\text{bel}}(\text{closed}) = 0 \times 0.5 + 1 \times 0.5 = 0.5$$
 
 ### 4.3 The correction step
 
-After the reading, the robot applies **Bayes' theorem** (G-269) of [Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings) to the **predicted belief** (G-2436):
+After the reading, the robot applies **Bayes' theorem** (G-269) of [Section 3](#3-one-reading-at-a-time-bayes-theorem-with-past-readings) to the **predicted belief** (G-2436). At step $t$:
+
+- $\overline{\text{bel}}(x_t)$ is the predicted belief of [Section 4.2](#42-the-prediction-step), a number from 0 to 1 (0.95 for open at $t = 2$);
+- $z_t$ is the reading, "sense open" at $t = 2$;
+- $p(z_t \mid x_t)$ is the measurement probability of [Section 2](#2-the-door-world), the chance of the reading given the door (0.6 for "sense open" at an open door);
+- $\eta$ is the factor that rescales the products so they add to 1, one over their sum, as in [Section 3.1](#31-why-the-robot-needs-bayes-theorem) (1.724 at $t = 2$);
+- $\text{bel}(x_t)$ is the **belief** (G-2433) after the reading, a number from 0 to 1 (0.983 for open at $t = 2$).
+
+Written out:
 
 $$\text{bel}(x_t) = \eta\ p(z_t \mid x_t)\ \overline{\text{bel}}(x_t)$$
 
@@ -196,7 +236,7 @@ These are Thrun's numbers for the same example (PR §2.4.2). Between the two ste
 
 ### 4.4 The algorithm
 
-Together the two steps are the **Bayes filter** (G-2446) (PR §2.4.1). For every possible state $x_t$:
+Together the two steps are the **Bayes filter** (G-2446) (PR §2.4.1). With the symbols listed in [Section 4.2](#42-the-prediction-step) and [Section 4.3](#43-the-correction-step), for every possible state $x_t$:
 
 1. **Predict:** $\overline{\text{bel}}(x_t) = \sum_{x_{t-1}} p(x_t \mid u_t, x_{t-1})\ \text{bel}(x_{t-1})$.
 2. **Correct:** $\text{bel}(x_t) = \eta\ p(z_t \mid x_t)\ \overline{\text{bel}}(x_t)$.
@@ -215,13 +255,26 @@ Then return $\text{bel}(x_t)$ and wait for the next command and reading.
 > bel = bel / bel.sum()             # correct: [0.983, 0.017]
 > ```
 
-The sum of the **prediction step** (G-2447) is the matrix product `bel @ T_push`: entry $j$ adds **belief** (G-2433) times transition probability over every previous state $i$. The notebook `RO-014-bayes-filter.ipynb` runs both steps and checks every number above. The two steps dropped the history; the next section checks that nothing was lost.
+In the code:
+
+- `bel` is a vector of 2 numbers, the **belief** (G-2433) in open and in closed, (0.75, 0.25) after $t = 1$;
+- `T_push` is a 2 × 2 matrix of transition probabilities for a push: row $i$ is the door before, column $j$ the door after, so the closed row is (0.8, 0.2);
+- `bel @ T_push` is the matrix product, a vector of 2 numbers: entry $j$ adds belief times transition probability over every previous state $i$, which is the sum of the **prediction step** (G-2447).
+
+The notebook `RO-014-bayes-filter.ipynb` runs both steps and checks every number above. The two steps dropped the history; the next section checks that nothing was lost.
 
 ## 5. Why the two steps give the exact belief
 
 > **Key point:** Starting from the definition of the belief, five steps lead to the filter: Bayes' rule, a Markov assumption for readings, the **law of total probability** (G-1053), a Markov assumption for motion, and the assumption that the newest command says nothing about the past.
 
-The two steps threw the history away. Here we show that nothing was lost: they give exactly $p(x_t \mid z_{1:t}, u_{1:t})$, the **belief** (G-2433) as defined over the whole history, and we name every assumption on the way (PR §2.4.3). The notation $z_{1:t}$ means all readings $z_1, \ldots, z_t$, and $u_{1:t}$ all commands.
+The two steps threw the history away. Here we show that nothing was lost: they give exactly $p(x_t \mid z_{1:t}, u_{1:t})$, the **belief** (G-2433) as defined over the whole history, and we name every assumption on the way (PR §2.4.3). The state $x_t$, the command $u_t$, the reading $z_t$ and the two probability tables are those of [Section 2](#2-the-door-world). The other symbols:
+
+- $z_{1:t}$ is all readings $z_1, \ldots, z_t$, from time 1 to $t$, ("sense open", "sense open") at $t = 2$;
+- $z_{1:t-1}$ is all readings before time $t$, only $z_1$ = "sense open" at $t = 2$;
+- $u_{1:t}$ is all commands $u_1, \ldots, u_t$, (do nothing, push) at $t = 2$;
+- $\text{bel}(x_t)$ is the belief, the probability of each state given all readings and commands, a number from 0 to 1 (0.983 for open at $t = 2$);
+- $\overline{\text{bel}}(x_t)$ is the belief before the newest reading $z_t$, as in [Section 4.2](#42-the-prediction-step) (0.95 for open at $t = 2$);
+- $\eta$ is the factor that rescales the beliefs so they add to 1 (1.724 at $t = 2$).
 
 **Line 0, the definition.** Nothing is assumed:
 
@@ -283,7 +336,16 @@ The first two together are the [**Markov property**](../RO-007-why-a-robot-is-ne
 
 > **Key point:** For a position that can take any value, the sum of the **prediction step** (G-2447) becomes an integral; the correction step is unchanged.
 
-Positions in a real hallway are not 2 door states but any number of metres; the filter still needs only the last **belief** (G-2433) and the newest command and reading. The belief becomes a [probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), and the sum over previous states becomes an [integral](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957), a sum over infinitely many thin slices:
+Positions in a real hallway are not 2 door states but any number of metres; the filter still needs only the last **belief** (G-2433) and the newest command and reading. The belief becomes a [probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), and the sum over previous states becomes an [integral](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#3-area-under-the-curve-is-probability) (G-957), a sum over infinitely many thin slices. For a position:
+
+- $x_t$ is the robot's position at time $t$, any number of metres;
+- $x_{t-1}$ is its position one step earlier, in m;
+- $\text{bel}(x_{t-1})$ is the belief one step earlier, now a probability density over positions, in probability per metre;
+- $p(x_t \mid u_t,\ x_{t-1})$ is the motion model, the density of the new position given the command $u_t$ and the old position, in probability per metre;
+- $\int \ldots\ dx_{t-1}$ adds over every previous position $x_{t-1}$, in slices of width $dx_{t-1}$;
+- $\overline{\text{bel}}(x_t)$ is the **predicted belief** (G-2436), a density over the new position, in probability per metre.
+
+The **prediction step** (G-2447) becomes:
 
 $$\overline{\text{bel}}(x_t) = \int p(x_t \mid u_t,\ x_{t-1})$$
 
@@ -300,13 +362,13 @@ For a belief shaped like a single bell-shaped curve, a [**Gaussian**](../../../.
 Why may the robot throw its history away? The [set of possible states](../RO-013-belief/RO-013-belief.md#3-summary-1-the-set-of-cells-the-robot-could-be-in) also had two update rules, one per event. LaValle puts the two summaries side by side (Figure 6):
 
 - after a move, the **union** of all reachable states becomes the **sum** over all previous states (the **prediction step** (G-2447));
-- after a reading, the **intersection** with the states that fit becomes **multiply by $p(z \mid x)$ and rescale** (the **correction step** (G-2448)).
+- after a reading, the **intersection** with the states that fit becomes **multiply by the measurement probability $p(z \mid x)$ and rescale** (the **correction step** (G-2448)).
 
 In LaValle's words, marginalisation and Bayes' rule are "the probabilistic equivalents of union and intersection" (LaValle §11.2.3).
 
 ![Left: the set-valued updates, union after a move and keep-the-states-that-fit after a reading. Right: the belief updates, the sum of the prediction step and the multiply-and-rescale of the correction step](images/set_vs_prob.png)
 
-The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). [Section 5](#5-why-the-two-steps-give-the-exact-belief) showed that the new belief needs only the old belief, $u_t$ and $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3). The belief is enough to keep; the next section asks how to store it when the pose is continuous.
+The belief, seen as a summary of the history, is the **probabilistic information state** (G-2451) (LaValle §11.2.3). [Section 5](#5-why-the-two-steps-give-the-exact-belief) showed that the new belief needs only the old belief, the newest command $u_t$ and the newest reading $z_t$. So the belief is a sufficient summary: any decision the robot could base on the whole history, it can base on the belief instead, without keeping the history (LaValle §11.2.3). The belief is enough to keep; the next section asks how to store it when the pose is continuous.
 
 ## 8. One equation, many filters
 
@@ -329,13 +391,13 @@ Each is a different bet about what shape the belief is allowed to have. Knowing 
 | Correction | after the reading $z_t$ | $\text{bel}(x_t) = \eta\ p(z_t \mid x_t)\ \overline{\text{bel}}(x_t)$ | multiplies up the states that fit, then rescales |
 
 - The robot keeps only its last **belief** (G-2433) and updates it with the newest command and reading, so it never stores the history (36,000 readings after an hour at 10 a second): in the door world two steps took the belief in an open door from 0.5 to 0.983, with only 0.75 and 0.25 kept in between.
-- **Bayes' theorem** (G-269) turns the measurement probability $p(z \mid x)$, which we can measure, into $p(x \mid z)$, which the robot needs, so one reading moves the door belief from 0.5 to 0.75.
+- **Bayes' theorem** (G-269) turns the measurement probability $p(z \mid x)$, which we can measure, into $p(x \mid z)$, the chance of each door given the reading, which the robot needs, so one reading moves the door belief from 0.5 to 0.75.
 - With background knowledge, the old posterior becomes the new prior, so a second reading moves it to 0.9 without revisiting the first; this needs the readings to be independent given the state, not independent outright.
 - The prediction step adds up every way of reaching each state (the **law of total probability** (G-1053)), because the robot does not know its previous state; a push raised the door belief to 0.95 before the robot looked.
-- The **correction step** (G-2448) multiplies by $p(z_t \mid x_t)$ and divides by the sum, so the beliefs add to 1; the **normaliser** (G-2382) never has to be known in advance.
+- The **correction step** (G-2448) multiplies by the measurement probability $p(z_t \mid x_t)$ and divides by the sum, so the beliefs add to 1; the **normaliser** (G-2382) never has to be known in advance.
 - The derivation is exact under three assumptions (readings depend only on the current state, motion only on the previous state and command, the newest command says nothing about the past), so the filter fails in the ways those assumptions fail.
 - On a continuous position the sum of the **prediction step** (G-2447) becomes an integral, because there are infinitely many previous positions to add up; the correction step is unchanged.
-- The new belief needs only the last belief, $u_t$ and $z_t$, so it carries everything the history knew: it is the **probabilistic information state** (G-2451).
+- The new belief needs only the last belief, the newest command $u_t$ and the newest reading $z_t$, so it carries everything the history knew: it is the **probabilistic information state** (G-2451).
 
 The robot can now keep its belief up to date from the newest command and reading alone. Still missing: the prediction sums over every previous state, and a position has infinitely many, so the sum cannot be done as written; [grid filters](../RO-015-grid-filters/RO-015-grid-filters.md#1-overview) turn it into a sum over 10 cells.
 
