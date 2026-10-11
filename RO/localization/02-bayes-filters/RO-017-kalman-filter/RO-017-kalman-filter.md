@@ -306,15 +306,15 @@ With our numbers:
 
 $$p(k) = 0.16\thinspace k^2 + 1.01\thinspace(1 - k)^2$$
 
-Figure 4 plots it. At the ends:
+Figure 4 slides the weight $k$ from 0 to 1 and plots it. At the ends:
 
 $$p(0) = 1.01 \quad \text{(prediction only)}$$
 
 $$p(1) = 0.16 \quad \text{(reading only)}$$
 
-In between, the curve dips below both: mixing two independent estimates beats either one. What is left is to find where the dip is lowest.
+In between, the dot dips below both ends, and there the blended Gaussian is narrower than either of the two: mixing two independent estimates beats either one. What is left is to find where the dip is lowest.
 
-![The variance of the blended estimate against the weight on the reading, for the first step: 1.01 at k = 0, 0.16 at k = 1, lowest at k = 0.863 with variance 0.138](images/var_vs_weight.png)
+![Step 1's prediction (mean 0.5 m, variance 1.01 m²) and reading (0.82 m, variance 0.16 m²) blended with the weight k on the reading, k sliding from 0 to 1, one value per frame. Top: the blended Gaussian moves from the prediction to the reading. Bottom: a dot traces the blend's variance p(k), 1.01 at k = 0 and 0.16 at k = 1. The last frame shows the lowest point, k = 0.863 with variance 0.138, where the blend is narrowest](images/var_weight_anim.gif)
 
 ### 4.3 The best weight: the Kalman gain
 
@@ -499,15 +499,15 @@ The true position is 1.22 m. The reading 1.85 m was 0.63 m too high, and the fil
 
 Variances are in m², positions in m.
 
-![The first five steps, one stage per frame: the predicted Gaussian moves 0.5 m and widens, the reading's Gaussian arrives, and the updated Gaussian lies between them and is narrower; the dotted line is the true position](images/kf_iterations.gif)
+Figure 7 plays the table, one stage per frame. Watch the gain dot at the bottom fall and settle, and frame "step 6: update", where a reading 0.90 m too high moves the estimate only 0.21 m.
+
+![The ten steps of the table, one stage per frame. Top: the predicted Gaussian moves 0.5 m and widens, the reading's Gaussian arrives, and the updated Gaussian lies between them and is narrower; the dotted line is the true position. Middle: true position, readings and the estimate with a band of two standard deviations, added step by step. Bottom: the gain K, the weight on the reading, one dot per update. The last frame shows all ten steps: the gain has fallen from 0.863 at step 1 to 0.224 at step 10](images/kf_iterations.gif)
 
 What to see in Figures 6 and 7:
 
 - **The gain falls, then settles.** Each update shrinks the variance, and each prediction adds back only the slip's variance $Q$, 0.01 m². After a few steps the two balance: the variance before each reading settles near 0.046 and the gain near 0.22 (0.2207 in the long run, notebook). The filter has stopped learning about its start and now trusts each reading about a fifth. The fixed value the gain approaches is the **steady-state gain** (G-2518).
 - **The jumps are damped.** The beacon's step-6 reading jumped 0.9 m too high; the estimate moved only 0.21 m towards it, because the gain was 0.245.
-- **The band is consistent.** The shaded band in Figure 8 is the estimate plus and minus two **standard deviations** (G-1871); the true position stays inside it at every step, a first sign that the filter's variance matches its real errors, which is what makes a [**consistent** filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#51-why-we-need-a-check) (G-2524).
-
-![Top: true position, readings and the estimate with a band of two standard deviations. Bottom: the gain falls from 0.86 at step 1 to 0.22 at step 10](images/kf_run.png)
+- **The band is consistent.** The shaded band in the middle panel of Figure 7 is the estimate plus and minus two **standard deviations** (G-1871); the true position stays inside it at every step, a first sign that the filter's variance matches its real errors, which is what makes a [**consistent** filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#51-why-we-need-a-check) (G-2524).
 
 Over the ten steps, the commands alone miss by 0.27 m, the beacon by 0.51 m, the filter by 0.17 m (notebook). That solves the opening problem for a state of one number, the position, moved by a known command.
 
@@ -639,17 +639,17 @@ $$\hat{\mathbf x_1} = \begin{bmatrix} 0.760 \cr0.378 \end{bmatrix}$$
 
 One position reading has given a speed estimate of 0.378 m/s. The gain's second entry is the covariance divided by $S$: through the link in $\bar{P}$, a position innovation becomes a speed correction.
 
-Figure 9 runs the same ten jumping beacon readings. The speed estimate swings at first, then settles: after step 10 it is 0.421 m/s with a standard deviation of 0.081 m/s, against the robot's true average speed of 0.48 m/s, inside one **standard deviation** (G-1871) (notebook). A quantity that no sensor measures has been estimated from how the measured one changes, which kalmanfilter.net and Labbe ch.6 call the strength of the multivariate filter.
+Figure 8 feeds the filter the same ten jumping beacon readings, one per frame; watch the speed panel, which no sensor reads. The speed estimate swings at first, then settles: after step 10 it is 0.421 m/s with a standard deviation of 0.081 m/s, against the robot's true average speed of 0.48 m/s, inside one **standard deviation** (G-1871) (notebook). A quantity that no sensor measures has been estimated from how the measured one changes, which kalmanfilter.net and Labbe ch.6 call the strength of the multivariate filter.
 
-![The two-variable filter fed only position readings. Left: position estimate, readings and truth with a band of two standard deviations. Right: the speed estimate, never measured, settles near the true average of 0.48 m/s while its band narrows](images/cv_speed.png)
+![The two-variable filter fed only position readings, one per frame; bands are two standard deviations. Top: position estimate, readings and truth. Bottom: the speed estimate, never measured: one reading gives 0.378 m/s, then it swings and settles. The last frame shows step 10: speed 0.421 m/s with a standard deviation of 0.081 m/s, near the true average of 0.48 m/s, inside a band that has narrowed](images/cv_speed_anim.gif)
 
 ### 6.5 Observability: can the readings pin down the state?
 
 Could we do the same with a speed sensor and no position sensor? No. Every position, shifted by the same amount, gives exactly the same speed readings, so no number of speed readings can tell where the robot is.
 
-A system is **observable** (G-2517) if its whole state can be worked out from its readings (and commands) over time (FBS §8.1). Figure 10 shows what a speed sensor alone does to the filter: with the speed sensor, the variance of the position estimate grows every step, to 2.68 m² after ten steps; with the position sensor it falls to 0.066 m² (notebook). A **Kalman filter** (G-2506) on an unobservable system runs without error messages but cannot shrink the uncertainty in the hidden direction, so checking observability comes before building the filter.
+A system is **observable** (G-2517) if its whole state can be worked out from its readings (and commands) over time (FBS §8.1). Figure 9 runs two filters for ten steps, one reading position and one reading only speed, one predict or update per frame: each predict raises the variance of the position estimate, each update lowers it. With the speed sensor, the variance after each update is higher than the step before, up to 2.68 m² after ten steps; with the position sensor it falls to 0.066 m² (notebook). A **Kalman filter** (G-2506) on an unobservable system runs without error messages but cannot shrink the uncertainty in the hidden direction, so checking observability comes before building the filter.
 
-![Variance of the position estimate over ten steps: with a position sensor it stays small and ends at 0.066; with only a speed sensor it grows steadily to 2.68](images/observability.png)
+![Variance of the position estimate over ten steps, one predict or update per frame: a predict raises it (slanted line), an update lowers it (drop). Blue: the filter reads position (measurement matrix H = [1, 0]); the variance after each update falls every step, to 0.066 m². Red: the filter reads only speed (H = [0, 1]); each drop is smaller than the rise before it, so the variance after each update climbs every step, to 2.68 m² in the last frame](images/observability_anim.gif)
 
 ### 6.6 The state a controller needs: the filter as an observer
 
@@ -683,7 +683,7 @@ The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (
 
 ### 7.2 Q: tune the motion noise
 
-The slip's variance $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, a wheel radius slightly wrong), so there is no datasheet for it, and it is set by tuning against data (Labbe ch.8). Each wrong choice fails in its own way. We simulated 2000 runs of 50 steps in which the true slip **variance** (G-2076) is 0.01, and ran three filters on them (Figure 11):
+The slip's variance $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, a wheel radius slightly wrong), so there is no datasheet for it, and it is set by tuning against data (Labbe ch.8). Each wrong choice fails in its own way. We simulated 2000 runs of 50 steps in which the true slip **variance** (G-2076) is 0.01, and ran three filters on them (Figure 10):
 
 | Filter's $Q$ | Gain it settles to | Error (RMSE, steps 11–50) | What goes wrong |
 |---|---|---|---|
@@ -691,9 +691,9 @@ The slip's variance $Q$ is harder: it covers everything the motion model leaves 
 | 0.01 (right) | 0.22 | 0.187 m | none |
 | 1 (too big) | 0.88 | 0.353 m | trusts each reading, copies its noise |
 
-The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error).
+The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 10 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
 
-![Error of three filters on one 50-step run, each set with a different slip variance Q; the legend gives each filter's RMSE over all 2000 runs. Q = 0.0001 lags below the truth for long stretches; Q = 1 jumps with every reading; Q = 0.01 stays closest to zero](images/tuning.png)
+![Error of three filters on one 50-step run, one step per frame, each set with a different slip variance Q; each legend entry gives the filter's gain K at the current step and its RMSE over all 2000 runs. Q = 0.0001: gain 0.10 at step 10 and 0.03 at step 50, so its estimate lags below the truth for long stretches; Q = 1: gain 0.88, its estimate jumps with every reading; Q = 0.01: gain 0.22, its estimate stays closest to zero. The last frame shows all 50 steps](images/tuning_anim.gif)
 
 **Only the ratio matters.** Multiply the slip's variance $Q$, the beacon's variance $R$ and the starting variance all by 10. The first predicted variance $\bar{p}$, the starting variance plus $Q$, is then 10 times larger too, and so is every later one. So every gain has a 10 on top and below:
 
