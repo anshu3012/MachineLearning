@@ -3,8 +3,11 @@
 Without them a figure has no height until it arrives, so jumping to a section (a link with #anchor) lands, and
 then figures above it load and push the section down the screen. Each <img> also gets style="height:auto", so the
 attributes only fix the aspect ratio and figures still shrink to the page width.
+Each src also gets ?v=<hash of the image>: a rebuilt figure keeps its file name, and without a new tag a browser
+shows its cached old copy (GitHub Pages lets it keep files for 10 minutes).
 Usage: python3 site/img_sizes.py <quartz>/public
 """
+import hashlib
 import os
 import re
 import struct
@@ -52,9 +55,12 @@ def main(public):
                     missing += 1
                     return m.group(0)
                 added += 1
+                url = m.group(2)
+                if "?" not in url and "#" not in url:
+                    url += "?v=" + hashlib.md5(open(path, "rb").read()).hexdigest()[:8]
                 # inline height:auto: a browser holding an older cached stylesheet would otherwise use the
                 # height attribute as is and stretch the figure tall on a narrow screen
-                return (f'<img{m.group(1)}src="{m.group(2)}" width="{wh[0]}" height="{wh[1]}" style="height:auto"'
+                return (f'<img{m.group(1)}src="{url}" width="{wh[0]}" height="{wh[1]}" style="height:auto"'
                         f'{m.group(3)}>')
 
             new = IMG.sub(fix, html)
