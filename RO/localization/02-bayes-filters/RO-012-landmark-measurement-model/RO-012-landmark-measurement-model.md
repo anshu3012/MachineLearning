@@ -112,7 +112,7 @@ A bell around the prediction would call that a wild miss. The fix is to add or s
 
 $$353^\circ - 360^\circ = -7^\circ$$
 
-This is **angle wrapping** (G-2404), the same wrap-around of headings as on a [dial](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#25-configuration-and-configuration-space), where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect).
+This is **angle wrapping** (G-2404), the same wrap-around of headings as on a [dial](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#82-configuration-space), where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect).
 
 ## 4. The landmark measurement model
 
