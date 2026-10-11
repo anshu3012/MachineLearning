@@ -71,21 +71,47 @@ $$2 \times 0.5 = 1$$
 
 ![x with mean 1 and standard deviation 0.5 (top) is passed through the line y = 2x + 1; the result y (right) is a Gaussian with mean 3 and standard deviation 1. Both axes and both density panels use the same scale, so the line rises 2 for every 1 across and the curve of y is twice as wide and half as tall. Histograms of 5000 samples sit on the formula curves](images/linear_gaussian.png)
 
-**Why the variance gets $a^2$.** The standard deviation is the square root of the variance. The [variance](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) is the average squared distance from the mean. For $y = ax + b$ with mean $a\mu + b$, each distance is:
+**Why the variance gets $a^2$.** The filter stores the variance $p$, not the standard deviation (Section 2.2), so it needs the rule for the variance. The [variance](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076) is the average squared distance from the mean; the standard deviation is its square root.
 
-$$y - (a\mu + b) = a\thinspace(x - \mu)$$
+Follow one sample through the line. Take $x = 1.5$, which lies 0.5 from the mean of $x$:
 
-Squared:
+$$1.5 - 1 = 0.5$$
 
-$$a^2\thinspace(x - \mu)^2$$
+The line sends it to:
 
-Averaged, the factor $a^2$ comes out in front:
+$$y = 2 \times 1.5 + 1 = 4$$
+
+which lies 1 from the mean of $y$:
+
+$$4 - 3 = 1$$
+
+The distance has doubled. The slope 2 stretches every gap by 2, and the $+1$ moves the sample and the mean by the same amount, so it changes no gap. The same steps for any $x$, with $\mu$ the mean of $x$:
+
+$$y - (a\mu + b)$$
+
+$$= (ax + b) - (a\mu + b)$$
+
+$$= ax - a\mu \quad \text{(the } b \text{ cancels)}$$
+
+$$= a\thinspace(x - \mu)$$
+
+Squaring multiplies every squared distance by $a^2$:
+
+$$\big(a\thinspace(x - \mu)\big)^2 = a^2\thinspace(x - \mu)^2$$
+
+For our sample:
+
+$$1^2 = 4 \times 0.5^2$$
+
+Every squared distance is 4 times larger, so their average is 4 times larger too:
 
 $$\text{Var}(ax + b) = a^2\thinspace\text{Var}(x)$$
 
 With our numbers:
 
 $$\text{Var}(y) = 4 \times 0.25 = 1$$
+
+Its square root is the standard deviation of $y$, 1, the value Figure 2 shows.
 
 The shift $b$ moves the Gaussian without widening it. That the result is still a Gaussian, not some other shape, is a property of the normal distribution (Freiburg KF slides; Labbe ch.4). The command is such a shift, but each step also adds a wheel slip, a second error.
 
