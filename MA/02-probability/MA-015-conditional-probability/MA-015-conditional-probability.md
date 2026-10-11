@@ -219,7 +219,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Conditional probability (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
-| Intersection (A ∩ B) (G-967) | The event that both A and B happen. |
+| Intersection (A ∩ B) (G-967) | The set of elements that are in both A and B, such as the points inside both of two half-planes; for events, the event that both A and B happen. |
 | Reduced sample space (G-1649) | The outcomes that remain possible once the condition is known. |
 | Multiplication rule (G-2212) | The chance that both A and B happen is the chance of B times the chance of A given B: $P(A \cap B) = P(A \mid B) \times P(B)$. |
 | [Naive Bayes classifier (Naive Bayes)](../../../ML/07-classification/ML-081-naive-bayes-intuition/ML-081-naive-bayes-intuition.md#1-overview) (G-1297) | A classifier that applies Bayes' theorem with the assumption that inputs are independent within each class. |
