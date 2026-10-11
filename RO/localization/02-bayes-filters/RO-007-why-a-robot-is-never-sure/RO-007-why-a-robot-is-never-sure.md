@@ -86,9 +86,9 @@ Slipping wheels are only one cause. The textbook on **probabilistic robotics** (
 4. **The models.** Every model simplifies. The [kinematic model](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297), the equations that turn wheel speeds into motion, assumes wheels that never slip.
 5. **The computation.** A robot must decide in time, so its algorithms take shortcuts and approximate (Khamis L5).
 
-Figure 4 shows sensor noise and the environment at work on one wall. A distance sensor stands 2.00 m from a wall and takes 200 readings. The 190 readings of the wall itself spread from 1.92 m to 2.07 m, because of sensor noise. The 10 readings taken while a person walked past are between 0.61 m and 1.16 m, nowhere near the wall.
+In Figure 4, watch sensor noise and the environment at work on one wall: no two readings of the wall agree exactly, and while a person walks through the beam the readings fall far short of the wall. A distance sensor stands 2.00 m from a wall and takes 200 readings. The 190 readings of the wall itself spread from 1.92 m to 2.07 m, because of sensor noise. The 10 readings taken while a person walked past are between 0.61 m and 1.16 m, nowhere near the wall.
 
-![A histogram of 200 readings of one wall from one spot: 190 cluster around 2.00 m between 1.92 and 2.07 m, and 10 readings taken while a person walked past lie between 0.6 and 1.2 m](images/wall_readings.png)
+![Animation: a distance sensor 2.00 m from a wall takes 200 readings (simulated), one at a time. Top: the beam and the distance the sensor reports (dot). Bottom: the histogram of the readings so far, one bar per 0.02 m, on the same metre scale. The wall's readings pile up around 2.00 m; after the 100th reading a person walks through the beam, and the next 10 readings land where the person is. The last frame holds all 200: 190 readings of the wall between 1.92 and 2.07 m, and 10 readings of the person between 0.61 and 1.16 m](images/wall_anim.gif)
 
 So no reading and no move can be taken at face value. [Section 3](#3-keep-a-distribution-not-one-best-guess) starts with the reading: "door" fits three cells, and the robot must still say where it is.
 
@@ -166,9 +166,11 @@ Check: the ten cells add up to 1.
 
 $$3 \times 0.1875 + 7 \times 0.0625 = 1$$
 
-![After one reading "door": a perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_reading.png)
+Figure 7 plays the same reading on the cells, for the perfect sensor and the noisy one. Every cell starts at 0.1; watch each one be multiplied by the chance of reading "door" there, and then every cell be divided by the sum of the products, so that the ten add up to 1 again. The noisy sensor ends at the same 0.1875 and 0.0625 as the shares.
 
-Figure 7 compares the two. The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
+![Animation of one reading "door" for a perfect sensor (top, blue) and the noisy sensor (bottom, purple). Every cell starts at 0.1 and is multiplied by the chance of reading "door" there: 1 at a door and 0 at a wall for the perfect sensor (products 0.1 and 0), 0.6 and 0.2 for the noisy sensor (products 0.06 and 0.02). The products add up to 0.3 and 0.32, and each cell is divided by its sensor's sum. The last frame: the perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_anim.gif)
+
+The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
 
 ## 4. The state: what the robot keeps track of
 
@@ -193,9 +195,9 @@ Depending on the robot and the task, the state can also include:
 
 ### 4.2 Why the speed can belong to the state
 
-Figure 8 shows two robots on a smooth floor with their motors switched off. Both are at 2 m right now. Robot A has been standing still; robot B is rolling at 0.5 m/s.
+Figure 8 plays two robots on a smooth floor with their motors switched off, from one second ago to one second from now: watch robot B roll to 2 m, where robot A stands, so that for a moment the two positions are the same, and then roll on. Both are at 2 m right now. Robot A has been standing still; robot B is rolling at 0.5 m/s.
 
-![Two robots both at 2 m now with motors off: robot A stood still and will still be at 2 m in one second; robot B rolls at 0.5 m/s, was at 1.5 m a second ago and will be at 2.5 m](images/coasting.png)
+![Animation of two robots on a smooth floor with their motors off, from one second ago to one second from now. Robot A (blue) stands still at 2 m. Robot B (purple) rolls at 0.5 m/s: from 1.5 m up to 2 m, where now both robots are at 2 m and their positions look the same, then on to 2.5 m; dashed boxes mark where B was. The last frame: in one second A is still at 2 m and B is at 2.5 m](images/coasting_anim.gif)
 
 One second later:
 
@@ -246,9 +248,11 @@ The robot starts in some **state** (G-2314) $x_0$. Then each time step has two p
 1. a control $u_t$ moves the robot from $x_{t-1}$ to $x_t$;
 2. the robot takes a **measurement** (G-2317) $z_t$ in the new state $x_t$.
 
-![The order of events: from the start state x0, control u1 moves the robot to x1, where measurement z1 is taken; control u2 moves it to x2, where z2 is taken; and so on. Below, the hallway run: from x0 = cell 1, u1 stay gives x1 = cell 1 with z1 door; u2 move 2 gives x2 = cell 3 with z2 door; u3 move 2 gives x3 = cell 5 with z3 wall](images/timeline.png)
+Figure 9 builds this chain one event at a time on the hallway run: watch each control (green) carry the robot to its next state, and each measurement (orange) come out of the state it was read in.
 
-Figure 9 draws this chain with the hallway run below it. Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280) in a known map (Thrun 2000).
+![Animation of the order of events, one at a time. Top: the chain of states x0, x1, x2, x3 (blue circles); each control u (green box) points into the state it produces, each measurement z (orange box) points out of the state it was read in. Under the chain, the hallway run: from x0 = cell 1, u1 stay gives x1 = cell 1 with z1 door; u2 move 2 gives x2 = cell 3 with z2 door; u3 move 2 gives x3 = cell 5 with z3 wall. Bottom: the hallway with doors at cells 1, 3 and 7; the red square, the robot's true cell, moves with each control. The last frame holds the whole chain](images/timeline_anim.gif)
+
+Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280) in a known map (Thrun 2000).
 
 How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) is the first; the [**measurement model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) is the second. Before those models, [Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) shows what each stream does to the hallway robot's distribution.
 
