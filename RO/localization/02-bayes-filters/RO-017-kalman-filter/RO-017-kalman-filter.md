@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/kalman-filter, concept/kalma
 
 ![Ten steps of a robot in a corridor: the true position, the jumpy beacon readings, the drifting estimate from the commands alone, and the Kalman filter estimate that follows the truth](images/problem.png)
 
-The [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) lets the robot keep a belief of any shape, but every particle must be moved and weighed every round. When the belief is a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), two numbers carry all of it; this Note builds that filter, the Kalman filter. It needs a new world. The three doors of the looped corridor give a belief with a peak at each door: three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is **multimodal** (G-1275), and one Gaussian cannot hold it. Here a ceiling beacon reports the position itself, so the belief has a single mode: it is **unimodal** (G-2528).
+The [particle filter](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) lets the robot's [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), its probability for each possible position, take any shape, but every particle must be moved and weighed every round. When the belief is a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), two numbers carry all of it; this Note builds that filter, the Kalman filter. It needs a new world. The three doors of the looped corridor give a belief with a peak at each door: three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is **multimodal** (G-1275), and one Gaussian cannot hold it. Here a ceiling beacon reports the position itself, so the belief has a single mode: it is **unimodal** (G-2528).
 
 A delivery robot drives along a straight corridor. Every second it is commanded to move 0.5 m. A ceiling beacon system also reports its position once a second. Neither source is good enough on its own (Figure 1):
 
@@ -175,7 +175,7 @@ Sections 2.3 and 2.4 give the two facts the Kalman filter needs: a linear functi
 
 1. the next state is a linear function of the state and the command, plus normal noise;
 2. the reading is a linear function of the state, plus normal noise;
-3. the first belief is normal.
+3. the first [belief](../RO-013-belief/RO-013-belief.md#42-the-definition), before any command or reading, is normal.
 
 Our robot meets all three. At step $t$:
 
@@ -640,6 +640,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Measurement matrix $H$ (G-2515) | The matrix that turns the state into the reading the sensor should give, such as $H = [1, 0]$ for a sensor that sees position but not speed. |
 | Observability (G-2517) | Whether a system's whole state can be worked out from its readings and commands over time; a filter needs it before it can pin down every state variable. |
 | State observer (G-2516) | A model run alongside the real system and corrected by a gain times the gap between the measured and the predicted reading, so it rebuilds states no sensor measures for a controller to use; the Kalman filter is the observer with the best gain for the given noises. |
+| [Belief](../../../../RO/localization/02-bayes-filters/RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
 | [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) | Another name for the normal distribution: the symmetric, bell-shaped continuous distribution set by its mean and standard deviation, used to model many measurements. |
 | [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
 | [Multimodal](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275) | Having more than one mode (two modes: bimodal). |
