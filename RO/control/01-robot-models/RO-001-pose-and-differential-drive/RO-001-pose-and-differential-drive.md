@@ -390,25 +390,11 @@ A wheel rolls along its own direction but grips against sliding sideways (LaVall
 
 The kinematic model of Section 5.2 already obeys this rule. Its velocity, $\dot{x} = v\cos\theta$ and $\dot{y} = v\sin\theta$, is the forward speed split along the heading (Section 5.1), so it always points the way the robot faces. Its two inputs are "drive forward" ($v$) and "turn" ($\omega$); "slide sideways" is not among them. Of the three numbers of the pose, the robot can change only two directly at each moment.
 
-### 6.2 Why the robot can still reach every pose: holonomic and nonholonomic constraints
+### 6.2 Can the robot still get everywhere?
 
-> **Key point:** A holonomic constraint fixes where a system can be. A nonholonomic constraint only fixes which way it can move at each moment; the system can still reach every pose, with manoeuvres.
+> **Key point:** Not sliding sideways limits which way the robot can move *right now*, not where it can *end up*. A limit like that is called nonholonomic.
 
-Does "no sideways motion" mean there are places the robot can never get to? Compare it with a system where that really is so: a toy train on a circular track of radius 5 m (Figure 13, left). The train obeys a rule about **position**:
-
-$$x^2 + y^2 = 25$$
-
-At the point $(3, 4)$, the check is:
-
-$$3^2 + 4^2 = 9 + 16 = 25$$
-
-The train can never leave the circle. A rule written as an equation on the pose itself, on $x$, $y$ and $\theta$, such as the track's $x^2 + y^2 = 25$, is a **holonomic constraint** (G-2301). So is a rule on velocities that follows from one, like the train's. It removes whole poses: the train lives on a 1-dimensional circle, not on the 2-dimensional floor (MR §2.4).
-
-![Left: a train on a circular track of radius 5 m can only be on the circle. Right: the robot at one pose can only move along its heading, yet it can reach any pose on the floor](images/constraints.png)
-
-Is there a pose rule hiding behind the robot's rule? Suppose there were one, linking $x$, $y$ and $\theta$. Then fixing the position $(x, y)$ would also fix the heading $\theta$, the way fixing $x$ on the track fixes $y$. But the robot can spin on the spot (Section 4.4) and point in any direction from the same position. So no such rule exists (MR §2.4).
-
-Figure 14 shows the consequence. Three legal moves shift the robot 0.5 m to its left, the one direction it can never move in directly:
+The robot cannot move to its left. Can it still get to a spot 0.5 m to its left? Yes, with three legal moves (Figure 13):
 
 1. Spin 90° to the left on the spot.
 2. Drive 0.5 m forward.
@@ -416,14 +402,22 @@ Figure 14 shows the consequence. Three legal moves shift the robot 0.5 m to its 
 
 ![The robot moves 0.5 m sideways using only legal moves: spin 90 degrees left, drive 0.5 m, spin 90 degrees right. It ends 0.5 m to the left of where it started, facing the same way](images/sideways.gif)
 
-A rule on velocities that does not follow from any pose rule is a **nonholonomic constraint** (G-2302). It cuts the directions the robot can move in at each moment from 3 to 2, but the robot can still reach every pose (MR §2.4). Robots with such constraints are called nonholonomic robots. A car shows the same thing every day: it cannot drive sideways into a parking space, but it gets there by parallel parking (LaValle §13.1.2.1).
+It ends 0.5 m to the left, facing the same way. The same trick reaches any pose: turn to face the spot, drive straight to it, then turn to the heading you want. A car does the same when it parallel parks into a space it cannot drive into sideways (LaValle §13.1.2.1).
 
-| | Holonomic constraint | Nonholonomic constraint |
+Compare a toy train on a circular track of radius 5 m (Figure 14). Its limit is on where it can be: whatever it does, it stays on the circle, the points where $x^2 + y^2 = 25$.
+
+![Left: a train on a circular track of radius 5 m can only be on the circle. Right: the robot at one pose can only move along its heading, yet it can reach any pose on the floor](images/constraints.png)
+
+These two kinds of limit have names (MR §2.4):
+
+- a **holonomic constraint** (G-2301) limits where a system can be, like the train's track;
+- a **nonholonomic constraint** (G-2302) limits only which way it can move at each moment, and every place stays reachable, like the robot's wheels.
+
+| | Holonomic | Nonholonomic |
 |---|---|---|
-| Limits | poses (and so velocities) | velocities only |
-| Example | train on a circular track | wheel that cannot slide sideways |
-| Reachable poses | fewer: the track only | all of them |
-| What it means for planning | search a smaller space | every pose is reachable, but routes need manoeuvres |
+| Limits | where it can be | which way it can move right now |
+| Example | train on a track | wheel that cannot slide sideways |
+| Reachable poses | only those on the track | all of them |
 
 ## 7. Summary
 
