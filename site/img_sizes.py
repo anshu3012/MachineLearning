@@ -4,7 +4,8 @@ Without them a figure has no height until it arrives, so jumping to a section (a
 then figures above it load and push the section down the screen. Each <img> also gets style="height:auto", so the
 attributes only fix the aspect ratio and figures still shrink to the page width.
 Each src also gets ?v=<hash of the image>: a rebuilt figure keeps its file name, and without a new tag a browser
-shows its cached old copy (GitHub Pages lets it keep files for 10 minutes).
+shows its cached old copy (GitHub Pages lets it keep files for 10 minutes). The site's own index.css,
+prescript.js and postscript.js get the same tag, so a new build never runs with the last build's script or styles.
 Usage: python3 site/img_sizes.py <quartz>/public
 """
 import hashlib
@@ -14,6 +15,7 @@ import struct
 import sys
 from urllib.parse import unquote
 
+ASSET = re.compile(r'((?:href|src)="[^"?]*?(index\.css|prescript\.js|postscript\.js))"')
 IMG = re.compile(r"<img\b([^>]*?)\bsrc=\"([^\"]+)\"([^>]*)>")
 
 
@@ -37,6 +39,8 @@ def size(path):
 
 def main(public):
     added = missing = 0
+    tag = {a: hashlib.md5(open(os.path.join(public, a), "rb").read()).hexdigest()[:8]
+           for a in ("index.css", "prescript.js", "postscript.js") if os.path.isfile(os.path.join(public, a))}
     for root, _, files in os.walk(public):
         for name in files:
             if not name.endswith(".html"):
@@ -63,7 +67,8 @@ def main(public):
                 return (f'<img{m.group(1)}src="{url}" width="{wh[0]}" height="{wh[1]}" style="height:auto"'
                         f'{m.group(3)}>')
 
-            new = IMG.sub(fix, html)
+            new = ASSET.sub(lambda m: f'{m.group(1)}?v={tag[m.group(2)]}"' if m.group(2) in tag else m.group(0),
+                            IMG.sub(fix, html))
             if new != html:
                 open(page, "w", encoding="utf-8").write(new)
     print(f"img_sizes: {added} sized, {missing} without a readable file")
