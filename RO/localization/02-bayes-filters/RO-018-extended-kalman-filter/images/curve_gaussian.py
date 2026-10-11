@@ -13,7 +13,11 @@ from ekfsim import dh, h
 
 here = Path(__file__).parent
 CASES = [(1.0, 0.5), (2.5, 0.5), (4.0, 0.5), (5.5, 0.5), (5.5, 1.5)]
+# the three cases of the Section 3.3 table, drawn as the notebook draws them (one stream, its order); the other two apart
 rng = np.random.default_rng(0)
+DRAWS = {c: rng.normal(*c, 200_000) for c in [(1.0, 0.5), (5.5, 0.5), (5.5, 1.5)]}
+rng_rest = np.random.default_rng(1)
+DRAWS.update({c: rng_rest.normal(*c, 200_000) for c in CASES if c not in DRAWS})
 
 
 def normal(x, m, s):
@@ -21,11 +25,11 @@ def normal(x, m, s):
 
 
 def frame(mu, s):
-    xs = rng.normal(mu, s, 200_000)
+    xs = DRAWS[(mu, s)]
     ys = h(xs)
     m_lin, s_lin = h(mu), abs(dh(mu)) * s
     fig = make_subplots(rows=2, cols=2, column_widths=[0.7, 0.3], row_heights=[0.28, 0.72], shared_xaxes=True,
-                        shared_yaxes=True, horizontal_spacing=0.02, vertical_spacing=0.03)
+                        shared_yaxes=True, horizontal_spacing=0.05, vertical_spacing=0.03)
     g = np.linspace(-1, 12, 600)
     fig.add_trace(go.Scatter(x=g, y=normal(g, mu, s), line=dict(color=BLUE, width=4)), row=1, col=1)
     fig.add_trace(go.Scatter(x=g, y=h(g), line=dict(color="black", width=4)), row=2, col=1)
@@ -51,3 +55,8 @@ def frame(mu, s):
 
 figs = [frame(*c) for c in CASES]
 make_gif(figs, here / "curve_gaussian", fps=1, holds=[3, 2, 2, 3, 4], keys=[0, 3, 4], cols=1, width=850)
+
+# the Section 3.3 table: true output mean and sd of the three notebook cases
+for c, (m, sd) in {(1.0, 0.5): (5.39, 0.46), (5.5, 0.5): (2.12, 0.14), (5.5, 1.5): (2.48, 0.57)}.items():
+    y = h(DRAWS[c])
+    assert (round(y.mean(), 2), round(y.std(), 2)) == (m, sd), (c, y.mean(), y.std())

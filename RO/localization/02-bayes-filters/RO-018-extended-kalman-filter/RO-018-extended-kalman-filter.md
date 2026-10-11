@@ -232,7 +232,11 @@ matching $p_1$. The slope 0.940 set that precision, and the slope changes as the
 
 ### 4.3 Sixteen steps, past the beacon
 
-Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. Watch the slope $H$ of the beacon distance at each prediction in the lower panel:
+Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. It plays step 1 one move per frame, with the numbers of [Section 4.2](#42-step-1-by-hand), then each later step in two frames. In the top panel, watch the purple tangent line touch the beacon curve at each prediction: its slope $H$ is the red dot added to the bottom panel. As $H$ nears 0 at the beacon, the band around the estimate in the middle panel widens.
+
+![Top, one step at a time: the beacon distance h(x) (black), the prediction on it (hollow blue, ± 2 standard deviations), the tangent line there (purple, its slope H), the reading (orange line), the innovation (orange bar) and the updated estimate (blue dot). Middle: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance at each prediction rises from −0.94 through 0 at the beacon to +0.62. The last frame shows the whole run](images/ekf_run_anim.gif)
+
+The slope, the gain and the variance at six of the steps:
 
 | Step | Prediction (m) | Slope $H$ | Gain $K$ | Variance after (m²) | Estimate (m) | True (m) |
 |---|---|---|---|---|---|---|
@@ -243,8 +247,6 @@ Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beac
 | 13 | 6.27 | 0.133 | 0.459 | 0.0346 | 6.186 | 6.32 |
 | 16 | 7.57 | 0.617 | 0.868 | 0.0141 | 7.749 | 7.86 |
 
-![Top: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance rises from −0.94 through 0 at the beacon to +0.62](images/ekf_run.png)
-
 - Far from the beacon the slope is near −1: each reading pins the position down, and the variance stays between 0.007 and 0.011 m².
 - Near the beacon, where the distance bottoms out at 2 m (Figure 1), the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 3 widens; the filter is coasting on its commands.
 - Past the beacon the slope turns positive and the gain changes sign with it; the readings pin the position down again.
@@ -253,9 +255,11 @@ The filter needs no special case for any of this: recomputing $H$ at every predi
 
 ### 4.4 The limits of the EKF
 
-**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook). A **Gaussian** (G-827) is [**unimodal**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2528), with a single mode, so it cannot say "here or at the mirror place"; that belief has two modes, it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and a [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-gaussian-is-not-enough) (G-2492) can keep both until the readings decide (Labbe ch.12).
+**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings, one step per frame, to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Watch it move left while the robot moves right: only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook).
 
-![The same 16 readings fed to an EKF started at 0 m (follows the truth) and one started at 11 m (follows the mirror path, wrong by up to 10.5 m with narrow error bars, until the robot passes the beacon at 6 m)](images/mirror.png)
+![The same 16 readings fed, one step per frame, to an EKF started at 0 m (blue, follows the truth, black) and one started at 11 m (red): the red filter moves left while the robot moves right, wrong by up to 10.5 m with narrow error bars of two standard deviations, until the robot passes the beacon at 6 m (grey dotted line). The last frame shows the whole run, both filters ending near the truth](images/mirror_anim.gif)
+
+A **Gaussian** (G-827) is [**unimodal**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2528), with a single mode, so it cannot say "here or at the mirror place"; that belief has two modes, it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and a [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-gaussian-is-not-enough) (G-2492) can keep both until the readings decide (Labbe ch.12).
 
 The other limits (Freiburg EKF slides; Labbe ch.11):
 
