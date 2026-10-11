@@ -26,4 +26,4 @@ Every agent that writes, edits or reviews a Note answers these 22 questions for 
 22. **Processes animated?** Everything that happens over time, in steps, in a loop or in a sequence (a beam travelling, a ray walking cells, an algorithm's rounds, a search, a build-up) is shown as an animation next to its text, not as a still (§29).
 
 ## Report format
-Per Note, 20 numbered lines: `6 fixed: 14 "bell" → "Gaussian"`, `10 no: Figure 3 image says "bell" (needs a figure rebuild)`. End with **PASS** or **NOT PASS**.
+Per Note, 22 numbered lines: `6 fixed: 14 "bell" → "Gaussian"`, `10 no: Figure 3 image says "bell" (needs a figure rebuild)`. End with **PASS** or **NOT PASS**.
