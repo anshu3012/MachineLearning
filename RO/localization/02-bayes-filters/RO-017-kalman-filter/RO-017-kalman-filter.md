@@ -222,21 +222,21 @@ The beacon stops the drift but jumps. The update decides how far to follow each 
 
 The reading's error has a variance $R$, the **measurement noise** (G-2510) variance, which comes from the sensor's datasheet or from a calibration (Section 7.1).
 
-Neither should be thrown away. A natural blend is a weighted average, with weight $w$ on the reading and $1 - w$ on the prediction:
+Neither should be thrown away. A natural blend is a weighted average, with weight $k$ on the reading and $1 - k$ on the prediction:
 
-$$\hat{x} = w\thinspace z + (1 - w)\thinspace\bar{x}$$
+$$\hat{x} = k\thinspace z + (1 - k)\thinspace\bar{x}$$
 
-Which $w$? Taking $w = 0$ keeps the prediction, $w = 1$ takes the reading, and anything in between mixes them. We want the $w$ that makes the blended estimate as certain as possible: the smallest variance.
+Which $k$? Taking $k = 0$ keeps the prediction, $k = 1$ takes the reading, and anything in between mixes them. We want the $k$ that makes the blended estimate as certain as possible: the smallest variance.
 
 ### 4.2 The variance of the blend
 
-To find that $w$, we write the blend's variance as a function of $w$. The prediction's error and the reading's error are independent. By Section 2.3, scaling an error by $w$ scales its variance by $w^2$; by Section 2.4, independent variances add:
+To find that $k$, we write the blend's variance as a function of $k$. The prediction's error and the reading's error are independent. By Section 2.3, scaling an error by $k$ scales its variance by $k^2$; by Section 2.4, independent variances add:
 
-$$p(w) = w^2 R + (1 - w)^2\thinspace\bar{p}$$
+$$p(k) = k^2 R + (1 - k)^2\thinspace\bar{p}$$
 
 With our numbers:
 
-$$p(w) = 0.16\thinspace w^2 + 1.01\thinspace(1 - w)^2$$
+$$p(k) = 0.16\thinspace k^2 + 1.01\thinspace(1 - k)^2$$
 
 Figure 3 plots it. At the ends:
 
@@ -246,21 +246,21 @@ $$p(1) = 0.16 \quad \text{(reading only)}$$
 
 In between, the curve dips below both: mixing two independent estimates beats either one. What is left is to find where the dip is lowest.
 
-![The variance of the blended estimate against the weight on the reading, for the first step: 1.01 at w = 0, 0.16 at w = 1, lowest at w = 0.863 with variance 0.138](images/var_vs_weight.png)
+![The variance of the blended estimate against the weight on the reading, for the first step: 1.01 at k = 0, 0.16 at k = 1, lowest at k = 0.863 with variance 0.138](images/var_vs_weight.png)
 
 ### 4.3 The best weight: the Kalman gain
 
-The lowest point of a smooth curve is where its slope is zero. The [derivative](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) of $p(w)$, term by term:
+The lowest point of a smooth curve is where its slope is zero. The [derivative](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) of $p(k)$, term by term:
 
-$$\frac{dp}{dw} = 2wR - 2(1 - w)\thinspace\bar{p}$$
+$$\frac{dp}{dk} = 2kR - 2(1 - k)\thinspace\bar{p}$$
 
 Set it to zero and divide by 2:
 
-$$wR = (1 - w)\thinspace\bar{p}$$
+$$kR = (1 - k)\thinspace\bar{p}$$
 
-$$wR + w\bar{p} = \bar{p}$$
+$$kR + k\bar{p} = \bar{p}$$
 
-$$w = \frac{\bar{p}}{\bar{p} + R}$$
+$$k = \frac{\bar{p}}{\bar{p} + R}$$
 
 This best weight is the **Kalman gain** (G-2508), written $K$ (kalmanfilter.net 1D; Becker ch.4). For step 1:
 
@@ -280,7 +280,7 @@ So $K$ always lies between 0 and 1, and the update always lands between the pred
 
 ### 4.4 The updated estimate and its variance
 
-Put $w = K$ into the weighted average and regroup:
+Put $k = K$ into the weighted average and regroup:
 
 $$\hat{x} = Kz + (1 - K)\thinspace\bar{x}$$
 
@@ -300,13 +300,13 @@ $$= 0.5 + 0.276 = 0.776 \text{ m}$$
 
 The true position is 0.73 m.
 
-**The variance.** Put $w = K$ into $p(w)$. The two weights are:
+**The variance.** Put $k = K$ into $p(k)$. The two weights are:
 
 $$K = \frac{\bar{p}}{\bar{p} + R}$$
 
 $$1 - K = \frac{R}{\bar{p} + R}$$
 
-So the two terms of $p(w)$ are:
+So the two terms of $p(k)$ are:
 
 $$K^2 R = \frac{\bar{p}^2 R}{(\bar{p} + R)^2}$$
 
