@@ -5,13 +5,13 @@ tags: [subject/robotics, area/localization, concept/likelihood-field, concept/sc
 
 ## 1. Overview
 
-> **Key point:** The **likelihood field model** (G-2391) scores a laser reading by one look-up: how close does the beam's end point land to an obstacle in the map? It gives up some physics for a large gain in speed and smoothness, and the same idea lets a robot match one scan against another to measure how far it moved.
+> **Key point:** The **likelihood field model** (G-2391) scores a laser reading by one look-up: how close does the beam's end point land to an obstacle in the map? The model gives up some physics for a large gain in speed and smoothness, and the same idea lets a robot match one scan against another to measure how far it moved.
 
 ![The 5 m by 4 m room with a box in the lower right. The robot at pose A (2, 2, 0) sends 12 laser beams, one every 30 degrees; each beam ends at a red dot on a wall or on the box, except the forward one, which stops at a person 1 m ahead](images/overview.png)
 
 So far the robot can score a guessed pose from a laser scan with the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#52-back-to-the-opening-scan) (G-2377): it casts every beam through the map and compares each reading with the distance it should have read, and in this room it rated the true pose A 215 times above a pose 1 m off, even with a person in front. What still breaks is that it is slow and jumpy. A localization filter may try hundreds of guessed poses for every scan, and each guess needs a ray cast per beam: 15 million small steps per scan for 1000 poses ([Section 2.1](#21-it-is-slow)). And a 1 cm move can make one beam slip past an edge and change its score 270-fold ([Section 2.2](#22-it-jumps-at-edges)). This Note adds a score that looks only at where each beam ends.
 
-It is the same 5 m by 4 m room, pose A and person as in the beam model, with one box added (Figure 1) so that a beam has an edge to slip past. The Note covers:
+We keep the 5 m by 4 m room, pose A and person of the beam model, and add one box (Figure 1) so that a beam has an edge to slip past. The Note covers:
 
 - why the beam model is too slow and too jumpy for some uses ([Section 2](#2-why-the-beam-model-is-not-enough));
 - the likelihood field model: look only at where each beam ends ([Section 3](#3-the-likelihood-field-model));
@@ -50,7 +50,7 @@ Figure 2 plays the slide, with the robot's y going from 1.70 m down to 1.40 m. W
 
 ![Animation: the robot slides down the room 1 cm at a time, its y coordinate falling from 1.70 m to 1.40 m, and one beam at 330 degrees reads 1.86 m. Left: the ray cast from the robot, blue while it meets the box after an expected range z* of 1.85 m, orange from y = 1.52 m, when it slips under the box's corner and meets the bottom wall after 3.04 m; the green dot is where the reading 1.86 m ends. Right: the density of that reading as y falls: the beam model (red) jumps from 5.88 to 0.0218 per m between y = 1.53 and 1.52 m, while the likelihood field (green) changes smoothly. The last frame shows both beams and both full curves](images/edge_anim.gif)
 
-A score that jumps like this is hard to search: a method that improves a guess by small steps, such as [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862), finds no slope to follow on the flat parts and a cliff at the edge. The green curve in Figure 2 is the **likelihood field** (G-2393) of the next section. It changes smoothly with the pose, which is the second thing we gain (Freiburg slides, "Properties of endpoint model").
+A score that jumps like this is hard to search: a method that improves a guess by small steps, such as [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862), finds no slope to follow on the flat parts and a cliff at the edge. The green curve in Figure 2 is the **likelihood field** (G-2393) of the next section. The field changes smoothly with the pose, which is the second thing we gain (Freiburg slides, "Properties of endpoint model").
 
 ## 3. The likelihood field model
 
@@ -74,7 +74,7 @@ $$x_{\text{end}} = x + z^k \cos(\theta + \theta_k)$$
 
 $$y_{\text{end}} = y + z^k \sin(\theta + \theta_k)$$
 
-These are the cosine and sine shares of a length along a direction, as in the [**kinematic model**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#51-why-the-speed-splits-into-cosine-and-sine-parts) (G-2297). The laser sits at the robot's centre here; a laser mounted elsewhere adds its offset (UChicago class 05).
+The two lines are the cosine and sine shares of a length along a direction, as in the [**kinematic model**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#51-why-the-speed-splits-into-cosine-and-sine-parts) (G-2297). The laser sits at the robot's centre here; a laser mounted elsewhere adds its offset (UChicago class 05).
 
 **Worked example.** At pose A, the beam at 90° reads 1.97 m:
 
@@ -117,9 +117,9 @@ The standard deviation is wider than the beam model's 0.05 m, because $d$ also a
 
 $$\mathcal{N}(0.03;\ 0, 0.1^2) = 3.989 \times e^{-0.045}$$
 
-$$= 3.814$$
+$$= 3.8135$$
 
-$$0.9 \times 3.814 = 3.432$$
+$$0.9 \times 3.8135 = 3.432$$
 
 $$3.432 + 0.1 / 5 = 3.452 \text{ per m}$$
 
@@ -148,9 +148,9 @@ The notebook scores all 12 beams of Figure 1; $d$ is each end point's distance t
 | 330° | 1.86 | (3.61, 1.07) | 0.00 | 3.610 |
 | 8 others | 2.04 to 3.48 | on a wall | 0.00 | 3.610 |
 
-The distances come from a grid of 1 cm cells, so an end point inside a wall cell has $d = 0$. Figure 4 scores the beams one at a time: watch each end point's distance $d$ set its density, and the logs of the densities add up to the scan's score at pose A, 10.15.
+The distances come from a grid of 1 cm cells, so they are rounded to the grid: an end point inside a wall cell has $d = 0$, and the 270° end point, 1 cm above the bottom wall, gets $d = 0.02$ m. Figure 4 scores the beams one at a time: watch each end point's distance $d$ set its density, and the logs of the densities add up to the scan's score at pose A, 10.15.
 
-![Animation: the room of Figure 1 with the robot at pose A (2, 2, 0). Its 12 beams are taken one at a time: the dashed line is the beam, which the model does not use, and the red dot is its end point. The table fills in each end point's distance d to the nearest obstacle (in m), its density (per m) and the natural log of that density, and the running sum of the logs grows below the table. The person's beam ends 1.01 m from the box corner (purple arrow) and gets only the uniform part, 0.020 per m; the 90° and 270° beams end 3 cm and 2 cm from a wall (3.452 and 3.539 per m); the other nine end inside a wall or the box, d = 0 (3.610 per m). The last frame holds the whole scan: the 12 logs add up to 10.147, which is 10.15 to two decimals](images/score_anim.gif)
+![Animation: the room of Figure 1 with the robot at pose A (2, 2, 0). Its 12 beams are taken one at a time: the dashed line is the beam, which the model does not use, and the red dot is its end point. The table fills in each end point's distance d to the nearest obstacle (in m), its density (per m) and the natural log of that density, and the running sum of the logs grows below the table. The person's beam ends 1.01 m from the box corner (purple arrow) and gets only the uniform part, 0.020 per m; the 90° and 270° beams end next to a wall, d = 0.03 and 0.02 m on the grid (3.452 and 3.539 per m); the other nine end inside a wall or the box, d = 0 (3.610 per m). The last frame holds the whole scan: the 12 logs add up to 10.147, which is 10.15 to two decimals](images/score_anim.gif)
 
 Adding the logs of all 12 densities gives the scan's log-likelihood at each guessed pose:
 
@@ -193,7 +193,7 @@ The stored grid of "distance from this cell to the nearest occupied cell" is the
 
 Putting each cell's distance into the density of [Section 3.2](#32-from-distance-to-density) gives the density an end point would have in that cell. The grid of these densities is the **likelihood field** (G-2393) of the map (Thrun §6.4; Freiburg slides, "Example"). We build it in three views, from the familiar to the compact.
 
-**A line through the room.** Figure 6 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the uniform part's 0.02 within about 0.3 m (three **standard deviations** (G-1871)).
+**A line through the room.** Figure 6 walks along the line $y = 0.9$ m, which crosses the left wall, the box and the right wall. The top panel is the distance to the nearest obstacle: zero at each obstacle and rising in a straight line away from it, until it levels off at 0.9 m in the middle, where the nearest obstacle is the bottom wall 0.9 m below the line. The bottom panel is the field: a peak of 3.61 per m on every obstacle, falling to the uniform part's 0.02 within about 0.3 m (three **standard deviations** (G-1871) of 0.1 m).
 
 ![Along the line y = 0.9 m across the room. Top: the distance to the nearest obstacle, zero at the left wall, the box and the right wall, rising linearly away from each and levelling off at 0.9 m, the distance to the bottom wall. Bottom: the likelihood field, a plateau of 3.61 on each obstacle that drops to the uniform level of 0.02 within about 0.3 m](images/field_slice.png)
 
@@ -205,23 +205,23 @@ Putting each cell's distance into the density of [Section 3.2](#32-from-distance
 
 ![The likelihood field of the room seen from above as a colour map, bright yellow along the walls and around the box, dark elsewhere. The 12 end points of the scan at pose A are red dots: 11 on the bright ridges, and the person's end point at (3, 2) in the dark area](images/field_map.png)
 
-The field is computed once per map, so its cost does not grow with the number of poses tried. Scoring a pose then costs one look-up per beam, with no **ray casting** (G-2376): this is the speed-up of [Section 2.1](#21-it-is-slow) (Freiburg slides: "highly efficient, uses 2D tables only"). The ROS localization package AMCL uses this model by default (ROS amcl, `laser_model_type`).
+The field is computed once per map, so its cost does not grow with the number of poses tried. Scoring a pose then costs one look-up per beam, with no **ray casting** (G-2376), the walk along each beam: this is where the speed-up of [Section 2.1](#21-it-is-slow), about 250 times, comes from (Freiburg slides: "highly efficient, uses 2D tables only"). The ROS localization package AMCL uses this model by default (ROS amcl, `laser_model_type`).
 
 ### 4.3 What the field gives up
 
 The model "ignores physical properties of beams" (Freiburg slides, "Properties of endpoint model"): it looks at the end point and ignores what lies between the robot and it. Two consequences follow.
 
-**It sees through walls.** Figure 9 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies 3 cm from the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) knows this and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
+**The field sees through walls.** Figure 9 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies next to the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) knows this and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
 
 ![A guessed pose C above the box, facing down. A reading of 1.98 m would end next to the bottom wall, which the likelihood field scores 3.45 per m; the beam model knows the box blocks the beam after 0.8 m and gives 0.016 per m](images/sees_through.png)
 
-**It does not model people.** The field has no short-reading part. A person's reading is scored only by the uniform part $p_{\text{rand}}$, 0.02 per m, wherever it lands. That is mild in practice, because the uniform part still keeps the scan's product from reaching 0, and the person costs every guessed pose the same.
+**The field does not model people.** The field has no short-reading part. A person's reading is scored only by the uniform part of [Section 3.2](#32-from-distance-to-density), 0.02 per m, wherever it lands. The cost is mild in practice, because the uniform part still keeps the scan's product from reaching 0, and the person costs every guessed pose the same.
 
-So the trade is: physics for speed and smoothness. It pays when many poses must be scored, as in a particle filter, and when the score is searched by small steps, as in **scan matching** (G-2395) (Freiburg slides, "Properties of endpoint model").
+So the trade is: physics for speed and smoothness. The trade pays when many poses must be scored, as in a particle filter, and when the score is searched by small steps, as in **scan matching** (G-2395), lining up two scans to measure the robot's motion ([Section 5](#5-scan-matching-how-far-did-the-robot-move)) (Freiburg slides, "Properties of endpoint model").
 
 ## 5. Scan matching: how far did the robot move?
 
-> **Key point:** Build a **likelihood field** (G-2393) from the first scan's end points, then slide the second scan over it. The shift that puts the second scan's end points on the brightest places is the robot's motion between the two scans.
+> **Key point:** Build a **likelihood field** (G-2393), the look-up grid of end-point densities, from the first scan's end points, then slide the second scan over it. The shift that puts the second scan's end points on the brightest places is the robot's motion between the two scans.
 
 ### 5.1 The problem: odometry drifts
 
@@ -252,7 +252,7 @@ $$41 \times 31 \times 21$$
 
 $$= 26\ 691 \text{ candidates}$$
 
-The notebook scores them in about one second. Searching a whole grid of candidates and keeping the best is **correlative scan matching** (G-2396) (Olson 2009). It does not need a good first guess, unlike methods that improve one guess step by step.
+The notebook scores them in about one second. Searching a whole grid of candidates and keeping the best is **correlative scan matching** (G-2396) (Olson 2009). The grid search does not need a good first guess, unlike methods that improve one guess step by step.
 
 Figure 10 plays a few candidates. At the odometry guess, scan 2's end points sit beside the ridges: the score is 169. The best candidate is the true motion, $(0.3, 0.1, 5^\circ)$, where the points lie along the ridges and the score is 447.
 
@@ -261,6 +261,8 @@ Figure 10 plays a few candidates. At the odometry guess, scan 2's end points sit
 Because the field is smooth, the score also rises smoothly towards the best candidate, so the search can be refined by small steps, for example by gradient ascent from the best grid point (Freiburg slides: the distance grid "is smooth w.r.t. to small changes in robot position"; Olson 2009).
 
 > **Extra:** The field must be dense enough. With 72 beams per scan (one every 5°), scan 1's end points 3 m away lie about 0.26 m apart, more than twice the field's standard deviation $\sigma$ of 0.1 m. The field then has dark gaps between the points, and the same search picks $(0.28, 0.1, 7^\circ)$ instead of the true motion (the notebook shows it). Denser scans, a wider $\sigma$, or a field built from several scans fix it.
+
+Scan matching measures how far the robot moved between two scans, not where it stands in the map; [Section 6](#6-correlation-based-map-matching) compares a scan with the map itself.
 
 ## 6. Correlation-based map matching
 
@@ -272,7 +274,7 @@ Because the field is smooth, the score also rises smoothly towards the best cand
 
 ### 6.2 Multiply and add
 
-The simplest comparison places the **local map** (G-2398) on the global map, multiplies matching cells and adds the products (Konolige and Chou 1999: "places the sensor patch on the map, multiplies the corresponding values, and sums them"). A cell adds 1 only where both maps are marked. Take a strip of 8 cells across a corridor, with walls in cells 3 and 7 of the global map:
+The simplest comparison places the **local map** (G-2398) on the global map, multiplies matching cells and adds the products (Konolige and Chou 1999: "places the sensor patch on the map, multiplies the corresponding values, and sums them"). A cell adds 1 only where both maps are marked. Take a strip of 8 cells across a corridor, small enough to work by hand, with walls in cells 3 and 7 of the global map:
 
 | Cell | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
 |---|---|---|---|---|---|---|---|---|
@@ -286,7 +288,7 @@ The raw sum has a flaw: it rewards a local map for marking many cells. In the ro
 
 ### 6.3 Why we normalise: the correlation coefficient
 
-The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. It subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by the two maps' **standard deviations** (G-1871), so the result lies between −1 and +1 (MA-009). For the two maps, read cell by cell:
+The fix is the [Pearson correlation coefficient](../../../../MA/01-descriptive-stats/MA-009-covariance-and-correlation/MA-009-covariance-and-correlation.md#4-correlation) (G-1474) of the two maps, read cell by cell as two lists of numbers. The coefficient subtracts each map's mean before multiplying, so cells marked everywhere earn nothing, and divides by the two maps' **standard deviations** (G-1871), their typical spread about the mean, so the result lies between −1 and +1. For the two maps, read cell by cell:
 
 - $g_i$ is cell $i$ of the global map, 1 if marked and 0 if not;
 - $l_i$ is cell $i$ of the **local map** (G-2398), 1 or 0 in the same way;

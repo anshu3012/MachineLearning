@@ -29,7 +29,7 @@ This Note builds that idea step by step:
 
 ### 2.1 Why counting moves is not enough: dead reckoning
 
-The simplest way to know where we are is to start at a known place and add up our own moves: "I started at 0 m and moved 2 m eight times, so I am at 16 m." This is **dead reckoning** (G-2311): working out the position from a known start plus the robot's own motion, with no look at the surroundings. Facing north at 1 m/s for 3 s, a robot reckons it is 3 m north of where it started, without checking anything.
+The simplest way to know where we are is to start at a known place and add up our own moves: "I started at 0 m and moved 2 m eight times, so I am at 16 m." The method is **dead reckoning** (G-2311): working out the position from a known start plus the robot's own motion, with no look at the surroundings. Facing north at 1 m/s for 3 s, a robot reckons it is 3 m north of where it started, without checking anything.
 
 The trouble is that the moves themselves are not exact. Our hallway robot is told "move 2", two cells of 1 m. Because its wheels sometimes slip or spin on, the real move is (Labbe ch.2):
 
@@ -39,9 +39,9 @@ The trouble is that the moves themselves are not exact. Our hallway robot is tol
 | 2 cells | 0.8 |
 | 3 cells (it runs on) | 0.1 |
 
-We count positions in whole cells, so a move that falls well short counts as 1 cell and one that runs on counts as 3. This is the move of the hallway robot throughout the chapter.
+We count positions in whole cells, so a move that falls well short counts as 1 cell and one that runs on counts as 3. The hallway robot moves this way throughout the chapter.
 
-Figure 2 plays what happens to a robot that starts surely at 0 m on a long straight track and is told "move 2" eight times without looking around. The bars show the probability of each true position; the red dashed line is where the robot thinks it is.
+Figure 2 plays what happens to a robot that starts surely at 0 m on a long straight track (so that eight moves of 2 m do not wrap round the 10 m loop) and is told "move 2" eight times without looking around. The bars show the probability of each true position; the red dashed line is where the robot thinks it is.
 
 ![Dead reckoning without readings: after 1, 2, 4 and 8 moves of 2 m the probability of each true position spreads wider; after 8 moves the robot is exactly where it thinks (16 m) with probability 0.33 only](images/drift.gif)
 
@@ -64,7 +64,7 @@ $$0.1 \times (3 - 2)^2 = 0.1$$
 
 $$\text{variance} = 0.1 + 0 + 0.1 = 0.2$$
 
-The moves slip **independently** (G-934), and for independent moves the [variances add](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). After 8 moves:
+The moves slip **independently** (G-934), one move's slip not changing the chances of the next, and for independent moves the [variances add](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means). After 8 moves:
 
 $$\text{variance} = 8 \times 0.2 = 1.6$$
 
@@ -76,7 +76,7 @@ The standard deviation keeps growing, more slowly than the number of moves but w
 
 ### 2.2 Five sources of uncertainty
 
-Slipping wheels are only one cause. The textbook on **probabilistic robotics** (G-2313) lists five (Thrun et al. 2005 ch.1, as given in Khamis L5), shown in Figure 3:
+Slipping wheels are only one cause. The textbook on **probabilistic robotics** (G-2313), robotics that reasons with probabilities, lists five (Thrun et al. 2005 ch.1, as given in Khamis L5), shown in Figure 3:
 
 ![Five sources of uncertainty around a robot: the environment, the sensors, the robot's actuation, the models and the computation, each with an example](images/five_sources.png)
 
@@ -109,7 +109,7 @@ The sensor says "door". Three cells have a door (1, 3 and 7) and nothing favours
 
 $$P(1) = P(3) = P(7) = \frac{1}{3} = 0.33$$
 
-The other seven get 0, as Figure 1 shows. The same thing happens in two dimensions. A robot in a room whose laser scan shows "a flat wall 1 m straight ahead" could stand 1 m from any straight stretch of any wall, facing it (Figure 5). The reading rules out spots near a corner or facing the door, where the scan would look different, but it leaves many **poses** (G-2280).
+The other seven get 0, as Figure 1 shows. The same thing happens in two dimensions. A robot in a room whose laser scan shows "a flat wall 1 m straight ahead" could stand 1 m from any straight stretch of any wall, facing it (Figure 5). The reading rules out spots near a corner or facing the door, where the scan would look different, but it leaves many **poses** (G-2280), positions together with a heading.
 
 ![A room 7 m by 4 m with a door. The scan shows a flat wall 1 m ahead; every pose 1 m from a straight stretch of wall, facing it, fits the reading, so candidate poses line all four walls](images/room_wall.png)
 
@@ -129,11 +129,11 @@ Step by step:
 
 The best-guess robot expected a wall at cell 9 and read "door". It now knows its guess was wrong, but it threw the other candidates away at step 1, so it has nothing to fall back on: it is lost. The robot that kept the whole distribution found its place, because it remembered every place the readings allowed (Labbe ch.2).
 
-This is the central idea of **probabilistic robotics** (G-2313): the robot computes a **probability distribution** (G-1571) over what might be the case, instead of a single best guess, so it can handle ambiguous readings and recover from errors (Thrun 2000). The probability distribution a robot keeps over where it might be is its [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), defined later in this chapter.
+Keeping the whole distribution is the central idea of **probabilistic robotics** (G-2313): the robot computes a **probability distribution** (G-1571) over what might be the case, instead of a single best guess, so it can handle ambiguous readings and recover from errors (Thrun 2000). The probability distribution a robot keeps over where it might be is its [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), defined later in this chapter.
 
 ### 3.3 Why noisy sensors forbid crossing places out
 
-[Section 3.2](#32-why-a-single-best-guess-gets-lost) crossed out every cell that did not match a reading. That works only for a perfect sensor. A real door sensor errs. The sensor of our hallway robot, used throughout the chapter, behaves like this:
+[Section 3.2](#32-why-a-single-best-guess-gets-lost) crossed out every cell that did not match a reading. Crossing out works only for a perfect sensor. A real door sensor errs. The sensor of our hallway robot, used throughout the chapter, behaves like this:
 
 | Robot is at | Reads "door" | Reads "wall" |
 |---|---|---|
@@ -170,7 +170,7 @@ Figure 7 plays the same reading on the cells, for the perfect sensor and the noi
 
 ![Animation of one reading "door" for a perfect sensor (top, blue) and the noisy sensor (bottom, purple). Every cell starts at 0.1 and is multiplied by the chance of reading "door" there: 1 at a door and 0 at a wall for the perfect sensor (products 0.1 and 0), 0.6 and 0.2 for the noisy sensor (products 0.06 and 0.02). The products add up to 0.3 and 0.32, and each cell is divided by its sensor's sum. The last frame: the perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_anim.gif)
 
-The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem), worked out later in this chapter. So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
+The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#41-from-the-counts-to-the-formula), which this chapter later [applies to the robot's readings](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem). So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
 
 ## 4. The state: what the robot keeps track of
 
@@ -210,18 +210,18 @@ Their positions now are the same, but their futures differ. If the **state** (G-
 
 ### 4.3 Complete state and the Markov property
 
-That test gives the definition. A **state** (G-2314) is a **complete state** (G-2315) if knowing it now, the earlier states, controls and **measurements** (G-2317) tell us nothing more about the future (Thrun et al. 2005 §2.3.1). For robot B:
+That test gives the definition. A **state** (G-2314) is a **complete state** (G-2315) if knowing it now, the earlier states, commands and sensor readings, called controls and **measurements** (G-2317), tell us nothing more about the future (Thrun et al. 2005 §2.3.1). For robot B:
 
 - position only: not complete, because the position one second ago improves the prediction;
 - position and speed: complete, because nothing from the past improves it.
 
-A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its **belief** (G-2433), it needs only the latest state, not every reading since it was switched on. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) (G-2446) is built on it.
+A sequence of states with this property, where the future depends on the past only through the present, has the **Markov property** (G-2316). We want it because it lets the robot forget its history: to predict and to update its **belief** (G-2433), its probability for every place, it needs only the latest state, not every reading since it was switched on. The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#5-why-the-two-steps-give-the-exact-belief) (G-2446), which updates the belief after every move and every reading, is built on it.
 
 In practice no robot's state is truly complete: people move, gears wear, the floor changes. Robots still treat their state as complete, and the methods of this chapter work well when the leftover effects are small (Thrun 2000). The robot never sees its state directly; [Section 5](#5-controls-and-measurements-two-streams-of-data) names the two kinds of data it does receive.
 
 ## 5. Controls and measurements: two streams of data
 
-> **Key point:** The robot answers "where is it?" from two kinds of data. Controls, such as "move 2", change its **state** (G-2314); measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
+> **Key point:** The robot answers "where is it?" from two kinds of data. Controls, such as "move 2", change its **state** (G-2314), here its cell; measurements, such as "door", only report on it. A control comes first, then the measurement in the new state.
 
 ### 5.1 Measurements and controls
 
@@ -252,13 +252,13 @@ Figure 9 builds this chain one event at a time on the hallway run: watch each co
 
 ![Animation of the order of events, one at a time. Top: the chain of states x0, x1, x2, x3 (blue circles); each control u (green box) points into the state it produces, each measurement z (orange box) points out of the state it was read in. Under the chain, the hallway run: from x0 = cell 1, u1 stay gives x1 = cell 1 with z1 door; u2 move 2 gives x2 = cell 3 with z2 door; u3 move 2 gives x3 = cell 5 with z3 wall. Bottom: the hallway with doors at cells 1, 3 and 7; the red square, the robot's true cell, moves with each control. The last frame holds the whole chain](images/timeline_anim.gif)
 
-Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280) in a known map (Thrun 2000).
+Controls point into the states (green arrows), because they change them; measurements point out of the states (orange arrows), because each one is produced by the state the robot is in. The robot never sees the states themselves, only the controls it sent and the measurements it received. Working out the states from those two streams is **localization** (G-2318) when the state is the robot's **pose** (G-2280), its position and heading, in a known map (Thrun 2000).
 
 How likely each next state is after a control, and each reading in a given state, are the two models every method in this chapter needs. The [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) is the first; the [**measurement model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374) is the second. Before those models, [Section 6](#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) shows what each stream does to the hallway robot's distribution.
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
-> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its **standard deviation** (G-1870) grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
+> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its **standard deviation** (G-1870), the typical distance of a cell from the average, grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
 
 Now we drop both simplifications: the moves are the noisy moves of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning), and the sensor is the noisy sensor of [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out). Take a robot that knows it is in cell 3, as after [Section 3.2](#32-why-a-single-best-guess-gets-lost). It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
@@ -266,7 +266,7 @@ Now we drop both simplifications: the moves are the noisy moves of [Section 2.1]
 
 **Control $u_3$ spreads the distribution.** From cell 3 the robot ends in cell 4, 5 or 6 with the move probabilities of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning): 0.1, 0.8 and 0.1.
 
-**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip **independently** (G-934). Ending in cell 7, four cells on, happens in three ways, and the probability $P(7)$ of ending in cell 7 is their sum:
+**Control $u_4$ spreads it further.** Each way of making two moves multiplies the two move probabilities, because the moves slip **independently** (G-934): one slip does not change the chances of the other. Ending in cell 7, four cells on, happens in three ways, and the probability $P(7)$ of ending in cell 7 is their sum:
 
 $$\text{2 then 2}: 0.8 \times 0.8 = 0.64$$
 
@@ -315,7 +315,7 @@ Cells 8 and 9 get the same as cells 6 and 5. The standard deviation of the distr
 | after $u_4$ | 0.63 m |
 | after $z_4$ | 0.42 m |
 
-Moves add uncertainty because the robot cannot tell which of the possible outcomes happened; readings remove it because they make places that do not fit less likely, or rule them out (Thrun 2000). That is why a robot needs both streams of data:
+Moves add uncertainty because the robot cannot tell which of the possible outcomes happened; readings remove it because they make places that do not fit less likely, or rule them out (Thrun 2000). So a robot needs both streams of data:
 
 - with moves alone it drifts, as in [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning);
 - with readings alone it stays ambiguous, as the three doors of [Section 3.1](#31-why-one-reading-fits-many-places) show;
@@ -332,7 +332,7 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 | Complete state | the past adds nothing once the state is known | the robot can forget its history (Markov property) |
 | Control $u_t$, measurement $z_t$ | data that changes the state, data that reports on it | controls spread the distribution, measurements narrow it |
 
-- "Where is it?" after the reading "door" has no single answer: cells 1, 3 and 7 each get 0.33, because a single guess is right only one time in three. A move and a second "door" then leave only cell 3; with slipping moves and the noisy sensor, two moves and a "door" give cell 7 probability 0.853.
+- "Where is it?" after the reading "door" has no single answer: cells 1, 3 and 7 each get 0.33, because all three fit the reading equally, so a single guess would be right only one time in three. A move and a second "door" then leave only cell 3; with slipping moves and the noisy sensor, two moves and a "door" give cell 7 probability 0.853.
 - **Dead reckoning** (G-2311) drifts: after 8 noisy moves the robot is where it thinks with probability 0.33, because independent errors add up (variances add).
 - Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than hope for perfect ones.
 - A single best guess, once contradicted, has nothing left, so the robot keeps every candidate.
