@@ -357,6 +357,12 @@ notes:
   2066: RO/control/07-classical-feedback-control/RO-066-feedforward-cascades-and-windup
   2067: RO/control/07-classical-feedback-control/RO-067-pid-tuning-in-practice
   2068: RO/control/07-classical-feedback-control/RO-068-digital-control
+  2069: RO/control/08-path-tracking/RO-069-driving-to-a-point-a-line-and-a-pose
+  2070: RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors
+  2071: RO/control/08-path-tracking/RO-071-pure-pursuit
+  2072: RO/control/08-path-tracking/RO-072-stanley-and-rear-wheel-feedback
+  2073: RO/control/08-path-tracking/RO-073-tracking-a-timed-trajectory
+  2074: RO/control/08-path-tracking/RO-074-feedforward-metrics-and-choosing-a-tracker
 
 concepts:
   # 0 Foundations
@@ -879,6 +885,26 @@ concepts:
   - {id: discretisation, name: Discretising a controller, home: RO-068#43-three-ways-to-add-up-the-area-forward-euler-backward-euler-and-tustin, videos: [2068]}
   - {id: z_transform, name: z-transform, home: RO-068#51-z-to-the-minus-one-means-one-tick-ago, videos: [2068]}
   - {id: aliasing, name: Aliasing and anti-aliasing filters, home: RO-068#71-the-wheel-that-seems-to-turn-backwards, videos: [2068]}
+  - {id: drive_to_point, name: "Driving to a point", home: RO-069#21-aim-at-the-dock-and-slow-down-near-it, videos: [2069]}
+  - {id: drive_along_line, name: "Driving along a line", home: RO-069#31-two-errors-from-the-line-the-distance-and-the-heading-error, videos: [2069]}
+  - {id: polar_controller, name: "Driving to a pose (polar-coordinate controller)", home: RO-069#42-the-rule-aim-off-to-the-side, videos: [2069]}
+  - {id: graceful_controller, name: "Graceful controller", home: RO-069#5-where-it-runs-nav2s-graceful-controller-and-docking, videos: [2069]}
+  - {id: bicycle_model, name: "Kinematic bicycle model", home: RO-070#22-the-bicycle-models-equations, videos: [2070]}
+  - {id: following_vs_tracking, name: "Path following and trajectory tracking", home: RO-070#3-path-following-and-trajectory-tracking, videos: [2070]}
+  - {id: path_coordinates, name: "Path coordinates (Frenet frame)", home: RO-070#41-the-nearest-path-point-and-the-distance-along-the-path, videos: [2070]}
+  - {id: tracking_errors, name: "Lateral and heading error", home: RO-070#42-lateral-error, videos: [2070]}
+  - {id: pure_pursuit, name: "Pure pursuit", home: RO-071#41-find-the-point-steer-drive-repeat, videos: [2071]}
+  - {id: lookahead, name: "Look-ahead distance", home: RO-071#2-chasing-a-point-on-the-path, videos: [2071]}
+  - {id: regulated_pp, name: "Regulated pure pursuit", home: RO-071#7-regulated-pure-pursuit-slow-down-where-the-path-is-tight, videos: [2071]}
+  - {id: stanley, name: "Stanley controller", home: RO-072#22-the-heading-term-and-the-cross-track-term, videos: [2072]}
+  - {id: rear_wheel_feedback, name: "Rear-wheel feedback", home: RO-072#52-three-parts-of-a-turn-rate, videos: [2072]}
+  - {id: reference_robot, name: "Tracking a timed trajectory (reference robot)", home: RO-073#21-a-robot-that-drives-the-timetable-exactly, videos: [2073]}
+  - {id: feedback_linearisation, name: "Feedback linearisation (offset point)", home: RO-073#32-a-point-ahead-of-the-axle-can-move-any-way, videos: [2073]}
+  - {id: kanayama, name: "Kanayama's tracker", home: RO-073#51-the-rule-part-by-part, videos: [2073]}
+  - {id: lyapunov, name: "Lyapunov functions", home: RO-073#61-an-energy-of-the-error-that-can-only-fall, videos: [2073]}
+  - {id: curvature_feedforward, name: "Feedforward steering from curvature", home: RO-074#22-the-steering-the-curve-needs, videos: [2074]}
+  - {id: tracker_metrics, name: "Tracker metrics", home: RO-074#31-three-numbers-for-a-run, videos: [2074]}
+  - {id: choosing_tracker, name: "Comparing and choosing trackers", home: RO-074#5-choosing-a-tracker, videos: [2074]}
 links:
   # Foundations
   - [ml, is a kind of, ai, confirmed]
@@ -1924,6 +1950,41 @@ links:
   - [z_transform, compared with, transfer_function, confirmed]
   - [aliasing, needs, signal_sampling, confirmed]
   - [aliasing, needs, frequency_response, confirmed]
+  - [drive_to_point, needs, p_control, confirmed]
+  - [drive_to_point, needs, diff_drive_kinematics, confirmed]
+  - [drive_along_line, needs, drive_to_point, confirmed]
+  - [drive_along_line, needs, second_order, confirmed]
+  - [polar_controller, needs, drive_to_point, confirmed]
+  - [polar_controller, needs, second_order, confirmed]
+  - [graceful_controller, compared with, polar_controller, confirmed]
+  - [bicycle_model, needs, diff_drive_kinematics, confirmed]
+  - [following_vs_tracking, needs, regulation_tracking, confirmed]
+  - [following_vs_tracking, needs, trajectory_optimisation, confirmed]
+  - [path_coordinates, needs, bicycle_model, confirmed]
+  - [tracking_errors, needs, path_coordinates, confirmed]
+  - [tracking_errors, needs, drive_along_line, confirmed]
+  - [pure_pursuit, needs, tracking_errors, confirmed]
+  - [pure_pursuit, needs, bicycle_model, confirmed]
+  - [lookahead, needs, pure_pursuit, confirmed]
+  - [regulated_pp, needs, lookahead, confirmed]
+  - [stanley, needs, tracking_errors, confirmed]
+  - [stanley, compared with, pure_pursuit, confirmed]
+  - [rear_wheel_feedback, needs, path_coordinates, confirmed]
+  - [rear_wheel_feedback, compared with, stanley, confirmed]
+  - [reference_robot, needs, following_vs_tracking, confirmed]
+  - [reference_robot, needs, feedforward, confirmed]
+  - [feedback_linearisation, needs, nonholonomic, confirmed]
+  - [feedback_linearisation, needs, reference_robot, confirmed]
+  - [kanayama, needs, reference_robot, confirmed]
+  - [kanayama, needs, feedforward, confirmed]
+  - [kanayama, compared with, feedback_linearisation, confirmed]
+  - [lyapunov, needs, kanayama, confirmed]
+  - [curvature_feedforward, needs, feedforward, confirmed]
+  - [curvature_feedforward, needs, bicycle_model, confirmed]
+  - [tracker_metrics, needs, tracking_errors, confirmed]
+  - [choosing_tracker, needs, tracker_metrics, confirmed]
+  - [choosing_tracker, needs, pure_pursuit, confirmed]
+  - [choosing_tracker, needs, stanley, confirmed]
   - [ilqr, fixes, gradient_descent, confirmed]
   - [ilqr, needs, shooting, confirmed]
   - [direct_indirect, needs, trajectory_optimisation, confirmed]
