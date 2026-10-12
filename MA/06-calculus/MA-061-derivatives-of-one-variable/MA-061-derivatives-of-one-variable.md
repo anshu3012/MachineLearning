@@ -648,7 +648,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Product rule (G-1577) | The rule for the derivative of a product of two functions: differentiate one factor at a time, keep the other, and add: $(fg)' = f'g + fg'$. |
 | Quotient rule (G-1609) | The rule for the derivative of a fraction of two functions: $(f/g)' = (f'g - fg')/g^2$. |
 | Maclaurin series (G-1142) | The Taylor series around $x_0 = 0$: an infinite sum of powers of $x$, built from a function's derivatives at 0, that approximates the function near 0. |
-| Linearisation (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial). |
+| Linearisation (G-1099) | Replacing a function near a point by its tangent line (its first-order Taylor polynomial), so that a curve can be handled as a straight line close to that point, where straight-line methods apply. |
 | Analytic function (G-197) | A function that can be written exactly as its Taylor series (an infinite sum of powers) near every point. |
 | Power series (G-1541) | A polynomial with infinitely many terms, $\sum a_k (x - c)^k$; the Taylor series is one example, and it lets functions such as $e^x$ and $\sin x$ be computed from polynomials. |
 | [Gradient descent](../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#1-overview) (G-862) | Finding the lowest point of a function by repeated small steps downhill. |

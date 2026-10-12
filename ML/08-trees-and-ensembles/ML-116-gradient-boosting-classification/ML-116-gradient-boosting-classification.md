@@ -394,7 +394,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Log-odds (G-1116) | The natural log of the odds, $\ln(p/(1-p))$: it turns a probability between 0 and 1 into any number (0 at $p = 0.5$), so a model such as logistic regression can predict it with a straight line, and the sigmoid turns it back into a probability. |
-| Odds (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$. |
+| Odds (G-1376) | How often an event happens divided by how often it does not, e.g. 5 placed to 3 not placed is $5/3$; unlike a probability, odds have no upper limit, so evidence updates them by one multiplication, and their log can be predicted with a straight line. |
 | Leaf value in log-odds (G-1062) | The amount a leaf adds to the log-odds in gradient boosting for classification, converted from the leaf's residuals because a probability cannot be added to log-odds: $\sum r / \sum p(1-p)$ over the leaf's rows. |
 | Newton step (G-1320) | Minimising a function by fitting a parabola from its first and second derivatives and jumping to the parabola's lowest point. |
 | [Differentiable loss](../../../ML/08-trees-and-ensembles/ML-115-gradient-boosting-regression-maths/ML-115-gradient-boosting-regression-maths.md#42-the-loss-function) (G-605) | A loss function whose derivative exists at every point, so it can be minimised with derivatives. |

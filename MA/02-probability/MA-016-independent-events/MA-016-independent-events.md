@@ -160,10 +160,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Independent events (G-934) | Events where one happening does not change the probability of the other. |
+| Independent events (G-934) | Events where one happening does not change the probability of the other; for them the probability that both happen is the product of their probabilities. |
 | Product rule for independent events (G-1576) | For independent events, the probability that both happen is the product of their separate probabilities: $P(A \cap B) = P(A) \times P(B)$. |
 | Gambler's fallacy (G-2213) | The mistaken belief that after a run of heads, tails is "due"; independent tosses have no memory. |
 | Dependent events (G-590) | Events that are not independent: knowing one changes the probability of the other. |
-| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$. |
+| [Conditional probability](../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#2-the-definition) (G-444) | The probability of an event given that another event has happened: $P(A \mid B)$; it updates a probability with what is now known, such as the chance of reading "door" once the robot is known to be at a door. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

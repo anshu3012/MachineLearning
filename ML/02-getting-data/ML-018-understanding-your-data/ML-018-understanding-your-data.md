@@ -468,7 +468,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Standard deviation (G-1871) | How far values typically lie from the mean; divide by $n - 1$ for a sample (pandas default) or by $n$ for a population (NumPy default). |
 | Quartiles (G-1602) | The 25%, 50% and 75% percentiles, which cut the data into four equal groups. |
 | Duplicate row (G-648) | A row identical to another row in every column. Duplicates give some examples extra weight and distort what a model learns, so we check for them before any analysis. |
-| Pearson correlation coefficient (Pearson's r) (G-1474) | The usual measure of correlation for linear (straight-line) relationships between two numerical columns, written $r$; the one `df.corr()` computes. |
+| Pearson correlation coefficient (Pearson's r) (G-1474) | A number from −1 to +1 that measures how closely two numerical columns follow a straight-line relationship (+1: they rise together exactly; 0: no straight-line link), written $r$; it is the one `df.corr()` computes. |
 | Mean (G-1203) | The average of the values; the centre of the data. |
 | Understanding the data (G-2038) | The project stage where we learn what is in the data before cleaning or modelling. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |

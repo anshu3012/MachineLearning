@@ -408,7 +408,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Category (G-356) | One of the fixed groups of a categorical column. |
 | Count plot (G-494) | A bar chart with one bar per category, as tall as its frequency. |
 | Frequency (G-808) | How many times a value or category occurs. |
-| Histogram (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column. |
+| Histogram (G-899) | A bar chart of how many values fall in each equal range (bin) of a numerical column; it shows the shape of a distribution at a glance: where values pile up, how far they spread and whether there are several peaks. |
 | Bin (G-298) | One of the equal ranges a histogram splits the data into. |
 | Distribution (G-626) | How a column's values spread over their range. |
 | Density plot (G-587) | A histogram with a smooth KDE curve drawn along the tops of its bars, so the shape of a numerical column's distribution is easier to see. |

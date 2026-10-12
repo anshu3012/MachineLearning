@@ -370,7 +370,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Median (G-1209) | The middle value of sorted data; the 50% percentile. |
 | Trimmed mean (G-2017) | The mean after removing a fixed share of the smallest and largest values. |
 | Mode (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |
-| Multimodal (G-1275) | Having more than one mode (two modes: bimodal). |
+| Multimodal (G-1275) | Having more than one mode, that is more than one peak (two peaks: bimodal), such as a robot's belief peaking at three doors; it shows the data point to several separate values, so one mean or one best guess would hide them. |
 | Weighted mean (G-2117) | A mean in which each value is multiplied by a weight saying how much it counts. |
 | Trimming percentage (G-2018) | The share of values removed from each end for a trimmed mean. |
 | Geometric mean (G-844) | An average for values that multiply, such as growth factors: multiply the $n$ values together and take the $n$-th root. |

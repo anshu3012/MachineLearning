@@ -540,7 +540,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Discretization (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals. |
+| Discretization (G-619) | Turning a continuous column into a discrete one by cutting its range into intervals (bins), such as ages 0–18, 18–60 and 60+; it turns endless values into a few groups that a model or a table can handle. |
 | Binarization (G-300) | Turning a continuous column into 0 or 1 by comparing it with one threshold. |
 | Threshold (binarization) (G-1971) | The value that separates 0 from 1 in binarization. |
 | Custom binning (G-522) | Binning with edges we choose from domain knowledge; also called domain-based binning. |

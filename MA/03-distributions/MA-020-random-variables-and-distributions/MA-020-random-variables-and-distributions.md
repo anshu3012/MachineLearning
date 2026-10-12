@@ -267,7 +267,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Probability distribution (G-1571) | A list of every possible outcome of a random variable with its probability. |
+| Probability distribution (G-1571) | A list (or curve) of every possible outcome of a random variable with its probability, adding up to 1; it says how likely each outcome is, so the chance of any event can be worked out from it. |
 | Probability distribution function (G-1570) | A formula $y = f(x)$ giving the probability of each outcome; the umbrella term for PMF and PDF. |
 | Random variable (G-1620) | The possible numerical outcomes of a random experiment; strictly, a function from outcomes to numbers. |
 | Parameters (of a distribution) (G-1449) | The numbers, such as $\mu$ and $\sigma$, that set a distribution's location, scale and shape. |
