@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/extended-kalman-filter, conc
 
 ![Top: a radio beacon on the corridor wall at 6 m, 2 m to the side; the robot reads its straight-line distance to it. Bottom: that distance as a function of position, a curve with its lowest point at 2 m under the beacon; positions 4 m and 8 m both read 2.83 m](images/beacon.png)
 
-With the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2506), the corridor robot blends its drifting commands and its jumping readings, and its estimate misses by 0.17 m, against 0.27 m for the commands alone and 0.51 m for the readings. That works because the belief stays a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), a bell-shaped curve set by a mean and a variance, and because the ceiling system reports the position itself plus noise, a [**linear function**](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-gaussian-a-gaussian) (G-2527) of the position, whose graph is a straight line. Now the robot has a new sensor in the same corridor: a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
+With the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2506), the corridor robot blends its drifting commands and its jumping readings, and its estimate misses by 0.17 m, against 0.27 m for the commands alone and 0.51 m for the readings. The blend works because the belief stays a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), a bell-shaped curve set by a mean and a variance, and because the ceiling system reports the position itself plus noise, a [**linear function**](../RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-gaussian-a-gaussian) (G-2527) of the position, whose graph is a straight line. Now the robot has a new sensor in the same corridor: a radio beacon fixed on the wall at 6 m along the corridor, 2 m to the side, and it measures its straight-line distance to the beacon (Figure 1). Such range sensors are common: radio beacons, GPS ranges to satellites, a lidar's range to a landmark.
 
 The reading is no longer the position plus noise. Its graph against the position is a curve (Figure 1), so no fixed multiple of the position plus a constant gives it: the reading is a **nonlinear function** (G-2530) of the position:
 
@@ -26,9 +26,9 @@ The Kalman filter needs linear models ([Section 2](#2-the-kalman-filter-in-brief
 
 ## 2. The Kalman filter in brief, and why nonlinear functions break it
 
-> **Key point:** The Kalman filter is exact only because **linear functions** (G-2527) keep a Gaussian a Gaussian. A nonlinear function, such as the beacon distance, does not.
+> **Key point:** The Kalman filter is exact only because **linear functions** (G-2527), whose graphs are straight lines, keep a Gaussian a Gaussian. A nonlinear function, such as the beacon distance, does not.
 
-To see why the nonlinear beacon distance of Figure 1 breaks it, recall what the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) (G-2506) does. It keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
+To see why the nonlinear beacon distance of Figure 1 breaks it, recall what the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form) (G-2506) does. The Kalman filter keeps the belief as a mean $\hat{x}$ and a variance $p$ and runs two steps per round:
 
 - **predict:** move the mean by the command, 0.5 m, and add the process noise $Q$, the variance of each step's wheel slip, 0.01 m², to the variance;
 - **update:** blend in the reading $z$ with the [Kalman gain](../RO-017-kalman-filter/RO-017-kalman-filter.md#43-the-best-weight-the-kalman-gain) (G-2508), which gives the reading the weight that makes the new variance smallest.
@@ -48,23 +48,23 @@ $$h(0.5) = \sqrt{5.5^2 + 4}$$
 
 $$= \sqrt{34.25} = 5.852 \text{ m}$$
 
-No single number $H$ turns position into this reading everywhere, so the five lines of the Kalman filter cannot be used as they are. The first guess is that of the Kalman filter: the estimate $\hat{x}$ is 0 m, with variance $p$ of 1 m². The beacon's distance readings have a standard deviation of 0.1 m, so the [**measurement noise**](../RO-017-kalman-filter/RO-017-kalman-filter.md#41-two-estimates-of-one-position) (G-2510) is $R = 0.01$ m². Before the filter can use these readings, we need to know what the beacon distance does to a **Gaussian** (G-827) belief.
+No single number $H$ turns position into this reading everywhere, so the five lines of the Kalman filter cannot be used as they are. The first guess is that of the Kalman filter: the estimate $\hat{x}$ is 0 m, with variance $p$ of 1 m². The beacon's distance readings have a standard deviation of 0.1 m, so the [**measurement noise**](../RO-017-kalman-filter/RO-017-kalman-filter.md#41-two-estimates-of-one-position) (G-2510) is $R = 0.01$ m². Before the filter can use these readings, we need to know what the beacon distance does to a **Gaussian** (G-827) belief, a bell-shaped curve over positions.
 
 ## 3. Pushing a Gaussian through a nonlinear function
 
-> **Key point:** A **nonlinear function** (G-2530) bends a Gaussian into a lopsided shape. Near a point, its graph looks like its tangent line, and a line keeps a Gaussian a Gaussian; that approximation is good when the Gaussian is narrow compared with the bend.
+> **Key point:** A **nonlinear function** (G-2530), one whose graph is a curve, bends a Gaussian into a lopsided shape. Near a point, its graph looks like its tangent line, and a line keeps a Gaussian a Gaussian; that approximation is good when the Gaussian is narrow compared with the bend.
 
 ### 3.1 What a nonlinear function does to a Gaussian
 
-The worst place is near the beacon, where the distance bottoms out at 2 m (Figure 1). Suppose the robot's position there is a **Gaussian** (G-827) with mean 5.5 m and standard deviation 0.5 m. What does the predicted reading look like? We cannot use a formula yet, so we use the [Monte Carlo](../RO-016-particle-filter/RO-016-particle-filter.md#32-samples-stand-for-a-distribution-the-monte-carlo-idea) way: draw 200,000 positions from the Gaussian, push each through the beacon distance $h$, and look at the results (notebook).
+The worst place is near the beacon, where the distance bottoms out at 2 m (Figure 1). Suppose the robot's position there is a **Gaussian** (G-827), a bell-shaped curve, with mean 5.5 m and standard deviation (sd) 0.5 m. What does the predicted reading look like? We cannot use a formula yet, so we use the [Monte Carlo](../RO-016-particle-filter/RO-016-particle-filter.md#32-samples-stand-for-a-distribution-the-monte-carlo-idea) way: draw 200,000 positions from the Gaussian, push each through the beacon distance $h$, and look at the results (notebook).
 
-Figure 2 shows the result in its middle frame. The readings pile up against 2 m, the smallest possible distance, with a long tail upwards: the Gaussian has become lopsided. Its lopsidedness, the [**skewness**](../../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), is 1.89, where a Gaussian has 0. A **Kalman filter** (G-2506) has no way to store that shape: it keeps only a mean and a variance. To keep the belief Gaussian, the filter needs a straight line in place of the curve.
+Figure 2 shows the result in its frame with input mean 5.5 m, sd 0.5 m. The readings pile up against 2 m, the smallest possible distance, with a long tail upwards: the Gaussian has become lopsided. Its lopsidedness, the [**skewness**](../../../../ML/02-getting-data/ML-019-univariate-analysis/ML-019-univariate-analysis.md#10-skewness) (G-1817), is 1.89, where a Gaussian has 0. A **Kalman filter** (G-2506) has no way to store that shape: it keeps only a mean and a variance. To keep the belief Gaussian, the filter needs a straight line in place of the curve.
 
-![A Gaussian of positions (top) pushed through the beacon curve (middle, black) gives the orange histogram of readings (right); the purple Gaussian is what the tangent line at the mean predicts. Far from the beacon (mean 1 m) the two agree; near it (mean 5.5 m) the true readings are lopsided against 2 m, and with a wide input (sd 1.5 m) the tangent-line Gaussian is far too narrow](images/curve_gaussian.gif)
+![A Gaussian of positions (top) pushed through the beacon curve (middle, black) gives the orange histogram of readings (right); the purple Gaussian is what the tangent line at the mean (purple dashed) predicts. The input's mean steps from 1 m through 2.5 m and 4 m to 5.5 m, and then the input widens. Far from the beacon (mean 1 m) the two agree; near it (mean 5.5 m) the true readings are lopsided against 2 m, and with a wide input (sd 1.5 m) the tangent-line Gaussian is far too narrow](images/curve_gaussian.gif)
 
 ### 3.2 The tangent line: linearisation
 
-Zoom in on any smooth curve and it looks straight. Near a point, the curve is close to its tangent line, the straight line that touches the curve there with the curve's slope. Replacing a function near a point by its tangent line is [linearisation](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099). With:
+Zoom in on any smooth curve and it looks straight. Near a point, the curve is close to its tangent line, the straight line that touches the curve there with the curve's slope. Replacing a function near a point by its tangent line is [linearisation](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099). In Figure 2 the tangent line is the purple dashed line, drawn at the input's mean. With:
 
 - $\mu$ is the position where the line touches the curve, in m (1 m in the example below);
 - $h(\mu)$ is the beacon distance there, in m;
@@ -93,15 +93,15 @@ $$h'(x) = \frac{-2\thinspace(6 - x)}{2h(x)}$$
 
 $$= \frac{-(6 - x)}{h(x)}$$
 
-It is the shrink rate of the distance per metre driven. At $x = 1$:
+The derivative $h'(x)$ is the shrink rate of the distance per metre driven. At $x = 1$:
 
-$$h(1) = \sqrt{25 + 4} = 5.385$$
+$$h(1) = \sqrt{25 + 4} = 5.3852$$
 
-$$h'(1) = -5 / 5.385 = -0.928$$
+$$h'(1) = -5 / 5.3852 = -0.928$$
 
 Driving 1 m towards the beacon from there cuts the distance by about 0.93 m.
 
-The tangent line is a straight line, and a straight line keeps a **Gaussian** (G-827) a Gaussian. So the predicted reading is a Gaussian whose mean is $h(\mu)$ and whose standard deviation (sd) is the input's standard deviation times the size of the slope, where $|h'(\mu)|$ is the slope without its sign:
+The tangent line is a straight line, and a straight line keeps a **Gaussian** (G-827) a Gaussian. So the predicted reading is a Gaussian whose mean is $h(\mu)$ and whose standard deviation (sd) is the input's sd times the size of the slope, where $|h'(\mu)|$ is the slope without its sign:
 
 $$\text{mean} \approx h(\mu)$$
 
@@ -111,7 +111,7 @@ Carrying a mean and a standard deviation through a function this way, with its v
 
 ### 3.3 When the tangent line fails
 
-The tangent line describes the curve well only near the point where it touches. The wider the **Gaussian** (G-827), and the more the curve bends inside it, the worse the approximation (Labbe ch.9; Freiburg EKF slides). The three frames of Figure 2, from the notebook:
+The tangent line describes the curve well only near the point where it touches. The wider the **Gaussian** (G-827), and the more the curve bends inside it, the worse the approximation (Labbe ch.9; Freiburg EKF slides). Three of the frames of Figure 2, with the notebook's numbers:
 
 | Input Gaussian | True readings: mean, sd | Tangent line: mean, sd |
 |---|---|---|
@@ -119,11 +119,11 @@ The tangent line describes the curve well only near the point where it touches. 
 | mean 5.5, sd 0.5 (near the bend) | 2.12, 0.14 | 2.06, 0.12 |
 | mean 5.5, sd 1.5 (near the bend, wide) | 2.48, 0.57 | 2.06, 0.36 |
 
-Near the bend, the tangent-line Gaussian puts its mean too low and is too narrow, so a filter using it would be too sure of itself. It even gives probability to readings below 2 m, which no position can produce. Both failures grow with the width of the input: with standard deviation 1.5 m, the tangent line misses the true standard deviation by more than a third.
+Near the bend, the tangent-line Gaussian puts its mean too low and is too narrow, so a filter using it would be too sure of itself. The tangent-line Gaussian even gives probability to readings below 2 m, which no position can produce. Both failures grow with the width of the input: with standard deviation 1.5 m, the tangent line misses the true standard deviation by more than a third.
 
 ### 3.4 Several variables: the Jacobian
 
-The beacon distance has one input, the position, so one slope is enough. A robot's pose, where it is and which way it faces, has several numbers: its position $x$ and $y$ on the floor, in m, and its heading $\theta$, in radians. A function of several numbers has a slope for each pair of output and input. The table of all these slopes is the [Jacobian](../../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980), and it plays the part of the slope: near a point, the function behaves like multiplying by that matrix.
+The beacon distance has one input, the position, so one slope is enough. A robot's [**pose**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280), where it is and which way it faces, has several numbers: its position $x$ and $y$ on the floor, in m, and its heading $\theta$, in radians. A function of several numbers has a slope for each pair of output and input. The table of all these slopes is the [Jacobian](../../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#42-the-formula-every-partial-derivative-in-one-grid) (G-980), and it plays the part of the slope: near a point, the function behaves like multiplying by that matrix.
 
 For motion the Jacobian is called $G$, the **motion Jacobian** (G-2522), and it carries the covariance forward as the state transition matrix $F$ does in the Kalman filter's [matrix form](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form). With:
 
@@ -143,7 +143,7 @@ With the tangent line for one number and the Jacobian for several, the **Kalman 
 
 ### 4.1 The algorithm
 
-The **extended Kalman filter** (EKF) (G-2520) uses that tangent line to run the **Kalman filter** (G-2506) on a nonlinear model such as the beacon distance: it linearises the nonlinear models at the latest estimate, every step (Freiburg EKF slides; Thrun §3.3; Labbe ch.11). The Kalman filter column of the table below uses the symbols listed in its [matrix form](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form); bold letters are vectors. The EKF adds:
+The **extended Kalman filter** (EKF) (G-2520) uses that tangent line to run the **Kalman filter** (G-2506), which keeps a Gaussian belief as a mean and a covariance, on a nonlinear model such as the beacon distance: it linearises the nonlinear models at the latest estimate, every step (Freiburg EKF slides; Thrun §3.3; Labbe ch.11). The Kalman filter column of the table below uses the symbols listed in its [matrix form](../RO-017-kalman-filter/RO-017-kalman-filter.md#63-the-five-lines-in-matrix-form); bold letters are vectors. The EKF adds:
 
 - $g$ is the motion model, the function that gives the predicted state from the command $u$ and the last estimate $\hat{\mathbf{x}}$ (on the corridor, the position plus 0.5 m);
 - $G$ is the **Jacobian** (G-980) of $g$ at the last estimate $\hat{\mathbf{x}}$, a matrix with one row per new state variable and one column per old one (on the corridor, the single number 1);
@@ -186,11 +186,11 @@ $$\bar x_1 = 0 + 0.5 = 0.5 \text{ m}$$
 
 $$\bar p_1 = 1 + 0.01 = 1.01 \text{ m}^2$$
 
-**Linearise the sensor at the prediction.** The expected reading and the slope:
+**Linearise the sensor at the prediction.** The expected reading and the slope, kept to four digits because the variance below subtracts two nearly equal numbers:
 
 $$h(0.5) = 5.852$$
 
-$$H = -5.5 / 5.852 = -0.940$$
+$$H = -5.5 / 5.852 = -0.9398$$
 
 **Innovation.** The [**innovation**](../RO-017-kalman-filter/RO-017-kalman-filter.md#44-the-updated-estimate-and-its-variance) (G-2511) is the gap between the reading and the reading the prediction expected. The reading is $z_1 = 5.61$ m:
 
@@ -200,39 +200,39 @@ The robot is 0.24 m closer to the beacon than predicted.
 
 **Gain.** First the innovation variance, with the sensor's variance $R$, 0.01 m²:
 
-$$S = 0.940^2 \times 1.01 + 0.01$$
+$$S = 0.9398^2 \times 1.01 + 0.01$$
 
 $$= 0.892 + 0.01 = 0.902$$
 
 then
 
-$$K = 1.01 \times (-0.940) / 0.902$$
+$$K = 1.01 \times (-0.9398) / 0.902$$
 
-$$= -1.052$$
+$$= -1.0523$$
 
 The gain is negative because the slope is: a shorter distance than expected means the robot is further along, so a negative innovation must move the estimate forward. Its size above 1 is expected too: it converts metres of distance into metres of position, and here the distance changes a little less than one for one.
 
 **Update:**
 
-$$\hat x_1 = 0.5 + (-1.052)(-0.242)$$
+$$\hat x_1 = 0.5 + (-1.0523)(-0.242)$$
 
 $$= 0.5 + 0.255 = 0.755 \text{ m}$$
 
-$$p_1 = (1 - (-1.052)(-0.940)) \times 1.01$$
+$$p_1 = (1 - (-1.0523)(-0.9398)) \times 1.01$$
 
-$$= 0.011 \times 1.01 = 0.0112 \text{ m}^2$$
+$$= 0.01105 \times 1.01 = 0.0112 \text{ m}^2$$
 
 The true position is 0.73 m. **A check.** After a reading this good, the position should be known about as well as the sensor allows, which is the sensor's standard deviation divided by the slope:
 
-$$0.1 / 0.940 = 0.106 \text{ m}$$
+$$\text{sd} = 0.1 / 0.94 = 0.106 \text{ m}$$
 
-$$0.106^2 = 0.0113 \text{ m}^2$$
+$$\text{sd}^2 = 0.106^2 = 0.0112 \text{ m}^2$$
 
-matching $p_1$. The slope 0.940 set that precision, and the slope changes as the robot drives towards the beacon.
+matching $p_1$. The slope 0.94 set that precision, and the slope changes as the robot drives towards the beacon.
 
 ### 4.3 Sixteen steps, past the beacon
 
-Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. It plays step 1 one move per frame, with the numbers of [Section 4.2](#42-step-1-by-hand), then each later step in two frames. In the top panel, watch the purple tangent line touch the beacon curve at each prediction: its slope $H$ is the red dot added to the bottom panel. As $H$ nears 0 at the beacon, the band around the estimate in the middle panel widens.
+Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. The animation plays step 1 one move per frame, with the numbers of [Section 4.2](#42-step-1-by-hand), then each later step in two frames. In the top panel, watch the purple tangent line touch the beacon curve at each prediction: its slope $H$ is the red dot added to the bottom panel. As $H$ nears 0 at the beacon, the band around the estimate in the middle panel widens.
 
 ![Top, one step at a time: the beacon distance h(x) (black), the prediction on it (hollow blue, ± 2 standard deviations), the tangent line there (purple, its slope H), the reading (orange line), the innovation (orange bar) and the updated estimate (blue dot). Middle: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance at each prediction rises from −0.94 through 0 at the beacon to +0.62. The last frame shows the whole run](images/ekf_run_anim.gif)
 
@@ -255,11 +255,11 @@ The filter needs no special case for any of this: recomputing $H$ at every predi
 
 ### 4.4 The limits of the EKF
 
-**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings, one step per frame, to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Watch it move left while the robot moves right: only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against 7.86 m at step 16, notebook).
+**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings, one step per frame, to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Watch it move left while the robot moves right: only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against the true 7.86 m at step 16, notebook).
 
 ![The same 16 readings fed, one step per frame, to an EKF started at 0 m (blue, follows the truth, black) and one started at 11 m (red): the red filter moves left while the robot moves right, wrong by up to 10.5 m with narrow error bars of two standard deviations, until the robot passes the beacon at 6 m (grey dotted line). The last frame shows the whole run, both filters ending near the truth](images/mirror_anim.gif)
 
-A **Gaussian** (G-827) is [**unimodal**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2528), with a single mode, so it cannot say "here or at the mirror place"; that belief has two modes, it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and a [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-gaussian-is-not-enough) (G-2492) can keep both until the readings decide (Labbe ch.12).
+A **Gaussian** (G-827), one bell-shaped curve, is [**unimodal**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2528), with a single mode (peak), so it cannot say "here or at the mirror place"; that belief has two modes, it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and a [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#31-why-one-gaussian-is-not-enough) (G-2492), which stores the belief as a cloud of samples, can keep both until the readings decide (Labbe ch.12).
 
 The other limits (Freiburg EKF slides; Labbe ch.11):
 
@@ -271,15 +271,15 @@ The unscented **Kalman filter** (G-2506) pushes a few chosen sample points throu
 
 ## 5. Consistency: is the filter telling the truth about itself?
 
-> **Key point:** A filter reports a variance along with its estimate. It is consistent when its real errors are as big as that variance says: on average, error squared divided by variance comes to the number of variables. The **innovations** (G-2511) allow the check without knowing the truth.
+> **Key point:** A filter is consistent when its real errors are as big as the variance it reports with its estimate: on average, error squared divided by variance comes to the number of variables. The **innovations** (G-2511) allow the check without knowing the truth.
 
 ### 5.1 Why we need a check
 
-To tell when the result has gone wrong, the filter's own variance is no help. The EKF's variance comes from tangent lines and from the noise variances we chose, the slip's $Q$ and the sensor's $R$, 0.01 m² each, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether that variance matches the real errors. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8). On a real robot the true errors are unknown, but the **innovations** (G-2511) are not.
+To tell when the result has gone wrong, the filter's own variance is no help. The EKF's variance comes from tangent lines and from the noise variances we chose, the slip's $Q$ and the sensor's $R$, 0.01 m² each, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether that variance matches the real errors. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8). On a real robot the true errors are unknown, but the **innovations** (G-2511), the gaps between each reading and the reading the filter predicted, are not.
 
 ### 5.2 The innovation and its covariance
 
-Every step, before it sees the reading, the filter predicts it. It also predicts how far off the reading will be. At step 1:
+Every step, before it sees the reading, the filter predicts it. The filter also predicts how far off the reading will be. At step 1:
 
 - $\bar{x}$ is the predicted position, 0.5 m;
 - $h(\bar{x})$ is the reading the filter predicts, the beacon distance at $\bar{x}$, 5.852 m;
@@ -296,7 +296,7 @@ $$S = H\bar{P}H^{\mathsf T} + R$$
 
 This $S$ is the **innovation covariance** (G-2523): the variance the filter expects of its innovation (Labbe ch.8; Chen et al. 2018). At step 1, the innovation was −0.242 m with $S = 0.902$ m², a predicted standard deviation of:
 
-$$\sqrt{0.902} = 0.95 \text{ m}$$
+$$\sqrt{S} = \sqrt{0.902} = 0.95 \text{ m}$$
 
 So an innovation of 0.24 m was well within what the filter expected. Unlike the true error, the innovation is known on a real robot at every step, so it is the everyday test.
 
@@ -314,15 +314,15 @@ For several readings at once, $y$ is a vector with one entry per reading, $S$ is
 
 $$\varepsilon_z = y^{\mathsf T} S^{-1} y$$
 
-This is the **normalised innovation squared** (NIS) (G-2526). For step 1:
+The number $\varepsilon_z$ is the **normalised innovation squared** (NIS) (G-2526). For step 1:
 
-$$0.242^2 / 0.902 = 0.065$$
+$$\varepsilon_z = 0.242^2 / 0.902 = 0.065$$
 
-**Why it should average 1.** If the filter is **consistent** (G-2524), $y$ is a **Gaussian** (G-827) with mean 0 and variance $S$, so $y / \sqrt{S}$ is a standard normal variable and its square averages 1. A squared standard normal variable follows the [chi-square distribution](../../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#31-built-from-squared-normal-draws) (G-378) with 1 degree of freedom; with $m$ readings at once, the NIS follows chi-square with $m$ degrees of freedom and averages $m$ (Chen et al. 2018). For one reading, 95 percent of a consistent filter's NIS values lie below 3.84 (notebook), and an innovation two standard deviations out gives an NIS of 4.
+**Why it should average 1.** If the filter is **consistent** (G-2524), $y$ follows a **Gaussian** (G-827), a bell-shaped curve, with mean 0 and variance $S$, so $y / \sqrt{S}$ is a standard normal variable (mean 0, variance 1) and its square averages 1. A squared standard normal variable follows the [chi-square distribution](../../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#31-built-from-squared-normal-draws) (G-378) with 1 degree of freedom; with $m$ readings at once, the NIS follows chi-square with $m$ degrees of freedom and averages $m$ (Chen et al. 2018). For one reading, 95 percent of a consistent filter's NIS values lie below 3.84 (notebook), and an innovation two standard deviations out gives an NIS of 4.
 
-**On one run.** Figure 5 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right $R$, 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a band half as wide, and 13 percent fall outside: its innovations are bigger than its $S$ allows (Labbe ch.8).
+**On one run.** Figure 5 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right sensor variance $R$, 0.01 m², 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a narrower band, about ±0.24 m instead of ±0.32 m, and 13 percent fall outside: its innovations are bigger than its $S$ allows (Labbe ch.8).
 
-![Innovations of one 60-step run with the band of two predicted standard deviations: with R = 0.01 2 percent fall outside; with R = 0.0025 the band is half as wide and 13 percent fall outside](images/innovation.png)
+![Innovations of one 60-step run with the band of two predicted standard deviations. With the right sensor variance R = 0.01 m², the band is about ±0.32 m and 2 percent fall outside; a filter that assumes R = 0.0025 m² predicts a band of about ±0.24 m, and 13 percent fall outside](images/innovation.png)
 
 ### 5.4 NEES: the error test, when the truth is known
 
@@ -339,9 +339,11 @@ For a state of $n$ numbers, the error $\tilde{\mathbf{x}}$, the true state minus
 
 $$\varepsilon_x = \tilde{\mathbf{x}}^{\mathsf T} P^{-1} \tilde{\mathbf{x}}$$
 
-This is the **normalised estimation error squared** (NEES) (G-2525) (Labbe ch.8; Chen et al. 2018). By the same argument it follows chi-square with $n$ degrees of freedom and averages $n$, here 1. For step 1:
+The number $\varepsilon_x$ is the **normalised estimation error squared** (NEES) (G-2525) (Labbe ch.8; Chen et al. 2018). By the same argument it follows chi-square with $n$ degrees of freedom and averages $n$, here 1. For step 1:
 
-$$(0.73 - 0.755)^2 / 0.0112 = 0.056$$
+$$\varepsilon_x = (0.73 - 0.755)^2 / 0.0112$$
+
+$$= 0.056$$
 
 One value says little; the test averages many. We simulated 500 runs of 16 steps, ran three EKFs on each, set with different slip variances $Q$ and sensor variances $R$, and averaged NEES and NIS at each step (Figure 6). If the filter is **consistent** (G-2524), an average of 500 chi-square values with 1 degree of freedom lies between 0.88 and 1.13 in 95 percent of cases (notebook):
 
@@ -350,6 +352,8 @@ One value says little; the test averages many. We simulated 500 runs of 16 steps
 | right noises, $Q = 0.01$, $R = 0.01$ | 1.00 | 1.01 | consistent |
 | sensor trusted too much, $R = 0.0025$ | 3.25 | 2.41 | overconfident |
 | motion trusted too much, $Q = 0.0001$ | 15.95, rising to 32.9 | 2.12 | overconfident, getting worse |
+
+In Figure 6 the grey band marks 0.88 to 1.13: only the filter with the right noises stays inside it, the NEES of the filter that trusts its sensor too much sits near 3, and the NEES of the filter that trusts its motion too much climbs past 30.
 
 ![Average NEES (left) and NIS (right) over 500 runs, per step, log scale. The filter with the right noises stays in the grey band around 1; trusting the sensor too much sits near 3; trusting the motion too much makes NEES climb past 30](images/consistency.png)
 
@@ -374,7 +378,7 @@ The **innovations** (G-2511) should also look like random noise: centred on zero
 
 - The beacon's distance is a **nonlinear function** (G-2530) of the position (2 m at its lowest, 2.83 m at both 4 m and 8 m), yet the EKF still locates the robot from it, ending the 16 steps at 7.749 m against a true 7.86 m, because it straightens the curve at every prediction.
 - A nonlinear function bends a Gaussian: near the beacon the readings pile up against 2 m with **skewness** (G-1817) 1.89, so a mean and variance alone no longer describe them.
-- Linearising at the mean is almost exact where the curve is nearly straight across the **Gaussian** (G-827)'s width (sd 0.46 both ways at 1 m) and too narrow where it bends (0.36 against 0.57 for a wide Gaussian at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
+- Linearising at the mean is almost exact where the curve is nearly straight across the **Gaussian** (G-827)'s width (sd 0.46 both ways at 1 m) and too narrow where it bends (tangent-line sd 0.36 against the true 0.57 for a wide Gaussian at 5.5 m), so EKF accuracy depends on keeping the uncertainty small compared with the bends.
 - The EKF uses the nonlinear functions for the means and their slopes for the covariances, so with linear models it is exactly the **Kalman filter** (G-2506).
 - The slope sets how much a reading tells, because the position is pinned only to the sensor's standard deviation divided by the slope: at 0.94 that is 0.106 m; under the beacon the slope is near 0 and the filter coasts on its commands.
 - One Gaussian holds one hypothesis, so an EKF started on the wrong side follows the mirror path, 10.5 m off with tiny error bars; **multimodal** (G-1275) beliefs need a particle filter.
