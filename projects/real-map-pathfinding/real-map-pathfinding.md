@@ -261,6 +261,24 @@ python sampling_on_streets.py --map chicago   # the whole map: numbers only
 
 Taught in: [one RRT step: sample, nearest node, steer, check](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check)
 
+## Elastic band on a street corner
+
+The sampling project's elastic band (imported from `../sampling-planning/local_planner.py`, not copied) rounds a corner of the shortest street route. The route turns 90° at intersections; a car cannot.
+
+- The street route's first sharp corner on the West Loop map: a 90° turn 439 m from the start. The band takes the route from 60 m before the corner to 60 m after it, with points 2 m apart.
+- Free space is `FreeSpace` again: the 5 m street cells. A point counts as free when it and the four points 2.5 m away (half a cell) in x and y lie on street cells, so a straight piece between two free points never squeezes between two blocked cells.
+- Each solve moves every point sideways, at most 3 m, to make the band smooth and short: the same quadratic program as in the sampling project.
+
+![The elastic band rounding a corner of the West Loop route](images/chicago-west-loop/band_corner.gif)
+
+West Loop: 7 solves, 120.0 m → 115.1 m. The band cuts the corner inside the intersection's street cells and passes 4.7 m from the route's corner point.
+
+```bash
+python sampling_on_streets.py --band          # numbers and images/chicago-west-loop/band_corner.gif
+```
+
+Taught in: [smoothing as optimisation: the elastic band](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#4-smoothing-as-optimisation-the-elastic-band)
+
 ## Another map
 
 The same code on a small part of Chicago, the West Loop: 140 intersections and 216 streets, cut from the Chicago file and saved under another name, with the five stations inside it. Only the map argument changes: `python run.py --map chicago-west-loop`.
@@ -301,7 +319,7 @@ python run.py --map rome
 
 `get_map.py` saves `data/rome.graphml.gz` (the streets), `data/rome-places.json` (the places with the `--goals-tag` tag), `data/rome.json` (label, start, goal and multi-goal goals) and the preview `data/rome.png`. Without `--start` and `--goal` it picks the intersections nearest two opposite corners. `--goals-tag` picks the multi-goal goals from OpenStreetMap tags (hospitals by default), `--goals-dist NEAR FAR` keeps those at that straight-line distance from the start, and `--goals-count N` keeps N of them, spread out. `python get_map.py --keep-streets --keep-places` makes the Chicago choice again from `data/`, with no download. The Chicago map was made with `python get_map.py` and no arguments, which runs the command written at the top of `get_map.py`.
 
-**Files:** `get_map.py` (download), `streets.py` (the street map behind the map interface, with OpenStreetMap's movable bridges marked, the grid made from it, and `FreeSpace`, the streets as free space for sampling planners such as RRT and PRM), `render.py` (the drawings), `run.py`, `check_algorithms.py`. The searches are imported from `../grid-pathfinding/algorithms.py`.
+**Files:** `get_map.py` (download), `streets.py` (the street map behind the map interface, with OpenStreetMap's movable bridges marked, the grid made from it, and `FreeSpace`, the streets as free space for sampling planners such as RRT and PRM), `render.py` (the drawings), `run.py`, `check_algorithms.py`, `sampling_on_streets.py` (the sampling project's RRT and elastic band on the streets). The searches are imported from `../grid-pathfinding/algorithms.py`.
 
 ## Sources
 

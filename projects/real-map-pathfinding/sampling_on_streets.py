@@ -1,9 +1,10 @@
-"""RRT growing through Chicago's streets. The RRT is the sampling project's own (projects/sampling-planning/planners.py,
-imported, not copied); it runs in the streets as continuous free space, streets.FreeSpace, and is drawn like the
-searches, with render.animate.
+"""RRT growing through Chicago's streets, and the elastic band rounding a corner of a street route. Both are the
+sampling project's own (projects/sampling-planning/planners.py and local_planner.py, imported, not copied); they run
+in the streets as continuous free space, streets.FreeSpace. The RRT is drawn like the searches, with render.animate.
 
     python sampling_on_streets.py                      # the West Loop map: images/chicago-west-loop/rrt.gif
     python sampling_on_streets.py --map chicago        # the whole map: numbers only, RRT hardly grows there
+    python sampling_on_streets.py --band               # the elastic band: images/chicago-west-loop/band_corner.gif
 """
 import argparse
 import math
@@ -11,11 +12,14 @@ import statistics
 import sys
 from pathlib import Path
 
+import numpy as np
+
 from streets import FreeSpace, load_map
 import algorithms as A                     # noqa: E402  (found through the path streets.py adds)
 
 HERE = Path(__file__).resolve().parent
 sys.path.append(str(HERE.parent / "sampling-planning"))  # appended, so this folder's render.py and run.py come first
+from local_planner import elastic_band     # noqa: E402
 from planners import rrt                   # noqa: E402
 
 STEP, SEED, CELL = 25.0, 2, 5.0             # metres per tree step, the seed drawn, FreeSpace cell (m)
@@ -99,12 +103,60 @@ def main(map_name="chicago-west-loop", draw=True, seeds=range(1, 11), max_sample
     return r
 
 
+BAND_SPACING, BAND_CAP, BAND_MARGIN, BAND_AROUND = 2.0, 3.0, 2.5, 60.0   # metres
+
+
+def route_line(sm, route):
+    """The street route as points: every street's own points, joined end to end."""
+    pieces = [sm.edge_xy(a, b) for a, b in zip(route, route[1:])]
+    return np.array([pieces[0][0]] + [p for e in pieces for p in e[1:]], float)
+
+
+def corner_band(map_name="chicago-west-loop", draw=True):
+    """The sampling project's elastic band on the first corner of the shortest street route that turns more than
+    60 degrees: the route from BAND_AROUND m before the corner to BAND_AROUND m after it. A point is free when it and
+    the four points BAND_MARGIN m (half a cell) away in x and y lie on street cells, so a straight piece between two
+    free points never squeezes between two blocked cells."""
+    sm = load_map(map_name)
+    fs = FreeSpace(sm, CELL)
+    best = A.a_star(sm, sm.start, sm.goal)
+    P = route_line(sm, best.route)
+    d = np.diff(P, axis=0)
+    S = np.concatenate([[0], np.cumsum(np.hypot(*d.T))])
+    heading = np.arctan2(d[:, 1], d[:, 0])
+    turn = np.degrees(np.abs((np.diff(heading) + np.pi) % (2 * np.pi) - np.pi))
+    k = int(np.argmax(turn > 60)) + 1                       # the corner: the route's point where it turns
+    s0, s1 = S[k] - BAND_AROUND, S[k] + BAND_AROUND
+    at = lambda s: (np.interp(s, S, P[:, 0]), np.interp(s, S, P[:, 1]))
+    Q = np.array([at(s0)] + [tuple(p) for p in P[(S > s0) & (S < s1)]] + [at(s1)])
+    street = np.vectorize(fs.free)
+    ok = lambda x, y: (street(x, y) & street(x + BAND_MARGIN, y) & street(x - BAND_MARGIN, y)
+                       & street(x, y + BAND_MARGIN) & street(x, y - BAND_MARGIN))
+    hist, B = elastic_band(Q, ok, spacing=BAND_SPACING, cap=BAND_CAP, tol=0.01)
+    length = lambda X: float(np.sum(np.hypot(*np.diff(X, axis=0).T)))
+    assert all(fs.segment_free(a, b) for a, b in zip(B, B[1:])) and (B[[0, -1]] == Q[[0, -1]]).all()
+    cut = max(np.hypot(*(B - P[k]).T).min(), 0)
+    print(f"{sm.label}: the shortest street route ({best.length:,.0f} m) first turns {turn[k - 1]:.0f} degrees at "
+          f"({P[k][0]:.0f}, {P[k][1]:.0f}), {S[k]:.0f} m from the start; the band on the {2 * BAND_AROUND:.0f} m round "
+          f"it: {len(hist)} solves, {length(Q):.1f} m -> {length(B):.1f} m, passing {cut:.1f} m from the corner "
+          f"point; points {BAND_SPACING:g} m apart, each moving at most {BAND_CAP:g} m sideways per solve")
+    if draw:
+        import render
+        out = HERE / "images" / sm.name
+        out.mkdir(parents=True, exist_ok=True)
+        render.band_corner(sm, fs, Q, hist, B, out / "band_corner")
+    return Q, hist, B
+
+
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--map", default="chicago-west-loop")
     ap.add_argument("--no-gif", action="store_true")
+    ap.add_argument("--band", action="store_true", help="the elastic band on a corner of the street route")
     a = ap.parse_args()
-    if a.map == "chicago-west-loop":
+    if a.band:
+        corner_band(a.map, not a.no_gif)
+    elif a.map == "chicago-west-loop":
         main(a.map, not a.no_gif)
     else:  # ponytail: the whole map gets 3 seeds of 40,000 samples, enough to show the tree hardly grows
         main(a.map, not a.no_gif, seeds=range(1, 4), max_samples=40_000)

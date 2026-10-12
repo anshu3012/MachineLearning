@@ -1,7 +1,8 @@
 """The planners after the first four: print the numbers on the page and draw the animations.
 
   python run_extra.py                    every section
-  python run_extra.py fields bugs        some sections: fields, walks, bugs, narrow, lazy, kinodynamic
+  python run_extra.py fields bugs        some sections: fields, walks, bugs, narrow, lazy, kinodynamic, band, local,
+                                         sides, refine
   python run_extra.py --no-gifs          numbers only
 Each section runs on one world (the small warehouse, or the office for the bugs); pass --world to try another."""
 import argparse
@@ -17,6 +18,8 @@ from shapely.geometry import LineString
 import run
 from bugs import bug1, bug2, free_piece
 from gifkit import GREEN, RED
+from local_planner import (Clearance, Person, Route, collocation, corners_only, elastic_band, grid_route, init_band,
+                           replay, rest_to_rest, run_loop, solve_band, stop_and_turn, wheels)
 from planners import bridge, gaussian, kinodynamic_rrt, lazy_prm, prm, rrt, uniform
 from potential import Field, path_length
 from world import load_world
@@ -219,7 +222,157 @@ def kinodynamic(space, gifs=True, seeds=range(1, 21)):
     return r
 
 
-SECTIONS = {"fields": fields, "walks": walks, "bugs": bugs, "narrow": narrow, "lazy": lazy, "kinodynamic": kinodynamic}
+# ----------------------------------------------------------------------------------------------- from a path to a drive
+BAND_MARGIN = 0.05  # m: the elastic band keeps the robot this far from every shelf
+PERSON = dict(p0=(3.5, 9.9), p1=(4.3, 9.25), t0=15.8)  # steps out beside the end of the upper-left shelf, 1 m/s
+SIDES_T, SIDES_PERSON = 16.8, (4.6, 8.8, 0.2)  # the cycle solved from two first guesses, and where the person stands
+DRIVE_CROP = (0, 0, 8.5, 12.5)  # the part of the small warehouse the drives use
+
+
+def plan(space):
+    """The global plan: A* (the grid project's own) on 0.25 m cells, its straight runs merged. The robot starts at
+    rest facing up the map and must stop at the goal facing along the plan's last piece."""
+    pts, length, visited = grid_route(space, space.start, space.goal)
+    route = Route(corners_only(pts))
+    return route, (*space.start, START_HEADING), (*space.goal, route.point(route.length)[1]), visited
+
+
+def tightest_radius(P):
+    """The radius of the tightest turn of a polyline of short pieces: piece length over the change of heading."""
+    d = np.diff(np.asarray(P), axis=0)
+    th = np.arctan2(d[:, 1], d[:, 0])
+    return min(((la + lb) / 2) / max(1e-12, abs((b - a + math.pi) % (2 * math.pi) - math.pi))
+               for a, b, la, lb in zip(th, th[1:], np.hypot(*d.T), np.hypot(*d[1:].T)))
+
+
+def band(space, gifs=True):
+    """The elastic band smoothing RRT's path (seed 2)."""
+    r = rrt(space, space.start, space.goal, space.step, SEED)
+    clear = Clearance(space)
+    hist, P = elastic_band(r["path"], lambda x, y: clear(x, y) >= BAND_MARGIN)
+    best = run.shortest_possible(space)
+    gaps = clear(P[:, 0], P[:, 1])
+    print(f"RRT seed {SEED}: {r['length']:.1f} m, {len(r['path'])} points; band: {len(hist)} solves, {len(P)} points, "
+          f"{path_length(P):.2f} m, tightest turn a circle of radius {tightest_radius(P):.2f} m, closest to a shelf "
+          f"{gaps.min():.3f} m; shortest possible {best:.1f} m")
+    print("length after each solve: " + ", ".join(f"{path_length(Q):.2f}" for Q, *_ in hist[1:]) +
+          f", {path_length(P):.2f} m")
+    h0, P0 = elastic_band(r["path"], lambda x, y: clear(x, y) >= BAND_MARGIN, w_len=0)
+    print(f"second differences only (no length term): {len(h0)} solves, {path_length(P0):.2f} m, tightest turn a "
+          f"circle of radius {tightest_radius(P0):.2f} m, lowest point y = {P0[:, 1].min():.2f} m (with the length "
+          f"term {P[:, 1].min():.2f} m)")
+    if gifs:
+        import render_local
+        render_local.animate_band(space, r["path"], hist, P, folder(space) / "elastic_band", best)
+    return r, hist, P
+
+
+def local(space, gifs=True):
+    """The local planner on a receding horizon, without and with the person stepping out."""
+    import time
+    route, start, goal, visited = plan(space)
+    print(f"global plan: A* on 0.25 m cells, {visited} cells expanded, {route.length:.2f} m, {len(route.pts)} points "
+          f"where it turns; start {start[:2]} facing {math.degrees(start[2]):.0f} deg, goal {goal[:2]} facing "
+          f"{math.degrees(goal[2]):.0f} deg")
+    clear = Clearance(space)
+    person = Person(**PERSON)
+    t0 = time.perf_counter()
+    free, free_drive = run_loop(space, route, start, goal)
+    cyc, drive = run_loop(space, route, start, goal, person)
+    per_cycle = (time.perf_counter() - t0) / (len(free) + len(cyc))
+    for name, cs, dr in (("nobody", free, free_drive), ("person", cyc, drive)):
+        print(f"{name:6}: arrived at {dr[-1, 0]:.2f} s after {len(cs)} cycles, drove {path_length(dr[:, 1:3]):.2f} m, "
+              f"closest to a shelf {clear(dr[:, 1], dr[:, 2]).min():.3f} m, top speed {dr[:, 4].max():.3f} m/s, "
+              f"band {min(len(c['P']) for c in cs)} to {max(len(c['P']) for c in cs)} poses")
+    near = [(t, math.hypot(x - person.at(t)[0], y - person.at(t)[1]) - person.radius - space.radius)
+            for t, x, y, *_ in drive if person.at(t)]
+    t_close, g_close = min(near, key=lambda q: q[1])
+    seen = next(c for c in cyc if c["persons"])
+    t_stand = person.t0 + np.hypot(*(person.p1 - person.p0)) / person.speed
+    at = drive[np.searchsorted(drive[:, 0], t_stand), 1:3]
+    passing = drive[(drive[:, 0] > person.t0) & (drive[:, 0] < t_close), 4]
+    print(f"person: steps out at {person.t0} s at {tuple(map(float, person.p0))}, first seen in the cycle at "
+          f"{seen['t']:.1f} s, stands at {tuple(map(float, person.p1))} from {t_stand:.2f} s, when the robot's edge is "
+          f"{math.hypot(*(at - person.p1)) - person.radius - space.radius:.2f} m from them; closest {g_close:.3f} m at "
+          f"{t_close:.2f} s; slowest {passing.min():.2f} m/s while passing; {per_cycle * 1000:.0f} ms of computing "
+          f"per cycle")
+    if gifs:
+        import render_local
+        render_local.animate_loop(space, route.pts, cyc, drive, person, free_drive, folder(space) / "local_planner",
+                                  DRIVE_CROP)
+    return free, free_drive, cyc, drive
+
+
+def sides(space, gifs=True):
+    """One cycle with the person moved into the band's way: solved from last cycle's band and from A*'s route."""
+    route, start, goal, _ = plan(space)
+    clear = Clearance(space)
+    cycles, _ = run_loop(space, route, start, goal)
+    c = next(c for c in cycles if abs(c["t"] - SIDES_T) < 1e-6)
+    persons = [SIDES_PERSON]
+    (Pw, Dw), hw, ha = c["warm"], [], []
+    Pw1, Dw1, cw = solve_band(Pw.copy(), Dw.copy(), c["v"], c["final"], clear, persons, hw)
+    x, y = c["x"][:2]
+    window = (x - 2.5, y - 2.5, x + 2.5, y + 2.5)  # the local costmap: 5 m square round the robot
+    rt, length, expanded = grid_route(space, c["x"], c["goal"], cell=0.1, persons=persons, window=window)
+    Pa, Da = init_band(Route(rt), c["x"], c["goal"])
+    Pa1, Da1, ca = solve_band(Pa, Da, c["v"], c["final"], clear, persons, ha)
+
+    def gap(P):  # closest the robot's disk comes to anything, at the poses and halfway between them
+        mid = (P[1:, :2] + P[:-1, :2]) / 2
+        return float(clear(np.r_[P[:, 0], mid[:, 0]], np.r_[P[:, 1], mid[:, 1]], persons).min())
+
+    px, py, pr = SIDES_PERSON
+    side = lambda P: "above" if np.interp(px, *P[np.argsort(P[:, 0]), :2].T) > py else "below"
+    print(f"cycle at {c['t']:.1f} s: robot at ({x:.2f}, {y:.2f}), {math.hypot(x - px, y - py) - pr - space.radius:.2f}"
+          f" m from the person at ({px}, {py}); the shelf above them leaves a {9.5 - (py + pr):.2f} m gap, the one "
+          f"below {(py - pr) - 7.5:.2f} m; local goal ({c['goal'][0]:.2f}, {c['goal'][1]:.2f})")
+    print(f"warm start: runs {side(Pw)} the person, overlap {-gap(Pw):.3f} m; solved: {side(Pw1)}, {len(Pw1)} poses, "
+          f"{Dw1.sum():.2f} s, gap {gap(Pw1):.3f} m, cost {cw:.2f}")
+    print(f"A* on 0.1 m cells: {expanded} cells expanded, {length:.2f} m, {side(rt)} the person; solved: "
+          f"{side(Pa1)}, {len(Pa1)} poses, {Da1.sum():.2f} s, gap {gap(Pa1):.3f} m, cost {ca:.2f}")
+    case = dict(hist_warm=hw, hist_search=ha, person=SIDES_PERSON, route=rt, warm=(Pw, Dw), gap=gap)
+    if gifs:
+        import render_local
+        render_local.animate_sides(space, case, folder(space) / "warm_start_sides", (x - 2.0, y - 1.15, x + 1.0,
+                                                                                    y + 1.05))
+    return case, (Pw1, Dw1, cw), (Pa1, Da1, ca)
+
+
+def refine(space, gifs=True):
+    """One collocation solve for the whole drive, from A*'s route, against stop-and-turn along the same route."""
+    route, start, goal, _ = plan(space)
+    clear = Clearance(space)
+    T_stop, pieces, stop_states = stop_and_turn(route.pts, start[2], goal[2])
+    import time
+    t0 = time.perf_counter()
+    r = collocation(space, route, start, goal)
+    took = time.perf_counter() - t0
+    ts, xs = replay(start, r["U"], r["T"])
+    best = run.shortest_possible(space)
+    wr, wl = wheels(r["X"][:, 3], r["U"][:, 1])
+    gaps = clear(r["X"][:, 0], r["X"][:, 1])
+    print(f"stop-and-turn along A*'s route ({route.length:.2f} m, {len(route.pts) - 2} corners): {T_stop:.2f} s "
+          f"({sum(t for k, t in pieces if k == 'drive'):.2f} s driving, {sum(t for k, t in pieces if k == 'turn'):.2f}"
+          f" s turning)")
+    print(f"collocation, {len(r['U']) - 1} intervals: {r['T']:.2f} s, {r['nit']} SLSQP iterations, {took:.1f} s, "
+          f"{r['msg']}; largest defect {np.abs(r['defects']).max():.1e}; at the knots: top wheel "
+          f"{max(wr.max(), wl.max()):.3f} m/s, acceleration {r['U'][:, 0].min():.2f} to {r['U'][:, 0].max():.2f}, "
+          f"{np.sum(gaps < 0.0101)} knots {gaps.min():.4f} m from a shelf")
+    print(f"replayed in small steps: ends {math.hypot(*(xs[-1, :2] - goal[:2])):.4f} m from the goal, top speed "
+          f"{xs[:, 3].max():.4f} m/s, closest to a shelf {clear(xs[:, 0], xs[:, 1]).min():.4f} m, drove "
+          f"{path_length(xs[:, :2]):.2f} m")
+    print(f"no drive can beat {rest_to_rest(best):.2f} s: the shortest path, {best:.2f} m, driven straight from rest "
+          f"to rest")
+    if gifs:
+        import render_local
+        render_local.animate_refine(space, route.pts, r, np.column_stack([ts, xs]), stop_states,
+                                    folder(space) / "refine_once", DRIVE_CROP)
+    return r, T_stop
+
+
+SECTIONS = {"fields": fields, "walks": walks, "bugs": bugs, "narrow": narrow, "lazy": lazy, "kinodynamic": kinodynamic,
+            "band": band, "local": local, "sides": sides, "refine": refine}
 WORLDS = {"bugs": "office"}  # every other section: the small warehouse
 
 if __name__ == "__main__":

@@ -279,6 +279,38 @@ def race(sm, results, out, frames=50, fps=10, cols=3, width=1200, fmt=lambda r: 
                     cols=2, width=width)
 
 
+def band_corner(sm, fs, route, hist, band, out, pad=12.0, width=800, fps=3):
+    """The sampling project's elastic band rounding one corner of a street route, one solve per frame: the street
+    cells of fs (dark orange squares), the route (yellow, dashed) and the band (cyan, glowing)."""
+    x0, x1 = route[:, 0].min() - pad, route[:, 0].max() + pad
+    y0, y1 = route[:, 1].min() - pad, route[:, 1].max() + pad
+    height = round(width * (y1 - y0) / (x1 - x0))
+    rows, cols = fs.grid.free.shape
+    xs, ys = np.arange(cols) * fs.cell, np.arange(rows) * fs.cell   # cell centres; row 0 of the grid is the top
+    keep_x, keep_y = (xs > x0 - fs.cell) & (xs < x1 + fs.cell), (ys > y0 - fs.cell) & (ys < y1 + fs.cell)
+    cells = go.Heatmap(x=xs[keep_x], y=ys[keep_y], z=fs.grid.free[::-1][np.ix_(keep_y, keep_x)].astype(float),
+                       colorscale=[[0, BG], [1, "#3A1C06"]], showscale=False, hoverinfo="skip")
+    length = lambda P: float(np.sum(np.hypot(*np.diff(P, axis=0).T)))
+    figs = []
+    for k in range(len(hist) + 1):
+        P = band if k == len(hist) else hist[k][0]
+        fig = go.Figure(cells)
+        frame(fig, x0, x1, y0, y1, width, height)
+        fig.add_trace(go.Scatter(x=route[:, 0], y=route[:, 1], mode="lines", hoverinfo="skip",
+                                 line=dict(color=ROUTE_GLOW, width=2, dash="dash")))
+        fig.add_traces(glow_line(P[:, 0], P[:, 1], START, "#DDFBFF", 12, 3))
+        fig.add_trace(go.Scatter(x=P[:, 0], y=P[:, 1], mode="markers", hoverinfo="skip",
+                                 marker=dict(size=4, color="#DDFBFF")))
+        top = "Elastic band on a street corner"
+        sub = ("the shortest route's first corner  ·  dark orange: street cells" if k == 0 else
+               f"solve {k} of {len(hist)}  ·  {length(route):.0f} m → {length(P):.1f} m" if k < len(hist) else
+               f"{len(hist)} solves  ·  {length(route):.0f} m → {length(P):.1f} m  ·  dark orange: street cells")
+        corner_text(fig, sm, top, sub)
+        figs.append(fig)
+    holds = [fps * 2] + [2] * (len(figs) - 2) + [fps * 5]
+    gifkit.make_gif(figs, out, fps=fps, holds=holds, keys=[0, len(figs) // 2, len(figs) - 1], cols=3, width=width)
+
+
 def interactive(sm, results, out, bins=10):
     """One Plotly HTML page: pick a search from the menu; its explored streets are coloured by the order it reached
     them (dark red first, pale yellow last), with its route on top."""

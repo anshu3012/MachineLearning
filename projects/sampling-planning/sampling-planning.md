@@ -1,6 +1,6 @@
 # Sampling-based planning
 
-Planners find a path for a round robot across a floor plan in metres, and every step they take is drawn. Four try random points: RRT, RRT*, RRT-Connect and PRM. Then come smarter ways to place PRM's points, a PRM that checks only the edges it needs, and a tree of arcs that a robot with speed and turn limits can drive. Last come three planners that use no random points: the potential field, the randomized potential field, and the bug algorithms, which need no map.
+Planners find a path for a round robot across a floor plan in metres, and every step they take is drawn. Four try random points: RRT, RRT*, RRT-Connect and PRM. Then come smarter ways to place PRM's points, a PRM that checks only the edges it needs, and a tree of arcs that a robot with speed and turn limits can drive. Then come three planners that use no random points: the potential field, the randomized potential field, and the bug algorithms, which need no map. Last, a path becomes a drive: the elastic band smooths it, a timed elastic band re-plans the next 1.5 m every 0.1 s round a person the map does not have, and one collocation solve times the whole drive.
 
 ## The worlds
 
@@ -160,10 +160,10 @@ Seed 2:
 
 | planner | samples | checks | path | time |
 |---|---:|---:|---:|---:|
-| RRT | 331 | 2,828 | 24.5 m | 0.018 s |
-| RRT* | 1,500 | 31,625 | 13.8 m | 0.322 s |
+| RRT | 331 | 2,828 | 24.5 m | 0.014 s |
+| RRT* | 1,500 | 31,625 | 13.8 m | 0.313 s |
 | RRT-Connect | 210 | 1,950 | 44.2 m | 0.009 s |
-| PRM | 772 | 53,744 | 37.2 m | 0.216 s |
+| PRM | 772 | 53,744 | 37.2 m | 0.228 s |
 
 One seed can be lucky. Medians over seeds 1 to 10:
 
@@ -200,7 +200,7 @@ What to watch:
 
 ![Kinodynamic RRT: every edge a drivable arc](images/small-warehouse/kinodynamic_rrt.gif)
 
-Seed 2: 2,893 rounds, 1,567 motions thrown away, 448 nodes. The path is 52 arcs, 52.0 m, 40 of them turning; it goes round the right end and drives a full circle near the goal. 39,419 collision checks, 0.63 s.
+Seed 2: 2,893 rounds, 1,567 motions thrown away, 448 nodes. The path is 52 arcs, 52.0 m, 40 of them turning; it goes round the right end and drives a full circle near the goal. 39,419 collision checks, 0.69 s.
 
 - The path is drivable but long: RRT's path on the same seed is 24.5 m, with corners the robot cannot drive.
 - Over seeds 1 to 20: all 20 reached the goal; median 1,488 rounds, 220 nodes, path 46.0 m. One of the 20 went through the gap.
@@ -285,6 +285,132 @@ The shortest path is 12.9 m. LaValle (2006) bounds how far each can drive, with 
 
 Taught in: [no map at all: bug algorithms](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#6-no-map-at-all-bug-algorithms)
 
+## From a path to a drive
+
+Every planner above ends with a path: a line on the floor, often with corners, and no clock. The next four sections turn a path into a drive. They use the robot of RO-058:
+
+- a differential drive with its wheels 0.2 m apart, each wheel at most 0.6 m/s: at full speed it cannot turn, and at rest it can spin at 6 rad/s;
+- its forward speed changes by at most 0.5 m/s every second;
+- a disk of radius 0.25 m, the world's robot radius;
+- it starts at rest at the start, (2, 1.5), facing up the map, and must stop at the goal, (2, 11), facing along the last piece of its plan (135°, up and to the left).
+
+Taught in: [what a trajectory is](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#31-what-a-trajectory-is)
+
+## Elastic band: smoothing RRT's path
+
+RRT's path (seed 2) is 24.5 m with 23 corners, the sharpest 97°. The elastic band smooths it as one optimisation, solved again and again:
+
+1. Lay points along the path, 0.2 m apart.
+2. Each point except the two ends may move only sideways, at right angles to the line through its two neighbours. It may move only as far as the robot stays 0.05 m clear of every shelf, and at most 0.3 m each way (the green bars).
+3. Move all the points at once to make one cost as small as possible: the sum of the squared second differences, p(k−1) − 2 p(k) + p(k+1), which are large where the band bends, plus 0.1 times the sum of the squared first differences, p(k+1) − p(k), the pieces' lengths, which pull the band short. A squared cost with bounds is a quadratic program; SciPy's `lsq_linear` solves it exactly.
+4. Lay the points 0.2 m apart again along the new band, and repeat until no point moves more than 1 mm.
+
+What to watch:
+
+- The green bars are short where a shelf is near and long in the open.
+- The zig-zags straighten first. Then the band slides inward round the shelves' corners until the bars hold it.
+- The band stays round the right end of the lower-left shelf, the way RRT went.
+
+![The elastic band relaxing: one quadratic program per frame, the band's length below](images/small-warehouse/elastic_band.gif)
+
+13 solves: 24.5 m → 19.80 m. The band's tightest turn is a circle of radius 0.67 m, and it comes no closer than 0.033 m to a shelf: the points are laid out again between solves, and a few land just inside the 0.05 m margin.
+
+- **Why not 12.8 m, the shortest path?** Each solve moves a point at most 0.3 m sideways, and never through a shelf. To go round the lower-left shelf's other end, the band would have to cross the shelf. A band that starts on one side of an obstacle stays on that side; a search, here RRT, chose the side.
+- **Why the length term?** The second differences measure only how much the band bends, not how long it is. With them alone the band ends 0.73 m longer, at 20.53 m, with gentler turns (radius 1.06 m), and swings down to y = 0.57 m, near the bottom wall. Apollo's reference-line smoother also adds a length term to its second differences.
+
+Taught in: [smoothing as optimisation: the elastic band](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#4-smoothing-as-optimisation-the-elastic-band), [local minima and warm starts](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#7-local-minima-and-warm-starts)
+
+## The local planner: a timed elastic band every 0.1 s
+
+The global plan is made once, from the map: A* (the grid project's own) on 0.25 m cells, where a cell is free when the robot's disk centred on it touches nothing. It expands 479 cells and finds a 13.85 m route with 9 corners.
+
+The local planner turns the next 1.5 m of that plan into a timed trajectory. It is a timed elastic band (TEB) with TEB's default weights:
+
+- **The band.** Poses (x, y, heading) about 0.3 s apart, and the time step between each pair. The first pose is the robot; the last is the *local goal*, the plan's point 1.5 m ahead, facing along the plan.
+- **The cost.** The sum of the squared time steps, plus squared penalties: the arc rule (a wheeled robot drives an arc between two poses) with weight 1000; each wheel above 0.55 m/s, weight 2; the acceleration above 0.45 m/s², weight 1; driving backwards, weight 1; the robot's disk closer than 0.15 m to anything, weight 50, checked at every pose and halfway between poses. The 0.15 m is RO-058's 0.1 m for a small room plus TEB's 0.05 m margin (TEB's default distance, 0.5 m, would not fit the 0.8 m gap).
+- **The solve.** 4 passes. Each pass resizes the band so poses stay about 0.3 s apart, then takes up to 5 steps of SciPy's least-squares solver (Gauss–Newton steps, like TEB's Levenberg–Marquardt). The clearance weight doubles after each pass.
+
+Every 0.1 s, one cycle:
+
+1. measure where the robot is and how fast it goes;
+2. warm start: drop the poses the robot has passed, move the first pose to the robot and the last to the new local goal;
+3. optimise;
+4. drive the band's first 0.1 s. The robot keeps its own limits whatever the band asks: wheels at most 0.6 m/s, speed changing at most 0.5 m/s every second, never backwards.
+
+Once the robot has stopped within 0.05 m of the goal, it turns on the spot to the goal's heading and has arrived, so every drive ends exactly at the goal pose. TEB's own defaults end a drive within 0.2 m and 0.1 rad of the goal.
+
+**The person.** A disk of radius 0.2 m that the map does not have. At 15.8 s they step out beside the left end of the upper-left shelf, at (3.5, 9.9), and walk at 1 m/s onto the plan at (4.3, 9.25), where they stand from 16.83 s. The robot's edge is then 0.82 m from them. Each cycle the planner sees the person where they are at that moment.
+
+What to watch:
+
+- Grey dashed: the global plan, never changed. Orange: the band, solved again every 0.1 s towards the local goal (orange ×).
+- As the person walks onto the plan, the band bends below them. The robot slows, passes, and rejoins the plan.
+- The band's last pose is the local goal, which stays on the plan. For a moment it sits inside the person, until the local goal moves past them; the robot is then still about 1.5 m behind.
+- Right: the robot's speed. In grey, the same drive with nobody in the way.
+
+![The local planner: the band re-solved every 0.1 s, the robot, and a person stepping out](images/small-warehouse/local_planner.gif)
+
+| drive | arrives | cycles | driven | closest to a shelf | closest to the person |
+|---|---:|---:|---:|---:|---:|
+| nobody in the way | 25.11 s | 252 | 13.57 m | 0.144 m | – |
+| the person steps out | 26.16 s | 262 | 13.80 m | 0.144 m | 0.151 m |
+
+- The person costs 1.05 s. The robot slows to 0.22 m/s while passing them and never stops.
+- The band holds 3 to 17 poses. A cycle took 23 ms of computing in the notebook's run, well inside the 0.1 s cycle.
+- 0.144 m is 6 mm less than the 0.15 m the clearance penalty asks for: a penalty is a soft constraint, cheaper to break a little than to lose time.
+
+Taught in: [the global plan and the local planner in numbers](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#22-the-global-plan-and-the-local-planner-in-numbers), [the timed elastic band](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#5-the-timed-elastic-band), [the receding-horizon loop](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#8-the-receding-horizon-loop)
+
+## Which side of the person: the first guess decides
+
+In the drive above the person stood above the plan, so the band, pushed out of them the shortest way, went below, into the open aisle. Here the person stands lower, at (4.6, 8.8). Above them the shelf leaves a 0.50 m gap, exactly the robot's width; below them the aisle is 1.10 m wide.
+
+The same cycle, 16.8 s into the drive with nobody in the way: the robot at (5.37, 8.55), its edge 0.36 m from the person. The same solver starts from two first guesses:
+
+- **last cycle's band**, the warm start, which runs above the person's centre and overlaps them by 0.30 m;
+- **a search:** A* on a local map of 0.1 m cells, a 5 m square round the robot, a cell blocked where the robot's disk would touch the person or a shelf. It expands 94 cells and finds a 2.10 m route below the person. The first band is laid along it.
+
+What to watch: each solver step pushes the left band's poses out of the person the shortest way, which is up, into the 0.50 m gap. The right band starts below and only gets smoother.
+
+![The same cycle solved from last cycle's band (left) and from A*'s route (right)](images/small-warehouse/warm_start_sides.gif)
+
+| first guess | side | poses | time over the window | gap | cost |
+|---|---|---:|---:|---:|---:|
+| last cycle's band | above | 11 | 3.06 s | overlap 0.083 m | 18.40 |
+| A*'s route | below | 16 | 4.52 s | 0.125 m clear | 2.36 |
+
+Both answers are lowest points of their own valleys: *local minima* of the cost. Small steps cannot carry a band across the person, because halfway across it would overlap them, where the cost is high. The search makes the choice of side; the optimiser makes the band smooth and timed. TEB by default also optimises bands started on other sides of the obstacles, found by a search, and keeps the cheapest.
+
+Taught in: [local minima and warm starts](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#7-local-minima-and-warm-starts)
+
+## Refine once: one solve for the whole drive
+
+With nobody in the way, one solve can time the whole drive at once. Trapezoidal direct collocation, started from A*'s route:
+
+- **Unknowns.** 61 knot points spread over the drive. At each: the state (x, y, heading, speed) and the controls (acceleration, turn rate). Plus the drive's duration: 61 × 6 + 1 = 367 numbers.
+- **Constraints.** Between neighbouring knots, the change in each state equals the time step times the average of its rates of change at the two knots (the trapezoid rule). The drive starts and ends at rest at the start and goal poses. At every knot and halfway between knots: both wheels at most 0.6 m/s, the speed at least 0, the robot at least 0.01 m clear of every shelf. The acceleration stays within ±0.5 m/s².
+- **Cost.** The duration, plus 0.001 times the squared controls, which keeps the turn rate from wandering.
+- **First guess.** The knots spread along A*'s route at one steady speed.
+- **Solver.** SciPy's SLSQP, which keeps every constraint exactly.
+
+It is compared with driving A*'s route by stopping and turning: turn on the spot to face the next corner (6 rad/s), drive to it from rest to rest (speed up at 0.5 m/s², cruise at 0.6 m/s if there is room, brake), and so on.
+
+![Refine once: the collocation drive (blue) against stop-and-turn along A*'s route (grey), and their speeds](images/small-warehouse/refine_once.gif)
+
+| drive | time |
+|---|---:|
+| stop-and-turn along A*'s route (13.85 m, 9 corners) | 36.03 s |
+| the local planner above, nobody in the way | 25.11 s |
+| one collocation solve | 23.08 s |
+| no drive can beat | 22.55 s |
+
+- Stop-and-turn spends 34.74 s driving and 1.29 s turning: every corner costs a stop and a start.
+- The collocation drive's speed stays near 0.6 m/s except in the turns (right panel), and it passes the shelves' corners as close as it is allowed: 3 knots sit exactly 0.01 m from a shelf. SLSQP took 115 iterations (21.5 s in the notebook's run).
+- No drive can beat 22.55 s: the shortest path is 12.81 m, and even in a straight line 12.81 m from rest to rest takes 22.55 s. The collocation drive is 0.53 s above that.
+- **Checking between the knots.** The constraints hold at the knots and halfway, nowhere else. Replayed in small steps, the drive ends 0.0115 m from the goal, its speed peaks at 0.6056 m/s (1 percent over, between knots), and it never comes closer than 0.0055 m to a shelf.
+
+Taught in: [refine once: one solve for a whole drive](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#9-refine-once-one-solve-for-a-whole-drive), [the trapezoid rule by hand](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#62-the-trapezoid-rule-by-hand)
+
 ## The same code on other worlds
 
 Nothing in the planners or the drawing code changes; only the world file does.
@@ -295,10 +421,10 @@ Office, seed 2:
 
 | planner | samples | checks | path | time |
 |---|---:|---:|---:|---:|
-| RRT | 175 | 921 | 16.3 m | 0.004 s |
-| RRT* | 1,500 | 17,093 | 13.5 m | 0.249 s |
+| RRT | 175 | 921 | 16.3 m | 0.005 s |
+| RRT* | 1,500 | 17,093 | 13.5 m | 0.291 s |
 | RRT-Connect | 1,081 | 2,137 | 17.0 m | 0.021 s |
-| PRM | 825 | 35,055 | 13.8 m | 0.166 s |
+| PRM | 825 | 35,055 | 13.8 m | 0.174 s |
 
 ![The race on the grid project's warehouse](images/warehouse/race.gif)
 
@@ -306,10 +432,10 @@ Warehouse floor, seed 2:
 
 | planner | samples | checks | path | time |
 |---|---:|---:|---:|---:|
-| RRT | 6,018 | 26,927 | 64.3 m | 1.180 s |
-| RRT* | 12,036 | 232,382 | 52.6 m | 8.821 s |
-| RRT-Connect | 550 | 4,168 | 46.7 m | 0.025 s |
-| PRM | 3,013 | 165,324 | 44.9 m | 1.008 s |
+| RRT | 6,018 | 26,927 | 64.3 m | 1.272 s |
+| RRT* | 12,036 | 232,382 | 52.6 m | 9.308 s |
+| RRT-Connect | 550 | 4,168 | 46.7 m | 0.023 s |
+| PRM | 3,013 | 165,324 | 44.9 m | 1.114 s |
 
 The goal's 1 m aisle is a narrow passage for a tree grown from the start: RRT needed 6,018 samples. RRT-Connect also grows a tree from the goal, which starts inside the aisle, and needed 550.
 
@@ -324,15 +450,17 @@ python run.py --world ../grid-pathfinding/maps/warehouse.png   # any grid map fr
 python run.py --world worlds/my_world.json   # your own world
 python run.py --sweep                        # add the 10-seed tables
 python run_extra.py                          # the sections after PRM: numbers and animations
-python run_extra.py fields bugs --no-gifs     # some of them: fields, walks, bugs, narrow, lazy, kinodynamic
+python run_extra.py fields bugs --no-gifs     # some of them: fields, walks, bugs, narrow, lazy, kinodynamic,
+                                             # band, local, sides, refine
+python run_extra.py band local sides refine  # from a path to a drive
 python run_extra.py walks --world office     # one of them on another world
 python check_planners.py                     # every check, on every world in worlds/
 ```
 
 - **Swap the world.** Copy `worlds/office.json`, change its `bounds`, `obstacles` (rectangles `[x0, y0, x1, y1]` or polygons `[[x, y], ...]`), `start`, `goal` and `robot_radius`, and pass it with `--world`. Its picture is drawn on the first run.
 - **Grid maps.** A PNG from `../grid-pathfinding/maps/` is read with the grid project's own loader (black blocked, white free, green start, red goal, cell size from the JSON beside it) and saved as a world file.
-- **Street maps.** The real-map project runs this project's RRT on Chicago's streets, through its own free-space hook: [RRT through the streets](../real-map-pathfinding/real-map-pathfinding.md#rrt-through-the-streets). `street_world` in `world.py` is the place for a road network as a world here: the free floor is the roads widened to their width.
-- **Files.** `world.py` loads worlds, `collision.py` answers "is this free?", `planners.py` holds the sampling planners (the four, the three ways of sampling, lazy PRM, the kinodynamic RRT), `potential.py` the potential fields, `bugs.py` Bug 1 and Bug 2, `render.py` and `render_extra.py` draw, `run.py` and `run_extra.py` run and print, `check_planners.py` checks.
+- **Street maps.** The real-map project runs this project's RRT on Chicago's streets, through its own free-space hook: [RRT through the streets](../real-map-pathfinding/real-map-pathfinding.md#rrt-through-the-streets), and this project's elastic band on a street corner: [elastic band on a street corner](../real-map-pathfinding/real-map-pathfinding.md#elastic-band-on-a-street-corner). `street_world` in `world.py` is the place for a road network as a world here: the free floor is the roads widened to their width.
+- **Files.** `world.py` loads worlds, `collision.py` answers "is this free?", `planners.py` holds the sampling planners (the four, the three ways of sampling, lazy PRM, the kinodynamic RRT), `potential.py` the potential fields, `bugs.py` Bug 1 and Bug 2, `local_planner.py` the elastic band, the timed elastic band and its receding-horizon loop, and collocation, `render.py`, `render_extra.py` and `render_local.py` draw, `run.py` and `run_extra.py` run and print, `check_planners.py` checks.
 - **The notebook** `sampling-planning.ipynb` runs everything on this page. The numbers above come from its last run (times vary from run to run):
 
 ```bash
@@ -352,6 +480,12 @@ Built from:
 - D. Hsu, T. Jiang, J. Reif and Z. Sun, "The bridge test for sampling narrow passages with probabilistic roadmap planners", *IEEE International Conference on Robotics and Automation*, 2003 (bridge test).
 - R. Bohlin and L. E. Kavraki, "Path planning using lazy PRM", *IEEE International Conference on Robotics and Automation*, 2000 (lazy PRM).
 - S. M. LaValle and J. J. Kuffner, "Randomized kinodynamic planning", *International Journal of Robotics Research* 20(5), 378–400, 2001 (kinodynamic RRT).
+- C. Rösmann, W. Feiten, T. Wösch, F. Hoffmann and T. Bertram, "Efficient trajectory optimization using a sparse model", *European Conference on Mobile Robots*, 2013 (the timed elastic band).
+- C. Rösmann, F. Hoffmann and T. Bertram, "Kinodynamic trajectory optimization and control for car-like robots", *IEEE/RSJ International Conference on Intelligent Robots and Systems*, 2017 (the band's cost and warm starts).
+- teb_local_planner, GitHub, <https://github.com/rst-tu-dortmund/teb_local_planner> (noetic-devel): the default weights, the 4 passes, the resize rule, the goal tolerances.
+- M. Kelly, "An introduction to trajectory optimization: how to do your own direct collocation", *SIAM Review* 59(4), 849–904, 2017 (trapezoidal collocation, the state halfway between knots).
+- Autoware Universe, `planning/autoware_path_smoother` (the elastic-band smoother: second differences, sideways moves, bounds), and Apollo, `modules/planning` (its smoother's length term), GitHub.
+- P. Virtanen et al., "SciPy 1.0: fundamental algorithms for scientific computing in Python", *Nature Methods* 17, 261–272, 2020 (`lsq_linear`, `least_squares`, `minimize(method="SLSQP")`).
 - O. Khatib, "Real-time obstacle avoidance for manipulators and mobile robots", *International Journal of Robotics Research* 5(1), 90–98, 1986 (potential fields).
 - J. Barraquand and J.-C. Latombe, "Robot motion planning: a distributed representation approach", *International Journal of Robotics Research* 10(6), 628–649, 1991 (randomized potential field).
 - V. J. Lumelsky and A. A. Stepanov, "Path-planning strategies for a point mobile automaton moving amidst unknown obstacles of arbitrary shape", *Algorithmica* 2, 403–430, 1987 (Bug 1 and Bug 2).

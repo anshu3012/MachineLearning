@@ -128,6 +128,63 @@ def check_extra():
         assert nxt is None or nxt[0] == m[-1]
 
 
+def check_local():
+    """From a path to a drive (local_planner.py, the run_extra.py sections band, local, sides, refine)."""
+    import run_extra
+    from local_planner import (A_MAX, L_AXLE, V_WHEEL, Clearance, Person, collocation, elastic_band, grid_route,
+                               init_band, replay, rest_to_rest, run_loop, stop_and_turn, wrap)
+    from planners import rrt
+    from potential import path_length as length
+    from run import shortest_possible
+    from world import load_world
+    s = load_world("small-warehouse")
+    clear, best = Clearance(s), shortest_possible(s)
+    pts, _, _ = grid_route(s, s.start, s.goal)  # A*'s route: every cell centre on it is free, never shorter than best
+    assert (clear(pts[1:-1, 0], pts[1:-1, 1]) >= 0).all() and length(pts) >= best
+
+    r = rrt(s, s.start, s.goal, s.step, run_extra.SEED)  # the band: same ends, free, shorter than RRT's path
+    hist, P = elastic_band(r["path"], lambda x, y: clear(x, y) >= run_extra.BAND_MARGIN)
+    assert tuple(P[0]) == s.start and tuple(P[-1]) == s.goal and length(P) < r["length"]
+    assert_free(s, [tuple(p) for p in P], "elastic band")
+    for Q, lo, hi, d in hist:  # every move stays within its bounds
+        assert (d >= lo - 1e-9).all() and (d <= hi + 1e-9).all()
+
+    route, start, goal, _ = run_extra.plan(s)
+    T_stop, _, st = stop_and_turn(route.pts, start[2], goal[2])
+    assert math.isclose(length(st[:, 1:3]), route.length) and math.isclose(st[-1, 0], T_stop)
+    P0, D0 = init_band(route, np.array(start), np.array(goal))  # the resize rule: no time step over 0.4 s
+    assert (D0 <= 0.4 + 1e-9).all() and len(P0) >= 3
+    person = Person(**run_extra.PERSON)
+    for who in (None, person):
+        cycles, drive = run_loop(s, route, start, goal, who)
+        t, x, y, th, v = drive.T
+        assert math.dist(drive[-1, 1:3], goal[:2]) < 0.05 and abs(wrap(th[-1] - goal[2])) < 1e-9, "did not arrive"
+        assert_free(s, [tuple(p) for p in drive[:, 1:3]], "local planner's drive")
+        dt = np.diff(t)[:-1]  # the last step is the turn on the spot at the goal
+        w = np.diff(th)[:-1] / dt
+        assert (v <= V_WHEEL + 1e-9).all() and (v >= 0).all() and (np.abs(np.diff(v)[:-1]) / dt <= A_MAX + 1e-6).all()
+        assert (v[1:-1] + np.abs(w) * L_AXLE / 2 <= V_WHEEL + 1e-6).all(), "a wheel went over 0.6 m/s"
+        if who:
+            seen = [(math.hypot(a - who.at(b)[0], c - who.at(b)[1]) - who.radius - s.radius) for b, a, c in
+                    zip(t, x, y) if who.at(b)]
+            assert min(seen) > 0.1 and drive[-1, 0] > free_arrival, "the robot touched the person"
+        else:
+            free_arrival = drive[-1, 0]
+
+    case, (Pw, _, cw), (Pa, _, ca) = run_extra.sides(s, gifs=False)  # the warm start overlaps, the search passes
+    assert case["gap"](Pw) < 0 < 0.1 < case["gap"](Pa) and ca < cw
+
+    col = collocation(s, route, start, goal, keep=False)
+    assert col["ok"] and np.abs(col["defects"]).max() < 1e-8
+    X, U = col["X"], col["U"]
+    assert (X[:, 3] <= V_WHEEL + 1e-6).all() and (np.abs(U[:, 0]) <= A_MAX + 1e-9).all()
+    assert (X[:, 3] + np.abs(U[:, 1]) * L_AXLE / 2 <= V_WHEEL + 1e-6).all()
+    assert (clear(X[:, 0], X[:, 1]) >= 0.01 - 1e-6).all()
+    _, xs = replay(start, U, col["T"])
+    assert math.dist(xs[-1, :2], goal[:2]) < 0.02 and (clear(xs[:, 0], xs[:, 1]) > 0).all()
+    assert rest_to_rest(best) <= col["T"] < free_arrival < T_stop
+
+
 if __name__ == "__main__":
     from run import run_all  # here, not at the top: run.py imports check from this file
     from world import WORLDS, load_world
@@ -140,3 +197,5 @@ if __name__ == "__main__":
         print(f"{space.name}: ok  " + "  ".join(f"{n} {r['length']:.1f} m" for n, r in res.items()))
     check_extra()
     print("potential field, randomized field, Bug 1, Bug 2, sampling, lazy PRM, kinodynamic RRT: ok")
+    check_local()
+    print("elastic band, local planner, warm starts, collocation: ok")
