@@ -467,45 +467,164 @@ So the stopping test is right, but the answer is the smallest sum $g_f + g_b$ ov
 
 ## 9. Several goals: multi-goal A*
 
-> **Key point:** When any of several cells will do, join each of them to one extra vertex, the virtual goal, by an edge of 0 m, and run A\* to that vertex: the doorway's left cell is 2.914 m away, 0.5 m nearer than G. A goal that moves becomes many goals, one per place and time.
+> **Key point:** When any of several goals will do, join each goal to one added vertex, the virtual goal, and run A\* to it once, with the smallest of the guesses to the goals: for three charging docks this takes 12 cells instead of 30 for three separate runs, and ends at the dock nearest by route, 3.207 m away, which is not the dock nearest in a straight line. A goal that moves becomes many goals, one per cell and time: searching over (cell, time), the robot meets a walking person at 5.414 s.
 
-The door is 1.2 m wide, so the doorway covers two whole cells: G, from 3.5 to 4.0 m along x, and the cell left of it, from 3.0 to 3.5 m. Section 8's backward search started from one goal cell; the robot should leave by whichever doorway cell is nearer.
+Every search so far ran to the one goal cell G. Now the robot's battery is low, and any of three charging docks will do (Figure 11, first frame):
+
+- G, the cell under the door (x 3.5 to 4.0 m, y 3.5 to 4.0 m);
+- D1, the top-left corner cell (x 0 to 0.5 m, y 3.5 to 4.0 m);
+- D2, the cell below the table's right end (x 5.0 to 5.5 m, y 0.5 to 1.0 m), beside the green pole.
+
+The robot wants the dock with the shortest route, and the straight line does not tell which one that is. Running A\* once per dock does (notebook):
+
+| Dock | Straight line from S (m) | A\* route from S (m) | Cells taken off the open list |
+|---|---|---|---|
+| G | 2.915 | 3.414 | 9 |
+| D1 | 3.202 | 3.914 | 14 |
+| D2 | 3.041 | 3.207 | 7 |
+
+G is the nearest in a straight line, but its route bends round the table; the route to D2 runs almost straight, along the row below the table, so D2 is the nearest by route. The three runs together take
+
+$$\text{cells} = 9 + 14 + 7$$
+
+$$= 30$$
+
+and every extra dock would add one more search.
 
 ### 9.1 The virtual goal
 
-**The idea.** Running A\* once per doorway cell and keeping the shorter route works, but costs one search per goal. Instead, add one new vertex V outside the door and join each doorway cell to it by an edge of 0 m (CMU 16-350, A\*). Every route to V passes through one doorway cell and costs exactly as much as the route to that cell, so the shortest route to V is the shortest route to the nearer doorway cell (Patel, Heuristics).
+**The idea.** The three runs search the same room three times; one search can find the nearest dock instead. Add one new vertex V and join each dock to it by an edge of 0 m (CMU 16-350, A\*). V is not a place in the room; reaching it stands for "docked". Every route to V passes through one dock and costs exactly as much as the route to that dock, so the shortest route to V ends at the dock nearest by route (Patel, Heuristics).
 
-The heuristic at a cell is the smaller of its octile distances to the two doorway cells, which never overestimates the distance to the nearer one (Patel, Heuristics).
+**The guess.** A\* to V needs a heuristic: a guess of the distance left to V, which is the distance to whichever dock is nearest. The guess is the smallest of the octile distances of [Section 2](#2-a-guess-of-the-distance-left-the-heuristic) to the three docks (Patel, Heuristics). D1 is 4 columns and 5 rows from S, D2 is 6 columns and 1 row, so with:
 
-**The standard term.** A\* run to an added vertex joined to every acceptable goal is **multi-goal A\*** (G-2585), and the added vertex is a **virtual goal** (G-2586), also called an imaginary goal (CMU 16-350, A\*). If some goals are worse than others, such as a parking space far from the shop, the edge to V costs that extra amount instead of 0 (CMU 16-350, A\*). A backward search from V is a backward search from all goals at once (LaValle §2.2.3).
+- $h_{\text{G}}$, $h_{\text{D1}}$, $h_{\text{D2}}$, the octile distances from a cell to G, D1 and D2, in m;
+- $h$, the heuristic of the search to V at that cell, in m.
 
-![Two doorway cells joined to one virtual goal V, on the part of the room x 1.0 to 5.0 m: the doorway covers two whole cells, G1 (x 3.0 to 3.5 m) and G2 (x 3.5 to 4.0 m, the goal cell G of the other figures). Each gets an edge of 0 m (purple, dashed) to V, drawn outside the door. A\* searches for V with h = the smaller octile distance to G1 or G2; it takes 6 cells (red), then V, off the open list and returns the route through G1, 2.914 m, against 3.414 m to G2](images/multigoal.png){height=55%}
+$$h_{\text{G}}(S) = 3.121 \text{ m}$$
 
-Figure 11 shows the result: the route ends in the left doorway cell, 2.914 m from S, 0.5 m shorter than the 3.414 m route to G (notebook). The goals so far stand still.
+$$h_{\text{D1}}(S) = 4 \times 0.707 + 1 \times 0.5$$
+
+$$= 3.328 \text{ m}$$
+
+$$h_{\text{D2}}(S) = 1 \times 0.707 + 5 \times 0.5$$
+
+$$= 3.207 \text{ m}$$
+
+$$h(S) = \min(3.121, 3.328, 3.207)$$
+
+$$= 3.121 \text{ m}$$
+
+The same in symbols:
+
+$$h = \min(h_{\text{G}}, h_{\text{D1}}, h_{\text{D2}})$$
+
+The guess never overestimates: the shortest route to V ends at some dock, its length is at least the octile distance to that dock, and that distance is at least the smallest of the three.
+
+**The standard term.** A\* run to an added vertex joined to every acceptable goal is **multi-goal A\*** (G-2585), and the added vertex is a **virtual goal** (G-2586), also called an imaginary goal (CMU 16-350, A\*). A backward search from V is a backward search from all goals at once (LaValle §2.2.3).
+
+**The run.** Figure 11, run 1, plays multi-goal A\* one cell per frame; each frame's subtitle gives the dock the guess comes from and the [estimated total cost](#41-g-h-and-f-on-the-first-step) $f$, the cost so far plus the guess, of the cell just taken off. Watch the red cells climb towards the door first, then turn to D2 at frame "cell 7".
+
+![Multi-goal A\* to the nearest of three charging docks (purple outlines): G under the door, D1 in the top-left corner, D2 below the table's right end. Each dock has an edge (purple, dashed) to V, the virtual goal, drawn outside the room because V is not a place: the drawn length means nothing, and the edge costs what its label says. A\* searches for V with the guess h = the smallest octile distance to a dock (plus that dock's edge), one cell taken off the open list per frame. Light red: cells taken off the open list; light green: cells on it; orange outline: the cell just taken off. Run 1, all edges 0 m: 6 cells climb towards the door, each with f, the cost so far plus the guess, of 3.121 m; from frame "cell 7" the guess comes from D2, and 6 cells run along the row below the table with f of 3.207 m, and V comes off: route to D2, 3.207 m (blue), after 12 cells, where three separate A\* runs take 30. Run 2, D2 busy, its edge 2 m: the search also tries 3 cells towards D1 (f of 3.328 m) and ends at G: route 3.414 m after 12 cells](images/multigoal_anim.gif){height=55%}
+
+The guess from G is the smallest at S, so the search first climbs towards the door along the table's left side, as in [Section 4.2](#42-the-smallest-f-first-ties-to-the-smaller-h), with $f$ at 3.121 m for 6 cells. At the table's corner the door route must bend and its $f$ rises to 3.414 m. The open cell with the smallest $f$ is now the cell down and to the right of S, on the way to D2 (frame "cell 7"), with:
+
+- $g$, its cost so far, 0.707 m, one diagonal move;
+- $h$, its guess, 2.5 m, the octile distance to D2, 5 columns away.
+
+$$f = 0.707 + 2.5$$
+
+$$= 3.207 \text{ m}$$
+
+Each cell along the row below the table keeps $f$ at 3.207 m, so A\* takes off 5 more cells, the last of them D2, and then V. Multi-goal A\* takes 12 cells against the 30 of the three separate runs, and returns the route of the run to D2 alone, 3.207 m (notebook):
+
+$$\text{saved} = 30 - 12$$
+
+$$= 18 \text{ cells}$$
+
+**A busy dock.** Some goals cost more to use than others, such as a parking space far from the shop (CMU 16-350, A\*). Say D2 is busy: the robot would have to wait there, and we count the wait as 2 m of extra driving. The edge from D2 to V then costs 2 m instead of 0 (CMU 16-350, A\*), and D2's guess adds the same 2 m, since every route to V through D2 pays it. With:
+
+- $c_{\text{D2}}$, the cost of D2's edge to V, 2 m;
+- $h_{\text{G}}$, $h_{\text{D1}}$, $h_{\text{D2}}$ and $h$, the octile distances to the docks and the heuristic, as in the guess above.
+
+$$h(S) = \min(3.121, 3.328, 3.207 + 2)$$
+
+$$= \min(3.121, 3.328, 5.207)$$
+
+$$= 3.121 \text{ m}$$
+
+The same in symbols:
+
+$$h = \min(h_{\text{G}}, h_{\text{D1}}, h_{\text{D2}} + c_{\text{D2}})$$
+
+The best route to V through D2 now costs
+
+$$\text{through D2} = 3.207 + 2$$
+
+$$= 5.207 \text{ m}$$
+
+more than the 3.414 m route to G. Run 2 of Figure 11 makes that one change, and A\* ends at G: 3.414 m after 12 cells (notebook). Without the 2 m in D2's guess, the guess would still never overestimate, but A\* would take 19 cells: a closer guess takes fewer cells ([Section 5.3](#53-a-closer-guess-takes-fewer-cells)). The docks stand still; the next goal does not.
 
 ### 9.2 A moving goal
 
-Suppose instead the robot must meet a person who walks under the top wall, from x 5.0 to 5.5 m towards the left, one cell (0.5 m) per second, and the person's path is known. Each cell of that walk is a goal only at the second the person is in it, so the search state must hold the time as well as the cell, a [**search state**](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#10-choosing-the-search-state-the-markov-rule) (G-2562) that holds everything the next moves depend on. Each pair of cell and time on the person's walk joins the virtual goal: these are the possible intercept points (CMU 16-350, A\*).
+Suppose instead the robot must meet a person who walks under the top wall, along a path the robot knows: the person starts in the cell x 5.0 to 5.5 m and moves one cell (0.5 m) to the left every second, so the person is in the first cell from 0 to 1 s, in the next from 1 to 2 s, and so on. A cell of that walk is a goal only while the person is in it, so the cell alone cannot say whether the robot has arrived in time. The [**search state**](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#10-choosing-the-search-state-the-markov-rule) (G-2562), everything the next moves depend on, must hold the time as well as the cell (LaValle §7.1.1). Each pair of a cell and a time at which the person is in that cell joins the virtual goal V: these are the possible intercept points (CMU 16-350, A\*).
 
-The robot drives at 0.5 m/s, so it needs 2 s per metre of its shortest route to a cell. With:
+**The moves.** The robot drives at 0.5 m/s. From a state (cell, time) it can:
 
-- $t$, the second at which the person is in a cell of the walk;
-- $T$, the earliest second the robot can be there: its shortest distance to the cell divided by 0.5 m/s.
+- move straight, 0.5 m, which adds 1 s;
+- move diagonally, 0.707 m, which adds 1.414 s;
+- wait one second in its cell, which adds 1 s.
 
-| $t$ (s) | Person's cell (x, m) | Robot's shortest route (m) | $T$ (s) | In time? |
+Time only moves forward, so no move leads back to an earlier time (LaValle §7.1.1). A route's cost is its time, so the cheapest route to V is the earliest meeting.
+
+**The guess.** The cost is now time, so the cost so far, the guess and their sum are in seconds. With:
+
+- $g$, the cost so far of a state: the time at which the robot gets there, in s;
+- $d$, the octile distance from the state's cell to the nearest cell of the person's walk, in m (2.5 m from S, straight up);
+- $v$, the robot's speed, 0.5 m/s;
+- $h$, the guess of the time left, in s;
+- $f$, their sum, the estimated total cost, in s.
+
+$$h(S) = 2.5 / 0.5$$
+
+$$= 5 \text{ s}$$
+
+The same in symbols:
+
+$$h = d / v$$
+
+The guess never overestimates: every meeting happens in a cell of the walk, and the robot cannot get there faster.
+
+**The run.** A\* over (cell, time) takes 8 states off the open list, then V (notebook). The first 6 are the straight line up from S, at 0 to 5 s, each with $f$ of 5 s: driving straight at the top wall adds to $g$ exactly what it takes off $h$. At 5 s the robot would be in the cell x 2.0 to 2.5 m under the wall, but the person is then in the cell to its right. The cheapest states left have $f$ of 5.414 s, and ties go to the smaller guess ([Section 4.2](#42-the-smallest-f-first-ties-to-the-smaller-h)), so the first two are the diagonals from the cell below into the top row: into x 1.5 to 2.0 m, where nobody is, and into x 2.5 to 3.0 m, where the person is from 5 to 6 s. The route is four cells straight up and then that diagonal, with:
+
+- $L$, the length of the route, in m;
+- $T$, the time at which the robot reaches the meeting cell, in s.
+
+$$L = 4 \times 0.5 + 0.707$$
+
+$$= 2.707 \text{ m}$$
+
+$$T = 2.707 / 0.5$$
+
+$$= 5.414 \text{ s}$$
+
+The same in symbols:
+
+$$T = L / v$$
+
+The person is in that cell until 6 s, so they meet at 5.414 s, and the robot never waits (notebook). Figure 12 plays the meeting.
+
+![A moving goal, on the part of the room x 0.5 to 5.5 m: a person P walks under the top wall from x 5.0 to 5.5 m towards the left, one 0.5 m cell per second; purple labels give the seconds the person is in each cell, and each such cell and time is a goal. The robot R drives at 0.5 m/s along the dotted route that A\* over (cell, time) finds: four cells straight up, then a diagonal. Frames at 0, 1, 2, 3, 4 and 5 s, and at 5.414 s, when the robot enters the cell x 2.5 to 3.0 m while the person is in it (5 to 6 s): they meet](images/moving_target.gif){height=56%}
+
+A check, cell by cell: the robot's earliest arrival in a cell of the walk is its shortest route there divided by 0.5 m/s, and the robot meets the person there if it arrives before the person leaves (notebook):
+
+| Person's cell (x, m) | Person in it (s) | Robot's shortest route (m) | Robot there at (s) | Meet at (s) |
 |---|---|---|---|---|
-| 3 | 3.5 to 4.0 (G) | 3.414 | 6.828 | no |
-| 4 | 3.0 to 3.5 | 2.914 | 5.828 | no |
-| 5 | 2.5 to 3.0 | 2.707 | 5.414 | no |
-| 6 | 2.0 to 2.5 | 2.5 | 5.0 | yes |
+| 3.5 to 4.0 (G) | 3 to 4 | 3.414 | 6.828 | too late |
+| 3.0 to 3.5 | 4 to 5 | 2.914 | 5.828 | too late |
+| 2.5 to 3.0 | 5 to 6 | 2.707 | 5.414 | 5.414 |
+| 2.0 to 2.5 | 6 to 7 | 2.5 | 5.0 | 6, after waiting 1 s |
 
-The first intercept point the robot can reach in time is the cell x 2.0 to 2.5 m under the wall, at 6 s: the robot's route there is 2.5 m straight up, and
-
-$$T = 2.5 / 0.5 = 5 \text{ s}$$
-
-The robot arrives 1 s early and waits (notebook). Figure 12 plays the meeting.
-
-![A moving goal, one frame per second, on the part of the room x 0.5 to 5.5 m: a person P walks under the top wall from x 5.0 to 5.5 m towards the left, one 0.5 m cell per second; purple numbers give the second the person reaches each cell, and each such cell and second is a goal. The robot R drives at 0.5 m/s along its dotted route, 2.5 m straight up. The robot reaches the cell x 2.0 to 2.5 m at 5 s, waits, and meets the person there at 6 s](images/moving_target.gif){height=56%}
+The earliest meeting is the one A\* found; the last row is where the wait move matters, since the robot arrives first and waits. The table works here because nothing else in the room moves; when obstacles move too, a cell is free only at some times, and the search over (cell, time) handles that the same way (LaValle §7.1.1).
 
 Multi-goal search changes what counts as arriving. On a large map, even one A\* run can take longer than the robot can wait.
 
@@ -642,7 +761,7 @@ S cannot see G itself, because that line crosses a table cell (frame "cell 9 off
 | A\* | $f = g + h$ | 9 cells, 3.414 m | shortest route with an admissible, consistent heuristic |
 | IDA\* | $f$, depth-first under a limit | 17 visits, 7 cells in memory | little memory |
 | backward / bidirectional | $g$ from G / from both ends | 31 / 38 cells | goal side narrow; many starts |
-| multi-goal A\* | $f$ to a virtual goal | 2.914 m to the left doorway cell | any of several goals |
+| multi-goal A\* | $f$ to a virtual goal | three docks: 12 cells (30 for three runs), 3.207 m | any of several goals |
 | weighted / ARA\* | $g + \varepsilon h$ | long trip: 9.243, 8.414, 8.000 m | a route at once, improved with time |
 | jump point search | $f$, jump points only | 5 cells off, 7 on the open list | open grids with equal move costs |
 | Theta\* | $f$, with parents a cell can see | 3.193 m | routes at any angle |
@@ -658,7 +777,7 @@ Here $g$ is the cost so far from S, $h$ the heuristic, the guess of the distance
 - A **consistent heuristic** (G-2580) never falls by more than a move's length, so $f$ never decreases along a route and the closed list never locks in a long $g$; the remembered heuristic on the roadmap was admissible but not consistent and returned 4.358 m instead of 3.653 m.
 - **Iterative deepening** (G-2581) and **IDA\*** (G-2582) repeat depth-first searches with a growing limit, so they keep only one route in memory, 7 cells against A\*'s 23, at the price of repeated visits, 17 against 9.
 - **Backward search** (G-2583) from the door needs 31 cells because the door's side is narrow, and gives every cell's true distance to the door; **bidirectional search** (G-2584) needs 38, and must take the smallest sum over all cells both searches reached, because the meeting cell can be off the shortest route (2.707 m against 2.414 m).
-- **Multi-goal A\*** (G-2585) joins every acceptable goal to a **virtual goal** (G-2586), so one search finds the nearer doorway cell, 2.914 m away, and a moving person becomes many goals, met at 6 s.
+- **Multi-goal A\*** (G-2585) joins every acceptable goal to a **virtual goal** (G-2586), so one search finds the dock nearest by route, 3.207 m away, after 12 cells instead of 30 for three searches; a search over (cell, time) turns a walking person into many goals, met at 5.414 s.
 - **Weighted A\*** (G-2587) multiplies the heuristic by $\varepsilon$, so it takes fewer cells for a route at most $\varepsilon$ times the shortest; **anytime search** (G-2589) such as **ARA\*** (G-2590) lowers $\varepsilon$ run by run and reuses the work, so a 9.243 m route is ready at once and the 8.000 m one after 69 cells instead of 103.
 - **Jump point search** (G-2594) skips equal routes that differ only in the order of their moves by scanning to **jump points** (G-2593), cells with a **forced neighbour** (G-2592), so only 7 cells enter its open list against A\*'s 23.
 - **Theta\*** (G-2597), an **any-angle search** (G-2596), takes a parent's parent wherever the two cells can see each other, so the door route becomes 3.193 m instead of 3.414 m.
@@ -677,7 +796,7 @@ The robot can now plan its shortest route to the door quickly, with variants for
 - Likhachev, M. (Carnegie Mellon University), *16-350 Planning Techniques for Robotics*, slides "Search Algorithms: A\* Search, Multi-goal A\*", https://www.cs.cmu.edu/~maxim/classes/robotplanning/lectures/informedastar_16350_sp26.pdf (CMU 16-350, A\*); "Search Algorithms: Heuristics, Backward A\*, Weighted A\* Search", https://www.cs.cmu.edu/~maxim/classes/robotplanning/lectures/heuristicsweightedsearch_16350_sp26.pdf (CMU 16-350, heuristics); "Interleaving Planning and Execution: Anytime Heuristic Search", https://www.cs.cmu.edu/~maxim/classes/robotplanning/lectures/anytimesearch_16350_sp26.pdf (CMU 16-350, anytime)
 - Patel, A. *Amit's A\* Pages*, "Heuristics", https://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html (Patel, Heuristics), and "Variants of A\*", https://theory.stanford.edu/~amitp/GameProgramming/Variations.html (Patel, Variants)
 - zerowidth.com, "A Visual Explanation of Jump Point Search" (2013), https://zerowidth.com/2013/05/05/jump-point-search-explained.html (zerowidth JPS)
-- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §2.2.2 "Particular forward search methods" (A\*, iterative deepening and IDA\*) and §2.2.3 "Other general search schemes" (backward and bidirectional search). Free online: https://lavalle.pl/planning/node45.html, https://lavalle.pl/planning/node47.html, https://lavalle.pl/planning/node49.html and https://lavalle.pl/planning/node50.html (LaValle §2.2.2, §2.2.3)
+- LaValle, S. M. (2006). *Planning Algorithms*. Cambridge University Press. §2.2.2 "Particular forward search methods" (A\*, iterative deepening and IDA\*), §2.2.3 "Other general search schemes" (backward and bidirectional search) and §7.1.1 "Problem formulation" (time-varying problems: a state holds the configuration and the time, and time only moves forward). Free online: https://lavalle.pl/planning/node45.html, https://lavalle.pl/planning/node47.html, https://lavalle.pl/planning/node49.html, https://lavalle.pl/planning/node50.html and https://lavalle.pl/planning/node312.html (LaValle §2.2.2, §2.2.3, §7.1.1)
 
 **Other references**
 
@@ -710,7 +829,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | IDA* (iterative-deepening A*) (G-2582) | Iterative deepening with the limit on $f = g + h$ instead of on moves, each new limit being the smallest $f$ that passed the last; it returns the shortest route with an admissible heuristic while storing only the current route. |
 | Backward search (G-2583) | A search that starts at the goal and follows every move backwards until it reaches the start; it is cheaper when the goal's side branches less, and run to the end it gives every state's cost to the goal. |
 | Bidirectional search (G-2584) | A forward search from the start and a backward search from the goal run in turn until some state has been expanded by both; the route is the smallest sum of the two costs over all states both reached, since the meeting state can be off the shortest route. |
-| Multi-goal A* (G-2585) | A* run to an added vertex joined to every acceptable goal, so one search finds the cheapest of several goals, such as the nearer of two doorway cells or the first reachable meeting point with a moving person. |
+| Multi-goal A* (G-2585) | A* run to an added vertex joined to every acceptable goal, so one search finds the cheapest of several goals, such as the nearest of three charging docks by route or the first reachable meeting point with a moving person. |
 | Virtual goal (imaginary goal) (G-2586) | An extra vertex added to a graph and joined to each real goal by an edge of 0 (or of that goal's extra cost); the shortest route to it ends at the best real goal, which turns a search for several goals into a search for one. |
 | Weighted A* (G-2587) | A* that sorts by $f = g + \varepsilon h$ with a weight $\varepsilon$ above 1, counting the guess more than the cost so far; it expands fewer states and returns a route at most $\varepsilon$ times the shortest. |
 | Anytime search (G-2589) | A search that can return a route whenever it is interrupted and keeps improving it while it has time, such as weighted A* run with a falling weight; it lets a robot start moving before the best route is known. |

@@ -101,7 +101,8 @@ def best_first(start=START, goal=GOAL, h=octile, wg=1.0, wh=1.0, trace=False, nb
 
 
 def _open(heap, closed):
-    return sorted({c for *_, c in heap if c not in closed})
+    cells = {c for *_, c in heap if c not in closed}
+    return sorted(c for c in cells if c != "V") + (["V"] if "V" in cells else [])    # "V": the virtual goal
 
 
 def _path(parent, goal):
@@ -384,16 +385,40 @@ def ara_star(eps_list=(2.5, 1.2, 1.0), start=START, goal=GOAL, h=octile):
     return out
 
 
-def multi_goal(goals, start=START):
-    """A* to whichever of several goal cells is cheapest: every goal cell gets a 0 m edge to one extra vertex, the
-    virtual goal V; h(n) = the smallest octile distance from n to any goal cell (CMU 16-350; Patel, Heuristics)."""
-    V = "V"
+def multi_goal(goals, start=START, extra=None, trace=False):
+    """A* to whichever of several goal cells is cheapest: every goal cell gets an edge to one extra vertex, the
+    virtual goal V, of 0 m or of extra[goal] m for a worse goal; h(n) = the smallest of octile(n, goal) + that
+    goal's edge, which never overestimates the cost to V (CMU 16-350; Patel, Heuristics)."""
+    V, extra = "V", extra or {}
     def nb(c):
         out = neighbours(c)
-        return out + [(V, 0.0)] if c in goals else out
+        return out + [(V, extra.get(c, 0.0))] if c in goals else out
     def h(c, _):
-        return 0.0 if c == V else min(octile(c, q) for q in goals)
-    return best_first(start=start, goal=V, h=h, nbrs=nb)
+        return 0.0 if c == V else min(octile(c, q) + extra.get(q, 0.0) for q in goals)
+    return best_first(start=start, goal=V, h=h, nbrs=nb, trace=trace)
+
+
+def moving_goal(walk, speed=0.5, start=START):
+    """A* over states (cell, time) to meet a person whose walk is known: walk[k] is the person's cell from second k
+    to second k + 1 (LaValle 7.1.1: a state holds the place and the time; time only moves forward). Moves: straight
+    (0.5 m) or diagonal (0.707 m) at `speed` m/s, or wait one second; the cost is time. A state (cell, t) with the
+    person in that cell at t gets a 0 s edge to the virtual goal V. h = octile distance to the nearest cell of the
+    walk / speed, which never overestimates the time to any meeting. Times are rounded to 1e-9 s so that equal times
+    give one state."""
+    V = "V"
+    def nb(s):
+        c, t = s
+        out = []
+        for n, step in neighbours(c) + [(c, speed * 1.0)]:          # the last one: wait one second
+            tt = round(t + step / speed, 9)
+            if tt < len(walk):                                      # the walk ends: no meeting after it
+                out.append(((n, tt), step / speed))
+        if walk[math.floor(t + 1e-9)] == c:
+            out.append((V, 0.0))
+        return out
+    def h(s, _):
+        return 0.0 if s == V else min(octile(s[0], q) for q in walk) / speed
+    return best_first(start=(start, 0.0), goal=V, h=h, nbrs=nb)
 
 
 # The five-waypoint roadmap of Section 6: the robot S, waypoints A, B, C in free floor, the doorway centre G, in m.
