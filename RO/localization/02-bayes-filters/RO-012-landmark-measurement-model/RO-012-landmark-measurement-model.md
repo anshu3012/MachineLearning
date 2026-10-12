@@ -11,7 +11,7 @@ tags: [subject/robotics, area/localization, concept/landmark-measurement-model, 
 
 The [**likelihood field**](../RO-011-likelihood-fields-and-scan-matching/RO-011-likelihood-fields-and-scan-matching.md#3-the-likelihood-field-model) (G-2393) lets the robot score a laser scan about 250 times faster than the beam model. What still breaks: a scan gives hundreds of distances, all of which look alike: wall, wall, wall. This Note adds readings that say which object was seen. A camera that spots a pink pole gives far less data, but the data says exactly which object it saw, and the map says exactly where that object stands. Such a recognisable object at a known place is a landmark. Robots pull [**landmarks**](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#61-why-extract-features) (G-2342) [out of sensor data](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#62-finding-the-poles-in-a-scan), and each one is seen as a range (how far), a bearing (at what angle from the robot's **heading** (G-2284)) and a signature (what it looks like, here its colour).
 
-Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2377) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid x, m)$ for any guessed pose $x$ in the map $m$. The question is: how well does a guessed pose, such as A or a pose B 1 m to its right, explain these three readings? This Note builds the model that answers it:
+Figure 1 shows the test case of this Note: the same 5 m by 4 m room and pose A = (2, 2, 0) as the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377), now with three coloured poles that the robot sees. To use these readings, the robot needs the same thing the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2377) gave it for a laser: a [measurement model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#22-why-we-need-a-measurement-model) (G-2374), the density of the readings $p(z \mid \mathbf{x}, m)$ for any guessed pose $\mathbf{x}$ in the map $m$. The question is: how well does a guessed pose, such as A or a pose B 1 m to its right, explain these three readings? This Note builds the model that answers it:
 
 - what range and bearing a pole should show from a guessed pose, and the two pitfalls in computing the angle ([Section 3](#3-what-a-guessed-pose-predicts));
 - the density of a reading, and why it is a product of two Gaussians ([Section 4](#4-the-landmark-measurement-model));
@@ -128,6 +128,10 @@ Scoring a reading means comparing it with the prediction. For range, the differe
 
 $$175 - (-178) = 353^\circ$$
 
+Figure 4 draws both directions on a dial, with 0° pointing right and angles growing counter-clockwise. Follow the two arcs from the prediction to the reading: the plain difference goes the long way round, 353°; the short way, across the ±180° line, is 7°.
+
+![A dial with 0 degrees to the right, 90 at the top and ±180 to the left. The reading, 175 degrees, and the prediction, −178 degrees, point left on either side of the ±180 line. A red dashed arc from the prediction goes counter-clockwise all the way round to the reading: the plain difference 175 − (−178) = 353 degrees. A short green arc goes clockwise across the ±180 line: the wrapped difference 353 − 360 = −7 degrees](images/wrap.png)
+
 A bell-shaped error curve around the prediction, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), would call that a wild miss. The fix is to add or subtract 360° until the difference lies between −180° and 180°:
 
 $$353^\circ - 360^\circ = -7^\circ$$
@@ -152,9 +156,11 @@ We treat the range error and the bearing error as independent: knowing that the 
 - $\varphi$ is the measured bearing (40° for the pink pole);
 - $\hat\varphi$ is the expected bearing (36.87° from A);
 - $\mathcal{N}(e;\ 0, \sigma^2)$ is the Gaussian density of an error $e$, with mean 0 and standard deviation $\sigma$;
-- $p(z \mid x, m)$ is the density of the reading $z$ given the guessed pose $x$ and the map $m$, in per m per rad.
+- $\mathbf{x}$ (bold) is the pose, the three numbers $(x, y, \theta)$; plain $x$ is its first number (pose A is (2, 2, 0));
+- $m$ is the map, here the places of the three poles;
+- $p(z \mid \mathbf{x}, m)$ is the density of the reading $z$ given the guessed pose $\mathbf{x}$ and the map $m$, in per m per rad.
 
-$$p(z \mid x, m) = \mathcal{N}(r - \hat r;\ 0, \sigma_r^2)$$
+$$p(z \mid \mathbf{x}, m) = \mathcal{N}(r - \hat r;\ 0, \sigma_r^2)$$
 
 $$\qquad \times\ \mathcal{N}(\varphi - \hat\varphi;\ 0, \sigma_\varphi^2)$$
 
@@ -167,6 +173,10 @@ $$r - \hat r = 3.10 - 3.00 = 0.10 \text{ m}$$
 $$\varphi - \hat\varphi = 40^\circ - 36.87^\circ = 3.13^\circ$$
 
 $$3.13^\circ = 0.05463 \text{ rad}$$
+
+Figure 5 marks each error on its own Gaussian. Read the height of each black dot: the range error, one standard deviation, lands at 2.420 per m; the bearing error, less than one standard deviation, lands higher up its curve, at 3.758 per rad. The density of the reading is the product of the two heights, worked out below.
+
+![Two bell curves. Left, the range Gaussian with standard deviation 0.1 m, peak 3.99 per m; the pink pole's range error 0.10 m is marked by a black dot at height 2.420 per m. Right, the bearing Gaussian with standard deviation 5 degrees (0.0873 rad), drawn against the error in degrees with its height in per rad, peak 4.57 per rad; the bearing error 3.13 degrees is marked at height 3.758 per rad](images/two_gauss.png)
 
 The range Gaussian. Its peak height:
 
@@ -237,7 +247,7 @@ These scores judge poses the robot already guessed. The next section asks the re
 
 [Section 4](#4-the-landmark-measurement-model) scored two guessed poses, A and B. Now turn the question around: the readings of Figure 1 are fixed, and we ask which robot positions fit them, starting with one. Take the pink pole's range, 3.10 m, alone. Every position 3.10 m from the pole predicts that range exactly, whatever its direction from the pole. So the positions that fit form a ring of radius 3.10 m around the pole, blurred by the 0.1 m noise (Freiburg sensor-model slides, "Distances only").
 
-Figure 4 draws the range **Gaussian** (G-827) over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
+Figure 6 draws the range **Gaussian** (G-827) over every position of the room as a surface: a curved ridge of height 3.99 per m along the ring, falling to zero on either side. The true position A sits on the ridge, and so does every other point of it.
 
 ![The density of the pink pole's range reading over every robot position in the room, drawn as a surface: a curved ridge of radius 3.10 m around the pink pole, about 0.2 m wide, with the true position A on its crest](images/ring_surface.png)
 
@@ -245,7 +255,7 @@ Figure 4 draws the range **Gaussian** (G-827) over every position of the room as
 
 The green pole's range, 1.95 m, gives a second ring. A position that fits both readings must lie on both rings. Two circles cross in at most two points, and here one of the two lies outside the room. Finding a position from distances to known points is **trilateration** (G-2406), the principle GPS uses with satellites.
 
-Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in [Section 4.2](#42-several-landmarks). Each frame is a surface like that of Figure 4 seen from above: darker colour means higher density, and each frame is divided by its own highest point, so its scale runs from 0 to 1. With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
+Figure 7 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in [Section 4.2](#42-several-landmarks). Each frame is a surface like that of Figure 6 seen from above: darker colour means higher density, and each frame is divided by its own highest point, so its scale runs from 0 to 1. With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
 
 ![Animation over the room: first the density of the pink range reading, a ring around the pink pole; then pink times green, which leaves one bright spot near (1.9, 2.0); then pink times green times blue, one sharp spot at (1.90, 1.98) next to the true position (2, 2), marked by a black cross](images/rings.gif)
 
@@ -319,7 +329,7 @@ $$\theta = \gamma - \pi - \tilde\varphi$$
 
 Both give the same heading, since adding 180° and subtracting 180° differ by a full turn.
 
-Figure 6 runs the recipe on the noise-free reading of A, range 3.0 m and bearing 36.87°, one step at a time. Watch the angle $\gamma$ swing round the pole to 216.87°, the robot step out 3.0 m to (2, 2), and its heading turn from the pole until the pole sits 36.87° to its left: the heading ends at 0°, so the recipe gives back pose A. The animation then runs the same four steps with the real reading and noise, 200 times ([Section 6.3](#63-the-samples)).
+Figure 8 runs the recipe on the noise-free reading of A, range 3.0 m and bearing 36.87°, one step at a time. Watch the angle $\gamma$ swing round the pole to 216.87°, the robot step out 3.0 m to (2, 2), and its heading turn from the pole until the pole sits 36.87° to its left: the heading ends at 0°, so the recipe gives back pose A. The animation then runs the same four steps with the real reading and noise, 200 times ([Section 6.3](#63-the-samples)).
 
 ![Animation in two parts. Part 1, one pose from the noise-free reading of A (range 3.0 m, bearing 36.87 degrees): the angle gamma around the pink pole swings from the grey 0-degree line to 216.87 degrees; the robot steps out 3.0 m along it to (2, 2), on the dashed circle of radius 3.0 m; seen from the robot the pole lies at 216.87 − 180 = 36.87 degrees, and the heading theta turns from there down to 0 degrees, so that the pole appears at the bearing phi = 36.87 degrees to its left; theta = 216.87 + 180 − 36.87 = 360, which is 0 after wrapping. Part 2, the real reading (3.10 m, 40 degrees) with noise of 0.1 m and 5 degrees: pose 1 with its numbers, then 5, 20, 50, 100 and 200 poses fill a ring of radius about 3.1 m around the pole, each arrow turned so that the pole appears about 40 degrees to its left; the black arrow is the true pose A. The last frame shows all 200 poses, 64 of them inside the room](images/sample_anim.gif)
 
@@ -351,7 +361,7 @@ The recipe gives back pose A exactly. With the real reading (3.10 m, 40°) it gi
 
 ### 6.3 The samples
 
-The second part of Figure 6 draws 200 poses from the pink reading, with noise. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with **standard deviation** (G-1871) 0.10 m and its bearing averages 39.8° with standard deviation 4.9°: the samples reproduce the reading and its noise, as they should.
+The second part of Figure 8 draws 200 poses from the pink reading, with noise. They form a ring of radius about 3.1 m around the pole, and each arrow is turned so that the pole appears about 40° to its left. Seen from the 200 samples, the pole's range averages 3.10 m with **standard deviation** (G-1871) 0.10 m and its bearing averages 39.8° with standard deviation 4.9°: the samples reproduce the reading and its noise, as they should.
 
 Only 64 of the 200 samples lie inside the room. One reading does not know about walls; the map does. Samples outside the free space are thrown away, as the motion model does for [poses inside walls](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#7-ruling-out-poses-inside-walls), and readings of the other poles, through the **measurement model** (G-2374) of Section 4, then weight the rest.
 

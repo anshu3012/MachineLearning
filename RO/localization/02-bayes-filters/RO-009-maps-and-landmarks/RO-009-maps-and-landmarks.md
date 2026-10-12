@@ -202,7 +202,35 @@ To read Figure 6: each small square is one cell, black for 1 (some obstacle insi
 | 0.5 m | 112 | 47 | 11.75 m² |
 | 0.1 m | 2800 | 617 | 6.17 m² |
 
-Cells five times smaller bring the black area close to the truth but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331), its model of the surroundings, with its own sensors (LaValle §3.1.3). Storing a number between 0 and 1 in each cell instead of 0 or 1, such as the probability that the cell is occupied, gives an **occupancy grid** (G-2340), the standard grid map of robotics (LaValle §3.1.3). Each of these models describes the room; the robot still has to turn its own readings into something it can compare with them.
+Cells five times smaller bring the black area close to the truth but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331), its model of the surroundings, with its own sensors (LaValle §3.1.3).
+
+A bitmap cell holds only 0 or 1, so it cannot say how much of the cell an obstacle takes: with 0.5 m cells, a cell that the table barely clips is as black as a cell deep inside it. Storing a number between 0 and 1 in each cell instead of 0 or 1, such as the probability that an obstacle is in the cell, gives an **occupancy grid** (G-2340), the standard grid map of robotics (LaValle §3.1.3). No sensor has measured our room yet, so here we set each cell's number to the share of its area that the table, cabinet and poles cover. The share is the probability that a point picked at random in the cell, every spot equally likely, lies inside an obstacle:
+
+- a cell fully inside the table or the cabinet gets 1;
+- a free cell gets 0;
+- a cell on an edge gets the share covered, such as 0.50 for the cell from 5.0 to 5.5 m along x and 1.5 to 2.0 m along y, which the table's right edge cuts in half.
+
+Figure 7 puts the 0.5 m bitmap of Figure 6 beside the occupancy grid of the same cells, in the same greys: white is 0, black is 1, and each in-between cell carries its number. Look along the edges of the table and the cabinet, and at the poles: where the bitmap paints a cell black, the occupancy grid shades it by how much of it is covered, so the cells round the poles drop to 0.03 and 0.06.
+
+![Two maps of the room's 0.5 m cells in the same greys, the table and cabinet drawn as outlines. Left, the bitmap: 47 black cells, 11.75 m². Right, the occupancy grid: each cell shaded by the share of it that the furniture and poles cover, 1 inside the table and cabinet, 0 in free space, numbers such as 0.12, 0.50 and 0.88 in the edge cells and 0.03 and 0.06 round the poles; the shares add up to 20.51, which times the 0.25 m² of one cell is 5.13 m²](images/occupancy.png)
+
+Over the 112 cells of Figure 7:
+
+- 13 cells are fully covered and hold 1;
+- 23 cells are partly covered and hold a number in between;
+- 76 cells are free and hold 0;
+- 11 of the bitmap's 47 black cells only touch an obstacle along their border, so none of their area is covered and their share is 0.
+
+A cell's share times its area is the obstacle area inside that cell, so adding the shares gives back the true covered area:
+
+- the shares of the 112 cells add up to 20.51;
+- each cell is 0.5 m by 0.5 m, an area of 0.25 m².
+
+$$\text{covered area} = 20.51 \times 0.25 \text{ m}^2$$
+
+$$= 5.13 \text{ m}^2$$
+
+The bitmap of the same cells claims 11.75 m². Each of these models describes the room; the robot still has to turn its own readings into something it can compare with them.
 
 ## 6. Landmarks and feature extraction
 
@@ -229,7 +257,7 @@ A pole shows up as a few neighbouring beams that are much shorter than the beams
 2. keep a piece that is narrower than 0.35 m and nearer than the beams on both sides of it;
 3. report its **bearing** (G-2344), its direction measured from the robot's heading, as the average direction of its beams, and its **range** (G-2343), its distance, as its nearest beam's range plus the pole's radius of 0.1 m, so that the range is to the pole's centre.
 
-Figure 7 applies the rule to the scan, one beam after another. Watch each reading land as a grey dot, the orange jump at each cut, and the test of each piece when the next cut closes it: only a 3-beam piece and a 5-beam piece pass, and they become the green and the pink pole.
+Figure 8 applies the rule to the scan, one beam after another. Watch each reading land as a grey dot, the orange jump at each cut, and the test of each piece when the next cut closes it: only a 3-beam piece and a 5-beam piece pass, and they become the green and the pink pole.
 
 ![Animation: from the robot at (2, 1) facing 30 degrees, a blue cursor reads the 360 beams in order and each reading lands as a grey dot; at each cut, where the range jumps by more than 0.3 m, an orange line shows the jump, and the piece that the cut closes is tested: narrower than 0.35 m and nearer than the beams on both sides. Beams through the door read 8 m and leave the picture. Only two pieces pass: 3 beams, the green pole at range 4.004 m and bearing −33.0 degrees, and 5 beams, the pink pole at range 2.232 m and bearing 87.0 degrees. The last frame shows all 360 scan points in grey and the two extracted poles, each labelled with its range r and bearing φ](images/scan_extract.gif)
 
@@ -244,7 +272,7 @@ The extracted **bearings** (G-2344) are off by less than half a degree, because 
 
 ### 6.3 Range, bearing and signature
 
-Each extracted **landmark** (G-2342) is reported as three numbers (Thrun et al. 2005 §6.6, as in the Brown CS148 tutorial), shown in Figure 8:
+Each extracted **landmark** (G-2342) is reported as three numbers (Thrun et al. 2005 §6.6, as in the Brown CS148 tutorial), shown in Figure 9:
 
 - its **range** (G-2343) $r$: the distance from the robot to the landmark, in m (2.236 m for the pink pole, worked out below);
 - its **bearing** (G-2344) $\varphi$: the angle from the robot's heading to the landmark, positive to the left, negative to the right, in degrees (86.6° for the pink pole);
@@ -292,6 +320,7 @@ In localization the map is known and the pose is not. Then a single landmark rea
 - A **half-plane** (G-2336) is one sign test: the function $f$ of the line through an edge is at most 0; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are **unions** (G-2045) of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
 - **Triangle meshes** (G-2338) suit 3D graphics, because graphics hardware is built to draw triangles, but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², because a cell turns black when any part of it is covered, and 0.1 m cells cost 25 times as many cells.
+- An **occupancy grid** (G-2340) stores a number between 0 and 1 in each cell, such as the probability that an obstacle is there; with each 0.5 m cell holding the share of it that is covered, the shares add up to the true 5.13 m², because each share times the cell's area is the obstacle area inside it.
 - **Feature extraction** (G-2341) turns 360 scan distances into two landmarks, because a few distinctive objects carry most of the information about the pose; each landmark is reported as range, bearing and signature, and the signature says which map landmark it is.
 
 The robot can now hold its room as a map and turn a scan into readings such as (2.236 m, 86.6°, pink). Still missing: how likely is a reading if the robot stood at a guessed pose? The [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377) answers that for each beam of a laser scan.

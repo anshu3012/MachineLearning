@@ -1,4 +1,4 @@
-"""Figure 7 as an animation: feature extraction walks the simulated scan from the robot at (2, 1, 30 deg) beam by
+"""Figure 8 as an animation: feature extraction walks the simulated scan from the robot at (2, 1, 30 deg) beam by
 beam (360 beams, 1 degree apart, range noise 1 cm, seeded as in the notebook). A blue cursor marks the beam
 being read; an orange line shows the jump at each cut (where the range jumps by more than 0.3 m) while it is tested; when a cut closes
 a piece, the piece is tested: narrower than 0.35 m and nearer than the beams on both sides. Only the 3-beam piece
