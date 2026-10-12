@@ -1,7 +1,8 @@
 """Grid maps: a floor plan drawn as a picture, turned into a graph of free cells.
 
 The map file is a PNG in maps/: black = blocked (shelf or wall), white = free floor, pure green = start, pure red =
-goal, pure blue = the goals of the multi-goal search. A JSON file with the same name says how big a cell is:
+goal, pure blue = the goals of the multi-goal search, pure orange = a cell that is blocked on the real floor but
+free on the robot's map (a pallet nobody recorded; the replanning robot finds it only when it comes near). A JSON file with the same name says how big a cell is:
 {"label": "Warehouse floor", "cell_m": 1.0, "pixels_per_cell": 1}."""
 import json
 import math
@@ -20,10 +21,12 @@ class Grid(Map):
     cells around it; a diagonal move needs both cells beside it free, so it never cuts a shelf's corner."""
     MOVES = [(0, -1), (1, 0), (0, 1), (-1, 0), (1, -1), (1, 1), (-1, 1), (-1, -1)]   # N E S W, then diagonals
 
-    def __init__(self, free, cell=1.0, start=None, goal=None, goals=(), name="", label="", origin=(0.0, 0.0)):
+    def __init__(self, free, cell=1.0, start=None, goal=None, goals=(), name="", label="", origin=(0.0, 0.0),
+                 hidden=()):
         self.free = free                   # 2D bool array: free[row, col] is True on the floor
         self.cell = cell                   # side of a cell in metres
         self.start, self.goal, self.goals = start, goal, tuple(goals)
+        self.hidden = tuple(hidden)        # cells free on this map but blocked on the real floor
         self.name, self.label = name, label
         self.origin = origin               # (x, y) in metres of the centre of the bottom-left cell
 
@@ -37,6 +40,8 @@ class Grid(Map):
     def neighbours(self, node):
         c, r = node
         out = []
+        if not self.passable(c, r):
+            return out                     # a cell found blocked has no moves left
         for dc, dr in self.MOVES:
             if not self.passable(c + dc, r + dr):
                 continue
@@ -92,8 +97,17 @@ def load_grid(name_or_path):
     is_start = (green > 200) & (red < 100) & (blue < 100)
     is_goal = (red > 200) & (green < 100) & (blue < 100)
     is_goals = (blue > 200) & (red < 100) & (green < 100)
-    free = (px.mean(axis=2) >= 128) | is_start | is_goal | is_goals
+    is_hidden = (red > 200) & (green > 100) & (green < 160) & (blue < 100)
+    free = (px.mean(axis=2) >= 128) | is_start | is_goal | is_goals | is_hidden
     cells = lambda mask: [(int(c), int(r)) for r, c in zip(*np.nonzero(mask))]
     assert len(cells(is_start)) == 1 and len(cells(is_goal)) == 1, f"{path.name}: draw one green and one red pixel"
     return Grid(free, cell=meta.get("cell_m", 1.0), start=cells(is_start)[0], goal=cells(is_goal)[0],
-                goals=cells(is_goals), name=path.stem, label=meta.get("label", path.stem))
+                goals=cells(is_goals), name=path.stem, label=meta.get("label", path.stem), hidden=cells(is_hidden))
+
+
+def finer(m, k):
+    """The same floor cut into cells k times smaller (k odd), start and goal in the middle cells of theirs."""
+    at = lambda n: (n[0] * k + k // 2, n[1] * k + k // 2)
+    shift = (k // 2) * m.cell / k
+    return Grid(np.repeat(np.repeat(m.free, k, axis=0), k, axis=1), cell=m.cell / k, start=at(m.start),
+                goal=at(m.goal), name=f"{m.name}-fine", label=m.label, origin=(m.origin[0] - shift, m.origin[1] - shift))

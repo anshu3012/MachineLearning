@@ -27,7 +27,8 @@ DATA = HERE / "data"
 class StreetMap(Map):
     def __init__(self, G, name, info, weight="length"):
         """G: an undirected networkx graph whose nodes have x, y (metres) and whose edges have length (metres),
-        travel_time (seconds) and line (the street's points from one end to the other). weight picks the cost."""
+        travel_time (seconds), line (the street's points from one end to the other) and movable (True on a bridge
+        that opens for boats). weight picks the cost."""
         self.G, self.name, self.info, self.weight = G, name, info, weight
         self.top_speed = max(d["length"] / d["travel_time"] for _, _, d in G.edges(data=True))   # metres per second
         self.label = info["label"]
@@ -85,13 +86,15 @@ def load_map(name="chicago", weight="length"):
             pts = [(x - x0, y - y0) for x, y in d["geometry"].coords]
         else:
             pts = [(G.nodes[u]["x"], G.nodes[u]["y"]), (G.nodes[v]["x"], G.nodes[v]["y"])]
+        movable = "movable" in str(d.get("bridge", ""))     # OSM bridge=movable: a bridge that opens for boats
         if not G.has_edge(u, v):
-            G.add_edge(u, v, length=d["length"], travel_time=d["travel_time"], line=pts)
+            G.add_edge(u, v, length=d["length"], travel_time=d["travel_time"], line=pts, movable=movable)
         else:                              # two streets join the same intersections: keep the best of each
             e = G.edges[u, v]
             if d["length"] < e["length"]:
                 e["length"], e["line"] = d["length"], pts
             e["travel_time"] = min(e["travel_time"], d["travel_time"])
+            e["movable"] = e["movable"] or movable
     return StreetMap(G, name, info, weight)
 
 

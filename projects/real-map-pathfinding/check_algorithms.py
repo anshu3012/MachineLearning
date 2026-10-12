@@ -3,12 +3,13 @@
     python check_algorithms.py"""
 import copy
 import math
+import random
 
 import networkx as nx
 
 from streets import DATA, load_map, to_grid
 import algorithms as A                     # noqa: E402  (found through the path streets.py adds)
-from run import SEARCHES, ON_GRID, time_runs
+from run import SEARCHES, ON_GRID, closure_drive, time_runs
 
 close = lambda a, b: math.isclose(a, b, rel_tol=1e-9, abs_tol=1e-6)
 
@@ -59,6 +60,28 @@ def check_map(name):
         assert connected(mt, res.route, mt.start, mt.goal), (name, key)
     counts = [res.explored for res in timed.values()]
     assert counts == sorted(counts, reverse=True), (name, counts)
+    # chapter RO-06: D* Lite's repair after a closure equals networkx and A* from scratch
+    run, closed = closure_drive(sm)
+    e = run.notes["replans"][0]
+    open_G = G.copy()
+    open_G.remove_edges_from(closed)
+    left = nx.shortest_path_length(open_G, e["pos"], sm.goal, weight="length")
+    assert close(e["dstar"].length, left) and close(e["astar"].length, left), name
+    assert run.route[-1] == sm.goal and all(open_G.has_edge(a, b) for a, b in zip(run.route[e["move"]:],
+                                                                                run.route[e["move"] + 1:]))
+    # the contraction hierarchy gives the fastest times, for the trip and for 200 random trips
+    ch = A.contraction_hierarchy(mt)
+    q = A.ch_query(ch, mt.start, mt.goal)
+    assert close(q.length, fastest) and connected(mt, q.route, mt.start, mt.goal), name
+    rng, nodes, taken = random.Random(0), mt.nodes(), [0, 0]
+    for _ in range(200):
+        s, t = rng.choice(nodes), rng.choice(nodes)
+        q2, d2 = A.ch_query(ch, s, t), A.dijkstra(mt, s, t)
+        assert close(q2.length, d2.length) and connected(mt, q2.route, s, t), (name, s, t)
+        taken = [taken[0] + q2.visited, taken[1] + d2.visited]
+    print(f"{name}: closure of {len(closed)} streets: D* Lite repair = A* from scratch = networkx, "
+          f"{left:,.0f} m left; contraction hierarchy = networkx on the trip and 200 random trips, taking off "
+          f"{taken[0] / 200:.1f} intersections on average against Dijkstra's {taken[1] / 200:.1f}")
     print(f"{name}: all {len([x for x in r.values() if x])} searches pass, shortest {best:,.0f} m; "
           f"grid A* = JPS = {grid_best:,.0f} m, Theta* {r['theta_star'].length:,.0f} m; "
           f"travel time {fastest:.1f} s with all 4 heuristics, explored {counts}")

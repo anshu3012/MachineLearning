@@ -235,10 +235,12 @@ def animate(sm, space, r, out, frames=48, fps=10, width=800, goals=False, tree_o
 
 
 def race(sm, results, out, frames=50, fps=10, cols=3, width=1200, fmt=lambda r: f"{r.length / 1000:.2f} km",
-         goals=False):
+         goals=False, spaces=None):
     """The searches side by side on one clock (one explored street each per tick); each map is labelled with its
     explored-street count (separate runs added up) and, once it is done, its route (fmt writes the route's cost).
-    goals=True draws the multi-goal goals instead of the goal."""
+    goals=True draws the multi-goal goals instead of the goal. spaces[i] draws result i's moves (default: the
+    streets; Shortcuts for a contraction hierarchy)."""
+    spaces = spaces or [sm] * len(results)
     rows = math.ceil(len(results) / cols)
     gap, top = 10, 64
     w = (width - (cols - 1) * gap) // cols
@@ -260,7 +262,7 @@ def race(sm, results, out, frames=50, fps=10, cols=3, width=1200, fmt=lambda r: 
             s = states[i][t - 1] if t else dict(edges=[], routes=[], explored=0)
             done = t > 0 and s["explored"] >= totals[i]
             routes = [(rt, False) for rt in s["routes"]] + ([(r.route, True)] if done else [])
-            for tr in picture(sm, sm, s["edges"], [], routes, 0.6 if done else 1, goals, scale=0.5):
+            for tr in picture(sm, spaces[i], s["edges"], [], routes, 0.6 if done else 1, goals, scale=0.5):
                 fig.add_trace(tr, row=row, col=col)
             frame(fig, x0, x1, y0, y1, width, H, row=row, col=col)
             sub = f"{s['explored']:,} explored" + (f" · {fmt(r)}" if done else "")
@@ -326,3 +328,143 @@ def interactive(sm, results, out, bins=10):
     js = Path(__file__).resolve().parents[2] / "tools" / "plotly.min.js"   # the repo's one copy of plotly.js
     src = os.path.relpath(js, Path(out).resolve().parent) if js.exists() else "cdn"
     fig.write_html(out, include_plotlyjs=src, full_html=True)
+
+
+# ---------------------------------------------------------------- replanning and contraction hierarchies (chapter RO-06)
+FROM_GOAL_GLOW, FROM_GOAL_CORE = "#4FA8FF", "#CFE6FF"   # the search back from the goal
+CLOSED, SHORTCUT = "#FF2A2A", "#3DDC84"
+
+
+class Shortcuts:
+    """The street map with a contraction hierarchy's shortcuts drawn as straight lines between their two ends."""
+
+    def __init__(self, sm, ch):
+        self.sm, self.mid = sm, ch["mid"]
+
+    def xy(self, node):
+        return self.sm.xy(node)
+
+    def edge_xy(self, a, b):
+        return [self.xy(a), self.xy(b)] if (a, b) in self.mid else self.sm.edge_xy(a, b)
+
+
+def looked(log, side=None):
+    """The moves a search looked at, in order, each once (only those of one side if side is given)."""
+    seen, out = set(), []
+    for e in log:
+        if e[0] == "look" and (side is None or e[4] == side) and frozenset(e[1:3]) not in seen:
+            seen.add(frozenset(e[1:3]))
+            out.append((e[1], e[2]))
+    return out
+
+
+def edges_of(route):
+    return list(zip(route, route[1:]))
+
+
+def replanning(sm, run, closed, out, fps=10, width=1200, drive_frames=10, search_frames=30):
+    """The closure drive as a GIF, D* Lite (left) against A* from scratch (right): the car (cyan) drives its route;
+    when the streets in `closed` close they turn red, and each method's work glows on one clock, one more street each
+    per tick; then the new route glows and the car drives on."""
+    e = run.notes["replans"][0]
+    move, first = e["move"], run.notes["first"]
+    names = ["D* Lite: repairs its numbers", "A* from scratch"]
+    work = [looked(e["dstar"].log), looked(e["astar"].log)]
+    gap, top = 10, 64
+    w = (width - gap) // 2
+    _, h = size_for(sm, w)
+    (x0, x1), (y0, y1) = extent(sm)
+    bg = background(sm, w, h)
+    longest = max(len(x) for x in work)
+    frames = []                                                 # (car's move, ticks of the repair, phase)
+    frames += [(round(k * move / drive_frames), 0, "drive") for k in range(drive_frames + 1)]
+    frames += [(move, round(k * longest / search_frames), "repair") for k in range(1, search_frames + 1)]
+    rest = len(run.route) - 1 - move
+    frames += [(move + round(k * rest / drive_frames), longest, "on") for k in range(drive_frames + 1)]
+    figs, holds = [], []
+    for car, tick, phase in frames:
+        fig = make_subplots(rows=1, cols=2, horizontal_spacing=gap / width, subplot_titles=[" ", " "])
+        for i in range(2):
+            tr = []
+            if phase != "drive":
+                tr += glow_line(*lines_xy(sm, work[i][:tick]), GLOW, CORE, 5, 1.0, opacity=1 if phase == "repair"
+                                else 0.5)
+                tr += glow_line(*lines_xy(sm, closed), CLOSED, CLOSED, 16, 4)
+            plan = first[i].route if phase == "drive" else [e["pos"]] + (e["dstar"], e["astar"])[i].route[1:]
+            tr += glow_line(*lines_xy(sm, edges_of(plan)), ROUTE_GLOW, ROUTE_CORE, 9, 1.8,
+                            opacity=1 if phase == "on" else 0.5)
+            tr += glow_line(*lines_xy(sm, edges_of(run.route[:car + 1])), START, START, 10, 2.5)
+            tr += dot(sm, sm.goal, GOAL, 0.6) + dot(sm, run.route[car], START, 0.7)
+            for t in tr:
+                fig.add_trace(t, row=1, col=i + 1)
+            frame(fig, x0, x1, y0, y1, width, h + top, row=1, col=i + 1)
+            fig.add_layout_image(source=bg, xref="x" if i == 0 else "x2", yref="y" if i == 0 else "y2", x=x0, y=y1,
+                                 sizex=x1 - x0, sizey=y1 - y0, sizing="stretch", layer="below")
+            plan_r = (e["dstar"], e["astar"])[i]
+            if phase == "drive":
+                sub = f"the plan: {first[i].length:,.0f} m  ·  first plan {first[i].visited:,} intersections"
+            elif phase == "repair":
+                sub = f"closed (red)  ·  {min(tick, len(work[i])):,} streets explored"
+            else:
+                sub = (f"{plan_r.visited:,} intersections, {len(work[i]):,} streets  ·  "
+                       f"{plan_r.length:,.0f} m to go")
+            fig.layout.annotations[i].update(text=f"<b>{names[i]}</b><br>{sub}", font=dict(size=19, color="#E6E6E6"))
+        fig.update_layout(width=width, height=h + top, margin=dict(l=0, r=0, t=top, b=0))
+        fig.add_annotation(text=f"{sm.label}  ·  {CREDIT}", x=1, y=0, xref="paper", yref="paper", xanchor="right",
+                           yanchor="bottom", showarrow=False, font=dict(size=12, color="#8A8A8A"))
+        figs.append(fig)
+        holds.append(1)
+    holds[0], holds[drive_frames], holds[drive_frames + search_frames], holds[-1] = fps, fps * 2, fps * 2, fps * 4
+    keys = [drive_frames, drive_frames + search_frames // 2, drive_frames + search_frames, len(figs) - 1]
+    gifkit.make_gif(figs, out, fps=fps, holds=holds, keys=keys, cols=2, width=width)
+
+
+def hierarchy(sm, ch, q, out, fps=10, width=800, build_frames=16, search_frames=30, fmt=lambda r: f"{r.length:.0f}"):
+    """A contraction hierarchy as a GIF: the shortcuts (green, straight lines) appear as the intersections are
+    removed, least important first; then the query's two searches that only climb glow one arc at a time, from the
+    start (orange) and back from the goal (blue); then the route glows yellow."""
+    space = Shortcuts(sm, ch)
+    n = len(ch["order"])
+    figs, holds = [], []
+
+    def shortcut_traces(upto, opacity):
+        chords = [(u, w) for u, w, _, k in ch["shortcuts"] if k < upto]
+        return glow_line(*lines_xy(space, chords), SHORTCUT, SHORTCUT, 4, 0.8, opacity) if chords else []
+
+    for k in range(build_frames + 1):
+        upto = round(n * k / build_frames)
+        fig = base_figure(sm, width)
+        fig.add_traces(shortcut_traces(upto, 0.6) + dot(sm, sm.goal, GOAL) + dot(sm, sm.start, START))
+        count = sum(1 for *_, j in ch["shortcuts"] if j < upto)
+        corner_text(fig, sm, "Contraction hierarchy: adding shortcuts",
+                    f"{upto:,} of {n:,} intersections removed  ·  {count:,} shortcuts")
+        figs.append(fig)
+        holds.append(1)
+    sides = [looked(q.log, 0), looked(q.log, 1)]
+    longest = max(len(x) for x in sides)
+    for k in range(1, search_frames + 1):
+        t = round(k * longest / search_frames)
+        fig = base_figure(sm, width)
+        tr = shortcut_traces(n, 0.08)
+        tr += glow_line(*lines_xy(space, sides[0][:t]), GLOW, CORE, 4, 1.0) if sides[0][:t] else []
+        tr += glow_line(*lines_xy(space, sides[1][:t]), FROM_GOAL_GLOW, FROM_GOAL_CORE, 4, 1.0) if sides[1][:t] else []
+        fig.add_traces(tr + dot(sm, sm.goal, GOAL) + dot(sm, sm.start, START))
+        corner_text(fig, sm, "Two searches that only climb",
+                    f"from the start (orange) {min(t, len(sides[0]))}  ·  back from the goal (blue) "
+                    f"{min(t, len(sides[1]))} arcs")
+        figs.append(fig)
+        holds.append(1)
+    fig = base_figure(sm, width)
+    tr = shortcut_traces(n, 0.08)
+    tr += glow_line(*lines_xy(space, sides[0]), GLOW, CORE, 4, 1.0, 0.3)
+    tr += glow_line(*lines_xy(space, sides[1]), FROM_GOAL_GLOW, FROM_GOAL_CORE, 4, 1.0, 0.3)
+    tr += glow_line(*lines_xy(sm, edges_of(q.route)), ROUTE_GLOW, ROUTE_CORE, 14, 3.5)
+    fig.add_traces(tr + dot(sm, q.notes["top"], "#FFFFFF", 0.6) + dot(sm, sm.goal, GOAL) + dot(sm, sm.start, START))
+    corner_text(fig, sm, "Contraction hierarchy",
+                f"{q.notes['taken'][0]} + {q.notes['taken'][1]} intersections taken off  ·  route {fmt(q)}")
+    figs.append(fig)
+    holds[0], holds[build_frames] = fps, fps * 2
+    holds.append(fps * 4)
+    gifkit.make_gif(figs, out, fps=fps, holds=holds, keys=[build_frames // 2, build_frames,
+                                                            build_frames + search_frames // 2, len(figs) - 1],
+                    cols=2, width=width)

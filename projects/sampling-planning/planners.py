@@ -1,4 +1,5 @@
-"""Four sampling-based planners: RRT, RRT*, RRT-Connect and PRM. PRM searches its roadmap with the grid project's A*.
+"""Sampling-based planners: RRT, RRT*, RRT-Connect and PRM, then PRM's three ways of sampling (uniform, Gaussian,
+bridge test), lazy PRM and the kinodynamic RRT. The PRMs search their roadmap with the grid project's A*.
 
 The planners never see the world. They only call a `space`:
   space.sample(rng)          a random point (rng is a random.Random, so every run is seeded)
@@ -150,18 +151,63 @@ def rrt_connect(space, start, goal, step, seed=0, max_samples=5000):
     return log.result(None, max_samples)
 
 
-def prm(space, start, goal, n=500, k=10, seed=0):
-    """PRM (Kavraki et al. 1996): 1. place n samples in free space, 2. join each to its k nearest samples when the
-    segment between them is free (the roadmap), 3. join the start and the goal the same way and search with A*."""
-    rng = random.Random(seed)
-    nodes, log, drawn = [], Log(space), 0
-    while len(nodes) < n:  # 1. samples that land on an obstacle are thrown away
-        q = space.sample(rng)
+def uniform(space, rng):
+    """One draw of uniform sampling: a random point, kept if free. Returns (point, kept, [(point drawn, free)])."""
+    q = space.sample(rng)
+    ok = space.free(q)
+    return q, ok, [(q, ok)]
+
+
+def gaussian(sigma):
+    """Gaussian sampling (Boor et al. 1999): q1 uniform, q2 near it (offsets in x and y from a normal distribution
+    with standard deviation sigma). Keep the free one if exactly one of the two is free: it lies next to an obstacle."""
+    def draw(space, rng):
+        q1 = space.sample(rng)
+        q2 = (q1[0] + rng.gauss(0, sigma), q1[1] + rng.gauss(0, sigma))
+        f1, f2 = space.free(q1), space.free(q2)
+        return (q1 if f1 else q2), f1 != f2, [(q1, f1), (q2, f2)]
+    return draw
+
+
+def bridge(sigma):
+    """The bridge test (Hsu et al. 2003): q1 uniform, go on only if it collides; q2 near it (standard deviation
+    sigma), go on only if it collides too; keep their midpoint if it is free: a plank across a thin gap."""
+    def draw(space, rng):
+        q1 = space.sample(rng)
+        if space.free(q1):
+            return q1, False, [(q1, True)]
+        q2 = (q1[0] + rng.gauss(0, sigma), q1[1] + rng.gauss(0, sigma))
+        if space.free(q2):
+            return q2, False, [(q1, False), (q2, True)]
+        m = ((q1[0] + q2[0]) / 2, (q1[1] + q2[1]) / 2)
+        ok = space.free(m)
+        return m, ok, [(q1, False), (q2, False), (m, ok)]
+    return draw
+
+
+def milestones(space, n, rng, log, draw=uniform):
+    """PRM phase 1: draw until n points are kept. Logs one event per draw. Returns (points, draws)."""
+    nodes, drawn = [], 0
+    while len(nodes) < n:
+        q, ok, pair = draw(space, rng)
         drawn += 1
-        ok = space.free(q)
         if ok:
             nodes.append(q)
-        log.add(phase="sample", sample=q, ok=ok)
+        log.add(phase="sample", sample=q, ok=ok, pair=pair)
+    return nodes, drawn
+
+
+def k_nearest(nodes, p, k, space):
+    return heapq.nsmallest(k, (x for x in nodes if x != p), key=lambda x: space.distance(p, x))
+
+
+def prm(space, start, goal, n=500, k=10, seed=0, draw=uniform):
+    """PRM (Kavraki et al. 1996): 1. place n samples in free space, 2. join each to its k nearest samples when the
+    segment between them is free (the roadmap), 3. join the start and the goal the same way and search with A*.
+    draw picks the sampling: uniform (default), gaussian(sigma) or bridge(sigma)."""
+    rng = random.Random(seed)
+    log = Log(space)
+    nodes, drawn = milestones(space, n, rng, log, draw)  # 1. samples that land on an obstacle are thrown away
     graph, tried = {p: {} for p in nodes}, set()
 
     def join(p, candidates):
@@ -175,18 +221,101 @@ def prm(space, start, goal, n=500, k=10, seed=0):
                 edges.append((p, x))
         return edges
 
-    def k_nearest(p):
-        return heapq.nsmallest(k, (x for x in nodes if x != p), key=lambda x: space.distance(p, x))
-
     for p in nodes:  # 2. the roadmap
-        log.add(phase="connect", node=p, edges=join(p, k_nearest(p)))
+        log.add(phase="connect", node=p, edges=join(p, k_nearest(nodes, p, k, space)))
     edges = []
     for p in (start, goal):  # 3. the query
         graph[p] = {}
-        edges += join(p, k_nearest(p))
+        edges += join(p, k_nearest(nodes, p, k, space))
     path = a_star(Roadmap(graph), start, goal).route or None
     log.add(phase="query", edges=edges, path=path)
     return log.result(path, drawn, graph=graph, k=k)
+
+
+def lazy_prm(space, start, goal, n=500, k=10, seed=0):
+    """Lazy PRM (Bohlin and Kavraki 2000): place the same n samples as prm, join each to its k nearest without
+    checking the edges, then repeat: A* finds a route; check its edges in order from the start; delete the first
+    one that collides and search again, until a route's edges are all free (or there is no route)."""
+    rng = random.Random(seed)
+    log = Log(space)
+    nodes, drawn = milestones(space, n, rng, log)
+    graph = {p: {} for p in nodes + [start, goal]}
+    for p in nodes + [start, goal]:  # every edge prm would try, none of them checked
+        for x in k_nearest(nodes, p, k, space):
+            graph[p][x] = graph[x][p] = space.distance(p, x)
+    log.add(phase="connect", edges=[(p, x) for p in graph for x in graph[p] if p < x])
+    safe, searches, path = set(), 0, None
+    while True:
+        route = a_star(Roadmap(graph), start, goal).route
+        searches += 1
+        if not route:
+            break
+        checked = []
+        for a, b in zip(route, route[1:]):
+            if frozenset((a, b)) in safe:
+                continue
+            ok = space.segment_free(a, b)
+            checked.append(((a, b), ok))
+            if not ok:
+                del graph[a][b], graph[b][a]
+                break
+            safe.add(frozenset((a, b)))
+        log.add(phase="search", route=route, checked=checked)
+        if all(ok for _, ok in checked):
+            path = route
+            break
+    return log.result(path, drawn, graph=graph, k=k, searches=searches,
+                      edge_checks=sum(len(e["checked"]) for e in log.events if e["phase"] == "search"))
+
+
+def simulate(pose, v, w, duration, dt=0.01):
+    """The system simulator: Euler steps of the differential-drive model (x' = v cos th, y' = v sin th, th' = w)
+    from pose (x, y, heading) for duration seconds. Returns the poses along the way, the first one included."""
+    x, y, th = pose
+    out = [pose]
+    for _ in range(round(duration / dt)):
+        x, y, th = x + v * math.cos(th) * dt, y + v * math.sin(th) * dt, th + w * dt
+        out.append((x, y, th))
+    return out
+
+
+def pose_distance(a, b, per_radian=0.25):
+    """Distance between two poses: metres apart plus per_radian metres for each radian of heading difference."""
+    dth = abs((a[2] - b[2] + math.pi) % (2 * math.pi) - math.pi)
+    return math.dist(a[:2], b[:2]) + per_radian * dth
+
+
+def kinodynamic_rrt(space, start, goal, v=1.0, turns=(1.0, 0.0, -1.0), duration=1.0, goal_radius=0.5, seed=0,
+                    goal_bias=0.1, max_iters=20000):
+    """Kinodynamic RRT (LaValle and Kuffner 2001): an RRT whose edges are motions the robot can drive. Each round:
+    sample a pose (one time in ten the goal), take the nearest tree node by pose_distance, run every primitive
+    (speed v, one turn rate of turns, for duration s) from it through the simulator, keep the one that ends closest to
+    the sample, and add its end if the whole motion is free. Stops when a node lands within goal_radius of the goal
+    (any heading). start: a pose (x, y, heading); goal: a point."""
+    rng = random.Random(seed)
+    parent, motion, log = {start: None}, {}, Log(space)
+    x0, y0, x1, y1 = space.bounds
+    for i in range(1, max_iters + 1):
+        if rng.random() < goal_bias:
+            q = (goal[0], goal[1], rng.uniform(-math.pi, math.pi))
+        else:
+            q = (rng.uniform(x0, x1), rng.uniform(y0, y1), rng.uniform(-math.pi, math.pi))
+        near = min(parent, key=lambda p: pose_distance(p, q))
+        tries = [simulate(near, v, w, duration) for w in turns]
+        best = min(tries, key=lambda m: pose_distance(m[-1], q))
+        # test every 5th pose: 5 cm apart at 1 m/s, the edge resolution; between two of them the arc strays from the
+        # straight line by 0.3 mm, well inside the 2.5 mm pad of collision.py
+        ok = all(space.free(p[:2]) for p in best[5::5])
+        new = best[-1]
+        if ok:
+            parent[new], motion[new] = near, best
+        log.add(sample=q, near=near, tries=tries, best=best, ok=ok, new=new)
+        if ok and math.dist(new[:2], goal) <= goal_radius:
+            poses = branch(parent, new)[::-1]
+            motions = [motion[p] for p in poses[1:]]
+            path = [start[:2]] + [p[:2] for m in motions for p in m[1:]]  # every simulated point, 1 cm apart
+            return log.result(path, i, poses=poses, motions=motions, nodes=len(parent))
+    return log.result(None, max_iters, nodes=len(parent))
 
 
 class Roadmap(Map):

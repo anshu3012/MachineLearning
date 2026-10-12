@@ -179,13 +179,38 @@ A* now needs a guess of the seconds still to go that is never too big. The bette
 
 ![Exact time to go on travel time](images/chicago/time_exact.gif)
 
-![The four heuristics side by side on travel time](images/chicago/time_race.gif)
-
 - h = 0: 2,662 streets explored · straight line ÷ top speed: 2,251 · landmarks: 360 · exact: 107; every route 478 s (8.0 min)
 
-CH-Potentials (Strasser and Zeitz, 2021) is the research answer for continent-sized road maps: a guess close to the exact one (4), ready quickly for any goal. Live traffic would change the costs as it changes; we have no traffic data, so we do not simulate it.
-
 Taught in: [heuristics](../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#53-a-closer-guess-takes-fewer-cells)
+
+## Contraction hierarchy
+
+Landmarks bring the work down to 171 intersections taken off, but the search still creeps along the streets. A contraction hierarchy adds shortcuts, so that a search can skip the small streets.
+
+**Building it, once.** The intersections are removed one at a time, least important first: the one whose removal adds the fewest shortcuts minus the streets it removes, plus the number of its neighbours already removed. Before an intersection goes, every way through it between two of its remaining neighbours is checked. If another way between them that avoids it is no slower (a Dijkstra run that may not use the intersection looks for one), nothing is added. If not, a shortcut joins the two neighbours with the time of the way through it. An intersection's rank is its place in this order.
+
+**A query.** Two searches run in turn, one from the start and one back from the goal. Each follows only streets and shortcuts that lead to a higher rank, so each climbs towards the important roads, and they meet near the top. The route is the best meeting point; its shortcuts are then unpacked into the streets they stand for.
+
+The animation draws each shortcut as a straight green line between its ends, as the intersections are removed. Then the two searches climb, orange from the start and blue from the goal, and the route appears, unpacked into streets.
+
+![Contraction hierarchy on Chicago: shortcuts added, then the two upward searches and the route](images/chicago/contraction_hierarchy.gif)
+
+- Shortcuts: 3,602, on top of the 2,694 streets
+- The query takes off 52 + 79 = 131 intersections and looks along 658 streets and shortcuts · Route: 478 s (8.0 min), the quickest
+- Over 200 random trips: 90.8 intersections taken off on average, against 800.8 for Dijkstra; every trip's time equals networkx's
+
+**The travel-time race.** Four ways to the quickest route, on one clock: each tick, each looks along one more street or shortcut.
+
+![The travel-time race: h = 0, straight line ÷ top speed, landmarks, contraction hierarchy](images/chicago/time_race.gif)
+
+- Intersections taken off: h = 0: 1,638 · straight line ÷ top speed: 1,346 · landmarks: 171 · contraction hierarchy: 131
+- Streets (and shortcuts) explored: 2,662 · 2,251 · 360 · 658; every route 478 s (8.0 min)
+
+The hierarchy takes off the fewest intersections, but it looks along 5.0 arcs per intersection taken off (658 ÷ 131), against 2.1 for landmarks (360 ÷ 171): the intersections that rank high carry many shortcuts each.
+
+CH-Potentials (Strasser and Zeitz, 2021) use a contraction hierarchy to give A* a guess close to the exact one, ready quickly for any goal. Live traffic would change the costs as it changes; we have no traffic data, so we do not simulate it.
+
+Taught in: [contraction hierarchies](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-057-route-planning-on-road-graphs/RO-057-route-planning-on-road-graphs.md#72-contracting-a-vertex-shortcuts), [the query](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-057-route-planning-on-road-graphs/RO-057-route-planning-on-road-graphs.md#73-the-query-two-searches-that-only-climb)
 
 ## The race
 
@@ -196,6 +221,45 @@ Six searches on one clock: each tick, every search explores one more street. Eac
 **Explore it yourself:** the interactive map below shows one search at a time (pick it from the menu), with its explored streets coloured by the order it reached them: dark red first, pale yellow last.
 
 <!-- playground: images/chicago/explore.html -->
+
+## A bridge opens: D* Lite
+
+Chicago's river bridges open for boats, and OpenStreetMap tags them movable. The first one on the shortest route is a 554 m stretch of Roosevelt Road over the South Branch of the river. The car drives the shortest route, planning with D\* Lite: it keeps the numbers of a search run backwards from the goal, each intersection's distance to the goal. When the car reaches the bridge, the bridge is open: both its carriageways (red) go off the car's map.
+
+- **D\* Lite** repairs only the numbers that the open bridge made wrong. An intersection whose number differs from its best offer, the smallest street plus neighbour's number, waits in a priority queue, and the repair stops when the car's own number is right.
+- **A\* from scratch** searches again from the car's intersection, run at the same moment for comparison.
+
+![D* Lite (left) against A* from scratch (right) when the bridge on the route opens](images/chicago/d_star_lite.gif)
+
+- **First plan:** D\* Lite 993 intersections, A\* 1,009; both plan the 6,426 m route
+- **At the bridge, after 14 streets:** D\* Lite repairs with 3 intersections and 5 streets; A\* from scratch takes off 581 intersections and explores 1,046 streets. Both find the same way: north along the river and over the Harrison Street bridge, 4,993 m to go instead of 4,938 m.
+- **Drive:** 6,482 m
+
+The open bridge changes few numbers: from the car, the way over the next bridge is only 55 m longer, and D\* Lite has the car's number right after 3 intersections. A\* from scratch cannot know that, and pays for the whole remaining route again. At the bridge, D\* Lite's number equals networkx's distance on the streets without the bridge (checked).
+
+Taught in: [repairing the numbers](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d), [when repairing pays](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#4-when-repairing-pays)
+
+## RRT through the streets
+
+The sampling project's RRT (imported from `../sampling-planning/planners.py`, not copied) grows a tree through the streets as free space. `FreeSpace` in `streets.py` cuts the map into 5 m cells; a cell is free if it lies on a street, and a straight step is free when every cell it crosses is.
+
+What to watch:
+
+- Each tree step is 25 m long, toward a random point anywhere on the map. A step is kept only if it stays on a street, so the tree creeps along the streets and turns only at crossings.
+- Then the glow fades and the route glows: 1.96 km, against 1.72 km for the shortest street route.
+
+![RRT growing through the West Loop's streets](images/chicago-west-loop/rrt.gif)
+
+West Loop, seed 2: 30,881 samples, 1,629 nodes, route 1,959 m, 1.14 times the shortest street route (1,723 m). Over seeds 1 to 10, every run reached the goal within 100,000 samples: a median of 28,676 samples, 1,290 nodes and a 1,941 m route.
+
+Why the West Loop and not the whole map: to random points, every street is a narrow passage. Only 9.0 percent of the whole map's 5 m cells are street (14.5 percent in the West Loop), and from the start a 25 m step can point only 23 ways out of 360. On the whole map, start and goal 4.9 km apart, the tree had 17 nodes after 40,000 samples (seed 2).
+
+```bash
+python sampling_on_streets.py                 # the West Loop: numbers and images/chicago-west-loop/rrt.gif
+python sampling_on_streets.py --map chicago   # the whole map: numbers only
+```
+
+Taught in: [one RRT step: sample, nearest node, steer, check](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check)
 
 ## Another map
 
@@ -217,7 +281,8 @@ In the `campusx` environment, from `projects/real-map-pathfinding/`:
 python check_algorithms.py                      # every search against networkx, on every map in data/
 python run.py                                   # Chicago: numbers, preview and all animations
 python run.py --map chicago-west-loop           # another map in data/
-python run.py --only a_star race                # only some animations
+python run.py --only a_star race                # only some animations (also: time, d_star_lite,
+                                                #   contraction_hierarchy)
 jupyter nbconvert --to notebook --execute real-map-pathfinding.ipynb
 ```
 
@@ -236,7 +301,7 @@ python run.py --map rome
 
 `get_map.py` saves `data/rome.graphml.gz` (the streets), `data/rome-places.json` (the places with the `--goals-tag` tag), `data/rome.json` (label, start, goal and multi-goal goals) and the preview `data/rome.png`. Without `--start` and `--goal` it picks the intersections nearest two opposite corners. `--goals-tag` picks the multi-goal goals from OpenStreetMap tags (hospitals by default), `--goals-dist NEAR FAR` keeps those at that straight-line distance from the start, and `--goals-count N` keeps N of them, spread out. `python get_map.py --keep-streets --keep-places` makes the Chicago choice again from `data/`, with no download. The Chicago map was made with `python get_map.py` and no arguments, which runs the command written at the top of `get_map.py`.
 
-**Files:** `get_map.py` (download), `streets.py` (the street map behind the map interface, the grid made from it, and `FreeSpace`, the streets as free space for sampling planners such as RRT and PRM), `render.py` (the drawings), `run.py`, `check_algorithms.py`. The searches are imported from `../grid-pathfinding/algorithms.py`.
+**Files:** `get_map.py` (download), `streets.py` (the street map behind the map interface, with OpenStreetMap's movable bridges marked, the grid made from it, and `FreeSpace`, the streets as free space for sampling planners such as RRT and PRM), `render.py` (the drawings), `run.py`, `check_algorithms.py`. The searches are imported from `../grid-pathfinding/algorithms.py`.
 
 ## Sources
 
@@ -248,4 +313,6 @@ Built from:
 - S. M. LaValle, *Planning Algorithms*, Cambridge University Press, 2006, chapter 2.
 - A. V. Goldberg, C. Harrelson, "Computing the shortest path: A* search meets graph theory", SODA 2005 (landmarks, ALT).
 - B. Strasser, T. Zeitz, ["A fast and tight heuristic for A* in road networks"](https://arxiv.org/abs/1910.12526), SEA 2021 (CH-Potentials).
+- R. Geisberger, P. Sanders, D. Schultes, D. Delling, "Contraction hierarchies: faster and simpler hierarchical routing in road networks", WEA 2008.
+- S. Koenig, M. Likhachev, "D\* Lite", AAAI 2002.
 - The searches and their sources: [Path-finding on a grid](../grid-pathfinding/grid-pathfinding.md#sources).

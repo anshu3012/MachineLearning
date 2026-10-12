@@ -12,11 +12,15 @@ travel-time map), and a log of what the search did, step by step, which the draw
     ("scan", cell)                 jump point search stepped over this cell while looking for a jump point
     ("round", text)                a new round starts (iterative deepening, anytime A*): the drawing starts afresh
     ("route", nodes, length)       a round found this route
-side is 0, except in bidirectional search, where the search from the goal uses side 1.
+    ("raise", node, old, new)      LRTA* raised its guess at node
+side is 0, except in bidirectional search and the contraction hierarchy query, where the search from the goal uses
+side 1 (D* Lite uses side 1 for a number that rises).
 
 A new search is a new function that fills a Log and returns a Result; the drawing code needs nothing new. The
 heuristics (guesses of the cost still to go) are near the end: zero, manhattan, straight_line, octile, landmarks
-and exact; a_star(m, start, goal, heuristic) takes any of them."""
+and exact; a_star(m, start, goal, heuristic) takes any of them. Chapter RO-06's methods come last: walking downhill
+on the cost-to-go (navigation function), value iteration, D* Lite and a replanning drive, LRTA*, fast marching, and
+contraction hierarchies."""
 import heapq
 import math
 from collections import deque
@@ -513,3 +517,351 @@ def theta_star(m, start, goal):
     route = walk_back(parent, goal) if goal in parent else []
     length = sum(dist(a, b) for a, b in zip(route, route[1:]))
     return Result("Theta*", route, length, log)
+
+
+# ---------------------------------------------------------------- cost-to-go maps (chapter RO-06)
+# A backward search from the goal gives every node its cost-to-go, the cost of its cheapest route to the goal:
+# costs_from(m, goal) above does it with Dijkstra (the wavefront in metres). The functions below walk down those
+# numbers, compute them by value iteration, keep them right while the map changes (D* Lite), learn them on the
+# move (LRTA*), or compute them for a front that may cross the cells at any angle (fast marching).
+
+def downhill(m, V, node):
+    """The navigation function's rule: the neighbour with the smallest move + cost-to-go (ties to the smaller
+    cost-to-go). Each step lowers the cost-to-go by exactly the move made."""
+    return min(m.neighbours(node), key=lambda n: (round(m.cost(node, n) + V.get(n, INF), 9), V.get(n, INF)))
+
+
+def walk_downhill(m, V, start):
+    """The route from start that follows downhill() until the cost-to-go is 0 (the goal)."""
+    route = [start]
+    while V[route[-1]] > 0:
+        route.append(downhill(m, V, route[-1]))
+    return route
+
+
+def value_iteration(m, goal):
+    """Value iteration: every node starts at infinity (the goal at 0). A sweep visits the nodes in m.nodes() order
+    (on a grid: row by row from the top, left to right) and sets each to its smallest move + neighbour's value, in
+    place, so a node already uses values given earlier in the same sweep. Sweeps repeat until one changes nothing.
+    Returns the values and one record per sweep: (the values after it, the nodes that got their first value, the
+    nodes whose value fell)."""
+    nodes = [n for n in m.nodes() if n != goal]
+    V = {n: INF for n in nodes}
+    V[goal] = 0.0
+    sweeps = []
+    while True:
+        first, fell = [], []
+        for x in nodes:
+            best = min((m.cost(x, n) + V[n] for n in m.neighbours(x)), default=INF)
+            if best < V[x] - 1e-12:
+                (first if V[x] == INF else fell).append(x)
+                V[x] = best
+        sweeps.append((dict(V), first, fell))
+        if not first and not fell:
+            return V, sweeps
+
+
+class DStarLite:
+    """D* Lite (Koenig and Likhachev 2002): the cost-to-go to the goal, kept from a backward search and repaired
+    when the map changes. g[s] is the number a node holds; its lookahead rhs(s) is the smallest move + neighbour's
+    g. A node whose g differs from its lookahead waits in a priority queue with the key
+    (min(g, rhs) + h(robot, s) + km, min(g, rhs)), so the nodes on the robot's side are fixed first. A node taken off
+    either falls to its lookahead (final, as in Dijkstra) or, if its way got longer, rises to infinity and waits
+    to fall later. The map m is read at every call: change it (block a cell, close a street), then call changed()
+    with the nodes whose moves changed. Moves must cost the same both ways.
+    log: ("visit", node, 0) when a number falls, ("visit", node, 1) when it rises, ("look", node, n, True, side)
+    for each neighbour n whose lookahead is then rechecked."""
+
+    def __init__(self, m, start, goal):
+        self.m, self.start, self.goal, self.last, self.km = m, start, goal, start, 0.0
+        self.g, self.rhs = {}, {goal: 0.0}
+        self.queue, self.queued = [], {}           # heap of (key, order, node); node -> its current key
+        self.pushed = 0
+        self.log = Log()
+        self._push(goal)
+
+    def G(self, s):
+        return self.g.get(s, INF)
+
+    def R(self, s):
+        return self.rhs.get(s, INF)
+
+    def key(self, s):
+        """Rounded, so that two keys equal in exact arithmetic tie and the second part decides (else rounding
+        noise can stop the repair one node too early)."""
+        k = min(self.G(s), self.R(s))
+        return (round(k + self.m.heuristic(self.start, s) + self.km, 9), round(k, 9))
+
+    def _push(self, s):
+        self.queued[s] = self.key(s)
+        heapq.heappush(self.queue, (self.queued[s], self.pushed, s))
+        self.pushed += 1
+
+    def update(self, s):
+        """Recompute the lookahead of s; queue s if it now disagrees with its number."""
+        if s != self.goal:
+            self.rhs[s] = min((self.m.cost(s, n) + self.G(n) for n in self.m.neighbours(s)), default=INF)
+        self.queued.pop(s, None)
+        if self.G(s) != self.R(s):
+            self._push(s)
+
+    def _top(self):
+        while self.queue:
+            k, _, s = self.queue[0]
+            if self.queued.get(s) == k:
+                return k, s
+            heapq.heappop(self.queue)              # an old copy
+        return (INF, INF), None
+
+    def compute(self):
+        """Take nodes off the queue until the robot's node agrees with its lookahead and no queued key is smaller
+        than its key. Returns how many nodes were taken off."""
+        n = 0
+        while True:
+            k, s = self._top()
+            if s is None or not (k < self.key(self.start) or self.R(self.start) != self.G(self.start)):
+                return n
+            heapq.heappop(self.queue)
+            del self.queued[s]
+            if k < self.key(s):                    # its key grew since it was queued: queue it again
+                self._push(s)
+                continue
+            n += 1
+            rise = self.G(s) <= self.R(s)
+            self.g[s] = INF if rise else self.R(s)
+            self.log.visit(s, int(rise))
+            if rise:
+                self.update(s)
+            for p in self.m.neighbours(s):
+                self.log.look(s, p, True, int(rise))
+                self.update(p)
+
+    def moved(self, pos):
+        """The robot is now at pos. km keeps the keys made before the move comparable with new ones."""
+        self.km += self.m.heuristic(self.last, pos)
+        self.last = self.start = pos
+
+    def changed(self, nodes):
+        """The moves of these nodes changed (a cell blocked, a street closed): recheck their lookaheads."""
+        for s in nodes:
+            self.update(s)
+
+    def step(self):
+        """The robot's next node: downhill on the numbers, or None if no route is left."""
+        if self.G(self.start) == INF:
+            return None
+        return downhill(self.m, self.g, self.start)
+
+
+def drive(m, discover):
+    """The robot drives from m.start to m.goal planning with D* Lite on map m, its map of the world. Before every
+    move, discover(pos) may change m (a cell found blocked, a street found closed) and returns the nodes whose moves
+    changed; D* Lite then repairs its numbers, and A* from scratch runs from the robot's node at the same moment for
+    comparison. Returns a Result: the route driven; notes["first"] = (D* Lite's first plan, A*'s first plan) and
+    notes["replans"] = one dict per replan (move: moves driven so far, pos, changed, dstar: the repair, astar: A*
+    from scratch). Each plan is a Result whose route is the plan from the robot's node and whose log is that
+    plan's work, so .visited counts the nodes taken off its queue."""
+    d = DStarLite(m, m.start, m.goal)
+
+    def plan(pos):
+        route = walk_downhill(m, d.g, pos) if d.G(pos) < INF else []
+        return Result("D* Lite", route, d.G(pos), d.log)
+
+    d.compute()
+    first = (plan(m.start), a_star(m, m.start, m.goal))
+    pos, route, replans, driven = m.start, [m.start], [], 0.0
+    while pos != m.goal:
+        changed = discover(pos)
+        if changed:
+            d.moved(pos)
+            d.log = Log()
+            d.changed(changed)
+            d.compute()
+            replans.append(dict(move=len(route) - 1, pos=pos, changed=changed, dstar=plan(pos),
+                                astar=a_star(m, pos, m.goal)))
+        d.start = pos
+        pos = d.step()
+        if pos is None:
+            break
+        driven += m.cost(route[-1], pos)       # summed while driving: a move driven may close later
+        route.append(pos)
+    return Result("D* Lite", route, driven, first[0].log, {"first": first, "replans": replans})
+
+
+def lrta_star(m, start, goal, heuristic=None, learned=None, max_moves=100_000):
+    """LRTA*, learning real-time A* (Korf 1990), with a lookahead of one move. The robot's guess of each node's
+    cost to the goal starts as heuristic(node, goal) (default m.heuristic). At each node it raises the node's guess
+    to the smallest move + neighbour's guess, if that is larger, and moves to that neighbour (ties to the smaller
+    guess). learned holds the raised guesses; pass the same dict again to run another trial with what was learned.
+    The log has ("visit", node, 0) per move and ("raise", node, old, new) per raised guess."""
+    heuristic = heuristic or m.heuristic
+    h = {} if learned is None else learned
+    H = lambda n: h.get(n, heuristic(n, goal))
+    log, route = Log(), [start]
+    while route[-1] != goal and len(route) <= max_moves:
+        node = route[-1]
+        log.visit(node)
+        nxt = min(m.neighbours(node), key=lambda n: (round(m.cost(node, n) + H(n), 9), H(n)))
+        best = m.cost(node, nxt) + H(nxt)
+        if best > H(node) + 1e-12:
+            log.append(("raise", node, H(node), best))
+            h[node] = best
+        route.append(nxt)
+    return Result("LRTA*", route, m.route_length(route), log,
+                  {"raised": sum(1 for e in log if e[0] == "raise"), "learned": dict(h)})
+
+
+def fast_marching(m, goal):
+    """Fast marching (Sethian 1996) on a grid: the arrival time, at 1 m/s, of a front that leaves the centre of the
+    goal's cell and may cross the cells at any angle. The loop is Dijkstra's: the cell with the smallest tentative
+    time is accepted and never changed. Only the update differs: a cell's time comes from a = the smaller time of its
+    left and right neighbours and b = the smaller of its upper and lower ones at once,
+        T = (a + b + sqrt(2 h^2 - (a - b)^2)) / 2,   h the cell side,
+    or the smaller of a and b plus h when only one is known or they differ by h or more. Needs m.passable and m.cell.
+    Returns {cell: time} and the cells in the order they were accepted."""
+    h, T, done, order = m.cell, {goal: 0.0}, set(), []
+    frontier = [(0.0, goal)]
+    while frontier:
+        t, u = heapq.heappop(frontier)
+        if u in done:
+            continue
+        done.add(u)
+        order.append(u)
+        c, r = u
+        for v in ((c + 1, r), (c - 1, r), (c, r + 1), (c, r - 1)):
+            if v in done or not m.passable(*v):
+                continue
+            a = min(T.get((v[0] - 1, v[1]), INF) if (v[0] - 1, v[1]) in done else INF,
+                    T.get((v[0] + 1, v[1]), INF) if (v[0] + 1, v[1]) in done else INF)
+            b = min(T.get((v[0], v[1] - 1), INF) if (v[0], v[1] - 1) in done else INF,
+                    T.get((v[0], v[1] + 1), INF) if (v[0], v[1] + 1) in done else INF)
+            if abs(a - b) < h:
+                new = (a + b + math.sqrt(2 * h * h - (a - b) ** 2)) / 2
+            else:
+                new = min(a, b) + h
+            if new < T.get(v, INF):
+                T[v] = new
+                heapq.heappush(frontier, (new, v))
+    return T, order
+
+
+# ---------------------------------------------------------------- contraction hierarchies (chapter RO-06)
+
+def _witness(arcs, alive, src, skip, limit):
+    """Dijkstra from src over the nodes still in the graph, never through skip, stopping beyond limit."""
+    d, frontier, done = {src: 0.0}, [(0.0, 0, src)], set()
+    pushed = 1
+    while frontier:
+        du, _, u = heapq.heappop(frontier)
+        if u in done or du > limit:
+            continue
+        done.add(u)
+        for v, c in arcs[u].items():
+            if v != skip and v in alive and du + c < d.get(v, INF):
+                d[v] = du + c
+                heapq.heappush(frontier, (d[v], pushed, v))
+                pushed += 1
+    return d
+
+
+def _needed(arcs, alive, v):
+    """The shortcuts that contracting v needs: for each two neighbours u, w of v still in the graph, the way
+    u-v-w unless a witness search finds a way from u to w, avoiding v, that is no slower."""
+    nb = [u for u in arcs[v] if u in alive]
+    need = []
+    for i, u in enumerate(nb[:-1]):
+        targets = nb[i + 1:]
+        d = _witness(arcs, alive, u, v, arcs[u][v] + max(arcs[v][w] for w in targets))
+        need += [(u, w, arcs[u][v] + arcs[v][w]) for w in targets
+                 if d.get(w, INF) > arcs[u][v] + arcs[v][w] + 1e-9]
+    return need, len(nb)
+
+
+def contraction_hierarchy(m):
+    """Contraction hierarchy (Geisberger et al. 2008) of a map whose moves cost the same both ways. Nodes are
+    removed (contracted) one at a time, least important first: the one with the smallest edge difference (shortcuts
+    its removal adds minus the moves it removes) plus the number of its neighbours already contracted, re-checked
+    just before it goes. Removing v adds a shortcut u-w with the cost of u-v-w for every two neighbours u, w still
+    in the graph whose fastest way runs through v (no witness). Returns a dict: map, rank (node -> place in the
+    order), arcs (node -> {neighbour: cost}: the moves plus the shortcuts), mid ((u, w) -> v for each shortcut),
+    order, and shortcuts ((u, w, cost) in the order they were added, with the rank of the node that made them)."""
+    arcs = {u: {v: m.cost(u, v) for v in m.neighbours(u)} for u in m.nodes()}
+    alive, gone_nb = set(arcs), dict.fromkeys(arcs, 0)
+
+    def prio(v):
+        need, degree = _needed(arcs, alive, v)
+        return len(need) - degree + gone_nb[v]
+
+    queue = [(prio(v), i, v) for i, v in enumerate(arcs)]
+    heapq.heapify(queue)
+    rank, mid, order, shortcuts = {}, {}, [], []
+    while queue:
+        _, i, v = heapq.heappop(queue)
+        p = prio(v)
+        if queue and p > queue[0][0]:              # its priority grew: put it back
+            heapq.heappush(queue, (p, i, v))
+            continue
+        for u, w, cost in _needed(arcs, alive, v)[0]:
+            if cost < arcs[u].get(w, INF):
+                arcs[u][w] = arcs[w][u] = cost
+                mid[(u, w)] = mid[(w, u)] = v
+                shortcuts.append((u, w, cost, len(order)))
+        alive.discard(v)
+        rank[v] = len(order)
+        order.append(v)
+        for u in arcs[v]:
+            if u in alive:
+                gone_nb[u] += 1
+    return dict(map=m, rank=rank, arcs=arcs, mid=mid, order=order, shortcuts=shortcuts)
+
+
+def unpack(ch, u, w):
+    """The map's nodes along the arc u-w: a shortcut is replaced by its two halves, again and again."""
+    if (u, w) not in ch["mid"]:
+        return [u, w]
+    v = ch["mid"][(u, w)]
+    return unpack(ch, u, v)[:-1] + unpack(ch, v, w)
+
+
+def ch_query(ch, start, goal):
+    """The query on a contraction hierarchy: a search from the start (side 0) and one back from the goal (side 1),
+    one node off each in turn, each following only arcs that climb to a higher rank. A node taken off by both gives
+    a route; a search stops once its smallest cost is at least the best route so far. The route's shortcuts are
+    unpacked into moves of the map. notes: the node where the searches met (top), the nodes each side took off,
+    and the arcs of the route before unpacking (hops)."""
+    rank, arcs = ch["rank"], ch["arcs"]
+    log, d = Log(), ({start: 0.0}, {goal: 0.0})
+    parent, done = ({start: None}, {goal: None}), (set(), set())
+    frontier, pushed = ([(0.0, 0, start)], [(0.0, 0, goal)]), 1
+    best, top, side = INF, None, 0
+    while frontier[0] or frontier[1]:
+        if frontier[side] and frontier[side][0][0] >= best:
+            frontier[side].clear()                 # nothing on this side can give a faster route
+        if not frontier[side]:
+            side ^= 1
+            continue
+        du, _, u = heapq.heappop(frontier[side])
+        if u in done[side]:
+            continue
+        done[side].add(u)
+        log.visit(u, side)
+        if u in done[1 - side] and du + d[1 - side][u] < best:
+            best, top = du + d[1 - side][u], u
+        for v, c in arcs[u].items():
+            if rank[v] > rank[u]:
+                added = du + c < d[side].get(v, INF)
+                log.look(u, v, added, side)
+                if added:
+                    d[side][v], parent[side][v] = du + c, u
+                    heapq.heappush(frontier[side], (du + c, pushed, v))
+                    pushed += 1
+        side ^= 1
+    if top is None:
+        return Result("Contraction hierarchy", [], 0.0, log)
+    hops = walk_back(parent[0], top) + walk_back(parent[1], top)[::-1][1:]
+    route = [start]
+    for a, b in zip(hops, hops[1:]):
+        route += unpack(ch, a, b)[1:]
+    taken = [sum(1 for e in log if e[0] == "visit" and e[2] == s) for s in (0, 1)]
+    return Result("Contraction hierarchy", route, ch["map"].route_length(route), log,
+                  {"top": top, "taken": taken, "hops": hops})

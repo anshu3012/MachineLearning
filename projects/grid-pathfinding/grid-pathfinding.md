@@ -1,16 +1,17 @@
 # Path-finding on a grid
 
-Twelve search algorithms find a route across a warehouse floor drawn as a grid, all with the same start and goal, so we can watch how each one explores, cell by cell.
+Twelve search algorithms find a route across a warehouse floor drawn as a grid, all with the same start and goal, so we can watch how each one explores, cell by cell. Further down, the robot numbers every cell with its distance to the goal, keeps those numbers right when the floor turns out different from its map, and learns them while it drives.
 
 ## The maps
 
-![The warehouse floor: shelves and walls dark, floor white, start S, goal G, three blue charging pads](maps/warehouse_preview.png)
+![The warehouse floor: shelves and walls dark, floor white, start S, goal G, three blue charging pads, five brown pallets missing from the robot's map](maps/warehouse_preview.png)
 
 - **The floor:** 40 × 25 cells, each 1 m × 1 m. Dark cells are shelves and walls (blocked); white cells are floor (free).
 - **Moves:** the robot moves to any of the 8 cells around it. A straight move costs 1 m, a diagonal move 1.41 m. A diagonal move must not cut the corner of a shelf.
 - **The graph:** every free cell is a node (623 of them); every move between two free cells is an edge.
 - **The trip:** from S (green, the loading dock, bottom left) to G (red, in the corridor behind the shelves at the top). The shelf rows are closed at the top, so the corridor can be entered only at its two ends.
 - **Blue cells:** three charging pads, the goals of the multi-goal search.
+- **Brown cells:** five pallets that the robot's map does not show. Every search treats them as floor; only the [replanning robot](#replanning-d-lite) finds them, when it comes within 3 m.
 
 The map is a picture, `maps/warehouse.png`, one pixel per cell. A second map, a maze, runs with the same code:
 
@@ -178,6 +179,87 @@ The same race on the maze, run by changing one argument (`--map maze`):
 
 The same functions also run on the streets of Chicago: [Path-finding on real streets](../real-map-pathfinding/real-map-pathfinding.md).
 
+## The wavefront: every cell's distance to the goal
+
+A route from S says nothing once the robot slips into another cell. A search run backwards from G answers for every cell at once: G gets 0, and every other cell gets the length of its shortest route to G, its cost-to-go. The robot moves 8 ways and a diagonal move is longer, so the numbers count metres, and the pass is Dijkstra's algorithm run from G until every cell has a number.
+
+Each frame numbers the cells up to one more metre from G. Watch the numbers run along the top corridor, down the aisles at both of its ends, and into the office through its door.
+
+![The wavefront: every cell gets its metres to the goal G, outwards from G](images/warehouse/wavefront.gif)
+
+- Cells numbered: 623, the whole floor · S: 44.7 m, the length of A*'s route · Farthest cell: the bottom-left corner, 45.1 m
+
+Taught in: [the wavefront](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#2-numbering-every-cell-from-the-door-the-wavefront), [counting metres](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#3-which-moves-count-four-or-eight-neighbours-moves-or-metres)
+
+## Walking downhill: the navigation function
+
+From any cell, the robot steps to the neighbour with the smallest move plus number. Each step lowers the number by exactly the length of the move, so the walk is as long as the number in the start cell, and it ends at G. A map of numbers that guides the robot this way is a navigation function. Every cell except G has a neighbour with a smaller number (checked for all 623), so no walk gets stuck.
+
+The arrows show each cell's step. Then four robots follow them, one after another: from S and from each charging pad.
+
+![An arrow in every cell to its best neighbour; robots from S and the three pads follow the arrows](images/warehouse/downhill.gif)
+
+- From S: 44.7 m · from pad 1, in the office: 33.2 m · from pad 2, in the middle aisle: 31.2 m · from pad 3, bottom right: 27.4 m; each walk is as long as its start cell's number
+
+Taught in: [walking downhill](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#42-one-step-at-a-time-from-any-cell)
+
+## Value iteration
+
+Value iteration finds the same numbers without Dijkstra's priority queue. G starts at 0 and every other cell has no value yet. A sweep visits the cells row by row from the top, left to right, and gives each the smallest move plus neighbour's value, using values given earlier in the same sweep. Sweeps repeat until one changes nothing.
+
+Watch sweep 1: a value passes right and down within one sweep, so the cells right of G and the whole right-hand aisle get theirs at once (118 cells). Along the top corridor to the left, values move one cell per sweep, because each cell there is visited before its right-hand neighbour has its new value. Orange outlines mark values that fell when a shorter way arrived.
+
+![Value iteration on the warehouse floor, one frame per sweep](images/warehouse/value_iteration.gif)
+
+- Sweeps: 30; the 30th changes nothing · Updates: 30 × 622 = 18,660, against 623 cells settled once by Dijkstra · The final values equal Dijkstra's in all 623 cells
+
+Taught in: [value iteration](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#5-value-iteration-the-same-numbers-without-a-queue)
+
+## Replanning: D* Lite
+
+The robot's map shows floor where five pallets stand (brown). It treats every cell it has not seen blocked as floor, plans, moves one cell, and looks: it sees every cell within 3 m. When it sees a pallet, the plan must change. Two ways to replan:
+
+- **A\* from scratch:** search again from the robot's cell; nothing is kept from the last search.
+- **D\* Lite:** keep the numbers of a search backwards from G, each cell's cost-to-go, and repair only the numbers the pallet made wrong. A cell whose number differs from its best offer, the smallest move plus neighbour's number, waits in a priority queue. Cells on the robot's side come off first, and the repair stops when the robot's own number is right.
+
+The robot drives with D\* Lite. At every replan, A\* from scratch also runs from the robot's cell, for comparison. Light red marks the cells each takes off its queue at that replan.
+
+![D* Lite (left) against A* from scratch (right) while the robot drives and finds the pallets](images/warehouse/d_star_lite.gif)
+
+- **First plan:** D\* Lite 95 cells, A\* 376. This gap is not repairing: D\* Lite searches from G, and A\* run from G to S also takes only 85 cells.
+- **Move 17, the pallet in the narrow aisle by the office:** this aisle was the route's way into the top corridor. D\* Lite 228 cells, A\* 426; both send the robot back and round the right-hand end.
+- **Moves 32 and 33, two pallets in the cross aisle; moves 47 and 48, two in the right-hand aisle:** D\* Lite 7, 4, 6 and 4 cells; A\* 255, 247, 52 and 46. Each pallet changes few numbers, and only D\* Lite keeps the others.
+- **All replans:** D\* Lite 249 cells, A\* from scratch 1,026 · Drive: 61 moves, 68.9 m; with the pallets known from the start, the shortest route is 55.6 m
+
+At every replan, D\* Lite's number in the robot's cell equals the length of A\*'s new route (checked).
+
+Taught in: [repairing the numbers](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d), [when repairing pays](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#4-when-repairing-pays)
+
+## Real-time search: LRTA*
+
+D\* Lite and A\* plan all the way to the goal before every move. LRTA\* thinks about one cell per move. The robot's guess of each cell's distance to G starts as the octile distance, the 8-way distance with nothing in the way. At each cell it raises the cell's guess to its best offer, the smallest move plus neighbour's guess, if that is larger, and moves to that neighbour. A raised guess keeps the robot from coming back believing the same thing. In the maze, the octile guess is far too low in every dead end.
+
+![LRTA* on the maze: each cell shows the robot's guess; orange outlines are raised guesses](images/maze/lrta_star.gif)
+
+- **Trial 1:** 68 moves, 68 m, against the shortest route's 50 m; 33 raises in 32 cells
+- **Trials again from S, keeping the guesses:** from trial 110 on, no guess changes, and the robot drives the shortest route, 50 moves, 50 m. No guess ever rises above the true distance (checked).
+- **The same run on the warehouse floor** ([animation](images/warehouse/lrta_star.gif)): trial 1 takes 307 moves, 344.7 m against the shortest 44.7 m, with 252 raises in 104 cells; the guesses settle after 162 trials.
+
+Taught in: [learning the guesses: LRTA\*](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#51-learning-the-guesses-lrta)
+
+## Fast marching
+
+The grid's numbers count routes made of the 8 grid directions only, so a straight line in another direction comes out too long: 8 percent for a point twice as far across as up, however small the cells. Fast marching lets a front leave G at 1 m/s in every direction. Its loop is Dijkstra's, but a cell's arrival time is worked out from two neighbours at once, one beside it and one above or below, so the front can arrive at a slant. Both run on the warehouse cut into 0.2 m cells (15,575 free); the dark lines are the front every 2 s.
+
+Watch the shape of the lines: straight sides and corners for Dijkstra, round arcs for fast marching.
+
+![8-connected Dijkstra (top) against fast marching (bottom), fronts leaving G at 1 m/s](images/warehouse/fast_marching.gif)
+
+- **Arrival at S:** 8-connected Dijkstra 44.26 s, fast marching 43.09 s. Theta\* on the same 0.2 m cells finds a route of 42.74 m, so the shortest way is at most 42.74 m.
+- **On an empty floor, 30 m across and 15 m up from the start of the front:** Dijkstra 8.0 % too long on both 1 m and 0.2 m cells; fast marching 2.5 % on 1 m cells, 0.7 % on 0.2 m cells
+
+Taught in: [fast marching](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#72-fast-marching)
+
 ## Run it yourself
 
 In the `campusx` environment, from `projects/grid-pathfinding/`:
@@ -187,7 +269,9 @@ python check_algorithms.py                  # every search against networkx, on 
 python run.py                               # the warehouse: numbers, preview, all animations
 python run.py --map maze                    # another map in maps/
 python run.py --map path/to/my_floor.png    # a map you drew
-python run.py --only a_star race            # only some animations
+python run.py --only a_star race            # only some animations (also: wavefront, downhill, value_iteration,
+                                            #   d_star_lite, lrta_star, fast_marching)
+python run.py --map maze --only lrta_star   # LRTA* on the maze
 jupyter nbconvert --to notebook --execute grid-pathfinding.ipynb
 ```
 
@@ -197,11 +281,12 @@ jupyter nbconvert --to notebook --execute grid-pathfinding.ipynb
 - white: free floor;
 - pure green (0, 255, 0): the start, one pixel;
 - pure red (255, 0, 0): the goal, one pixel;
-- pure blue (0, 0, 255), optional: goals for the multi-goal search.
+- pure blue (0, 0, 255), optional: goals for the multi-goal search;
+- pure orange (255, 128, 0), optional: blocked on the real floor but missing from the robot's map (the replanning robot finds them).
 
 One pixel is one cell. A JSON file with the same name gives the cell size: `{"label": "My floor", "cell_m": 1.0, "pixels_per_cell": 1}` (set `pixels_per_cell` if each cell is drawn as a block of pixels).
 
-**Files:** `algorithms.py` (every search), `map_interface.py` (what a map gives the searches), `grid.py` (PNG maps), `render.py` (the drawings), `run.py`, `check_algorithms.py`, `gifkit.py` (frames to GIF).
+**Files:** `algorithms.py` (every search, and the cost-to-go methods: value iteration, D\* Lite, LRTA\*, fast marching, contraction hierarchies), `map_interface.py` (what a map gives the searches), `grid.py` (PNG maps), `render.py` (the drawings), `run.py`, `check_algorithms.py`, `gifkit.py` (frames to GIF).
 
 ## Sources
 
@@ -213,3 +298,7 @@ Built from:
 - I. Pohl, "Heuristic search viewed as path finding in a graph", *Artificial Intelligence* 1, 1970 (weighted A*); M. Likhachev, G. Gordon, S. Thrun, "ARA*: Anytime A* with provable bounds on sub-optimality", NIPS 2003 (anytime A*).
 - D. Harabor, A. Grastien, "Online graph pruning for pathfinding on grid maps", AAAI 2011 (jump point search); the no-corner-cutting jump rules follow [PathFinding.js](https://github.com/qiao/PathFinding.js) by Xueqiao Xu, whose look the animations borrow.
 - A. Nash, K. Daniel, S. Koenig, A. Felner, "Theta*: any-angle path planning on grids", AAAI 2007.
+- S. M. LaValle, *Planning Algorithms*, §2.3 (value iteration) and §8.2 (navigation functions, wavefront propagation).
+- S. Koenig, M. Likhachev, "D\* Lite", AAAI 2002.
+- R. E. Korf, "Real-time heuristic search", *Artificial Intelligence* 42, 1990 (LRTA\*).
+- J. A. Sethian, "A fast marching level set method for monotonically advancing fronts", *Proceedings of the National Academy of Sciences* 93, 1996.

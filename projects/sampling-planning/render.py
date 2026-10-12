@@ -375,8 +375,8 @@ def animate_prm(space, res, out):
     make_gif(figs, out, fps=4, holds=[4] * (len(figs) - 1) + [20], keys=key_frames(figs), cols=2, width=W)
 
 
-def animate_race(space, results, out):
-    """All four planners side by side, on a shared clock: the number of collision checks."""
+def animate_race(space, results, out, legend="blue and purple: trees · light blue: roadmap · green: path"):
+    """Four planners side by side, on a shared clock: the number of collision checks."""
     names = list(results)
     top = max(r["checks"] for r in results.values())
     clocks = sorted({round(300 * (top / 300) ** (i / 17)) for i in range(18)} | {r["checks"] for r in results.values()})
@@ -418,8 +418,7 @@ def animate_race(space, results, out):
                           margin=dict(l=30, r=30, t=130, b=20),
                           title=dict(x=0.5, y=1 - 30 / height, yanchor="top", font=dict(size=22),
                                      text=f"The race, timed in collision checks: {fmt(min(clock, top))}<br><span "
-                                          f"style='font-size:17px;color:{GREY}'>blue and purple: trees · "
-                                          "light blue: roadmap · green: path</span>"))
+                                          f"style='font-size:17px;color:{GREY}'>{legend}</span>"))
         figs.append(fig)
     make_gif(figs, out, fps=4, holds=[2] * (len(figs) - 1) + [20], keys=key_frames(figs, 2), cols=2, width=W)
 
