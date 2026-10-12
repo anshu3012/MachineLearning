@@ -1,0 +1,37 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Clamping (conditional integration): the controller limits its own output to the drive's +-4 N, and a switch cuts
+% the integrator's input to 0 when two checks are both true: the output is saturated (c differs from u) and the error
+% has the same sign as the command. Numbers while the robot is held: e = 0.5 m/s, c = 11 N, u = 4 N, so the switch is open.
+\begin{document}
+\begin{tikzpicture}[every node/.append style={font=\large}]
+  \node (e) at (0,0) {error $e$};
+  \node[box=cblue, minimum width=1.6cm] (kp) at (3.2,1.6) {$k_p$};
+  \node[box=cblue, minimum width=1.6cm] (ki) at (3.2,-1.6) {$k_i$};
+  \node[box=corange, text width=1.9cm] (sw) at (6.4,-1.6) {\textbf{switch}\\[1pt] \small pass or 0};
+  \node[box=cblue, minimum width=1.6cm] (int) at (9.4,-1.6) {$\int$};
+  \node[circle, draw=cgrey, fill=white, minimum size=0.8cm, inner sep=0pt] (sum) at (12.0,1.6) {};
+  \node[box=cred, text width=2.4cm] (lim) at (15.0,1.6) {\textbf{limit}\\[1pt] \small $\pm$4 N};
+  \node (u) at (18.0,1.6) {$u$};
+  \draw[arrow] (e.east) -- ++(0.6,0) |- (kp.west);
+  \draw[arrow] (e.east) -- ++(0.6,0) |- (ki.west);
+  \draw[arrow] (kp) -- (sum);
+  \draw[arrow] (ki) -- (sw);
+  \draw[arrow] (sw) -- (int);
+  \draw[arrow] (int.east) -| node[pos=0.75, right] {$I$} (sum.south);
+  \draw[arrow] (sum) -- node[above] {$c$} (lim);
+  \draw[arrow] (lim) -- (u);
+  \node[font=\small, text=cgrey, anchor=south] at ($(sum.north)+(0,0.05)$) {+ feedforward};
+  % the two checks
+  \node[box=cgrey, text width=3.4cm] (sign) at (0,-4.8) {\textbf{same sign?}\\[1pt] \small $e$ and $c$ both\\ $+$ or both $-$\\
+     \textcolor{cgrey}{0.5 m/s and 11 N: yes}};
+  \node[box=cpurple, text width=1.6cm] (and) at (6.4,-4.8) {\textbf{both}\\ \small yes?};
+  \node[box=cgrey, text width=3.4cm] (sat) at (11.4,-4.8) {\textbf{saturated?}\\[1pt] \small $c$ differs from $u$\\
+     \textcolor{cgrey}{11 N against 4 N: yes}};
+  \draw[arrow] (e.south) -- (sign.north);
+  \draw[arrow] (lim.south) |- (sat.east);
+  \draw[arrow] (sign) -- (and);
+  \draw[arrow] (sat) -- (and);
+  \draw[arrow] (and.north) -- node[right, font=\small] {yes: input 0} (sw.south);
+\end{tikzpicture}
+\end{document}

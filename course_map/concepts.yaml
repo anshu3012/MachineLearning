@@ -347,6 +347,16 @@ notes:
   2057: RO/navigation/06-grid-sampling-and-car-like-planning/RO-057-route-planning-on-road-graphs
   2058: RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation
   2231: RO/navigation/06-grid-sampling-and-car-like-planning/RO-231-solving-trajectory-optimisation
+  2059: RO/control/07-classical-feedback-control/RO-059-feedback-basics
+  2060: RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control
+  2061: RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems
+  2062: RO/control/07-classical-feedback-control/RO-062-transfer-functions-poles-and-zeros
+  2063: RO/control/07-classical-feedback-control/RO-063-frequency-response-and-bode-plots
+  2064: RO/control/07-classical-feedback-control/RO-064-nyquist-and-stability-margins
+  2065: RO/control/07-classical-feedback-control/RO-065-sensitivity-robustness-and-loop-shaping
+  2066: RO/control/07-classical-feedback-control/RO-066-feedforward-cascades-and-windup
+  2067: RO/control/07-classical-feedback-control/RO-067-pid-tuning-in-practice
+  2068: RO/control/07-classical-feedback-control/RO-068-digital-control
 
 concepts:
   # 0 Foundations
@@ -829,6 +839,46 @@ concepts:
   - {id: shooting, name: Single and multiple shooting, home: RO-231#22-single-shooting-fire-see-where-it-lands-adjust, videos: [2231]}
   - {id: ilqr, name: iLQR and DDP, home: RO-231#4-ilqr-and-ddp-better-steps-from-the-model, videos: [2231]}
   - {id: direct_indirect, name: Direct and indirect methods, home: RO-231#5-direct-and-indirect-methods, videos: [2231]}
+  - {id: open_closed_loop, name: Open-loop and closed-loop control, home: RO-059#31-measure-compare-correct, videos: [2059]}
+  - {id: block_diagram, name: Block diagram of a control loop, home: RO-059#41-the-parts-of-the-loop-named-on-the-robot, videos: [2059]}
+  - {id: regulation_tracking, name: Regulation and tracking, home: RO-059#6-holding-a-value-and-following-a-plan-regulation-and-tracking, videos: [2059]}
+  - {id: moment_of_inertia, name: Torque and moment of inertia, home: RO-060#22-turning-torque-angular-acceleration-and-the-moment-of-inertia, videos: [2060]}
+  - {id: p_control, name: Proportional control, home: RO-060#31-the-rule-and-why-it-overshoots, videos: [2060]}
+  - {id: pd_control, name: Derivative action (PD control), home: RO-060#41-look-at-how-fast-the-error-shrinks, videos: [2060]}
+  - {id: pid, name: PID control, home: RO-060#52-add-the-error-up, videos: [2060]}
+  - {id: step_response, name: Step response and its specifications, home: RO-061#21-reading-the-four-numbers, videos: [2061]}
+  - {id: first_order, name: First-order systems and the time constant, home: RO-061#41-the-time-constant, videos: [2061]}
+  - {id: second_order, name: "Second-order systems: natural frequency and damping ratio", home: RO-061#51-natural-frequency-and-damping-ratio, videos: [2061]}
+  - {id: transfer_function, name: Transfer functions, home: RO-062#21-an-exponential-goes-in-the-same-exponential-comes-out, videos: [2062]}
+  - {id: poles_zeros, name: Poles and zeros, home: RO-062#31-poles-where-the-fraction-blows-up, videos: [2062]}
+  - {id: bibo_stability, name: BIBO stability, home: RO-062#4-bibo-stability-which-poles-are-safe, videos: [2062]}
+  - {id: block_diagram_algebra, name: Block-diagram algebra, home: RO-062#5-block-diagram-algebra-the-loops-fraction-from-its-parts, videos: [2062]}
+  - {id: root_locus, name: Root locus and Routh–Hurwitz, home: RO-062#61-the-root-locus, videos: [2062]}
+  - {id: frequency_response, name: Frequency response (gain and phase), home: RO-063#22-gain-and-phase-the-frequency-response, videos: [2063]}
+  - {id: bode_plot, name: Bode plot, home: RO-063#42-building-the-plot-one-weave-rate-at-a-time, videos: [2063]}
+  - {id: resonance_bandwidth, name: Resonance and bandwidth, home: RO-063#6-resonance-the-weave-that-over-turns-the-robot, videos: [2063]}
+  - {id: loop_transfer, name: Loop transfer function, home: RO-064#21-cutting-the-loop-open, videos: [2064]}
+  - {id: nyquist, name: Nyquist criterion, home: RO-064#43-counting-turns-round-the-critical-point, videos: [2064]}
+  - {id: stability_margins, name: "Gain, phase and delay margins", home: RO-064#61-gain-margin, videos: [2064]}
+  - {id: sensitivity, name: Sensitivity functions, home: RO-065#22-the-distance-from-the-critical-point-and-its-reciprocal, videos: [2065]}
+  - {id: robustness, name: Robust stability, home: RO-065#62-the-test-the-model-error-against-one-over-t, videos: [2065]}
+  - {id: loop_shaping, name: "Loop shaping: lead, lag and lead-lag", home: RO-065#71-the-shape-we-want, videos: [2065]}
+  - {id: feedforward, name: Feedforward plus feedback, home: RO-066#22-feedforward-from-the-robots-model, videos: [2066]}
+  - {id: internal_model, name: Integral action and the internal model principle, home: RO-066#33-the-internal-model-principle, videos: [2066]}
+  - {id: windup, name: Integrator windup and anti-windup, home: RO-066#42-how-the-integral-winds-up, videos: [2066]}
+  - {id: motion_force_control, name: Motion control and force control, home: RO-066#6-motion-control-and-force-control-docking, videos: [2066]}
+  - {id: rate_limits, name: Rate limits and deadband, home: RO-066#71-rate-limits-never-ask-for-more-than-the-drive-can-give, videos: [2066]}
+  - {id: cascade, name: Cascade control, home: RO-066#81-one-loop-for-the-heading-or-two, videos: [2066]}
+  - {id: pid_forms, name: PID forms, home: RO-067#21-the-ideal-pid-controller-in-parallel-form, videos: [2067]}
+  - {id: ziegler_nichols, name: Ziegler–Nichols tuning, home: RO-067#33-raise-the-gain-until-the-loop-oscillates, videos: [2067]}
+  - {id: model_based_tuning, name: Model-based tuning, home: RO-067#42-the-model-and-the-tuning-rule, videos: [2067]}
+  - {id: derivative_kick, name: Derivative kick and set-point weighting, home: RO-067#52-derivative-kick, videos: [2067]}
+  - {id: loop_filters, name: Filters in the loop, home: RO-067#61-the-derivative-filter, videos: [2067]}
+  - {id: signal_sampling, name: Sampling and the sample rate, home: RO-068#2-what-the-computer-sees-sampling, videos: [2068]}
+  - {id: zero_order_hold, name: Zero-order hold, home: RO-068#31-holding-each-command-until-the-next-one, videos: [2068]}
+  - {id: discretisation, name: Discretising a controller, home: RO-068#43-three-ways-to-add-up-the-area-forward-euler-backward-euler-and-tustin, videos: [2068]}
+  - {id: z_transform, name: z-transform, home: RO-068#51-z-to-the-minus-one-means-one-tick-ago, videos: [2068]}
+  - {id: aliasing, name: Aliasing and anti-aliasing filters, home: RO-068#71-the-wheel-that-seems-to-turn-backwards, videos: [2068]}
 links:
   # Foundations
   - [ml, is a kind of, ai, confirmed]
@@ -1819,6 +1869,61 @@ links:
   - [homotopy, needs, a_star, confirmed]
   - [path_speed, needs, trajectory_optimisation, confirmed]
   - [ilqr, needs, hessian, confirmed]
+  - [open_closed_loop, needs, state_controls_measurements, confirmed]
+  - [block_diagram, needs, open_closed_loop, confirmed]
+  - [regulation_tracking, needs, open_closed_loop, confirmed]
+  - [p_control, needs, open_closed_loop, confirmed]
+  - [p_control, needs, moment_of_inertia, confirmed]
+  - [pd_control, fixes, p_control, confirmed]
+  - [pd_control, needs, derivative, confirmed]
+  - [pid, fixes, pd_control, confirmed]
+  - [step_response, needs, pid, confirmed]
+  - [first_order, needs, step_response, confirmed]
+  - [second_order, needs, step_response, confirmed]
+  - [second_order, needs, pd_control, confirmed]
+  - [transfer_function, needs, second_order, confirmed]
+  - [poles_zeros, needs, transfer_function, confirmed]
+  - [bibo_stability, needs, poles_zeros, confirmed]
+  - [block_diagram_algebra, needs, block_diagram, confirmed]
+  - [block_diagram_algebra, needs, transfer_function, confirmed]
+  - [root_locus, needs, poles_zeros, confirmed]
+  - [root_locus, needs, pid, confirmed]
+  - [frequency_response, needs, transfer_function, confirmed]
+  - [bode_plot, needs, frequency_response, confirmed]
+  - [resonance_bandwidth, needs, bode_plot, confirmed]
+  - [resonance_bandwidth, needs, second_order, confirmed]
+  - [loop_transfer, needs, block_diagram_algebra, confirmed]
+  - [nyquist, needs, loop_transfer, confirmed]
+  - [nyquist, compared with, bode_plot, confirmed]
+  - [stability_margins, needs, nyquist, confirmed]
+  - [sensitivity, needs, stability_margins, confirmed]
+  - [sensitivity, needs, block_diagram_algebra, confirmed]
+  - [robustness, needs, sensitivity, confirmed]
+  - [loop_shaping, needs, sensitivity, confirmed]
+  - [loop_shaping, needs, bode_plot, confirmed]
+  - [feedforward, needs, open_closed_loop, confirmed]
+  - [feedforward, needs, regulation_tracking, confirmed]
+  - [internal_model, needs, pid, confirmed]
+  - [windup, needs, pid, confirmed]
+  - [rate_limits, compared with, windup, confirmed]
+  - [motion_force_control, needs, pid, confirmed]
+  - [cascade, needs, pid, confirmed]
+  - [cascade, needs, resonance_bandwidth, confirmed]
+  - [pid_forms, needs, pid, confirmed]
+  - [ziegler_nichols, needs, pid_forms, confirmed]
+  - [ziegler_nichols, needs, stability_margins, confirmed]
+  - [model_based_tuning, compared with, ziegler_nichols, confirmed]
+  - [model_based_tuning, needs, first_order, confirmed]
+  - [derivative_kick, needs, pid_forms, confirmed]
+  - [loop_filters, needs, bode_plot, confirmed]
+  - [signal_sampling, needs, pid, confirmed]
+  - [zero_order_hold, needs, signal_sampling, confirmed]
+  - [discretisation, needs, signal_sampling, confirmed]
+  - [discretisation, needs, pid, confirmed]
+  - [z_transform, needs, discretisation, confirmed]
+  - [z_transform, compared with, transfer_function, confirmed]
+  - [aliasing, needs, signal_sampling, confirmed]
+  - [aliasing, needs, frequency_response, confirmed]
   - [ilqr, fixes, gradient_descent, confirmed]
   - [ilqr, needs, shooting, confirmed]
   - [direct_indirect, needs, trajectory_optimisation, confirmed]
