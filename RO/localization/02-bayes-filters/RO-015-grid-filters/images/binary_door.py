@@ -1,6 +1,7 @@
 """Binary Bayes filter on a door that nobody touches, in log odds. Start l = 0 (p = 0.5). Each 'sense open' adds
-ln 3 = 1.10, each 'sense closed' adds ln(1/2) = -0.69. Readings: open, open, closed, open, open ->
-l = 1.10, 2.20, 1.50, 2.60, 3.70 -> p = 0.75, 0.90, 0.82, 0.93, 0.976.
+ln 3 = 1.0986, each 'sense closed' adds ln(1/2) = -0.6931. Readings: open, open, closed, open, open ->
+l = 1.0986, 2.1972, 1.5041, 2.6027, 3.7013 -> p = 0.75, 0.90, 0.82, 0.93, 0.976.
+Four decimals so that each shown sum comes out of the shown numbers (2.1972 - 0.6931 = 1.5041).
 Run: python binary_door.py -> binary_door.gif, binary_door_frames.png"""
 from pathlib import Path
 
@@ -23,24 +24,28 @@ def frame(k):
     base = 0.0
     for i in range(k):                                # one block per reading, stacked from 0
         d = STEP[READ[i]]
-        fig.add_bar(x=[i + 1], y=[d], base=[base], marker_color=GREEN if d > 0 else RED, width=0.6, row=1, col=1,
-                    text=[f"{d:+.2f}"], textposition="inside", insidetextanchor="middle", textfont=dict(size=16, color="white"))
+        fig.add_bar(x=[i + 1], y=[d], base=[base], marker_color=GREEN if d > 0 else RED, width=0.8, row=1, col=1,
+                    text=[f"{d:+.4f}"], textposition="inside", insidetextanchor="middle", textangle=0,
+                    textfont=dict(size=14, color="white"))
         base += d
     fig.add_scatter(x=list(range(k + 1)), y=ls[:k + 1], mode="markers", marker=dict(size=12, color=BLUE), row=1, col=1)
-    for i in range(k + 1):
-        fig.add_annotation(x=i + 0.33, y=ls[i], text=f"<b>{ls[i]:.2f}</b>", showarrow=False, xanchor="left",
-                           font=dict(size=16, color=BLUE), row=1, col=1)
+    for i in range(k + 1):                            # label beside the dot, kept off the next block
+        nxt = STEP[READ[i]] if i < k else 0
+        fig.add_annotation(x=i + 0.43, y=ls[i], text="<b>0</b>" if i == 0 else f"<b>{ls[i]:.4f}</b>",
+                           showarrow=False, xanchor="left", yanchor="top" if nxt > 0 else "bottom" if nxt < 0 else "middle",
+                           font=dict(size=18, color=BLUE), row=1, col=1)
     fig.add_scatter(x=list(range(k + 1)), y=ps[:k + 1], mode="lines+markers+text", line=dict(color=BLUE, width=3),
                     marker=dict(size=11), text=[f"{v:.3f}" for v in ps[:k + 1]], textposition="bottom right",
                     textfont=dict(size=16), row=1, col=2)
     ticks = ["start"] + [f"{i + 1}: {z}" for i, z in enumerate(READ)]
     for c in (1, 2):
-        fig.update_xaxes(tickvals=list(range(6)), ticktext=ticks, range=[-0.5, 5.6], row=1, col=c, tickangle=-30)
+        fig.update_xaxes(tickvals=list(range(6)), ticktext=ticks, range=[-0.5, 6.2], row=1, col=c, tickangle=-30)
     fig.update_yaxes(title="log odds l", range=[-1, 4.3], row=1, col=1)
     fig.update_yaxes(title="p(open)", range=[0.4, 1.02], row=1, col=2)
     fig.update_layout(template="simple_white", width=1300, height=540, font=FONT, showlegend=False,
                       margin=dict(l=80, r=30, t=70, b=90))
-    fig.update_annotations(font_size=21)
+    for title in fig.layout.annotations[:2]:         # the two subplot titles only
+        title.font.size = 21
     return fig
 
 
