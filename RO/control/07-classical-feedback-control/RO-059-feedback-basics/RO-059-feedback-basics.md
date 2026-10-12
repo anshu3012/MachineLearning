@@ -187,21 +187,26 @@ $$v = \frac{u_0 + K_p\thinspace r - d}{b + K_p}$$
 
 The closed loop loses 0.036 m/s on the ramp (0.5 m/s wanted, 0.464 m/s held), against 0.392 m/s for the open loop. Figure 1 shows the same run in time: the closed loop's speed dips within about a second and then holds.
 
-Why does a small error remain? Try holding exactly 0.5 m/s on the ramp. The ramp needs a push that beats the drag and the pull, but with no error the rule gives only its fixed 1 N:
+**Why an error remains.** At the wanted speed the error is zero, so the controller applies only its open-loop push of 1 N. Holding 0.5 m/s on the ramp requires more: the force that balances the drag and the ramp's pull. With:
 
-$$\text{needed} = 2 \times 0.5 + 0.785 = 1.785 \text{ N}$$
+- $u$, the controller's force, in N: $u_0 + K_p\thinspace e$;
+- $F_{\text{req}}$, the force needed to hold the speed $v$ on the ramp, in N: $b\thinspace v + d$.
 
-$$\text{rule} = 1 + 20 \times 0 = 1 \text{ N}$$
+At 0.5 m/s:
 
-The robot is 0.785 N short, so it slows down. As it slows, the error grows and the rule pushes harder, while the drag falls and less push is needed. At 0.464 m/s the two meet:
+$$F_{\text{req}} = 2 \times 0.5 + 0.785 = 1.785 \text{ N}$$
 
-$$\text{needed} = 2 \times 0.4643 + 0.785 = 1.714 \text{ N}$$
+$$u = 1 + 20 \times 0 = 1 \text{ N}$$
 
-$$\text{rule} = 1 + 20 \times 0.0357 = 1.714 \text{ N}$$
+The shortfall of 0.785 N slows the robot. As the speed falls, the error and the controller's force grow while the drag shrinks, until the two forces are equal at 0.464 m/s:
 
-The error of 0.036 m/s is what makes the extra 0.714 N: with no error, the rule adds nothing. A rule that pushes only in proportion to the error always leaves some error against a steady load; [integral action](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#5-integral-action-removing-the-error-a-steady-load-leaves) removes it.
+$$F_{\text{req}} = 2 \times 0.4643 + 0.785 = 1.714 \text{ N}$$
 
-Feedback has cut the ramp's damage more than tenfold. Its parts now have standard names and a standard picture, in which this controller, and every other one, can be drawn the same way.
+$$u = 1 + 20 \times 0.0357 = 1.714 \text{ N}$$
+
+The additional 0.714 N comes entirely from the error term $K_p\thinspace e$, so it exists only while an error exists. A controller whose correction is proportional to the error therefore keeps a constant error under a steady load; [integral action](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#5-integral-action-removing-the-error-a-steady-load-leaves) removes it.
+
+Feedback reduces the speed loss on the ramp from 0.392 m/s to 0.036 m/s, more than a tenfold improvement. The next section names the parts of this loop and introduces the block diagram, the standard way to draw any feedback controller.
 
 ## 4. The block diagram
 
