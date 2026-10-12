@@ -64,7 +64,11 @@ Figure 2 shows the result in its frame with input mean 5.5 m, sd 0.5 m. The read
 
 ### 3.2 The tangent line: linearisation
 
-Zoom in on any smooth curve and it looks straight. Near a point, the curve is close to its tangent line, the straight line that touches the curve there with the curve's slope. Replacing a function near a point by its tangent line is [linearisation](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099). In Figure 2 the tangent line is the purple dashed line, drawn at the input's mean. With:
+Zoom in on any smooth curve and it looks straight. Near a point, the curve is close to its tangent line, the straight line that touches the curve there with the curve's slope. Figure 3 zooms in on the beacon curve at two places at once, the window shrinking from 8 m to 0.1 m wide. Watch the gap between the curve and its tangent line: at 1 m it is already too small to see when the window is 2 m wide, while at 6 m, under the beacon, where the curve bends most, it is still visible at 0.5 m wide. So the tangent line can stand in for the curve close to where it touches, and the more the curve bends, the closer that has to be.
+
+![The beacon distance h(x) (black) and its tangent line (purple dashed) at x = 1 m (left, slope −0.928) and at x = 6 m under the beacon (right, slope 0), seen through a window that shrinks from 8 m through 2 m and 0.5 m to 0.1 m wide, with both axes on the same scale. Each panel gives the largest gap between curve and line inside the window, as a share of the window's height: at 1 m it falls from 7.1% to 0.77%, 0.17% and 0.032%; at 6 m from 31% to 12%, 3.1% and 0.62%. The last frame, 0.1 m wide: in both panels the curve cannot be told from its tangent line](images/zoom_tangent.gif)
+
+Replacing a function near a point by its tangent line is [linearisation](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#63-degree-1-the-tangent-line) (G-1099). In Figure 2 the tangent line is the purple dashed line, drawn at the input's mean. With:
 
 - $\mu$ is the position where the line touches the curve, in m (1 m in the example below);
 - $h(\mu)$ is the beacon distance there, in m;
@@ -73,33 +77,37 @@ Zoom in on any smooth curve and it looks straight. Near a point, the curve is cl
 
 $$h(x) \approx h(\mu) + h'(\mu)\thinspace(x - \mu)$$
 
-For the beacon distance, write $h$ as a square root of an inside part:
+The beacon distance is the square root of an inside part, so the [chain rule](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule) (G-371) gives its slope: the slope of the square root times the slope of the inside part. With:
 
-- $s(x)$ is the part under the square root, in m² (29 m² at 1 m).
+- $s(x)$ is the part under the square root, in m², 29 m² at 1 m;
+- $dh/ds$ is the slope of $h$ against $s$, in m per m², 0.0928 at 1 m;
+- $ds/dx$ is the slope of $s$ against $x$, in m² per m, −10 at 1 m.
+
+At 1 m first, each line followed by the same step at any position $x$:
+
+$$s(1) = (6 - 1)^2 + 4 = 29$$
 
 $$s(x) = (6 - x)^2 + 4$$
 
-$$h = \sqrt{s}$$
+$$h(1) = \sqrt{29} = 5.3852$$
 
-The two slopes, of $h$ against $s$ and of $s$ against $x$:
+$$h(x) = \sqrt{s(x)}$$
 
-$$\frac{dh}{ds} = \frac{1}{2\sqrt{s}} = \frac{1}{2h}$$
+$$\frac{dh}{ds} = \frac{1}{2 \times 5.3852} = 0.0928$$
+
+$$\frac{dh}{ds} = \frac{1}{2\sqrt{s}} = \frac{1}{2h(x)}$$
+
+$$\frac{ds}{dx} = -2 \times (6 - 1) = -10$$
 
 $$\frac{ds}{dx} = -2\thinspace(6 - x)$$
 
-The [chain rule](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#53-the-chain-rule) (G-371) multiplies them:
+$$h'(1) = 0.0928 \times (-10) = -0.928$$
 
-$$h'(x) = \frac{-2\thinspace(6 - x)}{2h(x)}$$
+$$h'(x) = \frac{1}{2h(x)} \times (-2)\thinspace(6 - x)$$
 
 $$= \frac{-(6 - x)}{h(x)}$$
 
-The derivative $h'(x)$ is the shrink rate of the distance per metre driven. At $x = 1$:
-
-$$h(1) = \sqrt{25 + 4} = 5.3852$$
-
-$$h'(1) = -5 / 5.3852 = -0.928$$
-
-Driving 1 m towards the beacon from there cuts the distance by about 0.93 m.
+Driving 1 m towards the beacon from 1 m cuts the distance by about 0.93 m.
 
 The tangent line is a straight line, and a straight line keeps a **Gaussian** (G-827) a Gaussian. So the predicted reading is a Gaussian whose mean is $h(\mu)$ and whose standard deviation (sd) is the input's sd times the size of the slope, where $|h'(\mu)|$ is the slope without its sign:
 
@@ -232,7 +240,7 @@ matching $p_1$. The slope 0.94 set that precision, and the slope changes as the 
 
 ### 4.3 Sixteen steps, past the beacon
 
-Figure 3 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. The animation plays step 1 one move per frame, with the numbers of [Section 4.2](#42-step-1-by-hand), then each later step in two frames. In the top panel, watch the purple tangent line touch the beacon curve at each prediction: its slope $H$ is the red dot added to the bottom panel. As $H$ nears 0 at the beacon, the band around the estimate in the middle panel widens.
+Figure 4 runs 16 steps, as the robot drives from 0.73 m to 7.86 m, past the beacon at 6 m. The animation plays step 1 one move per frame, with the numbers of [Section 4.2](#42-step-1-by-hand), then each later step in two frames. In the top panel, watch the purple tangent line touch the beacon curve at each prediction: its slope $H$ is the red dot added to the bottom panel. As $H$ nears 0 at the beacon, the band around the estimate in the middle panel widens.
 
 ![Top, one step at a time: the beacon distance h(x) (black), the prediction on it (hollow blue, ± 2 standard deviations), the tangent line there (purple, its slope H), the reading (orange line), the innovation (orange bar) and the updated estimate (blue dot). Middle: the EKF estimate follows the truth for 16 steps, with a band of two standard deviations that widens as the robot passes the beacon. Bottom: the slope H of the distance at each prediction rises from −0.94 through 0 at the beacon to +0.62. The last frame shows the whole run](images/ekf_run_anim.gif)
 
@@ -248,14 +256,14 @@ The slope, the gain and the variance at six of the steps:
 | 16 | 7.57 | 0.617 | 0.868 | 0.0141 | 7.749 | 7.86 |
 
 - Far from the beacon the slope is near −1: each reading pins the position down, and the variance stays between 0.007 and 0.011 m².
-- Near the beacon, where the distance bottoms out at 2 m (Figure 1), the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 3 widens; the filter is coasting on its commands.
+- Near the beacon, where the distance bottoms out at 2 m (Figure 1), the slope goes to 0: the distance hardly changes with position, so a reading says almost nothing about where the robot is. The variance grows to 0.035 m² at step 13, and the band in Figure 4 widens; the filter is coasting on its commands.
 - Past the beacon the slope turns positive and the gain changes sign with it; the readings pin the position down again.
 
 The filter needs no special case for any of this: recomputing $H$ at every prediction is all it takes, as long as the filter starts on the right side of the beacon.
 
 ### 4.4 The limits of the EKF
 
-**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 4 feeds the same 16 readings, one step per frame, to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Watch it move left while the robot moves right: only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against the true 7.86 m at step 16, notebook).
+**One Gaussian holds one side.** Positions 4 m and 8 m give the same reading, 2.83 m (Figure 1); so do 1 m and 11 m. Figure 5 feeds the same 16 readings, one step per frame, to a second EKF that starts at 11 m, on the far side of the beacon. Every reading fits the mirror position as well as the true one, so the filter follows the mirror path, confident and wrong: at step 1 it says 11.24 m when the robot is at 0.73 m, 10.5 m off, with only about 10 cm of uncertainty. Watch it move left while the robot moves right: only when the robot passes the beacon, where the mirror and the true path meet, does it come right (7.96 m against the true 7.86 m at step 16, notebook).
 
 ![The same 16 readings fed, one step per frame, to an EKF started at 0 m (blue, follows the truth, black) and one started at 11 m (red): the red filter moves left while the robot moves right, wrong by up to 10.5 m with narrow error bars of two standard deviations, until the robot passes the beacon at 6 m (grey dotted line). The last frame shows the whole run, both filters ending near the truth](images/mirror_anim.gif)
 
@@ -275,7 +283,7 @@ The unscented **Kalman filter** (G-2506) pushes a few chosen sample points throu
 
 ### 5.1 Why we need a check
 
-To tell when the result has gone wrong, the filter's own variance is no help. The EKF's variance comes from tangent lines and from the noise variances we chose, the slip's $Q$ and the sensor's $R$, 0.01 m² each, so it can be wrong without any error message: the mirror filter of Figure 4 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether that variance matches the real errors. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8). On a real robot the true errors are unknown, but the **innovations** (G-2511), the gaps between each reading and the reading the filter predicted, are not.
+To tell when the result has gone wrong, the filter's own variance is no help. The EKF's variance comes from tangent lines and from the noise variances we chose, the slip's $Q$ and the sensor's $R$, 0.01 m² each, so it can be wrong without any error message: the mirror filter of Figure 5 reported about 10 cm of uncertainty while 10 m off. A controller or a planner that trusts a variance needs to know whether that variance matches the real errors. A filter whose errors match its own variance is **consistent** (G-2524) (Chen et al. 2018; Labbe ch.8). On a real robot the true errors are unknown, but the **innovations** (G-2511), the gaps between each reading and the reading the filter predicted, are not.
 
 ### 5.2 The innovation and its covariance
 
@@ -320,7 +328,7 @@ $$\varepsilon_z = 0.242^2 / 0.902 = 0.065$$
 
 **Why it should average 1.** If the filter is **consistent** (G-2524), $y$ follows a **Gaussian** (G-827), a bell-shaped curve, with mean 0 and variance $S$, so $y / \sqrt{S}$ is a standard normal variable (mean 0, variance 1) and its square averages 1. A squared standard normal variable follows the [chi-square distribution](../../../../MA/04-inference/MA-045-chi-square-tests/MA-045-chi-square-tests.md#31-built-from-squared-normal-draws) (G-378) with 1 degree of freedom; with $m$ readings at once, the NIS follows chi-square with $m$ degrees of freedom and averages $m$ (Chen et al. 2018). For one reading, 95 percent of a consistent filter's NIS values lie below 3.84 (notebook), and an innovation two standard deviations out gives an NIS of 4.
 
-**On one run.** Figure 5 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right sensor variance $R$, 0.01 m², 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a narrower band, about ±0.24 m instead of ±0.32 m, and 13 percent fall outside: its innovations are bigger than its $S$ allows (Labbe ch.8).
+**On one run.** Figure 6 plots 60 innovations with the band $\pm 2\sqrt{S}$ the filter predicts. With the right sensor variance $R$, 0.01 m², 2 percent fall outside. A filter that assumes the sensor is twice as precise ($R = 0.0025$, a standard deviation of 0.05 m) predicts a narrower band, about ±0.24 m instead of ±0.32 m, and 13 percent fall outside: its innovations are bigger than its $S$ allows (Labbe ch.8).
 
 ![Innovations of one 60-step run with the band of two predicted standard deviations. With the right sensor variance R = 0.01 m², the band is about ±0.32 m and 2 percent fall outside; a filter that assumes R = 0.0025 m² predicts a band of about ±0.24 m, and 13 percent fall outside](images/innovation.png)
 
@@ -345,7 +353,7 @@ $$\varepsilon_x = (0.73 - 0.755)^2 / 0.0112$$
 
 $$= 0.056$$
 
-One value says little; the test averages many. We simulated 500 runs of 16 steps, ran three EKFs on each, set with different slip variances $Q$ and sensor variances $R$, and averaged NEES and NIS at each step (Figure 6). If the filter is **consistent** (G-2524), an average of 500 chi-square values with 1 degree of freedom lies between 0.88 and 1.13 in 95 percent of cases (notebook):
+One value says little; the test averages many. We simulated 500 runs of 16 steps, ran three EKFs on each, set with different slip variances $Q$ and sensor variances $R$, and averaged NEES and NIS at each step (Figure 7). If the filter is **consistent** (G-2524), an average of 500 chi-square values with 1 degree of freedom lies between 0.88 and 1.13 in 95 percent of cases (notebook):
 
 | Filter | Average NEES | Average NIS | Verdict |
 |---|---|---|---|
@@ -353,7 +361,7 @@ One value says little; the test averages many. We simulated 500 runs of 16 steps
 | sensor trusted too much, $R = 0.0025$ | 3.25 | 2.41 | overconfident |
 | motion trusted too much, $Q = 0.0001$ | 15.95, rising to 32.9 | 2.12 | overconfident, getting worse |
 
-In Figure 6 the grey band marks 0.88 to 1.13: only the filter with the right noises stays inside it, the NEES of the filter that trusts its sensor too much sits near 3, and the NEES of the filter that trusts its motion too much climbs past 30.
+In Figure 7 the grey band marks 0.88 to 1.13: only the filter with the right noises stays inside it, the NEES of the filter that trusts its sensor too much sits near 3, and the NEES of the filter that trusts its motion too much climbs past 30.
 
 ![Average NEES (left) and NIS (right) over 500 runs, per step, log scale. The filter with the right noises stays in the grey band around 1; trusting the sensor too much sits near 3; trusting the motion too much makes NEES climb past 30](images/consistency.png)
 

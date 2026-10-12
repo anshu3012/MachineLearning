@@ -188,7 +188,7 @@ The whole body turns by the same angle in each second, the **angular velocity** 
 
 $$\text{speed} = \omega \times \text{distance}$$
 
-For a left turn, the right wheel sits half the wheel separation farther out than the midpoint, and the left wheel half the separation closer in. For our robot:
+For a left turn, the right wheel sits half the wheel separation, 0.1 m, farther out than the midpoint, and the left wheel 0.1 m closer in. For our robot:
 
 - $\omega$ is the angular velocity, the angle the whole body turns per second, in rad/s;
 - $R$ is the turning radius, the midpoint's distance from the ICC, in m;
@@ -197,7 +197,13 @@ For a left turn, the right wheel sits half the wheel separation farther out than
 - $v_L$ is the left wheel's speed over the floor, 0.4 m/s;
 - $v$ is the midpoint's speed, the **linear velocity** (G-2291), in m/s.
 
+Each wheel's line with our numbers first, then in symbols:
+
+$$0.6 = \omega \thinspace(R + 0.1)$$
+
 $$v_R = \omega \thinspace(R + L/2)$$
+
+$$0.4 = \omega \thinspace(R - 0.1)$$
 
 $$v_L = \omega \thinspace(R - L/2)$$
 
@@ -207,46 +213,48 @@ $$v = \omega \thinspace R$$
 
 > **Key point:** Subtracting the two wheel equations isolates the angular velocity $\omega$; adding them isolates the linear velocity $v$.
 
-The symbols are the ones listed in [Section 4.2](#42-why-the-robot-turns-about-a-point-on-its-axle-line): the wheel speeds $v_R$ and $v_L$, the wheel separation $L$, the turning radius $R$, the linear velocity $v$ and the angular velocity $\omega$.
+The symbols are the ones listed in [Section 4.2](#42-why-the-robot-turns-about-a-point-on-its-axle-line): the wheel speeds $v_R$ and $v_L$, the wheel separation $L$, the **turning radius** (G-2293) $R$, the **linear velocity** (G-2291) $v$ and the **angular velocity** (G-2292) $\omega$.
 
-**Angular velocity.** Subtract the left-wheel line from the right-wheel line. The $\omega R$ parts cancel, leaving only the separation:
+Subtract the left-wheel line of Section 4.2 from the right-wheel line, then add the two; our numbers first, each followed by the same step in symbols:
 
-$$v_R - v_L = \omega \thinspace(L/2 + L/2)$$
+$$0.6 - 0.4 = \omega\thinspace(R + 0.1) - \omega\thinspace(R - 0.1)$$
 
-$$v_R - v_L = \omega \thinspace L$$
+$$v_R - v_L = \omega\thinspace(R + L/2) - \omega\thinspace(R - L/2)$$
+
+$$0.2 = 0.2\thinspace\omega$$
+
+$$v_R - v_L = \omega\thinspace L$$
+
+$$\omega = 0.2 / 0.2 = 1 \text{ rad/s}$$
 
 $$\omega = \frac{v_R - v_L}{L}$$
 
-The formula says why a wide robot turns more lazily: the same speed difference has to swing a longer axle. With a speed difference of 0.2 m/s:
+$$0.6 + 0.4 = \omega\thinspace(R + 0.1) + \omega\thinspace(R - 0.1)$$
+
+$$v_R + v_L = \omega\thinspace(R + L/2) + \omega\thinspace(R - L/2)$$
+
+$$1.0 = 2\thinspace\omega\thinspace R$$
+
+$$v_R + v_L = 2\thinspace\omega\thinspace R$$
+
+$$1.0 = 2\thinspace v$$
+
+$$v_R + v_L = 2\thinspace v$$
+
+$$v = 1.0 / 2 = 0.5 \text{ m/s}$$
+
+$$v = \frac{v_R + v_L}{2}$$
+
+$$R = 0.5 / 1 = 0.5 \text{ m}$$
+
+$$R = v / \omega$$
+
+The midpoint moves at the average speed of the wheels because it sits halfway between them. The formula for $\omega$ says why a wide robot turns more lazily: the same speed difference has to swing a longer axle. With a speed difference of 0.2 m/s:
 
 | Wheel separation $L$ | Angular velocity $\omega$ |
 |---|---|
 | 0.2 m | 1 rad/s |
 | 0.4 m | 0.5 rad/s |
-
-**Linear velocity.** Add the two lines. The $\omega L/2$ parts cancel:
-
-$$v_R + v_L = 2\thinspace\omega\thinspace R$$
-
-$$v_R + v_L = 2\thinspace v$$
-
-$$v = \frac{v_R + v_L}{2}$$
-
-The midpoint moves at the average speed of the wheels because it sits halfway between them.
-
-**Worked example.** With our wheel speeds, the **linear velocity** (G-2291) is:
-
-$$v = \frac{0.6 + 0.4}{2} = 0.5 \text{ m/s}$$
-
-The **angular velocity** (G-2292) is:
-
-$$\omega = \frac{0.6 - 0.4}{0.2} = 1 \text{ rad/s}$$
-
-The **turning radius** (G-2293) follows from the midpoint's line of [Section 4.2](#42-why-the-robot-turns-about-a-point-on-its-axle-line), solved for $R$:
-
-$$R = v / \omega$$
-
-$$R = 0.5 / 1 = 0.5 \text{ m}$$
 
 Going from the wheel speeds to the robot's motion is the **forward kinematics** (G-2294) of the robot. The forward kinematics answers half of the prediction question of [Section 1](#1-overview); [Section 5](#5-from-robot-speeds-to-motion-on-the-floor) finishes it.
 

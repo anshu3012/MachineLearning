@@ -169,9 +169,17 @@ The probability of a region is the sum of the weights of the particles in it (wi
 
 > **Key point:** Each round moves every **particle** (G-2491) by the command plus its own random slip, weighs it by how well it explains the reading, and resamples the set in proportion to the weights.
 
-The **particle filter** (G-2492) is how the robot of Figure 1 gets from three doors to one: it runs the two Bayes-filter steps on particles (Figure 4). We work each step by hand first, then run all of them on the corridor.
+The **particle filter** (G-2492) is how the robot of Figure 1 gets from three doors to one: it runs the two Bayes-filter steps on particles, as a loop of three steps, move, weigh and resample. Figure 4 goes once round the loop with 100 particles on the corridor, the first round of the run in [Section 4.5](#45-the-whole-loop-on-the-corridor). Reading 1 comes before any move, so this round starts at weigh. Watch the lit box and the cloud under the loop:
 
-![One round of the particle filter: move every particle by the command plus its own random slip; weigh each by p(z | x); resample M new particles in proportion to the weights](images/pf_cycle.png)
+- weigh: the particles at the doors grow, the rest shrink;
+- resample: the light particles are dropped, and each door particle is copied 3 or 4 times;
+- move: every particle shifts by the command, 2.5 m, then its own slip spreads the copies apart.
+
+After one turn the 100 particles hold the three doors of the first reading as three clusters, each carried 2.5 m on.
+
+![One round of the particle filter with 100 particles, frames 1 to 4 of Figure 8. Top: the loop of move, weigh and resample; the lit box is the step being done. Bottom: the particles on the corridor (orange: doors; marker size grows with weight; red triangle: the robot). Start: spread evenly, weight 0.01 each. Weigh by the reading z = 1.46 m: each particle's weight is p(z | x), the density of the reading z for a particle at position x, so the door particles grow. Resample: the 69 light particles are dropped (one survives by chance) and each door particle is copied 3 or 4 times. Move: every particle shifts by the command, 2.5 m, then adds its own slip. The last frame shows three clusters, each 2.5 m past a door, ready for reading 2](images/pf_cycle_anim.gif)
+
+We work each step by hand first, then run all of them on the corridor.
 
 ### 4.1 Start: spread the particles evenly
 
