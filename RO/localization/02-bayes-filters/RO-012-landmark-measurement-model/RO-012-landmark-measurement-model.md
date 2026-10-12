@@ -5,7 +5,7 @@ tags: [subject/robotics, area/localization, concept/landmark-measurement-model, 
 
 ## 1. Overview
 
-> **Key point:** A landmark reading is a range and a bearing to a known point. The model predicts both from a guessed pose and scores the guess with two **Gaussians** (G-827) around the predictions. One reading puts the robot on a ring; three readings pin it to one spot, and a reading can also be turned around to propose poses.
+> **Key point:** A landmark reading is a range and a bearing to a known point, and the model scores a guessed pose with two **Gaussians** (G-827) around the range and bearing that pose predicts. One reading puts the robot on a ring, three readings pin it to one spot, and a reading can also be turned around to propose poses.
 
 ![The 5 m by 4 m room with three coloured poles: pink at (4.4, 3.8), green at (0.4, 3.2), blue at (3.2, 0.4). The robot at A = (2, 2, 0) reads each one as a range and a bearing: pink 3.10 m at 40 degrees, green 1.95 m at 141 degrees, blue 2.05 m at −55 degrees](images/overview.png)
 
@@ -49,7 +49,7 @@ For the pink pole:
 
 $$(m_{c,x},\ m_{c,y}) = (4.4,\ 3.8)$$
 
-When colours repeat, the correspondence is unknown and must be worked out too; later Notes on SLAM deal with that. Here each pole is known, so for any guessed pose the robot can ask what that pole should read.
+When colours repeat, the correspondence is unknown and must be worked out too. Here each pole is known, so for any guessed pose the robot can ask what that pole should read.
 
 ## 3. What a guessed pose predicts
 
@@ -57,7 +57,7 @@ When colours repeat, the correspondence is unknown and must be worked out too; l
 
 ### 3.1 Expected range and bearing
 
-To score a guessed pose against the three readings of Figure 1, we first ask what the robot would read from there. The steps are those that turn [a known pose and the map into a reading](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature), now done from a guessed pose. Figure 2 draws the pink pole seen from (2, 2). The pole lies 2.4 m further along x and 1.8 m further along y:
+To score a guessed pose against the three readings of Figure 1, we first ask what the robot would read from there. The steps are those that turn [a known pose and the map into a reading](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#63-range-bearing-and-signature), now done from a guessed pose. Figure 2 draws the pink pole seen from (2, 2), with the robot turned 15° so that the direction to the pole (green) and the bearing (pink) can be told apart; at pose A the heading is 0° and the two are equal. The pole lies 2.4 m further along x and 1.8 m further along y:
 
 - $\Delta x$ is how far the pole lies beyond the robot along x, in m;
 - $\Delta y$ is how far it lies beyond the robot along y, in m.
@@ -104,7 +104,7 @@ $$\hat\varphi = \operatorname{atan2}(m_{c,y} - y,\ m_{c,x} - x) - \theta$$
 
 ### 3.2 Why atan2 and not arctan
 
-Take the green pole, at (0.4, 3.2). From A, how far it lies beyond the robot along x, $\Delta x$, and along y, $\Delta y$:
+The expected bearing of [Section 3.1](#31-expected-range-and-bearing) takes the direction from atan2, not from the plain arctangent of the ratio. The green pole of Figure 1, at (0.4, 3.2), shows why. From A, how far it lies beyond the robot along x, $\Delta x$, and along y, $\Delta y$:
 
 $$\Delta x = 0.4 - 2 = -1.6$$
 
@@ -120,11 +120,11 @@ That direction points down and to the right, away from the pole (Figure 3). The 
 
 $$\operatorname{atan2}(1.2,\ -1.6) = 143.13^\circ$$
 
-![The green pole seen from the robot at (−1.6, 1.2). atan2 gives 143.13 degrees, pointing up and left at the pole; arctan of the ratio 1.2 / −1.6 gives −36.87 degrees, pointing down and right, the opposite way](images/atan2.png)
+![The green pole, at (−1.6, 1.2) as seen from the robot. atan2 gives 143.13 degrees, pointing up and left at the pole; arctan of the ratio 1.2 / −1.6 gives −36.87 degrees, pointing down and right, the opposite way](images/atan2.png)
 
 ### 3.3 Why angle differences must be wrapped
 
-Scoring a reading means comparing it with the prediction. For range, the difference is a plain subtraction. For bearings it is not. Suppose the bearing reads 175° and the prediction is −178°. The two directions are only 7° apart, across the ±180° line, but the plain difference is:
+Scoring a reading means comparing it with the prediction. For range, the difference is a plain subtraction. For bearings it is not. None of the three poles sits near the ±180° line, where the trouble shows, so take a made-up case: the bearing reads 175° and the prediction is −178°. The two directions are only 7° apart, across the ±180° line, but the plain difference is:
 
 $$175 - (-178) = 353^\circ$$
 
@@ -132,7 +132,7 @@ A bell-shaped error curve around the prediction, a [**Gaussian**](../../../../MA
 
 $$353^\circ - 360^\circ = -7^\circ$$
 
-This is **angle wrapping** (G-2404), the wrap-around of **headings** (G-2284) on a dial, where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect). With the prediction and a fair way to subtract angles, the robot can now score how far each reading lies from what pose A predicts.
+Adding or subtracting full turns in this way is **angle wrapping** (G-2404), the wrap-around of **headings** (G-2284) on a dial, where 350° and 10° are 20° apart. Every bearing difference and every heading in this Note is wrapped (Brown CS148 tutorial, §3, which uses the angle between two unit vectors to the same effect). With the prediction and a fair way to subtract angles, the robot can now score how far each reading lies from what pose A predicts.
 
 ## 4. The landmark measurement model
 
@@ -158,7 +158,7 @@ $$p(z \mid x, m) = \mathcal{N}(r - \hat r;\ 0, \sigma_r^2)$$
 
 $$\qquad \times\ \mathcal{N}(\varphi - \hat\varphi;\ 0, \sigma_\varphi^2)$$
 
-with the bearing difference wrapped. A camera can confuse colours, so Thrun adds a third Gaussian for the signature; with **known correspondence** (G-2405) that factor is the same for every pose and can be left out (Thrun §6.6; Brown CS148 tutorial, Eq. 16–17). This is the **landmark measurement model** (G-2401) with known correspondence (Thrun §6.6, Table 6.4; Freiburg sensor-model slides, "Probabilistic Model").
+with the bearing difference wrapped. A camera can confuse colours, so Thrun adds a third Gaussian for the signature; with **known correspondence** (G-2405) that factor is the same for every pose and can be left out (Thrun §6.6; Brown CS148 tutorial, Eq. 16–17). The product of the two Gaussians is the **landmark measurement model** (G-2401) with known correspondence (Thrun §6.6, Table 6.4; Freiburg sensor-model slides, "Probabilistic Model").
 
 **Worked example: the pink pole at pose A.** The errors:
 
@@ -166,29 +166,33 @@ $$r - \hat r = 3.10 - 3.00 = 0.10 \text{ m}$$
 
 $$\varphi - \hat\varphi = 40^\circ - 36.87^\circ = 3.13^\circ$$
 
-$$3.13^\circ = 0.0546 \text{ rad}$$
+$$3.13^\circ = 0.05463 \text{ rad}$$
 
-The range Gaussian. Its peak height is one over $\sigma_r\sqrt{2\pi}$:
+The range Gaussian. Its peak height:
 
-$$\frac{1}{0.1 \times 2.507} = 3.989 \text{ per m}$$
+$$\frac{1}{\sigma_r \sqrt{2\pi}} = \frac{1}{0.1 \times 2.5066}$$
+
+$$= 3.9895 \text{ per m}$$
 
 The error is one standard deviation, so:
 
-$$3.989 \times e^{-\frac{1}{2} \times 1^2}$$
+$$3.9895 \times e^{-\frac{1}{2} \times 1^2}$$
 
-$$= 3.989 \times 0.607 = 2.420 \text{ per m}$$
+$$= 3.9895 \times 0.6065 = 2.420 \text{ per m}$$
 
 The bearing Gaussian. Its peak height:
 
-$$\frac{1}{0.08727 \times 2.5066} = 4.572 \text{ per rad}$$
+$$\frac{1}{\sigma_\varphi \sqrt{2\pi}} = \frac{1}{0.08727 \times 2.5066}$$
+
+$$= 4.5714 \text{ per rad}$$
 
 The error, in standard deviations:
 
-$$\frac{0.0546}{0.0873} = 0.627$$
+$$\frac{0.05463}{0.08727} = 0.626$$
 
-$$4.572 \times e^{-\frac{1}{2} \times 0.627^2}$$
+$$4.5714 \times e^{-\frac{1}{2} \times 0.626^2}$$
 
-$$= 4.572 \times 0.822 = 3.758 \text{ per rad}$$
+$$= 4.5714 \times 0.822 = 3.758 \text{ per rad}$$
 
 The product:
 
@@ -205,6 +209,8 @@ Readings of different landmarks come from separate detections, so their errors a
 | pink | 3.00 | 36.87° | 0.10 m | 3.13° | 9.09 |
 | green | 2.00 | 143.13° | −0.05 m | −2.13° | 14.70 |
 | blue | 2.00 | −53.13° | 0.05 m | −1.87° | 15.01 |
+
+The density of all three readings at A is the product of the three:
 
 $$9.09 \times 14.70 \times 15.01 = 2006$$
 
@@ -239,7 +245,7 @@ Figure 4 draws the range **Gaussian** (G-827) over every position of the room as
 
 The green pole's range, 1.95 m, gives a second ring. A position that fits both readings must lie on both rings. Two circles cross in at most two points, and here one of the two lies outside the room. Finding a position from distances to known points is **trilateration** (G-2406), the principle GPS uses with satellites.
 
-Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in [Section 4.2](#42-several-landmarks). With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
+Figure 5 multiplies the range densities in, one pole at a time; the product of densities is how readings combine, as in [Section 4.2](#42-several-landmarks). Each frame is a surface like that of Figure 4 seen from above: darker colour means higher density, and each frame is divided by its own highest point, so its scale runs from 0 to 1. With pink alone the whole ring fits. With pink and green, only the spot near (1.9, 2.0) is left inside the room. With all three, the highest point is (1.90, 1.98), 10 cm from the true position, because each reading carries its own noise.
 
 ![Animation over the room: first the density of the pink range reading, a ring around the pink pole; then pink times green, which leaves one bright spot near (1.9, 2.0); then pink times green times blue, one sharp spot at (1.90, 1.98) next to the true position (2, 2), marked by a black cross](images/rings.gif)
 
@@ -299,11 +305,19 @@ The recipe:
    \theta = \gamma + 180^\circ - \tilde\varphi
    $$
 
-Step 4 needs a reason. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies in the opposite direction, $\gamma + 180^\circ$. The bearing is that direction minus the heading ([Section 3.1](#31-expected-range-and-bearing)):
+Step 4 needs a reason. The robot sits in direction $\gamma$ from the pole, so seen from the robot the pole lies the opposite way, half a turn further:
+
+$$\text{direction to the pole} = \gamma + 180^\circ$$
+
+The bearing is that direction minus the heading ([Section 3.1](#31-expected-range-and-bearing)):
 
 $$\tilde\varphi = \gamma + 180^\circ - \theta$$
 
-Solving for the heading gives step 4. Thrun writes it in radians as $\gamma - \pi - \varphi$, where $\pi$ rad is 180°; that is the same angle, since $+180^\circ$ and $-180^\circ$ differ by a full turn.
+Solving for the heading gives step 4. Thrun writes the same step in radians, where $\pi$ rad is 180°:
+
+$$\theta = \gamma - \pi - \tilde\varphi$$
+
+Both give the same heading, since adding 180° and subtracting 180° differ by a full turn.
 
 Figure 6 runs the recipe on the noise-free reading of A, range 3.0 m and bearing 36.87°, one step at a time. Watch the angle $\gamma$ swing round the pole to 216.87°, the robot step out 3.0 m to (2, 2), and its heading turn from the pole until the pole sits 36.87° to its left: the heading ends at 0°, so the recipe gives back pose A. The animation then runs the same four steps with the real reading and noise, 200 times ([Section 6.3](#63-the-samples)).
 
@@ -311,13 +325,23 @@ Figure 6 runs the recipe on the noise-free reading of A, range 3.0 m and bearing
 
 **Check with the noise-free reading.** From the pink pole, A lies in the direction:
 
-$$\gamma = \operatorname{atan2}(2 - 3.8,\ 2 - 4.4) = 216.87^\circ$$
+$$\gamma = \operatorname{atan2}(2 - 3.8,\ 2 - 4.4)$$
+
+$$= -143.13^\circ$$
+
+Step 1 draws $\gamma$ from 0° to 360°, so we add a full turn:
+
+$$-143.13^\circ + 360^\circ = 216.87^\circ$$
 
 With the predicted range 3.0 m and bearing 36.87°:
 
-$$x = 4.4 + 3.0 \cos 216.87^\circ = 4.4 - 2.4 = 2.0$$
+$$x = 4.4 + 3.0 \cos 216.87^\circ$$
 
-$$y = 3.8 + 3.0 \sin 216.87^\circ = 3.8 - 1.8 = 2.0$$
+$$= 4.4 - 2.4 = 2.0$$
+
+$$y = 3.8 + 3.0 \sin 216.87^\circ$$
+
+$$= 3.8 - 1.8 = 2.0$$
 
 $$\theta = 216.87^\circ + 180^\circ - 36.87^\circ = 360^\circ$$
 
@@ -346,9 +370,9 @@ The symbols in the table are listed in [Section 3.1](#31-expected-range-and-bear
 - A landmark reading is a range, a bearing and a signature; the signature gives the correspondence, so the robot knows which map landmark to predict.
 - The expected bearing uses **atan2** (G-2325), because the plain arctangent of the ratio of the offsets, $\Delta y / \Delta x$, loses the signs and can point the opposite way (−36.87° instead of 143.13° for the green pole).
 - Bearing differences are wrapped into −180° to 180°, because 175° and −178° are 7° apart, not 353°.
-- The density of a reading is the product of a range **Gaussian** (G-827) and a bearing Gaussian, because the two errors are taken as independent; readings of several landmarks multiply for the same reason. It is a density, so it can exceed 1 (9.09 for the pink pole).
-- One range reading fits a whole ring of positions; two rings cross in at most two points, and a third reading or the map picks one; here the three poles put the robot within 10 cm of the truth.
-- A reading can be turned around to draw poses that fit it: a random angle $\gamma$ around the landmark, the measured range, and the **heading** (G-2284) $\gamma + 180^\circ - \varphi$, with $\varphi$ the measured bearing, so that a lost particle filter can put guesses where the robot could really be.
+- The density of a reading is the product of a range **Gaussian** (G-827) and a bearing Gaussian, because the two errors are taken as independent; readings of several landmarks multiply for the same reason. The product is a density, so it can exceed 1 (9.09 for the pink pole).
+- One range reading fits a whole ring of positions, because every position at the measured distance predicts that range; two rings cross in at most two points, and a third reading or the map picks one; here the three poles put the robot within 10 cm of the truth.
+- A reading can be turned around to draw poses that fit it: a random angle $\gamma$ around the landmark, the measured range, and the **heading** (G-2284) that makes the landmark appear at the measured bearing, so that a lost particle filter can put guesses where the robot could really be.
 
 The robot now has a motion model and sensor models for a laser and for landmarks, so it can score any guessed pose. Still missing: what it should keep in memory between steps, the [**belief**](../RO-013-belief/RO-013-belief.md#1-overview) (G-2433).
 

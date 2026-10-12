@@ -55,7 +55,7 @@ def frame(n, title):
                       margin=dict(l=90, r=40, t=110, b=70),
                       title=dict(x=0.5, y=0.97, font=dict(size=23), text=title))
     fig.add_annotation(xref="paper", yref="paper", x=1, y=0.575, xanchor="right", showarrow=False, font=dict(size=16),
-                       text="grey bars: share of samples per 0.25 m; blue line: exact belief after reading 2")
+                       text="grey bars: share of samples in each 0.25 m bin, divided by 0.25 m; blue line: exact belief after reading 2")
     return fig
 
 

@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/particle-filter, concept/res
 
 ![A corridor that loops round a block, opened out from 0 to 10 m, with three doors set back into the right-hand wall; the robot at 2.1 m reads 1.46 m to the side. Below: the map, the reading expected at each position](images/corridor.png)
 
-So far the robot can run the Bayes filter with a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461): one probability per cell of the 10-cell hallway. That breaks when the state grows: a floor robot's pose $(x, y, \theta)$, its position and heading, already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-explodes). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
+So far the robot can run the Bayes filter with a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461): one probability per cell of the 10-cell hallway. The histogram filter breaks when the state grows: a floor robot's pose $(x, y, \theta)$, its position and heading, already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-explodes). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
 
 A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, but it does not know where it is. Its side sensor reads 1.46 m, which means "a door is beside me". Three doors fit that reading, so the reading's answer to "where am I?" is "at door 1, door 2 or door 3, about equally likely": a belief with a peak at each door. These peaks are the belief's three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
 
@@ -31,7 +31,7 @@ The **particle filter** (G-2492) stores the belief as a set of sample guesses in
 
 ### 2.1 The corridor, the sensor and the motion
 
-The corridor loops round a block and is 10 m around, so position 10 m is position 0 m again. It is not the 10-cell [hallway](../RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) of the grid filter: a **particle** (G-2491) is a position, not a cell, so here the position is a continuous number of metres, and the doors are 1 m stretches of wall. Three doors are set 0.5 m back into the right-hand wall (Figure 1):
+The corridor loops round a block and is 10 m around, so position 10 m is position 0 m again. The corridor is not the 10-cell [hallway](../RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) of the grid filter: a **particle** (G-2491) is a position, not a cell, so here the position is a continuous number of metres, and the doors are 1 m stretches of wall. Three doors are set 0.5 m back into the right-hand wall (Figure 1):
 
 | Door | From (m) | To (m) |
 |---|---|---|
@@ -96,7 +96,9 @@ At step $t$:
 
 **Predict** with the command $u_t$: every place $x_{t-1}$ the robot may have been sends probability to the places the move may take it.
 
-$$\overline{\text{bel}}(x_t) = \int p(x_t \mid u_t, x_{t-1})\ \text{bel}(x_{t-1})\ dx_{t-1}$$
+$$\overline{\text{bel}}(x_t) = \int p(x_t \mid u_t, x_{t-1})$$
+
+$$\qquad \times\ \text{bel}(x_{t-1})\ dx_{t-1}$$
 
 **Update** with the reading $z_t$: multiply by how well each place explains the reading, then rescale so the total is 1.
 
@@ -128,9 +130,9 @@ Figure 2 shows the result: the red curve peaks at 5.73 m, in front of plain wall
 
 Suppose we could draw guesses of the robot's position from its **belief** (G-2433), many of them. Where the belief is high, guesses would fall often; where it is low, rarely. Then the guesses alone would answer every question about the belief: "how likely is door 3?" becomes "what share of the guesses is at door 3?".
 
-Estimating a probability or an average by counting random samples is a **Monte Carlo estimate** (G-2493) (Labbe ch.12). It needs no formula for the distribution's shape, which is why it can follow two **modes** (G-1251), a step or anything else.
+Estimating a probability or an average by counting random samples is a **Monte Carlo estimate** (G-2493) (Labbe ch.12). A Monte Carlo estimate needs no formula for the distribution's shape, which is why it can follow two **modes** (G-1251), a step or anything else.
 
-Its price is randomness: a different set of samples gives a slightly different answer. More samples give a steadier answer. In our corridor, the share of weight at door 3 after the third reading is exactly 0.956. Estimated by the **particle filter** (G-2492) of [Section 4](#4-the-particle-filter-step-by-step) with $M$ **particles** (G-2491), repeated 1000 times (notebook):
+The price of a Monte Carlo estimate is randomness: a different set of samples gives a slightly different answer. More samples give a steadier answer. In our corridor, the share of weight at door 3 after the third reading is exactly 0.956. Estimated by the **particle filter** (G-2492) of [Section 4](#4-the-particle-filter-step-by-step) with $M$ **particles** (G-2491), repeated 1000 times (notebook):
 
 | Samples $M$ | Average estimate | Standard deviation |
 |---|---|---|
@@ -143,7 +145,7 @@ $$\sqrt{10} = 3.16$$
 
 The standard deviation of an average of independent draws, its [standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#42-mean-and-variance-of-the-sample-means) (G-1872), shrinks at that same rate.
 
-Figure 3 shows the same thing as a picture. It draws positions one at a time from the exact belief after the second reading, the two-mode curve of Figure 2, and pauses at 20, 200 and 2000 samples. Watch the grey bars against the blue curve: at 20 samples they are ragged; at 2000 they follow the two modes.
+Figure 3 shows the same thing as a picture. The animation draws positions one at a time from the exact belief after the second reading, the two-mode curve of Figure 2, and pauses at 20, 200 and 2000 samples. Watch the grey bars (each 0.25 m bin's share of the samples, divided by 0.25 m to give a value per metre) against the blue curve: at 20 samples they are ragged; at 2000 they follow the two modes.
 
 ![Positions drawn one at a time from the exact belief after the second reading (blue line, two modes, at door 2 and door 3). Top: the samples on the corridor, the newest red. Bottom: their histogram. The count pauses at 20 samples (ragged bars), 200 (closer) and 2000; the last frame shows 2000 samples whose bars follow the two modes](images/cloud_anim.gif)
 
@@ -167,7 +169,7 @@ The probability of a region is the sum of the weights of the particles in it (wi
 
 > **Key point:** Each round moves every **particle** (G-2491) by the command plus its own random slip, weighs it by how well it explains the reading, and resamples the set in proportion to the weights.
 
-This is how the robot of Figure 1 gets from three doors to one: the **particle filter** (G-2492) runs the two Bayes-filter steps on particles (Figure 4). We work each step by hand first, then run all of them on the corridor.
+The **particle filter** (G-2492) is how the robot of Figure 1 gets from three doors to one: it runs the two Bayes-filter steps on particles (Figure 4). We work each step by hand first, then run all of them on the corridor.
 
 ![One round of the particle filter: move every particle by the command plus its own random slip; weigh each by p(z | x); resample M new particles in proportion to the weights](images/pf_cycle.png)
 
@@ -198,7 +200,7 @@ For each particle we ask the sensor model how likely the reading $z$ is if the r
 
 $$w^{[m]} = p(z \mid x^{[m]})$$
 
-The result is the **importance weight** (G-2494) of the particle. It is the height of the **Gaussian** (G-827), centred on the particle's expected reading $h(x^{[m]})$, at the reading $z$ (Figure 5). It is a height, not an area: the area under a density over a single point is zero, and the height is what a [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#42-likelihood-is-a-height) (G-1086) is. The height is a density, not a probability, so it can be larger than 1.
+The result is the **importance weight** (G-2494) of the particle: the height of the **Gaussian** (G-827), centred on the particle's expected reading $h(x^{[m]})$, at the reading $z$ (Figure 5). The weight is a height, not an area: the area under a density over a single point is zero, and the height is what a [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#42-likelihood-is-a-height) (G-1086) is. The height is a density, not a probability, so it can be larger than 1.
 
 ![Left: five particles on the corridor, three at doors (blue) and two beside wall (grey). Right: the sensor's Gaussian centred on 1.5 m for a door particle and on 1.0 m for a wall particle; at the reading 1.46 m the heights are 2.567 and 0.024](images/weight_by_hand.png)
 
@@ -254,7 +256,7 @@ The division by the total is the $\eta$ of the update formula in [Section 2.2](#
 
 ### 4.2.1 Why weighting gives the right belief
 
-After the move step ([Section 4.4](#44-move-the-predict-step)), the **particles** (G-2491) are samples of the predicted belief $\overline{\text{bel}}(x)$. The update of [Section 2.2](#22-the-bayes-filter-in-brief) multiplies that **belief** (G-2433) by the sensor model $p(z \mid x)$ and rescales. Giving each particle the weight $p(z \mid x)$ and normalising does that same update on the cloud, so the weighted cloud stands for the updated belief $\text{bel}(x)$ (Freiburg PF slides). It is the multiply-then-rescale of the [histogram filter's sense step](../RO-015-grid-filters/RO-015-grid-filters.md#22-sense-multiply-then-rescale), with particles in place of cells.
+After the move step ([Section 4.4](#44-move-the-predict-step)), the **particles** (G-2491) are samples of the predicted belief $\overline{\text{bel}}(x)$. The update of [Section 2.2](#22-the-bayes-filter-in-brief) multiplies that **belief** (G-2433) by the sensor model $p(z \mid x)$ and rescales. Giving each particle the weight $p(z \mid x)$ and normalising does that same update on the cloud, so the weighted cloud stands for the updated belief $\text{bel}(x)$ (Freiburg PF slides). Weighting is the multiply-then-rescale of the [histogram filter's sense step](../RO-015-grid-filters/RO-015-grid-filters.md#22-sense-multiply-then-rescale), with particles in place of cells.
 
 ### 4.3 Resample: copy the heavy particles, drop the light ones
 
@@ -264,7 +266,7 @@ After the move step ([Section 4.4](#44-move-the-predict-step)), the **particles*
 
 **The idea.** Draw $M$ new particles from the weighted set, [with replacement](../../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement) (G-2125), each draw picking particle $i$ with probability equal to its weight $w^{[i]}$. A heavy particle is picked several times, a light one probably never. The new particles all get the weight $1/M$ again: the copies have taken the place of the weight. This step is **resampling** (G-2498); it is the same "draw rows in proportion to weight" as [upsampling in AdaBoost](../../../../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight).
 
-**Plain resampling.** Lay the weights end to end along the line from 0 to 1, so each particle owns a stretch as long as its weight (Figure 6, top). Draw $M$ independent random numbers between 0 and 1; each picks the particle whose stretch it lands in. This is **multinomial resampling** (G-2500). With our five weights, one draw of five numbers gave:
+**Plain resampling.** Lay the weights end to end along the line from 0 to 1, so each particle owns a stretch as long as its weight (Figure 6, top). Draw $M$ independent random numbers between 0 and 1; each picks the particle whose stretch it lands in. Drawing with $M$ independent random numbers is **multinomial resampling** (G-2500). With our five weights, one draw of five numbers gave:
 
 $$0.33,\ 0.99,\ 0.32,\ 0.79,\ 0.87$$
 
@@ -279,7 +281,7 @@ $$0.6687^5 = 0.134$$
 
 A good guess lost by chance is never recovered, because resampling only copies existing particles. [Section 5](#5-particle-deprivation) shows where that leads.
 
-**The low-variance sampler.** Instead of $M$ independent random numbers, draw one random start $r$ between 0 and $1/M$, and place $M$ pointers exactly $1/M$ apart from it (Figure 6, bottom). Each pointer picks the particle it lands on. This is the **low-variance sampler** (G-2499), also called systematic resampling (Freiburg PF slides; Labbe ch.12).
+**The low-variance sampler.** Instead of $M$ independent random numbers, draw one random start $r$ between 0 and $1/M$, and place $M$ pointers exactly $1/M$ apart from it (Figure 6, bottom). Each pointer picks the particle it lands on. Resampling with evenly spaced pointers is the **low-variance sampler** (G-2499), also called systematic resampling (Freiburg PF slides; Labbe ch.12).
 
 Figure 6 runs both on our five weights: first the five random numbers of plain resampling land one at a time, then the five evenly spaced pointers. Watch particle 3: plain resampling gives it no copy, the pointers give it one.
 
@@ -317,7 +319,7 @@ The stretches end at the running totals of the weights:
 | Low-variance | 1.655 | 0.475 | 0.000 |
 | Plain | 1.654 | 1.052 | 0.135 |
 
-Both give the same average, so neither favours any particle; the low-variance sampler's standard deviation is less than half as large. It also needs one pass along the list, a running time proportional to $M$, against $M \log M$ for plain resampling with a search per draw (Freiburg PF slides; Labbe ch.12).
+Both give the same average, so neither favours any particle; the low-variance sampler's standard deviation is less than half as large. The low-variance sampler also needs one pass along the list, a running time proportional to $M$, against $M \log M$ for plain resampling with a search per draw (Freiburg PF slides; Labbe ch.12).
 
 > **Python:** the low-variance sampler in four lines.
 > ```python
@@ -352,7 +354,7 @@ Figure 8 runs the filter with 100 **particles** (G-2491) through the three readi
 - after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two modes, at doors 2 and 3;
 - after move 2 and reading 3 (frames 7 and 8), one cluster is left, at door 3, around the robot.
 
-The blue line in the lower panel is the exact **belief** (G-2433) from a fine grid (a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461) with 2000 cells); the grey bars follow it.
+The blue line in the lower panel is the exact **belief** (G-2433) from a fine grid (a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461) with 2000 cells); the grey bars, each 0.25 m bin's share of the weight divided by 0.25 m, follow it.
 
 ![The particle filter on the corridor, one stage per frame: 100 particles spread evenly, weighed by reading 1 (three clusters), resampled, moved 2.5 m, weighed by reading 2 (two clusters), resampled, moved again, weighed by reading 3 (one cluster at door 3). Bottom: the particle histogram against the exact belief](images/pf_loop.gif)
 
@@ -364,7 +366,7 @@ The share of weight at each door after each reading, from the particles of Figur
 | 2 ($z$ = 1.58) | 0.00, 0.01 | 0.49, 0.50 | 0.51, 0.50 |
 | 3 ($z$ = 1.41) | 0.00, 0.00 | 0.00, 0.01 | 0.96, 0.96 |
 
-The cloud remembers the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. That answers the opening's "door 1, door 2 or door 3": the shares start at about 0.33 each and end at 0.96 for door 3, where the robot is.
+The cloud remembers the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. The shares answer the opening's "door 1, door 2 or door 3": they start at about 0.33 each and end at 0.96 for door 3, where the robot is.
 
 **One answer from a cloud, and a trap.** A controller usually wants one position. In symbols:
 
@@ -443,8 +445,8 @@ The problem grows with the number of state variables. A cloud of 100 points cove
 - A particle's weight is the height of the sensor curve at the reading (2.567 at a door, 0.024 at a wall), because weighting by the sensor model $p(z \mid x)$ and normalising is the multiply-and-rescale of the update step.
 - **Resampling** (G-2498) with the low-variance sampler keeps every particle with weight at least $1/M$, one over the number of particles, and halves the randomness of plain resampling, so good guesses are not lost by chance.
 - Each particle gets its own slip in the move step, so copies spread out and the cloud keeps covering the possible positions.
-- The weighted mean is a safe answer only for one cluster; with two it can fall in front of a wall.
-- Too few particles cause deprivation (43.9 percent right with 5 particles, 100 percent with 100).
+- The weighted mean is a safe answer only for one cluster, because with two it averages them and can land between them, in front of a wall (5.73 m after reading 2).
+- Too few particles cause deprivation, because resampling only copies particles that exist, so a door left without particles is never recovered (43.9 percent right with 5 particles, 100 percent with 100).
 
 The robot can now keep a belief of any shape, such as three doors at once. Still missing: every particle costs a motion step and a sensor check each round, and when the belief is a single **Gaussian** (G-827), two numbers, a mean and a variance, carry all of it, which is the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#1-overview) (G-2506).
 

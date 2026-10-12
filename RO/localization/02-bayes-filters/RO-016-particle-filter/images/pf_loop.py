@@ -70,7 +70,7 @@ def frame(i, name, x, w):
                       margin=dict(l=90, r=40, t=110, b=70),
                       title=dict(x=0.5, y=0.97, font=dict(size=23), text=f"{i + 1}. {TITLES[name]}"))
     fig.add_annotation(xref="paper", yref="paper", x=1, y=0.555, xanchor="right", showarrow=False, font=dict(size=16),
-                       text="grey bars: share of particle weight per 0.25 m; blue line: exact belief")
+                       text="grey bars: share of particle weight in each 0.25 m bin, divided by 0.25 m; blue line: exact belief")
     return fig
 
 
