@@ -11,7 +11,7 @@ tags: [subject/machine-learning, area/models-1, area/production, step/model, ste
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Classification problems](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#23-regression-and-classification); [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#3-instance-based-learning); [Vector magnitude, distance and scalar operations](../../../MA/05-linear-algebra/MA-049-magnitude-distance-and-scalar-operations/MA-049-magnitude-distance-and-scalar-operations.md#2-magnitude-the-distance-from-the-origin); [Feature scaling](../../../ML/03-feature-engineering/ML-023-standardization/ML-023-standardization.md#2-feature-scaling-in-brief); [Cross-validation](../../../ML/03-feature-engineering/ML-028-pipelines/ML-028-pipelines.md#8-cross-validation-with-a-pipeline); [Curse of dimensionality](../../../ML/05-dimensionality/ML-045-curse-of-dimensionality/ML-045-curse-of-dimensionality.md#2-what-the-curse-of-dimensionality-is).
-> - **Leads to:** [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [SMOTE](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#7-smote).
+> - **Leads to:** [Decision trees](../../../ML/08-trees-and-ensembles/ML-091-decision-trees-intuition/ML-091-decision-trees-intuition.md#2-a-decision-tree-is-nested-if-else); [SMOTE](../../../ML/09-clustering-and-more/ML-127-imbalanced-data/ML-127-imbalanced-data.md#7-smote); [Nearest neighbours with wrap-around](../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#8-nearest-neighbours-when-headings-wrap).
 > - **Compare with:** [Overfitting](../../../ML/01-foundations/ML-007-challenges-in-ml/ML-007-challenges-in-ml.md#71-overfitting); [Bias-variance trade-off](../../../ML/06-regression/ML-061-bias-variance/ML-061-bias-variance.md#5-the-trade-off); [ANN for classification](../../../DL/01-basics/DL-011-customer-churn-ann/DL-011-customer-churn-ann.md#4-building-a-network-in-keras).
 <!-- /where-this-fits -->
 
@@ -38,7 +38,7 @@ KNN does it in five steps:
 1. **Choose k**, the number of neighbours to consult, for example k = 3.
 2. **Measure** the distance from the query point to every training point. With 100 students, that is 100 distances. The usual choice is the **Euclidean distance** (G-715; the [**KNN imputer**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#4-distance-between-observations-with-missing-values) (G-1017), section 4.1): the square root of the summed squared differences, feature by feature.
 3. **Sort** the distances from smallest to largest.
-4. **Keep the k nearest** training points: the [**neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306).
+4. **Keep the k nearest** training points: the [**neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#32-the-k-nearest-neighbours) (G-1306).
 5. **Vote** (a **majority vote**, G-1146): each neighbour "says" its class, and the class with the most votes wins. If the 3 neighbours say 1, 1 and 0, the prediction is 1 (placed).
 
 **The steps on four students.** A tiny table of our own, to make step 2 concrete. Each row is one training student: CGPA, IQ and the placement result.
@@ -487,7 +487,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | KNeighborsClassifier (G-1016) | scikit-learn's KNN classifier; `n_neighbors=5` by default. |
 | meshgrid (G-1211) | NumPy function that builds every combination of x and y values: the grid for a decision surface. |
 | Square-root rule (G-1862) | A rough starting value for k, the number of neighbours in KNN: about $\sqrt{n}$, where $n$ is the number of training rows, made odd to avoid ties. |
-| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#32-the-k-nearest-neighbours) (G-1306) | The observations at the smallest distance from a given point; in KNN, the k training points closest to the query point, whose values or labels decide the prediction. |
 | [Instance-based learning](../../../ML/01-foundations/ML-006-instance-vs-model-based/ML-006-instance-vs-model-based.md#2-two-ways-to-learn) (G-955) | Learning by storing the training data and comparing new points with it. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |

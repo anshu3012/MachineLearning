@@ -60,7 +60,7 @@ Figure 2 shows the three steps.
 
 > **Key point:** Keras' `TextVectorization` layer lower-cases the text, strips punctuation, splits it into words, builds the **vocabulary** (G-2092) and replaces each word by its index, in one step.
 
-Splitting a text into words is [**tokenization**](../../06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
+Splitting a text into words is **tokenization** (G-1983). Doing it by hand means lower-casing every word, removing punctuation and numbering the words; Keras does all of it.
 
 Take a document of 10 short cheering slogans, such as "go india", "india india" and "jeetega bhai jeetega india jeetega". `adapt` reads the document and builds the vocabulary, most frequent word first. The Notebook prints 19 entries:
 
@@ -332,6 +332,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Padding (G-1436) | Adding zeros to sequences so that all have the same length. |
 | Integer encoding (G-956) | Replacing each word by its index (a whole number) in the vocabulary, so a network such as an RNN can read text as numbers. |
+| Tokenisation (tokenization) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
 | Out-of-vocabulary (OOV) token (G-1416) | A placeholder token, `[UNK]`, that stands for every word not in the vocabulary, so a word never seen in training still gets an index. |
 | IMDB dataset (G-923) | 50,000 film reviews labelled positive or negative, a standard sentiment-analysis dataset. |
 | `return_sequences` (G-136) | Argument of a Keras recurrent layer: `False` returns only the last hidden state, `True` returns the hidden state at every time step; `True` is needed on every stacked layer but the last. |
@@ -346,7 +347,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [One-hot encoding](../../../ML/03-feature-engineering/ML-026-one-hot-encoding/ML-026-one-hot-encoding.md#2-how-one-hot-encoding-works) (G-1379) | Replacing a nominal column by one 0/1 column per category, with a single 1 in each row; also used to represent words. |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |
-| [Tokenisation (tokenization)](../../../DL/06-transformers/DL-081-transformer-encoder/DL-081-transformer-encoder.md#10-key-terms) (G-1983) | Splitting a text into tokens (words or word pieces), the units a language model reads and writes, before they are turned into vectors. |
 | [Named entity recognition (NER)](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#51-same-length) (G-1300) | Marking which words of a sentence are entities, specific things a program must act on, such as "7 pm" and "airport"; chatbots use it to pick out times and places. |
 | [Machine translation](../../../DL/05-rnn/DL-058-types-of-rnn/DL-058-types-of-rnn.md#52-different-lengths) (G-1141) | Translating a sentence from one language into another. |
 | [Binary cross entropy (log loss)](../../../ML/07-classification/ML-072-log-loss/ML-072-log-loss.md#62-the-loss-function) (G-303) | The loss function of logistic regression for two classes: per row $-y\log a - (1 - y)\log(1 - a)$, averaged over the rows (the average cross entropy). |

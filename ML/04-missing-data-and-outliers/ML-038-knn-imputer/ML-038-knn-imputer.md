@@ -355,7 +355,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Fill error (G-2197) | The average gap between filled values and the true values they replace, measured on values we hid on purpose. |
 | Uniform weighting (G-2044) | Every neighbour counts equally: the fill is their plain mean. |
 | Distance weighting (G-622) | Each neighbour counts in proportion to 1 / its distance, so nearer rows count more. |
-| Nearest neighbours (neighbours) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| Nearest neighbours (neighbours) (G-1306) | The observations at the smallest distance from a given point; in KNN, the k training points closest to the query point, whose values or labels decide the prediction. |
 | [Feature](../../../ML/01-foundations/ML-002-ai-vs-ml-vs-dl/ML-002-ai-vs-ml-vs-dl.md#52-features-chosen-by-us-or-learned) (G-772) | One piece of information about each example that a model uses (e.g. a student's CGPA). |
 | [Observation](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1374) | One record of a dataset: one row of the data table. |
 | [Target](../../../ML/01-foundations/ML-003-types-of-ml/ML-003-types-of-ml.md#21-learning-from-inputs-and-outputs) (G-1949) | The output column we predict, such as the class; also called the label. |

@@ -221,7 +221,7 @@ Labels are **expensive**. Collecting inputs is easy; for example, we can downloa
 
 One human label replaced hundreds.
 
-How does one label reach a whole group? Similar observations sit close together, so a label can hop from each observation to its [**nearest neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306), the observations closest to it. Figure 12 shows the hops on the 90 students of Figure 6.
+How does one label reach a whole group? Similar observations sit close together, so a label can hop from each observation to its [**nearest neighbours**](../../04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#32-the-k-nearest-neighbours) (G-1306), the observations closest to it. Figure 12 shows the hops on the 90 students of Figure 6.
 
 ![Label propagation on the 90 students of Figure 6. Stars: the three students labelled by hand. Grey links join each student to its 5 nearest neighbours; a white dot has no label yet.](images/label_spreading.gif)
 
@@ -366,5 +366,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feature construction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-760) | Creating a new column by hand from existing ones, e.g. rooms + washrooms into area. |
 | [Feature extraction](../../../ML/03-feature-engineering/ML-022-what-is-feature-engineering/ML-022-what-is-feature-engineering.md#5-the-four-parts-of-feature-engineering) (G-762) | Letting an algorithm such as PCA produce new columns from the existing ones (compare feature construction, where we make them by hand). |
 | [PCA (principal component analysis)](../../../ML/05-dimensionality/ML-046-pca-geometric-intuition/ML-046-pca-geometric-intuition.md#1-what-pca-is) (G-1469) | A way to replace many columns with a few new ones that keep most of the spread in the data, using no labels (unsupervised feature extraction for dimensionality reduction). Each new column, a principal component, follows one direction of greatest variance. Used to cut the number of features and to plot data with many columns. |
-| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#10-key-terms) (G-1306) | The rows at the smallest distance from a given row; in KNN, the k training points closest to the query point. |
+| [Nearest neighbours (neighbours)](../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#32-the-k-nearest-neighbours) (G-1306) | The observations at the smallest distance from a given point; in KNN, the k training points closest to the query point, whose values or labels decide the prediction. |
 | [Self-supervised learning](../../../DL/06-transformers/DL-067-history-of-llms/DL-067-history-of-llms.md#7-stage-4-transfer-learning-for-language-2018) (G-2279) | Learning where the labels are made from the data itself, such as the next word of a text; it lets a model learn from any amount of unlabelled data, with no human labelling. |
