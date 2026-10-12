@@ -110,7 +110,7 @@ embed_interactive() {
         next
       }
     }
-    /^<!-- playground: images\/[^ \/]+\.html -->[[:space:]]*$/ {
+    /^<!-- playground: images\/[^ ]+\.html -->[[:space:]]*$/ {
       name = $0; sub(/.*images\//, "", name); sub(/\.html -->[[:space:]]*$/, "", name)
       printf "<iframe class=\"playground\" data-src=\"%s%s.htm\" title=\"Interactive playground\" height=\"%d\" hidden></iframe>" \
              BTN "Open interactive playground</button>\n" \
@@ -148,7 +148,11 @@ copy_images() {  # $1 = source images dir, $2 = destination dir, $3 = "name<TAB>
   mkdir -p "$2"
   refs=$(grep -oE 'images/[^]()" >]+' "$4" | sed 's#^images/##' | sort -u)
   for f in $refs; do
-    case "$f" in *.png|*.gif|*.svg|*.jpg) [ -f "$1/$f" ] && cp "$1/$f" "$2/" ;; esac
+    case "$f" in *.png|*.gif|*.svg|*.jpg) [ -f "$1/$f" ] && mkdir -p "$2/$(dirname "$f")" && cp "$1/$f" "$2/$f" ;; esac
+  done
+  for f in $refs; do   # a playground in a subfolder (projects keep one folder per map: images/chicago/x.html)
+    case "$f" in */*.html) [ -f "$1/$f" ] && mkdir -p "$2/$(dirname "$f")" &&
+      printf '%s\t%s\n' "${f%.html}" "$(copy_html "$1/$f" "$2/${f%.html}.htm")" >> "$3" ;; esac
   done
   for f in "$1"/*.html; do
     [ -e "$f" ] || continue
@@ -206,6 +210,19 @@ else
       [ "$ch" != "$last" ] && { t=${ch##*/}; t=${t#[0-9][0-9]-}; printf '\n## %s\n\n' "${t^}" | tr - ' '; last=$ch; }
       n=$(basename "$f" .md); echo "- [${n%%-[a-z]*} $(sed -n 's/^title: "\(.*\)"$/\1/p' "$f" | head -1)]($n)"
     done; } > "$content/index.md"
+  # Projects (Robotics site only): projects/<name>/<name>.md -> projects/<name>.md, images in projects/<name>/images/,
+  # listed at the end of the home page. Notes never link to a project; a project links to Notes.
+  if [ "$SITE" = robotics ]; then
+    for f in "$repo"/projects/*/*.md; do
+      [ -e "$f" ] && [ "$(basename "$f" .md)" = "$(basename "$(dirname "$f")")" ] || continue
+      rel=${f#"$repo"/}; rel=${rel%/*}; name=$(basename "$rel")
+      mkdir -p "$content/projects"
+      copy_images "$repo/$rel/images" "$content/$rel/images" "$twins" "$f"
+      h1_to_frontmatter < "$f" | fix_md "$rel/" | cross_links | add_captions | embed_interactive "$rel/" "$twins" > "$content/projects/$name.md"
+      [ -n "${listed:-}" ] || { printf '\n## Projects\n\n' >> "$content/index.md"; listed=1; }
+      echo "- [$(sed -n '0,/^# /s/^# //p' "$f")](projects/$name)" >> "$content/index.md"
+    done
+  fi
 fi
 mkdir -p "$content/tools" && cp "$repo/tools/plotly.min.js" "$content/tools/"
 h1_to_frontmatter < "$repo/glossary.md" | fix_md "" | cross_links > "$content/glossary.md"

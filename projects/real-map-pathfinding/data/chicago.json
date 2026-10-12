@@ -1,0 +1,63 @@
+{
+ "label": "Chicago",
+ "source": "OpenStreetMap via OSMnx 2.1.1, network_type='drive', 2500 m around 41.88190, -87.63000",
+ "credit": "Map data © OpenStreetMap contributors (ODbL)",
+ "start": {
+  "lat": 41.864664,
+  "lon": -87.6553638,
+  "node": 261209369
+ },
+ "goal": {
+  "lat": 41.8930103,
+  "lon": -87.6101932,
+  "node": 258023124
+ },
+ "goals_tag": [
+  "railway=station",
+  "train=yes"
+ ],
+ "goals": [
+  {
+   "name": "Halsted Street",
+   "lat": 41.8598977,
+   "lon": -87.6476801,
+   "node": 706904455
+  },
+  {
+   "name": "Museum Campus/11th Street",
+   "lat": 41.8675542,
+   "lon": -87.6225595,
+   "node": 272206536
+  },
+  {
+   "name": "Chicago Union Station",
+   "lat": 41.878055,
+   "lon": -87.6395924,
+   "node": 27440209
+  },
+  {
+   "name": "Millennium Station",
+   "lat": 41.8844843,
+   "lon": -87.6239098,
+   "node": 10838732049
+  },
+  {
+   "name": "Van Buren Street",
+   "lat": 41.8769665,
+   "lon": -87.6241746,
+   "node": 27440234
+  },
+  {
+   "name": "LaSalle Street Station",
+   "lat": 41.8755223,
+   "lon": -87.6317314,
+   "node": 388608193
+  },
+  {
+   "name": "Ogilvie Transportation Center",
+   "lat": 41.8831852,
+   "lon": -87.6412675,
+   "node": 258020219
+  }
+ ]
+}

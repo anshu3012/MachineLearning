@@ -1,0 +1,18 @@
+{
+  "name": "Small warehouse",
+  "about": "A small warehouse floor in metres. Shelves are rectangles [x0, y0, x1, y1]. A long back-to-back rack splits the floor; a 0.8 m gap in it is the short way, the open end at the right is the long way.",
+  "bounds": [0, 0, 20, 12.5],
+  "robot_radius": 0.25,
+  "start": [2.0, 1.5],
+  "goal": [2.0, 11.0],
+  "step": 1.0,
+  "obstacles": [
+    [0.0, 5.5, 5.6, 7.5],
+    [6.4, 5.5, 17.0, 7.5],
+    [4.0, 2.5, 9.0, 3.5],
+    [11.0, 2.5, 16.0, 3.5],
+    [4.0, 9.5, 9.0, 10.5],
+    [11.0, 9.5, 16.0, 10.5]
+  ],
+  "notes": [[8.5, 6.5, "← 0.8 m gap"]]
+}

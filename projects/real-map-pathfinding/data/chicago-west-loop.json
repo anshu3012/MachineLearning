@@ -1,0 +1,33 @@
+{
+ "label": "Chicago, West Loop",
+ "source": "OpenStreetMap via OSMnx 2.1.1, network_type='drive', 550 m around 41.88200, -87.63950, cut from data/chicago",
+ "credit": "Map data © OpenStreetMap contributors (ODbL)",
+ "start": {
+  "lat": 41.8778635,
+  "lon": -87.6453642,
+  "node": 8815131635
+ },
+ "goal": {
+  "lat": 41.8857316,
+  "lon": -87.6347741,
+  "node": 270611554
+ },
+ "goals_tag": [
+  "railway=station",
+  "train=yes"
+ ],
+ "goals": [
+  {
+   "name": "Chicago Union Station",
+   "lat": 41.878055,
+   "lon": -87.6395924,
+   "node": 27440209
+  },
+  {
+   "name": "Ogilvie Transportation Center",
+   "lat": 41.8831852,
+   "lon": -87.6412675,
+   "node": 258020219
+  }
+ ]
+}
