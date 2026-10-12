@@ -1,6 +1,6 @@
 # Moved from RO-008 on 2026-10-10: normal and triangular noise from uniform random numbers
 
-Source: RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models, §5.2 (whole subsection, Figure 6 there) and the §7 Extra box on rejection sampling. Figure: images/sampling (sampling.py imports gifkit.py from RO-008's images folder for its colours). Notebook cell: notebook-cells-from-RO-008.json.
+Source: RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models, §5.2 (whole subsection, Figure 7 there) and the §7 Extra box on rejection sampling. Figure: images/sampling (sampling.py imports gifkit.py from RO-008's images folder for its colours). Notebook cell: notebook-cells-from-RO-008.json.
 
 Glossary row to restore:
 

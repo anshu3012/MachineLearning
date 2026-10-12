@@ -22,7 +22,7 @@ This Note adds the models that say how far off the robot ends, and in which dire
 
 ## 2. Motion as a distribution
 
-> **Key point:** Wheels slip and motors lag, so the same command ends in different poses, and we describe the result as a distribution over the end pose $x_t$, given the control $u_t$ and the start pose $x_{t-1}$: $p(x_t \mid u_t, x_{t-1})$. The distribution's value at a pose is a density, not a probability.
+> **Key point:** Wheels slip and motors lag, so the same command ends in different poses, and we describe the result as a distribution over the end pose $\mathbf x_t$, given the control $u_t$ and the start pose $\mathbf x_{t-1}$: $p(\mathbf x_t \mid u_t, \mathbf x_{t-1})$. The distribution's value at a pose is a density, not a probability.
 
 ### 2.1 Why one command gives many end poses
 
@@ -53,12 +53,13 @@ The exact area is 0.0484. A density can be larger than 1: at 1 m it is 3.99 per 
 
 The same idea in full is the **motion model** (G-2319), also called the state transition probability (Freiburg slides). For the robot of Figure 1:
 
-- $x_{t-1}$ is the pose before the move, a list of three numbers (position x and y in m, heading θ), here (2 m, 1 m, 30°);
+- $\mathbf{x}$ (bold) is the pose, the three numbers $(x, y, \theta)$; plain $x$ is its first number (position $x$ and $y$ in m, heading $\theta$);
+- $\mathbf x_{t-1}$ is the pose before the move, here (2 m, 1 m, 30°);
 - $u_t$ is the control, the command or the odometry reading for this move, here 0.5 m/s and 1 rad/s for 1 s;
-- $x_t$ is a possible pose after the move, the same three numbers, such as the kinematic model's (2.249 m, 1.409 m, 87.3°);
-- $p(x_t \mid u_t,\ x_{t-1})$ is the density of ending at $x_t$, given $u_t$ and $x_{t-1}$ (the bar reads "given"); in the one-dimensional example it is per m.
+- $\mathbf x_t$ is a possible pose after the move, the same three numbers, such as the kinematic model's (2.249 m, 1.409 m, 87.3°);
+- $p(\mathbf x_t \mid u_t,\ \mathbf x_{t-1})$ is the density of ending at $\mathbf x_t$, given $u_t$ and $\mathbf x_{t-1}$ (the bar reads "given"); in the one-dimensional example it is per m.
 
-$$p(x_t \mid u_t,\ x_{t-1})$$
+$$p(\mathbf x_t \mid u_t,\ \mathbf x_{t-1})$$
 
 In the one-dimensional example:
 
@@ -164,12 +165,12 @@ Odometry's pose estimate drifts from the truth over time, as [Section 3.2](#32-w
 
 Odometry reports that the robot went from one pose to another. Over our 1 s drive:
 
-- $\bar x_{t-1}$ is odometry's estimate of the pose before the move (the bar marks odometry's own estimate), three numbers: x and y in m, heading in rad;
-- $\bar x_t$ is odometry's estimate of the pose after the move, the same three numbers.
+- $\bar{\mathbf x_{t-1}}$ is odometry's estimate of the pose before the move (the bar marks odometry's own estimate), three numbers: x and y in m, heading in rad;
+- $\bar{\mathbf x_t}$ is odometry's estimate of the pose after the move, the same three numbers.
 
-$$\bar x_{t-1} = (2,\ 1,\ 0.524)$$
+$$\bar{\mathbf x_{t-1}} = (2,\ 1,\ 0.524)$$
 
-$$\bar x_t = (2.249,\ 1.409,\ 1.524)$$
+$$\bar{\mathbf x_t} = (2.249,\ 1.409,\ 1.524)$$
 
 Whatever path the robot took, any such change of pose can be done in three simple motions: turn on the spot to face the end point, drive straight to it, turn on the spot to the end heading (Figure 5). Three numbers describe the three motions, matching the three numbers of the pose change (Thrun et al. 2005 §5.4, as in the Freiburg slides):
 
@@ -253,6 +254,10 @@ For this pose:
 - $p_2$ is the density for the drive, per m;
 - $p_3$ is the density for the second turn, per rad.
 
+In Figure 6, watch the three steps in order. First the robot drives this pose's turn, drive and turn next to odometry's (grey). Then each gap is marked on its Gaussian and the density read off the curve, and the three densities multiply to 76.7. Last, the far pose (2.10, 1.60, 1.50) does the same: its two turns land far out on their curves, and its product drops close to 0. One part far out on its curve is enough to pull the whole score down.
+
+![Animation of scoring a pose with the odometry model. Odometry reported a first turn of 0.500 rad, a drive of 0.479 m and a second turn of 0.500 rad (grey). Stage 1: the robot drives the turn, drive and turn that take the start (2, 1), facing 30°, to the pose (2.27, 1.38, 1.50): 0.4294 rad, 0.4662 m and 0.5470 rad (blue); the robots are drawn at a fifth of their size. Stage 2: each part gets its Gaussian, centred on odometry's value, with standard deviation σ of 0.0979 rad for each turn and 0.0579 m for the drive; the arrow marks the gap a, odometry's value minus this pose's, and the dot reads the density off the curve: p1 = 3.142 per rad, p2 = 6.724 per m, p3 = 3.631 per rad, whose product is 76.7. Stage 3: the far pose (2.10, 1.60, 1.50) needs 0.8820 rad, 0.6083 m and 0.0944 rad (red). The last frame shows both poses on the three Gaussians: the far pose's turns get only 0.0020 and 0.00076 per rad and its drive 0.57 per m, so its product is 8.7 × 10⁻⁷ against 76.7](images/pose_score_anim.gif)
+
 The normal density:
 
 $$\mathcal{N}(a;\ \sigma) = \frac{1}{\sqrt{2\pi\sigma^2}}\thinspace e^{-a^2 / (2\sigma^2)}$$
@@ -277,7 +282,7 @@ $$p_1\thinspace p_2\thinspace p_3 = 3.142 \times 6.724 \times 3.631$$
 
 $$= 76.7$$
 
-The value 76.7 is a density per radian, per metre and per radian, so it can be far above 1. On its own it means little; it is useful for comparison. The pose (2.10, 1.60, 1.50), which needs a first turn of 0.882 rad instead of 0.5, scores $8.7 \times 10^{-7}$: about a hundred million times less likely. The notebook `RO-008-probabilistic-motion-models.ipynb` computes both.
+The value 76.7 is a density per radian, per metre and per radian, so it can be far above 1. On its own it means little; it is useful for comparison. The far pose of Figure 6, (2.10, 1.60, 1.50), which needs a first turn of 0.882 rad instead of 0.5, scores $8.7 \times 10^{-7}$: about a hundred million times less likely. The notebook `RO-008-probabilistic-motion-models.ipynb` computes both.
 
 Scoring every pose on a fine grid around the start and shading each by its density draws the shape of the distribution. When the turning noise is large, the shape is curved like a banana, a **banana-shaped distribution** (G-2328). [Section 5.2](#52-sampling-the-odometry-model) shows why.
 
@@ -342,7 +347,7 @@ $$\theta' = 0.524 + 0.550 + 0.480 = 1.554$$
 
 This sample ends 3.5 cm left of and 1.4 cm below the model's end point, and faces 1.7° further left.
 
-Figure 6 first plays this worked sample one motion at a time, then draws 500 such samples for three noise settings; watch the middle cloud, with mostly turning noise, bend as it fills. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel. All of this needs odometry; a robot without encoders has only its command.
+Figure 7 first plays this worked sample one motion at a time, then draws 500 such samples for three noise settings; watch the middle cloud, with mostly turning noise, bend as it fills. With the Note's noise the cloud is round. When turning noise dominates, the samples swing along a circle around the start, because a wrong first turn sends the robot off at a wrong angle but the same distance: that is the banana. When driving noise dominates, they spread along the line of travel. All of this needs odometry; a robot without encoders has only its command.
 
 ![Animation of sampling the odometry model. First one draw, zoomed in: with the noise +0.05 rad, −0.03 m and −0.02 rad the robot turns 0.550 rad, drives 0.449 m and turns 0.480 rad, and ends at (2.214, 1.395) facing 1.554 rad, 3.5 cm left of and 1.4 cm below the model's end (red ×); the dashed arc is the noise-free path of Figure 1. Then 500 draws fill in for each of three noise settings. The last frame: the Note's noise gives a round cloud around (2.249, 1.409); mostly turning noise bends it into a banana around the start; mostly driving noise stretches it along the line from the start](images/banana_anim.gif)
 
@@ -406,7 +411,7 @@ $$x' = 1.750 + 0.5 \times 0.9989 = 2.249$$
 
 $$y' = 1.433 - 0.5 \times 0.0472 = 1.409$$
 
-Figure 7 plays the construction: watch the green radius swing 1 rad about the ICC and carry the robot along the blue arc, while a faint robot takes one Euler step of 1 s instead. The Euler step ends at (2.433, 1.250), 24 cm away, because it drives straight along the start heading.
+Figure 8 plays the construction: watch the green radius swing 1 rad about the ICC and carry the robot along the blue arc, while a faint robot takes one Euler step of 1 s instead. The Euler step ends at (2.433, 1.250), 24 cm away, because it drives straight along the start heading.
 
 ![Animation of the velocity model without noise: the forward speed v = 0.5 m/s and the turning rate omega = 1 rad/s give a turning radius of 0.5 m; the ICC (1.750, 1.433) lies 0.5 m to the robot's left. Over 1 s the green radius swings 1 rad about the ICC, and the robot drives the blue arc to (2.249, 1.409), facing 87.3 degrees. A faint robot takes one Euler step of 1 s instead, its heading held at 30 degrees, and ends at (2.433, 1.250); the last frame shows both ends, 24 cm apart](images/velocity_anim.gif)
 
@@ -446,7 +451,7 @@ $$= 0.15 \text{ rad/s}$$
 
 So the **linear velocity** (G-2291) varies by about 0.07 m/s and the angular velocity by about 0.15 rad/s.
 
-These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 8, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, a small extra turn at the end (Freiburg slides). The start heading $\theta$, the end heading $\theta'$, the noisy turning rate $\hat\omega$ and the time step $\Delta t$, 1 s, are as above; the new symbols:
+These two noises are not enough. A pose has three numbers, but $\hat v$ and $\hat\omega$ are only two. For every end position, exactly one circular arc leaves the start along the start heading and reaches it, so the end heading is fixed by the end position (Figure 9, left). A real robot can end at the same spot facing a little differently. The model therefore adds a third noise, a small extra turn at the end (Freiburg slides). The start heading $\theta$, the end heading $\theta'$, the noisy turning rate $\hat\omega$ and the time step $\Delta t$, 1 s, are as above; the new symbols:
 
 - $\hat\gamma$ is the extra turning rate, in rad/s, which over $\Delta t$ gives the extra end turn;
 - $\alpha_5$ is the extra turning rate per m/s of commanded speed, 0.02 rad per m;
@@ -484,28 +489,28 @@ A faster, gentler drive: the sample ends 4.4 cm further right and 2.2 cm higher 
 
 > **Key point:** A map tells the robot where it cannot be. For small steps we multiply the **motion model** (G-2319), the distribution of where a move ends, by "is this pose free?"; when sampling, we throw away and redraw any sample that lands inside an obstacle.
 
-The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 9, left, red). With a map of the free space we want the motion model that also knows the map. The end pose $x_t$, the control $u_t$ and the start pose $x_{t-1}$ are those of [Section 2.2](#22-the-motion-model-and-its-density); the new symbol:
+The cloud of Figure 1 can still hold poses where the robot cannot be: the motion models so far know nothing about the surroundings, so they put samples inside walls (Figure 10, left, red). With a map of the free space we want the motion model that also knows the map. The end pose $\mathbf x_t$, the control $u_t$ and the start pose $\mathbf x_{t-1}$ (bold $\mathbf{x}$ for a pose, plain $x$ for its first number) are those of [Section 2.2](#22-the-motion-model-and-its-density); the new symbol:
 
-- $m$ is the map: which places are free and which are inside walls or other obstacles, such as the wall 8 cm thick of Figure 9.
+- $m$ is the map: which places are free and which are inside walls or other obstacles, such as the wall 8 cm thick of Figure 10.
 
-$$p(x_t \mid u_t,\ x_{t-1},\ m)$$
+$$p(\mathbf x_t \mid u_t,\ \mathbf x_{t-1},\ m)$$
 
-Computing it exactly is hard, because it asks whether the robot could have reached $x_t$ without hitting anything along the way. For small steps there is an easy approximation (Freiburg slides, 2012 edition; Berry, Lecture 3-2b):
+Computing it exactly is hard, because it asks whether the robot could have reached $\mathbf x_t$ without hitting anything along the way. For small steps there is an easy approximation (Freiburg slides, 2012 edition; Berry, Lecture 3-2b):
 
-- $\pi(x_t)$ is 1 if the pose $x_t$ is free in the map and 0 if it is inside an obstacle;
+- $\pi(\mathbf x_t)$ is 1 if the pose $\mathbf x_t$ is free in the map and 0 if it is inside an obstacle;
 - $\eta$ is a number that rescales the result so that it adds up to 1 again.
 
-$$p(x_t \mid u_t, x_{t-1}, m)$$
+$$p(\mathbf x_t \mid u_t, \mathbf x_{t-1}, m)$$
 
-$$\approx \eta\thinspace p(x_t \mid u_t, x_{t-1})\thinspace\pi(x_t)$$
+$$\approx \eta\thinspace p(\mathbf x_t \mid u_t, \mathbf x_{t-1})\thinspace\pi(\mathbf x_t)$$
 
 A motion model that uses the map in this way is the **map-consistent motion model** (G-2329). When **sampling** (G-2326), it becomes a simple rule: draw a sample with the motion model; if it lies inside an obstacle, throw it away and draw again. Keeping only the draws that pass a test, and drawing again otherwise, is **rejection sampling** (G-2330) (Freiburg slides).
 
-Figure 9 tries both on our step. On the left, watch the cloud jump out in one step: samples that end inside the wall turn red, and samples that end beyond it stay. On the right, watch the cloud creep up in twenty small steps and stop at the wall.
+Figure 10 tries both on our step. On the left, watch the cloud jump out in one step: samples that end inside the wall turn red, and samples that end beyond it stay. On the right, watch the cloud creep up in twenty small steps and stop at the wall.
 
 ![Animation of sampling with a map; a wall 8 cm thick lies across the cloud of our 0.48 m step. Left: one big step; the 500 samples fly out from the start, and only where they end is checked: 95 end inside the wall and are rejected (red), but 14 end beyond the wall in free space and are kept (purple), though the robot could not have driven through the wall. Right: the same motion in twenty small steps of about 2.4 cm; after each step, draws that land in the wall flash red and are drawn again. The last frame: no sample gets beyond the wall](images/map_reject_anim.gif)
 
-The approximation checks only where a sample ends, not the path to it. So the approximation needs small steps. In Figure 9, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the final cloud has the same **standard deviation** (G-1870), the same spread, and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter (Thrun et al. 2005 §5.5).
+The approximation checks only where a sample ends, not the path to it. So the approximation needs small steps. In Figure 10, left, a wall 8 cm thick lies across the cloud of our 0.48 m step. Of 500 samples, 95 end inside the wall and are rejected, but 14 end beyond it, in free space, and are kept, although the robot could never have driven through the wall. On the right, the same motion is made in twenty small steps of about 2.4 cm, each with the noise raised so that the final cloud has the same **standard deviation** (G-1870), the same spread, and every sample that lands in the wall is redrawn. A small step cannot cross the wall in one jump, so no sample gets beyond it. A common rule of thumb is to keep each step below half the robot's diameter (Thrun et al. 2005 §5.5).
 
 ## 8. Summary
 
@@ -515,7 +520,7 @@ The approximation checks only where a sample ends, not the path to it. So the ap
 | Velocity model | commanded speeds $v$, $\omega$ for a time step $\Delta t$ | the speeds $v$, $\omega$ and an extra end turn $\gamma$ | no encoders, or predicting before the move (planning) |
 | Map-consistent model | either of the above, plus a map | as above; poses inside obstacles get 0 | a map is known and steps are small |
 
-- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a **motion model** (G-2319) $p(x_t \mid u_t, x_{t-1})$, the density of the end pose $x_t$ given the control $u_t$ and the start pose $x_{t-1}$, describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
+- The command of the opening, 0.5 m/s and 1 rad/s for 1 s, does not lead to the one pose (2.249, 1.409) but to a cloud around it, because wheels slip and motors lag; a **motion model** (G-2319) $p(\mathbf x_t \mid u_t, \mathbf x_{t-1})$, the density of the end pose $\mathbf x_t$ given the control $u_t$ and the start pose $\mathbf x_{t-1}$, describes that cloud; its values are densities, so only areas are probabilities (0.048 for the band 1.09 to 1.11 m) and a density can exceed 1.
 - **Wheel odometry** (G-2321) turns encoder ticks into wheel distances, the robot's move and a new pose; it drifts because each error stays in the running sum, and a 1 percent wrong wheel radius already puts the robot 2.49 m off after 10 m, so robots need calibration.
 - The odometry model splits each reported move into turn, drive, turn and puts noise on each, because that matches real robots better than one Gaussian on the end pose; its **standard deviations** (G-1870), the typical sizes of the noise, grow with the motion, because bigger motions slip more.
 - Scoring a pose multiplies three normal densities (76.7 for a close pose, $8.7 \times 10^{-7}$ for a far one), so filters can compare poses on a grid.
@@ -547,7 +552,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 
 | Term | Meaning |
 |---|---|
-| Motion model $p(x_t \mid u_t, x_{t-1})$ (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
+| Motion model $p(\mathbf x_t \mid u_t, \mathbf x_{t-1})$ (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
 | Wheel encoder (G-2320) | A sensor that counts how far a wheel turns, for example a slotted disc on the shaft that gives one tick per slot passing a light sensor; its counts are the raw data of wheel odometry. |
 | Odometry motion model (G-2323) | A motion model that splits the pose change reported by odometry into a first turn, a straight drive and a second turn, and adds independent noise to each, with a standard deviation that grows with the motion; used when wheel encoders exist. |
 | Velocity motion model (G-2324) | A motion model that takes the commanded linear velocity $v$ and angular velocity $\omega$, moves the robot along the exact arc about the ICC that they give, and adds noise to both speeds plus an extra final turn; used without encoders or to predict before a move. |

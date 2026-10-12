@@ -107,9 +107,11 @@ With our numbers:
 - $w_{\text{hit}}$ is the share of readings that end on a surface, 0.9;
 - $w_{\text{rand}}$ is the share of random readings, 0.1;
 - $\mathcal{N}(d;\ 0, \sigma^2)$ is the Gaussian density of $d$ with mean 0 and variance $\sigma^2$, in per m;
-- $p(z^k \mid x, m)$ is the density of beam $k$'s reading $z^k$, given the guessed pose $x$ and the map $m$, in per m.
+- $\mathbf{x}$ (bold) is the pose, the three numbers $(x, y, \theta)$ of [Section 3.1](#31-look-only-at-where-the-beam-ends); plain $x$ is its first number; pose A is (2 m, 2 m, 0°);
+- $m$ is the map: the room's walls and box of Figure 1;
+- $p(z^k \mid \mathbf{x}, m)$ is the density of beam $k$'s reading $z^k$, given the guessed pose $\mathbf{x}$ and the map $m$, in per m.
 
-$$p(z^k \mid x, m) = w_{\text{hit}}\ \mathcal{N}(d;\ 0, \sigma^2) + \frac{w_{\text{rand}}}{z_{\max}}$$
+$$p(z^k \mid \mathbf{x}, m) = w_{\text{hit}}\ \mathcal{N}(d;\ 0, \sigma^2) + \frac{w_{\text{rand}}}{z_{\max}}$$
 
 The standard deviation is wider than the beam model's 0.05 m, because $d$ also absorbs small errors in the map and the pose. The ROS localization package uses 0.2 m by default (ROS amcl, `laser_sigma_hit`).
 
