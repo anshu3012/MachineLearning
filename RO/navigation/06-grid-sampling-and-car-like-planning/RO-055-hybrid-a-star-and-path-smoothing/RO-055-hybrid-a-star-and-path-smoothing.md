@@ -8,7 +8,7 @@ tags: [subject/robotics, area/navigation, concept/hybrid-a-star, concept/analyti
 > **Where this fits:**
 >
 > - **Builds on:** [Gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#2-the-idea); [A* search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm); [Admissible heuristic](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#51-a-guess-that-never-overestimates); [Dubins and Reeds-Shepp paths](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#7-the-shortest-drivable-paths-dubins-and-reeds-shepp-curves); [Motion primitives and lattice search](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator).
-> - **Compare with:** [State lattice and control set](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-056-state-lattices/RO-056-state-lattices.md#32-the-control-set).
+> - **Compare with:** [State lattice and control set](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-056-state-lattices/RO-056-state-lattices.md#32-the-control-set); [Elastic band](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#42-five-points-the-smoothing-matrix).
 <!-- /where-this-fits -->
 
 ## 1. Overview

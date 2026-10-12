@@ -10,7 +10,7 @@ tags: [subject/maths, area/calculus, step/foundations, concept/hessian]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Eigenvectors and eigenvalues](../../../MA/05-linear-algebra/MA-056-eigenvectors-and-eigenvalues/MA-056-eigenvectors-and-eigenvalues.md#2-eigenvectors-stay-on-their-own-span); [Partial derivatives and gradients](../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#4-the-gradient).
-> - **Leads to:** [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test); [XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#6-why-xgboost-approximates-the-loss).
+> - **Leads to:** [Convex and non-convex loss](../../../MA/07-optimisation/MA-065-convex-and-non-convex-cost-functions/MA-065-convex-and-non-convex-cost-functions.md#3-the-chord-test); [XGBoost](../../../ML/08-trees-and-ensembles/ML-120-xgboost-maths/ML-120-xgboost-maths.md#6-why-xgboost-approximates-the-loss); [iLQR and DDP](../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-231-solving-trajectory-optimisation/RO-231-solving-trajectory-optimisation.md#4-ilqr-and-ddp-better-steps-from-the-model).
 <!-- /where-this-fits -->
 
 ## 1. Overview

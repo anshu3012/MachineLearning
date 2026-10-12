@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% MoveIt 2 (main): planners listed in one pipeline run in turn, each earlier result passed on as the reference
+% trajectory (planning_pipeline.cpp); CHOMP takes it with fillTrajectory, STOMP with extractSeedTrajectory; the
+% response adapter AddTimeOptimalParameterization times the path at the end.
+\begin{document}
+\begin{tikzpicture}[node distance=0.6cm,
+  st/.style={box=#1, font=\small, minimum width=4.6cm, text width=4.3cm, minimum height=2.2cm}]
+  \node[st=cgrey] (a) {{\large\textbf{sampling planner}}\\ OMPL (such as\\ RRT-Connect): a path\\ free of collisions};
+  \node[st=corange, right=of a] (b) {{\large\textbf{CHOMP or STOMP}}\\ optimise the arm's\\ path, the OMPL path\\ as the first guess};
+  \node[st=cblue, right=of b] (c) {{\large\textbf{time the path}}\\ fastest timing within\\ the joints' speed and\\ acceleration limits};
+  \node[st=cgrey, right=of c] (d) {{\large\textbf{controller}}\\ follows it};
+  \draw[arrow] (a) -- (b); \draw[arrow] (b) -- (c); \draw[arrow] (c) -- (d);
+  \node[note, below=0.4cm of b, xshift=2.6cm, text width=10cm] {chained in one pipeline, once per motion request: refine once};
+\end{tikzpicture}
+\end{document}

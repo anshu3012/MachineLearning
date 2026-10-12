@@ -11,7 +11,7 @@ Contents:
 - the room drive: single shooting, multiple shooting and trapezoidal collocation, each solved with SciPy's SLSQP
   (a gradient-based solver for problems with constraints), keeping every iterate for the animations;
 - iLQR on the room drive with a fixed time, and plain gradient descent on the same cost for comparison;
-- the stop-and-turn baseline that follows a route with one corner.
+- the stop-and-turn baseline that follows the A* route, stopping to turn at each corner.
 """
 import math
 
@@ -29,7 +29,9 @@ GOAL = np.array([3.6, 3.5, math.radians(90), 0.0])
 TABLE = np.array([(3.0, 1.0), (5.0, 1.0), (5.5, 2.5), (3.5, 3.0)])
 CORNER = TABLE[3]
 ROOM_W, ROOM_H = 7.0, 4.0
-WAYPOINT = np.array([3.0, 3.3])                   # the corner of the stop-and-turn route
+# The A* route of RO-034 (0.5 m cells, 3.414 m between cell centres) with the robot's position in place of the start
+# cell's centre and the door pose in place of the goal cell's centre; points on a straight piece dropped
+ROUTE_PTS = np.array([START[:2], (2.75, 1.75), (2.75, 3.25), (3.25, 3.75), GOAL[:2]])
 LINE_LEN = float(np.hypot(*(GOAL[:2] - START[:2])))  # the straight line from start to goal: 2.968 m
 LINE_HEADING = math.atan2(GOAL[1] - START[1], GOAL[0] - START[0])
 
@@ -304,18 +306,18 @@ def collocation_time(N=30, T0=9.0, keep=True, maxiter=500):
 
 
 def route_guess(n, T):
-    """States at n equally spaced times along the stop-and-turn route start -> WAYPOINT -> goal, driven at one
-    steady speed and facing along the route: the planner's route as the first guess."""
-    pts = np.array([START[:2], WAYPOINT, GOAL[:2]])
+    """States at n equally spaced times along the A* route (ROUTE_PTS), driven at one steady speed and facing along
+    the route: the search's route as the first guess."""
+    pts = ROUTE_PTS
     seg = np.hypot(*np.diff(pts, axis=0).T)
-    total = seg.sum()
+    S = np.concatenate([[0], np.cumsum(seg)])
     X = np.zeros((n, 4))
-    for i, s in enumerate(np.linspace(0, total, n)):
-        j = 0 if s <= seg[0] else 1
+    for i, s in enumerate(np.linspace(0, S[-1], n)):
+        j = min(np.searchsorted(S, s, side="right") - 1, len(seg) - 1)
         u = (pts[j + 1] - pts[j]) / seg[j]
-        X[i, :2] = pts[j] + (s - (0 if j == 0 else seg[0])) * u
+        X[i, :2] = pts[j] + (s - S[j]) * u
         X[i, 2] = math.atan2(u[1], u[0])
-        X[i, 3] = total / T
+        X[i, 3] = S[-1] / T
     return X
 
 
@@ -390,9 +392,9 @@ def shooting(N=30, M=1, T_fix=8.0, U0=None, keep=True, sub=4, starts="route"):
 
 # ---------------------------------------------------------------- stop and turn along a route with one corner
 def stop_and_turn():
-    """Turn on the spot to face the next point, drive to it from rest to rest, and so on: start, WAYPOINT, goal,
-    then turn to the goal's heading. Returns dict(T, pieces=[(kind, duration, ...)], sample(t) -> (x, y, th, v))."""
-    pts = [START[:2], WAYPOINT, GOAL[:2]]
+    """Turn on the spot to face the next point, drive to it from rest to rest, and so on along ROUTE_PTS, then turn
+    to the goal's heading. Returns dict(T, pieces=[(kind, duration, ...)], sample(t) -> (x, y, th, v))."""
+    pts = list(ROUTE_PTS)
     th = START[2]
     pieces = []
     for p, q in zip(pts, pts[1:]):

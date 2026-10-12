@@ -432,7 +432,7 @@ All four return the fastest route, 492.8 s on the Chicago trip, because the thre
 - A **contraction hierarchy** (G-2882) answers a query with two searches that only climb, because every fastest route rises to its most important vertex and falls again; on large maps the searches stay at a few hundred vertices.
 - **CH-Potentials** (G-2883) turn a contraction hierarchy into a heuristic for A\*, so A\* stays flexible for traffic and turn rules and still searches little.
 
-The robot can now pick the fastest roads and lanes across a city, quickly. Still missing: a route is a list of roads, and the motion planner below it must still turn each piece into a motion the robot can drive, with its speeds and turns over time; [trajectory optimisation](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#22-the-best-trajectory-cost-and-constraints) finds that motion by improving it step by step.
+The robot can now pick the fastest roads and lanes across a city, quickly. Still missing: a route is a list of roads, and the motion planner below it must still turn each piece into a motion the robot can drive, with its speeds and turns over time; [trajectory optimisation](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#32-decision-variables-cost-and-constraints) finds that motion by improving it step by step.
 
 ## 9. Sources
 

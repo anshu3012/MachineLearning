@@ -1,6 +1,6 @@
 """Direct collocation of the 8 s least-effort drive, one solver iteration per frame (thinning out after the first
 ones). The unknowns are the state and the controls at 31 knot points (dots), 0.267 s apart; nothing is simulated.
-The line joins the knots. The first guess puts the knots on the stop-and-turn route, driven at a steady speed, with the heading turning evenly from 30 to 90 degrees. Red
+The line joins the knots. The first guess puts the knots on the A* route, driven at a steady speed, with the heading turning evenly from 30 to 90 degrees. Red
 lines show each knot's defect: where the trapezoid rule, from the previous knot, says it should be, against where
 it is. Run -> colloc.gif, colloc_frames.png"""
 from pathlib import Path
@@ -49,7 +49,7 @@ def frame(i):
 n = len(sol["hist"])
 ks = sorted(set(list(range(min(n, 12))) + list(range(12, n, max(1, (n - 12) // 10))) + [n - 1]))
 out = [frame(i) for i in ks]
-assert out[-1][1] < 1e-3 and round(out[0][1], 3) == 0.121
+assert out[-1][1] < 1e-3 and round(out[0][1], 3) == 0.218
 print("first largest defect", round(out[0][1], 3), "iterations", n - 1)
 make_gif([o[0] for o in out], here / "colloc", fps=3, holds=[4] + [2] * (len(out) - 2) + [12],
          keys=[0, 1, 3, len(out) - 1], cols=2, width=560)

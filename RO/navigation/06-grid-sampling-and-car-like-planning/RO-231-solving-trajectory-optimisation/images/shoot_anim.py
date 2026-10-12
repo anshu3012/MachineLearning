@@ -2,7 +2,7 @@
 (the iterations of SciPy's least_squares, the constraint weight raised in steps; frames thin out after the first
 ones). single_shoot.gif: the controls are the only unknowns; each iterate is one simulation from the start (blue),
 earlier ones pale; the red line is the miss at the end. multi_shoot.gif: the 8 s are cut into 5 segments of 1.6 s,
-each simulated from its own start state, also unknown, first placed on the stop-and-turn route; red lines are the
+each simulated from its own start state, also unknown, first placed on the A* route; red lines are the
 gaps (defects) between a segment's end and the next start, and the miss at the end. Both settle on the same drive.
 Run -> single_shoot.gif, single_shoot_frames.png, multi_shoot.gif, multi_shoot_frames.png"""
 from pathlib import Path
@@ -69,7 +69,7 @@ for key, multi, name, title in (("single", False, "single_shoot", "single shooti
     m0, mN = out[0][1], out[-1][1]
     assert mN < 1e-3 and out[-1][2] < 1e-3
     if multi:
-        assert round(out[0][2], 3) == 0.477
+        assert round(out[0][2], 2) == 0.59
     else:
         assert round(m0, 3) == 1.048
     holds = [4] + [2] * (len(figs) - 2) + [12]

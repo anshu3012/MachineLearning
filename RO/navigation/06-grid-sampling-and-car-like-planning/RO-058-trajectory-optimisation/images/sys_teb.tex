@@ -1,0 +1,16 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% teb_local_planner (ROS, ported to Nav2): defaults from cfg/TebLocalPlannerReconfigure.cfg (noetic-devel):
+% max_global_plan_lookahead_dist 3.0 m, dt_ref 0.3 s, no_outer_iterations 4, no_inner_iterations 5,
+% feasibility_check_no_poses 5; controller_frequency 10 Hz in the tutorial launch; 2.1 ms per cycle (Roesmann 2013).
+\begin{document}
+\begin{tikzpicture}[node distance=0.6cm,
+  st/.style={box=#1, font=\small, minimum width=4.6cm, text width=4.3cm, minimum height=2.2cm}]
+  \node[st=cgrey] (a) {{\large\textbf{global planner}}\\ the whole map\\ (benchmark: every 2 s)};
+  \node[st=cgrey, right=of a] (b) {{\large\textbf{plan ahead}}\\ up to 3 m of it;\\ last point = local goal};
+  \node[st=corange, right=of b] (c) {{\large\textbf{timed elastic band}}\\ poses 0.3 s apart;\\ 4 passes of 5 LM steps\\ (g2o), warm-started};
+  \node[st=cblue, right=of c] (d) {{\large\textbf{check and drive}}\\ first 5 poses free?\\ send (v, $\omega$), 10 Hz};
+  \draw[arrow] (a) -- (b); \draw[arrow] (b) -- (c); \draw[arrow] (c) -- (d);
+  \draw[arrow] (d.south) -- ++(0,-0.5) -| node[note, pos=0.25, below] {next cycle: the band is the next first guess} (c.south);
+\end{tikzpicture}
+\end{document}

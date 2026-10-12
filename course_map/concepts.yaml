@@ -346,6 +346,7 @@ notes:
   2056: RO/navigation/06-grid-sampling-and-car-like-planning/RO-056-state-lattices
   2057: RO/navigation/06-grid-sampling-and-car-like-planning/RO-057-route-planning-on-road-graphs
   2058: RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation
+  2231: RO/navigation/06-grid-sampling-and-car-like-planning/RO-231-solving-trajectory-optimisation
 
 concepts:
   # 0 Foundations
@@ -817,12 +818,17 @@ concepts:
   - {id: travel_time_cost, name: Travel-time edge costs, home: RO-057#4-travel-time-as-the-edge-cost, videos: [2057]}
   - {id: alt_landmarks, name: Landmark heuristics (ALT), home: RO-057#61-the-triangle-inequality-on-travel-times, videos: [2057]}
   - {id: contraction_hierarchy, name: Contraction hierarchies, home: RO-057#72-contracting-a-vertex-shortcuts, videos: [2057]}
-  - {id: trajectory_optimisation, name: Trajectory optimisation, home: RO-058#22-the-best-trajectory-cost-and-constraints, videos: [2058]}
-  - {id: shooting, name: Single and multiple shooting, home: RO-058#4-single-shooting-simulate-measure-the-miss-adjust, videos: [2058]}
-  - {id: collocation, name: Direct collocation, home: RO-058#61-states-at-points-instead-of-a-simulation, videos: [2058]}
-  - {id: ilqr, name: iLQR and DDP, home: RO-058#7-ilqr-and-ddp-better-steps-from-the-model, videos: [2058]}
-  - {id: direct_indirect, name: Direct and indirect methods, home: RO-058#8-direct-and-indirect-methods, videos: [2058]}
-
+  - {id: local_planner, name: Global plan and local planner, home: RO-058#21-levels-of-planning, videos: [2058]}
+  - {id: receding_horizon, name: Receding horizon and warm starts, home: RO-058#23-one-optimisation-two-loops, videos: [2058]}
+  - {id: trajectory_optimisation, name: Trajectory optimisation, home: RO-058#32-decision-variables-cost-and-constraints, videos: [2058]}
+  - {id: elastic_band, name: Elastic band, home: RO-058#42-five-points-the-smoothing-matrix, videos: [2058]}
+  - {id: teb, name: Timed elastic band (TEB), home: RO-058#51-poses-with-time-steps, videos: [2058]}
+  - {id: collocation, name: Direct collocation, home: RO-058#61-functions-into-numbers-states-at-points, videos: [2058]}
+  - {id: homotopy, name: Local minima and homotopy classes, home: RO-058#7-local-minima-and-warm-starts, videos: [2058]}
+  - {id: path_speed, name: Path–speed decomposition, home: RO-058#101-solvers-and-path-then-speed, videos: [2058]}
+  - {id: shooting, name: Single and multiple shooting, home: RO-231#22-single-shooting-fire-see-where-it-lands-adjust, videos: [2231]}
+  - {id: ilqr, name: iLQR and DDP, home: RO-231#4-ilqr-and-ddp-better-steps-from-the-model, videos: [2231]}
+  - {id: direct_indirect, name: Direct and indirect methods, home: RO-231#5-direct-and-indirect-methods, videos: [2231]}
 links:
   # Foundations
   - [ml, is a kind of, ai, confirmed]
@@ -1800,7 +1806,19 @@ links:
   - [trajectory_optimisation, compared with, motion_primitives, confirmed]
   - [shooting, needs, trajectory_optimisation, confirmed]
   - [shooting, needs, gradient_descent, confirmed]
-  - [collocation, fixes, shooting, confirmed]
+  - [shooting, compared with, collocation, confirmed]
+  - [collocation, needs, trajectory_optimisation, confirmed]
+  - [local_planner, needs, a_star, confirmed]
+  - [receding_horizon, needs, trajectory_optimisation, confirmed]
+  - [receding_horizon, needs, local_planner, confirmed]
+  - [elastic_band, needs, trajectory_optimisation, confirmed]
+  - [elastic_band, compared with, path_smoothing, confirmed]
+  - [teb, needs, elastic_band, confirmed]
+  - [teb, is a kind of, collocation, confirmed]
+  - [homotopy, needs, trajectory_optimisation, confirmed]
+  - [homotopy, needs, a_star, confirmed]
+  - [path_speed, needs, trajectory_optimisation, confirmed]
+  - [ilqr, needs, hessian, confirmed]
   - [ilqr, fixes, gradient_descent, confirmed]
   - [ilqr, needs, shooting, confirmed]
   - [direct_indirect, needs, trajectory_optimisation, confirmed]
