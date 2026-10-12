@@ -7,7 +7,9 @@ tags: [subject/robotics, area/localization, concept/kalman-filter, concept/kalma
 
 > **Key point:** A robot has two noisy ways to know where it is: its commands, which drift, and its sensor, which jumps. The Kalman filter blends them with the weight that makes the result as certain as possible, and it does so one step at a time from two numbers.
 
-![Ten steps of a robot in a corridor: the true position, the jumpy beacon readings, the drifting estimate from the commands alone, and the Kalman filter estimate that follows the truth](images/problem.png)
+Figure 1 plays ten seconds of a robot in a corridor, one step per frame, with its two sources of position: its commands (grey) and a ceiling beacon (orange). Watch the grey gap between the commands-only path and the truth: each step keeps the last gap and adds a new wheel slip, so the commands stay behind the truth at every step. The orange gap of the beacon starts fresh each step and swings from one side of the truth to the other. The last frame adds the Kalman filter (blue), which misses by less than either.
+
+![Ten steps of a robot in a corridor, one step per frame: the true position (black), the commands alone (grey, dashed) and the beacon readings (orange crosses). Each frame draws this step's gap from each source to the truth: the commands' gap is the last gap plus a new wheel slip, the beacon's gap is new every time. The last frame adds the Kalman filter estimate (blue) and each one's average miss (RMSE) over the ten steps: commands 0.27 m, beacon 0.51 m, Kalman filter 0.17 m](images/problem_anim.gif)
 
 The [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) (G-2492) lets the robot's [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), its probability for each possible position, take any shape, but every particle must be moved and weighed every round. When the belief is a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), two numbers carry all of it; this Note builds that filter, the **Kalman filter** (G-2506). It needs a new world. The three doors of the looped corridor give a belief with a peak at each door: three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and one Gaussian cannot hold it. Here a ceiling beacon reports the position itself, so the belief has a single mode: it is **unimodal** (G-2528).
 
@@ -296,41 +298,57 @@ Which $k$? Taking $k = 0$ keeps the prediction, $k = 1$ takes the reading, and a
 
 To find that $k$, we write the blend's **variance** (G-2076) as a function of $k$. The prediction's error and the reading's error are independent. By [Section 2.3](#23-a-linear-function-keeps-a-gaussian-a-gaussian), scaling an error by $k$ scales its variance by $k^2$; by [Section 2.4](#24-adding-independent-errors-adds-variances), independent variances add:
 
-- $p(k)$ is the variance of the blend for weight $k$, in m²;
+- $V(k)$ is the variance of the blend for weight $k$, in m²;
 - $R$ is the reading's variance, 0.16 m²;
 - $\bar{p}$ is the prediction's variance, 1.01 m² at step 1.
 
-$$p(k) = k^2 R + (1 - k)^2\thinspace\bar{p}$$
+$$V(k) = k^2 R + (1 - k)^2\thinspace\bar{p}$$
 
 With our numbers:
 
-$$p(k) = 0.16\thinspace k^2 + 1.01\thinspace(1 - k)^2$$
+$$V(k) = 0.16\thinspace k^2 + 1.01\thinspace(1 - k)^2$$
 
-Figure 4 slides the weight $k$ from 0 to 1 and plots the blend's variance $p(k)$. At the ends:
+Figure 4 slides the weight $k$ from 0 to 1 and plots the blend's variance $V(k)$. At the ends:
 
-$$p(0) = 1.01 \quad \text{(prediction only)}$$
+$$V(0) = 1.01 \quad \text{(prediction only)}$$
 
-$$p(1) = 0.16 \quad \text{(reading only)}$$
+$$V(1) = 0.16 \quad \text{(reading only)}$$
 
 In between, the dot dips below both ends, and there the blended Gaussian is narrower than either of the two: mixing two independent estimates beats either one. What is left is to find where the dip is lowest.
 
-![Step 1's prediction (mean 0.5 m, variance 1.01 m²) and reading (0.82 m, variance 0.16 m²) blended with the weight k on the reading, k sliding from 0 to 1, one value per frame. Top: the blended Gaussian moves from the prediction to the reading. Bottom: a dot traces the blend's variance p(k), 1.01 at k = 0 and 0.16 at k = 1. The last frame shows the lowest point, k = 0.863 with variance 0.138, where the blend is narrowest](images/var_weight_anim.gif)
+![Step 1's prediction (mean 0.5 m, variance 1.01 m²) and reading (0.82 m, variance 0.16 m²) blended with the weight k on the reading, k sliding from 0 to 1, one value per frame. Top: the blended Gaussian moves from the prediction to the reading. Bottom: a dot traces the blend's variance V(k), 1.01 at k = 0 and 0.16 at k = 1. The last frame shows the lowest point, k = 0.863 with variance 0.138, where the blend is narrowest](images/var_weight_anim.gif)
 
 ### 4.3 The best weight: the Kalman gain
 
-The lowest point of a smooth curve is where its slope is zero. The symbols are those of [Section 4.2](#42-the-variance-of-the-blend): the weight $k$ on the reading, the blend's variance $p(k)$, the reading's variance $R$ and the prediction's variance $\bar{p}$. One more:
+The lowest point of a smooth curve is where its slope is zero. The symbols are those of [Section 4.2](#42-the-variance-of-the-blend): the weight $k$ on the reading, the blend's variance $V(k)$, the reading's variance $R$, 0.16 m², and the prediction's variance $\bar{p}$, 1.01 m². One more:
 
-- $dp/dk$ is the [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of $p(k)$: its slope, how fast the blend's variance changes as the weight $k$ grows, in m² per unit of weight.
+- $dV/dk$ is the [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) of $V(k)$: its slope, how fast the blend's variance changes as the weight $k$ grows, in m² per unit of weight.
 
-Term by term:
+Each squared term's slope comes from the [**power rule**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#42-the-power-rule-from-the-definition) (G-1540), which brings the power 2 down in front, and the [**chain rule**](../../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371), which also multiplies by the slope of what is squared: −1 for the prediction's weight $1 - k$. With step 1's numbers:
 
-$$\frac{dp}{dk} = 2kR - 2(1 - k)\thinspace\bar{p}$$
+$$V(k) = 0.16\thinspace k^2 + 1.01\thinspace(1 - k)^2$$
 
-Set it to zero and divide by 2:
+$$\frac{dV}{dk} = 0.32\thinspace k - 2.02\thinspace(1 - k)$$
 
-$$kR = (1 - k)\thinspace\bar{p}$$
+$$0 = 0.32\thinspace k - 2.02\thinspace(1 - k)$$
 
-$$kR + k\bar{p} = \bar{p}$$
+$$0 = 0.32\thinspace k - 2.02 + 2.02\thinspace k$$
+
+$$2.34\thinspace k = 2.02$$
+
+$$k = 2.02 / 2.34 = 0.863$$
+
+The same steps in symbols:
+
+$$V(k) = R\thinspace k^2 + \bar{p}\thinspace(1 - k)^2$$
+
+$$\frac{dV}{dk} = 2R\thinspace k - 2\bar{p}\thinspace(1 - k)$$
+
+$$0 = 2R\thinspace k - 2\bar{p}\thinspace(1 - k)$$
+
+$$0 = 2R\thinspace k - 2\bar{p} + 2\bar{p}\thinspace k$$
+
+$$2(R + \bar{p})\thinspace k = 2\bar{p}$$
 
 $$k = \frac{\bar{p}}{\bar{p} + R}$$
 
@@ -377,40 +395,46 @@ $$= 0.5 + 0.276 = 0.776 \text{ m}$$
 
 The true position is 0.73 m.
 
-**The variance.** Put $k = K$ into the blend's variance of [Section 4.2](#42-the-variance-of-the-blend). At step 1:
+**The variance.** The updated variance $p$ is the blend's variance $V(k)$ of [Section 4.2](#42-the-variance-of-the-blend) with the gain $K$ as the weight $k$. At step 1:
 
-- $p(k)$ is the blend's variance for weight $k$, in m²;
+- $V(k)$ is the blend's variance for weight $k$, in m²;
 - $\bar{p}$ is the prediction's variance, 1.01 m²;
 - $R$ is the reading's variance, 0.16 m²;
 - $p$ is the updated estimate's variance, in m².
 
-The two weights are:
+$$K_1 = 1.01 / 1.17$$
+
+$$1 - K_1 = 0.16 / 1.17$$
+
+$$p_1 = 0.16\thinspace K_1^2 + 1.01\thinspace(1 - K_1)^2$$
+
+$$= \frac{0.16 \times 1.01^2 + 1.01 \times 0.16^2}{1.17^2}$$
+
+$$= \frac{0.16 \times 1.01 \times (1.01 + 0.16)}{1.17^2}$$
+
+$$= \frac{0.16}{1.17} \times 1.01$$
+
+$$= (1 - K_1) \times 1.01$$
+
+$$= 0.137 \times 1.01 = 0.138 \text{ m}^2$$
+
+The same steps in symbols:
 
 $$K = \frac{\bar{p}}{\bar{p} + R}$$
 
 $$1 - K = \frac{R}{\bar{p} + R}$$
 
-So the two terms of $p(k)$ are:
+$$p = R\thinspace K^2 + \bar{p}\thinspace(1 - K)^2$$
 
-$$K^2 R = \frac{\bar{p}^2 R}{(\bar{p} + R)^2}$$
+$$= \frac{R\thinspace\bar{p}^2 + \bar{p}\thinspace R^2}{(\bar{p} + R)^2}$$
 
-$$(1 - K)^2\thinspace\bar{p} = \frac{R^2\thinspace\bar{p}}{(\bar{p} + R)^2}$$
-
-Add them and take out the shared $\bar{p} R$:
-
-$$p = \frac{\bar{p} R\thinspace(\bar{p} + R)}{(\bar{p} + R)^2}$$
+$$= \frac{R\thinspace\bar{p}\thinspace(\bar{p} + R)}{(\bar{p} + R)^2}$$
 
 $$= \frac{R}{\bar{p} + R}\thinspace\bar{p}$$
 
 $$= (1 - K)\thinspace\bar{p}$$
 
-(kalmanfilter.net).
-
-For step 1:
-
-$$p_1 = 0.137 \times 1.01 = 0.138 \text{ m}^2$$
-
-the lowest point of Figure 4. The estimate after the reading is the **updated estimate** (G-2513), also called the posterior or a posteriori estimate. Because $1 - K$ is at most 1, an update never makes the filter less sure: one beacon reading has cut the **standard deviation** (G-1871), the typical size of the error, from 1 m to 0.37 m.
+(kalmanfilter.net). The updated variance at step 1, 0.138 m², is the lowest point of Figure 4. The estimate after the reading is the **updated estimate** (G-2513), also called the posterior or a posteriori estimate. Because $1 - K$ is at most 1, an update never makes the filter less sure: one beacon reading has cut the **standard deviation** (G-1871), the typical size of the error, from 1 m to 0.37 m.
 
 ### 4.5 The same answer from multiplying Gaussians
 
@@ -443,9 +467,9 @@ The same numbers as [Section 4.4](#44-the-updated-estimate-and-its-variance): th
 
 > **Key point:** Predict, then update, every step. The gain starts high, while the first guess is vague, and settles to a fixed value once the **variance** (G-2076), the filter's uncertainty, stops changing.
 
-One step has cut the variance from 1.01 to 0.138 m². The ten steps of Figure 1 are this loop run ten times: predict with the drifting command, update with the jumping reading (Figure 6). The filter keeps only the estimate $\hat{x}$ and its variance $p$ from one step to the next: it never stores the past readings, yet its estimate uses all of them (kalmanfilter.net; Labbe ch.4).
+One step has cut the variance from 1.01 to 0.138 m². The ten steps of Figure 1 are a loop run ten times: predict with the drifting command, update with the jumping reading. The filter keeps only the estimate $\hat{x}$ and its variance $p$ from one step to the next: it never stores the past readings, yet its estimate uses all of them (kalmanfilter.net; Labbe ch.4). Figure 6 runs the loop for steps 1 and 2, one stage per frame. Watch the thick box or arrow go round: step 2 starts from step 1's estimate, 0.776 m, and its variance, 0.138 m², and from nothing else.
 
-![The one-dimensional Kalman filter as a loop: predict moves the mean by the command u and adds the slip's variance Q to the variance; update computes the Kalman gain K, moves the mean a fraction K towards the reading and multiplies the variance by 1 − K](images/kf_cycle.png)
+![The one-dimensional Kalman filter as a loop, run for steps 1 and 2, one stage per frame; the box or arrow in use is drawn thick and its numbers appear. Predict moves the estimate by the command u, 0.5 m, and adds the slip's variance Q, 0.01 m²; update computes the Kalman gain K from the predicted variance and the beacon's variance R, 0.16 m², moves the estimate a fraction K towards the reading z and multiplies the variance by 1 − K. Step 1 turns 0 m and 1 m² into 0.5 m and 1.01 m², then, with the reading 0.82 m, into 0.776 m and 0.138 m². The last frame hands step 2's result, 1.552 m and 0.077 m², round to step 3](images/kf_cycle_anim.gif)
 
 **Step 1** is Sections [3](#3-predict-the-gaussian-moves-and-widens) and [4](#4-update-the-gain-that-makes-the-estimate-most-certain). Its numbers, with the step number as a subscript:
 
@@ -660,12 +684,16 @@ The obvious attempt is to run the model alone, with no readings: each step, mult
 - $\bar{\mathbf{x}}$ is the estimate the model predicts, a vector of 2 entries: position, in m, and speed, in m/s;
 - $z$ is the beacon's reading, in m;
 - $H$ is the measurement matrix of [Section 6.2](#62-the-model-as-matrices), the row (1, 0), which turns the state into the reading the sensor should give;
-- $L$ is the observer's gain, a vector of 2 entries: how far to correct the position and the speed per metre of gap; for the Kalman filter at step 1, 0.926 and 0.461;
+- $L$ is the observer's gain, a vector of 2 entries: how far to correct the position and the speed per metre of gap; for the Kalman filter at step 1, 0.9263 and 0.4608;
 - $\hat{\mathbf{x}}$ is the corrected estimate, a vector of 2 entries.
 
 $$\hat{\mathbf{x}} = \bar{\mathbf{x}} + L\thinspace(z - H\bar{\mathbf{x}})$$
 
-A model run alongside the real system and corrected this way is a **state observer** (G-2516) (FBS §8.2). The size of the gain $L$ is a trade-off: a large gain corrects errors fast but passes the sensor's noise straight into the estimate (FBS §8.2). The **Kalman filter** (G-2506) is the observer whose gain, $L = K$, is the best compromise for the given noises (FBS §8.2). The controller then uses $\hat{\mathbf{x}}$ in place of the true state (FBS §8.3), which is why the Kalman filter sits between the sensors and the controller in most robots. Every gain so far rested on two noise settings we were simply given: the slip's variance $Q$ and the beacon's variance $R$.
+A model run alongside the real system and corrected this way is a **state observer** (G-2516) (FBS §8.2). Figure 10 draws the observer as a loop with step 1's numbers. Follow the beacon's reading $z$, 0.82 m, and the model's predicted reading, 0 m, to their gap; the gap times the gain $L$ corrects the model's estimate, which goes on to the controller and back into the model for the next step. No sensor reads the speed, yet the estimate that leaves the loop has one, 0.378 m/s.
+
+![The state observer as a loop, with step 1's numbers. The model runs beside the robot: it carries the last estimate one step on with the state transition matrix F, giving the prediction of position and speed (0 m and 0 m/s at step 1), and the measurement matrix H turns the prediction into the predicted reading, 0 m. The beacon's reading z, 0.82 m, minus the predicted reading is the gap, 0.82 m. The gain L, 0.9263 for position and 0.4608 for speed, times the gap corrects the prediction into the estimate: 0.760 m and 0.378 m/s. The estimate goes on to the controller, which commands the robot's motors, and back into the model for the next step. The dashed frame is the observer](images/observer.png)
+
+The size of the gain $L$ is a trade-off: a large gain corrects errors fast but passes the sensor's noise straight into the estimate (FBS §8.2). The **Kalman filter** (G-2506) is the observer whose gain, $L = K$, is the best compromise for the given noises (FBS §8.2). The controller then uses $\hat{\mathbf{x}}$ in place of the true state (FBS §8.3), which is why the Kalman filter sits between the sensors and the controller in most robots. Every gain so far rested on two noise settings we were simply given: the slip's variance $Q$ and the beacon's variance $R$.
 
 ## 7. Choosing Q and R
 
@@ -683,7 +711,7 @@ The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (
 
 ### 7.2 Q: tune the motion noise
 
-The slip's variance $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, a wheel radius slightly wrong), so there is no datasheet for it, and it is set by tuning against data (Labbe ch.8). Each wrong choice fails in its own way. We simulated 2000 runs of 50 steps in which the true slip **variance** (G-2076) is 0.01, and ran three filters on them, each scored by its RMSE, the typical size of its error (Figure 10):
+The slip's variance $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, a wheel radius slightly wrong), so there is no datasheet for it, and it is set by tuning against data (Labbe ch.8). Each wrong choice fails in its own way. We simulated 2000 runs of 50 steps in which the true slip **variance** (G-2076) is 0.01, and ran three filters on them, each scored by its RMSE, the typical size of its error (Figure 11):
 
 | Filter's $Q$ | Gain it settles to | Error (RMSE, steps 11–50) | What goes wrong |
 |---|---|---|---|
@@ -691,7 +719,7 @@ The slip's variance $Q$ is harder: it covers everything the motion model leaves 
 | 0.01 (right) | 0.22 | 0.187 m | none |
 | 1 (too big) | 0.88 | 0.353 m | trusts each reading, copies its noise |
 
-The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 10 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
+The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 11 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
 
 ![Error of three filters on one 50-step run, one step per frame, each set with a different slip variance Q; each legend entry gives the filter's gain K at the current step and its RMSE over all 2000 runs. Q = 0.0001: gain 0.10 at step 10 and 0.03 at step 50, so its estimate lags below the truth for long stretches; Q = 1: gain 0.88, its estimate jumps with every reading; Q = 0.01: gain 0.22, its estimate stays closest to zero. The last frame shows all 50 steps](images/tuning_anim.gif)
 

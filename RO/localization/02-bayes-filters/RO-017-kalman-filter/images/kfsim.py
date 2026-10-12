@@ -56,4 +56,5 @@ if __name__ == "__main__":
     assert abs(r[-1]["K"] - 0.2239) < 1e-4
     r2 = kf2d()
     assert np.allclose(r2[0]["K"], [0.9263, 0.4608], atol=1e-4)
+    assert np.allclose(r2[0]["x"], [0.760, 0.378], atol=5e-4)   # step 1 of the observer figure (observer.tex)
     print("ok")
