@@ -13,51 +13,41 @@
   "node": 258023124
  },
  "goals_tag": [
-  "railway=station",
-  "train=yes"
+  "railway=station"
  ],
+ "goals_dist": [
+  3000.0,
+  5000.0
+ ],
+ "goals_count": 4,
  "goals": [
   {
-   "name": "Halsted Street",
-   "lat": 41.8598977,
-   "lon": -87.6476801,
-   "node": 706904455
-  },
-  {
-   "name": "Museum Campus/11th Street",
-   "lat": 41.8675542,
-   "lon": -87.6225595,
-   "node": 272206536
-  },
-  {
-   "name": "Chicago Union Station",
-   "lat": 41.878055,
-   "lon": -87.6395924,
-   "node": 27440209
-  },
-  {
-   "name": "Millennium Station",
-   "lat": 41.8844843,
-   "lon": -87.6239098,
-   "node": 10838732049
+   "name": "Clark/Division",
+   "osm": "node/1894033196",
+   "lat": 41.9038896,
+   "lon": -87.6328437,
+   "node": 2291929257
   },
   {
    "name": "Van Buren Street",
+   "osm": "node/5746145563",
    "lat": 41.8769665,
    "lon": -87.6241746,
    "node": 27440234
   },
   {
-   "name": "LaSalle Street Station",
-   "lat": 41.8755223,
-   "lon": -87.6317314,
-   "node": 388608193
+   "name": "Chicago",
+   "osm": "node/736035818",
+   "lat": 41.8962551,
+   "lon": -87.6554033,
+   "node": 102723053
   },
   {
-   "name": "Ogilvie Transportation Center",
-   "lat": 41.8831852,
-   "lon": -87.6412675,
-   "node": 258020219
+   "name": "Merchandise Mart",
+   "osm": "node/5349574577",
+   "lat": 41.8891589,
+   "lon": -87.6340209,
+   "node": 258022688
   }
  ]
 }

@@ -1,0 +1,45 @@
+[
+ {
+  "osm": "node/5073776567",
+  "lat": 41.878641,
+  "lon": -87.639093,
+  "name": "Chicago Union Station",
+  "railway": "station",
+  "network": "Amtrak;Metra"
+ },
+ {
+  "osm": "node/258940052",
+  "lat": 41.878742,
+  "lon": -87.633758,
+  "name": "Quincy",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/7130113698",
+  "lat": 41.883787,
+  "lon": -87.640527,
+  "name": "Ogilvie Transportation Center",
+  "railway": "station",
+  "network": "Metra"
+ },
+ {
+  "osm": "node/258942193",
+  "lat": 41.885726,
+  "lon": -87.641865,
+  "name": "Clinton",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940051",
+  "lat": 41.88241,
+  "lon": -87.633852,
+  "name": "Washington/Wells",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ }
+]

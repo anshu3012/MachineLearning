@@ -5,13 +5,20 @@ else runs offline from data/. Map data © OpenStreetMap contributors (ODbL).
     python get_map.py --place "Rome, Italy" --name rome --label Rome --dist 2500
     python get_map.py --cut-from chicago --point 41.8820 -87.6395 --dist 550 --name chicago-west-loop \
         --label "Chicago, West Loop"         # a small part of a saved map, no download
+    python get_map.py --keep-streets --keep-places   # Chicago again from data/, e.g. after changing the goal rules
 
 --place finds the place's centre and takes the streets within --dist metres of it (a square about 2 x dist across);
 --point gives the centre directly; --cut-from takes the square from a map already in data/ instead of downloading.
-Saves data/<name>.graphml.gz (the drivable streets, as OSMnx gives them), data/<name>.json (the label, the start
-and goal, the goals of the multi-goal search) and the preview data/<name>.png.
-Without --start/--goal, the start and goal are the intersections nearest two opposite corners of the map.
---goals-tag picks the multi-goal goals from OpenStreetMap: every KEY=VALUE must match (default: hospitals)."""
+Saves data/<name>.graphml.gz (the drivable streets, as OSMnx gives them), data/<name>-places.json (the places with
+the --goals-tag tag), data/<name>.json (the label, the start and goal, the goals of the multi-goal search) and the
+preview data/<name>.png. Without --start/--goal, the start and goal are the intersections nearest two opposite
+corners of the map.
+
+The multi-goal goals: the places whose tags match every KEY=VALUE of --goals-tag (the first one is asked from
+OpenStreetMap; default: hospitals), whose straight-line distance from the start is within --goals-dist, and of
+those --goals-count spread out (the farthest from the start first, then each time the one farthest from those
+already chosen), each snapped to its nearest intersection.
+"""
 import argparse
 import gzip
 import json
@@ -23,7 +30,7 @@ import osmnx as ox
 DATA = Path(__file__).resolve().parent / "data"
 CHICAGO = ["--point", "41.8819", "-87.6300", "--dist", "2500", "--name", "chicago", "--label", "Chicago",
            "--start", "41.8648", "-87.6559", "--goal", "41.8975", "-87.6075",
-           "--goals-tag", "railway=station", "train=yes"]
+           "--goals-tag", "railway=station", "--goals-dist", "3000", "5000", "--goals-count", "4"]
 
 
 def snap(G, lat, lon):
@@ -31,20 +38,35 @@ def snap(G, lat, lon):
     return {"lat": G.nodes[node]["y"], "lon": G.nodes[node]["x"], "node": node}
 
 
-def goals_from_osm(G, centre, dist, goals_tag):
-    """The places with every KEY=VALUE tag within dist of centre, each snapped to its nearest intersection."""
-    tags = dict(t.split("=", 1) for t in goals_tag)
-    key, value = next(iter(tags.items()))
+def fetch_places(centre, dist, goals_tag):
+    """The places within dist of centre with the first KEY=VALUE of goals_tag (one OpenStreetMap request): their
+    name, position and the tags named in goals_tag."""
+    key, value = goals_tag[0].split("=", 1)
     try:
         feats = ox.features_from_point(centre, tags={key: value}, dist=dist)
     except ox._errors.InsufficientResponseError:
         return []                          # nothing with that tag here: no multi-goal search on this map
-    goals = []
-    for _, f in feats.iterrows():
-        if all(str(f.get(k)) == v for k, v in tags.items()):
-            c = f.geometry.centroid
-            name = f.get("name")
-            goals.append({"name": name if isinstance(name, str) else "", **snap(G, c.y, c.x)})
+    keys = ["name"] + [t.split("=", 1)[0] for t in goals_tag]
+    places = []
+    for (kind, osm_id), f in feats.iterrows():
+        c = f.geometry.centroid
+        tags = {k: f[k] for k in keys if k in f.index and isinstance(f[k], str)}
+        places.append({"osm": f"{kind}/{osm_id}", "lat": round(c.y, 7), "lon": round(c.x, 7), **tags})
+    return places
+
+
+def choose_goals(G, places, goals_tag, start, near=0.0, far=float("inf"), count=None):
+    """The places that match every KEY=VALUE and lie near..far metres (straight line) from start, spread out:
+    the farthest from start first, then each time the one farthest from those chosen. Snapped to intersections."""
+    tags = dict(t.split("=", 1) for t in goals_tag)
+    dist = lambda a, b: ox.distance.great_circle(a["lat"], a["lon"], b["lat"], b["lon"])
+    pool = [p for p in places if all(p.get(k) == v for k, v in tags.items()) and near <= dist(p, start) <= far]
+    chosen = []
+    while pool and len(chosen) < (count or len(pool) + len(chosen)):
+        best = max(pool, key=lambda p: min((dist(p, c) for c in chosen), default=dist(p, start)))
+        chosen.append(best)
+        pool.remove(best)
+    goals = [{"name": p.get("name", ""), "osm": p["osm"], **snap(G, p["lat"], p["lon"])} for p in chosen]
     return list({g["node"]: g for g in goals}.values())   # one per intersection
 
 
@@ -58,15 +80,22 @@ def main(argv):
     ap.add_argument("--start", nargs=2, type=float, metavar=("LAT", "LON"))
     ap.add_argument("--goal", nargs=2, type=float, metavar=("LAT", "LON"))
     ap.add_argument("--goals-tag", nargs="+", default=["amenity=hospital"], metavar="KEY=VALUE")
-    ap.add_argument("--cut-from", metavar="NAME", help="cut the square from data/NAME.graphml.gz (no download)")
-    args = ap.parse_args(argv or CHICAGO)
+    ap.add_argument("--goals-dist", nargs=2, type=float, metavar=("NEAR", "FAR"),
+                    help="keep goals this many metres from the start, in a straight line")
+    ap.add_argument("--goals-count", type=int, help="keep this many goals, spread out")
+    ap.add_argument("--cut-from", metavar="NAME", help="cut the square from data/NAME.* (no download)")
+    ap.add_argument("--keep-streets", action="store_true", help="use the streets already in data/ (no download)")
+    ap.add_argument("--keep-places", action="store_true", help="use the places already in data/ (no download)")
+    args = ap.parse_args(argv if "--name" in argv else CHICAGO + argv)
 
     ox.settings.use_cache = False          # no cache folder; OSMnx's default user agent, no personal data
     centre = tuple(args.point) if args.point else ox.geocoder.geocode(args.place)
-    if args.cut_from:
-        with gzip.open(DATA / f"{args.cut_from}.graphml.gz", "rt", encoding="utf-8") as f:
+    streets_from = args.cut_from or (args.name if args.keep_streets else None)
+    if streets_from:
+        with gzip.open(DATA / f"{streets_from}.graphml.gz", "rt", encoding="utf-8") as f:
             G = ox.load_graphml(graphml_str=f.read())
-        G = ox.truncate.truncate_graph_bbox(G, ox.utils_geo.bbox_from_point(centre, args.dist))
+        if args.cut_from:
+            G = ox.truncate.truncate_graph_bbox(G, ox.utils_geo.bbox_from_point(centre, args.dist))
     else:
         G = ox.graph_from_point(centre, dist=args.dist, network_type="drive")
     G = ox.truncate.largest_component(G)   # keep only streets connected to each other
@@ -77,25 +106,36 @@ def main(argv):
     start = args.start or corner(0.1)      # near the south-west corner
     goal = args.goal or corner(0.9)        # near the north-east corner
 
-    if args.cut_from:                      # the source map's goals that are inside the cut
+    if args.cut_from:                      # the source map's places that are inside the cut
         source = json.loads((DATA / f"{args.cut_from}.json").read_text())
-        goals, args.goals_tag = [g for g in source["goals"] if g["node"] in G], source["goals_tag"]
+        args.goals_tag = source["goals_tag"]
+        west, south, east, north = ox.utils_geo.bbox_from_point(centre, args.dist)
+        places = [p for p in json.loads((DATA / f"{args.cut_from}-places.json").read_text())
+                  if west <= p["lon"] <= east and south <= p["lat"] <= north]
+    elif args.keep_places:
+        places = json.loads((DATA / f"{args.name}-places.json").read_text())
     else:
-        goals = goals_from_osm(G, centre, args.dist, args.goals_tag)
+        places = fetch_places(centre, args.dist, args.goals_tag)
+    start, goal = snap(G, *start), snap(G, *goal)
+    goals = choose_goals(G, places, args.goals_tag, start, *(args.goals_dist or (0, float("inf"))), args.goals_count)
 
     DATA.mkdir(exist_ok=True)
-    tmp = DATA / f"{args.name}.graphml"
-    ox.save_graphml(G, tmp)
-    with open(tmp, "rb") as src, gzip.open(DATA / f"{args.name}.graphml.gz", "wb") as dst:
-        dst.write(src.read())
-    tmp.unlink()
+    if not args.keep_streets:
+        tmp = DATA / f"{args.name}.graphml"
+        ox.save_graphml(G, tmp)
+        with open(tmp, "rb") as src, gzip.open(DATA / f"{args.name}.graphml.gz", "wb") as dst:
+            dst.write(src.read())
+        tmp.unlink()
+    if not args.keep_places:
+        (DATA / f"{args.name}-places.json").write_text(json.dumps(places, indent=1, ensure_ascii=False))
     info = {"label": args.label or args.place or args.name,
             "source": f"OpenStreetMap via OSMnx {ox.__version__}, network_type='drive', "
                       f"{args.dist:g} m around {centre[0]:.5f}, {centre[1]:.5f}"
                       + (f", cut from data/{args.cut_from}" if args.cut_from else ""),
             "credit": "Map data © OpenStreetMap contributors (ODbL)",
-            "start": snap(G, *start), "goal": snap(G, *goal),
-            "goals_tag": args.goals_tag, "goals": goals}
+            "start": start, "goal": goal,
+            "goals_tag": args.goals_tag, "goals_dist": args.goals_dist, "goals_count": args.goals_count,
+            "goals": goals}
     (DATA / f"{args.name}.json").write_text(json.dumps(info, indent=1, ensure_ascii=False))
     print(f"{args.name}: {len(G)} intersections, {len(goals)} goals for the multi-goal search")
 

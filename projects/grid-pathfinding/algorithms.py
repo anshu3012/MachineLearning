@@ -209,6 +209,22 @@ def multi_goal_a_star(m, start, goals):
     return Result("Multi-goal A*", route, m.route_length(route), log, {"reached": route[-1] if route else None})
 
 
+def a_star_each(m, start, goals):
+    """The plain way to the nearest goal: one A* run per goal, then keep the shortest route. Every run starts
+    afresh, so the work adds up. The log is the runs one after another, each ending with the route it found;
+    notes["runs"] holds (goal, route cost, edges explored, nodes visited) for each run."""
+    log, runs, best = Log(), [], None
+    for goal in goals:
+        r = a_star(m, start, goal)
+        log.extend(r.log)
+        log.append(("route", r.route, r.length))
+        runs.append((goal, r.length, r.explored, r.visited))
+        if r.route and (best is None or r.length < best.length):
+            best = r
+    return Result("A* once per goal", best.route if best else [], best.length if best else 0.0, log,
+                  {"runs": runs, "explored": sum(x[2] for x in runs)})
+
+
 # ---------------------------------------------------------------- bidirectional search
 
 def bidirectional(m, start, goal):

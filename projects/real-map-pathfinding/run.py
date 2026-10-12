@@ -87,6 +87,11 @@ def run(map_name="chicago", only=None, draw=True):
             render.animate(mt, mt, r, out / f"time_{key}", numbers=f"{r.explored:,} explored  ·  route {minutes(r.length)}")
     if want("time"):
         render.race(mt, list(timed.values()), out / "time_race", cols=2, width=900, fmt=lambda r: minutes(r.length))
+    if sm.goals:                           # the nearest goal: one A* run per goal against one multi-goal run
+        results["multi_goal_each"] = A.a_star_each(sm, sm.start, sm.goals)
+        if want("multi_goal_race"):
+            render.race(sm, [results["multi_goal_each"], results["multi_goal"]], out / "multi_goal_race", cols=2,
+                        width=1000, goals=True)
     if want("race"):
         render.race(sm, [results[k] for k in RACE], out / "race")
     if want("explore"):
@@ -107,14 +112,14 @@ def table(sm, grid, results, marks):
         if key.startswith("time_"):
             continue
         ref = grid_best if key in ON_GRID else best
-        share = "-" if key in ("ida_star", "multi_goal") else f"{100 * r.length / ref:.0f} %"
+        share = "-" if key.startswith(("ida_star", "multi_goal")) else f"{100 * r.length / ref:.0f} %"
         lines.append(f"{r.name:30s} {r.explored:9,d} {r.visited:8,d} {r.length:9,.0f} {len(r.route) - 1:8d} {share:>7s}")
     lines.append(f"Travel time (top speed {sm.top_speed * 3.6:.1f} km/h, {LANDMARKS} landmarks {marks}):")
     for key, r in results.items():
         if key.startswith("time_"):
             lines.append(f"{r.name:30s} {r.explored:9,d} {r.visited:8,d} {r.length:8.1f} s = {minutes(r.length)}, "
                          f"{sm.route_length(r.route):,.0f} m")
-    for key in ("ida_star", "multi_goal", "anytime_a_star", "jps"):
+    for key in ("ida_star", "multi_goal", "multi_goal_each", "anytime_a_star", "jps"):
         if key in results:
             notes = {k: v for k, v in results[key].notes.items() if k != "jump points"}
             lines.append(f"{key}: {notes}")
@@ -124,6 +129,7 @@ def table(sm, grid, results, marks):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--map", default="chicago", help="a map in data/ made by get_map.py")
-    ap.add_argument("--only", nargs="*", help="draw only these: preview, race, time, explore, or keys such as a_star")
+    ap.add_argument("--only", nargs="*", help="draw only these: preview, race, time, explore, multi_goal_race, "
+                                              "or keys such as a_star")
     args = ap.parse_args()
     print(table(*run(args.map, args.only)))

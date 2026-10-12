@@ -4,12 +4,12 @@ The searches of [Path-finding on a grid](../grid-pathfinding/grid-pathfinding.md
 
 ## The map
 
-![Central Chicago: 1,670 intersections and 2,694 streets; start cyan, goal red, seven train stations blue](data/chicago.png)
+![Central Chicago: 1,670 intersections and 2,694 streets; start cyan, goal red, four train stations blue](data/chicago.png)
 
 - **The streets:** OpenStreetMap's streets for cars in a 5 km × 5 km square around the Loop, downloaded once with OSMnx.
 - **The graph:** a node is an intersection (1,670); an edge is a street between two intersections (2,694). The cost of an edge is the street's length in metres. We treat every street as two-way.
 - **The trip:** from the start (cyan) on the Near West Side, in the south-west corner, to the goal (red) in Streeterville, by Navy Pier. They are 4,894 m apart in a straight line; the shortest drive is 6,426 m.
-- **Blue:** the seven train stations of the map, the goals of the multi-goal search.
+- **Blue:** four train stations, 3–5 km from the start and spread over the map, the goals of the multi-goal search.
 
 **Reading the animations:** a street glows orange when the search looks along it from an intersection it expands; the newest streets glow brightest. At the end the glow fades and the route glows yellow. "Explored" counts the different streets looked at.
 
@@ -108,11 +108,21 @@ Taught in: [anytime A*](../../RO/navigation/04-graph-search-and-configuration-sp
 
 ## Multi-goal A*
 
-Which of the seven train stations is nearest by road? One A* run to a virtual goal joined to every station by a 0 m street, with h the straight line to the nearest station. It is Halsted Street station, 1.3 km south-east of the start.
+Which of four train stations is nearest by road? We took them from OpenStreetMap's stations 3–5 km from the start in a straight line, spread over the map: Clark/Division, Merchandise Mart, Van Buren Street, and the station named Chicago, due north of the start. One A* run to a virtual goal joined to every station by a 0 m street, with h the straight line to the nearest station, finds the answer.
 
-![Multi-goal A* to the nearest of seven train stations](images/chicago/multi_goal.gif)
+- **Nearest in a straight line:** Van Buren Street, 2,927 m; by road it is 3,767 m.
+- **Nearest by road:** Chicago, 3,755 m (3,508 m in a straight line), 12 m nearer than Van Buren Street.
+- Merchandise Mart: 3,245 m in a straight line, 4,243 m by road. Clark/Division: 4,739 m and 6,001 m.
 
-- Explored: 49 streets · Route: 1,279 m to Halsted Street station
+![Multi-goal A* to the nearest of four train stations](images/chicago/multi_goal.gif)
+
+- Explored: 609 streets · Route: 3,755 m to Chicago station
+
+**Separate runs or one run:** the plain way is one A* run per station, keeping the shortest route. The two ways race below; each tick, each explores one more street. The four separate runs explore 1,479 + 484 + 157 + 764 = 2,884 streets (each run counts its own); the one multi-goal run explores 609, about a fifth, and finds the same 3,755 m route.
+
+![One A* run per station against one multi-goal A* run](images/chicago/multi_goal_race.gif)
+
+- One A* per station: 2,884 streets explored · Multi-goal A*: 609 · Both: 3,755 m to Chicago station
 
 Taught in: [multi-goal A*](../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#91-the-virtual-goal)
 
@@ -189,7 +199,7 @@ Six searches on one clock: each tick, every search explores one more street. Eac
 
 ## Another map
 
-The same code on a small part of Chicago, the West Loop: 140 intersections and 216 streets, cut from the Chicago file and saved under another name, with Union Station and Ogilvie as its two stations. Only the map argument changes: `python run.py --map chicago-west-loop`.
+The same code on a small part of Chicago, the West Loop: 140 intersections and 216 streets, cut from the Chicago file and saved under another name, with the five stations inside it. Only the map argument changes: `python run.py --map chicago-west-loop`.
 
 ![The West Loop map](data/chicago-west-loop.png)
 
@@ -224,7 +234,7 @@ python get_map.py --place "Rome, Italy" --name rome --label Rome --dist 2500
 python run.py --map rome
 ```
 
-`get_map.py` saves `data/rome.graphml.gz` (the streets), `data/rome.json` (label, start, goal and multi-goal goals) and the preview `data/rome.png`. Without `--start` and `--goal` it picks the intersections nearest two opposite corners; `--goals-tag` picks the multi-goal goals from OpenStreetMap tags (hospitals by default). The Chicago map was made with `python get_map.py` and no arguments, which runs the command written at the top of `get_map.py`.
+`get_map.py` saves `data/rome.graphml.gz` (the streets), `data/rome-places.json` (the places with the `--goals-tag` tag), `data/rome.json` (label, start, goal and multi-goal goals) and the preview `data/rome.png`. Without `--start` and `--goal` it picks the intersections nearest two opposite corners. `--goals-tag` picks the multi-goal goals from OpenStreetMap tags (hospitals by default), `--goals-dist NEAR FAR` keeps those at that straight-line distance from the start, and `--goals-count N` keeps N of them, spread out. `python get_map.py --keep-streets --keep-places` makes the Chicago choice again from `data/`, with no download. The Chicago map was made with `python get_map.py` and no arguments, which runs the command written at the top of `get_map.py`.
 
 **Files:** `get_map.py` (download), `streets.py` (the street map behind the map interface, the grid made from it, and `FreeSpace`, the streets as free space for sampling planners such as RRT and PRM), `render.py` (the drawings), `run.py`, `check_algorithms.py`. The searches are imported from `../grid-pathfinding/algorithms.py`.
 

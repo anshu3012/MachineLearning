@@ -33,6 +33,10 @@ def check_map(name):
     if r["multi_goal"]:
         nearest = min(nx.shortest_path_length(G, sm.start, g, weight="length") for g in sm.goals)
         assert close(r["multi_goal"].length, nearest) and r["multi_goal"].route[-1] in sm.goals, name
+        each = A.a_star_each(sm, sm.start, sm.goals)       # one A* run per goal finds the same nearest goal
+        assert close(each.length, nearest) and connected(sm, each.route, sm.start, each.route[-1]), name
+        print(f"{name}: nearest goal {nearest:,.0f} m; one A* per goal explores {each.notes['explored']:,} streets, "
+              f"multi-goal A* {r['multi_goal'].explored:,}")
     grid_best = nx.shortest_path_length(grid.to_networkx(), grid.start, grid.goal, weight="length")
     assert close(r["grid_a_star"].length, grid_best) and close(r["jps"].length, grid_best), name
     assert r["theta_star"].length <= grid_best + 1e-6, name
@@ -61,5 +65,5 @@ def check_map(name):
 
 
 if __name__ == "__main__":
-    for path in sorted(DATA.glob("*.json")):
-        check_map(path.stem)
+    for path in sorted(DATA.glob("*.graphml.gz")):
+        check_map(path.name.removesuffix(".graphml.gz"))

@@ -181,9 +181,10 @@ def animate(m, r, out, frames=45, fps=8, goals=False, path=False):
     gifkit.make_gif(figs, out, fps=fps, holds=holds, keys=keys, cols=2, width=figs[0].layout.width)
 
 
-def race(m, results, out, frames=50, fps=8, cols=3):
+def race(m, results, out, frames=50, fps=8, cols=3, goals=False):
     """Several searches side by side, one visit each per tick, so the one that needs fewer visits finishes first.
-    Each map is labelled with its visit count and its route length."""
+    Each map is labelled with its visit count (all runs added up) and its route length. goals=True draws the
+    multi-goal goals instead of the goal."""
     rows = math.ceil(len(results) / cols)
     (x0, x1), (y0, y1) = extent(m)
     px = max(5, int(420 / ((x1 - x0) / m.cell)))
@@ -201,7 +202,7 @@ def race(m, results, out, frames=50, fps=8, cols=3):
         for i, r in enumerate(results):
             s = per[i][t - 1] if t else None
             done = s is not None and s["visits"] >= r.visited
-            for tr in map_traces(m, s, px, route=r.route if done else None):
+            for tr in map_traces(m, s, px, goals=goals, route=r.route if done else None):
                 fig.add_trace(tr, row=i // cols + 1, col=i % cols + 1)
             label = f"<b>{r.name}</b><br>visited {s['visits'] if s else 0}" + (f" · {r.length:.1f} m" if done else "")
             fig.layout.annotations[i].update(text=label, font=dict(size=20))

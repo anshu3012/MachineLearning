@@ -13,18 +13,42 @@
   "node": 270611554
  },
  "goals_tag": [
-  "railway=station",
-  "train=yes"
+  "railway=station"
  ],
+ "goals_dist": null,
+ "goals_count": null,
  "goals": [
   {
+   "name": "Washington/Wells",
+   "osm": "node/258940051",
+   "lat": 41.8819407,
+   "lon": -87.6338476,
+   "node": 27477590
+  },
+  {
+   "name": "Clinton",
+   "osm": "node/258942193",
+   "lat": 41.8857228,
+   "lon": -87.6413416,
+   "node": 258956212
+  },
+  {
    "name": "Chicago Union Station",
+   "osm": "node/5073776567",
    "lat": 41.878055,
    "lon": -87.6395924,
    "node": 27440209
   },
   {
+   "name": "Quincy",
+   "osm": "node/258940052",
+   "lat": 41.8787295,
+   "lon": -87.6337643,
+   "node": 262184215
+  },
+  {
    "name": "Ogilvie Transportation Center",
+   "osm": "node/7130113698",
    "lat": 41.8831852,
    "lon": -87.6412675,
    "node": 258020219

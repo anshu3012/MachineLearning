@@ -1,0 +1,349 @@
+[
+ {
+  "osm": "node/482809449",
+  "lat": 41.860416,
+  "lon": -87.647314,
+  "name": "Halsted Street",
+  "railway": "station",
+  "network": "Metra"
+ },
+ {
+  "osm": "node/258026049",
+  "lat": 41.875487,
+  "lon": -87.6497,
+  "name": "UIC-Halsted",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258026055",
+  "lat": 41.875894,
+  "lon": -87.659413,
+  "name": "Racine",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258281897",
+  "lat": 41.875604,
+  "lon": -87.641001,
+  "name": "Clinton",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5073776567",
+  "lat": 41.878641,
+  "lon": -87.639093,
+  "name": "Chicago Union Station",
+  "railway": "station",
+  "network": "Amtrak;Metra"
+ },
+ {
+  "osm": "node/7130113697",
+  "lat": 41.875315,
+  "lon": -87.632217,
+  "name": "LaSalle Street Station",
+  "railway": "station",
+  "network": "Metra"
+ },
+ {
+  "osm": "node/853530314",
+  "lat": 41.875614,
+  "lon": -87.63124,
+  "name": "LaSalle",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/3219617154",
+  "lat": 41.868431,
+  "lon": -87.62748,
+  "name": "Roosevelt",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/1762400891",
+  "lat": 41.885611,
+  "lon": -87.651509,
+  "name": "Morgan",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940052",
+  "lat": 41.878742,
+  "lon": -87.633758,
+  "name": "Quincy",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/6509194108",
+  "lat": 41.867435,
+  "lon": -87.626653,
+  "name": "Roosevelt",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940056",
+  "lat": 41.876883,
+  "lon": -87.63139,
+  "name": "LaSalle/Van Buren",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/7130113698",
+  "lat": 41.883787,
+  "lon": -87.640527,
+  "name": "Ogilvie Transportation Center",
+  "railway": "station",
+  "network": "Metra"
+ },
+ {
+  "osm": "node/258294724",
+  "lat": 41.873113,
+  "lon": -87.627555,
+  "name": "Harrison",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940057",
+  "lat": 41.876916,
+  "lon": -87.628944,
+  "name": "Harold Washington Library-State/Van Buren",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258942193",
+  "lat": 41.885726,
+  "lon": -87.641865,
+  "name": "Clinton",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/289821023",
+  "lat": 41.878186,
+  "lon": -87.629304,
+  "name": "Jackson",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940051",
+  "lat": 41.88241,
+  "lon": -87.633852,
+  "name": "Washington/Wells",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258296742",
+  "lat": 41.878227,
+  "lon": -87.627698,
+  "name": "Jackson",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/289821002",
+  "lat": 41.880732,
+  "lon": -87.629386,
+  "name": "Monroe",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/706971968",
+  "lat": 41.868996,
+  "lon": -87.621682,
+  "name": "Museum Campus/11th Street",
+  "railway": "station",
+  "network": "Metra;NICTD"
+ },
+ {
+  "osm": "node/258296743",
+  "lat": 41.880779,
+  "lon": -87.627739,
+  "name": "Monroe",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940060",
+  "lat": 41.879627,
+  "lon": -87.626119,
+  "name": "Adams/Wabash",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/289820702",
+  "lat": 41.883252,
+  "lon": -87.62946,
+  "name": "Washington",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/13816179869",
+  "lat": 41.885744,
+  "lon": -87.632742,
+  "name": "Clark/Lake",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5746145563",
+  "lat": 41.876928,
+  "lon": -87.622922,
+  "name": "Van Buren Street",
+  "railway": "station",
+  "network": "Metra;NICTD"
+ },
+ {
+  "osm": "node/258281908",
+  "lat": 41.891377,
+  "lon": -87.647861,
+  "name": "Grand",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/258940066",
+  "lat": 41.885753,
+  "lon": -87.631374,
+  "name": "Clark/Lake",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5091005359",
+  "lat": 41.882512,
+  "lon": -87.626211,
+  "name": "Washington/Wabash",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/1894018275",
+  "lat": 41.884526,
+  "lon": -87.627897,
+  "name": "Lake",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5349574577",
+  "lat": 41.888842,
+  "lon": -87.634004,
+  "name": "Merchandise Mart",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5746145313",
+  "lat": 41.884409,
+  "lon": -87.62369,
+  "name": "Millennium Station",
+  "railway": "station",
+  "network": "Metra;NICTD"
+ },
+ {
+  "osm": "node/14103626839",
+  "lat": 41.885364,
+  "lon": -87.624191,
+  "name": "Cityscape Counseling",
+  "amenity": "hospital"
+ },
+ {
+  "osm": "node/736035818",
+  "lat": 41.896212,
+  "lon": -87.655328,
+  "name": "Chicago",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/6939681043",
+  "lat": 41.892027,
+  "lon": -87.628092,
+  "name": "Grand",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/5349571275",
+  "lat": 41.895841,
+  "lon": -87.635694,
+  "name": "Chicago",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "node/1894033187",
+  "lat": 41.896636,
+  "lon": -87.628188,
+  "name": "Chicago",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ },
+ {
+  "osm": "relation/17607255",
+  "lat": 41.895209,
+  "lon": -87.621567,
+  "name": "Northwestern Memorial Hospital",
+  "amenity": "hospital"
+ },
+ {
+  "osm": "way/47055764",
+  "lat": 41.896218,
+  "lon": -87.621961,
+  "name": "Ann & Robert H. Lurie Children's Hospital",
+  "amenity": "hospital"
+ },
+ {
+  "osm": "node/1894033196",
+  "lat": 41.903904,
+  "lon": -87.632187,
+  "name": "Clark/Division",
+  "railway": "station",
+  "station": "subway",
+  "network": "CTA"
+ }
+]

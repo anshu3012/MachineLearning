@@ -60,6 +60,11 @@ def run(map_name="warehouse", only=None, draw=True):
         render.animate(shown, r, out / key, goals=key == "multi_goal", path=key in ("ida_star", "dfs"))
     if draw and (not only or "race" in only):
         render.race(m, [results[k] for k in RACE], out / "race")
+    if m.goals:                            # the nearest goal: one A* run per goal against one multi-goal run
+        results["multi_goal_each"] = A.a_star_each(m, m.start, m.goals)
+        if draw and (not only or "multi_goal_race" in only):
+            render.race(m, [results["multi_goal_each"], results["multi_goal"]], out / "multi_goal_race", cols=2,
+                        goals=True)
     heur = heuristic_runs(m)
     if draw and (not only or "heuristics" in only):
         render.race(m, list(heur.values()), out / "heuristics", cols=2)
@@ -73,11 +78,11 @@ def table(m, results):
     lines = [f"Map: {m.label} ({m.name}), {len(m.nodes())} free cells, start {m.start}, goal {m.goal}",
              f"{'search':30s} {'visited':>8s} {'edges':>7s} {'route m':>8s} {'moves':>6s} {'of Dijkstra':>11s}"]
     for key, r in results.items():
-        share = f"{100 * r.length / best:.0f} %" if key not in ("ida_star", "multi_goal") else "-"
+        share = f"{100 * r.length / best:.0f} %" if not key.startswith(("ida_star", "multi_goal")) else "-"
         if key == "h_zero":
             lines.append("A* with four heuristics:")
         lines.append(f"{r.name:30s} {r.visited:8d} {r.explored:7d} {r.length:8.1f} {len(r.route) - 1:6d} {share:>11s}")
-    for key in ("ida_star", "multi_goal", "anytime_a_star", "jps"):
+    for key in ("ida_star", "multi_goal", "multi_goal_each", "anytime_a_star", "jps"):
         lines.append(f"{key}: " + ", ".join(f"{k} {v}" for k, v in results[key].notes.items() if k != "jump points"))
     lines.append(f"Manhattan guess at the start: {A.manhattan(m)(m.start, m.goal):.1f} m (shortest route {best:.1f} m)")
     return "\n".join(lines)
@@ -86,6 +91,7 @@ def table(m, results):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--map", default="warehouse", help="a name in maps/ or a path to a PNG")
-    ap.add_argument("--only", nargs="*", help="draw only these: preview, race, heuristics, or keys such as a_star")
+    ap.add_argument("--only", nargs="*", help="draw only these: preview, race, heuristics, multi_goal_race, "
+                                              "or keys such as a_star")
     args = ap.parse_args()
     print(table(*run(args.map, args.only)))

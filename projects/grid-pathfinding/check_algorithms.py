@@ -30,6 +30,8 @@ def check_map(m):
     assert all(length <= eps * best + 1e-9 for eps, length, _ in r["anytime_a_star"].notes["rounds"]), m.name
     nearest = min(nx.shortest_path_length(G, m.start, g, weight="length") for g in m.goals)
     assert close(r["multi_goal"].length, nearest) and r["multi_goal"].route[-1] in m.goals, m.name
+    each = A.a_star_each(m, m.start, m.goals)              # one A* run per goal finds the same nearest goal
+    assert close(each.length, nearest) and connected(m, each.route, m.start, each.route[-1]), m.name
     ida_goal = r["ida_star"].notes["goal"]
     assert close(r["ida_star"].length, nx.shortest_path_length(G, m.start, ida_goal, weight="length")), m.name
     assert r["theta_star"].length <= r["a_star"].length + 1e-9, m.name
@@ -52,7 +54,8 @@ def check_map(m):
         assert close(h["manhattan"].length, best)
     print(f"{m.name}: all {len(r)} searches and 4 heuristics pass; shortest route {best:.2f} m; "
           f"Theta* {r['theta_star'].length:.2f} m; Manhattan overestimates by up to {over['manhattan']:.2f} m, "
-          f"its route {h['manhattan'].length:.2f} m")
+          f"its route {h['manhattan'].length:.2f} m; nearest goal {nearest:.2f} m: {each.visited} cells visited "
+          f"by one A* per goal, {r['multi_goal'].visited} by multi-goal A*")
 
 
 def check_random_floors(n=40, seed=0):

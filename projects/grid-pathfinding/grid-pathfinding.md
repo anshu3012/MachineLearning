@@ -138,11 +138,21 @@ Taught in: [any-angle search (Theta*)](../../RO/navigation/04-graph-search-and-c
 
 ## Multi-goal A*
 
-Which of the three charging pads (blue) is nearest by route? One A* run answers it: we add a virtual goal joined to each pad by a 0 m move, and h is the straight line to the nearest pad. It reaches the pad in the middle aisle, not the one nearest in a straight line (in the office, behind a wall with one door).
+Which of the three charging pads (blue) is nearest by route? One A* run answers it: we add a virtual goal joined to each pad by a 0 m move, and h is the straight line to the nearest pad.
+
+- **The pad in the office** (top left) is the nearest in a straight line, 21.0 m. The office has one door, in its right wall, so the route to it is 32.0 m.
+- **The pad in the middle aisle** is 21.1 m away in a straight line and 24.3 m by route: the nearest by route.
+- **The pad in the bottom-right corner** is 35.0 m away in a straight line and 35.4 m by route.
 
 ![Multi-goal A* to the nearest of three charging pads](images/warehouse/multi_goal.gif)
 
 - Visited: 148 cells · Route: 24.3 m to the pad in the middle aisle
+
+**Separate runs or one run:** the plain way is one A* run per pad, keeping the shortest route. The two ways race below; each tick, each expands one cell. One A* per pad visits 169 + 107 + 36 = 312 cells; the one multi-goal run visits 148, less than half, and finds the same 24.3 m route.
+
+![One A* run per pad against one multi-goal A* run](images/warehouse/multi_goal_race.gif)
+
+- One A* per pad: 312 cells visited · Multi-goal A*: 148 · Both: 24.3 m to the pad in the middle aisle
 
 Taught in: [multi-goal A*](../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#91-the-virtual-goal)
 
