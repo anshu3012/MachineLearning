@@ -5,15 +5,15 @@ tags: [subject/robotics, area/localization, concept/measurement-model, concept/b
 
 ## 1. Overview
 
-> **Key point:** A robot judges a guess about its **pose** (G-2280) by asking how likely its laser readings would be from there. The beam model gives that number for one reading as a mix of four causes, so that a person walking past does not make the right pose look impossible.
+> **Key point:** A robot judges a guess about its **pose** (G-2280), where it stands and which way it faces, by asking how likely its laser readings would be from there. The beam model gives that number for one reading as a mix of four causes, so that a person walking past does not make the right pose look impossible.
 
-So far the robot has a [grid map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#3-feature-based-and-grid-maps) of its room: the room split into small cells, each marked free or occupied. The map does not say where the robot is on it; the robot can only guess poses and test each guess against what its sensors report. Figure 1 shows where that test breaks: watch the four beams leave the robot one by one, and see which one stops short of the wall.
+So far the robot has a [grid map](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#3-feature-based-and-grid-maps) (G-2335) of its room: the room split into small cells, each marked free or occupied. The map does not say where the robot is on it; the robot can only guess poses and test each guess against what its sensors report. Figure 1 shows where that test breaks: watch the four beams leave the robot one by one, and see which one stops short of the wall.
 
 ![Animation: a 5 m by 4 m room seen from above. The robot at (2, 2), facing along x, fires four laser beams one by one, at 0°, 90°, 180° and 270° from its heading. Each beam travels out and stops at the first surface it meets: the forward beam at a person 1.00 m ahead, although the wall is 3 m away (dashed blue line); the other three at the walls, after 1.97, 2.04 and 1.99 m. The readings fill in beside the room, and the last frame holds the whole scan](images/scan_anim.gif)
 
 The robot stands at pose (2, 2, 0) in a 5 m by 4 m room; its laser measures the distance to the nearest surface in four directions. A person stands 1 m in front of it, so the forward beam reads 1.00 m, although the map says the wall is 3 m away. Is the robot at (2, 2, 0), or one metre further along at (3, 2, 0)? This Note adds the rule that answers it.
 
-The room is smaller and emptier than the [7 m by 4 m room with poles and furniture](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview) used for maps: a laser needs only walls, and bare walls keep every **expected range** (G-2375) a round number we can check by hand.
+The room is smaller and emptier than the [7 m by 4 m room with poles and furniture](../RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#1-overview) used for maps: a laser needs only walls, and bare walls keep every **expected range** (G-2375), the distance a beam should read according to the map, a round number we can check by hand.
 
 A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#51-measurements-and-controls) (G-2317): what the sensors report about the world at one moment. To test a guessed pose we need a rule that answers one question: how likely are these four readings if the robot stood at that pose? This Note builds the standard rule for range sensors:
 
@@ -21,12 +21,12 @@ A sensor reading is a [measurement](../RO-007-why-a-robot-is-never-sure/RO-007-w
 - why a Gaussian around the expected range is not enough ([Section 3](#3-why-a-gaussian-alone-fails));
 - the four causes of a reading and the shape each one gives, with the reason for every shape ([Section 4](#4-the-four-causes-of-a-reading));
 - how the four shapes combine into one model, and what the model says about Figure 1 ([Section 5](#5-the-beam-model-one-mixture-of-four-shapes));
-- how to learn the model's numbers from recorded readings, by maximum likelihood and the **EM algorithm** (G-675) ([Section 6](#6-learning-the-models-numbers-from-data));
+- how to learn the model's numbers from recorded readings, by maximum likelihood and the [**EM algorithm**](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#3-the-two-steps-and-the-algorithm) (G-675) ([Section 6](#6-learning-the-models-numbers-from-data));
 - the other kinds of sensor models a robot uses ([Section 7](#7-a-catalogue-of-sensor-models)).
 
 ## 2. What a range sensor measures
 
-> **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed **pose** (G-2280) by how likely those distances are from there.
+> **Key point:** A range sensor reports, for each direction, the distance to the first surface the beam meets. A measurement model scores a guessed **pose** (G-2280), a position and heading, by how likely those distances are from there.
 
 ### 2.1 Range finders and scans
 
@@ -48,7 +48,7 @@ Figure 1's four beams point at 0°, 90°, 180° and 270° from the robot's headi
 
 $$z = (1.00,\ 1.97,\ 2.04,\ 1.99)$$
 
-Every sensor has a longest distance it can report. When no surface returns the pulse in time, as for the beams through the glass in Figure 2, the sensor reports that longest distance itself. This is the **maximum range** (G-2373) $z_{\max}$; our laser has:
+Every sensor has a longest distance it can report. When no surface returns the pulse in time, as for the beams through the glass in Figure 2, the sensor reports that longest distance itself. That longest distance is the **maximum range** (G-2373) $z_{\max}$; our laser has:
 
 $$z_{\max} = 5 \text{ m}$$
 
@@ -86,7 +86,7 @@ In words: the density of getting the readings $z$, given that the robot is at po
 
 $$x = (x,\ y,\ \theta)$$
 
-For a fixed set of readings, $p(z \mid x, m)$ read as a function of the pose is the [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) of that pose: the poses under which the readings are more likely score higher. That is how a localization filter uses it; the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2446) multiplies its belief by this likelihood in its correction step.
+For a fixed set of readings, $p(z \mid x, m)$ read as a function of the pose is the [likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter) (G-1086) of that pose: the poses under which the readings are more likely score higher. A localization filter uses the model this way: the [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2446) multiplies its belief by this likelihood in its correction step.
 
 A range reading is a continuous quantity, so $p(z \mid x, m)$ is a [probability density](../../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#5-what-the-density-at-a-point-means) (G-1569), not a probability: per metre for one reading, per m⁴ for our scan of four readings. A density can be larger than 1; only areas under it are probabilities.
 
@@ -102,7 +102,7 @@ A scan has many beams, and writing one density for all of them at once is hard. 
 
 $$p(z \mid x, m) = \prod_{k=1}^{K} p(z^k \mid x, m)$$
 
-Multiplying is allowed when the beams are independent: knowing one beam's error tells us nothing about another's. That is not true in general, but it is close to true once the **pose** (G-2280) and the map are known (Thrun §6.3.1):
+Multiplying is allowed when the beams are independent: knowing one beam's error tells us nothing about another's. Independence does not hold in general, but it nearly holds once the **pose** (G-2280) and the map are known (Thrun §6.3.1):
 
 - **Without a map**, beams are linked: if one beam hits something at 2 m, the beam half a degree away probably hits the same object at about 2 m.
 - **With the map and the pose given**, that shared object is already in the map, so each beam's remaining error is its own sensor noise, and the beams are close to independent.
@@ -111,11 +111,13 @@ Independence that holds only once a third thing is known is [conditional indepen
 
 > **Extra:** The assumption is not exact. A person blocks several neighbouring beams at once, and their errors are then linked. The product then counts that one person several times, which makes the model overconfident (Freiburg sensor-model slides, "Summary beam-based model"). Implementations therefore use only a subset of the beams of each scan: the ROS localization package AMCL uses 30 evenly spaced beams per scan by default (ROS amcl, `laser_max_beams`).
 
+So scoring a pose comes down to one density per beam; what is still missing is the shape of that density.
+
 ## 3. Why a Gaussian alone fails
 
-> **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true **pose** (G-2280) outright.
+> **Key point:** A narrow Gaussian around the expected range gives a reading caused by a passer-by a density of practically zero, and the product then rejects the true **pose** (G-2280), the robot's real position and heading, outright.
 
-The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. It says the reading should be the **expected range** (G-2375) plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). A good laser's readings typically lie about 0.05 m from the true distance: its [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) is $\sigma = 0.05$ m. For one beam:
+The first rule that comes to mind fails on the person's 1.00 m reading of Figure 1. The rule says the reading should be the **expected range** (G-2375), the distance the map predicts, plus a small sensor error, and small errors follow a [Gaussian distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827). A good laser's readings typically lie about 0.05 m from the true distance: its [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) is $\sigma = 0.05$ m. For one beam:
 
 - $z$ is the beam's reading, in m (1.00 m for the forward beam);
 - $z^{\ast}$ is its expected range, 3 m for the forward beam at pose A;
@@ -142,19 +144,19 @@ $$7.98 \times e^{-800}$$
 
 $$\approx 0$$
 
-The number $e^{-800}$ is so small that a computer stores it as exactly 0 (the notebook checks).
+The number $e^{-800}$ is so small that a computer stores it as exactly 0 (the notebook checks). In Figure 4, the reading of 1.00 m sits 40 standard deviations left of the peak, where the curve lies flat on the axis.
 
 ![A Gaussian with standard deviation 0.05 m around the expected range 3 m. The reading 1.00 m, caused by a person, sits far out in the tail, where the density is about e to the minus 800, effectively 0](images/gaussian_fails.png)
 
-Because the scan density is a product, one zero beam makes the whole scan density zero, whatever the other beams say. So the true pose A gets 0. The wrong pose B does worse on most beams but escapes the zero: its forward beam expects 2 m, and its backward beam expects 3 m but reads 2.04 m. Those two densities are tiny but not zero, and B ends up with a scan density of about $4 \times 10^{-164}$. A Gaussian alone would prefer the wrong pose, only because a person stepped in front of the robot.
+Because the scan density is a product, one zero beam makes the whole scan density zero, whatever the other beams say. So the true pose A gets 0. The wrong pose B fits the backward beam far worse but escapes the zero: its forward beam expects 2 m, and its backward beam expects 3 m but reads 2.04 m. Those two densities are tiny but not zero, and B ends up with a scan density of about $4 \times 10^{-164}$. A Gaussian alone would prefer the wrong pose, only because a person stepped in front of the robot.
 
 The cure is not a wider Gaussian: that would make every reading near the wall less informative too. Instead we list the other ways a reading can come about, and give each its own shape.
 
 ## 4. The four causes of a reading
 
-> **Key point:** A reading is a correct hit with small noise, a hit on something not in the map, a failure that reports the **maximum range** (G-2373), or plain junk. Each cause has its own density shape, and each shape follows from how that cause works.
+> **Key point:** A reading is one of four things: a correct hit with small noise; a hit on something not in the map; a failure, which reports the sensor's longest distance, its **maximum range** (G-2373); or a random reading with no modelled cause. Each cause has its own density shape, and each shape follows from how that cause works.
 
-The person's reading is one of four ways a beam can come back. Figure 5 shows the shape each gives for the forward beam at **pose** (G-2280) A (expected range $z^{\ast} = 3$ m, maximum range $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below.
+The person's reading is one of four ways a beam can come back. Figure 5 shows the shape each gives for the forward beam at **pose** (G-2280) A, the robot at (2, 2) facing along x (expected range $z^{\ast} = 3$ m, maximum range $z_{\max} = 5$ m). They come from Thrun §6.3.1 and the Freiburg sensor-model slides; the reason for each shape follows below. In Figure 5, look at where each panel puts its density: a narrow peak at the wall, a pile that falls off before it, a spike at 5 m, and a flat floor everywhere.
 
 ![The four densities of the beam model for an expected range of 3 m: a narrow Gaussian at 3 m (measurement noise), a curve that starts high at 0 and falls off until it stops at 3 m (unexpected objects), a spike at 5 m (failures), and a flat line at height 0.2 from 0 to 5 m (random readings)](images/four_parts.png)
 
@@ -177,23 +179,31 @@ $$p_{\text{hit}}(z) = \eta\ \mathcal{N}(z;\ z^{\ast}, \sigma_{\text{hit}}^2)$$
 
 for $0 \le z \le z_{\max}$, and 0 outside. A Gaussian cut to a range and rescaled is a [truncated normal](../../../../DL/02-training/DL-030-xavier-he-initialization/DL-030-xavier-he-initialization.md#62-with-keras-initialisers) (G-2023).
 
-For our wall at 3 m, the Gaussian lies far inside the range (at least 40 $\sigma$ from 0 and from 5 m), so $\eta = 1.000$. It matters near the edge. If the wall were 4.98 m away, about a third of the Gaussian would lie beyond 5 m:
+For our wall at 3 m, the Gaussian lies far inside the range (at least 40 $\sigma$ from 0 and from 5 m), so $\eta = 1.000$. The normalizer matters near the edge. If the wall were 4.98 m away, about a third of the Gaussian would lie beyond 5 m:
 
 $$\text{area inside} = 0.655$$
 
 $$\eta = 1 / 0.655 = 1.53$$
 
-**Worked example.** At **pose** (G-2280) A the forward beam expects 3 m. A reading of 3.02 m has the density:
+**Worked example.** At **pose** (G-2280) A the forward beam expects 3 m. For a reading of 3.02 m, the distance from the expected range, in units of $\sigma_{\text{hit}}$:
 
 $$\frac{3.02 - 3.00}{0.05} = 0.4$$
+
+The exponent:
+
+$$-\tfrac{1}{2} \times 0.4^2 = -0.08$$
+
+The density, with the factor 7.98 in front as in [Section 3](#3-why-a-gaussian-alone-fails) and $\eta = 1.000$:
 
 $$p_{\text{hit}}(3.02) = 7.98 \times e^{-0.08}$$
 
 $$= 7.37 \text{ per m}$$
 
+The hit part explains readings near the wall, such as 3.02 m; the person's 1.00 m still gets a density of practically 0 from it.
+
 ### 4.2 Unexpected objects: why the curve falls off, and why it stops
 
-A person, a chair or an open door that is not in the map can block the beam first. The reading is then shorter than $z^{\ast}$. This is an **unexpected object** (G-2379), and its reading a short reading. Figure 5 shows its shape: high at 0, falling off, and zero after $z^{\ast}$. Both features have a reason.
+A person, a chair or an open door that is not in the map can block the beam first. The reading is then shorter than $z^{\ast}$. Such a blocker is an **unexpected object** (G-2379), and its reading a short reading. Figure 5 shows its shape: high at 0, falling off, and zero after $z^{\ast}$. Both features have a reason.
 
 **Why it stops at the expected range.** An object behind the wall cannot block the beam: the wall is hit first. So a short reading is always shorter than $z^{\ast}$, and the density is 0 beyond it.
 
@@ -217,15 +227,15 @@ The count halves with each cell, because each extra free cell in front is one mo
 
 The same holds for any blocking chance. Let each cell be blocked independently of the others:
 
-- $p$ is the chance that one cell is blocked, a number from 0 to 1 (0.2 below);
-- $k$ is a cell's number along the beam, counted from the robot (1, 2, 3, …);
-- $P(\text{first stop at cell } k)$ is the probability that the beam stops at cell $k$ and not before.
+- $b$ is the chance that one cell is blocked, a number from 0 to 1 (0.2 below);
+- $j$ is a cell's number along the beam, counted from the robot (1, 2, 3, …);
+- $P(\text{first stop at cell } j)$ is the probability that the beam stops at cell $j$ and not before.
 
-For the beam to stop at cell $k$, the $k - 1$ cells before it must be free and cell $k$ blocked:
+For the beam to stop at cell $j$, the $j - 1$ cells before it must be free and cell $j$ blocked:
 
-$$P(\text{first stop at cell } k) = (1 - p)^{k - 1}\ p$$
+$$P(\text{first stop at cell } j) = (1 - b)^{j - 1}\ b$$
 
-Each further cell multiplies the chance by the same factor $1 - p$. With cells of 0.1 m and $p = 0.2$:
+Each further cell multiplies the chance by the same factor $1 - b$. With cells of 0.1 m and $b = 0.2$:
 
 $$P(\text{cell } 1) = 0.2$$
 
@@ -235,7 +245,7 @@ $$P(\text{cell } 3) = 0.8^2 \times 0.2 = 0.128$$
 
 Figure 8 runs this as an experiment: in each trial, cells of a 3 m beam are blocked at random, and we record where the beam stops. After 5000 trials the shares match the formula.
 
-![Animation: in each trial, 0.1 m cells along a 3 m beam are blocked with probability 0.2; the beam stops at the first blocked cell. The histogram of where it stopped builds up trial by trial and settles on the curve 0.2 times 0.8 to the power k minus 1](images/first_hit.gif)
+![Animation: in each trial, 0.1 m cells along a 3 m beam are blocked with probability 0.2; the beam stops at the first blocked cell. The histogram of where it stopped builds up trial by trial and settles on the curve 0.2 times 0.8 to the power j minus 1](images/first_hit.gif)
 
 A curve that falls by the same factor at every step is exponential. Make the cells shorter and keep the blocking chance per metre fixed:
 
@@ -245,7 +255,7 @@ A curve that falls by the same factor at every step is exponential. Make the cel
 
 The chance per cell is then:
 
-$$p = \lambda\Delta$$
+$$b = \lambda\Delta$$
 
 The share per metre at 1 m approaches $\lambda e^{-\lambda z}$:
 
@@ -284,11 +294,13 @@ $$p_{\text{short}}(1.00) = 1.0025 \times 2 e^{-2}$$
 
 $$= 1.0025 \times 0.2707$$
 
-$$= 0.271 \text{ per m}$$
+$$= 0.2714 \text{ per m}$$
+
+The person's 1.00 m now has a cause with a density above 0; a reading of exactly 5 m, which no blocker in front of the wall can give, still has none.
 
 ### 4.3 Failures: a spike at the maximum range
 
-Sometimes no pulse comes back: the beam hits glass or a black, light-absorbing surface, bounces off a shiny surface at a slant, or the wall is simply out of range (Thrun §6.3.1). The sensor then reports $z_{\max}$. Figure 9 shows one failure and then many: watch the clock run past the time a 5 m echo needs, and every failure reading land in the same bar at 5 m, although the wall is at 3 m.
+Sometimes no pulse comes back: the beam hits glass or a black, light-absorbing surface, bounces off a shiny surface at a slant, or the wall is out of range (Thrun §6.3.1). The sensor then reports $z_{\max}$. Figure 9 shows one failure and then many: watch the clock run past the time a 5 m echo needs, and every failure reading land in the same bar at 5 m, although the wall is at 3 m.
 
 ![Animation of failures on the forward beam of pose A, whose wall is 3 m away. The pulse is lost at the wall (for example on a black or shiny spot) and no echo comes back. The clock passes 20.0 ns, when an echo from the wall would be back, and reaches 33.4 ns, the time light needs to go 5 m and back; with no echo by then, the sensor reports its maximum range, 5 m (purple dot). Right: the histogram of the failure readings, as counts per 0.05 m bin, grows a single bar at 5 m; the last frame holds 50 failures, all at exactly 5 m](images/failure_anim.gif)
 
@@ -301,6 +313,8 @@ Such a **max-range reading** (G-2380) lands on exactly one value, 5 m, however f
 $$p_{\max}(z) = 1 \text{ if } z = z_{\max}, \text{ else } 0$$
 
 A distribution that puts all its probability on one value is a **point mass** (G-2383). A point mass has no height, only a probability, so it cannot be added to densities as it stands. In code we draw it as a narrow box one sensor step wide (1 cm), of height 100 per metre, so its area is 1 (Figure 5, third panel).
+
+Readings of exactly 5 m now have a cause; a stray reading such as 4 m, behind the wall at 3 m, still has none.
 
 ### 4.4 Random readings: the uniform part
 
@@ -322,11 +336,11 @@ The uniform part $p_{\text{rand}}$ has a job: no reading between 0 and 5 m ever 
 
 ## 5. The beam model: one mixture of four shapes
 
-> **Key point:** The beam model adds the four densities with weights that sum to 1. With it, the person's reading costs **pose** (G-2280) A a factor, not everything, and the true pose wins.
+> **Key point:** The beam model adds the four densities with weights that sum to 1. With it, the person's reading costs **pose** (G-2280) A, the robot's true position and heading, a factor, not everything, and A wins.
 
 ### 5.1 The mixture
 
-We do not know whether the forward beam's 1.00 m came from the person or from junk, only how often each cause happens. So the density of a reading is the weighted sum of the four densities, a [mixture density](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#61-the-formula) like a Gaussian mixture, but with parts of different shapes. For one beam $k$:
+We do not know whether the forward beam's 1.00 m came from the person or from a random reading, only how often each cause happens. So the density of a reading is the weighted sum of the four densities, a [mixture density](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#61-the-formula) like a Gaussian mixture, but with parts of different shapes. For one beam $k$:
 
 - $p(z^k \mid x, m)$ is the density of beam $k$'s reading $z^k$, given the pose $x$ and the map $m$, in per m;
 - $p_{\text{hit}}$ is the Gaussian around the expected range ([Section 4.1](#41-measurement-noise-a-gaussian-around-the-expected-range));
@@ -342,7 +356,7 @@ $$p(z^k \mid x, m) = w_{\text{hit}}\ p_{\text{hit}} + w_{\text{short}}\ p_{\text
 
 $$\qquad + w_{\max}\ p_{\max} + w_{\text{rand}}\ p_{\text{rand}}$$
 
-The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a **range finder** (G-2371), also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections [5](#5-the-beam-model-one-mixture-of-four-shapes) and [6](#6-learning-the-models-numbers-from-data):
+The [mixture weights](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#62-why-the-weights-must-add-up-to-1) (G-1238) are the shares of readings each cause produces. They are not negative and add up to 1, so the mixture's area is 1 too. Thrun writes them $z_{\text{hit}}, \dots$; we write $w$ so that $z$ always means a reading. This weighted mixture of four densities is the **beam model** (G-2377) of a **range finder** (G-2371), a distance sensor such as our laser; it is also called the beam-based proximity model (Thrun §6.3; Freiburg slides). We use these weights in Sections [5](#5-the-beam-model-one-mixture-of-four-shapes) and [6](#6-learning-the-models-numbers-from-data):
 
 | Cause | Weight | Shape |
 |---|---|---|
@@ -357,13 +371,13 @@ Figure 11 adds the four weighted parts one at a time, each on top of the ones be
 
 **Worked example: the person's reading, 1.00 m, at pose A.** The Gaussian and the spike give 0 there. The other two parts:
 
-$$0.12 \times 0.271 = 0.0326$$
+$$0.12 \times 0.2714 = 0.0326$$
 
 $$0.08 \times 0.2 = 0.016$$
 
 $$p(1.00 \mid A) = 0.0326 + 0.016$$
 
-$$= 0.049 \text{ per m}$$
+$$= 0.0486 \text{ per m}$$
 
 Small, because a short reading is less common than a hit, but not zero.
 
@@ -380,15 +394,15 @@ Now score both **poses** (G-2280) with the beam model. Ray casting gives the exp
 
 Figure 12 scores the scan beam by beam, first for pose A, then for pose B. For each beam, watch where its reading lands on the beam model drawn around that beam's expected range: the height of the curve there is the beam's density, and it is multiplied into a running product.
 
-![Animation of scoring the opening scan. Left: the beam model of the current beam, drawn around its expected range z* (dashed line), and the reading (dotted red line); the dot on the curve is the density read off. Right: the room with the guessed pose, each beam drawn from that pose with the length it read (red) and to where the map says it should end (dashed), and the table of densities with the running product. Pose A ends at 6.26 per m⁴, pose B at 0.0291 per m⁴. The last frame shows the backward beam that decides: its reading, 2.04 m, sits near the peak of A's curve (4.361 per m) but in the flat tail of B's (0.020 per m); the ratio of the two scan densities is 215](images/score_anim.gif)
+![Animation of scoring the opening scan. Left: the beam model of the current beam, drawn around its expected range z* (dashed line), and the reading (dotted red line); the dot on the curve is the density read off. Right: the room with the guessed pose, each beam drawn from that pose with the length it read (red) and to where the map says it should end (dashed), and the table of densities with the running product. Pose A ends at 6.26 per m⁴, pose B at 0.0291 per m⁴. The last frame shows the backward beam that decides: its reading, 2.04 m, sits near the peak of A's curve (4.361 per m) but in the flat tail of B's (0.02007 per m); the ratio of the two scan densities is 215](images/score_anim.gif)
 
 The beam densities (per m), from the notebook:
 
 | Beam | Pose A | Pose B |
 |---|---|---|
-| 0° | 0.049 | 0.049 |
+| 0° | 0.04856 | 0.04909 |
 | 90° | 5.019 | 5.019 |
-| 180° | 4.361 | 0.020 |
+| 180° | 4.361 | 0.02007 |
 | 270° | 5.886 | 5.886 |
 | product (per m⁴) | 6.26 | 0.0291 |
 
@@ -396,7 +410,7 @@ The forward beam costs both poses about the same, because both explain 1.00 m on
 
 $$\frac{6.26}{0.0291} = 215$$
 
-So the scan says pose A is about 215 times more likely than pose B, the right answer. The Gaussian alone gave A exactly 0.
+So the scan is about 215 times more likely from pose A than from pose B, and the beam model picks the right pose. The Gaussian alone gave A exactly 0.
 
 > **Python:** the **beam model** (G-2377) for a whole scan, as in the UChicago class 05 algorithm.
 > ```python
@@ -416,13 +430,13 @@ So the scan says pose A is about 215 times more likely than pose B, the right an
 
 ### 6.1 Why the numbers must be learned
 
-The answer of [Section 5.2](#52-back-to-the-opening-scan), **pose** (G-2280) A about 215 times more likely than pose B, rests on six numbers we chose: the four weights, the standard deviation of the hits $\sigma_{\text{hit}}$ (0.05 m) and the rate of short readings $\lambda_{\text{short}}$ (2 per m). These are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
+The answer of [Section 5.2](#52-back-to-the-opening-scan), the scan about 215 times more likely from **pose** (G-2280) A (the robot's true position and heading) than from pose B, rests on six numbers we chose: the four weights, the standard deviation of the hits $\sigma_{\text{hit}}$ (0.05 m) and the rate of short readings $\lambda_{\text{short}}$ (2 per m). The six numbers are the model's **intrinsic parameters** (G-2384): they belong to the sensor and its surroundings, not to the pose (Thrun §6.3.4). A sonar is noisier than a laser, and a busy hall has more short readings than an empty lab, so no textbook value fits every robot. We measure them.
 
-The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 13 shows the result as counts per 0.05 m bin. We built these readings in the notebook from the model of [Section 5](#5-the-beam-model-one-mixture-of-four-shapes), so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
+The experiment: place the robot 3 m from a wall and record 1000 readings of the beam that faces it while people walk past (Freiburg slides, "Raw sensor data" for an expected distance of 300 cm). Figure 13 shows the result as counts per 0.05 m bin. Look for the four causes in it: the tall peak at the wall, the falling pile of short readings near 0, the thin even layer of random readings, and the bar at 5 m. We built these readings in the notebook from the model of [Section 5](#5-the-beam-model-one-mixture-of-four-shapes), so that we can check the fit against known values; real recordings look the same (Freiburg slides, "Raw sensor data").
 
 ![1000 readings of a wall 3 m away as counts per 0.05 m bin. Left: a tall peak at 3 m. Right, zoomed to counts up to 25: a falling pile of short readings near 0, a thin uniform layer of random readings, and a bar of 47 readings at the maximum range of 5 m](images/wall_data.png)
 
-Some numbers are easy. With nobody around, the readings scatter only by **measurement noise** (G-2378), and $\sigma_{\text{hit}}$ is their **standard deviation** (G-1870), the [MLE of a normal distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation) (G-1242). The weights cannot be read off like that: a reading of 2.95 m could be a hit or a short reading, and nothing in the reading says which.
+Some numbers are easy. With nobody around, the readings scatter only by **measurement noise** (G-2378), and $\sigma_{\text{hit}}$ is their **standard deviation** (G-1870), their typical distance from 3 m, as given by the [MLE of a normal distribution](../../../../MA/08-likelihood/MA-071-mle-for-common-distributions/MA-071-mle-for-common-distributions.md#44-the-mle-of-the-standard-deviation) (G-1242). The weights cannot be read off like that: a reading of 2.95 m could be a hit or a short reading, and nothing in the reading says which.
 
 ### 6.2 Maximum likelihood, and why it needs a search
 
@@ -488,7 +502,9 @@ The three refits (Thrun §6.3.4; De Laet et al. 2008, Eq. 65–66):
   \lambda_{\text{short}} = \frac{\sum_i e_{i,\text{short}}}{\sum_i e_{i,\text{short}}\ z_i}
   $$
 
-This last formula ignores the cut at $z^{\ast}$. That is safe when the curve has nearly died out before $z^{\ast}$, as here, where only $e^{-6} = 0.0025$ of the exponential lies beyond 3 m.
+This last formula ignores the cut at $z^{\ast}$. Ignoring the cut is safe when the curve has nearly died out before $z^{\ast}$, as here: with $\lambda_{\text{short}} = 2$ per m, the share of the exponential beyond 3 m is only
+
+$$e^{-6} = 0.0025$$
 
 Figure 14 plays the rounds. After round 1 the Gaussian has already narrowed onto the wall; after a few rounds the curve follows the bars, and the **log-likelihood** (G-1113) has stopped rising. EM never lowers the log-likelihood from one round to the next ([why the log-likelihood never decreases](../../../../MA/08-likelihood/MA-074-expectation-maximization/MA-074-expectation-maximization.md#6-why-the-log-likelihood-never-decreases)).
 
@@ -502,6 +518,8 @@ Figure 14 plays the rounds. After round 1 the Gaussian has already narrowed onto
 | 60 | 0.733 | 0.150 | 0.047 | 0.070 | 0.051 | 1.75 | 448 |
 
 Random readings below 3 m look exactly like short ones, because there the two shapes overlap, so EM moves some weight between those two causes.
+
+With its numbers learned, the beam model is complete for a laser; other sensors report other kinds of numbers and need models of their own.
 
 ## 7. A catalogue of sensor models
 
@@ -532,7 +550,7 @@ The **beam model** (G-2377) answers the question of Figure 1 for a laser; it is 
 - The **measurement model** (G-2374) $p(z \mid x, m)$, the density of the readings $z$ given the pose $x$ and the map $m$, scores a pose by how likely the readings are from there; read over poses it is the **likelihood** (G-1086) that a localization filter multiplies into its belief.
 - A scan's density is the product of its beams' densities, because once the pose and map are known the beams are nearly independent; the leftover dependence makes the product overconfident, so implementations use a subset of beams.
 - A Gaussian alone fails, because one reading caused by a passer-by gets density 0 and the product then rejects the true pose.
-- The **beam model** (G-2377) mixes four causes with weights that add up to 1, so a short reading costs a pose a factor instead of everything; in our scan it makes the true pose 215 times more likely than the wrong one.
+- The **beam model** (G-2377) mixes four causes with weights that add up to 1, so a short reading costs a pose a factor instead of everything; in our scan the readings are 215 times more likely from the true pose than from the wrong one.
 - The short-reading curve is exponential because the beam stops at the first of many evenly spread blockers, which halves (or shrinks by a fixed factor) the chance with every extra stretch of beam.
 - The weights and widths are learned by maximum likelihood from recorded readings; the causes are hidden, so EM alternates responsibilities and weighted refits, and it never lowers the **log-likelihood** (G-1113).
 - Each sensor kind (landmark, range, boundary, odometry) needs its own model, because each reports a different kind of number.

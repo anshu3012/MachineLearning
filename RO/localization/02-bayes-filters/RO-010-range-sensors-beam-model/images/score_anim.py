@@ -2,6 +2,8 @@
 beam in turn: its beam model is drawn around the beam's expected range z* (from ray casting), its reading is marked
 on the curve, the density is read off, and a running product is updated. Pose A ends at 6.26 per m^4, pose B at
 0.0291; the last frame shows the backward beam that decides it and the ratio 6.26 / 0.0291 = 215.
+Densities are written to four significant figures, so the shown products come out: 0.04856 x 5.019 x 4.361 x
+5.886 = 6.26 and 0.04909 x 5.019 x 0.02007 x 5.886 = 0.0291.
 Right: the room with the guessed pose; red = what each beam read, drawn from that pose; dashed = where the map says
 it should end. Run -> score_anim.gif"""
 from pathlib import Path
@@ -36,7 +38,7 @@ def curve_axes(fig, title):
 
 def mark(fig, r, d, col, label_up=True, ax=None):
     fig.add_trace(go.Scatter(x=[r, r], y=[0, 6.6], mode="lines", line=dict(color=RED, width=2, dash="dot")))
-    fig.add_annotation(x=r, y=d, ax=ax or (60 if r < 2.5 else -60), ay=-55 if label_up else -110, text=f"{d:.3f} per m",
+    fig.add_annotation(x=r, y=d, ax=ax or (60 if r < 2.5 else -60), ay=-55 if label_up else -110, text=f"{d:.4g} per m",
                        font=dict(color=col, size=20), arrowcolor=col, arrowwidth=2, bgcolor="white")
     fig.add_trace(go.Scatter(x=[r], y=[d], mode="markers", marker=dict(size=13, color=col)))
 
@@ -63,7 +65,7 @@ def table(fig, name, col, k):
     for c, h in zip(COLS, ["beam", "reading", "z*", "density"]):
         text(fig, c, 0.355, h, GREY, size=18)
     for j in range(4):
-        cells = [f"{ANG[j]}°", f"{READ[j]:.2f}", f"{ZS[name][j]:.1f}", f"{DENS[name][j]:.3f}" if j <= k else "…"]
+        cells = [f"{ANG[j]}°", f"{READ[j]:.2f}", f"{ZS[name][j]:.1f}", f"{DENS[name][j]:.4g}" if j <= k else "…"]
         for c, s in zip(COLS, cells):
             text(fig, c, 0.29 - 0.065 * j, s, RED if (j == k and c == COLS[3]) else "black", size=19)
     p = PROD[name][k]
@@ -96,11 +98,11 @@ def final():
     for i, (name, _, col) in enumerate(POSES):
         y0 = 0.9 - 0.36 * i
         text(fig, COLS[0], y0, f"pose {name}", col, size=22)
-        text(fig, COLS[0], y0 - 0.07, " × ".join(f"{d:.3f}" for d in DENS[name]), "black", size=18)
+        text(fig, COLS[0], y0 - 0.07, " × ".join(f"{d:.4g}" for d in DENS[name]), "black", size=18)
         text(fig, COLS[0], y0 - 0.14, f"= {fmt(PROD[name][-1])} per m⁴", col, size=22)
     ratio = PROD["A"][-1] / PROD["B"][-1]
     text(fig, COLS[0], 0.12, f"ratio: {fmt(PROD['A'][-1])} / {fmt(PROD['B'][-1])} = {ratio:.0f}", "black", size=22)
-    text(fig, COLS[0], 0.05, f"pose A is about {ratio:.0f} times more likely", "black", size=19)
+    text(fig, COLS[0], 0.05, f"the scan is {ratio:.0f} times more likely from A", "black", size=19)
     fig.update_layout(template="simple_white", width=1150, height=720, font=FONT, showlegend=False,
                       margin=dict(l=80, r=20, t=70, b=70),
                       title=dict(text="the scan scores pose A 6.26 and pose B 0.0291", x=0.5))
@@ -120,3 +122,6 @@ assert [round(d, 3) for d in DENS["A"]] == [0.049, 5.019, 4.361, 5.886]
 assert [round(d, 3) for d in DENS["B"]] == [0.049, 5.019, 0.020, 5.886]
 assert round(PROD["A"][-1], 2) == 6.26 and round(PROD["B"][-1], 4) == 0.0291
 assert round(PROD["A"][-1] / PROD["B"][-1]) == 215
+# the shown four-figure densities reproduce the shown products (checklist item 79)
+assert round(np.prod([float(f"{d:.4g}") for d in DENS["A"]]), 2) == 6.26
+assert round(np.prod([float(f"{d:.4g}") for d in DENS["B"]]), 4) == 0.0291

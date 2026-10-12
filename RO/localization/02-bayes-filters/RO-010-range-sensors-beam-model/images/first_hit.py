@@ -1,7 +1,7 @@
 """Why short readings fall off exponentially. The 3 m of beam in front of the wall is cut into 30 cells of
 0.1 m; in each trial every cell is blocked (by a person, a chair leg...) with probability 0.2, independently.
 The beam stops at the first blocked cell. The histogram of where it stops builds up trial by trial and
-matches 0.2 x 0.8^(k-1) for cell k, which falls by the same factor 0.8 per cell. Run -> first_hit.gif"""
+matches 0.2 x 0.8^(j-1) for cell j, which falls by the same factor 0.8 per cell. Run -> first_hit.gif"""
 from pathlib import Path
 
 import numpy as np
@@ -42,7 +42,7 @@ def frame(t):
     fig.update_xaxes(title="distance along the beam (m); the wall is at 3 m", range=[-0.05, 3.15], dtick=0.5, row=2, col=1)
     fig.update_yaxes(title="share of trials", range=[0, 0.42 if t < 20 else 0.25], row=2, col=1)
     fig.add_annotation(x=1.6, y=0.85, xref="x2", yref="y2 domain", showarrow=False, font=dict(color=BLUE, size=19),
-                       text="blue: 0.2 × 0.8<sup>k − 1</sup> for cell k")
+                       text="blue: 0.2 × 0.8<sup>j − 1</sup> for cell j")
     fig.update_layout(template="simple_white", width=1000, height=650, font=FONT, showlegend=False,
                       margin=dict(l=80, r=30, t=60, b=70))
     fig.update_annotations(selector=dict(yref="paper"), font_size=20)
