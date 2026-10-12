@@ -160,15 +160,15 @@ The notebook `RO-015-grid-filters.ipynb` runs every example in this Note. Ten ce
 
 Cells turned the sum over infinitely many positions into 10 terms, at a price: with cells of 1 m, the robot's position is never known better than "somewhere in this metre". Smaller cells give a sharper answer, but every cell costs memory and time, because both steps visit every cell. A real floor robot has a pose, its position and heading (see [**pose**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280)), so the grid has three directions. On a 30 m by 30 m floor (Fox 1999):
 
-- $x$ is the position along the floor, in m, from 0 to 30 m in cells of 15 cm;
-- $y$ is the position across the floor, in m, from 0 to 30 m in cells of 15 cm;
-- $\theta$ is the heading, the direction the robot faces, in degrees, from 0° to 360° in steps of 2°.
+- the position along the floor runs from 0 to 30 m in cells of 15 cm;
+- the position across the floor runs from 0 to 30 m in cells of 15 cm;
+- the heading, the direction the robot faces, runs from 0° to 360° in steps of 2°.
 
 Counting the cells:
 
-$$\frac{30}{0.15} = 200 \text{ cells along } x$$
+$$\frac{30}{0.15} = 200 \text{ cells along the floor}$$
 
-$$\frac{30}{0.15} = 200 \text{ cells along } y$$
+$$\frac{30}{0.15} = 200 \text{ cells across the floor}$$
 
 $$\frac{360}{2} = 180 \text{ headings}$$
 
@@ -208,38 +208,52 @@ The odds are their ratio:
 
 $$\text{odds} = \frac{p(\text{open})}{p(\text{closed})}$$
 
-Why does a reading multiply the odds? Write Bayes' theorem once for "open" and once for "closed", after one reading. In symbols:
+Why does a reading multiply the odds? [**Bayes' theorem**](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#4-the-formula-and-its-proof) (G-269) gives each door state's probability after a reading, with the same denominator for both: the overall chance of the reading. For one "sense open" from 0.5, the sensor reads it with chance 0.6 at an open door, 0.2 at a closed one and [0.4 overall](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem):
+
+$$\text{open: } \frac{0.6 \times 0.5}{0.4} = 0.75$$
+
+$$\text{closed: } \frac{0.2 \times 0.5}{0.4} = 0.25$$
+
+$$\text{new odds} = \frac{0.75}{0.25}$$
+
+$$= \frac{0.6 \times 0.5}{0.4} \div \frac{0.2 \times 0.5}{0.4}$$
+
+$$= \frac{0.6 \times 0.5}{0.2 \times 0.5}$$
+
+$$= \frac{0.6}{0.2} \times \frac{0.5}{0.5}$$
+
+$$= 3 \times 1 = 3$$
+
+The same steps for any reading:
 
 - $z$ is the reading, "sense open" or "sense closed";
 - $p(z \mid \text{open})$ is the chance of that reading when the door is open (0.6 for "sense open");
 - $p(z \mid \text{closed})$ is the chance of that reading when the door is closed (0.2 for "sense open");
-- $p(z)$ is the overall chance of the reading, the same denominator in both lines;
+- $p(z)$ is the overall chance of the reading, the same denominator in both lines (0.4 for "sense open");
 - $p(\text{open} \mid z)$ is the probability that the door is open after the reading (0.75 after one "sense open" from 0.5);
-- $p(\text{closed} \mid z)$ is the probability that it is closed after the reading.
-
-Both lines share the same denominator $p(z)$:
+- $p(\text{closed} \mid z)$ is the probability that it is closed after the reading (0.25 after one "sense open" from 0.5).
 
 $$p(\text{open} \mid z) = \frac{p(z \mid \text{open})\ p(\text{open})}{p(z)}$$
 
 $$p(\text{closed} \mid z) = \frac{p(z \mid \text{closed})\ p(\text{closed})}{p(z)}$$
 
-Divide the first line by the second. The $p(z)$ cancels:
+$$\text{new odds} = \frac{p(\text{open} \mid z)}{p(\text{closed} \mid z)}$$
 
-$$\frac{p(\text{open} \mid z)}{p(\text{closed} \mid z)}$$
+$$= \frac{p(z \mid \text{open})\ p(\text{open})}{p(z)}$$
+
+$$\div\ \frac{p(z \mid \text{closed})\ p(\text{closed})}{p(z)}$$
+
+$$= \frac{p(z \mid \text{open})\ p(\text{open})}{p(z \mid \text{closed})\ p(\text{closed})}$$
 
 $$= \frac{p(z \mid \text{open})}{p(z \mid \text{closed})} \times \frac{p(\text{open})}{p(\text{closed})}$$
 
-The left side is the new odds; the last fraction is the old odds. The ratio of the two measurement probabilities in between is the [Bayes factor](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#61-the-size-of-the-update-the-bayes-factor) (G-2215):
+The first fraction, the ratio of the two measurement probabilities, is the [Bayes factor](../../../../MA/02-probability/MA-019-bayes-problem/MA-019-bayes-problem.md#61-the-size-of-the-update-the-bayes-factor) (G-2215); the second is the old odds:
 
 $$\text{new odds} = \text{old odds} \times \frac{p(z \mid \text{open})}{p(z \mid \text{closed})}$$
 
 We never need $p(z)$, whose inverse is the normaliser $\eta$ of the correction step, which is why odds are convenient.
 
-For a reading of "sense open" the factor is:
-
-$$0.6 / 0.2 = 3$$
-
-For "sense closed" it is:
+The factor is 3 for "sense open", as above. For "sense closed" it is:
 
 $$0.4 / 0.8 = 0.5$$
 
@@ -351,27 +365,6 @@ Written out:
 
 $$\gamma_t(x) = \eta\ \alpha_t(x)\ \beta_t(x)$$
 
-Why does a plain product work? In symbols:
-
-- $T$ is the last time step, 3 in our run;
-- $z_{1:t}$ is the readings from time 1 to $t$, only "door" at $t = 1$;
-- $z_{t+1:T}$ is the readings after $t$, ("door", "wall") at $t = 1$;
-- $z_{1:T}$ is all readings of the run, ("door", "door", "wall");
-- $x_t = x$ means that the robot is in cell $x$ at time $t$;
-- a comma inside $p(\ldots)$ means "and".
-
-Written out, the two pieces are:
-
-$$\alpha_t(x) = p(z_{1:t},\ x_t = x)$$
-
-$$\beta_t(x) = p(z_{t+1:T} \mid x_t = x)$$
-
-By the [**Markov property**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316), once the cell at $t$ is known, the earlier readings tell nothing more about the later ones. So the later readings can be added to the condition without changing $\beta$, and the product is the probability of all readings together with cell $x$ at $t$:
-
-$$\alpha_t(x)\ \beta_t(x) = p(z_{1:T},\ x_t = x)$$
-
-Dividing by its total over all cells, $p(z_{1:T})$, gives $p(x_t = x \mid z_{1:T})$, the smoothed belief (J&M App. A).
-
 **$\beta$ for cell 1 at $t = 1$**, worked backwards. At $t = 3$ there are no later readings, so $\beta_3 = 1$ everywhere. One step back, from cell 3 at $t = 2$ the robot reaches cell 4, 5 or 6 (all walls), and each reads "wall" with probability 0.8:
 
 $$\beta_2(3) = 0.1 \times 0.8 + 0.8 \times 0.8$$
@@ -394,13 +387,47 @@ $$+\ 0.1 \times 0.2 \times 0.76$$
 
 $$= 0.4144$$
 
-The same calculation for cell 3 gives only 0.1072, because a robot there would read "door" at a wall. Then:
+The same calculation for cell 3 gives only 0.1072, because a robot there would read "door" at a wall.
 
-$$\alpha_1(1)\ \beta_1(1) = 0.06 \times 0.4144 = 0.0249$$
+Why does a plain product work? The steps use two facts:
+
+- the [**Markov property**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316): once the cell at a time step is known, the earlier readings tell nothing more about the later ones;
+- the [**multiplication rule**](../../../../MA/02-probability/MA-015-conditional-probability/MA-015-conditional-probability.md#5-the-multiplication-rule) (G-2212): the chance of one event times the chance of a second event given the first is the chance of both.
+
+For cell 1 at $t = 1$:
+
+$$\alpha_1(1)\ \beta_1(1) = 0.06 \times 0.4144$$
+
+$$= 0.0249$$
+
+The same steps for any cell and time step:
+
+- $t$ is the time step, 1 above;
+- $x$ is the cell, 1 above;
+- $T$ is the last time step, 3 in our run;
+- $z_{1:t}$ is the readings from time 1 to $t$, only "door" at $t = 1$;
+- $z_{t+1:T}$ is the readings after $t$, ("door", "wall") at $t = 1$;
+- $z_{1:T}$ is all readings of the run, ("door", "door", "wall");
+- $x_t = x$ means that the robot is in cell $x$ at time $t$;
+- a comma inside $p(\ldots)$ means "and".
+
+$$\alpha_t(x)\ \beta_t(x)$$
+
+$$= p(z_{1:t},\ x_t = x)$$
+
+$$\quad \times\ p(z_{t+1:T} \mid x_t = x)$$
+
+$$= p(z_{1:t},\ x_t = x)$$
+
+$$\quad \times\ p(z_{t+1:T} \mid x_t = x,\ z_{1:t})$$
+
+$$= p(z_{1:T},\ x_t = x)$$
+
+Cell 3 the same way:
 
 $$\alpha_1(3)\ \beta_1(3) = 0.06 \times 0.1072 = 0.0064$$
 
-The products over all 10 cells add to 0.06896, the probability of the three readings; it is the same at every $t$, which the notebook checks. Rescaling gives the smoothed belief:
+The products over all 10 cells add to 0.06896, the probability of the three readings; it is the same at every $t$, which the notebook checks. Dividing each product by it gives the probability of its cell given all three readings, the smoothed belief (J&M App. A):
 
 $$\gamma_1(1) = 0.0249 / 0.06896 = 0.36$$
 

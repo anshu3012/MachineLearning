@@ -129,19 +129,7 @@ What to watch in each stage:
 4. **The move is uncertain.** The move may have been 1 or 3 cells, so each mode spreads onto its neighbours and gets lower (0.19 becomes 0.16).
 5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
 
-Why do the door cells get 0.19 in stage 2? The sensor reads "door" three times as often at a door as at a wall:
-
-$$\frac{0.6}{0.2} = 3$$
-
-So each door cell keeps 3 shares of belief for every 1 share of a wall cell, the same [weighting instead of crossing out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out) as for any noisy sensor. There are 3 door cells and 7 wall cells:
-
-$$3 \times 3 + 7 \times 1 = 16 \text{ shares}$$
-
-$$\text{door cell: } 3/16 = 0.1875$$
-
-$$\text{wall cell: } 1/16 = 0.0625$$
-
-The figure shows 0.1875 rounded to 0.19. The exact rule behind this share-counting is Bayes' theorem, applied at every reading by the [**correction step**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2448).
+Why do the door cells get 0.19 in stage 2? The sensor reads "door" 0.6 of the time at a door and 0.2 at a wall, so each door cell keeps 3 shares to a wall cell's 1, and with 3 doors and 7 walls a door cell gets 3 of the 16 shares, 0.1875, shown rounded to 0.19 ([why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out)). The exact rule behind this share-counting is Bayes' theorem, applied at every reading by the [**correction step**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2448).
 
 ### 4.2 The definition
 
