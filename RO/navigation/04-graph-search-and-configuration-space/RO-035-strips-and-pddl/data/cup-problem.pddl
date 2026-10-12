@@ -1,0 +1,5 @@
+(define (problem cup-to-door)
+  (:domain cup-room)
+  (:objects start table door)
+  (:init (robot-at start) (cup-at table) (hand-empty))
+  (:goal (cup-at door)))

@@ -11,7 +11,7 @@ tags: [subject/maths, area/linear-algebra, step/foundations, concept/vector-norm
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Vectors and feature vectors](../../../MA/05-linear-algebra/MA-048-vectors-and-feature-vectors/MA-048-vectors-and-feature-vectors.md#2-what-a-vector-is).
-> - **Leads to:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts).
+> - **Leads to:** [Regularisation](../../../ML/06-regression/ML-062-ridge-regression-intuition/ML-062-ridge-regression-intuition.md#3-the-idea-penalise-large-coefficients); [K-nearest neighbours](../../../ML/07-classification/ML-085-knn/ML-085-knn.md#2-how-knn-predicts); [Heuristic](../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#2-a-guess-of-the-distance-left-the-heuristic); [Growing obstacles by the robot's radius](../../../RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius); [Metric](../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#71-the-rules-a-distance-must-follow).
 > - **Compare with:** [Cosine similarity](../../../MA/05-linear-algebra/MA-050-dot-product-and-cosine-similarity/MA-050-dot-product-and-cosine-similarity.md#6-cosine-similarity).
 <!-- /where-this-fits -->
 

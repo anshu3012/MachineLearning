@@ -328,6 +328,13 @@ notes:
   2016: RO/localization/02-bayes-filters/RO-016-particle-filter
   2017: RO/localization/02-bayes-filters/RO-017-kalman-filter
   2018: RO/localization/02-bayes-filters/RO-018-extended-kalman-filter
+  2032: RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search
+  2033: RO/navigation/04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues
+  2034: RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics
+  2035: RO/navigation/04-graph-search-and-configuration-space/RO-035-strips-and-pddl
+  2036: RO/navigation/04-graph-search-and-configuration-space/RO-036-configuration-space
+  2037: RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space
+  2038: RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours
 
 concepts:
   # 0 Foundations
@@ -715,6 +722,51 @@ concepts:
   - {id: kalman_filter, name: Kalman filter, home: RO-017#25-the-linear-gaussian-system, videos: [2017]}
   - {id: ekf, name: Extended Kalman filter, home: RO-018#4-the-extended-kalman-filter, videos: [2018]}
   - {id: filter_consistency, name: Filter consistency, home: RO-018#5-consistency-is-the-filter-telling-the-truth-about-itself, videos: [2018]}
+  # Robotics chapter RO-04: graph search and configuration space
+  - {id: graph, name: Graphs and state spaces, home: RO-032#22-any-problem-of-states-and-moves-is-a-graph, videos: [2032]}
+  - {id: bfs, name: Breadth-first search, home: RO-032#5-breadth-first-search-ring-by-ring, videos: [2032]}
+  - {id: dfs, name: Depth-first search, home: RO-032#6-depth-first-search-dive-then-back-up, videos: [2032]}
+  - {id: big_o, name: Big-O notation, home: RO-032#72-big-o-notation, videos: [2032]}
+  - {id: planning_hardness, name: Why exact planning is hard, home: RO-032#8-why-exact-planning-is-hard-np-hard-and-pspace-hard, videos: [2032]}
+  - {id: implicit_graph, name: Explicit and implicit graphs, home: RO-032#9-explicit-and-implicit-graphs, videos: [2032]}
+  - {id: search_state, name: Choosing the search state, home: RO-032#10-choosing-the-search-state-the-markov-rule, videos: [2032]}
+  - {id: dijkstra, name: Dijkstra's algorithm, home: RO-033#32-the-algorithm-settle-the-nearest-update-its-neighbours, videos: [2033]}
+  - {id: priority_queue, name: Priority queue and binary heap, home: RO-033#52-the-binary-heap, videos: [2033]}
+  - {id: heuristic, name: Heuristic, home: RO-034#2-a-guess-of-the-distance-left-the-heuristic, videos: [2034]}
+  - {id: greedy_best_first, name: Greedy best-first search, home: RO-034#3-following-the-guess-alone-greedy-best-first-search, videos: [2034]}
+  - {id: a_star, name: A* search, home: RO-034#45-the-algorithm, videos: [2034]}
+  - {id: admissible_heuristic, name: Admissible heuristic, home: RO-034#51-a-guess-that-never-overestimates, videos: [2034]}
+  - {id: consistent_heuristic, name: Consistent heuristic, home: RO-034#62-the-fix-a-guess-that-never-drops-faster-than-the-distance, videos: [2034]}
+  - {id: iterative_deepening, name: Iterative deepening and IDA*, home: RO-034#7-saving-memory-iterative-deepening-and-ida, videos: [2034]}
+  - {id: bidirectional_search, name: Backward and bidirectional search, home: RO-034#82-bidirectional-search, videos: [2034]}
+  - {id: multi_goal_astar, name: Multi-goal A*, home: RO-034#91-the-virtual-goal, videos: [2034]}
+  - {id: weighted_astar, name: Weighted and anytime A*, home: RO-034#101-weighted-a, videos: [2034]}
+  - {id: jps, name: Jump point search, home: RO-034#11-skipping-equal-routes-jump-point-search, videos: [2034]}
+  - {id: theta_star, name: Any-angle search (Theta*), home: RO-034#12-routes-at-any-angle-theta, videos: [2034]}
+  - {id: task_planning, name: Symbolic task planning, home: RO-035#21-facts-and-states, videos: [2035]}
+  - {id: strips, name: STRIPS actions, home: RO-035#31-precondition-add-list-and-delete-list, videos: [2035]}
+  - {id: frame_problem, name: Frame problem, home: RO-035#33-why-lists-of-changes-the-frame-problem, videos: [2035]}
+  - {id: pddl, name: PDDL, home: RO-035#41-one-action-with-parameters, videos: [2035]}
+  - {id: forward_search, name: Forward state-space search, home: RO-035#51-the-state-graph-built-while-searching, videos: [2035]}
+  - {id: cspace, name: Configuration space, home: RO-036#22-the-configuration-space-of-the-floor-robot, videos: [2036]}
+  - {id: dof, name: Degrees of freedom, home: RO-036#31-counting-point-by-point, videos: [2036]}
+  - {id: grubler, name: Grübler's formula, home: RO-036#32-degrees-of-freedom-of-a-robot-made-of-links, videos: [2036]}
+  - {id: cspace_topology, name: "Cartesian product, torus and manifolds", home: RO-036#42-building-bigger-spaces-the-cartesian-product, videos: [2036]}
+  - {id: cspace_representation, name: Explicit and implicit representations, home: RO-036#5-writing-a-configuration-as-numbers, videos: [2036]}
+  - {id: motion_planning_problem, name: Basic motion planning problem, home: RO-036#6-the-basic-motion-planning-problem, videos: [2036]}
+  - {id: free_space, name: Obstacle region and free space, home: RO-037#22-the-obstacle-region-every-placement-that-touches-an-obstacle, videos: [2037]}
+  - {id: grown_obstacle, name: Growing obstacles by the robot's radius, home: RO-037#23-growing-the-obstacles-by-the-robots-radius, videos: [2037]}
+  - {id: minkowski_sum, name: Minkowski sum, home: RO-037#32-minkowski-sum-and-difference, videos: [2037]}
+  - {id: free_space_components, name: Connected components of free space, home: RO-037#41-one-piece-or-several, videos: [2037]}
+  - {id: collision_detection, name: Collision detection, home: RO-038#22-broad-phase-and-narrow-phase, videos: [2038]}
+  - {id: bvh, name: Bounding-volume hierarchy, home: RO-038#31-why-a-tree-of-boxes, videos: [2038]}
+  - {id: self_collision, name: Self-collision, home: RO-038#4-self-collision, videos: [2038]}
+  - {id: distance_query, name: Distance queries and GJK, home: RO-038#52-the-minkowski-difference-and-gjk, videos: [2038]}
+  - {id: edge_resolution, name: Checking a path segment, home: RO-038#62-step-size-and-order, videos: [2038]}
+  - {id: metric, name: Metric, home: RO-038#71-the-rules-a-distance-must-follow, videos: [2038]}
+  - {id: angular_distance, name: Distance between headings, home: RO-038#72-the-distance-between-two-headings, videos: [2038]}
+  - {id: wraparound_nn, name: Nearest neighbours with wrap-around, home: RO-038#8-nearest-neighbours-when-headings-wrap, videos: [2038]}
+  - {id: random_rotations, name: Uniform random rotations and directions, home: RO-038#9-uniform-random-rotations-and-directions, videos: [2038]}
 
 links:
   # Foundations
@@ -1546,3 +1598,63 @@ links:
   - [ekf, needs, derivative, confirmed]
   - [ekf, needs, jacobian, confirmed]
   - [filter_consistency, needs, chi_square_test, confirmed]
+  # Robotics chapter RO-04
+  - [graph, needs, robot_map, confirmed]
+  - [bfs, needs, graph, confirmed]
+  - [dfs, needs, graph, confirmed]
+  - [dfs, compared with, bfs, confirmed]
+  - [planning_hardness, needs, big_o, confirmed]
+  - [implicit_graph, needs, graph, confirmed]
+  - [search_state, needs, graph, confirmed]
+  - [search_state, needs, state_controls_measurements, confirmed]
+  - [dijkstra, fixes, bfs, confirmed]
+  - [dijkstra, needs, priority_queue, confirmed]
+  - [priority_queue, needs, big_o, confirmed]
+  - [heuristic, needs, vector_norm, confirmed]
+  - [a_star, needs, dijkstra, confirmed]
+  - [a_star, needs, heuristic, confirmed]
+  - [a_star, compared with, dijkstra, confirmed]
+  - [greedy_best_first, needs, heuristic, confirmed]
+  - [greedy_best_first, compared with, a_star, confirmed]
+  - [admissible_heuristic, needs, heuristic, confirmed]
+  - [consistent_heuristic, fixes, admissible_heuristic, confirmed]
+  - [iterative_deepening, needs, dfs, confirmed]
+  - [iterative_deepening, compared with, bfs, confirmed]
+  - [bidirectional_search, needs, dijkstra, confirmed]
+  - [multi_goal_astar, is a kind of, a_star, confirmed]
+  - [weighted_astar, is a kind of, a_star, confirmed]
+  - [jps, needs, a_star, confirmed]
+  - [theta_star, needs, a_star, confirmed]
+  - [task_planning, needs, search_state, confirmed]
+  - [strips, needs, task_planning, confirmed]
+  - [frame_problem, needs, strips, confirmed]
+  - [pddl, needs, strips, confirmed]
+  - [forward_search, needs, strips, confirmed]
+  - [forward_search, needs, bfs, confirmed]
+  - [forward_search, needs, a_star, confirmed]
+  - [forward_search, needs, implicit_graph, confirmed]
+  - [cspace, needs, pose, confirmed]
+  - [dof, needs, cspace, confirmed]
+  - [grubler, needs, dof, confirmed]
+  - [cspace_topology, needs, cspace, confirmed]
+  - [cspace_representation, needs, cspace_topology, confirmed]
+  - [motion_planning_problem, needs, cspace, confirmed]
+  - [motion_planning_problem, needs, planning_hardness, confirmed]
+  - [free_space, needs, cspace, confirmed]
+  - [free_space, needs, robot_map, confirmed]
+  - [grown_obstacle, needs, free_space, confirmed]
+  - [grown_obstacle, needs, vector_norm, confirmed]
+  - [minkowski_sum, needs, grown_obstacle, confirmed]
+  - [free_space_components, needs, free_space, confirmed]
+  - [free_space_components, compared with, bfs, confirmed]
+  - [collision_detection, needs, free_space, confirmed]
+  - [bvh, needs, collision_detection, confirmed]
+  - [self_collision, needs, collision_detection, confirmed]
+  - [distance_query, needs, minkowski_sum, confirmed]
+  - [distance_query, needs, dot_product, confirmed]
+  - [edge_resolution, needs, collision_detection, confirmed]
+  - [metric, needs, vector_norm, confirmed]
+  - [angular_distance, needs, metric, confirmed]
+  - [wraparound_nn, needs, angular_distance, confirmed]
+  - [wraparound_nn, needs, knn, confirmed]
+  - [random_rotations, needs, uniform_dist, confirmed]

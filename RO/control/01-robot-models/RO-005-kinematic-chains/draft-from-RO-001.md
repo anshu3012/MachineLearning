@@ -2,6 +2,8 @@
 
 RO-001 keeps only what it needs; this text, configuration, degrees of freedom and configuration space, was cut from it and belongs in this Note. Figure and section numbers are RO-001's and must be renumbered when this Note is built. Figures: images/cspace (cspace.py imports robotdraw.py from RO-001 images/).
 
+**2026-10-11:** configuration (G-2286), degrees of freedom (G-2310) and configuration space (G-2287) are now taught and owned by [RO-036](../../../navigation/04-graph-search-and-configuration-space/RO-036-configuration-space/RO-036-configuration-space.md#2-configuration-and-configuration-space); this Note recaps them in one line and links there. The rows below are kept for history only.
+
 ## Glossary rows to restore (IDs kept)
 
 | <span id="G-2286">G-2286</span> | Configuration | The list of numbers that pins down where every part of a robot is, such as $q = (x, y, \theta)$ for a floor robot; planning and models work with it as one vector. | [Note RO-001](RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#82-configuration-space) | Pose |
