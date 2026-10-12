@@ -8,6 +8,7 @@ tags: [subject/robotics, area/navigation, concept/task-planning, concept/strips,
 > **Where this fits:**
 >
 > - **Builds on:** [Breadth-first search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring); [Choosing the search state](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#10-choosing-the-search-state-the-markov-rule); [Explicit and implicit graphs](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#9-explicit-and-implicit-graphs); [A* search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm).
+> - **Leads to:** [Manipulation planning (transit and transfer)](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#23-the-plan-transit-transfer-transit).
 <!-- /where-this-fits -->
 
 ## 1. Overview

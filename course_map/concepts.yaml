@@ -335,6 +335,17 @@ notes:
   2036: RO/navigation/04-graph-search-and-configuration-space/RO-036-configuration-space
   2037: RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space
   2038: RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours
+  2048: RO/navigation/06-grid-sampling-and-car-like-planning/RO-048-grid-planning-wavefronts-and-value-iteration
+  2049: RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms
+  2050: RO/navigation/06-grid-sampling-and-car-like-planning/RO-050-potential-fields
+  2051: RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt
+  2052: RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps
+  2053: RO/navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning
+  2054: RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits
+  2055: RO/navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing
+  2056: RO/navigation/06-grid-sampling-and-car-like-planning/RO-056-state-lattices
+  2057: RO/navigation/06-grid-sampling-and-car-like-planning/RO-057-route-planning-on-road-graphs
+  2058: RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation
 
 concepts:
   # 0 Foundations
@@ -767,6 +778,50 @@ concepts:
   - {id: angular_distance, name: Distance between headings, home: RO-038#72-the-distance-between-two-headings, videos: [2038]}
   - {id: wraparound_nn, name: Nearest neighbours with wrap-around, home: RO-038#8-nearest-neighbours-when-headings-wrap, videos: [2038]}
   - {id: random_rotations, name: Uniform random rotations and directions, home: RO-038#9-uniform-random-rotations-and-directions, videos: [2038]}
+  # Robotics chapter RO-06: grid, sampling-based and car-like planning
+  - {id: wavefront, name: Wavefront propagation, home: RO-048#2-numbering-every-cell-from-the-door-the-wavefront, videos: [2048]}
+  - {id: navigation_function, name: Navigation function and feedback plan, home: RO-048#42-one-step-at-a-time-from-any-cell, videos: [2048]}
+  - {id: grid_value_iteration, name: Value iteration on a grid, home: RO-048#5-value-iteration-the-same-numbers-without-a-queue, videos: [2048]}
+  - {id: dp_interpolation, name: Dynamic programming with interpolation, home: RO-048#62-value-iteration-with-interpolation, videos: [2048]}
+  - {id: fast_marching, name: Fast marching and the Eikonal equation, home: RO-048#72-fast-marching, videos: [2048]}
+  - {id: dstar, name: D* replanning, home: RO-049#32-fixing-them-in-order, videos: [2049]}
+  - {id: realtime_search, name: Real-time heuristic search (LRTA*), home: RO-049#51-learning-the-guesses-lrta, videos: [2049]}
+  - {id: bug_algorithms, name: Bug algorithms, home: RO-049#6-no-map-at-all-bug-algorithms, videos: [2049]}
+  - {id: potential_field, name: Potential fields, home: RO-050#2-the-pull-of-the-door-the-attractive-potential, videos: [2050]}
+  - {id: randomized_potential, name: Randomized potential fields, home: RO-050#5-escaping-by-chance-randomized-potential-fields, videos: [2050]}
+  - {id: harmonic_potential, name: Harmonic potentials, home: RO-050#6-a-field-with-no-local-minima-harmonic-potentials, videos: [2050]}
+  - {id: rk_navigation_function, name: Navigation functions (Rimon-Koditschek), home: RO-050#7-one-minimum-by-design-navigation-functions, videos: [2050]}
+  - {id: rrt, name: Rapidly-exploring random tree (RRT), home: RO-051#21-one-step-sample-nearest-node-steer-check, videos: [2051]}
+  - {id: rrt_star, name: RRT* and asymptotic optimality, home: RO-051#31-choose-the-parent-then-rewire, videos: [2051]}
+  - {id: rrt_connect, name: RRT-Connect, home: RO-051#4-two-trees-that-meet-rrt-connect, videos: [2051]}
+  - {id: prm, name: Probabilistic roadmap (PRM), home: RO-052#22-phase-1-and-phase-2-milestones-and-edges, videos: [2052]}
+  - {id: single_multi_query, name: Single-query and multi-query planners, home: RO-052#3-many-trips-on-one-roadmap-single-query-and-multi-query-planners, videos: [2052]}
+  - {id: completeness, name: "Complete, resolution-complete and probabilistically complete", home: RO-052#5-can-a-planner-miss-a-route-completeness, videos: [2052]}
+  - {id: narrow_passages, name: Narrow passages and smarter sampling, home: RO-052#62-gaussian-sampling-and-the-bridge-test, videos: [2052]}
+  - {id: lazy_collision, name: Lazy collision checking, home: RO-052#8-lazy-collision-checking, videos: [2052]}
+  - {id: manipulation_planning, name: Manipulation planning (transit and transfer), home: RO-053#23-the-plan-transit-transfer-transit, videos: [2053]}
+  - {id: quasistatic, name: Pushing and the quasistatic assumption, home: RO-053#32-why-a-slow-push-is-predictable, videos: [2053]}
+  - {id: preimage_planning, name: Preimage planning, home: RO-053#42-the-preimage-of-the-holder, videos: [2053]}
+  - {id: moveit_ompl, name: MoveIt and OMPL, home: RO-053#5-the-software-moveit-and-ompl, videos: [2053]}
+  - {id: kinodynamic, name: Kinodynamic planning and phase space, home: RO-054#23-kinodynamic-planning, videos: [2054]}
+  - {id: inevitable_collision, name: Inevitable collision states, home: RO-054#32-the-region-of-inevitable-collision, videos: [2054]}
+  - {id: reachable_set, name: Reachable sets, home: RO-054#4-where-the-robot-can-get-to-reachable-sets, videos: [2054]}
+  - {id: motion_primitives, name: Motion primitives and lattice search, home: RO-054#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator, videos: [2054]}
+  - {id: dubins_reeds_shepp, name: Dubins and Reeds-Shepp paths, home: RO-054#7-the-shortest-drivable-paths-dubins-and-reeds-shepp-curves, videos: [2054]}
+  - {id: kinodynamic_rrt, name: Kinodynamic RRT, home: RO-054#8-growing-a-tree-of-drivable-motions-kinodynamic-rrt, videos: [2054]}
+  - {id: hybrid_astar, name: Hybrid A*, home: RO-055#2-hybrid-a-states-with-a-heading-moves-the-car-can-drive, videos: [2055]}
+  - {id: path_smoothing, name: Path smoothing, home: RO-055#51-the-smoothing-rule, videos: [2055]}
+  - {id: state_lattice, name: State lattice and control set, home: RO-056#32-the-control-set, videos: [2056]}
+  - {id: route_planning, name: Route planning on road graphs, home: RO-057#2-why-route-planning-is-its-own-level, videos: [2057]}
+  - {id: lane_graph, name: Lane graphs, home: RO-057#32-lane-graphs, videos: [2057]}
+  - {id: travel_time_cost, name: Travel-time edge costs, home: RO-057#4-travel-time-as-the-edge-cost, videos: [2057]}
+  - {id: alt_landmarks, name: Landmark heuristics (ALT), home: RO-057#61-the-triangle-inequality-on-travel-times, videos: [2057]}
+  - {id: contraction_hierarchy, name: Contraction hierarchies, home: RO-057#72-contracting-a-vertex-shortcuts, videos: [2057]}
+  - {id: trajectory_optimisation, name: Trajectory optimisation, home: RO-058#22-the-best-trajectory-cost-and-constraints, videos: [2058]}
+  - {id: shooting, name: Single and multiple shooting, home: RO-058#4-single-shooting-simulate-measure-the-miss-adjust, videos: [2058]}
+  - {id: collocation, name: Direct collocation, home: RO-058#61-states-at-points-instead-of-a-simulation, videos: [2058]}
+  - {id: ilqr, name: iLQR and DDP, home: RO-058#7-ilqr-and-ddp-better-steps-from-the-model, videos: [2058]}
+  - {id: direct_indirect, name: Direct and indirect methods, home: RO-058#8-direct-and-indirect-methods, videos: [2058]}
 
 links:
   # Foundations
@@ -1658,3 +1713,94 @@ links:
   - [wraparound_nn, needs, angular_distance, confirmed]
   - [wraparound_nn, needs, knn, confirmed]
   - [random_rotations, needs, uniform_dist, confirmed]
+  # Robotics chapter RO-06
+  - [wavefront, needs, bfs, confirmed]
+  - [wavefront, needs, bidirectional_search, confirmed]
+  - [navigation_function, needs, wavefront, confirmed]
+  - [navigation_function, needs, gradient_descent, confirmed]
+  - [grid_value_iteration, needs, dijkstra, confirmed]
+  - [grid_value_iteration, compared with, dijkstra, confirmed]
+  - [dp_interpolation, needs, grid_value_iteration, confirmed]
+  - [dp_interpolation, needs, memoization, confirmed]
+  - [fast_marching, fixes, dijkstra, confirmed]
+  - [fast_marching, needs, gradient, confirmed]
+  - [dstar, needs, a_star, confirmed]
+  - [dstar, needs, grid_value_iteration, confirmed]
+  - [dstar, compared with, a_star, confirmed]
+  - [realtime_search, needs, admissible_heuristic, confirmed]
+  - [realtime_search, needs, grid_value_iteration, confirmed]
+  - [bug_algorithms, needs, grown_obstacle, confirmed]
+  - [potential_field, needs, gradient, confirmed]
+  - [potential_field, needs, gradient_descent, confirmed]
+  - [potential_field, needs, distance_query, confirmed]
+  - [potential_field, compared with, navigation_function, confirmed]
+  - [potential_field, needs, saddle_point, confirmed]
+  - [randomized_potential, fixes, potential_field, confirmed]
+  - [harmonic_potential, fixes, potential_field, confirmed]
+  - [harmonic_potential, compared with, grid_value_iteration, confirmed]
+  - [rk_navigation_function, fixes, potential_field, confirmed]
+  - [rrt, needs, edge_resolution, confirmed]
+  - [rrt, needs, wraparound_nn, confirmed]
+  - [rrt, needs, metric, confirmed]
+  - [rrt, compared with, randomized_potential, confirmed]
+  - [rrt_star, fixes, rrt, confirmed]
+  - [rrt_connect, is a kind of, rrt, confirmed]
+  - [rrt_connect, needs, bidirectional_search, confirmed]
+  - [prm, needs, graph, confirmed]
+  - [prm, needs, collision_detection, confirmed]
+  - [prm, needs, uniform_dist, confirmed]
+  - [prm, needs, a_star, confirmed]
+  - [prm, compared with, rrt, confirmed]
+  - [single_multi_query, needs, prm, confirmed]
+  - [completeness, needs, prm, confirmed]
+  - [completeness, needs, motion_planning_problem, confirmed]
+  - [narrow_passages, needs, prm, confirmed]
+  - [narrow_passages, needs, normal_distribution, confirmed]
+  - [lazy_collision, needs, prm, confirmed]
+  - [lazy_collision, needs, edge_resolution, confirmed]
+  - [manipulation_planning, needs, cspace, confirmed]
+  - [manipulation_planning, needs, prm, confirmed]
+  - [manipulation_planning, needs, task_planning, confirmed]
+  - [quasistatic, needs, manipulation_planning, confirmed]
+  - [preimage_planning, needs, minkowski_sum, confirmed]
+  - [preimage_planning, needs, narrow_passages, confirmed]
+  - [moveit_ompl, needs, prm, confirmed]
+  - [moveit_ompl, needs, lazy_collision, confirmed]
+  - [kinodynamic, needs, cspace, confirmed]
+  - [kinodynamic, needs, diff_drive_kinematics, confirmed]
+  - [inevitable_collision, needs, kinodynamic, confirmed]
+  - [inevitable_collision, needs, free_space, confirmed]
+  - [reachable_set, needs, nonholonomic, confirmed]
+  - [motion_primitives, needs, diff_drive_kinematics, confirmed]
+  - [motion_primitives, needs, bfs, confirmed]
+  - [dubins_reeds_shepp, needs, nonholonomic, confirmed]
+  - [kinodynamic_rrt, is a kind of, rrt, confirmed]
+  - [kinodynamic_rrt, needs, motion_primitives, confirmed]
+  - [kinodynamic_rrt, needs, dubins_reeds_shepp, confirmed]
+  - [hybrid_astar, needs, a_star, confirmed]
+  - [hybrid_astar, needs, motion_primitives, confirmed]
+  - [hybrid_astar, needs, dubins_reeds_shepp, confirmed]
+  - [hybrid_astar, needs, admissible_heuristic, confirmed]
+  - [path_smoothing, needs, gradient_descent, confirmed]
+  - [path_smoothing, needs, hybrid_astar, confirmed]
+  - [state_lattice, needs, motion_primitives, confirmed]
+  - [state_lattice, needs, edge_resolution, confirmed]
+  - [state_lattice, compared with, hybrid_astar, confirmed]
+  - [route_planning, needs, a_star, confirmed]
+  - [route_planning, needs, graph, confirmed]
+  - [lane_graph, needs, route_planning, confirmed]
+  - [travel_time_cost, needs, dijkstra, confirmed]
+  - [travel_time_cost, needs, admissible_heuristic, confirmed]
+  - [alt_landmarks, needs, travel_time_cost, confirmed]
+  - [alt_landmarks, needs, metric, confirmed]
+  - [alt_landmarks, compared with, heuristic, confirmed]
+  - [contraction_hierarchy, needs, bidirectional_search, confirmed]
+  - [contraction_hierarchy, compared with, alt_landmarks, confirmed]
+  - [trajectory_optimisation, needs, kinodynamic, confirmed]
+  - [trajectory_optimisation, compared with, motion_primitives, confirmed]
+  - [shooting, needs, trajectory_optimisation, confirmed]
+  - [shooting, needs, gradient_descent, confirmed]
+  - [collocation, fixes, shooting, confirmed]
+  - [ilqr, fixes, gradient_descent, confirmed]
+  - [ilqr, needs, shooting, confirmed]
+  - [direct_indirect, needs, trajectory_optimisation, confirmed]

@@ -8,7 +8,7 @@ tags: [subject/robotics, area/navigation, concept/configuration-space, concept/d
 > **Where this fits:**
 >
 > - **Builds on:** [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading); [Why exact planning is hard](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#8-why-exact-planning-is-hard-np-hard-and-pspace-hard).
-> - **Leads to:** [Obstacle region and free space](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#22-the-obstacle-region-every-placement-that-touches-an-obstacle).
+> - **Leads to:** [Obstacle region and free space](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#22-the-obstacle-region-every-placement-that-touches-an-obstacle); [Complete, resolution-complete and probabilistically complete](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#5-can-a-planner-miss-a-route-completeness); [Manipulation planning (transit and transfer)](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#23-the-plan-transit-transfer-transit); [Kinodynamic planning and phase space](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#23-kinodynamic-planning).
 <!-- /where-this-fits -->
 
 ## 1. Overview
