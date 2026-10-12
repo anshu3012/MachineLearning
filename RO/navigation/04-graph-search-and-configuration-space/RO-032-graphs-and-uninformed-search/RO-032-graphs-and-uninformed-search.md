@@ -70,7 +70,12 @@ The graph says which moves exist, but not which ones to take; finding those is t
 The graph of Figure 2 came from a map, but the idea does not need a map. Anything that is in one situation at a time, and changes situation by a move, fits the same picture: each situation is a vertex, each move an edge (CS188 §1.2).
 
 - **Our robot:** the situation is its cell; a move is a 0.5 m step. The graph has 76 vertices.
-- **A Rubik's cube:** the situation is the arrangement of the coloured squares; a move is one turn of a face. Each of the 6 faces can be turned 3 ways: a quarter turn clockwise, a quarter turn anticlockwise or a half turn. Each arrangement therefore has 18 possible turns, so 18 edges leave every vertex (Korf 1997).
+- **A Rubik's cube:** the situation is the arrangement of the coloured squares; a move is one turn of a face. Take one face, say the front. A turn leaves it in one of 3 new positions:
+  - turned 90° clockwise;
+  - turned 180°;
+  - turned 270° clockwise, which is the same as 90° anticlockwise.
+
+  A 360° turn puts the face back where it started, so it is not a move. The 6 faces give 3 moves each, so each arrangement has 18 possible moves, and 18 edges leave every vertex (Korf 1997).
 
 The situation a problem can be in is its [**state**](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314), the quantities that decide what happens next. All the states together, with the moves between them, form the **state space** (G-2545): a graph whose vertices are states and whose edges are the moves (CS188 §1.2.2).
 
