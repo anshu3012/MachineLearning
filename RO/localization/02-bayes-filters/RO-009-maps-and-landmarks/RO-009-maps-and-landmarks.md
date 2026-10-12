@@ -9,7 +9,7 @@ tags: [subject/robotics, area/localization, concept/map, concept/landmark, conce
 
 ![A room 7 m by 4 m with a door in the top wall, a four-sided table, an L-shaped cabinet in the top right corner, a pink pole at (1, 3) and a green pole at (6, 0.8); the robot stands at (2, 1) facing 30 degrees](images/room.png)
 
-So far the robot can say how a move blurs its pose: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) (G-2319) turns a drive from (2 m, 1 m, 30°) into a cloud of end poses. What still breaks: a reading can shrink that cloud only if the robot knows where the sensed thing stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
+So far the robot can say how a move blurs its pose: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) (G-2319) turns a drive from (2 m, 1 m, 30°) into a cloud of end [**poses**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280), positions with headings. What still breaks: a reading can shrink that cloud only if the robot knows where the sensed thing stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
 
 - what a map is, and the main families of maps: feature-based and grid (Sections [2](#2-why-a-robot-needs-a-map) and [3](#3-feature-based-and-grid-maps));
 - how to store an obstacle exactly, as a polygon made of **half-planes** (G-2336), and test whether a point is inside it ([Section 4](#4-obstacles-as-polygons-made-of-half-planes));
@@ -22,7 +22,7 @@ So far the robot can say how a move blurs its pose: the [**motion model**](../RO
 
 ### 2.1 What a map is for
 
-A reading such as "the pink pole is 2.236 m away, to the left" says where things are relative to the robot. To turn it into "where am I?", the robot needs to know where those things are in the room. That is what a map gives: the robot compares what it sees with the map and keeps the poses where the two agree. Planning needs the map too: a route to the door must go round the table.
+A reading such as "the pink pole is 2.236 m away, to the left" says where things are relative to the robot. To turn it into "where am I?", the robot needs to know where those things are in the room. A map gives exactly that: the robot compares what it sees with the map and keeps the poses where the two agree. Planning needs the map too: a route to the door must go round the table.
 
 A **map** (G-2331) is a list of the objects in the environment that matter to the robot, with their positions and properties (Thrun et al. 2005 §6.2). We write it as a list of objects:
 
@@ -32,7 +32,7 @@ A **map** (G-2331) is a list of the objects in the environment that matter to th
 
 $$m = \lbrace m_1,\ m_2,\ \dots,\ m_N \rbrace$$
 
-Fixed things, such as walls and furniture, belong in the map; things that move, such as people, belong in the robot's [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) instead.
+Fixed things, such as walls and furniture, belong in the map; things that move, such as people, belong in the robot's [state](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314), the quantities it keeps track of, instead. What goes in the map is settled; how much of the room it records is not.
 
 ## 3. Feature-based and grid maps
 
@@ -42,11 +42,11 @@ What should the map of Figure 1's room hold: only the two poles, or every spot o
 
 ![The room as a feature-based map, only the pink pole at (1, 3) and the green pole at (6, 0.8): 6 numbers; and as a grid map of 0.1 m cells, black where the walls, table, cabinet and poles are: 70 by 40 = 2800 cells](images/map_types.png)
 
-A **feature-based map** (G-2334) is a list of **landmarks** (G-2342), each with its coordinates and a label that tells landmarks apart. Our room needs two entries, each a pole's x and y in metres and its colour. The map $m$, the list of the room's objects, is then:
+A **feature-based map** (G-2334) is a list of **landmarks** (G-2342), distinctive objects such as the two poles, each with its coordinates and a label that tells landmarks apart. Our room needs two entries, each a pole's x and y in metres and its colour. The map $m$, the list of the room's objects, is then:
 
 $$m = \lbrace(1,\ 3,\ \text{pink}),\ (6,\ 0.8,\ \text{green}) \rbrace$$
 
-That is 6 numbers for the whole room (Brown CS148 tutorial). It is cheap to store and to search, but it says nothing about the rest of the room: from it the robot cannot tell that the table is there.
+The map holds 6 numbers for the whole room (Brown CS148 tutorial). A feature-based map is cheap to store and to search, but it says nothing about the rest of the room: from it the robot cannot tell that the table is there.
 
 A **location-based map** (G-2335), or grid map, splits space into small cells and stores a value for each: occupied or free. With cells of 0.1 m our room takes:
 
@@ -54,7 +54,7 @@ $$\frac{7}{0.1} \times \frac{4}{0.1} = 70 \times 40$$
 
 $$= 2800 \text{ cells}$$
 
-It is called location-based, or volumetric, because it has an entry for every location, free space included. That is what lets it answer "is this pose free?", the test that the [map-consistent motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#7-ruling-out-poses-inside-walls) (G-2329) uses to keep poses out of walls.
+A grid map is called location-based, or volumetric, because it has an entry for every location, free space included. Those free-space entries let it answer "is this pose free?", the test that the [map-consistent motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#7-ruling-out-poses-inside-walls) (G-2329) uses to keep poses out of walls.
 
 | | Feature-based map | Grid map |
 |---|---|---|
@@ -64,11 +64,11 @@ It is called location-based, or volumetric, because it has an entry for every lo
 | Matches | landmark readings | full scans |
 | Weak point | needs landmarks to exist and be found | memory grows with area and fineness |
 
-Grid maps are the most common map in robotics today (Correll §4.1). Cells need not all be the same size: a quadtree splits a cell into four only where it contains an obstacle edge, so large free areas take few cells (Correll §4.1).
+Grid maps are the most common map in robotics today (Correll §4.1). Cells need not all be the same size: a **quadtree** (G-2533) splits a cell into four only where it contains an obstacle edge, so large free areas take few cells (Correll §4.1). Either kind of grid stores each obstacle only to its nearest cell.
 
 ## 4. Obstacles as polygons made of half-planes
 
-> **Key point:** A line splits the floor into two half-planes, told apart by the sign of one formula. A convex obstacle is the overlap of a few half-planes, so a point is inside exactly when every formula is at most 0; any other obstacle is a **union** (G-2045) of convex pieces.
+> **Key point:** A line splits the floor into two half-planes, told apart by the sign of one formula. A convex obstacle is the overlap of a few half-planes, so a point is inside exactly when every formula is at most 0; any other obstacle is a **union** (G-2045) of convex pieces, the points in any one of them.
 
 ### 4.1 Why store obstacles exactly
 
@@ -91,7 +91,7 @@ Every edge of the table lies on a line, which we can write in the [general form 
 
 $$f(x, y) = a x + b y + c = 0$$
 
-The vector $(a, b)$ is the line's [normal vector](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument) (G-1346) and points towards the positive side. All the points on one side of a line, together with the line, form a **half-plane** (G-2336) (LaValle §3.1.1):
+The vector $(a, b)$ is the line's [normal vector](../../../../MA/05-linear-algebra/MA-051-equation-of-a-hyperplane/MA-051-equation-of-a-hyperplane.md#61-the-argument) (G-1346), a direction square to the line, and points towards the positive side. All the points on one side of a line, together with the line, form a **half-plane** (G-2336) (LaValle §3.1.1):
 
 - $H$ is the half-plane on the negative side: the set of floor points $(x, y)$ where $f$ is 0 or less; in the braces below, the colon reads "such that".
 
@@ -110,6 +110,8 @@ $$c = -7$$
 Doubling every number gives whole numbers and the same line, with the same signs. We call this right-edge function $f_2$:
 
 $$f_2(x, y) = 3x - y - 14$$
+
+One edge gives one half-plane; the table has four edges.
 
 ### 4.3 A convex polygon is where every half-plane agrees
 
@@ -146,7 +148,11 @@ All four are negative: inside. For the point (5.5, 1.5):
 
 $$f_2 = 16.5 - 1.5 - 14 = 1$$
 
-One positive value is enough: outside, on the far side of the right edge. In logic, the table's test joins the four conditions with AND (LaValle §3.1.1): $f_1 \le 0$ AND $f_2 \le 0$, and so on for all four edges.
+One positive value is enough: outside, on the far side of the right edge. In logic, the table's test joins the four conditions with AND (LaValle §3.1.1):
+
+$$f_1 \le 0 \text{ AND } f_2 \le 0$$
+
+$$\text{AND } f_3 \le 0 \text{ AND } f_4 \le 0$$
 
 ### 4.4 Non-convex obstacles are unions of convex pieces
 
@@ -177,7 +183,7 @@ So it is free. Every obstacle made of straight edges can be written this way, as
 
 ### 5.1 Triangle meshes
 
-**Half-planes** (G-2336) describe the table's outline on the floor plan, but the room's table and cabinet are really 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
+**Half-planes** (G-2336), the regions on one side of a line, describe the table's outline on the floor plan, but the room's table and cabinet are really 3D, and the common 3D model is a set of triangles, each given by its three corner points in space. A set of triangles that together cover an object's surface is a **triangle mesh** (G-2338) (LaValle §3.1.3). Figure 5 builds our table, 0.75 m high, from 8 corner points and 12 triangles: 2 for the top, 2 for the bottom and 2 for each of the 4 sides.
 
 ![The table as a 3D triangle mesh: 8 corner points, at floor height and at 0.75 m, joined into 12 triangles covering the top, the bottom and the four sides](images/mesh.png)
 
@@ -185,9 +191,9 @@ Triangles are popular because graphics hardware is built to draw them (LaValle �
 
 ### 5.2 Bitmaps and occupancy grids
 
-The simplest model of all splits the room into square cells and marks each one: 1 if the cell contains any point of an obstacle, 0 if it does not. This is a **bitmap** (G-2339) of the obstacles, the same thing as the black-and-white image of Figure 6 (LaValle §3.1.3).
+The simplest model of all splits the room into square cells and marks each one: 1 if the cell contains any point of an obstacle, 0 if it does not. The result is a **bitmap** (G-2339) of the obstacles, the same thing as the black-and-white image of Figure 6 (LaValle §3.1.3).
 
-![Bitmaps of the room's furniture: with 0.5 m cells, 112 cells of which 47 are black, a coarse blocky outline; with 0.1 m cells, 2800 cells of which 617 are black, close to the true table, cabinet and poles drawn as outlines](images/bitmap.png)
+![Bitmaps of the room's furniture: with 0.5 m cells, 112 cells of which 47 are black, a coarse blocky outline; with 0.1 m cells, 2800 cells of which 617 are black, close to the true table and cabinet, which are drawn as outlines](images/bitmap.png)
 
 To read Figure 6: each small square is one cell, black for 1 (some obstacle inside) and white for 0; the coloured outlines are the exact polygons of [Section 4](#4-obstacles-as-polygons-made-of-half-planes). The cell size sets the trade-off. Black area overstates the obstacles, because a cell turns black when an obstacle covers any part of it. The table, cabinet and poles really cover 5.13 m²:
 
@@ -196,7 +202,7 @@ To read Figure 6: each small square is one cell, black for 1 (some obstacle insi
 | 0.5 m | 112 | 47 | 11.75 m² |
 | 0.1 m | 2800 | 617 | 6.17 m² |
 
-Cells five times smaller bring the black area close to the truth but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331) with its own sensors (LaValle §3.1.3). Storing a number between 0 and 1 in each cell instead of 0 or 1, such as the probability that the cell is occupied, gives an **occupancy grid** (G-2340), the standard grid map of robotics (LaValle §3.1.3).
+Cells five times smaller bring the black area close to the truth but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331), its model of the surroundings, with its own sensors (LaValle §3.1.3). Storing a number between 0 and 1 in each cell instead of 0 or 1, such as the probability that the cell is occupied, gives an **occupancy grid** (G-2340), the standard grid map of robotics (LaValle §3.1.3). Each of these models describes the room; the robot still has to turn its own readings into something it can compare with them.
 
 ## 6. Landmarks and feature extraction
 
@@ -204,7 +210,7 @@ Cells five times smaller bring the black area close to the truth but need 25 tim
 
 ### 6.1 Why extract features
 
-The other half of the comparison is the reading itself. A laser scanner on our robot at (2, 1) measures 360 distances, one per degree. Comparing all 360 with a **map** (G-2331) is possible (the range-sensor Notes later in this chapter do it), but most of the numbers describe plain wall, which looks the same all along the room. A few distinctive objects carry most of the information about where the robot is. Pulling such objects out of raw sensor data, so that a scan of hundreds of numbers becomes a short list of objects, is **feature extraction** (G-2341) (Thrun et al. 2005 §6.6, as in the Freiburg sensor-model slides).
+The other half of the comparison is the reading itself. A laser scanner on our robot at (2, 1) measures 360 distances, one per degree. Comparing all 360 with a **map** (G-2331), the robot's model of the room, is possible (the range-sensor Notes later in this chapter do it), but most of the numbers describe plain wall, which looks the same all along the room. A few distinctive objects carry most of the information about where the robot is. Pulling such objects out of raw sensor data, so that a scan of hundreds of numbers becomes a short list of objects, is **feature extraction** (G-2341) (Thrun et al. 2005 §6.6, as in the Freiburg sensor-model slides).
 
 An object makes a good **landmark** (G-2342) when two things hold:
 
@@ -221,7 +227,7 @@ A pole shows up as a few neighbouring beams that are much shorter than the beams
 
 1. cut the scan wherever the range jumps by more than 0.3 m between neighbouring beams;
 2. keep a piece that is narrower than 0.35 m and nearer than the beams on both sides of it;
-3. report its direction as the average direction of its beams, and its distance as its nearest range plus the pole's radius of 0.1 m, so that the distance is to the pole's centre.
+3. report its **bearing** (G-2344), its direction measured from the robot's heading, as the average direction of its beams, and its **range** (G-2343), its distance, as its nearest beam's range plus the pole's radius of 0.1 m, so that the range is to the pole's centre.
 
 Figure 7 applies the rule to the scan, one beam after another. Watch each reading land as a grey dot, the orange jump at each cut, and the test of each piece when the next cut closes it: only a 3-beam piece and a 5-beam piece pass, and they become the green and the pink pole.
 
@@ -250,7 +256,7 @@ For the pink pole, the true values follow from the **map** (G-2331). The pole is
 
 $$r = \sqrt{1^2 + 2^2} = 2.236 \text{ m}$$
 
-Its direction in the room is [atan2](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#42-turn-drive-turn) (G-2325) of the rise and the run:
+The pole's direction in the room comes from [atan2](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#42-turn-drive-turn) (G-2325), which turns the rise and the run into an angle over the full circle:
 
 $$\text{atan2}(2,\ -1) = 116.6^\circ$$
 
@@ -282,13 +288,13 @@ In localization the map is known and the pose is not. Then a single landmark rea
 | Bitmap / occupancy grid | 0 or 1 (or a probability) per cell | read the cell | simple; built from sensors | overstates obstacles; finer costs more |
 
 - The reading "the pink pole is 2.236 m away" places the robot only once the **map** (G-2331) says the pink pole is at (1, 3): a map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
-- A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the **map-consistent motion model** (G-2329) needs.
-- A **half-plane** (G-2336) is one sign test, $f(x, y) \le 0$, on the function $f$ of the line through an edge; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
+- A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the **map-consistent motion model** (G-2329) needs to keep sampled poses out of walls.
+- A **half-plane** (G-2336) is one sign test: the function $f$ of the line through an edge is at most 0; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are **unions** (G-2045) of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
 - **Triangle meshes** (G-2338) suit 3D graphics, because graphics hardware is built to draw triangles, but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², because a cell turns black when any part of it is covered, and 0.1 m cells cost 25 times as many cells.
 - **Feature extraction** (G-2341) turns 360 scan distances into two landmarks, because a few distinctive objects carry most of the information about the pose; each landmark is reported as range, bearing and signature, and the signature says which map landmark it is.
 
-The robot can now hold its room as a map and turn a scan into readings such as (2.236 m, 86.6°, pink). Still missing: how likely is a reading if the robot stood at a guessed pose? That is the [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377).
+The robot can now hold its room as a map and turn a scan into readings such as (2.236 m, 86.6°, pink). Still missing: how likely is a reading if the robot stood at a guessed pose? The [**beam model**](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#1-overview) (G-2377) answers that for each beam of a laser scan.
 
 ## 8. Sources
 
@@ -319,6 +325,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Landmark (G-2342) | An object the robot can detect reliably and tell apart from the others, such as a coloured pole or a door; its known position in the map lets readings of it fix the robot's pose. |
 | Feature-based map (G-2334) | A map that stores only landmarks, each with its coordinates and signature, such as (1, 3, pink); very compact, but it says nothing about which space is free. |
 | Location-based map (grid map) (G-2335) | A map that splits space into cells and stores a value for every cell, occupied or free, free space included (2800 cells for a 7 m by 4 m room at 0.1 m); larger, but it answers at once whether a pose is free. |
+| Quadtree (G-2533) | A grid map whose cells are split into four smaller cells only where they contain an obstacle edge, so large free areas stay as a few big cells and the map needs far fewer cells than a uniform fine grid. |
 | Bitmap (obstacle bitmap) (G-2339) | A grid of cells marked 1 if the cell contains any obstacle point and 0 otherwise, like a black-and-white image; simple and natural for sensor data, but it overstates obstacles, and finer cells cost many more cells. |
 | Occupancy grid (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensors are never sure. |
 | Feature extraction (from sensor data) (G-2341) | Pulling a few distinctive objects out of raw sensor data, such as two poles out of a 360-beam laser scan; it shrinks hundreds of numbers to a short list that is easy to match with a map. |
@@ -326,6 +333,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Range (of a landmark reading) (G-2343) | The distance from the robot to a sensed landmark, such as 2.236 m; together with the bearing it fixes where the landmark is relative to the robot. |
 | Signature (of a landmark) (G-2345) | A label that says what kind of landmark was sensed, such as its colour or ID number; it tells the robot which landmark in the map a reading belongs to. |
 | [Motion model $p(x_t \mid u_t, x_{t-1})$](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) | The probability distribution of a robot's pose after a move, given its pose before and the control (command or odometry); it describes how uncertain motion is, so a filter can score possible end poses or draw them at random. |
+| [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
 | [State $x_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
 | [Map-consistent motion model](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#7-ruling-out-poses-inside-walls) (G-2329) | A motion model that also uses the map, approximated for small steps by multiplying the plain motion model by 1 for free poses and 0 for poses inside obstacles; it stops the robot's estimate from passing through walls. |
 | [Union (A ∪ B)](../../../../MA/02-probability/MA-017-mutually-exclusive-events/MA-017-mutually-exclusive-events.md#5-the-addition-rule-where-mutual-exclusivity-pays-off) (G-2045) | The set of elements in A or B (or both), such as the points inside either of two convex pieces of an obstacle; for events, the event that A or B (or both) happens. |
