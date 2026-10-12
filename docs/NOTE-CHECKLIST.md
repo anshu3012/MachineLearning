@@ -133,6 +133,7 @@ Every agent that writes, edits or reviews a Note checks every item below for eac
 104. A list for three or more parallel items (§9).
 105. Full subject names: "Maths (MA)", "Machine Learning (ML)" (§2).
 106. Sources start with **Built from**, then **Other references** (§8).
+107. Simple words in a professional register: precise standard terms and textbook sentences, never chatty or colloquial phrasing ("try holding", "is short", "the two meet", "the ramp's damage"); simple is not casual (§2).
 
 ## Report format
 Per Note, one numbered line per item: `31 fixed: 14 "bell" → "Gaussian"`, `58 no: Figure 3 image says "bell" (needs a figure rebuild)`. End with **PASS** or **NOT PASS**.
