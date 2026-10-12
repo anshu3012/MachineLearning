@@ -14,11 +14,11 @@ tags: [subject/robotics, area/control, concept/pure-pursuit, concept/look-ahead-
 
 ## 1. Overview
 
-> **Key point:** RO-070's line rule turns the car in proportion to its two errors, so to turn with the 10 m arc it must stay up to 0.39 m outside it. Pure pursuit steers along the arc to a point on the path a fixed distance ahead, so it sees a bend coming and turns with it (0.03 m off by the middle of the arc), and its one setting, the look-ahead distance, trades weaving against cutting corners.
+> **Key point:** RO-070's line rule turns the car in proportion to its two errors, so to turn with the 10 m arc it must stay up to 0.39 m outside it. Pure pursuit steers along the arc to a point on the path a fixed distance ahead, so it anticipates a bend and turns with it (0.03 m off by the middle of the arc), and its one setting, the look-ahead distance, trades weaving against cutting corners.
 
 So far the chapter can measure where the car is against its path and steer on that. [Path coordinates](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#4-path-coordinates) (G-3132) give, for any pose, the [nearest path point](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#41-the-nearest-path-point-and-the-distance-along-the-path) (G-3134), the [**lateral error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135), the signed distance from the path (positive to the left), and the [**heading error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136), the heading minus the path's direction there. A tracker needs [both errors](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#51-why-a-tracker-needs-both-errors). RO-070's demonstration driver, the [line rule](../RO-069-driving-to-a-point-a-line-and-a-pose/RO-069-driving-to-a-point-a-line-and-a-pose.md#3-driving-along-a-line) applied at the nearest point, turns the car towards the path at 0.5 rad/s per metre of lateral error and 2 rad/s per radian of heading error, and from 1.0 m off it is back within 0.1 m after 7.70 m ([measuring a run](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#53-measuring-a-run-peak-error-steady-error-and-settling-distance)).
 
-What still breaks is the arc. The line rule turns only in proportion to its errors, so to turn with the 10 m arc it needs an error: it runs up to 0.39 m outside the arc, the whole way round ([measuring a run](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#53-measuring-a-run-peak-error-steady-error-and-settling-distance)). A driver does not wait to be off the road before turning; a driver looks down the road and sees the bend coming. The car of the [Hybrid A\* planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) already followed its route that way, steering towards the route point 2 m ahead. This Note names that rule, pure pursuit, and explains why it works.
+The arc remains a problem. The line rule turns only in proportion to its errors, so to turn with the 10 m arc it needs an error: it runs up to 0.39 m outside the arc, the whole way round ([measuring a run](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#53-measuring-a-run-peak-error-steady-error-and-settling-distance)). A driver does not wait to be off the road before turning; a driver looks down the road and sees the bend coming. The car of the [Hybrid A\* planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) already followed its route that way, steering towards the route point 2 m ahead. This Note names that rule, pure pursuit, and explains why it works.
 
 The car and its test course are the chapter's:
 
@@ -43,7 +43,7 @@ This Note builds pure pursuit in the order a driver would explain it:
 - pure pursuit as a loop at 20 Hz, why it turns with the arc and why it does not weave ([Section 4](#4-pure-pursuit-as-a-loop));
 - choosing the look-ahead distance: weaving against cutting corners ([Section 5](#5-choosing-the-look-ahead-distance));
 - a look-ahead that grows with speed ([Section 6](#6-a-look-ahead-that-grows-with-speed));
-- regulated pure pursuit: slowing down on tight curves and near obstacles ([Section 7](#7-regulated-pure-pursuit-slow-down-where-the-path-is-tight));
+- regulated pure pursuit: slowing down on tight curves and near obstacles ([Section 7](#7-regulated-pure-pursuit-slowing-down-on-tight-curves));
 - where it runs: Nav2 and Autoware ([Section 8](#8-where-pure-pursuit-runs-nav2-and-autoware)).
 
 ## 2. Chasing a point on the path
@@ -99,7 +99,7 @@ $$x = \cos\theta\thinspace(x_w - x_r) + \sin\theta\thinspace(y_w - y_r)$$
 
 $$y = -\sin\theta\thinspace(x_w - x_r) + \cos\theta\thinspace(y_w - y_r)$$
 
-At $\theta = 0$, the cosine is 1 and the sine is 0, so $x$ and $y$ are just the gaps along the world axes, as they should be. At the start the point is at $x = 3.873$ m and $y = -1$ m.
+At $\theta = 0$, the cosine is 1 and the sine is 0, so $x$ and $y$ equal the offsets along the world axes, as expected. At the start the point is at $x = 3.873$ m and $y = -1$ m.
 
 ### 3.2 The radius from one right triangle
 
@@ -182,7 +182,7 @@ Put together, the steering from the angle to the look-ahead point is (Snider §2
 
 $$\delta = \tan^{-1}\Big(\frac{2L\sin\alpha}{l_d}\Big)$$
 
-The car steers 17.4° to the right, within its 26.6°. The steering answers one moment. But after one tick, 0.05 s later, the car has moved 0.1 m and the look-ahead point is somewhere else, so the arc has to be found again.
+The car steers 17.4° to the right, within its 26.6°. This steering holds for one instant only. But after one tick, 0.05 s later, the car has moved 0.1 m and the look-ahead point has moved too, so the arc has to be found again.
 
 ## 4. Pure pursuit as a loop
 
@@ -199,9 +199,9 @@ The arc of Section 3 is right only for the instant it was computed. So the rule 
 5. Compute the curvature and set the steering ([Sections 3.2](#32-the-radius-from-one-right-triangle) and [3.3](#33-from-curvature-to-steering-angle)); a steering angle beyond the car's 26.6° is clipped to 26.6°, and our runs drive with the clipped value.
 6. Hold that steering until the next tick, 0.05 s later (a [zero-order hold](../../07-classical-feedback-control/RO-068-digital-control/RO-068-digital-control.md#31-holding-each-command-until-the-next-one) (G-3109)), and go back to step 1.
 
-The loop is **pure pursuit** (G-3150) (Coulter 1992; Paden §V.A.1). As the car turns towards the look-ahead point, the point moves on along the path, so the steering eases off and the car slides onto the path.
+The loop is **pure pursuit** (G-3150) (Coulter 1992; Paden §V.A.1). As the car turns towards the look-ahead point, the point moves on along the path, so the steering angle decreases and the car settles onto the path.
 
-Figure 4 runs the loop over the whole course, drawing every tenth tick. Watch the green arc, the arc the car is told to drive. At the start it bends right with a radius of 8 m. By 3.0 s the car is still 0.23 m left of the line, but the arc already bends left, with a radius of 37.3 m: the car straightens before it reaches the line. On the arc, at 10 s, the green arc has a radius of 9.7 m, close to the course's 10 m.
+Figure 4 runs the loop over the whole course, drawing every tenth tick. Watch the green arc, the arc the car is commanded to drive. At the start it bends right with a radius of 8 m. By 3.0 s the car is still 0.23 m left of the line, but the arc already bends left, with a radius of 37.3 m: the car straightens before it reaches the line. On the arc, at 10 s, the green arc has a radius of 9.7 m, close to the course's 10 m.
 
 ![Pure pursuit with a 4 m look-ahead at 2 m/s, one frame every 0.5 s (every tenth tick of the 20 Hz loop). Top: the dashed circle of radius 4 m around the rear axle, the look-ahead point (orange) where it meets the course ahead, and the arc to that point (green), which the car drives until the next tick. Bottom: the lateral error along the course (+ = left). Frame t = 3.0 s: still 0.23 m left, the car already steers left (arc radius 37.3 m). Last frame: within 0.1 m after 7.4 m; on the arc at most 0.12 m inside; 0.17 m wide after it](images/pp_loop.gif)
 
@@ -216,9 +216,9 @@ The run answers the opening problem on the arc: by its middle the car is 0.03 m 
 
 Like the line rule, pure pursuit also comes back from 1.0 m off without swinging past the line, though it has one setting instead of the line rule's two gains. Why it does not swing is the next question.
 
-### 4.2 Why it does not weave: the look-ahead point sees the heading
+### 4.2 Why it does not weave: the look-ahead point includes the heading error
 
-At 3.0 s in Figure 4 the car is still 0.23 m left of the line, yet pure pursuit already steers left, braking its return. A tracker needs [both errors](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#51-why-a-tracker-needs-both-errors), and pure pursuit measures neither: it gets both from the look-ahead point. Figure 5 takes a car 0.5 m left of the line and pointing 0.1 rad (5.7°) further left. Measured from the car's heading line, the look-ahead point 4 m ahead is about 0.9 m to the right: 0.5 m because the car is off the line, and 0.4 m more because the car points away from it.
+At 3.0 s in Figure 4 the car is still 0.23 m left of the line, yet pure pursuit already steers left, slowing its approach to the line. A tracker needs [both errors](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#51-why-a-tracker-needs-both-errors), and pure pursuit measures neither: it gets both from the look-ahead point. Figure 5 takes a car 0.5 m left of the line and pointing 0.1 rad (5.7°) further left. Measured from the car's heading line, the look-ahead point 4 m ahead is about 0.9 m to the right: 0.5 m because the car is off the line, and 0.4 m more because the car points away from it.
 
 ![Why the look-ahead point sees the heading. The rear axle is 0.5 m left of the course (lateral error e) and heads 0.1 rad to the left of it (heading error). 4 m along its heading the car would be 0.9 m from the course, so the look-ahead point lies about 0.9 m to the right of the heading line: 0.5 m from the lateral error (green) and 0.4 m from the heading (purple). Sideways distances are drawn twice as large as forward ones](images/pd_split.png)
 
@@ -244,7 +244,7 @@ $$\kappa = -\frac{2}{l_d^2}\thinspace e - \frac{2}{l_d}\thinspace\theta_e$$
 
 The exact values are −0.894 m and −0.112 per m (notebook). So pure pursuit's curvature has two parts: one in proportion to the lateral error and one in proportion to the heading error, like the line rule's two terms. Coulter (§2.0) and Snider (§2.2, eq. 4) call pure pursuit a proportional controller on the sideways distance of a point ahead, with the gain 2 over $l_d$ squared; the heading part comes from that point being ahead.
 
-The heading error is how fast the lateral error grows as the car drives, so the second part acts like [derivative action](../../07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2960), a damper. To see how much it damps, we follow the lateral error along the distance driven instead of time. With:
+The heading error is how fast the lateral error grows as the car drives, so the second part acts like [derivative action](../../07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2960), a damper. To see how much it damps, we follow the lateral error along the distance driven instead of time. With:
 
 - $s$, the distance driven along the path, in m;
 - $e'$, how fast the lateral error changes per metre driven, which for small angles is the heading error $\theta_e$;
@@ -293,7 +293,7 @@ $$\omega_n = 0.5 \text{ per m}$$
 
 $$\zeta = 1.0 / (2 \times 0.5) = 1.0$$
 
-a damping ratio of 1, which just stops the swing ([critically damped](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995)). Pure pursuit takes both gains from one number, the look-ahead distance, always in the same ratio.
+a damping ratio of 1, which just stops the swing ([critically damped](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995)). Pure pursuit takes both gains from one number, the look-ahead distance, always in the same ratio.
 
 Pure pursuit's damping is fixed, but its look-ahead distance still sets how far the car drives before it settles, and what happens where the path bends. The next section varies it.
 
@@ -305,7 +305,7 @@ Pure pursuit's damping is fixed, but its look-ahead distance still sets how far 
 
 The 4 m look-ahead distance, the radius of the circle that picks the chased point, brought the car back in 7.4 m but cut 0.12 m inside the arc. Figure 6 runs the same course with look-aheads of 2, 4 and 8 m. Watch the purple 8 m car at the arc's entry: it is still 0.63 m off when it starts to turn, and it turns early, inside the arc.
 
-![The look-ahead distance swept at 2 m/s on the chapter's car, whose wheels turn the instant they are told: 2 m (red), 4 m (blue), 8 m (purple), all from 1.0 m left of the course; one frame per 0.5 s. Top: the paths of the rear axles. Bottom: the lateral errors along the course (+ = left). Last frame: 2 m is within 0.1 m after 4.0 m but steers at full lock at the start; 4 m after 7.4 m; 8 m cuts 0.85 m inside the arc](images/ld_sweep.gif)
+![The look-ahead distance swept at 2 m/s on the chapter's car, whose wheels turn the instant they are commanded: 2 m (red), 4 m (blue), 8 m (purple), all from 1.0 m left of the course; one frame per 0.5 s. Top: the paths of the rear axles. Bottom: the lateral errors along the course (+ = left). Last frame: 2 m is within 0.1 m after 4.0 m but steers at full lock at the start; 4 m after 7.4 m; 8 m cuts 0.85 m inside the arc](images/ld_sweep.gif)
 
 The three runs (notebook):
 
@@ -317,10 +317,10 @@ The three runs (notebook):
 
 What each one shows:
 
-- **A short look-ahead returns sooner.** The natural frequency $\omega_n$ of [Section 4.2](#42-why-it-does-not-weave-the-look-ahead-point-sees-the-heading) is $\sqrt{2}$ divided by $l_d$, so it doubles when $l_d$ halves, and the car settles in about half the distance.
+- **A short look-ahead returns sooner.** The natural frequency $\omega_n$ of [Section 4.2](#42-why-it-does-not-weave-the-look-ahead-point-includes-the-heading-error) is $\sqrt{2}$ divided by $l_d$, so it doubles when $l_d$ halves, and the car settles in about half the distance.
 - **A short look-ahead asks for sharp steering.** From 1.0 m off, the 2 m look-ahead puts the look-ahead point 1 m to the right of the heading line at only 2 m, which asks for more than the car can steer (worked below), so the wheels sit at full lock, 26.6°.
 - **A long look-ahead cuts corners.** At the arc's entry the look-ahead point is already on the arc while the car is still on the straight. The one arc through it starts to turn early, so the car runs inside (Coulter §4.1; Snider §2.2.1). At the exit the point is already on the last straight while the car is still on the arc, so the car straightens early and swings wide.
-- **Inside a long arc the error dies away,** whatever the look-ahead, because the arc through the look-ahead point is the course's own arc ([Section 4.1](#41-find-the-point-steer-drive-repeat)). The long look-ahead's errors come from where the curvature changes.
+- **Inside a long arc the error decays,** whatever the look-ahead, because the arc through the look-ahead point is the course's own arc ([Section 4.1](#41-find-the-point-steer-drive-repeat)). The long look-ahead's errors come from where the curvature changes.
 
 The sharp steering of the 2 m look-ahead at the start, with the point's sideways distance $y$ of −1 m, the look-ahead distance $l_d$ of 2 m and the wheelbase $L$ of 2.5 m ([Section 3](#33-from-curvature-to-steering-angle)):
 
@@ -338,10 +338,10 @@ On this car the shortest look-ahead looks best, apart from its sharp steering. R
 
 ### 5.2 A real steering motor: the short look-ahead weaves
 
-The chapter's car turns its wheels the instant it is told; a real steering motor needs time. The team of Stanford's car, Stanley, modelled its steering as a [first-order system](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2987) with a [time constant](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) of 0.4 s, a cautious value from their experiments (Hoffmann et al. 2007, §II.B, eq. 4). From here to Section 7 we change the chapter's car: it gets the same steering lag. Without the lag, nothing in the simulation would show why the look-ahead must change with speed. With:
+The chapter's car turns its wheels the instant it is commanded; a real steering motor needs time. The team of Stanford's car, Stanley, modelled its steering as a [first-order system](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2987) with a [time constant](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) of 0.4 s, a cautious value from their experiments (Hoffmann et al. 2007, §II.B, eq. 4). From here to Section 7 we change the chapter's car: it gets the same steering lag. Without the lag, nothing in the simulation would show why the look-ahead must change with speed. With:
 
 - $\delta_c$, the steering angle commanded, in degrees;
-- $\delta$, the angle the wheels are really at, in degrees;
+- $\delta$, the actual angle of the wheels, in degrees;
 - $\dot\delta$, how fast the wheels turn, in degrees per second;
 - $\tau$, the time constant, 0.4 s.
 
@@ -363,13 +363,13 @@ so 0.4 s later the wheels are at −11.0°, not −17.4°. At 5 m/s the car driv
 
 The sweep shows the trade-off the sources describe: a short look-ahead tracks closely until it weaves; a long one is smooth but tracks poorly and cuts corners (Coulter §4.1; Snider §2.2.1; MathWorks pure pursuit documentation). Nav2's tuning advice says the same: "If you see wiggling, increase the distance or scale. If it's not converging as fast to the path as you'd like, decrease it" (Nav2 RPP README).
 
-The same lag hurts much less at 2 m/s: there the 4 m look-ahead crosses the line by only 0.037 m, against 0.26 m at 5 m/s (notebook). So a look-ahead that suits one speed weaves at another.
+The same lag has much less effect at 2 m/s: there the 4 m look-ahead crosses the line by only 0.037 m, against 0.26 m at 5 m/s (notebook). So a look-ahead that suits one speed weaves at another.
 
 ## 6. A look-ahead that grows with speed
 
 > **Key point:** Anything that takes time, such as the 0.4 s lag of the steering motor added in Section 5.2, becomes distance at speed: 0.8 m at 2 m/s, 2 m at 5 m/s. So the look-ahead is set to the speed times a time, here 2 s, which gives 4 m at 2 m/s and 10 m at 5 m/s, kept between limits: at 5 m/s the car stops weaving, but the 10 m look-ahead cuts the arc.
 
-We keep the 0.4 s steering lag of [Section 5.2](#52-a-real-steering-motor-the-short-look-ahead-weaves), added to the chapter's car because real steering has one. With it, at 2 m/s the 4 m look-ahead distance, how far ahead the chased point lies, crosses the line by 0.037 m; at 5 m/s, by 0.26 m. In 0.4 s the car drives 0.8 m at 2 m/s but 2 m at 5 m/s, so the lag eats into the look-ahead more and more as the car speeds up. Paden et al. (§V.A.1) give the same reason from the turn rate. With:
+We keep the 0.4 s steering lag of [Section 5.2](#52-a-real-steering-motor-the-short-look-ahead-weaves), added to the chapter's car because real steering has one. With it, at 2 m/s the 4 m look-ahead distance, how far ahead the chased point lies, crosses the line by 0.037 m; at 5 m/s, by 0.26 m. In 0.4 s the car drives 0.8 m at 2 m/s but 2 m at 5 m/s, so the lag uses up a growing share of the look-ahead as the car speeds up. Paden et al. (§V.A.1) give the same reason from the turn rate. With:
 
 - $v$, the car's speed, in m/s;
 - $\omega$, the rate at which the car's heading turns, in rad/s: the speed times the curvature of [Section 3.2](#32-the-radius-from-one-right-triangle);
@@ -399,19 +399,19 @@ $$\omega = \frac{2v\sin\alpha}{v\thinspace t_{la}}$$
 
 $$= \frac{2\sin\alpha}{t_{la}}$$
 
-So the same angle gives the same turn rate at every speed, and the car turns as briskly in time at 5 m/s as at 2 m/s.
+So the same angle gives the same turn rate at every speed, and the car's heading turns as fast per second at 5 m/s as at 2 m/s.
 
 Real trackers use the same idea with their own numbers (Figure 8):
 
 - **Snider (§2.2.1):** the look-ahead is a gain times the speed, kept between 3 and 25 m.
 - **Nav2:** `lookahead_time` 1.5 s, kept between 0.3 and 0.9 m, for robots that drive at most 0.5 m/s (parameter defaults in `parameter_handler.cpp`).
-- **Autoware:** 2.4 s times the speed, minus 120 m² times the path's curvature, plus 3.6 times the lateral error when that is 0.5 m or more, kept between 4.35 and 15 m (`calcLookaheadDistance`, `pure_pursuit.param.yaml`). At 5 m/s that is 12 m on a straight but 4.35 m on our 10 m arc, where the curvature takes 12 m off.
+- **Autoware:** 2.4 s times the speed, minus 120 m² times the path's curvature, plus 3.6 times the lateral error when that is 0.5 m or more, kept between 4.35 and 15 m (`calcLookaheadDistance`, `pure_pursuit.param.yaml`). At 5 m/s that is 12 m on a straight but 4.35 m on our 10 m arc, where the curvature term subtracts 12 m.
 
-![Look-ahead distance against speed. Blue: ours, the speed times 2 s, kept between 2 and 10 m: 4 m at 2 m/s and 10 m at 5 m/s. Orange: Autoware's pure pursuit, 2.4 s times the speed kept between 4.35 and 15 m, on a straight (solid) and on our 10 m arc (dashed), where its curvature term takes 12 m off](images/lookahead_speed.png)
+![Look-ahead distance against speed. Blue: ours, the speed times 2 s, kept between 2 and 10 m: 4 m at 2 m/s and 10 m at 5 m/s. Orange: Autoware's pure pursuit, 2.4 s times the speed kept between 4.35 and 15 m, on a straight (solid) and on our 10 m arc (dashed), where its curvature term subtracts 12 m](images/lookahead_speed.png)
 
-At 5 m/s with the steering lag, the 10 m look-ahead no longer swings past the line. But it returns slowly, within 0.1 m only after 22.6 m, and it cuts the arc: 0.98 m inside at the entry, where it is still coming back from the start, 0.60 m in the middle of the arc, and 0.76 m wide after it (notebook). Autoware's curvature term shows the way out: shorten the look-ahead where the path bends. Slowing down there does the same, and does more.
+At 5 m/s with the steering lag, the 10 m look-ahead no longer swings past the line. But it returns slowly, within 0.1 m only after 22.6 m, and it cuts the arc: 0.98 m inside at the entry, where it is still coming back from the start, 0.60 m in the middle of the arc, and 0.76 m wide after it (notebook). Autoware's curvature term suggests a remedy: shorten the look-ahead where the path bends. Slowing down there does the same, and does more.
 
-## 7. Regulated pure pursuit: slow down where the path is tight
+## 7. Regulated pure pursuit: slowing down on tight curves
 
 > **Key point:** Regulated pure pursuit, the version in Nav2, lowers the speed in proportion to the radius of the arc it commands whenever that arc is tighter than a set radius, here 25 m (so 2 m/s on our 10 m arc), and also near obstacles; with a look-ahead that grows with speed, slowing also shortens the look-ahead. In the middle of the arc the car is 0.27 m off instead of 0.60 m, and 0.14 m instead of 0.76 m after it, for 11.4 s on the course instead of 7.0 s.
 
@@ -441,7 +441,7 @@ Figure 9 draws the rule. The proximity rule has the same shape, with the distanc
 
 ![Regulated pure pursuit's curvature rule with a requested speed of 5 m/s and a set radius of 25 m: below 25 m the speed limit falls in proportion to the radius of the commanded arc, to 2 m/s for our 10 m arc and 1 m/s for the car's tightest 5 m circle, but never below 0.25 m/s](images/rpp_rule.png)
 
-Slowing helps twice. A slower car has less to lose to the steering lag, and its velocity-scaled look-ahead, the speed times 2 s, shrinks, so it cuts less. Figure 10 races the two cars at 5 m/s with the steering lag, both from the start. Watch the blue car's dashed look-ahead circle: it shrinks as the car slows, from about 7 m down the course, to 2.8 m a metre past the middle of the arc, where the car is slowest, 1.41 m/s.
+Slowing helps twice. A slower car has less to lose to the steering lag, and its velocity-scaled look-ahead, the speed times 2 s, shrinks, so it cuts less. Figure 10 runs the two cars at 5 m/s with the steering lag, both from the start. Watch the blue car's dashed look-ahead circle: it shrinks as the car slows, from about 7 m down the course, to 2.8 m a metre past the middle of the arc, where the car is slowest, 1.41 m/s.
 
 ![Regulated pure pursuit (blue) against plain pure pursuit at a constant 5 m/s (orange), both with the look-ahead of speed times 2 s and steering that lags 0.4 s (added to the chapter's car in Section 5.2), from 1.0 m left of the course; one frame per 0.25 s. Top: the paths; the dashed circle is the blue car's look-ahead, which shrinks as it slows. Middle: speed along the course: the blue car slows from about 7 m on, down to 1.41 m/s in the arc, and speeds up after it. Bottom: lateral errors. Last frame: middle of the arc 0.60 m (orange) against 0.27 m (blue); after the arc 0.76 m against 0.14 m; 7.0 s against 11.4 s](images/rpp_anim.gif)
 
@@ -453,7 +453,7 @@ Slowing helps twice. A slower car has less to lose to the steering lag, and its 
 
 The regulated car cuts the fast car's error by more than half in the middle of the arc and by four fifths after it, and needs about two thirds of the slow car's time. The regulated car slows below 2 m/s, to 1.41 m/s, because while it turns back from cutting the arc's entry, the arc it commands is tighter than the course's 10 m.
 
-The rule does not help at the arc's entry: both cars reach it still about 0.9 m inside, returning from the start with a 10 m look-ahead, and run up to 0.98 m (orange) and 0.95 m (blue) inside just after it (notebook). The curvature rule reacts to the arc pure pursuit commands, and that arc bends only once the look-ahead point is round the corner. Nav2 offers a separate, fixed look-ahead just for reading the curvature (`use_fixed_curvature_lookahead`) for robots with long look-aheads.
+The rule does not help at the arc's entry: both cars reach it still about 0.9 m inside, returning from the start with a 10 m look-ahead, and run up to 0.98 m (orange) and 0.95 m (blue) inside just after it (notebook). The curvature rule reacts to the arc pure pursuit commands, and that arc bends only once the look-ahead point is round the corner. Nav2 offers a separate, fixed look-ahead used only for reading the curvature (`use_fixed_curvature_lookahead`) for robots with long look-aheads.
 
 ## 8. Where pure pursuit runs: Nav2 and Autoware
 
@@ -492,7 +492,7 @@ Two open-source robot stacks run the rules of Sections 2 to 7, which our runs on
 - A steering motor that lags 0.4 s, which we added to the chapter's car because real steering lags, makes a short look-ahead weave, more at speed, because the lag becomes 2 m of travel at 5 m/s, so the look-ahead must grow with speed: the speed times 2 s here, between 3 and 25 m in Snider's car, 4.35 to 15 m in Autoware.
 - A long look-ahead at speed still cuts corners, so regulated pure pursuit slows down on arcs tighter than a set radius (25 m here) and near obstacles; slowing also shortens the velocity-scaled look-ahead, which cut the error in the middle of the arc from 0.60 to 0.27 m for 4.4 s more on the course.
 
-The car can now follow its path from a small lateral error and choose its look-ahead and speed for the turns ahead. Still missing: pure pursuit never looks at the path's direction or curvature at the car itself, so it cuts corners and its look-ahead must be retuned for every speed. Steering from the errors at the car's own wheels is the [Stanley controller and rear-wheel feedback](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#1-overview).
+The car can now follow its path from a small lateral error and choose its look-ahead and speed for the turns ahead. One limitation remains: pure pursuit never uses the path's direction or curvature at the car itself, so it cuts corners and its look-ahead must be retuned for every speed. Steering from the errors at the car's own wheels is the [Stanley controller and rear-wheel feedback](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#1-overview).
 
 ## 10. Sources
 
@@ -530,7 +530,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Look-ahead distance (pure pursuit) (G-3151) | The distance $l_d$ from the rear axle to the point pure pursuit chases, such as 4 m; a short one brings the car back sooner but weaves when the steering lags, a long one is smooth but cuts corners. |
 | Look-ahead point (pure pursuit) (G-3152) | The point of the path one look-ahead distance from the rear axle, found by walking forward from the nearest path point, such as (3.873, 0) for a car 1 m off a straight line with a 4 m look-ahead; pure pursuit steers along the arc that reaches it. Also called the goal point or carrot. |
-| Pure pursuit (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering answers at once returns to the path with little swing past it. |
+| Pure pursuit (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering responds without lag returns to the path with little swing past it. |
 | Velocity-scaled look-ahead (adaptive pure pursuit) (G-3153) | A look-ahead distance set to the speed times a look-ahead time and kept between limits, such as 2 s giving 4 m at 2 m/s and 10 m at 5 m/s; it keeps pure pursuit from weaving at speed, where the same steering delay covers more distance. |
 | Regulated pure pursuit (G-3154) | Pure pursuit with rules that lower the speed when the commanded arc is tighter than a set radius, to $v_{\max} R / r_{\min}$, and when an obstacle is near, as in Nav2; with a velocity-scaled look-ahead, slowing also shortens the look-ahead, so the car cuts tight turns less. |
 | [Path coordinates (Frenet frame)](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#41-the-nearest-path-point-and-the-distance-along-the-path) (G-3132) | Giving a point's place by the distance along a path to its nearest path point and the signed distance to the side of it, measured along the path's tangent and normal there, the Frenet frame that slides along the path; they let a tracker treat any bending path like a straight line. |
@@ -544,10 +544,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Path curvature $\kappa$](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#23-path-curvature) (G-3129) | How fast a path's direction turns per metre along it, $1/R$ on an arc of radius $R$, such as 0.1 per m on a 10 m arc and 0 on a straight; it fixes the steering a bend needs, $\tan\delta = L\kappa$. |
 | [Steering angle $\delta$](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#21-steering-angle-and-wheelbase) (G-3126) | The angle between a car's steered front wheel and its heading, positive to the left, such as at most 26.6° for RO-055's car; it sets how sharply the car turns, through $\tan\delta = L / R$. |
 | [Zero-order hold](../../../../RO/control/07-classical-feedback-control/RO-068-digital-control/RO-068-digital-control.md#31-holding-each-command-until-the-next-one) (G-3109) | Keeping each command constant from its tick until the next one, so the actuator gets a staircase; simple and cheap, but the held value is on average half a sample period old, so it acts like a delay of $T/2$. |
-| [Derivative action](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2960) | A part of the command in proportion to the error's rate of change, estimated from two readings in a row; it pushes against fast changes, so it brakes a turn before the target and damps swings, but it magnifies sensor noise. |
-| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the reply is, and raising it squeezes the whole reply in time. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
-| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |
+| [Derivative action](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2960) | A part of the command in proportion to the error's rate of change, estimated from two readings in a row; it pushes against fast changes, so it brakes a turn before the target and damps swings, but it magnifies sensor noise. |
+| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the response is, and raising it compresses the whole response in time. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |
+| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |
 | [First-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2987) | A system whose output follows a differential equation with only a first derivative, such as the robot's speed under P control; it closes the same fraction of its remaining gap in every time constant and can never overshoot. |
 | [Time constant](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) | The time a first-order system takes to close 63 % of the gap to its final value, m/(K_v + b) = 1 s for the robot's speed loop; it fixes the rise time (about 2.2 time constants) and the 2 % settling time (about 4). |
 | [Local planner](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#21-levels-of-planning) (G-2911) | The planner that turns the next few metres or seconds of the global plan into a timed trajectory within the robot's limits and around obstacles its sensors see, solving again many times a second, such as TEB at 10 Hz over 1.5 m; it handles what the global plan cannot. |

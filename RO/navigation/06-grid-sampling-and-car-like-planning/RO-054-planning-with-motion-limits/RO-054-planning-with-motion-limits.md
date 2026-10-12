@@ -14,7 +14,7 @@ tags: [subject/robotics, area/navigation, concept/kinodynamic-planning, concept/
 
 ## 1. Overview
 
-> **Key point:** The planners so far assume the robot can stop dead and turn on the spot at any moment, but at speed it can do neither: from 0.6 m/s it needs 0.36 m to stop, and at 0.5 m/s its tightest turn is a circle of 0.5 m. Planning with motion limits puts the speed into the state and builds every path from motions the robot can really drive.
+> **Key point:** The planners so far assume the robot can stop instantly and turn on the spot at any moment, but at speed it can do neither: from 0.6 m/s it needs 0.36 m to stop, and at 0.5 m/s its tightest turn is a circle of 0.5 m. Planning with motion limits puts the speed into the state and builds every path from motions the robot can really drive.
 
 The [differential-drive robot](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#3-the-differential-drive-robot) of RO-001, at (2, 1) facing 30° in the room, already has several ways to plan a route to the door:
 
@@ -27,11 +27,11 @@ All three join straight pieces at corners, and each assumes the robot can stop a
 - each wheel turns at most fast enough for 0.6 m/s over the floor;
 - the forward speed changes by at most 0.5 m/s every second, the acceleration limit.
 
-Figure 1 plays what the limits do to two of these plans. Watch the left panel first: the plan drives at the top speed, 0.6 m/s, straight at the doorway, whose door is now closed, and stops at 3.0 m along the line. The robot cannot stop in an instant, so it brakes from 3.0 m and still meets the door at 0.49 m/s. Then the right panel: at 0.5 m/s the robot reaches the first 45° corner of A\*'s route and turns as fast as it can, 1 rad/s; it swings 0.146 m to the right of the route, onto floor the route never checked.
+Figure 1 shows what the limits do to two of these plans. Watch the left panel first: the plan drives at the top speed, 0.6 m/s, straight at the doorway, whose door is now closed, and stops at 3.0 m along the line. The robot cannot stop in an instant, so it brakes from 3.0 m and still meets the door at 0.49 m/s. In the right panel, at 0.5 m/s the robot reaches the first 45° corner of A\*'s route and turns as fast as it can, 1 rad/s; it swings 0.146 m to the right of the route, onto floor the route never checked.
 
 ![Two plans driven with the robot's real limits. Left, stopping: on the straight line to the closed door, with s the distance along the line, the plan cruises at 0.6 m/s and stops at s = 3.0 m (pale robot); braking at 0.5 m/s² the robot reaches the door at s = 3.117 m still at 0.49 m/s (red). Right, turning: on A\*'s route at 0.5 m/s the plan turns 45° at the corner (2.75, 1.75) on the spot (pale robot); turning at its limit of 1 rad/s the robot swings 0.146 m to the right of the route. The last frame holds both outcomes](images/opening.gif)
 
-Where do 1 rad/s and the 0.5 m circle come from? By the [inverse kinematics](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-back-again-the-wheel-speeds-for-a-wanted-motion) (G-2295) of RO-001, the outer wheel runs faster than the robot by the turn rate times half the wheel separation. At 0.5 m/s only 0.1 m/s of wheel speed is left for turning. With:
+Where do 1 rad/s and the 0.5 m circle come from? By the [inverse kinematics](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-the-reverse-direction-the-wheel-speeds-for-a-wanted-motion) (G-2295) of RO-001, the outer wheel runs faster than the robot by the turn rate times half the wheel separation. At 0.5 m/s only 0.1 m/s of wheel speed is left for turning. With:
 
 - $v$, the robot's [linear velocity](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#41-why-we-describe-motion-by-linear-and-angular-velocity) (G-2291), 0.5 m/s;
 - $\omega$, its [angular velocity](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#41-why-we-describe-motion-by-linear-and-angular-velocity) (G-2292), the turn rate, in rad/s;
@@ -57,7 +57,7 @@ The numbers are RO-001's: wheels at 0.6 and 0.4 m/s give 0.5 m/s, 1 rad/s and a 
 
 The opening question of this Note: **how does the robot plan a drive to the door that it can follow at speed, stopping in time and turning only as tightly as its wheels allow?** We answer it in two parts:
 
-- **stopping:** put the speed into what the planner tracks ([Section 2](#2-speed-is-part-of-the-state-phase-space)), find the states from which a crash can no longer be avoided ([Section 3](#3-states-that-are-already-lost-inevitable-collision-states)), and search the fastest safe drive ([Section 6](#6-searching-the-primitives-systematically-lattice-search));
+- **stopping:** put the speed into what the planner tracks ([Section 2](#2-speed-is-part-of-the-state-phase-space)), find the states from which a crash can no longer be avoided ([Section 3](#3-states-that-cannot-avoid-a-collision-inevitable-collision-states)), and search the fastest safe drive ([Section 6](#6-searching-the-primitives-systematically-lattice-search));
 - **turning:** find where the robot can get to in a short time ([Section 4](#4-where-the-robot-can-get-to-reachable-sets)), build paths from a few drivable motions ([Section 5](#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator)), learn the shortest drivable paths ([Section 7](#7-the-shortest-drivable-paths-dubins-and-reeds-shepp-curves)), and grow an RRT out of drivable motions ([Section 8](#8-growing-a-tree-of-drivable-motions-kinodynamic-rrt)).
 
 ## 2. Speed is part of the state: phase space
@@ -150,7 +150,7 @@ $$\mathbf x(T) \in X_G$$
 
 The first line keeps the robot off obstacles; the second allows only motions the robot can make. The rest of the Note builds such plans. First we need to know which states $X_{\text{free}}$ really leaves out: robot B at 2.8 m touches nothing yet, but it is already lost.
 
-## 3. States that are already lost: inevitable collision states
+## 3. States that cannot avoid a collision: inevitable collision states
 
 > **Key point:** Some states touch no obstacle yet cannot avoid one, because every input leads into the door; such states form the **region of inevitable collision** (G-2823). On the straight drive the region holds every state whose stopping distance is longer than the room left, so it grows with the square of the speed.
 
@@ -160,7 +160,7 @@ Robot B of Figure 2 hit the door from a state that looked free. To see why, we f
 
 ### 3.2 The region of inevitable collision
 
-The band is not the whole danger. A state left of the band is lost if the robot needs more room to stop than it has. Braking hardest is its best try, because any other input leaves it faster and closer to the door. With:
+The band is not the whole danger. A state left of the band is lost if the robot needs more room to stop than it has. Full braking is its best option, because any other input leaves it faster and closer to the door. With:
 
 - $s$, the position along the line, in m;
 - $v$, the speed, in m/s;
@@ -179,7 +179,7 @@ $$3.117 - 2.8 = 0.317$$
 
 $$0.36 > 0.317$$
 
-so B is lost. Robot A, at 0.3 m/s, needs 0.09 m of its 0.317 m, so A is safe. Figure 3 shades every lost state orange. Look at its left edge: it is the braking curve that just touches the door. Read the widths across it: the shaded strip is 0.04 m wide at 0.2 m/s, 0.16 m at 0.4 m/s and 0.36 m at 0.6 m/s. Twice the speed needs four times the room.
+so B is lost. Robot A, at 0.3 m/s, needs 0.09 m of its 0.317 m, so A is safe. Figure 3 shades every lost state orange. Look at its left edge: it is the braking curve that ends exactly at the door. Read the widths across it: the shaded strip is 0.04 m wide at 0.2 m/s, 0.16 m at 0.4 m/s and 0.36 m at 0.6 m/s. Twice the speed needs four times the room.
 
 ![The phase plane of the straight drive near the closed door: position s across (2.0 to 3.4 m), speed v up (0 to 0.7 m/s). Dark red: the door, every state with s of at least 3.117 m. Orange: the region of inevitable collision, every state whose stopping distance is longer than the room left; its left edge is the braking curve that ends exactly at the door. The black bars give the stopping distance at three speeds: 0.04 m at 0.2 m/s, 0.16 m at 0.4 m/s, 0.36 m at 0.6 m/s. Robot A (2.8 m, 0.3 m/s, green) lies outside and its braking curve (dashed) ends at rest; robot B (2.8 m, 0.6 m/s, purple) lies inside and its braking curve reaches the door. Grey dashed line: the top speed, 0.6 m/s](images/ics.png)
 
@@ -189,13 +189,13 @@ $$3.117 - 0.36 = 2.757 \text{ m}$$
 
 and at the cruising speed of 0.5 m/s by 2.867 m (notebook). The 2.757 m mark answers the first half of the stopping part: braking from 3.0 m at 0.6 m/s in Figure 1 started 0.243 m too late.
 
-A planner that only checks for collisions with the obstacle region can wander into such states and discover the crash only later. In two or three dimensions the region also depends on where the robot can swerve, and no practical test for it is known; sampling planners work with the obstacle region and let the momentum show up as dead ends (LaValle §14.1.3.2). On our line the test is exact, and [Section 6](#6-searching-the-primitives-systematically-lattice-search) uses it to find the fastest safe drive. Before that, the turning part: where can a robot that keeps moving get to at all?
+A planner that only checks for collisions with the obstacle region can enter such states and detect the collision only later. In two or three dimensions the region also depends on where the robot can swerve, and no practical test for it is known; sampling planners test only the obstacle region, and states lost to momentum appear as dead ends in the search (LaValle §14.1.3.2). On our line the test is exact, and [Section 6](#6-searching-the-primitives-systematically-lattice-search) uses it to find the fastest safe drive. Before that, the turning part: where can a robot that keeps moving get to at all?
 
 ## 4. Where the robot can get to: reachable sets
 
 > **Key point:** The **reachable set** (G-2824) of a state is every state the robot can reach from it within a time limit, using allowed inputs. At 0.5 m/s with turns of at most 1 rad/s it is a fan in front of the robot, and the plans' "turn on the spot" pose is never inside it.
 
-The turning part of the opening problem: the earlier plans turn the robot on the spot, and at 0.5 m/s it cannot. Which poses can it reach instead? We let the robot start at (2, 1) facing 30°, as in Figure 1, driving at 0.5 m/s, and allow any turn rate between −1 and 1 rad/s, changed whenever we like. Figure 4 draws 403 such runs as time T grows from 0 to 1.5 s. Watch the green trails spread into a fan. Its two edges are the tightest left and right circles, dotted, of radius 0.5 m; nothing outside them can be reached.
+The turning part of the opening problem: the earlier plans turn the robot on the spot, and at 0.5 m/s it cannot. Which poses can it reach instead? We let the robot start at (2, 1) facing 30°, as in Figure 1, driving at 0.5 m/s, and allow any turn rate between −1 and 1 rad/s, changed at any time. Figure 4 draws 403 such runs as time T grows from 0 to 1.5 s. Watch the green trails spread into a fan. Its two edges are the tightest left and right circles, dotted, of radius 0.5 m; nothing outside them can be reached.
 
 ![Positions the robot can reach within T seconds when it starts at (2, 1) facing 30° at 0.5 m/s and turns at any rate between −1 and 1 rad/s: 400 runs with random turn rates held for random times (pale green) and the full left, straight and full right runs (dark green), drawn up to T, which grows from 0 to 1.5 s. The dotted circles of radius 0.5 m are the tightest left and right turns. The pale robot is the plan's pose: still at (2, 1) but facing 61.9°. The red arrow marks the first moment the robot can face 61.9°: after 0.557 s, 0.279 m from (2, 1), at (2.191, 1.198)](images/reach.gif)
 
@@ -218,7 +218,7 @@ $$\text{for some } \tilde{u} \text{ and } t' \le T \rbrace$$
 
 In words: every state $\mathbf x_1$ that some allowed input reaches at some time no later than $T$. Figure 4 draws only its positions; the full set also holds a heading for each position.
 
-The shape of the fan explains the planners' trouble. A point 0.3 m to the robot's left is near in distance but not in the fan at all: to reach it the robot must drive a loop. With a reverse gear, a car can also reach points beside it by shuffling forward and back, as in parallel parking, but even then it cannot move straight sideways (MR §13.3.2; LaValle §14.2.1.2). So a planner must build paths only from motions that stay inside such fans. The next section picks a few of them.
+The shape of the fan explains why the earlier planners fail. A point 0.3 m to the robot's left is near in distance but not in the fan at all: to reach it the robot must drive a loop. With a reverse gear, a car can also reach points beside it by shuffling forward and back, as in parallel parking, but even then it cannot move straight sideways (MR §13.3.2; LaValle §14.2.1.2). So a planner must build paths only from motions that stay inside such fans. The next section picks a few of them.
 
 ## 5. A few motions to build with: motion primitives and a system simulator
 
@@ -298,7 +298,7 @@ $$s' = 0 + 0 + 0.0625 = 0.0625$$
 
 So every state the robot can reach lies on a grid of 0.0625 m by 0.25 m/s. A regular grid of states like this is a lattice, and searching it for a plan is **lattice search** (G-2827) (LaValle §14.4.1). With speeds of at most 0.6 m/s, only 0, 0.25 and 0.5 m/s fit.
 
-**The search.** Each 0.5 s step is one move, so the plan with the fewest moves is the fastest. [Breadth-first search](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) finds the fewest moves, ring by ring (LaValle §14.4.1.1). A state past the door, s above 3.117 m, or faster than 0.6 m/s, is never added. Figure 7 runs it from rest at s = 0 to the goal, rest at s = 3.0 m. Watch each layer, outlined in orange, add the states reachable in 0.5 s more; the curves between states are the true motions, bent where the speed changes. Notice that states inside the orange region of [Section 3](#32-the-region-of-inevitable-collision) do get added, but none of their moves leads to the goal.
+**The search.** Each 0.5 s step is one move, so the plan with the fewest moves is the fastest. [Breadth-first search](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) finds the fewest moves, ring by ring (LaValle §14.4.1.1). A state past the door, s above 3.117 m, or faster than 0.6 m/s, is never added. Figure 7 runs it from rest at s = 0 to the goal, rest at s = 3.0 m. Watch each layer, outlined in orange, add the states reachable in 0.5 s more; the curves between states are the true motions, bent where the speed changes. States inside the orange region of [Section 3](#32-the-region-of-inevitable-collision) are added, but none of their moves leads to the goal.
 
 ![Lattice search on the straight drive, in the phase plane of Figure 3: position s along the line across, speed v up. Faint grey dots: the lattice, positions every 0.0625 m and speeds 0, 0.25 and 0.5 m/s. Breadth-first search starts at rest at s = 0 (black dot); each frame adds one layer of states reachable in 0.5 s more (orange outlines), joined by the true motions (blue curves). Dark red: the door; orange: the region of inevitable collision; red star: the goal, rest at s = 3.0 m. Last frame: after 14 layers the goal is reached; the plan (green) speeds up for 1 s, cruises at 0.5 m/s for 5 s and brakes for 1 s, 7.0 s in all](images/lattice_anim.gif)
 
@@ -344,7 +344,7 @@ A finer lattice finds better plans but has many more states. If a search at one 
 
 ### 7.1 Dubins paths: forward only
 
-The robot at (2, 1) facing 30° at 0.5 m/s must reach the pose in front of the door, (3.6, 3.5) facing 90°, without stopping. What is the shortest path it can drive, if we forget the furniture for a moment?
+The robot at (2, 1) facing 30° at 0.5 m/s must reach the pose in front of the door, (3.6, 3.5) facing 90°, without stopping. What is the shortest path it can drive, if we ignore the furniture for now?
 
 When our robot keeps moving forward at 0.5 m/s, it moves like a car that drives forward only and cannot turn tighter than a circle of radius 0.5 m. At rest our robot could spin on the spot instead, and its shortest path would then be turn, drive straight, turn (MR §13.3.3); at speed it cannot.
 
@@ -374,11 +374,11 @@ $$\ell = \sqrt{D^2 - 4\rho^2}$$
 
 which is the 2.966 m straight piece of LSR (notebook). The same triangle shows when a word is impossible: LSR and RSL need the two centres at least 2ρ apart, and LRL and RLR need them at most 4ρ apart, room for a third circle that touches both (Giese). The start's and the goal's left circles are 2.469 m apart, and their right circles 3.468 m, both more than 2 m, so LRL and RLR do not exist here. The shortest word is LSL, 2.992 m: a 0.234 m left arc, 2.469 m straight, a 0.289 m left arc. A path between two poses for a vehicle that drives forward only and turns no tighter than a given radius, shortest among all such paths, is a **Dubins path** (G-2828), also called a Dubins curve (MR §13.3.3).
 
-The last frame of Figure 8 shows the catch: LSL runs through the grown table. A Dubins path knows nothing about obstacles; it is the best drive on an empty floor.
+The last frame of Figure 8 shows the limitation: LSL runs through the grown table. A Dubins path ignores obstacles; it is the best drive on an empty floor.
 
 ### 7.2 Reeds-Shepp paths: with reverse
 
-Driving forward only can be very wasteful. Take the [sideways move](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-get-everywhere) of RO-001: end up 0.5 m to the left of the start, facing the same way, here from (2, 1) facing 30° to (1.75, 1.433) facing 30°. Our robot at rest did it by spin, drive, spin. A car cannot spin, and neither can our robot at speed. Figure 9 compares the two best ways for a vehicle whose tightest circle is 0.5 m. Watch the left robot drive a whole loop. The right robot shuffles: it turns right forward, backs up twice, and turns left forward into place; the red dots mark where it reverses.
+Driving forward only can make a path much longer. Take the [sideways move](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-reach-every-pose) of RO-001: end up 0.5 m to the left of the start, facing the same way, here from (2, 1) facing 30° to (1.75, 1.433) facing 30°. Our robot at rest did it by spin, drive, spin. A car cannot spin, and neither can our robot at speed. Figure 9 compares the two best ways for a vehicle whose tightest circle is 0.5 m. Watch the left robot drive a whole loop. The right robot shuffles: it turns right forward, backs up twice, and turns left forward into place; the red dots mark where it reverses.
 
 ![The shortest way to end 0.5 m to the left of the start, (2, 1) facing 30° to (1.75, 1.433) facing 30°, with the tightest circle of radius 0.5 m, both robots at 0.5 m/s, one frame per 0.25 s. Left, forward only (Dubins): LSL, a quarter turn left, 0.5 m straight, three quarters of a turn left, 3.642 m, arriving after 7.28 s. Right, with reverse (Reeds-Shepp): R+ L− R− L+ (+ forward, − reverse), 1.318 m with 2 reversals (red dots), arriving after 2.64 s of driving. Last frame: the path with reverse is 2.8 times shorter](images/rs_anim.gif)
 
@@ -388,7 +388,7 @@ Two consequences matter for planning. First, with reverse a car can get to any p
 
 ### 7.3 Using them in a planner: a drivable steer
 
-Dubins and Reeds-Shepp paths are exact but blind to obstacles; planners are aware of obstacles but need drivable pieces. The two meet in the planner's [steer](../RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2763), the step that moves from one configuration towards another, in RO-051 along a straight line. For a car the steer must return a drivable path that ends exactly on the target pose, or report that it cannot; such a steer is a [local planner](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2782), the fast method that tries to join two configurations with one simple motion (Hauser ch.11; MR §10.5). The Reeds-Shepp path is a natural choice (Hauser ch.11; MR §10.5), and [Hybrid A\*'s shot to the goal](../RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#4-the-reeds-shepp-shot-to-the-goal) uses it to reach a parking pose exactly.
+Dubins and Reeds-Shepp paths are exact but ignore obstacles; planners check obstacles but need drivable pieces. The two are combined in the planner's [steer](../RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2763), the step that moves from one configuration towards another, in RO-051 along a straight line. For a car the steer must return a drivable path that ends exactly on the target pose, or report that it cannot; such a steer is a [local planner](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2782), the fast method that tries to join two configurations with one simple motion (Hauser ch.11; MR §10.5). The Reeds-Shepp path is a natural choice (Hauser ch.11; MR §10.5), and [Hybrid A\*'s shot to the goal](../RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#4-the-reeds-shepp-shot-to-the-goal) uses it to reach a parking pose exactly.
 
 One way to use it turns any free route of straight pieces into a drivable path (MR §13.3.3). Take a route that is free but has corners, such as A\*'s: here three straight pieces from the start round the table's left side to the pose in front of the door. Join its two ends with a Reeds-Shepp path. If that path hits an obstacle, cut the route at its middle, take the route's pose there (its point, facing along the route), and join each half the same way. Repeat on every half that fails. Figure 10 runs it; watch the red tries fail and the green ones stay.
 
@@ -417,7 +417,7 @@ After 221 iterations, 147 of them thrown away, the tree has 75 nodes and a node 
 Three details explain the method's behaviour:
 
 - **A goal region, not a goal pose.** Chains of fixed primitives almost never land exactly on one pose, so the tree aims at a small region around it (Hauser ch.11). A drivable steer, such as the Reeds-Shepp path of [Section 7.3](#73-using-them-in-a-planner-a-drivable-steer), can then join the last node to the exact pose.
-- **Many throw-aways.** Choosing the primitive that comes closest often points it into an obstacle; 147 of 221 tries were thrown away. The Modern Robotics book keeps instead the closest free one (MR §10.5.1.3).
+- **Many tries thrown away.** Choosing the primitive that comes closest often points it into an obstacle; 147 of 221 tries were thrown away. The Modern Robotics book keeps instead the closest free one (MR §10.5.1.3).
 - **The distance misleads.** RO-038's distance prefers a node beside the sample, which, as Section 7.2 showed, may be a whole loop away for a robot that cannot reverse. A distance closer to the true driving distance makes the tree grow better, and finding one is a known difficulty of kinodynamic RRT (MR §10.5; Hauser ch.11).
 
 The kinodynamic RRT answers the turning part of the opening question: it plans in the room with only motions the robot can drive at speed. Its path is not the shortest, and random sampling gives a different path each run.
@@ -486,7 +486,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Kinodynamic RRT (G-2832) | A rapidly-exploring random tree whose edges are motion primitives run through the system simulator: it samples a state, takes the nearest node, keeps the primitive that ends closest if its motion is free; every path it returns is drivable. |
 | [A* search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm) (G-2577) | Dijkstra's algorithm with the open list sorted by $f = g + h$, the cost so far plus a heuristic guess of the cost left; with a consistent heuristic it returns the shortest route while expanding far fewer states (9 cells against 54 on the room grid). |
 | [Rapidly-exploring random tree (RRT)](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2761) | A sampling-based planner that grows a tree from the start: each round it draws a random configuration, steps the tree's nearest node at most a fixed distance towards it and keeps the new node if the step is free, until the tree reaches the goal; it explores fast but its routes zig-zag. |
-| [Inverse kinematics (wheeled robot)](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-back-again-the-wheel-speeds-for-a-wanted-motion) (G-2295) | Working out the wheel speeds that give a wanted linear and angular velocity, used by a controller to command the motors. |
+| [Inverse kinematics (wheeled robot)](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-the-reverse-direction-the-wheel-speeds-for-a-wanted-motion) (G-2295) | Working out the wheel speeds that give a wanted linear and angular velocity, used by a controller to command the motors. |
 | [Linear velocity $v$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#41-why-we-describe-motion-by-linear-and-angular-velocity) (G-2291) | How fast a robot's reference point (for a differential drive, the middle of the axle) moves along its heading, in m/s; for a differential drive, the average of the two wheel speeds, so it sets how fast the robot advances. |
 | [Angular velocity $\omega$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#41-why-we-describe-motion-by-linear-and-angular-velocity) (G-2292) | How fast a robot's heading changes, in rad/s, positive to the left; for a differential drive, the difference of the wheel speeds divided by the wheel separation. |
 | [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2293) | The distance from the point a robot is turning about (the instantaneous centre of curvature, ICC) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |
@@ -501,5 +501,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Metric (distance function)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#71-the-rules-a-distance-must-follow) (G-2681) | A distance between points that is never negative, is 0 only between equal points, is the same both ways and obeys the triangle inequality; search trees rely on these rules to skip far regions safely. |
 | [Steer (steering function)](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2763) | The step of a sampling-based planner that moves from a tree node towards a sample, at most a fixed distance (0.5 m here), stopping on the sample if it is closer; it keeps every new edge short enough to check. |
 | [Local planner](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2782) | The fast method a sampling planner uses to try to join two configurations, usually the straight segment; it proposes one simple motion without searching round obstacles, and a collision check reports whether that motion is free. |
-| [Goal bias](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#24-the-algorithm-and-the-goal-bias) (G-2764) | The small probability (0.05 here) with which a sampling-based planner uses the goal itself as its next sample, so the tree keeps trying to reach the goal; too large a bias makes it greedy, too small leaves it wandering. |
+| [Goal bias](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#24-the-algorithm-and-the-goal-bias) (G-2764) | The small probability (0.05 here) with which a sampling-based planner uses the goal itself as its next sample, so the tree keeps trying to reach the goal; too large a bias makes it greedy, too small a bias makes it slow to reach the goal. |
 | [Nearest node](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2762) | The node of a planner's tree closest to a new sample under the planner's distance; RRT extends it, which makes the tree grow towards the largest empty regions. |

@@ -33,13 +33,13 @@ This Note builds that idea step by step:
 
 ## 2. Why a robot is never sure
 
-> **Key point:** A move of 2 cells can end 1, 2 or 3 cells on, and a reading can be wrong, because every part of a robot adds uncertainty: the world changes, sensors are limited and noisy, wheels slip, models are simplified and computers must answer in time. Errors in counted moves add up, so a robot that only counts its moves gets more and more lost: after 8 moves it is where it thinks only with probability 0.33.
+> **Key point:** A move of 2 cells can end 1, 2 or 3 cells on, and a reading can be wrong, because every part of a robot adds uncertainty: the world changes, sensors are limited and noisy, wheels slip, models are simplified and computers must answer in time. Errors in counted moves add up, so a robot that only counts its moves becomes steadily less sure of its position: after 8 moves it is where it thinks only with probability 0.33.
 
 ### 2.1 Why counting moves is not enough: dead reckoning
 
-The simplest way to know where we are is to start at a known place and add up our own moves: "I started at 0 m and moved 2 m eight times, so I am at 16 m." The method is **dead reckoning** (G-2311): working out the position from a known start plus the robot's own motion, with no look at the surroundings. Facing north at 1 m/s for 3 s, a robot reckons it is 3 m north of where it started, without checking anything.
+The simplest way to know where we are is to start at a known place and add up our own moves: "I started at 0 m and moved 2 m eight times, so I am at 16 m." The method is **dead reckoning** (G-2311): working out the position from a known start plus the robot's own motion, without observing the surroundings. Facing north at 1 m/s for 3 s, a robot reckons it is 3 m north of where it started, without checking anything.
 
-The trouble is that the moves themselves are not exact. Our hallway robot is told "move 2", two cells of 1 m. Because its wheels sometimes slip or spin on, the real move is (Labbe ch.2):
+The moves themselves, however, are not exact. Our hallway robot is told "move 2", two cells of 1 m. Because its wheels sometimes slip or spin on, the real move is (Labbe ch.2):
 
 | Real move | Probability |
 |---|---|
@@ -49,7 +49,7 @@ The trouble is that the moves themselves are not exact. Our hallway robot is tol
 
 We count positions in whole cells, so a move that falls well short counts as 1 cell and one that runs on counts as 3. The hallway robot moves this way throughout the chapter.
 
-Figure 2 plays what happens to a robot that starts surely at 0 m on a long straight track (so that eight moves of 2 m do not wrap round the 10 m loop) and is told "move 2" eight times without looking around. The bars show the probability of each true position; the red dashed line is where the robot thinks it is.
+Figure 2 plays what happens to a robot that starts with certainty at 0 m on a long straight track (so that eight moves of 2 m do not wrap round the 10 m loop) and is told "move 2" eight times without taking a reading. The bars show the probability of each true position; the red dashed line is where the robot thinks it is.
 
 ![Dead reckoning without readings: after 1, 2, 4 and 8 moves of 2 m the probability of each true position spreads wider; after 8 moves the robot is exactly where it thinks (16 m) with probability 0.33 only](images/drift.gif)
 
@@ -62,7 +62,7 @@ The chance that the robot is exactly where it thinks shrinks with every move:
 | 4 | 8 m | 0.49 | 0.89 m |
 | 8 | 16 m | 0.33 | 1.26 m |
 
-The last column is the [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) of the true position: the typical distance between the true position and the reckoned one, so it says how widely the robot may be off. Why does it grow? One move has variance 0.2 m², the average squared miss from the commanded 2 m:
+The last column is the [**standard deviation**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#41-variance-term-by-term) (G-1870) of the true position: the typical distance between the true position and the reckoned one, so it says how large the robot's error may be. It grows because each move adds variance: one move has variance 0.2 m², the average squared miss from the commanded 2 m:
 
 $$0.1 \times (1 - 2)^2 = 0.1$$
 
@@ -89,12 +89,12 @@ Slipping wheels are only one cause. The textbook on **probabilistic robotics** (
 ![Five sources of uncertainty around a robot: the environment, the sensors, the robot's actuation, the models and the computation, each with an example](images/five_sources.png)
 
 1. **The environment.** The world is not fully predictable: people walk past, doors open and close, chairs move. A person who steps between the robot and the wall makes a distance sensor read much less than the true distance to the wall.
-2. **The sensors.** A sensor sees only so far and so finely; a camera cannot see through walls. Eight distance sensors around a robot tell it how far the nearest obstacle is in eight directions, which is usually not enough to say where it is in a room. And every reading carries **sensor noise** (G-2312): small random errors, so the same wall measured again from the same spot gives slightly different numbers.
+2. **The sensors.** A sensor sees only so far and so finely; a camera cannot see through walls. Eight distance sensors around a robot tell it how far the nearest obstacle is in eight directions, which is usually not enough to say where it is in a room. Every reading also carries **sensor noise** (G-2312): small random errors, so the same wall measured again from the same spot gives slightly different numbers.
 3. **The robot's actuation.** Motors and wheels do not do exactly what they are told. A command to move 1 m gives 95 cm one time and 1.1 m the next; gears slip and wear.
 4. **The models.** Every model simplifies. The [kinematic model](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297), the equations that turn wheel speeds into motion, assumes wheels that never slip.
 5. **The computation.** A robot must decide in time, so its algorithms take shortcuts and approximate (Khamis L5).
 
-In Figure 4, watch sensor noise and the environment at work on one wall: no two readings of the wall agree exactly, and while a person walks through the beam the readings fall far short of the wall. A distance sensor stands 2.00 m from a wall and takes 200 readings. The 190 readings of the wall itself spread from 1.92 m to 2.07 m, because of sensor noise. The 10 readings taken while a person walked past are between 0.61 m and 1.16 m, nowhere near the wall.
+In Figure 4, watch sensor noise and the environment at work on one wall: no two readings of the wall agree exactly, and while a person walks through the beam the readings fall far short of the wall. A distance sensor stands 2.00 m from a wall and takes 200 readings. The 190 readings of the wall itself spread from 1.92 m to 2.07 m, because of sensor noise. The 10 readings taken while a person walked past are between 0.61 m and 1.16 m, far below the wall's 2.00 m.
 
 ![Animation: a distance sensor 2.00 m from a wall takes 200 readings (simulated), one at a time. Top: the beam and the distance the sensor reports (dot). Bottom: the histogram of the readings so far, one bar per 0.02 m, on the same metre scale. The wall's readings pile up around 2.00 m; after the 100th reading a person walks through the beam, and the next 10 readings land where the person is. The last frame holds all 200: 190 readings of the wall between 1.92 and 2.07 m, and 10 readings of the person between 0.61 and 1.16 m](images/wall_anim.gif)
 
@@ -106,7 +106,7 @@ So no reading and no move can be taken at face value. [Section 3](#3-keep-a-dist
 
 ### 3.1 Why one reading fits many places
 
-Back to the hallway. For this section we make two simplifications: the moves are exact and the door sensor never errs. At the start the robot knows nothing, so each of the 10 cells has the same probability. We write:
+We return to the hallway. For this section we make two simplifications: the moves are exact and the door sensor never errs. At the start the robot knows nothing, so each of the 10 cells has the same probability. We write:
 
 - $n$ is a cell number, 0 to 9;
 - $P(n)$ is the probability that the robot is in cell $n$, a number from 0 to 1; the ten cells' probabilities add up to 1.
@@ -135,7 +135,7 @@ Step by step:
 2. **Control "move 2".** Every candidate moves with the robot: cells 1, 3 and 7 become 3, 5 and 9. The best guess becomes cell 9.
 3. **Reading "door" again.** Of cells 3, 5 and 9, only cell 3 has a door. Each other candidate would have read "wall", which does not match. So the distribution is now certain: cell 3, with probability 1.
 
-The best-guess robot expected a wall at cell 9 and read "door". It now knows its guess was wrong, but it threw the other candidates away at step 1, so it has nothing to fall back on: it is lost. The robot that kept the whole distribution found its place, because it remembered every place the readings allowed (Labbe ch.2).
+The best-guess robot expected a wall at cell 9 and read "door". It now knows its guess was wrong, but it threw the other candidates away at step 1, so it has no other candidate left: it is lost. The robot that kept the whole distribution found its place, because it remembered every place the readings allowed (Labbe ch.2).
 
 Keeping the whole distribution is the central idea of **probabilistic robotics** (G-2313): the robot computes a **probability distribution** (G-1571) over what might be the case, instead of a single best guess, so it can handle ambiguous readings and recover from errors (Thrun 2000). The probability distribution a robot keeps over where it might be is its [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), defined later in this chapter.
 
@@ -178,7 +178,7 @@ Figure 7 plays the same reading on the cells, for the perfect sensor and the noi
 
 ![Animation of one reading "door" for a perfect sensor (top, blue) and the noisy sensor (bottom, purple). Every cell starts at 0.1 and is multiplied by the chance of reading "door" there: 1 at a door and 0 at a wall for the perfect sensor (products 0.1 and 0), 0.6 and 0.2 for the noisy sensor (products 0.06 and 0.02). The products add up to 0.3 and 0.32, and each cell is divided by its sensor's sum. The last frame: the perfect sensor gives 0.33 to each door cell and 0 to each wall cell; the noisy sensor gives 0.1875 to each door cell and 0.0625 to each wall cell](images/noisy_anim.gif)
 
-The wall cells keep a small probability, so one wrong reading lowers the true cell but never deletes it; later readings can lift it again. How a reading turns into these numbers in general is [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#41-from-the-counts-to-the-formula), which this chapter later [applies to the robot's readings](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem). So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
+The wall cells keep a small probability, so one wrong reading lowers the true cell's probability but never deletes the cell; later readings can raise it again. How a reading turns into these numbers in general is [Bayes' theorem](../../../../MA/02-probability/MA-018-bayes-theorem/MA-018-bayes-theorem.md#41-from-the-counts-to-the-formula), which this chapter later [applies to the robot's readings](../RO-014-bayes-filter/RO-014-bayes-filter.md#31-why-the-robot-needs-bayes-theorem). So far the answer to "where is it?" has been one cell number; [Section 4](#4-the-state-what-the-robot-keeps-track-of) asks what a robot must track in general.
 
 ## 4. The state: what the robot keeps track of
 
@@ -266,9 +266,9 @@ How likely each next state is after a control, and each reading in a given state
 
 ## 6. Moving makes the robot less sure, sensing makes it more sure
 
-> **Key point:** Here the whole opening problem comes back at once: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its **standard deviation** (G-1870), the typical distance of a cell from the average, grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they pin the robot down.
+> **Key point:** This section returns to the full opening problem: moves that slip and a sensor that errs. Every uncertain move widens the robot's distribution (its **standard deviation** (G-1870), the typical distance of a cell from the average, grows from 0 to 0.63 m in two moves); every informative reading narrows it (to 0.42 m). Neither alone is enough: moves alone drift, readings alone are ambiguous, and together they locate the robot.
 
-Now we drop both simplifications: the moves are the noisy moves of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning), and the sensor is the noisy sensor of [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out). Take a robot that knows it is in cell 3, as after [Section 3.2](#32-why-a-single-best-guess-gets-lost). It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
+We now drop both simplifications: the moves are the noisy moves of [Section 2.1](#21-why-counting-moves-is-not-enough-dead-reckoning), and the sensor is the noisy sensor of [Section 3.3](#33-why-noisy-sensors-forbid-crossing-places-out). Take a robot that knows it is in cell 3, as after [Section 3.2](#32-why-a-single-best-guess-gets-lost). It drives two moves of 2 cells without a reading in between, and then reads its sensor. Figure 10 plays the four stages.
 
 ![Animation: the robot is sure it is in cell 3; after one noisy move the probabilities are 0.1, 0.8, 0.1 at cells 4, 5, 6; after a second move 0.01, 0.16, 0.66, 0.16, 0.01 at cells 5 to 9; the noisy reading "door" lifts the door cell 7 to 0.853 and lowers cells 6 and 8 to 0.069](images/belief_story.gif)
 
@@ -298,7 +298,7 @@ $$\text{cells 6, 8}: 0.16 \times 0.2 = 0.032$$
 
 $$\text{cells 5, 9}: 0.01 \times 0.2 = 0.002$$
 
-What is left no longer adds up to 1:
+The products no longer add up to 1:
 
 $$0.396 + 2 \times 0.032 + 2 \times 0.002$$
 
@@ -314,7 +314,7 @@ $$P(6 \mid \text{door}) = \frac{0.032}{0.464} = 0.069$$
 
 $$P(5 \mid \text{door}) = \frac{0.002}{0.464} = 0.004$$
 
-Cells 8 and 9 get the same as cells 6 and 5. The standard deviation of the distribution after each stage tells the story in one number:
+Cells 8 and 9 get the same as cells 6 and 5. The standard deviation of the distribution measures its spread after each stage in one number:
 
 | Stage | Standard deviation |
 |---|---|
@@ -342,14 +342,14 @@ Moves add uncertainty because the robot cannot tell which of the possible outcom
 
 - "Where is it?" after the reading "door" has no single answer: cells 1, 3 and 7 each get 0.33, because all three fit the reading equally, so a single guess would be right only one time in three. A move and a second "door" then leave only cell 3; with slipping moves and the noisy sensor, two moves and a "door" give cell 7 probability 0.853.
 - **Dead reckoning** (G-2311) drifts: after 8 noisy moves the robot is where it thinks with probability 0.33, because independent errors add up (variances add).
-- Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than hope for perfect ones.
+- Uncertainty comes from five places, so a robot must plan for imperfect readings and moves rather than assume perfect ones.
 - A single best guess, once contradicted, has nothing left, so the robot keeps every candidate.
 - With a noisy sensor the robot weights places instead of crossing them out, because crossing out would delete the true place whenever a reading is wrong (64 percent of the time over two readings at two doors, with a sensor that sees a door 60 percent of the time).
 - The state holds what decides the future: **pose** (G-2280), speeds when the robot coasts and moving things around it; it is complete when the past adds nothing, which lets the robot keep only its latest belief.
 - A control comes first and changes the **state** (G-2314); a measurement follows and reports on it, so each step of a filter is "move, then look".
 - Moves widen the distribution (**standard deviation** (G-1870) 0 to 0.63 m in two moves) and readings narrow it (0.63 to 0.42 m), so the robot needs both.
 
-The robot can now say where it might be as a probability for every cell, and why moves spread it and readings narrow it. Still missing: by how much a move blurs the pose, which the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#1-overview) (G-2319) gives.
+The robot can now say where it might be as a probability for every cell, and why moves spread it and readings narrow it. Still missing: by how much a move widens the distribution of the pose, which the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#1-overview) (G-2319) gives.
 
 ## 8. Sources
 
@@ -375,7 +375,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | State $x_t$ (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
 | Measurement $z_t$ (G-2317) | What a robot's sensors report about the world at time $t$, such as "door", a laser scan or a camera image; it does not change the state but tells the robot something about it, which narrows its distribution. |
-| Dead reckoning (G-2311) | Working out a robot's position from a known start by adding up its own moves, without looking at its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
+| Dead reckoning (G-2311) | Working out a robot's position from a known start by adding up its own moves, without observing its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
 | Probabilistic robotics (G-2313) | The approach in which a robot keeps a probability distribution over what might be the case (such as where it is) instead of one best guess, so it can handle ambiguous readings and recover from errors. |
 | Sensor noise (G-2312) | Small random errors in a sensor's readings, so the same quantity measured twice gives slightly different numbers (a wall 2 m away reads 1.92 to 2.07 m); it is one reason a robot cannot take a reading at face value. |
 | Complete state (G-2315) | A state that, once known, makes earlier states, controls and measurements useless for predicting the future (position plus speed for a coasting robot, not position alone); it lets the robot keep only its latest estimate. |

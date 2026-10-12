@@ -749,7 +749,7 @@ concepts:
   - {id: particle_filter, name: Particle filter, home: RO-016#4-the-particle-filter-step-by-step, videos: [2016]}
   - {id: kalman_filter, name: Kalman filter, home: RO-017#25-the-linear-gaussian-system, videos: [2017]}
   - {id: ekf, name: Extended Kalman filter, home: RO-018#4-the-extended-kalman-filter, videos: [2018]}
-  - {id: filter_consistency, name: Filter consistency, home: RO-018#5-consistency-is-the-filter-telling-the-truth-about-itself, videos: [2018]}
+  - {id: filter_consistency, name: Filter consistency, home: RO-018#5-consistency-does-the-filters-variance-match-its-real-error, videos: [2018]}
   # Robotics chapter RO-04: graph search and configuration space
   - {id: graph, name: Graphs and state spaces, home: RO-032#22-any-problem-of-states-and-moves-is-a-graph, videos: [2032]}
   - {id: bfs, name: Breadth-first search, home: RO-032#5-breadth-first-search-ring-by-ring, videos: [2032]}
@@ -842,7 +842,7 @@ concepts:
   - {id: collocation, name: Direct collocation, home: RO-058#61-functions-into-numbers-states-at-points, videos: [2058]}
   - {id: homotopy, name: Local minima and homotopy classes, home: RO-058#7-local-minima-and-warm-starts, videos: [2058]}
   - {id: path_speed, name: Path–speed decomposition, home: RO-058#101-solvers-and-path-then-speed, videos: [2058]}
-  - {id: shooting, name: Single and multiple shooting, home: RO-231#22-single-shooting-fire-see-where-it-lands-adjust, videos: [2231]}
+  - {id: shooting, name: Single and multiple shooting, home: RO-231#22-single-shooting-simulate-measure-the-miss-adjust, videos: [2231]}
   - {id: ilqr, name: iLQR and DDP, home: RO-231#4-ilqr-and-ddp-better-steps-from-the-model, videos: [2231]}
   - {id: direct_indirect, name: Direct and indirect methods, home: RO-231#5-direct-and-indirect-methods, videos: [2231]}
   - {id: open_closed_loop, name: Open-loop and closed-loop control, home: RO-059#31-measure-compare-correct, videos: [2059]}
@@ -850,14 +850,14 @@ concepts:
   - {id: regulation_tracking, name: Regulation and tracking, home: RO-059#6-holding-a-value-and-following-a-plan-regulation-and-tracking, videos: [2059]}
   - {id: moment_of_inertia, name: Torque and moment of inertia, home: RO-060#22-turning-torque-angular-acceleration-and-the-moment-of-inertia, videos: [2060]}
   - {id: p_control, name: Proportional control, home: RO-060#31-the-rule-and-why-it-overshoots, videos: [2060]}
-  - {id: pd_control, name: Derivative action (PD control), home: RO-060#41-look-at-how-fast-the-error-shrinks, videos: [2060]}
-  - {id: pid, name: PID control, home: RO-060#52-add-the-error-up, videos: [2060]}
+  - {id: pd_control, name: Derivative action (PD control), home: RO-060#41-reacting-to-how-fast-the-error-changes, videos: [2060]}
+  - {id: pid, name: PID control, home: RO-060#52-adding-up-the-error, videos: [2060]}
   - {id: step_response, name: Step response and its specifications, home: RO-061#21-reading-the-four-numbers, videos: [2061]}
   - {id: first_order, name: First-order systems and the time constant, home: RO-061#41-the-time-constant, videos: [2061]}
   - {id: second_order, name: "Second-order systems: natural frequency and damping ratio", home: RO-061#51-natural-frequency-and-damping-ratio, videos: [2061]}
   - {id: transfer_function, name: Transfer functions, home: RO-062#21-an-exponential-goes-in-the-same-exponential-comes-out, videos: [2062]}
-  - {id: poles_zeros, name: Poles and zeros, home: RO-062#31-poles-where-the-fraction-blows-up, videos: [2062]}
-  - {id: bibo_stability, name: BIBO stability, home: RO-062#4-bibo-stability-which-poles-are-safe, videos: [2062]}
+  - {id: poles_zeros, name: Poles and zeros, home: RO-062#31-poles-where-the-fraction-becomes-infinite, videos: [2062]}
+  - {id: bibo_stability, name: BIBO stability, home: RO-062#4-bibo-stability-which-poles-keep-the-output-bounded, videos: [2062]}
   - {id: block_diagram_algebra, name: Block-diagram algebra, home: RO-062#5-block-diagram-algebra-the-loops-fraction-from-its-parts, videos: [2062]}
   - {id: root_locus, name: Root locus and Routh–Hurwitz, home: RO-062#61-the-root-locus, videos: [2062]}
   - {id: frequency_response, name: Frequency response (gain and phase), home: RO-063#22-gain-and-phase-the-frequency-response, videos: [2063]}
@@ -873,7 +873,7 @@ concepts:
   - {id: internal_model, name: Integral action and the internal model principle, home: RO-066#33-the-internal-model-principle, videos: [2066]}
   - {id: windup, name: Integrator windup and anti-windup, home: RO-066#42-how-the-integral-winds-up, videos: [2066]}
   - {id: motion_force_control, name: Motion control and force control, home: RO-066#6-motion-control-and-force-control-docking, videos: [2066]}
-  - {id: rate_limits, name: Rate limits and deadband, home: RO-066#71-rate-limits-never-ask-for-more-than-the-drive-can-give, videos: [2066]}
+  - {id: rate_limits, name: Rate limits and deadband, home: RO-066#71-rate-limits-commands-the-drive-can-follow, videos: [2066]}
   - {id: cascade, name: Cascade control, home: RO-066#81-one-loop-for-the-heading-or-two, videos: [2066]}
   - {id: pid_forms, name: PID forms, home: RO-067#21-the-ideal-pid-controller-in-parallel-form, videos: [2067]}
   - {id: ziegler_nichols, name: Ziegler–Nichols tuning, home: RO-067#33-raise-the-gain-until-the-loop-oscillates, videos: [2067]}
@@ -895,7 +895,7 @@ concepts:
   - {id: tracking_errors, name: "Lateral and heading error", home: RO-070#42-lateral-error, videos: [2070]}
   - {id: pure_pursuit, name: "Pure pursuit", home: RO-071#41-find-the-point-steer-drive-repeat, videos: [2071]}
   - {id: lookahead, name: "Look-ahead distance", home: RO-071#2-chasing-a-point-on-the-path, videos: [2071]}
-  - {id: regulated_pp, name: "Regulated pure pursuit", home: RO-071#7-regulated-pure-pursuit-slow-down-where-the-path-is-tight, videos: [2071]}
+  - {id: regulated_pp, name: "Regulated pure pursuit", home: RO-071#7-regulated-pure-pursuit-slowing-down-on-tight-curves, videos: [2071]}
   - {id: stanley, name: "Stanley controller", home: RO-072#22-the-heading-term-and-the-cross-track-term, videos: [2072]}
   - {id: rear_wheel_feedback, name: "Rear-wheel feedback", home: RO-072#52-three-parts-of-a-turn-rate, videos: [2072]}
   - {id: reference_robot, name: "Tracking a timed trajectory (reference robot)", home: RO-073#21-a-robot-that-drives-the-timetable-exactly, videos: [2073]}

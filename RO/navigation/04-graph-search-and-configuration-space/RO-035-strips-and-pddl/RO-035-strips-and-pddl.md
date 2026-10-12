@@ -13,11 +13,11 @@ tags: [subject/robotics, area/navigation, concept/task-planning, concept/strips,
 
 ## 1. Overview
 
-> **Key point:** Carrying the cup from the table to the door takes steps in a fixed order (go to the table, pick up the cup, go to the door, put it down), not one route. We write the world as true-or-false facts and each action as the facts it needs, makes true and makes false; the task then becomes a search over sets of facts, which the graph searches of the earlier Notes already know how to do.
+> **Key point:** Carrying the cup from the table to the door takes steps in a fixed order (go to the table, pick up the cup, go to the door, put it down), not one route. We write the world as true-or-false facts and each action as the facts it needs, makes true and makes false; the task then becomes a search over sets of facts, which the graph searches of the earlier Notes already solve.
 
 The robot can already plan a route. On the room's [occupancy grid](../../../localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) of 0.5 m cells, [**breadth-first search**](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) takes it from its start cell to the cell just inside the door in 8 moves of 0.5 m, 4.0 m in all. With diagonal moves, [**Dijkstra's algorithm**](../RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#32-the-algorithm-settle-the-nearest-update-its-neighbours) (G-2565) and [**A\***](../RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm) (G-2577) find the shortest route, 3.414 m. The robot stands at (2 m, 1 m), on the corner of its start cell.
 
-Now give the robot a task (Figure 1): a cup stands on the table; carry it to the door. Route search fails on this task in two ways:
+We now give the robot a task (Figure 1): a cup stands on the table, and the robot must carry it to the door. Route search fails on this task in two ways:
 
 - its [**search state**](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#10-choosing-the-search-state-the-markov-rule) (G-2562), what the search keeps for each place it reaches, is one of the 76 free cells, so it records where the robot is and nothing about the cup or the robot's hand;
 - the task needs steps in a fixed order: go to the table, pick up the cup, go to the door, put it down. The shortest route to the door, 3.414 m, leaves the cup behind.
@@ -108,15 +108,15 @@ Reason 1 in numbers, with 10 facts:
 
 $$2^{10} = 1024$$
 
-The third reason is the way out: describe each action once, by the few facts it changes, and let the computer build the states when it needs them.
+The third reason points to the solution: describe each action once, by the few facts it changes, and let the computer build the states when it needs them.
 
 ## 3. STRIPS actions
 
-> **Key point:** The second need of the Overview, a way to write down what each step changes, is met by describing each action once by three lists of facts: its precondition (what must be true to do it), its add list (what it makes true) and its delete list (what it makes false). Every fact on neither list keeps its value; in the state S1, `pick-up table` removes `cup-at table` and `hand-empty`, adds `holding-cup` and leaves the other five facts alone.
+> **Key point:** The second need of the Overview, a way to write down what each step changes, is met by describing each action once by three lists of facts: its precondition (what must be true to do it), its add list (what it makes true) and its delete list (what it makes false). Every fact on neither list keeps its value; in the state S1, `pick-up table` removes `cup-at table` and `hand-empty`, adds `holding-cup` and leaves the other five facts unchanged.
 
 ### 3.1 Precondition, add list and delete list
 
-Section 2.2 left us needing a description of each action by the few facts it changes. Take picking up the cup at the table:
+Section 2.2 called for a description of each action by the few facts it changes. Take picking up the cup at the table:
 
 - before it, three facts must be true: the robot is at the table, the cup is on the table, the hand is empty;
 - after it, one fact has become true: the robot holds the cup;
@@ -425,6 +425,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Frontier (open list)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2547) | The vertices a search has reached but not yet expanded, waiting to be taken off one at a time; which one comes off next is what makes one search differ from another. |
 | [Heuristic $h$](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#2-a-guess-of-the-distance-left-the-heuristic) (G-2570) | A cheap guess of the cost still to go from a state to the goal, such as 3.121 m from the start cell to the door; a search uses it to prefer states that look nearer the goal. |
 | [Admissible heuristic](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#51-a-guess-that-never-overestimates) (G-2578) | A heuristic that is never more than the true cost left from any state, $h \le h^\ast$; it makes $f$ a lower bound on every route through a state, so the first route A* takes off the open list is the shortest. |
-| [Cost so far $g$ (g-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever a shorter way into the state turns up. |
+| [Cost so far $g$ (g-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever it finds a shorter way into the state. |
 | [Estimated total cost $f$ (f-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2575) | The cost so far plus the heuristic, $f = g + h$: the length of the best route through a state if the guess were exact; A* expands the open state with the smallest $f$. |
 | [8-connected grid](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#21-diagonal-moves-the-8-connected-grid) (G-2564) | A grid made into a graph by joining each cell to all 8 cells around it: 4 straight moves of one cell side and 4 diagonal moves of 1.414 cell sides (0.707 m for 0.5 m cells), usually without cutting the corner of a blocked cell; it gives shorter, less jagged routes than a 4-connected grid. |

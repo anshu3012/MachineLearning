@@ -27,7 +27,7 @@ We describe the car by its [**pose**](../../../control/01-robot-models/RO-001-po
 
 The lot is 24 m by 24 m (Figure 1). A lower lane runs along the bottom wall; a middle row of six parked cars separates it from an upper lane; the two lanes meet at the right end. Along the top wall, nine bays 2.5 m wide hold parked cars, except one. The car starts in the lower lane at (2, 3), facing along x (0°). The car must back into the empty bay, nose out, ending at (12, 23) facing down (−90°).
 
-What breaks is the grid route. Figure 1 runs A\* on 1 m cells and lets the car follow the result. Watch the green car leave the start and turn as hard as it can towards the blue route:
+The grid route fails. Figure 1 runs A\* on 1 m cells and lets the car follow the result. Watch the green car leave the start and turn as tightly as it can towards the blue route:
 
 ![The lot with 1 m cells (grey: cells that touch a parked car or a wall), the A\* route of 33.31 m through cell centres (blue dots), the target bay (orange dashed) and the goal pose (orange outline, nose down). The car (green) follows the route at 1 m/s, steering towards the route point 2 m ahead and never tighter than its 5 m circle; its rear axle leaves a dark green trail. Last frame: after 4.05 m its body (red) overlaps the third parked car of the middle row](images/opening_anim.gif)
 
@@ -54,7 +54,7 @@ The grid route failed because its moves were jumps between cell centres. The fix
 
 From any pose the car can drive forward or in reverse, and steer full left, straight, or full right. Each of these six choices, held for 1.5 m, is a short arc of the 5 m circle or a straight piece: six of RO-054's [motion primitives](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator) (G-2826), short motions the car can drive, each one input held for a fixed length. Junior, the Stanford car that used this planner in the 2007 DARPA Urban Challenge, chose between forward and reverse moves of different steering in the same way (Dolgov et al. 2008). Figure 2 draws them from the start.
 
-![The first expansion: the six arcs of 1.5 m from the start pose (2, 3), facing 0°. The three forward arcs (blue) end at (3.478, 3.223) facing +17.2°, (3.500, 3.000) facing 0° and (3.478, 2.777) facing −17.2°; the cells they end in are shaded blue. The three reverse arcs (red) are blocked: after the straight reverse arc the body (red outline) pokes through the left wall](images/six_arcs.png)
+![The first expansion: the six arcs of 1.5 m from the start pose (2, 3), facing 0°. The three forward arcs (blue) end at (3.478, 3.223) facing +17.2°, (3.500, 3.000) facing 0° and (3.478, 2.777) facing −17.2°; the cells they end in are shaded blue. The three reverse arcs (red) are blocked: after the straight reverse arc the body (red outline) crosses the left wall](images/six_arcs.png)
 
 Two numbers fix the arcs. A turning arc follows the 5 m circle, so it turns the heading by the arc length divided by the radius (the [arc rule](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#23-why-angles-are-measured-in-radians), RO-001):
 
@@ -117,7 +117,7 @@ The straight arc has the smallest $f$, so it is expanded next. The search goes o
 
 ### 2.3 Why one pose per state, and what it costs
 
-Without states the search would be a tree of arcs, and trees explode. Every pose has six children, so after five arcs there are six to the fifth power arc ends:
+Without states the search would be a tree of arcs, and a tree grows exponentially with its depth. Every pose has six children, so after five arcs there are six to the fifth power arc ends:
 
 $$6^5 = 7776$$
 
@@ -131,7 +131,7 @@ Merging keeps the search finite, but it has a price. The dropped poses are real,
 
 ### 2.4 What a path costs
 
-Distance alone would let the car reverse as much as it likes. Dolgov et al. penalise driving in reverse and switching between forward and reverse. We use:
+A cost of distance alone puts no penalty on reversing. Dolgov et al. penalise driving in reverse and switching between forward and reverse. We use:
 
 - each metre forward costs 1;
 - each metre in reverse costs 2 (Nav2's default reverse penalty);
@@ -145,9 +145,9 @@ The arcs turn the heading in steps of 17.2°, and no whole number of such steps 
 
 ## 3. Two guesses of the cost left
 
-> **Key point:** Hybrid A\* is guided by the larger of two guesses of the cost left: the length of the shortest Reeds-Shepp path, which knows the car must turn but not where the parked cars are, and the grid distance, which knows the parked cars but not the turning. Each covers the other's blind spot.
+> **Key point:** Hybrid A\* is guided by the larger of two guesses of the cost left: the length of the shortest Reeds-Shepp path, which accounts for the turning but not for the parked cars, and the grid distance, which accounts for the parked cars but not for the turning. Each accounts for what the other ignores.
 
-The search of Section 2 expands 1,949 states to cross the lot, and how many it expands depends on its guess of the cost left. The guess must never overestimate the cost left, or A\* can stop on a dearer path ([admissible heuristics](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#5-why-a-returns-the-shortest-route-admissible-heuristics), G-2578). The closer the guess comes to the true cost, the fewer states A\* expands ([a closer guess takes fewer cells](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#53-a-closer-guess-takes-fewer-cells)). From the start, the path Hybrid A\* finds costs 50.8 (Section 4). Figure 5 draws what three cheap guesses imagine.
+The search of Section 2 expands 1,949 states to cross the lot, and how many it expands depends on its guess of the cost left. The guess must never overestimate the cost left, or A\* can stop on a costlier path ([admissible heuristics](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#5-why-a-returns-the-shortest-route-admissible-heuristics), G-2578). The closer the guess comes to the true cost, the fewer states A\* expands ([a closer guess takes fewer cells](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#53-a-closer-guess-takes-fewer-cells)). From the start, the path Hybrid A\* finds costs 50.8 (Section 4). Figure 5 draws the three cheap guesses.
 
 ![Three guesses of the distance left from the start (green) to the goal (orange): the straight line (grey, dotted), 22.36 m; the shortest Reeds-Shepp path (purple), 27.31 m, which first backs up to turn and then drives through the middle row of parked cars; the shortest grid route (blue), 33.31 m, around the end of the middle row but with corners and no heading](images/guesses.png)
 
@@ -159,9 +159,9 @@ $$= 22.36 \text{ m}$$
 
 The straight line ignores both the parked cars and the heading.
 
-**The Reeds-Shepp length.** The shortest path of a car that may reverse, between two poses on an empty floor, is a [Reeds-Shepp path](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#72-reeds-shepp-paths-with-reverse) (G-2829), made of arcs of the tightest circle and straight pieces: 27.31 m from the start. The Reeds-Shepp length knows the car must turn round to arrive nose out. The Reeds-Shepp length ignores the parked cars, so it can never be longer than the real path: it is the shortest of all drivable paths, and the real path is one of them (Dolgov et al. call it the non-holonomic-without-obstacles heuristic).
+**The Reeds-Shepp length.** The shortest path of a car that may reverse, between two poses on an empty floor, is a [Reeds-Shepp path](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#72-reeds-shepp-paths-with-reverse) (G-2829), made of arcs of the tightest circle and straight pieces: 27.31 m from the start. The Reeds-Shepp length accounts for the turn the car needs to arrive nose out. The Reeds-Shepp length ignores the parked cars, so it can never be longer than the real path: it is the shortest of all drivable paths, and the real path is one of them (Dolgov et al. call it the non-holonomic-without-obstacles heuristic).
 
-**The grid distance.** [Dijkstra's algorithm](../../04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#32-the-algorithm-settle-the-nearest-update-its-neighbours) (G-2565), run once from the goal cell over the free cells, gives every cell its distance to the goal along the grid: 33.31 m from the start cell, the route of Figure 1. The grid distance knows the middle row blocks the way, but it ignores the heading (Dolgov et al.'s holonomic-with-obstacles heuristic).
+**The grid distance.** [Dijkstra's algorithm](../../04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#32-the-algorithm-settle-the-nearest-update-its-neighbours) (G-2565), run once from the goal cell over the free cells, gives every cell its distance to the goal along the grid: 33.31 m from the start cell, the route of Figure 1. The grid distance accounts for the middle row blocking the way, but it ignores the heading (Dolgov et al.'s holonomic-with-obstacles heuristic).
 
 **The larger of the two.** Dolgov et al. show that neither guess overestimates the cost, so their larger value does not either, and at every state it is at least as close to the true cost as each of them. Run without the shot of Section 4, and stopping as in Section 2.4:
 
@@ -180,7 +180,7 @@ The search is now guided, but it still stops in the goal's cell rather than on t
 
 > **Key point:** Every few expansions, Hybrid A\* tries the shortest Reeds-Shepp path from the pose it is expanding to the exact goal. When that path hits nothing, the search is done: it ends exactly on the goal, after 312 expansions instead of 1,949.
 
-The arcs of Section 2 can only approach the goal in steps of 1.5 m and 17.2°. A Reeds-Shepp path lands exactly on any pose, but knows nothing of obstacles. Hybrid A\* combines them: from time to time it takes the pose it is expanding, computes the Reeds-Shepp path from there to the goal, and checks that path for collisions like an arc. If it is free, the path is complete (Dolgov et al. 2008). RO-054 uses Reeds-Shepp paths the same way, as a [drivable steer](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#73-using-them-in-a-planner-a-drivable-steer): the step that joins two poses with a drivable path, or reports that it cannot.
+The arcs of Section 2 can only approach the goal in steps of 1.5 m and 17.2°. A Reeds-Shepp path lands exactly on any pose, but ignores obstacles. Hybrid A\* combines them: from time to time it takes the pose it is expanding, computes the Reeds-Shepp path from there to the goal, and checks that path for collisions like an arc. If it is free, the path is complete (Dolgov et al. 2008). RO-054 uses Reeds-Shepp paths the same way, as a [drivable steer](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#73-using-them-in-a-planner-a-drivable-steer): the step that joins two poses with a drivable path, or reports that it cannot.
 
 This extra child is the **analytic expansion** (G-2841), here the Reeds-Shepp shot: "analytic" because the path comes from a formula, not from a search. Trying it at every expansion would waste time far from the goal, where it nearly always hits something. So it is tried once every $N$ expansions, more often as the goal comes nearer (Dolgov et al.; Nav2's analytic expansion ratio). We use:
 
@@ -195,7 +195,7 @@ $$N = \lfloor 22.36 / 3 \rfloor = 7$$
 
 and within 3 m of the goal, every expansion tries a shot.
 
-Figure 6 runs the whole search. Watch the tree of arcs grow along the lower lane and round the end of the middle row, and the red dashed shots that hit parked cars, until a green one gets through.
+Figure 6 runs the whole search. Watch the tree of arcs grow along the lower lane and round the end of the middle row, and the red dashed shots that hit parked cars, until a green shot reaches the goal without a collision.
 
 ![Hybrid A\* with the shot, one frame per expansion for the first ten, then several per frame. Each expansion takes the pose with the smallest estimated total cost f, cost so far plus guess (orange arrow) and drives its six arcs: kept arcs blue (forward) or purple (reverse), arcs into a cell and heading range that already holds a cheaper pose grey, arcs that hit something red. Red dashed: a Reeds-Shepp shot that hits a parked car. At expansion 312 the shot is free (green). Last frame: the whole path, 39.42 m, with one switch from forward to reverse](images/hybrid_anim.gif)
 
@@ -221,12 +221,12 @@ The path ends exactly on the goal, and the car's body never comes closer than 0.
 
 Hybrid A\*'s path steers only full left, straight or full right, and switches between them in jumps: Dolgov et al. found such paths "drivable, but can contain unnatural swerves that require unnecessary steering". The grid route of Figure 1 is worse: it turns 90° at one point. The simplest remedy is to pull the corners in.
 
-Write the found points as $x_i$ and the smoothed points as $y_i$, both positions in the plane, numbered along the path. At the start each $y_i$ equals its $x_i$. Two wishes pull against each other (Dolgov et al. 2008, smoothness term; Nav2 smoother):
+Write the found points as $x_i$ and the smoothed points as $y_i$, both positions in the plane, numbered along the path. At the start each $y_i$ equals its $x_i$. Two aims pull against each other (Dolgov et al. 2008, smoothness term; Nav2 smoother):
 
 - each smoothed point should stay near its found point;
 - each smoothed point should stay near its neighbours, which straightens the path.
 
-The first wish alone leaves the path as found; the second alone pulls all points together onto the straight line between the two ends, which are held fixed. Think of a rubber band laid along the route and tied at both ends: it pulls every point towards its neighbours, and pins near the found points stop it snapping straight. Weighting the two and stepping downhill is [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862). With:
+The first aim alone leaves the path as found; the second alone pulls all points together onto the straight line between the two ends, which are held fixed. The effect is that of a rubber band laid along the route and tied at both ends: it pulls every point towards its neighbours, and pins near the found points stop it snapping straight. Weighting the two and stepping downhill is [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862). With:
 
 - $x_i$, found point $i$, in m;
 - $y_i$, smoothed point $i$, in m, starting at $x_i$;
@@ -279,11 +279,11 @@ After smoothing, the sharpest turn is 1.453 per m, a circle of radius:
 
 $$\frac{1}{1.453} = 0.69 \text{ m}$$
 
-The car needs 5 m. The body still overlaps something at 25 of the 31 points, and the route still ends heading up the bay, nose first. With the data weight 0 nothing pulls the points back, so the route becomes the straight line between its fixed ends, and it runs through the middle row. Smoothing only rounds what the planner found; it knows nothing of the car's size, its turning circle or the goal heading. So the planner itself must know the car, as Hybrid A\* does.
+The car needs 5 m. The body still overlaps something at 25 of the 31 points, and the route still ends heading up the bay, nose first. With the data weight 0 nothing pulls the points back, so the route becomes the straight line between its fixed ends, and it runs through the middle row. Smoothing only rounds what the planner found; it ignores the car's size, its turning circle and the goal heading. So the planner itself must model the car, as Hybrid A\* does.
 
 ### 5.3 Smoothing Hybrid A\*'s path
 
-Hybrid A\*'s path is drivable, so smoothing only has to make it better without breaking it. We take a point every 0.5 m and smooth the forward drive and the reverse drive separately. Three rules keep the path drivable (Dolgov et al.'s cost has the same three concerns):
+Hybrid A\*'s path is drivable, so smoothing only has to improve it while keeping it drivable. We take a point every 0.5 m and smooth the forward drive and the reverse drive separately. Three rules keep the path drivable (Dolgov et al.'s cost has the same three concerns):
 
 - the first two and last two points of each drive stay fixed, so the start, the goal and the switch from forward to reverse keep their position and their heading;
 - a third pull moves a point away from an obstacle while its body is closer than 0.3 m (Dolgov et al.'s obstacle term), at a tenth of the distance missing;
@@ -308,19 +308,19 @@ Two long turns, from 12.0 to 20.5 m and from 23.0 to 30.0 m along the drive, sta
 | A\* on a grid | finds a 33.31 m route through cell centres | fast, but corners, no heading, planned for a point |
 | six arcs of 1.5 m | every move is drivable | the car cannot turn on the spot |
 | one pose per cell and heading range | 455 states instead of 7,776 arc ends after five arcs | the search stays finite; not guaranteed least-cost |
-| larger of two guesses | Reeds-Shepp length and grid distance | each covers the other's blind spot |
+| larger of two guesses | Reeds-Shepp length and grid distance | each accounts for what the other ignores |
 | Reeds-Shepp shot | ends exactly on the goal | arcs alone end 0.54 m off |
 | smoothing | rounds corners and removes swerves | cannot rescue a grid route; must keep the 5 m circle |
 
 - The car reaches the bay nose out: Hybrid A\* finds a 39.42 m path of 20 forward arcs and one Reeds-Shepp move in reverse, after 312 expansions, because every step is an arc the car can drive, where the 33.31 m grid route made it hit a parked car after 4.05 m.
 - **Hybrid A\*** (G-2840) is A\* over cells and heading ranges that keeps each state's exact pose, so its path is drivable; it drops other poses in the same cell and range, so it is not guaranteed to find the least-cost path.
 - Each move is an arc of 1.5 m, longer than a 1 m cell's diagonal of 1.414 m, so every move leaves its cell and the search does not stall.
-- The guess of the cost left is the larger of the Reeds-Shepp length (27.31 m from the start), which knows the turning, and the grid distance (33.31 m), which knows the parked cars, because neither overestimates (Dolgov et al.) and each misses what the other sees; it expanded 1,949 states against 2,318 for the straight line.
+- The guess of the cost left is the larger of the Reeds-Shepp length (27.31 m from the start), which accounts for the turning, and the grid distance (33.31 m), which accounts for the parked cars, because neither overestimates (Dolgov et al.) and each accounts for what the other ignores; it expanded 1,949 states against 2,318 for the straight line.
 - The **analytic expansion** (G-2841), a Reeds-Shepp shot tried every few expansions, makes the path end exactly on the goal and cuts the search from 1,949 to 312 expansions, because one formula covers the last metres the arcs could only approach.
-- **Path smoothing** (G-2842) pulls each point towards its found place and towards its neighbours, so corners round off; on a grid route it leaves a 0.69 m turn and parked cars in the way, so it is no substitute for a planner that knows the car.
+- **Path smoothing** (G-2842) pulls each point towards its found place and towards its neighbours, so corners round off; on a grid route it leaves a 0.69 m turn and parked cars in the way, so it is no substitute for a planner that models the car.
 - On Hybrid A\*'s path, smoothing cut the steering movement of the forward drive from 133° to 100°, because start, goal and switch stay fixed and no turn is allowed tighter than the 5 m circle.
 
-The car can now plan a drivable path into a tight bay. Still missing: Hybrid A\* computes its arcs while it searches, its states land anywhere inside their cells, and it drops some of them, so it cannot promise the cheapest path; the next step fixes the moves in advance so that every one ends exactly on a point of a [state lattice](../RO-056-state-lattices/RO-056-state-lattices.md#2-why-fixed-moves-never-close-up).
+The car can now plan a drivable path into a tight bay. Still missing: Hybrid A\* computes its arcs while it searches, its states land anywhere inside their cells, and it drops some of them, so it cannot promise the cheapest path; the next step fixes the moves in advance so that every one ends exactly on a point of a [state lattice](../RO-056-state-lattices/RO-056-state-lattices.md#2-why-fixed-moves-never-land-exactly-on-earlier-states).
 
 ## 7. Sources
 
@@ -347,14 +347,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 |---|---|
 | Hybrid A* (G-2840) | A* over grid cells and heading ranges in which each state keeps the exact pose that reached it most cheaply and every move is an arc the car can drive, such as six 1.5 m arcs per pose; its path is drivable, but because it drops other poses in the same cell it is not guaranteed to be the cheapest. |
 | Analytic expansion (Reeds-Shepp shot) (G-2841) | An extra child that Hybrid A* tries every few expansions: the shortest Reeds-Shepp path from the pose being expanded to the exact goal, kept if it hits nothing; it lets the search end exactly on the goal and much sooner (312 expansions instead of 1,949 in the parking lot). |
-| Path smoothing (G-2842) | Moving the points of a found path, sweep after sweep, a little towards their found places and a little towards their neighbours, $y_i \leftarrow y_i + \alpha(x_i - y_i) + \beta(y_{i+1} + y_{i-1} - 2y_i)$; it rounds corners and removes needless steering, but on its own it knows nothing of obstacles, the turning circle or the goal heading. |
+| Path smoothing (G-2842) | Moving the points of a found path, sweep after sweep, a little towards their found places and a little towards their neighbours, $y_i \leftarrow y_i + \alpha(x_i - y_i) + \beta(y_{i+1} + y_{i-1} - 2y_i)$; it rounds corners and removes needless steering, but on its own it ignores obstacles, the turning circle and the goal heading. |
 | [A* search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm) (G-2577) | Dijkstra's algorithm with the open list sorted by $f = g + h$, the cost so far plus a heuristic guess of the cost left; with a consistent heuristic it returns the shortest route while expanding far fewer states (9 cells against 54 on the room grid). |
 | [Motion primitive](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator) (G-2826) | A short motion the robot can drive, usually one input held for a fixed time, such as full left at 0.5 m/s for 0.75 s; planners chain primitives so that every path they build is drivable. |
 | [Reeds-Shepp path (Reeds-Shepp curve)](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#72-reeds-shepp-paths-with-reverse) (G-2829) | The shortest path between two poses for a vehicle that turns no tighter than a given radius but may also reverse: at most five full-lock arcs and straight pieces with at most two reversals, from 48 words in nine families; planners use it to join two poses exactly with a drivable path. |
 | [Pose](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280) | Where a robot is and which way it faces: on a floor, its position $(x, y)$ and heading $\theta$, such as (2 m, 1 m, 30°); needed because a robot at one spot drives off differently depending on its heading. |
 | [Heading $\theta$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2284) | The angle from the world x-axis to the direction a robot faces, measured counter-clockwise; it decides which way the robot moves when it drives forward. |
 | [System simulator](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#5-a-few-motions-to-build-with-motion-primitives-and-a-system-simulator) (G-2825) | The module that works out where an input takes the robot, by stepping its motion equations forward, such as 75 Euler steps of 0.01 s; planners call it to turn inputs into motions they can check for collisions. |
-| [Cost so far $g$ (g-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever a shorter way into the state turns up. |
+| [Cost so far $g$ (g-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever it finds a shorter way into the state. |
 | [Estimated total cost $f$ (f-value)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step) (G-2575) | The cost so far plus the heuristic, $f = g + h$: the length of the best route through a state if the guess were exact; A* expands the open state with the smallest $f$. |
 | [Frontier (open list)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2547) | The vertices a search has reached but not yet expanded, waiting to be taken off one at a time; which one comes off next is what makes one search differ from another. |
 | [Admissible heuristic](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#51-a-guess-that-never-overestimates) (G-2578) | A heuristic that is never more than the true cost left from any state, $h \le h^\ast$; it makes $f$ a lower bound on every route through a state, so the first route A* takes off the open list is the shortest. |

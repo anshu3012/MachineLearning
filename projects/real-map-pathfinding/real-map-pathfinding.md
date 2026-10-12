@@ -237,7 +237,7 @@ Chicago's river bridges open for boats, and OpenStreetMap tags them movable. The
 
 The open bridge changes few numbers: from the car, the way over the next bridge is only 55 m longer, and D\* Lite has the car's number right after 3 intersections. A\* from scratch cannot know that, and pays for the whole remaining route again. At the bridge, D\* Lite's number equals networkx's distance on the streets without the bridge (checked).
 
-Taught in: [repairing the numbers](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d), [when repairing pays](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#4-when-repairing-pays)
+Taught in: [repairing the numbers](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d), [when repairing pays](../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#4-when-repairing-costs-less-than-a-new-search)
 
 ## RRT through the streets
 

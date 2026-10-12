@@ -63,7 +63,7 @@ The $\int$ sign adds up the quantity after it over every moment from 0 to $T$, t
 
 Turning the functions of time into such a list is the drive's [transcription](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#61-functions-into-numbers-states-at-points) (G-2888), the step that gives a solver numbers to change. Collocation keeps the states and the controls; keeping only the controls, and finding the states by simulating the motion rules, is shooting (Lynch and Park §10.7).
 
-### 2.2 Single shooting: fire, see where it lands, adjust
+### 2.2 Single shooting: simulate, measure the miss, adjust
 
 **The idea.** To hit a target with a cannon, fire, see where the ball lands, change the launch speed and fire again (Kelly, cannon). A drive works the same way: choose the controls, simulate the drive, and see where it ends.
 
@@ -125,7 +125,7 @@ $$= e - 0.75\thinspace e$$
 
 $$= 0.25\thinspace e$$
 
-The shots close in on the $a$ that makes the miss 0:
+The shots converge on the $a$ that makes the miss 0:
 
 $$a = 3 / 25 = 0.12 \text{ m/s}^2$$
 
@@ -137,13 +137,13 @@ which reaches 0.6 m/s at 5 s, the robot's top speed.
 
 The whole drive has 60 numbers instead of one, and turning makes the motion rules curved. The loop is the same:
 
-1. guess the 60 controls; our first shot faces the goal and speeds up and brakes too gently, ending 1.048 m short (notebook);
+1. guess the 60 controls; our first shot faces the goal and speeds up and brakes too gently, falling 1.048 m short of the goal (notebook);
 2. simulate the drive from the start, in steps of 0.067 s, with a fourth-order Runge–Kutta step, a more accurate [Euler step](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299) that samples the motion rules four times per step (Kelly 2017);
 3. measure the miss at the end and how far the drive breaks a limit or enters the table's band;
 4. change all 60 controls at once, using the Jacobian of every miss and broken limit, with SciPy's least-squares solver, which takes Gauss–Newton steps like the [timed elastic band's solver](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#53-solving-it-sparse-least-squares) (Virtanen et al. 2020);
-5. repeat until nothing misses and nothing is broken.
+5. repeat until the miss is 0 and no limit is broken.
 
-Misses and broken limits are added to the cost as penalties whose weight rises from 100 to 1,000,000, so that by the end they must be 0 (Tedrake, Underactuated ch. 10). Figure 3 runs it; watch the end of the blue drive close on the door pose.
+Misses and broken limits are added to the cost as penalties whose weight rises from 100 to 1,000,000, so that by the end they must be 0 (Tedrake, Underactuated ch. 10). Figure 3 runs it; watch the end of the blue drive converge on the door pose.
 
 ![Single shooting of the 8 s least-effort drive to the door pose, one solver iteration per frame (thinning out after the first 12). Each frame is one simulation from the start with the current 60 controls (blue; the 4 before it pale), and the red line is the miss at the end. The first shot, facing the goal and too gentle, ends 1.048 m short; early iterations cut through the table's band while the penalty weight is low; after 73 iterations the drive ends on the door pose and passes the table's corner](images/single_shoot.gif){height=58%}
 
@@ -160,7 +160,7 @@ $$s_{\text{end}} = 12.5\thinspace a_1 + 5a_1 \times 5 + 12.5\thinspace a_2$$
 
 $$= 37.5\thinspace a_1 + 12.5\thinspace a_2$$
 
-The first number moves the end 3 times as far as the second. On the whole drive, 0.1 rad/s more turn rate in the first interval moves the end 0.079 m, and the same change in the last interval about 0.0001 m (notebook). The early control's larger effect is real, not a flaw of the method: it has more time to act (Tedrake, Underactuated ch. 10). But the solver must balance numbers whose effects differ by orders of magnitude, a problem called ill-conditioned, the trouble that a [condition number](../../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441) measures: small errors in a step are magnified, so on long or sensitive problems its steps go wrong (Tedrake, Underactuated ch. 10). Limits along the way are awkward too, because each is a long chain of simulation back to the controls (Kelly 2017). The fix is to shorten the lever.
+The first number moves the end 3 times as far as the second. On the whole drive, 0.1 rad/s more turn rate in the first interval moves the end 0.079 m, and the same change in the last interval about 0.0001 m (notebook). The early control's larger effect is real, not a flaw of the method: it has more time to act (Tedrake, Underactuated ch. 10). But the solver must balance numbers whose effects differ by orders of magnitude, a problem called ill-conditioned, the property that a [condition number](../../../../MA/05-linear-algebra/MA-058-computing-the-svd/MA-058-computing-the-svd.md#8-how-computers-compute-the-svd) (G-441) measures: small errors in a step are magnified, so on long or sensitive problems its steps become unreliable (Tedrake, Underactuated ch. 10). Limits along the way are also hard to impose, because each is a long chain of simulation back to the controls (Kelly 2017). The fix is to shorten the lever.
 
 ### 2.4 Multiple shooting: shorter pieces, joined up
 
@@ -206,7 +206,7 @@ $$40 \text{ intervals} = 41 \times 3 + 1 = 124 \text{ unknowns}$$
 
 ### 3.2 The whole drive
 
-The first guess puts the 31 knot points of the 8 s drive on the A\* route at a steady speed, with the heading turning evenly from 30° to 90°. The guess breaks the motion rules: its largest defect, the gap the trapezoid rule leaves between where a knot point is and where its neighbour says it should be, is 0.218 m (notebook). Figure 6 runs the same least-squares solver as in Section 2.3; watch the knot points slide off the route's corners onto a smooth curve past the table.
+The first guess puts the 31 knot points of the 8 s drive on the A\* route at a steady speed, with the heading turning evenly from 30° to 90°. The guess breaks the motion rules: its largest defect, the gap the trapezoid rule leaves between where a knot point is and where the rule from its neighbour puts it, is 0.218 m (notebook). Figure 6 runs the same least-squares solver as in Section 2.3; watch the knot points slide off the route's corners onto a smooth curve past the table.
 
 ![Direct collocation of the 8 s least-effort drive, one solver iteration per frame (thinning out after the first 12). The unknowns are the state and the controls at 31 knot points (dots), 0.267 s apart; nothing is simulated. The first guess puts them on the A\* route, with the heading turning evenly from 30° to 90°. Red lines show each knot point's defect, the gap between where the trapezoid rule from the previous knot puts it and where it is: the largest is 0.218 m at first; early iterations cut through the table's band while the penalty weight is low; after 72 iterations every defect is 0](images/colloc.gif){height=58%}
 
@@ -250,19 +250,19 @@ Three things follow for a fast cycle:
 - **Limits are bounds at points.** In collocation a limit at a moment is a bound on that knot point's numbers; in shooting it is a long chain of simulation back to the controls (Kelly 2017 §9.6).
 - **No long lever.** Single shooting's first turn rate moves the end 0.079 m per 0.1 rad/s and its last one 0.0001 m; collocation spreads that effect over many equations of the same size (Tedrake, Underactuated ch. 10).
 
-So collocation fits a local planner, whose problem has limits and obstacles all along its window and must be solved well inside 0.1 s. Kelly recommends collocation where the shape of the controls is not known in advance, such as a robot's motion, and multiple shooting over single shooting unless the controls are very simple or the first guess is very good (Kelly 2017 §9.11). TEB and Apollo's path optimiser both made that choice ([TEB and Apollo's path QP are collocation](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#63-teb-and-apollos-path-qp-are-collocation)). The transcription is chosen; each iteration still costs time, and the next section makes each one count.
+So collocation fits a local planner, whose problem has limits and obstacles all along its window and must be solved well inside 0.1 s. Kelly recommends collocation where the shape of the controls is not known in advance, such as a robot's motion, and multiple shooting over single shooting unless the controls are very simple or the first guess is very good (Kelly 2017 §9.11). TEB and Apollo's path optimiser both made that choice ([TEB and Apollo's path QP are collocation](../RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#63-teb-and-apollos-path-qp-are-collocation)). The transcription is chosen; each iteration still costs time, and the next section makes each iteration more effective.
 
 ## 4. iLQR and DDP: better steps from the model
 
 > **Key point:** iLQR approximates the motion rules near the current drive by straight-line rules and the cost by a bowl, solves that easier problem exactly from the last step back to the first, then simulates the improved drive; repeated, it needs far fewer iterations than gradient descent. On the straight drive one iteration is exact; on the whole drive 13 iterations bring the cost from 1,422,936 to 0.233, where plain gradient descent is still at 174,704.
 
-A local planner gets 0.1 s per cycle, so each solver step must count. Shooting in Section 2.3 needed a solver that aims its steps well; with plain gradient descent the steps are poor. On the whole drive's cost, gradient descent from the first shot is still at 2,717.5 after 1000 iterations, against 0.217 for the drive the other methods found (notebook). The robot's model knows more than a slope: how each step of the drive leads to the next.
+A local planner gets 0.1 s per cycle, so each solver step must be effective. Shooting in Section 2.3 needed a solver that aims its steps well; with plain gradient descent the steps are poor. On the whole drive's cost, gradient descent from the first shot is still at 2,717.5 after 1000 iterations, against 0.217 for the drive the other methods found (notebook). The robot's model gives more than a slope: how each step of the drive leads to the next.
 
-**The idea.** Near the current drive, pretend the motion rules are straight-line (linear) rules, which they nearly are for small changes, and that the cost is a bowl, a quadratic like the squared miss of Section 2.2. For that pretend problem the best change of the controls can be worked out exactly, from the end of the drive back to the start: at the last step, how should the control change, and how should it react if the robot is a little off? Then at the step before, and so on back to the first. After this sweep back, simulate the drive forward with the new controls, correcting by the reactions where the robot drifts from the old drive. The new drive starts the next round (Tedrake, Underactuated ch. 10).
+**The idea.** Near the current drive, assume the motion rules are straight-line (linear) rules, which they nearly are for small changes, and that the cost is a bowl, a quadratic like the squared miss of Section 2.2. For that approximate problem the best change of the controls can be worked out exactly, from the end of the drive back to the start: at the last step, how should the control change, and how should it react if the robot is slightly off? Then at the step before, and so on back to the first. After this sweep back, simulate the drive forward with the new controls, correcting by the reactions where the robot drifts from the old drive. The new drive starts the next round (Tedrake, Underactuated ch. 10).
 
 **The standard terms.** Repeating a sweep back that solves the linear-rules, bowl-shaped-cost version of the problem around the current trajectory, and a simulation forward with the result, is **iterative LQR** (G-2896), iLQR; LQR, the linear-quadratic regulator, is the exact method for linear rules and bowl-shaped costs that each sweep back applies (Tedrake, Underactuated ch. 10). **DDP** (G-2897), differential dynamic programming, also uses curved (second-order) approximations of the motion rules; it is almost the same algorithm, and in most cases iLQR converges as quickly (Tedrake, Underactuated ch. 10). Both are close to shooting: they keep only the controls as unknowns and simulate the drive forward, but take each step by passing backward along the drive instead of using a general solver (Kelly 2017 §9.8). Each sweep back also gives the reactions, which say how to correct the controls when the robot drifts off the trajectory (Tedrake, Underactuated ch. 10).
 
-**A check at easy values.** On the straight drive the motion rules are already linear and the effort is a bowl, so the pretend problem is the real one, and one iteration should land on the answer. We drive 3.0 m in 10 s with the least effort, the acceleration squared added up over the drive, the miss at the end costing 1,000,000 per m². The first guess, $a = 0$, misses by 3.0 m and costs 9,000,000; after one iteration the cost is 0.10812, and the second iteration changes nothing (notebook).
+**A check at easy values.** On the straight drive the motion rules are already linear and the effort is a bowl, so the approximate problem is the real one, and one iteration should land on the answer. We drive 3.0 m in 10 s with the least effort, the acceleration squared added up over the drive, the miss at the end costing 1,000,000 per m². The first guess, $a = 0$, misses by 3.0 m and costs 9,000,000; after one iteration the cost is 0.10812, and the second iteration changes nothing (notebook).
 
 The exact answer is known: the least-effort move from rest to rest makes the acceleration fall in a straight line (Kelly 2017, §2.2, for a unit distance in unit time), scaled to any distance and time. With:
 
@@ -286,11 +286,11 @@ $$\int_0^{10} (1 - 0.2\thinspace t)^2\thinspace dt = \frac{10}{3}$$
 
 iLQR's 0.10812 differs from 0.108 only because it holds the acceleration constant over 30 intervals; its first interval holds 0.1742 m/s², the exact value at that interval's middle, 0.174 m/s² (notebook).
 
-**The whole drive.** The real rules turn, so the pretend problem is only close, and iLQR needs several rounds. iLQR starts from the same first shot as single shooting, with the effort plus penalties of weight 1,000,000 for missing the door pose, breaking a wheel limit or touching the table (iLQR handles constraints as penalties, Tedrake, Underactuated ch. 10). Figure 8 runs it next to plain gradient descent on the same cost.
+**The whole drive.** The real rules turn, so the approximate problem is only close, and iLQR needs several rounds. iLQR starts from the same first shot as single shooting, with the effort plus penalties of weight 1,000,000 for missing the door pose, breaking a wheel limit or touching the table (iLQR handles constraints as penalties, Tedrake, Underactuated ch. 10). Figure 8 runs it next to plain gradient descent on the same cost.
 
 ![iLQR on the 8 s least-effort drive, one iteration per frame (thinning out after 15), from the same first shot as single shooting. Left: the drive after each iteration (blue; earlier ones pale) and the miss at the end (red). Right: the cost after each iteration, on a scale where each grid line is 10 times the one below it: iLQR (blue) against plain gradient descent on the same cost from the same start (orange). After 13 iterations iLQR is at 0.2327 and gradient descent at 174,704; after 99 iterations iLQR is at 0.2172, the drive the other methods found](images/ilqr.gif){height=48%}
 
-After 13 iterations the cost falls from 1,422,936 to 0.2327, within 7 percent of iLQR's final 0.2172, reached at iteration 99 on the same drive as shooting and collocation (notebook). iLQR's steps use the curvature of the cost along the whole drive, as [Newton's method](../../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations) (G-1321) uses the curvature of a function (Tedrake, Underactuated ch. 10). Shooting, collocation and iLQR all cut the problem into numbers first and then optimise. There is another way round.
+After 13 iterations the cost falls from 1,422,936 to 0.2327, within 7 percent of iLQR's final 0.2172, reached at iteration 99 on the same drive as shooting and collocation (notebook). iLQR's steps use the curvature of the cost along the whole drive, as [Newton's method](../../../../MA/06-calculus/MA-064-hessian-and-multivariate-taylor/MA-064-hessian-and-multivariate-taylor.md#7-where-ml-uses-second-order-approximations) (G-1321) uses the curvature of a function (Tedrake, Underactuated ch. 10). Shooting, collocation and iLQR all cut the problem into numbers first and then optimise. There is another approach.
 
 ## 5. Direct and indirect methods
 
@@ -306,7 +306,7 @@ The conditions come from **Pontryagin's minimum principle** (G-2900): along an o
 
 **On the straight drive.** For a least-time drive whose only control is an acceleration between −0.5 and 0.5 m/s², with no speed limit, the principle says the acceleration is always at one of its two limits and switches at most once: full acceleration to the middle of the 3.0 m, then full braking (LaValle §15.2.3, Example 15.4). Our robot also has its 0.6 m/s limit, so its fastest drive adds a cruise in between: the 6.2 s drive of Section 3.1. Speed profiles along a fixed path (RO-139), a later Note, teaches such drives.
 
-**The trade.** An indirect method is generally more accurate, because its conditions are derived exactly, but (Kelly 2017):
+**The trade-off.** An indirect method is generally more accurate, because its conditions are derived exactly, but (Kelly 2017):
 
 - the conditions are hard to derive for most robots;
 - it needs a first guess even for the adjoint variables, which have no physical meaning to guess from;
@@ -325,7 +325,7 @@ A local planner meets a new problem every 0.1 s, with obstacles that change, so 
 | direct and indirect | discretise then optimise, or the reverse | TEB, Autoware, Apollo and MoveIt are direct |
 
 - Collocation fits a 0.1 s replanning cycle, because on the 8 s drive it finds the same drive as shooting (effort 0.218 against 0.217, in 72 iterations against 73 and 81) while each of its collocation constraints touches only 12 of its 186 numbers and every limit is a bound at a knot point, so the matrix of its motion-rule equations is 2.5 percent filled and fast to solve, as TEB's 2.1 ms cycles show.
-- **Single shooting** (G-2890) simulates from the start and drives the **defect** (G-2891) at the end to 0, but its lever is long: an early turn-rate change moves the end 0.079 m, a late one 0.0001 m, so on long drives the problem is ill-conditioned and its steps go wrong.
+- **Single shooting** (G-2890) simulates from the start and drives the **defect** (G-2891) at the end to 0, but its lever is long: an early turn-rate change moves the end 0.079 m, a late one 0.0001 m, so on long drives the problem is ill-conditioned and its steps become unreliable.
 - **Multiple shooting** (G-2892) shortens the lever to 0.008 m by simulating 5 pieces from their own start states, so it converges on harder problems and its pieces can be simulated in parallel.
 - Collocation is the limit of multiple shooting with one interval per piece, so nothing is simulated; its accuracy grows with the knot points, 6.364, 6.239 and 6.209 s against the exact 6.2 s, because the speed can bend only at them.
 - **iLQR** (G-2896) and **DDP** (G-2897) solve a linear, bowl-shaped version of the problem backwards along the drive, so their steps are second order: 13 iterations to within 7 percent, where gradient descent is 750,000 times higher.

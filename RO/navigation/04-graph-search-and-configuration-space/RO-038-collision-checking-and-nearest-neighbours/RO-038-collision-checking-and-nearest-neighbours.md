@@ -13,11 +13,11 @@ tags: [subject/robotics, area/navigation, concept/collision-detection, concept/b
 
 ## 1. Overview
 
-> **Key point:** A planner that never builds the obstacle region asks three questions thousands of times: is this configuration free, is this straight segment free, and which stored configuration is nearest? Cheap box tests first, a tree of boxes, well-ordered checks along a segment and a distance that knows headings wrap answer them fast and correctly.
+> **Key point:** A planner that never builds the obstacle region asks three questions thousands of times: is this configuration free, is this straight segment free, and which stored configuration is nearest? Cheap box tests first, a tree of boxes, well-ordered checks along a segment and a distance that measures headings the short way round answer them fast and correctly.
 
 ![Left: the room with three test points. The robot's disk centred at (3.5, 3.2) (red) overlaps the table. The segment from a = (2, 2) to b = (4, 3.6) has free ends and a free middle (green), yet the point (3.5, 3.2) on it is in collision. Right: a heading dial with a query at 350 degrees and stored headings at 15 and 320 degrees; round the circle 15 is 25 degrees from 350, while plain subtraction says 335](images/questions.png)
 
-So far the robot knows which of its placements are free. The [obstacle region](../RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#22-the-obstacle-region-every-placement-that-touches-an-obstacle) (G-2650), the set of configurations at which the robot's body touches an obstacle, is the room's obstacles grown by the robot's 0.25 m radius. In it, the robot's disk with its centre at (3.5, 3.2) touches the table, and the straight drive from the start (2, 1) to the doorway centre (3.6, 4.0) is free. But [building that region exactly](../RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#43-why-planners-do-not-build-the-obstacle-region) is impractical for real robots, so planners ask one question at a time instead (MR 10.2; Hauser ch.10). Three questions come back thousands of times, and on our room each has a trap (Figure 1):
+So far the robot knows which of its placements are free. The [obstacle region](../RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#22-the-obstacle-region-every-placement-that-touches-an-obstacle) (G-2650), the set of configurations at which the robot's body touches an obstacle, is the room's obstacles grown by the robot's 0.25 m radius. In it, the robot's disk with its centre at (3.5, 3.2) touches the table, and the straight drive from the start (2, 1) to the doorway centre (3.6, 4.0) is free. But [building that region exactly](../RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#43-why-planners-do-not-build-the-obstacle-region) is impractical for real robots, so planners ask one question at a time instead (MR 10.2; Hauser ch.10). Three questions come back thousands of times, and on our room each has a pitfall (Figure 1):
 
 1. **Is this configuration free?** Testing the robot exactly against every obstacle for every configuration is slow: with 10,000 bodies there are 49,995,000 pairs to test (Müller SAP slides).
 2. **Is this straight segment free?** A segment holds infinitely many configurations. The segment from (2, 2) to (4, 3.6) is free at both ends and in the middle, yet the robot at (3.5, 3.2), three quarters of the way along, hits the table.
@@ -27,11 +27,11 @@ This Note builds the tools that answer them, on the same room and the same 0.25 
 
 - cheap box tests before exact ones ([Section 2](#2-collision-detection-broad-phase-and-narrow-phase)), a tree of boxes ([Section 3](#3-bounding-volume-hierarchies)) and links of one robot that may hit each other ([Section 4](#4-self-collision));
 - how far a robot is from an obstacle ([Section 5](#5-distance-queries)) and how to check a whole segment ([Section 6](#6-checking-a-path-segment));
-- a distance for configurations with headings ([Section 7](#7-distances-in-c-space)), a nearest-neighbour search that knows headings wrap ([Section 8](#8-nearest-neighbours-when-headings-wrap)), and random configurations that favour no direction ([Section 9](#9-uniform-random-rotations-and-directions)).
+- a distance for configurations with headings ([Section 7](#7-distances-in-c-space)), a nearest-neighbour search that accounts for headings wrapping ([Section 8](#8-nearest-neighbours-when-headings-wrap)), and random configurations that favour no direction ([Section 9](#9-uniform-random-rotations-and-directions)).
 
 ## 2. Collision detection: broad phase and narrow phase
 
-> **Key point:** **Collision detection** (G-2665) answers "do these two bodies overlap?" in two steps: the **broad phase** (G-2666) throws out pairs whose simple boxes do not overlap, and the **narrow phase** (G-2667) tests the few pairs left exactly. Sweep and prune finds the overlapping boxes by sorting them along one axis.
+> **Key point:** **Collision detection** (G-2665) answers "do these two bodies overlap?" in two steps: the **broad phase** (G-2666) discards pairs whose simple boxes do not overlap, and the **narrow phase** (G-2667) tests the few pairs left exactly. Sweep and prune finds the overlapping boxes by sorting them along one axis.
 
 ### 2.1 The yes-or-no question and what it costs
 
@@ -45,11 +45,11 @@ $$\text{pairs} = \frac{n(n - 1)}{2}$$
 
 $$= \frac{5 \times 4}{2} = 10$$
 
-For a scene of 10,000 bodies, the same count gives 49,995,000 pairs (Müller SAP slides). Most of those pairs are far apart and could be ruled out at a glance. The question is how to glance cheaply.
+For a scene of 10,000 bodies, the same count gives 49,995,000 pairs (Müller SAP slides). Most of those pairs are far apart and could be ruled out by a quick test. The question is how to make that test cheap.
 
 ### 2.2 Broad phase and narrow phase
 
-> **Key point:** Wrap each body in its smallest box with sides along x and y. Two bodies can only touch if their boxes overlap, and two boxes are compared with four number comparisons.
+> **Key point:** Each body is wrapped in its smallest box with sides along x and y. Two bodies can only touch if their boxes overlap, and two boxes are compared with four number comparisons.
 
 A box round a body is a quick stand-in for it: if two boxes do not overlap, the bodies inside cannot overlap either. Comparing two boxes takes four comparisons of numbers, far fewer steps than an exact test. So collision detection runs in two phases (Müller SAP slides; LaValle §5.3.1):
 
@@ -102,7 +102,7 @@ The sort's 133,000 steps are far below the 49,995,000 pairs, though how many pai
 
 ### 3.1 Why a tree of boxes
 
-The walls were left out of the sweep. Put them in, and each wall's box stretches along a whole side of the room, overlapping almost every box along x, so sorting along one axis separates little (Müller BVH slides). With many bodies spread in two or three dimensions the problem grows: for 100 × 100 objects in a plane, sweep and prune still tests about 100 objects for each one (Müller BVH slides).
+The walls were left out of the sweep. With them included, each wall's box stretches along a whole side of the room, overlapping almost every box along x, so sorting along one axis separates little (Müller BVH slides). With many bodies spread in two or three dimensions the problem grows: for 100 × 100 objects in a plane, sweep and prune still tests about 100 objects for each one (Müller BVH slides).
 
 The fix is to group nearby bodies, and groups of groups, each group in one box. A query starts at the box that holds everything; if the robot's box misses a group's box, every body inside is ruled out at once. A tree of nested bounding volumes, each holding the boxes of its two children down to one box per body, is a **bounding-volume hierarchy** (G-2671), BVH for short (Hauser ch.7; Müller BVH slides).
 
@@ -223,7 +223,7 @@ The point (−0.75, 0) is already the nearest point of the difference to the ori
 
 ### 6.1 A segment holds infinitely many configurations
 
-The second question of the opening problem: is the straight segment from a = (2, 2) to b = (4, 3.6) free? Both ends are free and so is its middle, (3, 2.8). A planner cannot test every point, because a segment holds infinitely many configurations (LaValle §5.3.4), so it tests some points and hopes the rest are free. Checking a segment by testing points along it is **edge resolution** (G-2679), also called dynamic collision checking (Hauser ch.10).
+The second question of the opening problem: is the straight segment from a = (2, 2) to b = (4, 3.6) free? Both ends are free and so is its middle, (3, 2.8). A planner cannot test every point, because a segment holds infinitely many configurations (LaValle §5.3.4), so it tests some points and assumes the rest are free. Checking a segment by testing points along it is **edge resolution** (G-2679), also called dynamic collision checking (Hauser ch.10).
 
 The segment is 2.561 m long. The notebook finds its colliding stretch: from 0.620 to 0.777 of the way along, 0.403 m round the table's corner, (3.5, 3.2) among it.
 
@@ -252,7 +252,7 @@ $$\to 0.160 \to 0.080 \text{ m}$$
 
 Five halvings give 32 steps of 0.080 m, so 33 points.
 
-**Order.** Checking those 33 points from a towards b, the first collision is check 21, at 0.625 of the way. Checking them in halving order instead (both ends, then the middle point, then the two quarter points, then the eighths, and so on), the fifth check, three quarters of the way, is the point (3.5, 3.2), and it hits (LaValle §5.3.4). When both ends are free, the point most likely to be in collision is the one farthest from both, the middle (Hauser ch.10); the halving order keeps checking the points farthest from those already checked, so its early checks spread over the whole segment and a collision anywhere is found soon (LaValle §5.3.4). If the segment is free, every point must be checked in either order, so the order costs nothing then (LaValle §5.3.4).
+**Order.** Checking those 33 points from a towards b, the first collision is check 21, at 0.625 of the way. Checking them in halving order instead (both ends, then the middle point, then the two quarter points, then the eighths, and so on), the fifth check, three quarters of the way, is the point (3.5, 3.2), which is in collision (LaValle §5.3.4). When both ends are free, the point most likely to be in collision is the one farthest from both, the middle (Hauser ch.10); the halving order keeps checking the points farthest from those already checked, so its early checks spread over the whole segment and a collision anywhere is found soon (LaValle §5.3.4). If the segment is free, every point must be checked in either order, so the order costs nothing then (LaValle §5.3.4).
 
 Figure 6 runs the three checks. Watch the stage "5 even steps: every check is free, yet the segment is not", then the long row of checks from a until the hit, then "the same 33 points in halving order", which hits at the fifth check.
 
@@ -355,9 +355,9 @@ With plain subtraction, 335° would make the heading part 1.462 m and E look far
 
 ## 8. Nearest neighbours when headings wrap
 
-> **Key point:** A k-d tree search skips a cell when the cell is farther than the best point found so far. If headings are treated as numbers from 0 to 360, a cell just across 0° looks a long way off and is skipped; measuring the cell's distance the short way round fixes the search.
+> **Key point:** A k-d tree search skips a cell when the cell is farther than the best point found so far. If headings are treated as numbers from 0 to 360, a cell just across 0° appears far away and is skipped; measuring the cell's distance the short way round fixes the search.
 
-The opening problem's third trap, in a search tree. A k-d tree stores points in cells split one coordinate at a time, so a nearest-neighbour search can skip every cell that lies farther away than the best point found so far (Hauser ch.10, "k-d trees"; LaValle §5.5.2). Figure 9 stores 8 configurations in one, with two coordinates so that it fits a page, x and heading; y would work like x. The tree splits on x, then heading, then x. The query is at x = 3.55 m, heading 350°. Distances use the weight of [Section 7.3](#73-metres-and-radians-in-one-distance), 0.25 m per radian, and the heading axis is drawn in those metres, so a circle of equal distance is round.
+The third pitfall of the opening problem appears in a search tree. A k-d tree stores points in cells split one coordinate at a time, so a nearest-neighbour search can skip every cell that lies farther away than the best point found so far (Hauser ch.10, "k-d trees"; LaValle §5.5.2). Figure 9 stores 8 configurations in one, with two coordinates so that it fits a page, x and heading; y would work like x. The tree splits on x, then heading, then x. The query is at x = 3.55 m, heading 350°. Distances use the weight of [Section 7.3](#73-metres-and-radians-in-one-distance), 0.25 m per radian, and the heading axis is drawn in those metres, so a circle of equal distance is round.
 
 **Plain search.** The search goes first into the cell that holds the query (Hauser ch.10). The search finds C and then D, at 0.371 m, and then reaches the cell of headings 0° to 175° beside it. Measured as plain numbers, that cell is 175° below the query:
 
@@ -365,7 +365,7 @@ $$350 - 175 = 175^\circ = 3.054 \text{ rad}$$
 
 $$0.25 \times 3.054 = 0.764 \text{ m}$$
 
-The gap of 0.764 m is more than the best so far, 0.371 m, so the cell is skipped, and with it E. The search ends at H (3.40 m, 320°), 0.199 m away. Wrong: E is nearer, at 0.120 m ([Section 7.3](#73-metres-and-radians-in-one-distance)).
+The gap of 0.764 m is more than the best so far, 0.371 m, so the cell is skipped, and with it E. The search ends at H (3.40 m, 320°), 0.199 m away. This answer is wrong: E is nearer, at 0.120 m ([Section 7.3](#73-metres-and-radians-in-one-distance)).
 
 **Search with wrap-around.** The heading 0° is the same as 360°, so the cell of headings 0° to 175° starts 10° above the query, across the top edge:
 
@@ -379,7 +379,7 @@ Figure 9 runs both searches. Watch the stage "plain search, step 3", where the c
 
 ![Animation: nearest-neighbour search in a k-d tree over 8 stored configurations A to H (x in m across, heading up, the heading axis drawn at 0.25 m per radian so circles are round), for the query at x = 3.55 m, 350 degrees (red star). Visited cells turn green, pruned cells red; the dotted orange circle is the best distance so far. Plain search visits C, then D (0.371 m), prunes the cell of headings 0 to 175 degrees as 0.764 m away (350 − 175 = 175 degrees), and returns H at 0.199 m. Search with wrap-around measures that cell the short way, 360 − 350 = 10 degrees, 0.044 m, visits it and returns E at 0.120 m; its circle wraps from the top edge to the bottom](images/kd_wrap.gif)
 
-A planner that grows a tree of configurations asks this question at every step (Hauser ch.10, "Nearest-neighbor queries"), so the wrap-around must be right every time. The configurations it adds come from random sampling, which has a trap of its own: random orientations that favour some directions.
+A planner that grows a tree of configurations asks this question at every step (Hauser ch.10, "Nearest-neighbor queries"), so the wrap-around must be right every time. The configurations it adds come from random sampling, which has a pitfall of its own: random orientations that favour some directions.
 
 ## 9. Uniform random rotations and directions
 
@@ -391,15 +391,15 @@ Sampling planners draw random configurations, so the random headings must not fa
 
 $$30 / 360 = 0.083$$
 
-Equal shares for equal arcs, wherever they lie, is what uniform means for rotations. A **uniform random rotation** (G-2686) makes every orientation equally likely: turning the whole set of samples by any fixed rotation must not make some orientations more common (LaValle §5.1.4, §5.2.2). The circle of headings has no favoured place, so the plain uniform draw is right. Directions and rotations in 3D, as for a drone or the gripper of an arm, are where the traps are.
+Equal shares for equal arcs, wherever they lie, is what uniform means for rotations. A **uniform random rotation** (G-2686) makes every orientation equally likely: turning the whole set of samples by any fixed rotation must not make some orientations more common (LaValle §5.1.4, §5.2.2). The circle of headings has no favoured place, so the plain uniform draw is right. Directions and rotations in 3D, as for a drone or the gripper of an arm, are where the pitfalls lie.
 
 ### 9.2 Random directions
 
 A **uniform random direction** (G-2689) is a unit vector (a vector of length 1) drawn so that every direction is equally likely: every patch of the circle, or of the sphere, of the same size gets the same share (LaValle §5.2.2).
 
-**Two traps and two fixes**, with the shares from the notebook (Figure 10):
+**Two pitfalls and two fixes**, with the shares from the notebook (Figure 10):
 
-- **A point in a square, scaled to length 1.** Draw x and y evenly from −1 to 1 and divide by the length. The square reaches 1.41 times as far along a diagonal as along an axis, so a thin wedge along a diagonal holds about twice the area, and diagonal directions come up more often: within 5° of a diagonal 16.2 percent of the time, within 5° of an axis 8.6 percent, against a fair share of 11.1 percent (LaValle §5.2.2 warns of this bias towards a cube's corners).
+- **A point in a square, scaled to length 1.** Draw x and y evenly from −1 to 1 and divide by the length. The square reaches 1.41 times as far along a diagonal as along an axis, so a thin wedge along a diagonal holds about twice the area, and diagonal directions occur more often: within 5° of a diagonal 16.2 percent of the time, within 5° of an axis 8.6 percent, against a fair share of 11.1 percent (LaValle §5.2.2 warns of this bias towards a cube's corners).
 - **A normal sample, scaled to length 1.** Draw each coordinate from a normal distribution with the same spread. Its density depends only on the distance from the centre, so every direction is equally likely: 11.1 percent near the diagonals and 11.1 percent near the axes (LaValle §5.2.2).
 - **On the sphere, a uniform latitude angle.** Drawing the latitude evenly from −90° to 90° packs as many points into the short circles near the poles as into the long equator. The two caps above height 0.9 and below −0.9 hold 10 percent of the sphere's surface but get 28.7 percent of the points.
 - **On the sphere, a uniform height: the bread slicer.** Drawing the height evenly from −1 to 1 and the longitude evenly from 0° to 360° is uniform, because slices of a sphere of equal thickness have equal crust area, like a loaf through a bread slicer (LaValle §5.2.2). The caps get 10.1 percent.
@@ -455,7 +455,7 @@ The last two give $u_1$ the same way, and together:
 
 $$(1 - u_1) + u_1 = 1$$
 
-**Check that it is uniform.** Turn the arrow pointing straight up by 20,000 of these rotations. If every rotation is equally likely, the arrow's tip lands evenly on the sphere, so the caps above height 0.9 should get 10 percent. The caps get 10.0 percent (notebook; Figure 10, bottom right). Drawing three angles evenly (turns about z, y and x, each from 0° to 360°) and turning the arrow puts 6.5 percent there, not 10: three uniform angles do not make a uniform rotation (notebook), as LaValle §5.2.2 warns.
+**Check that it is uniform.** We turn the arrow pointing straight up by 20,000 of these rotations. If every rotation is equally likely, the arrow's tip lands evenly on the sphere, so the caps above height 0.9 should get 10 percent. The caps get 10.0 percent (notebook; Figure 10, bottom right). Drawing three angles evenly (turns about z, y and x, each from 0° to 360°) and turning the arrow puts 6.5 percent there, not 10: three uniform angles do not make a uniform rotation (notebook), as LaValle §5.2.2 warns.
 
 ## 10. Summary
 
@@ -536,5 +536,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Nearest neighbours (neighbours)](../../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#32-the-k-nearest-neighbours) (G-1306) | The observations at the smallest distance from a given point; in KNN, the k training points closest to the query point, whose values or labels decide the prediction. |
 | [Minkowski distance](../../../../ML/07-classification/ML-085-knn/ML-085-knn.md#21-the-steps) (G-1227) | A family of distances between two points, $\left(\sum_i \lvert x_i - y_i \rvert^p\right)^{1/p}$, set by the number $p$: $p = 2$ gives the Euclidean distance and $p = 1$ the Manhattan distance; KNN uses it to find the nearest neighbours. |
 | [Angle wrapping](../../../../RO/localization/02-bayes-filters/RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#33-why-angle-differences-must-be-wrapped) (G-2404) | Adding or subtracting full turns until an angle or angle difference lies between −180° and 180°, so that 175° and −178° count as 7° apart, not 353°; needed whenever bearings or headings are compared. |
-| [Radian](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#23-why-angles-are-measured-in-radians) (G-2285) | The unit of angle at which the arc of a circle is as long as its radius; a full turn is $2\pi$ rad, and with radians an arc is simply radius times angle. |
+| [Radian](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#23-why-angles-are-measured-in-radians) (G-2285) | The unit of angle at which the arc of a circle is as long as its radius; a full turn is $2\pi$ rad, and with radians an arc's length is the radius times the angle. |
 | [Continuous uniform distribution $U(a, b)$](../../../../MA/03-distributions/MA-029-uniform-and-log-normal/MA-029-uniform-and-log-normal.md#2-the-uniform-distribution) (G-467) | A continuous variable spread evenly between $a$ and $b$, with density $1/(b - a)$. |

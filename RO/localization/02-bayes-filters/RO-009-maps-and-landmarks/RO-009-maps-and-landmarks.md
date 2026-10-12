@@ -17,7 +17,7 @@ tags: [subject/robotics, area/localization, concept/map, concept/landmark, conce
 
 ![A room 7 m by 4 m with a door in the top wall, a four-sided table, an L-shaped cabinet in the top right corner, a pink pole at (1, 3) and a green pole at (6, 0.8); the robot stands at (2, 1) facing 30 degrees](images/room.png)
 
-So far the robot can say how a move blurs its pose: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) (G-2319) turns a drive from (2 m, 1 m, 30°) into a cloud of end [**poses**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280), positions with headings. What still breaks: a reading can shrink that cloud only if the robot knows where the sensed thing stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
+So far the robot can say how a move widens the distribution of its pose: the [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#2-motion-as-a-distribution) (G-2319) turns a drive from (2 m, 1 m, 30°) into a cloud of end [**poses**](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2280), positions with headings. The remaining problem is that a reading can shrink that cloud only if the robot knows where the sensed object stands. "The pink pole is 2.236 m away" means nothing until a map says the pink pole is at (1, 3). A robot [compares each reading with a map](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places): "door" fits only the places where the map has a door. This Note adds the map, for the same robot at (2 m, 1 m) facing 30°, now placed in the room of Figure 1 so that there is something to map:
 
 - what a map is, and the main families of maps: feature-based and grid (Sections [2](#2-why-a-robot-needs-a-map) and [3](#3-feature-based-and-grid-maps));
 - how to store an obstacle exactly, as a polygon made of **half-planes** (G-2336), and test whether a point is inside it ([Section 4](#4-obstacles-as-polygons-made-of-half-planes));
@@ -44,7 +44,7 @@ Fixed things, such as walls and furniture, belong in the map; things that move, 
 
 ## 3. Feature-based and grid maps
 
-> **Key point:** A feature-based map lists only landmarks and where they are; a grid **map** (G-2331) gives every cell of space a value, free or occupied. The first is tiny but says nothing about free space; the second is large but answers "can the robot be here?" at once.
+> **Key point:** A feature-based map lists only landmarks and where they are; a grid **map** (G-2331) gives every cell of space a value, free or occupied. The first is small but says nothing about free space; the second is large but answers "can the robot be here?" at once.
 
 What should the map of Figure 1's room hold: only the two poles, or every spot of floor? Maps come in two kinds (Thrun et al. 2005 §6.2). Figure 2 draws our room both ways.
 
@@ -84,7 +84,7 @@ The grid **map** (G-2331) of [Section 3](#3-feature-based-and-grid-maps) says wh
 
 $$(3,\ 1),\ (5,\ 1),\ (5.5,\ 2.5),\ (3.5,\ 3)$$
 
-The list draws the table's outline, but it does not answer the question a planner asks a million times: is the point (4, 2) inside the table? **Half-planes** (G-2336) answer it with a few multiplications.
+The list draws the table's outline, but it does not answer the question a planner asks repeatedly: is the point (4, 2) inside the table? **Half-planes** (G-2336) answer it with a few multiplications.
 
 ### 4.2 Half-plane: one side of a line
 
@@ -121,7 +121,7 @@ $$f_2(x, y) = 3x - y - 14$$
 
 One edge gives one half-plane; the table has four edges.
 
-### 4.3 A convex polygon is where every half-plane agrees
+### 4.3 A convex polygon is the overlap of half-planes
 
 The table is a [convex set](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#21-walking-along-the-segment) (G-479): the segment between any two of its points stays inside it. A convex polygon is the overlap, the [intersection](../../../../MA/07-optimisation/MA-067-convex-sets-and-functions/MA-067-convex-sets-and-functions.md#22-combining-convex-sets) (G-967), of one **half-plane** (G-2336) per edge, each taking the side that holds the polygon (LaValle §3.1.1). Our table's four edge functions of a floor point $(x, y)$, in m, each scaled to whole numbers and signed so that the inside is negative:
 
@@ -210,7 +210,7 @@ To read Figure 6: each small square is one cell, black for 1 (some obstacle insi
 | 0.5 m | 112 | 47 | 11.75 m² |
 | 0.1 m | 2800 | 617 | 6.17 m² |
 
-Cells five times smaller bring the black area close to the truth but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331), its model of the surroundings, with its own sensors (LaValle §3.1.3).
+Cells five times smaller bring the black area close to the true 5.13 m² but need 25 times as many cells. Bitmaps arise naturally when a robot builds a **map** (G-2331), its model of the surroundings, with its own sensors (LaValle §3.1.3).
 
 A bitmap cell holds only 0 or 1, so it cannot say how much of the cell an obstacle takes: with 0.5 m cells, a cell that the table barely clips is as black as a cell deep inside it. Storing a number between 0 and 1 in each cell instead of 0 or 1, such as the probability that an obstacle is in the cell, gives an **occupancy grid** (G-2340), the standard grid map of robotics (LaValle §3.1.3). No sensor has measured our room yet, so here we set each cell's number to the share of its area that the table, cabinet and poles cover. The share is the probability that a point picked at random in the cell, every spot equally likely, lies inside an obstacle:
 
@@ -218,7 +218,7 @@ A bitmap cell holds only 0 or 1, so it cannot say how much of the cell an obstac
 - a free cell gets 0;
 - a cell on an edge gets the share covered, such as 0.50 for the cell from 5.0 to 5.5 m along x and 1.5 to 2.0 m along y, which the table's right edge cuts in half.
 
-Figure 7 puts the 0.5 m bitmap of Figure 6 beside the occupancy grid of the same cells, in the same greys: white is 0, black is 1, and each in-between cell carries its number. Look along the edges of the table and the cabinet, and at the poles: where the bitmap paints a cell black, the occupancy grid shades it by how much of it is covered, so the cells round the poles drop to 0.03 and 0.06.
+Figure 7 puts the 0.5 m bitmap of Figure 6 beside the occupancy grid of the same cells, in the same greys: white is 0, black is 1, and each in-between cell carries its number. Look along the edges of the table and the cabinet, and at the poles: where the bitmap marks a cell black, the occupancy grid shades it by how much of it is covered, so the cells round the poles drop to 0.03 and 0.06.
 
 ![Two maps of the room's 0.5 m cells in the same greys, the table and cabinet drawn as outlines. Left, the bitmap: 47 black cells, 11.75 m². Right, the occupancy grid: each cell shaded by the share of it that the furniture and poles cover, 1 inside the table and cabinet, 0 in free space, numbers such as 0.12, 0.50 and 0.88 in the edge cells and 0.03 and 0.06 round the poles; the shares add up to 20.51, which times the 0.25 m² of one cell is 5.13 m²](images/occupancy.png)
 
@@ -238,11 +238,11 @@ $$\text{covered area} = 20.51 \times 0.25 \text{ m}^2$$
 
 $$= 5.13 \text{ m}^2$$
 
-The bitmap of the same cells claims 11.75 m². Each of these models describes the room; the robot still has to turn its own readings into something it can compare with them.
+The bitmap of the same cells gives 11.75 m². Each of these models describes the room; the robot still has to turn its own readings into something it can compare with them.
 
 ## 6. Landmarks and feature extraction
 
-> **Key point:** A scan of 360 distances is mostly wall. **Feature extraction** (G-2341) finds the few objects in it that are easy to spot and tell apart, the landmarks, and reports each as a range, a bearing and a signature.
+> **Key point:** Most of the 360 distances in a scan are readings of wall. **Feature extraction** (G-2341) finds the few objects in it that are easy to spot and tell apart, the landmarks, and reports each as a range, a bearing and a signature.
 
 ### 6.1 Why extract features
 
@@ -276,7 +276,7 @@ The rule finds exactly the two poles:
 | pink | 5 | 2.232 m | 2.236 m | 87.0° | 86.6° |
 | green | 3 | 4.004 m | 4.005 m | −33.0° | −32.9° |
 
-The extracted **bearings** (G-2344) are off by less than half a degree, because the beams are one degree apart. The table's corners pass step 2 only if they are narrow and stand in front of something farther away, which they do not here; real extractors add more tests for such cases.
+The extracted **bearings** (G-2344) are within half a degree of the true ones, because the beams are one degree apart. The table's corners pass step 2 only if they are narrow and stand in front of something farther away, which they do not here; real extractors add more tests for such cases.
 
 ### 6.3 Range, bearing and signature
 
@@ -311,7 +311,7 @@ Why each of the three numbers is needed:
 - **Range and bearing** fix where the landmark is relative to the robot. Range alone puts it anywhere on a circle around the robot; bearing alone, anywhere along a ray from it.
 - **The signature** says which landmark of the map the reading belongs to. Without it, two identical poles would leave the robot with two explanations of every reading, like the three identical doors of the [hallway](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#31-why-one-reading-fits-many-places); with it, the reading "pink" can only be the pole at (1, 3).
 
-In localization the map is known and the pose is not. Then a single landmark reading cannot fix the pose; with the range alone it only says the robot stands somewhere on a circle of radius $r$ around the landmark, and two or three landmarks together pin it down. The [**landmark measurement model**](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#5-where-can-the-robot-be) (G-2401) builds that step.
+In localization the map is known and the pose is not. Then a single landmark reading cannot fix the pose; with the range alone it only says the robot stands somewhere on a circle of radius $r$ around the landmark, and two or three landmarks together fix it. The [**landmark measurement model**](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#5-where-can-the-robot-be) (G-2401) builds that step.
 
 ## 7. Summary
 
@@ -324,7 +324,7 @@ In localization the map is known and the pose is not. Then a single landmark rea
 | Bitmap / occupancy grid | 0 or 1 (or a probability) per cell | read the cell | simple; built from sensors | overstates obstacles; finer costs more |
 
 - The reading "the pink pole is 2.236 m away" places the robot only once the **map** (G-2331) says the pink pole is at (1, 3): a map is the robot's list of the objects that matter, because readings say where things are relative to the robot and only a map turns them into a pose.
-- A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but knows where free space is, which the **map-consistent motion model** (G-2329) needs to keep sampled poses out of walls.
+- A feature-based map stores 6 numbers for our room and a 0.1 m grid 2800 cells; the grid costs more but records where free space is, which the **map-consistent motion model** (G-2329) needs to keep sampled poses out of walls.
 - A **half-plane** (G-2336) is one sign test: the function $f$ of the line through an edge is at most 0; a convex obstacle is where all its edge tests pass, so the table's inside test is four multiplications and sums (−1, −4, −7, −3 for (4, 2)).
 - Non-convex obstacles are **unions** (G-2045) of convex pieces, because the overlap of half-planes is always convex; the cabinet's notch point (6.2, 3.0) fails both rectangles and is free.
 - **Triangle meshes** (G-2338) suit 3D graphics, because graphics hardware is built to draw triangles, but do not define an inside; bitmaps are simple, but 0.5 m cells inflate the obstacles from 5.13 m² to 11.75 m², because a cell turns black when any part of it is covered, and 0.1 m cells cost 25 times as many cells.
@@ -364,7 +364,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Location-based map (grid map) (G-2335) | A map that splits space into cells and stores a value for every cell, occupied or free, free space included (2800 cells for a 7 m by 4 m room at 0.1 m); larger, but it answers at once whether a pose is free. |
 | Quadtree (G-2533) | A grid map whose cells are split into four smaller cells only where they contain an obstacle edge, so large free areas stay as a few big cells and the map needs far fewer cells than a uniform fine grid. |
 | Bitmap (obstacle bitmap) (G-2339) | A grid of cells marked 1 if the cell contains any obstacle point and 0 otherwise, like a black-and-white image; simple and natural for sensor data, but it overstates obstacles, and finer cells cost many more cells. |
-| Occupancy grid (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensors are never sure. |
+| Occupancy grid (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensor readings are uncertain. |
 | Feature extraction (from sensor data) (G-2341) | Pulling a few distinctive objects out of raw sensor data, such as two poles out of a 360-beam laser scan; it shrinks hundreds of numbers to a short list that is easy to match with a map. |
 | Bearing (G-2344) | The angle from the robot's heading to a sensed landmark, positive to the left, such as 86.6 degrees; together with the range it fixes where the landmark is relative to the robot. |
 | Range (of a landmark reading) (G-2343) | The distance from the robot to a sensed landmark, such as 2.236 m; together with the bearing it fixes where the landmark is relative to the robot. |

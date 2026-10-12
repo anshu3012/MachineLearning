@@ -17,7 +17,7 @@ tags: [subject/robotics, area/navigation, concept/state-lattice, concept/control
 
 The car of [Hybrid A\* and path smoothing](../RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) can already back into its bay. [Hybrid A\*](../RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#2-hybrid-a-states-with-a-heading-moves-the-car-can-drive) (G-2840), A\* over cells and heading ranges whose moves are arcs the car can drive, finds a 39.42 m path after 312 expansions. We keep the same lot and the same car: 4.0 m by 1.8 m, its tightest circle 5 m, starting at (2, 3) facing 0° and backing into the bay at (12, 23) facing −90°.
 
-What still breaks shows in RO-055's search:
+Three problems remain in RO-055's search:
 
 - **The arcs never land on the goal.** Each arc turns the heading by 17.2°, and no whole number of 17.2° steps from 0° makes −90°. Without the Reeds-Shepp shot the search expanded 1,949 states and stopped 0.54 m and 5° from the goal.
 - **The cheapest path is not promised.** Poses that fall in the same cell and heading range are merged and all but one dropped, so the cheapest path may be among the dropped ones (Dolgov et al. 2008).
@@ -25,12 +25,12 @@ What still breaks shows in RO-055's search:
 
 This Note fixes all three at once by designing the moves before planning:
 
-- why moves that are not designed never land on the same point twice ([Section 2](#2-why-fixed-moves-never-close-up));
+- why moves that are not designed never land on the same point twice ([Section 2](#2-why-fixed-moves-never-land-exactly-on-earlier-states));
 - moves that end exactly on lattice points, the control set ([Section 3](#3-moves-that-end-on-the-lattice-the-control-set));
 - the cells each move sweeps, worked out once ([Section 4](#4-checking-a-move-by-look-up-the-swept-cells));
 - A\* on the lattice, and how its path compares with Hybrid A\*'s ([Section 5](#5-searching-the-lattice-with-a)).
 
-## 2. Why fixed moves never close up
+## 2. Why fixed moves never land exactly on earlier states
 
 > **Key point:** If the car repeats Hybrid A\*'s full-left arc of 1.5 m, it never returns to the same point: one lap of the 5 m circle is 20.94 arcs, not a whole number. Moves whose lengths do not fit the geometry make endless different states; moves designed to fit a grid make a finite graph.
 
@@ -40,7 +40,7 @@ $$2\pi \times 5 = 31.416 \text{ m}$$
 
 $$31.416 / 1.5 = 20.94 \text{ arcs}$$
 
-Figure 1 plays it. Watch the end points of the arcs: after 21 arcs the car is round once more, but not on the start.
+Figure 1 shows it. Watch the end points of the arcs: after 21 arcs the car has driven one full lap, but the end of the last arc is not on the start.
 
 ![The car drives full-left arcs of 1.5 m round its 5 m circle, one arc per frame. Blue dots: ends of the arcs of lap 1; orange: lap 2; purple: lap 3. After 21 arcs (1.00 laps) the end of the 21st arc lies 0.084 m past the start; after 63 arcs (3.01 laps) there are 64 different end points, none repeated. Last frame: a quarter-turn move of the same circle, 7.85 m long (green squares), is back on the start after 4 moves](images/circle_anim.gif)
 
@@ -54,15 +54,15 @@ so the end of the 21st arc lies 0.0168 rad of the circle past the start, along t
 
 $$0.0168 \times 5 = 0.084 \text{ m}$$
 
-Every lap shifts by the same amount, so the ends never meet: after 63 arcs there are 64 different points. Because the lap is not a whole number of arcs, the ends keep filling the circle, and the search graph they make has no end of states (LaValle §14.2.2.3). Hybrid A\* copes by merging nearby poses into cells; that is exactly the merging that cost it the promise of the cheapest path.
+Every lap shifts by the same amount, so the ends never meet: after 63 arcs there are 64 different points. Because the lap is not a whole number of arcs, the ends keep filling the circle, and the search graph they make has infinitely many states (LaValle §14.2.2.3). Hybrid A\* copes by merging nearby poses into cells; that merging is what removes its guarantee of the cheapest path.
 
-The last frame of Figure 1 shows the other way out. A quarter turn of the same circle is 7.85 m:
+The last frame of Figure 1 shows the alternative. A quarter turn of the same circle is 7.85 m:
 
 $$\frac{\pi}{2} \times 5 = 7.854 \text{ m}$$
 
-Four such moves bring the car back exactly to the start. A move whose length is chosen to fit the geometry lands on the same few points over and over.
+Four such moves bring the car back exactly to the start. A move whose length is chosen to fit the geometry lands on the same few points repeatedly.
 
-RO-054 met this good case in its straight drive: with speed changes held for a fixed time, positions and speeds fell on a regular grid, and the [lattice search](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#6-searching-the-primitives-systematically-lattice-search) (G-2827) searched it. For the car we can choose the grid first and then design the moves to fit it. The states are:
+RO-054 met this case in its straight drive: with speed changes held for a fixed time, positions and speeds fell on a regular grid, and the [lattice search](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#6-searching-the-primitives-systematically-lattice-search) (G-2827) searched it. For the car we can choose the grid first and then design the moves to fit it. The states are:
 
 - positions on whole metres, (x, y) = (2, 3), (2, 4), and so on;
 - headings in steps of 45°: 0°, 45°, 90°, up to 315°.
@@ -148,7 +148,7 @@ The move ends on (15, 14), facing 135°: a lattice state again. So each move is 
 
 > **Key point:** Because every move starts on a lattice point, the cells of a fine map that the car's body sweeps during the move are the same at every state, shifted. The cells can be listed once per move, and checking a move during the search is looking up whether any of those cells is occupied.
 
-Hybrid A\* checked its body at 7 places along every arc, during the search. On the lattice that work can move to before the search. Take a fine map of the lot in cells of 0.1 m, each marked occupied if its centre lies inside a parked car or outside the lot. During a move, the car's body (grown by RO-055's safety margin of 0.1 m) passes over a set of these cells, the move's swept cells (Pivtoraiko et al., §3.3; CMU 16-350 case study). Figure 4 drives the 90° left turn from (12, 3), the turn the lattice path takes round the end of the middle row; watch the blue cells pile up behind the body.
+Hybrid A\* checked its body at 7 places along every arc, during the search. On the lattice that work can be done before the search. Take a fine map of the lot in cells of 0.1 m, each marked occupied if its centre lies inside a parked car or outside the lot. During a move, the car's body (grown by RO-055's safety margin of 0.1 m) passes over a set of these cells, the move's swept cells (Pivtoraiko et al., §3.3; CMU 16-350 case study). Figure 4 drives the 90° left turn from (12, 3), the turn the lattice path takes round the end of the middle row; watch the blue cells accumulate behind the body.
 
 ![The 90° left turn from (12, 3) facing 0°, driven step by step: blue, the map cells of 0.1 m that the car's body, grown by 0.1 m, has swept so far; grey, the map cells inside parked cars; green, the body. Last frame: all 3,260 swept cells; no blue cell is grey, so the move is free](images/swath_anim.gif)
 
@@ -201,7 +201,7 @@ The lattice path is 3.51 m longer:
 
 $$42.93 - 39.42 = 3.51 \text{ m}$$
 
-The lattice is cheapest among its own moves, and its moves are coarse: only 8 headings, and turns of 45° or 90° with straight pieces attached. Hybrid A\*'s arcs can stop turning at any multiple of 17.2°, and its final Reeds-Shepp shot can take any shape. Lattices used in practice are finer: Nav2's lattice planner ships a control set with 16 headings by default, and CMU's car Boss planned its parking manoeuvres in the 2007 DARPA Urban Challenge on a lattice with 32 headings and 36 moves per state (CMU 16-350 case study). Finer lattices find shorter paths but branch more, so their searches need the good guesses of RO-055: for Boss, 2,019 states expanded with the larger of two guesses, against 26,108 and 124,794 with either guess alone (CMU 16-350 case study).
+The lattice is cheapest among its own moves, and its moves are coarse: only 8 headings, and turns of 45° or 90° with straight pieces attached. Hybrid A\*'s arcs can stop turning at any multiple of 17.2°, and its final Reeds-Shepp shot can take any shape. Lattices used in practice are finer: Nav2's lattice planner provides a default control set with 16 headings, and CMU's car Boss planned its parking manoeuvres in the 2007 DARPA Urban Challenge on a lattice with 32 headings and 36 moves per state (CMU 16-350 case study). Finer lattices find shorter paths but branch more, so their searches need the good guesses of RO-055: for Boss, 2,019 states expanded with the larger of two guesses, against 26,108 and 124,794 with either guess alone (CMU 16-350 case study).
 
 The car can now plan into the bay with every move checked in advance and every state exact.
 
@@ -216,7 +216,7 @@ The car can now plan into the bay with every move checked in advance and every s
 | Guarantee | none on cost | cheapest path in the lattice |
 
 - The lattice solves RO-055's three problems: its path ends exactly on (12, 23) facing −90° without a shot, Dijkstra confirms its cost of 54.79 is the cheapest the lattice holds, and its search checks moves by 5,192 look-ups instead of driving 1,866 arcs; the price is a path of 42.93 m against 39.42 m, because 8 headings are coarse.
-- Moves held for a fixed length do not close up, so a graph built from them has no end of states: one lap of the 5 m circle is 20.94 arcs of 1.5 m, so the arc ends drift by 0.084 m each lap.
+- Moves held for a fixed length do not close up, so a graph built from them has infinitely many states: one lap of the 5 m circle is 20.94 arcs of 1.5 m, so the arc ends drift by 0.084 m each lap.
 - A **state lattice** (G-2855) is a regular grid of states joined only by drivable moves that end exactly on other states, so no states need merging and plain A\* applies.
 - A 45° turn lands on (5, 2) when straight pieces of 0.929 m and 0.757 m are added round the arc, because their lengths can be solved for from where the arc alone ends, (3.536, 1.464).
 - The **lattice control set** (G-2856), the moves from each heading designed once, is copied to every state by turning and shifting, because a regular lattice looks the same from every state; its size, 10 or 6 here, is the branching factor.

@@ -27,7 +27,7 @@ The car starts with the middle of its rear axle at (0, 1.0), 1.0 m to the left o
 
 ![The test course (grey): 10 m straight, a 90° left arc of radius 10 m, 10 m straight. The car (red) starts 1.0 m left of the course at 2 m/s, steered by RO-069's line rule on one line, the first straight y = 0; one frame per 0.5 s. The car joins the line and drives straight on past the corner: at 11.0 s it is 5.57 m from the course, heading 0°. The last frame adds the same rule applied to the course's tangent at the nearest course point (blue), which follows the whole course and ends at 18.15 s](images/opening.gif)
 
-The line must move with the car. The last frame of Figure 1 uses, at every moment, the line that touches the course at its point nearest the car, and the car follows the whole course. To do that, the car must answer one question many times a second: where on the course am I, how far am I to its side, and which way do I point compared with it? This Note builds the answer:
+The line must move with the car. The last frame of Figure 1 uses, at every moment, the line that touches the course at its point nearest the car, and the car follows the whole course. To do that, the car must determine, many times a second, where on the course it is, how far it is to the course's side, and which way it points compared with the course. This Note builds the answer:
 
 - the car's motion, the kinematic bicycle model, and the curvature of a path ([Section 2](#2-the-car-the-kinematic-bicycle-model));
 - following a path, which has no clock, against tracking a trajectory, which has one ([Section 3](#3-path-following-and-trajectory-tracking));
@@ -83,15 +83,15 @@ $$\text{full lock: } 2 \times 0.5 / 2.5 = 0.4 \text{ rad/s}$$
 
 $$\text{the arc: } 2 \times 0.25 / 2.5 = 0.2 \text{ rad/s}$$
 
-The check at easy values: with $\delta = 0$ the tangent is 0, the heading does not turn, and the car drives straight. Figure 3 runs both cases for 8 s. Watch the green lines: they always meet at the ICC, which stays put, and each car's rear axle stays on its circle.
+The check at easy values: with $\delta = 0$ the tangent is 0, the heading does not turn, and the car drives straight. Figure 3 runs both cases for 8 s. Watch the green lines: they always meet at the ICC, which stays fixed, and each car's rear axle stays on its circle.
 
 ![The kinematic bicycle model at 2 m/s, one frame per 0.25 s for 8 s. Left: full lock, δ = 26.6°, the rear axle on a circle of R = 5 m, turning 0.4 rad/s. Right: δ = 14.04°, the steering of the course's arc, R = 10 m, turning 0.2 rad/s, drawn at a smaller scale than the left panel to fit its larger circle. Green dashed: the lines from the ICC to the middles of the rear and front axles, square to each wheel. After 8 s the left car has turned 183°, the right car 92°](images/bicycle_anim.gif)
 
-The car can turn the third equation round: to turn at a wanted rate $\omega$ at speed $v$, steer so that the tangent of $\delta$ is $L$ times $\omega$ divided by $v$. Both cars of Figure 1 steer this way, with the turn rate from RO-069's line rule, clipped at 26.6°: 0.5 rad/s for each metre off the line and 2 rad/s for each radian of heading error. At 2 m/s these give RO-069's spring of 2 times 0.5, 1, and damper of 2, so the rule is critically damped, as in [driving along a line](../RO-069-driving-to-a-point-a-line-and-a-pose/RO-069-driving-to-a-point-a-line-and-a-pose.md#32-why-it-settles-without-swinging-a-spring-and-a-damper). How much a path bends, and so how much steering it needs, is the next number.
+The third equation can be solved for the steering: to turn at a wanted rate $\omega$ at speed $v$, the car steers so that the tangent of $\delta$ is $L$ times $\omega$ divided by $v$. Both cars of Figure 1 steer this way, with the turn rate from RO-069's line rule, clipped at 26.6°: 0.5 rad/s for each metre off the line and 2 rad/s for each radian of heading error. At 2 m/s these give RO-069's spring of 2 times 0.5, 1, and damper of 2, so the rule is critically damped, as in [driving along a line](../RO-069-driving-to-a-point-a-line-and-a-pose/RO-069-driving-to-a-point-a-line-and-a-pose.md#32-why-it-settles-without-swinging-a-spring-and-a-damper). How much a path bends, and so how much steering it needs, is the next number.
 
 ### 2.3 Path curvature
 
-The course has straights and an arc, and a car on it must steer differently on each. One number says how sharply a path bends at each point, and the same number fixes the steering the bend needs. Walk along the course's arc: over its 15.71 m, its direction turns by 90°, 1.571 rad, and it turns at the same rate all the way:
+The course has straights and an arc, and a car on it must steer differently on each. One number says how sharply a path bends at each point, and the same number fixes the steering the bend needs. Over the course's arc, 15.71 m long, its direction turns by 90°, 1.571 rad, at the same rate all the way:
 
 $$1.571 / 15.71 = 0.1 \text{ rad per m}$$
 
@@ -120,9 +120,9 @@ Our fastest case, 5 m/s on the arc, uses about half of that, and no run in this 
 
 ## 3. Path following and trajectory tracking
 
-> **Key point:** The course of Figure 1 says where to drive, not when: following it, the car only has to be close to some point of it, while tracking a trajectory it must be at a given point at a given time. After a late start, the path follower simply arrives 1.80 s late, while the tracker speeds up to 5 m/s and catches its timetable within 3.4 s.
+> **Key point:** The course of Figure 1 says where to drive, not when: following it, the car only has to be close to some point of it, while tracking a trajectory it must be at a given point at a given time. After a late start, the path follower arrives 1.80 s late, while the tracker speeds up to 5 m/s and catches up with its timetable within 3.4 s.
 
-The car of Section 1 drove the course at 2 m/s, but nothing in the course asked for 2 m/s. Think of two everyday cases. A car on a road must stay on the road; when it gets to the next town is up to the driver. A train must also stay on its track, but it must reach each signal at the scheduled moment, or it meets a red light. The car follows a path; the train tracks a trajectory.
+The car of Section 1 drove the course at 2 m/s, but nothing in the course asked for 2 m/s. Two everyday cases show the difference. A car on a road must stay on the road; the driver decides when it reaches the next town. A train must also stay on its track, but it must reach each signal at the scheduled moment, or it meets a red light. The car follows a path; the train tracks a trajectory.
 
 A path is a curve in space with no clock: the course is the same whatever the speed. Keeping a vehicle close to a path, at a speed of its own choosing, is **path following** (G-3130). A [**trajectory**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#31-what-a-trajectory-is) (G-2886) adds the clock: it says where the vehicle should be at each moment. Making a vehicle be at each point of a trajectory at its time is **trajectory tracking** (G-3131), the [**tracking**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954) of RO-059, a reference that changes over time, applied to the whole pose. A parked car being steered into a slot, with a goal but no route, is the third case, [**regulation**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2952), which RO-069's docking was.
 
@@ -165,7 +165,7 @@ $$s = 10 + 10 \times 0.3805$$
 
 $$= 13.81 \text{ m}$$
 
-With $s$ known, the course's direction at P is known too: the arc began heading 0° and has turned 21.80°, so it heads 21.80°. At P we put two arrows: the tangent $\mathbf t$, along the course's direction, and the normal $\mathbf n$, square to it on the left. Measuring a point's place by the distance along a path and the distance to its side, in these two directions, gives the **path coordinates** (G-3132) of the point. The tangent and normal at each path point form a small frame that slides along the path, the Frenet frame of the curve, so path coordinates are also called Frenet coordinates (Snider §3.1.1; MathWorks `referencePathFrenet`). The first number, $s$, says where along the course the car is; the next two say how wrong it is there.
+With $s$ known, the course's direction at P is known too: the arc began heading 0° and has turned 21.80°, so it heads 21.80°. At P we put two arrows: the tangent $\mathbf t$, along the course's direction, and the normal $\mathbf n$, square to it on the left. Measuring a point's place by the distance along a path and the distance to its side, in these two directions, gives the **path coordinates** (G-3132) of the point. The tangent and normal at each path point form a small frame that slides along the path, the Frenet frame of the curve, so path coordinates are also called Frenet coordinates (Snider §3.1.1; MathWorks `referencePathFrenet`). The first number, $s$, says where along the course the car is; the next two give its errors there.
 
 ### 4.2 Lateral error
 
@@ -188,7 +188,7 @@ $$= -0.1063 - 0.6641$$
 
 $$= -0.770 \text{ m}$$
 
-Both ways agree. The check at easy values: on the first straight $\theta_p$ is 0, its sine 0 and its cosine 1, so $e$ is just $dy$, the height above the line, 1.0 m at the start. The lateral error says how far off the course the car is; it does not say whether the car is getting back.
+Both ways agree. The check at easy values: on the first straight $\theta_p$ is 0, its sine 0 and its cosine 1, so $e$ equals $dy$, the height above the line, 1.0 m at the start. The lateral error says how far off the course the car is; it does not say whether the car is returning to the course.
 
 ### 4.3 Heading error
 
@@ -290,9 +290,9 @@ The front axle's error already contains part of the heading error, the wheelbase
 
 To compare trackers, the next Notes need a few numbers that sum up a whole run of Figure 6. Each answers a question a driver would ask:
 
-- How far off did it get? The largest lateral error, here 1.000 m, at the start.
-- How soon was it back? The distance along the course at which the lateral error first falls within 0.1 m: $s$ = 7.70 m, after 3.88 s.
-- Did it stay on the bend? The error the car keeps while it drives the arc, once it has settled: near −0.39 m (at most −0.388 m), outside the arc.
+- What was its largest distance from the course? The largest lateral error, here 1.000 m, at the start.
+- How soon did it return to the course? The distance along the course at which the lateral error first falls within 0.1 m: $s$ = 7.70 m, after 3.88 s.
+- What error did it keep on the bend? The error the car keeps while it drives the arc, once it has settled: near −0.39 m (at most −0.388 m), outside the arc.
 
 Why does the car keep a steady error on the arc? To follow the arc it must turn at its speed $v$, 2 m/s, times the arc's curvature $\kappa$, 0.1 per m:
 
@@ -340,13 +340,13 @@ Both stacks then hand these errors to their tracker: Autoware to model predictiv
 - The opening question has its answer: the car finds, many times a second, the nearest point of the course and measures there its distance along the course, its lateral error and its heading error; steering on the last two, the car of Figure 1 follows the whole course in 18.15 s, where steering on one fixed line left it 5.57 m off after 11.0 s, because the line it steers on now moves with it.
 - The **kinematic bicycle model** (G-3128) moves the car's rear axle along its heading and turns the heading at $v$ times the tangent of the **steering angle** (G-3126) divided by the **wheelbase** (G-3127), because the car turns about a point on its rear axle's line; it is enough here because our sideways accelerations stay at or below 2.5 m/s², about half the 4.91 m/s² limit.
 - **Path curvature** (G-3129) $\kappa$, 1 divided by the radius, says how sharply a path bends, so it fixes the steering a bend needs: the tangent of $\delta$ is $L$ times $\kappa$, 14.04° on the 10 m arc.
-- **Path following** (G-3130) keeps the car near a path at its own speed, so a 1.5 s delay just makes it 1.80 s late; **trajectory tracking** (G-3131) also chases a timetable, so it measures an **along-track error** (G-3137) and speeds up to catch it.
+- **Path following** (G-3130) keeps the car near a path at its own speed, so a 1.5 s delay only makes it 1.80 s late; **trajectory tracking** (G-3131) also keeps to a timetable, so it measures an **along-track error** (G-3137) and speeds up to catch it.
 - **Path coordinates** (G-3132), measured from the **nearest path point** (G-3134) in its Frenet frame, give the **arc length** (G-3133) $s$, the **lateral error** (G-3135) and the **heading error** (G-3136), so a tracker on any path can steer as if on a straight line.
 - A tracker needs both errors, because the lateral error acts as the spring and the heading error as the damper: with only one, the car weaves up to 2.09 m off or stays 1.00 m off.
 - The errors depend on the point of the car they are measured at, because the heading error moves the front axle relative to the rear one: 0.737 m at the rear axle is 0.271 m at the front.
 - A tracker that steers on errors alone keeps a steady error on a bend, here near −0.39 m, because the turn the arc needs has to come from an error.
 
-The car can now say, at every moment, how far it is from its path and which way it points compared with it. Still missing: a steering law that uses these errors well, one that does not keep 0.39 m outside a bend and copes with higher speed. The first, [pure pursuit](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path), steers towards a point on the path ahead of the car.
+The car can now say, at every moment, how far it is from its path and which way it points compared with it. What remains is a steering law that uses these errors well: one that does not keep 0.39 m outside a bend and copes with higher speed. The first, [pure pursuit](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path), steers towards a point on the path ahead of the car.
 
 ## 8. Sources
 

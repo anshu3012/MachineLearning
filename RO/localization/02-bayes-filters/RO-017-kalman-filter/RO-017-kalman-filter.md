@@ -8,7 +8,7 @@ tags: [subject/robotics, area/localization, concept/kalman-filter, concept/kalma
 > **Where this fits:**
 >
 > - **Builds on:** [Expected value and variance of a random variable](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#3-expected-value); [Normal distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Derivatives of one variable](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#4-the-derivative-shrinking-the-step-to-zero); [Multivariate normal distribution](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal); [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm).
-> - **Leads to:** [Extended Kalman filter](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#4-the-extended-kalman-filter); [Filter consistency](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-is-the-filter-telling-the-truth-about-itself).
+> - **Leads to:** [Extended Kalman filter](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#4-the-extended-kalman-filter); [Filter consistency](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-does-the-filters-variance-match-its-real-error).
 > - **Compare with:** [Particle filter](../../../../RO/localization/02-bayes-filters/RO-016-particle-filter/RO-016-particle-filter.md#4-the-particle-filter-step-by-step).
 <!-- /where-this-fits -->
 
@@ -16,16 +16,16 @@ tags: [subject/robotics, area/localization, concept/kalman-filter, concept/kalma
 
 > **Key point:** A robot has two noisy ways to know where it is: its commands, which drift, and its sensor, which jumps. The Kalman filter blends them with the weight that makes the result as certain as possible, and it does so one step at a time from two numbers.
 
-Figure 1 plays ten seconds of a robot in a corridor, one step per frame, with its two sources of position: its commands (grey) and a ceiling beacon (orange). Watch the grey gap between the commands-only path and the truth: each step keeps the last gap and adds a new wheel slip, so the commands stay behind the truth at every step. The orange gap of the beacon starts fresh each step and swings from one side of the truth to the other. The last frame adds the Kalman filter (blue), which misses by less than either.
+Figure 1 plays ten seconds of a robot in a corridor, one step per frame, with its two sources of position: its commands (grey) and a ceiling beacon (orange). Watch the grey gap between the commands-only path and the truth: each step keeps the last gap and adds a new wheel slip, so the commands stay behind the truth at every step. The orange gap of the beacon is new at each step and swings from one side of the truth to the other. The last frame adds the Kalman filter (blue), which misses by less than either.
 
 ![Ten steps of a robot in a corridor, one step per frame: the true position (black), the commands alone (grey, dashed) and the beacon readings (orange crosses). Each frame draws this step's gap from each source to the truth: the commands' gap is the last gap plus a new wheel slip, the beacon's gap is new every time. The last frame adds the Kalman filter estimate (blue) and each one's average miss (RMSE) over the ten steps: commands 0.27 m, beacon 0.51 m, Kalman filter 0.17 m](images/problem_anim.gif)
 
-The [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) (G-2492) lets the robot's [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), its probability for each possible position, take any shape, but every particle must be moved and weighed every round. When the belief is a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), two numbers carry all of it; this Note builds that filter, the **Kalman filter** (G-2506). It needs a new world. The three doors of the looped corridor give a belief with a peak at each door: three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and one Gaussian cannot hold it. Here a ceiling beacon reports the position itself, so the belief has a single mode: it is **unimodal** (G-2528).
+The [**particle filter**](../RO-016-particle-filter/RO-016-particle-filter.md#46-the-algorithm) (G-2492) lets the robot's [**belief**](../RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433), its probability for each possible position, take any shape, but every particle must be moved and weighed every round. When the belief is a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), two numbers carry all of it; this Note builds that filter, the **Kalman filter** (G-2506). It needs a new example. The three doors of the looped corridor give a belief with a peak at each door: three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275), and one Gaussian cannot hold it. Here a ceiling beacon reports the position itself, so the belief has a single mode: it is **unimodal** (G-2528).
 
 A delivery robot drives along a straight corridor. Every second it is commanded to move 0.5 m. A ceiling beacon system also reports its position once a second. Neither source is good enough on its own (Figure 1):
 
-- **The commands** give a smooth path, but they **drift**: each step's error is the last step's error plus a new wheel slip, so the error carries over and piles up. Over the ten steps of Figure 1, the commands alone miss the true position by 0.27 m on average (the [**root mean squared error**](../../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705), RMSE).
-- **The beacon** **jumps**: each reading's error is new, with no memory of the last one, so it never piles up, but it can swing from one side to the other between two seconds. Its readings miss by 0.51 m on average.
+- **The commands** give a smooth path, but they **drift**: each step's error is the last step's error plus a new wheel slip, so the error carries over and accumulates. Over the ten steps of Figure 1, the commands alone miss the true position by 0.27 m on average (the [**root mean squared error**](../../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705), RMSE).
+- **The beacon** **jumps**: each reading's error is new, with no memory of the last one, so it never accumulates, but it can swing from one side to the other between two seconds. Its readings miss by 0.51 m on average.
 
 Figure 2 runs both sources for 60 steps from a known start. The commands' error moves only a little each step, but the moves add up, and its band of two [**standard deviations**](../../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (G-1871), twice the error's typical size, widens with the number of steps ([Section 2.4](#24-adding-independent-errors-adds-variances)). With:
 
@@ -40,13 +40,13 @@ The beacon's error lands somewhere new each step, but its band stays at ±0.8 m.
 
 ![One simulated run of 60 steps from a known start, one frame per step. Top: the errors now, with an arrow from each last value; the commands' error moves a little each step and wanders off, the beacon's lands somewhere new each step, the Kalman filter's stays near zero. Bottom: the errors so far; the commands' band of two standard deviations widens, the beacon's stays at ±0.8 m, the Kalman filter's settles at ±0.38 m](images/drift_jump.gif)
 
-Over the ten steps of Figure 1, the Kalman filter's estimate misses by 0.17 m, better than either (notebook). In Figure 2 (blue), its error stays near zero, and its band settles at ±0.38 m, half the beacon's, and does not widen. The filter gets there by asking, at every step, how far to trust each source, and the answer is a number we derive: the **Kalman gain** (G-2508). The Note builds the filter on this corridor, one step at a time, in the order of kalmanfilter.net and Becker's book:
+Over the ten steps of Figure 1, the Kalman filter's estimate misses by 0.17 m, better than either (notebook). In Figure 2 (blue), its error stays near zero, and its band settles at ±0.38 m, half the beacon's, and does not widen. The filter achieves this by deciding, at every step, how much weight to give each source, and that weight is a number we derive: the **Kalman gain** (G-2508). The Note builds the filter on this corridor, one step at a time, in the order of kalmanfilter.net and Becker's book:
 
 - why a Gaussian belief stays Gaussian, so two numbers are enough ([Section 2](#2-why-two-numbers-are-enough-the-linear-gaussian-system));
 - the predict step, which carries the drift: the Gaussian moves and widens ([Section 3](#3-predict-the-gaussian-moves-and-widens));
 - the update step, which uses the beacon: the gain derived as the weight that makes the estimate's [**variance**](../../../../MA/02-probability/MA-012-expected-value-and-variance/MA-012-expected-value-and-variance.md#4-variance-of-a-random-variable) (G-2076), the spread of its error, smallest ([Section 4](#4-update-the-gain-that-makes-the-estimate-most-certain));
 - the ten steps of Figure 1 by hand ([Section 5](#5-ten-steps-on-the-corridor));
-- the matrix form, which estimates a speed that is never measured, then **observability** (G-2517), whether the readings can pin down the whole state, and the filter as the source of the state a controller needs ([Section 6](#6-the-matrix-form-more-than-one-number));
+- the matrix form, which estimates a speed that is never measured, then **observability** (G-2517), whether the readings can determine the whole state, and the filter as the source of the state a controller needs ([Section 6](#6-the-matrix-form-more-than-one-number));
 - how to choose the two noise settings: $Q$, the variance of the wheel slip, 0.01 m², and $R$, the variance of the beacon's error, 0.16 m² ([Section 7](#7-choosing-q-and-r)).
 
 ## 2. Why two numbers are enough: the linear Gaussian system
@@ -78,7 +78,7 @@ A Gaussian, also called a [normal distribution](../../../../MA/03-distributions/
 - $\hat{x}$ is the estimate, the mean, our best single guess, in m;
 - $p$ is its variance, how unsure we are, in m².
 
-The robot's first guess, marked with the subscript 0 for the start, is that it starts at the dock, give or take about 1 m:
+The robot's first guess, marked with the subscript 0 for the start, is that it starts at the dock, with a standard deviation of about 1 m:
 
 $$\hat x_0 = 0 \text{ m}$$
 
@@ -242,7 +242,7 @@ Both are linear with normal noise, which meets conditions 1 and 2. The first bel
 
 > **Key point:** The command moves the estimate; the slip widens it. The predicted **variance** (G-2076), how unsure the prediction is, is the old variance plus the slip's variance $Q$, 0.01 m².
 
-**The idea.** First the drift of Figure 1: why do the commands alone miss by 0.27 m? The robot is commanded 0.5 m, so our best guess moves 0.5 m. But each command adds a slip we cannot see, so we are less sure than before, and the doubt piles up.
+**The idea.** First the drift of Figure 1: why do the commands alone miss by 0.27 m? The robot is commanded 0.5 m, so our best guess moves 0.5 m. But each command adds a slip we cannot see, so we are less sure than before, and the uncertainty accumulates.
 
 **The standard terms.** The random slip the motion adds at each step is the **process noise** (G-2509) (kalmanfilter.net). The estimate before the step's reading is the **predicted estimate** (G-2512), also called the prior or a priori estimate.
 
@@ -275,7 +275,7 @@ $$p = 1 + 100 \times 0.01 = 2 \text{ m}^2$$
 
 $$\sqrt{2} = 1.4 \text{ m standard deviation}$$
 
-The growing variance is the drift of Figure 1: the commands alone only ever widen the Gaussian, so a beacon reading is needed to pull the variance down.
+The growing variance is the drift of Figure 1: the commands alone only ever widen the Gaussian, so a beacon reading is needed to reduce the variance.
 
 ## 4. Update: the gain that makes the estimate most certain
 
@@ -292,7 +292,7 @@ The beacon stops the drift but jumps. The update decides how far to follow each 
 
 The reading's error has a **variance** (G-2076) $R$ (its spread), the **measurement noise** (G-2510) variance, which comes from the sensor's datasheet or from a calibration ([Section 7.1](#71-r-measure-the-sensor)).
 
-Neither should be thrown away. A natural blend is a weighted average:
+Neither should be discarded. A natural blend is a weighted average:
 
 - $z$ is the beacon's reading, in m (0.82 m at step 1);
 - $\bar{x}$ is the **predicted estimate** (G-2512), in m (0.5 m at step 1);
@@ -323,7 +323,7 @@ $$V(0) = 1.01 \quad \text{(prediction only)}$$
 
 $$V(1) = 0.16 \quad \text{(reading only)}$$
 
-In between, the dot dips below both ends, and there the blended Gaussian is narrower than either of the two: mixing two independent estimates beats either one. What is left is to find where the dip is lowest.
+In between, the dot dips below both ends, and there the blended Gaussian is narrower than either of the two: mixing two independent estimates gives a more certain estimate than either one. What is left is to find where the dip is lowest.
 
 ![Step 1's prediction (mean 0.5 m, variance 1.01 m²) and reading (0.82 m, variance 0.16 m²) blended with the weight k on the reading, k sliding from 0 to 1, one value per frame. Top: the blended Gaussian moves from the prediction to the reading. Bottom: a dot traces the blend's variance V(k), 1.01 at k = 0 and 0.16 at k = 1. The last frame shows the lowest point, k = 0.863 with variance 0.138, where the blend is narrowest](images/var_weight_anim.gif)
 
@@ -367,9 +367,9 @@ $$K_1 = \frac{1.01}{1.01 + 0.16}$$
 
 $$= 1.01 / 1.17 = 0.863$$
 
-The reading gets 86 percent of the say, because our first guess (**variance** (G-2076) 1.01) was far less certain than the beacon (0.16).
+The reading gets 86 percent of the weight, because our first guess (**variance** (G-2076) 1.01) was far less certain than the beacon (0.16).
 
-**Checks at easy values** (kalmanfilter.net):
+**Checks at special values** (kalmanfilter.net):
 
 - A perfect sensor, $R = 0$: the top and bottom of the gain are equal, so $K = 1$, and the estimate is the reading.
 - A perfect prediction, $\bar{p} = 0$: $K = 0$, and the reading is ignored.
@@ -443,7 +443,7 @@ $$= \frac{R}{\bar{p} + R}\thinspace\bar{p}$$
 
 $$= (1 - K)\thinspace\bar{p}$$
 
-(kalmanfilter.net). The updated variance at step 1, 0.138 m², is the lowest point of Figure 4. The estimate after the reading is the **updated estimate** (G-2513), also called the posterior or a posteriori estimate. Because $1 - K$ is at most 1, an update never makes the filter less sure: one beacon reading has cut the **standard deviation** (G-1871), the typical size of the error, from 1 m to 0.37 m.
+(kalmanfilter.net). The updated variance at step 1, 0.138 m², is the lowest point of Figure 4. The estimate after the reading is the **updated estimate** (G-2513), also called the posterior or a posteriori estimate. Because $1 - K$ is at most 1, an update never increases the variance: one beacon reading has cut the **standard deviation** (G-1871), the typical size of the error, from 1 m to 0.37 m.
 
 ### 4.5 The same answer from multiplying Gaussians
 
@@ -538,7 +538,7 @@ Figure 7 plays the table, one stage per frame. Watch the gain dot at the bottom 
 
 What to see in Figures 6 and 7:
 
-- **The gain falls, then settles.** Each update shrinks the variance, and each prediction adds back only the slip's variance $Q$, 0.01 m². After a few steps the two balance: the variance before each reading settles near 0.046 and the gain near 0.22 (0.2207 in the long run, notebook). The filter has stopped learning about its start and now trusts each reading about a fifth. The fixed value the gain approaches is the **steady-state gain** (G-2518).
+- **The gain falls, then settles.** Each update shrinks the variance, and each prediction adds back only the slip's variance $Q$, 0.01 m². After a few steps the two balance: the variance before each reading settles near 0.046 and the gain near 0.22 (0.2207 in the long run, notebook). The influence of the first guess has faded, and each reading now gets a weight of about a fifth. The fixed value the gain approaches is the **steady-state gain** (G-2518).
 - **The jumps are damped.** The beacon's step-6 reading jumped 0.9 m too high; the estimate moved only 0.21 m towards it, because the gain was 0.245.
 - **The band is consistent.** The shaded band in the middle panel of Figure 7 is the estimate plus and minus two **standard deviations** (G-1871), twice its typical error; the true position stays inside it at every step, a first sign that the filter's variance matches its real errors, which is what makes a [**consistent** filter](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#51-why-we-need-a-check) (G-2524).
 
@@ -550,7 +550,7 @@ Over the ten steps, the commands alone miss by 0.27 m, the beacon by 0.51 m, the
 
 ### 6.1 Why a vector state: the hidden speed
 
-So far the commands told the filter how far the robot moved, 0.5 m per step, drift and all. Suppose instead we do not know the robot's speed, only that it drives roughly steadily: a person is pushing a trolley, or the odometry is unreliable. We still want the speed, for example because a speed controller needs it ([Section 6.6](#66-the-state-a-controller-needs-the-filter-as-an-observer)), but nothing measures it.
+So far the commands told the filter how far the robot moved, 0.5 m per step, including its drift. Suppose instead we do not know the robot's speed, only that it drives roughly steadily: a person is pushing a trolley, or the odometry is unreliable. We still want the speed, for example because a speed controller needs it ([Section 6.6](#66-the-state-a-controller-needs-the-filter-as-an-observer)), but nothing measures it.
 
 We put the speed into the state. The state is now a vector (a list of numbers), written in bold:
 
@@ -560,7 +560,7 @@ $$\mathbf{x} = \begin{bmatrix} \text{position} \cr\text{speed} \end{bmatrix}$$
 
 Its uncertainty is a 2 × 2 [covariance matrix](../../../../ML/05-dimensionality/ML-047-pca-step-by-step/ML-047-pca-step-by-step.md#33-the-covariance-matrix) (G-495). The belief is a [multivariate normal distribution](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal) (G-1283), the **Gaussian** (G-827) for several numbers at once, with:
 
-- $\hat{\mathbf{x}}$ is its mean, the estimate, a vector of 2 entries: the estimated position, in m, and speed, in m/s (0 and 0 at the start, [Section 6.4](#64-one-step-in-matrix-form-and-the-speed-nobody-measured));
+- $\hat{\mathbf{x}}$ is its mean, the estimate, a vector of 2 entries: the estimated position, in m, and speed, in m/s (0 and 0 at the start, [Section 6.4](#64-one-step-in-matrix-form-and-the-speed-no-sensor-measures));
 - $P$ is its covariance matrix, 2 × 2: the **variances** (G-2076) of position, in m², and speed, in m²/s², on the diagonal, and their covariance, in m²/s, off it (1, 1 and 0 at the start).
 
 The motion and the reading must now act on this vector, as matrices.
@@ -593,7 +593,7 @@ $$z_t = H\thinspace\mathbf x_t + v_t$$
 
 $$H = \begin{bmatrix} 1 & 0 \end{bmatrix}$$
 
-$H$ is the **measurement matrix** (G-2515): it picks out of the state what the sensor sees, here the position. The **measurement noise** (G-2510) is the same, $R = 0.16$ m². With $F$ and $H$ in hand, the filter's lines can be rewritten for matrices.
+$H$ is the **measurement matrix** (G-2515): it picks out of the state what the sensor sees, here the position. The **measurement noise** (G-2510) is the same, $R = 0.16$ m². With $F$ and $H$ defined, the filter's lines can be rewritten for matrices.
 
 ### 6.3 The five lines in matrix form
 
@@ -604,7 +604,7 @@ Each line is the one-dimensional line with numbers replaced by matrices (Labbe c
 - $\bar{P}$ is its covariance matrix, 2 × 2;
 - $H^{\mathsf T}$ is the transpose of $H$, a column of 2 entries;
 - $S$ is the innovation variance, the gain's denominator, which gets its own row and name; here one number, in m²;
-- $S^{-1}$ is the [inverse](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) of $S$, here simply 1 divided by the number $S$;
+- $S^{-1}$ is the [inverse](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) of $S$, here 1 divided by the number $S$;
 - $K$ is the Kalman gain, here a vector of 2 entries: one weight for position and one for speed;
 - $I$ is the identity matrix, 2 × 2, with 1 on the diagonal and 0 off it: multiplying by it changes nothing.
 
@@ -619,7 +619,7 @@ Each line is the one-dimensional line with numbers replaced by matrices (Labbe c
 
 The only new piece is $F P F^{\mathsf T}$, the matrix version of [Section 2.3](#23-a-linear-function-keeps-a-gaussian-a-gaussian)'s rule "**variance** (G-2076) times slope squared": a linear map $F$ turns a covariance $P$ into $F P F^{\mathsf T}$ (Labbe ch.6). The matrix gain is derived the same way as in [Section 4.3](#43-the-best-weight-the-kalman-gain), by making the updated variances as small as possible (Labbe ch.7, "Deriving the **Kalman gain** (G-2508) equation").
 
-### 6.4 One step in matrix form, and the speed nobody measured
+### 6.4 One step in matrix form, and the speed no sensor measures
 
 We run one step of these lines on the corridor's first reading. At the start, marked with the subscript 0:
 
@@ -676,7 +676,7 @@ Figure 8 feeds the filter the same ten jumping beacon readings, one per frame; w
 
 ![The two-variable filter fed only position readings, one per frame; bands are two standard deviations. Top: position estimate, readings and truth. Bottom: the speed estimate, never measured: one reading gives 0.378 m/s, then it swings and settles. The last frame shows step 10: speed 0.421 m/s with a standard deviation of 0.081 m/s, near the true average of 0.48 m/s, inside a band that has narrowed](images/cv_speed_anim.gif)
 
-### 6.5 Observability: can the readings pin down the state?
+### 6.5 Observability: can the readings determine the state?
 
 Could we do the same with a speed sensor and no position sensor? No. Every position, shifted by the same amount, gives exactly the same speed readings, so no number of speed readings can tell where the robot is.
 
@@ -686,7 +686,7 @@ A system is **observable** (G-2517) if its whole state can be worked out from it
 
 ### 6.6 The state a controller needs: the filter as an observer
 
-The speed estimate of [Section 6.4](#64-one-step-in-matrix-form-and-the-speed-nobody-measured) is what a controller needs. A controller that holds the robot at 0.5 m/s must know the speed; one that stops it at a door must know the position. Many controllers need the whole state, but sensors give only part of it (FBS §8.1). Something must rebuild the missing parts.
+The speed estimate of [Section 6.4](#64-one-step-in-matrix-form-and-the-speed-no-sensor-measures) is what a controller needs. A controller that holds the robot at 0.5 m/s must know the speed; one that stops it at a door must know the position. Many controllers need the whole state, but sensors give only part of it (FBS §8.1). An estimator must reconstruct the missing parts.
 
 The obvious attempt is to run the model alone, with no readings: each step, multiply the last estimate by the state transition matrix $F$. Running the model alone is [**dead reckoning**](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311): any error in the start or in the model is never corrected. The fix is feedback: compare the reading with what the estimate predicts, and correct the estimate by a gain times the gap. With:
 
@@ -702,7 +702,7 @@ A model run alongside the real system and corrected this way is a **state observ
 
 ![The state observer as a loop, with step 1's numbers. The model runs beside the robot: it carries the last estimate one step on with the state transition matrix F, giving the prediction of position and speed (0 m and 0 m/s at step 1), and the measurement matrix H turns the prediction into the predicted reading, 0 m. The beacon's reading z, 0.82 m, minus the predicted reading is the gap, 0.82 m. The gain L, 0.9263 for position and 0.4608 for speed, times the gap corrects the prediction into the estimate: 0.760 m and 0.378 m/s. The estimate goes on to the controller, which commands the robot's motors, and back into the model for the next step. The dashed frame is the observer](images/observer.png)
 
-The size of the gain $L$ is a trade-off: a large gain corrects errors fast but passes the sensor's noise straight into the estimate (FBS §8.2). The **Kalman filter** (G-2506) is the observer whose gain, $L = K$, is the best compromise for the given noises (FBS §8.2). The controller then uses $\hat{\mathbf{x}}$ in place of the true state (FBS §8.3), which is why the Kalman filter sits between the sensors and the controller in most robots. Every gain so far rested on two noise settings we were simply given: the slip's variance $Q$ and the beacon's variance $R$.
+The size of the gain $L$ is a trade-off: a large gain corrects errors fast but passes the sensor's noise straight into the estimate (FBS §8.2). The **Kalman filter** (G-2506) is the observer whose gain, $L = K$, is the best compromise for the given noises (FBS §8.2). The controller then uses $\hat{\mathbf{x}}$ in place of the true state (FBS §8.3), which is why the Kalman filter sits between the sensors and the controller in most robots. Every gain so far rested on two noise settings that were given: the slip's variance $Q$ and the beacon's variance $R$.
 
 ## 7. Choosing Q and R
 
@@ -728,7 +728,7 @@ The slip's variance $Q$ is harder: it covers everything the motion model leaves 
 | 0.01 (right) | 0.22 | 0.187 m | none |
 | 1 (too big) | 0.88 | 0.353 m | trusts each reading, copies its noise |
 
-The readings alone give 0.399 m. Too small a $Q$ trusts the commands and drifts like them; too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 11 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
+The readings alone give 0.399 m. A filter with too small a $Q$ relies on the commands and drifts like them; one with too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 11 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
 
 ![Error of three filters on one 50-step run, one step per frame, each set with a different slip variance Q; each legend entry gives the filter's gain K at the current step and its RMSE over all 2000 runs. Q = 0.0001: gain 0.10 at step 10 and 0.03 at step 50, so its estimate lags below the truth for long stretches; Q = 1: gain 0.88, its estimate jumps with every reading; Q = 0.01: gain 0.22, its estimate stays closest to zero. The last frame shows all 50 steps](images/tuning_anim.gif)
 
@@ -738,9 +738,9 @@ $$K = \frac{10\thinspace\bar{p}}{10\thinspace\bar{p} + 10\thinspace R}$$
 
 $$= \frac{\bar{p}}{\bar{p} + R}$$
 
-The gains and the estimates are the same; the notebook finds a largest difference of exactly 0. What a filter designer really chooses is how much the model is trusted relative to the sensor.
+The gains and the estimates are the same; the notebook finds a largest difference of exactly 0. What a filter designer chooses is how much weight the model gets relative to the sensor.
 
-**How to tell when it is wrong without knowing the truth.** On a real robot the truth is unknown, but the **innovations** (G-2511), the gaps between each reading and its prediction, are not: a well-tuned filter's innovations look like random noise of the size its own innovation variance $S$ ([Section 6.3](#63-the-five-lines-in-matrix-form)) predicts. Testing them is the [consistency check](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-is-the-filter-telling-the-truth-about-itself) on the innovations.
+**Detecting a wrong setting without knowing the truth.** On a real robot the truth is unknown, but the **innovations** (G-2511), the gaps between each reading and its prediction, are not: a well-tuned filter's innovations look like random noise of the size its own innovation variance $S$ ([Section 6.3](#63-the-five-lines-in-matrix-form)) predicts. Testing them is the [consistency check](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-does-the-filters-variance-match-its-real-error) on the innovations.
 
 ## 8. Summary
 
@@ -764,15 +764,15 @@ The five lines of the one-dimensional filter, with:
 | update mean | $\hat{x} = \bar{x} + K(z - \bar{x})$ | move a fraction $K$ of the way to the reading |
 | update variance | $p = (1 - K)\thinspace\bar{p}$ | blending two independent estimates beats either |
 
-- The corridor robot's two poor sources make one good one: the filter misses by 0.17 m against 0.27 m for the drifting commands and 0.51 m for the jumping beacon, because at every step the gain gives each source the trust its **variance** (G-2076) earns.
+- The corridor robot's two inaccurate sources combine into one more accurate estimate: the filter misses by 0.17 m against 0.27 m for the drifting commands and 0.51 m for the jumping beacon, because at every step the gain gives each source a weight set by its **variance** (G-2076).
 - In a linear Gaussian system the **belief** (G-2433) stays Gaussian, because a linear function keeps a Gaussian a Gaussian and independent variances add, so a mean and a variance carry the whole belief.
 - The predict step widens the **Gaussian** (G-827) by $Q$, so the commands alone always drift: after 100 steps the **standard deviation** (G-1871) would be 1.4 m.
 - The **Kalman gain** (G-2508) is derived, not chosen: it is the weight on the reading that minimises the updated variance, and it equals the Bayes update of two multiplied Gaussians (0.776 m and 0.138 m² at step 1 either way).
 - The gain is high while the estimate is vague (0.863 at step 1) and settles near 0.22 once prediction and reading balance, so the beacon's jumps are damped.
-- In matrix form the covariance links position and speed, so position readings estimate a speed nobody measures (0.421 m/s against a true 0.48 m/s).
-- **Observability** (G-2517) decides what readings can pin down: position readings give both variables, speed readings never give the position, whose variance grows to 2.68 m², because every shifted position gives the same speed readings.
+- In matrix form the covariance links position and speed, so position readings estimate a speed that no sensor measures (0.421 m/s against a true 0.48 m/s).
+- **Observability** (G-2517) decides what readings can determine: position readings give both variables, speed readings never give the position, whose variance grows to 2.68 m², because every shifted position gives the same speed readings.
 - The **Kalman filter** (G-2506) is the observer with the best gain for the given noises, so it supplies the full state a controller needs from partial sensors.
-- $R$ is measured from the sensor, $Q$ is tuned because no datasheet covers what the motion model leaves out; too small a $Q$ drifts like the commands, too large a $Q$ follows every jump, and only the ratio matters.
+- $R$ is measured from the sensor, $Q$ is tuned because no datasheet covers what the motion model leaves out; a filter with too small a $Q$ drifts like the commands, one with too large a $Q$ follows every jump, and only the ratio matters.
 
 The robot can now blend drifting commands and jumping readings with two numbers per step. Still missing: the filter needs linear models, and a range beacon's reading is a nonlinear function of the position (its graph is a curve), which the [**extended Kalman filter**](../RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#1-overview) (G-2520) straightens.
 
@@ -804,12 +804,12 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Kalman filter (G-2506) | The Bayes filter for a linear Gaussian system: it keeps the belief as a mean and a (co)variance and updates them with a predict step and an update step, blending a model's prediction with a sensor reading so the result is as certain as possible. |
 | Unimodal (G-2528) | Having a single mode (one peak); a unimodal belief can be held by one Gaussian, so the Kalman filter needs only its mean and variance. |
 | Kalman gain $K$ (G-2508) | The weight the update gives to the reading, $K = \bar{p}/(\bar{p} + R)$ in one dimension: the weight that makes the updated variance smallest, near 1 when the prediction is vague and near 0 when the reading is. |
-| Observability (G-2517) | Whether a system's whole state can be worked out from its readings and commands over time; a filter needs it before it can pin down every state variable. |
+| Observability (G-2517) | Whether a system's whole state can be worked out from its readings and commands over time; a filter needs it before it can determine every state variable. |
 | Linear function (G-2527) | A function $y = ax + b$: a fixed multiple of the input plus a constant, whose graph is a straight line; passing a normal variable through it gives another normal variable, which is why the Kalman filter is exact for linear models. |
 | Linear Gaussian system (G-2507) | A system whose next state and whose readings are linear functions of the state plus normal noise, starting from a normal belief; in it the belief stays normal, so the Kalman filter is exact. |
 | Process noise $Q$ (G-2509) | The random part of the motion the model leaves out (wheel slip, pushes), given as its variance or covariance $Q$; it widens the belief at every predict step and is usually set by tuning. |
 | Predicted estimate (a priori) (G-2512) | The estimate and its variance after the predict step and before the step's reading, $\bar{x}$ and $\bar{p}$; it says what the model alone expects. |
-| Measurement noise $R$ (G-2510) | The random error of a sensor reading, given as its variance or covariance $R$; it sets how much the filter trusts each reading and is taken from the datasheet or measured in a calibration. |
+| Measurement noise $R$ (G-2510) | The random error of a sensor reading, given as its variance or covariance $R$; it sets how much weight the filter gives each reading and is taken from the datasheet or measured in a calibration. |
 | Innovation (G-2511) | The gap between a reading and the reading the prediction expected, $z - H\bar{x}$; the update moves the estimate by the gain times this gap, and its size is used to check the filter. |
 | Updated estimate (a posteriori) (G-2513) | The estimate and its variance after the reading has been blended in, $\hat{x}$ and $p$; it is the filter's output for the step and the start of the next. |
 | Steady-state gain (G-2518) | The fixed value the Kalman gain settles to once the variance added by each prediction balances the variance removed by each update, such as 0.22 for $Q = 0.01$ and $R = 0.16$. |
@@ -833,5 +833,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Multivariate normal distribution](../../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#71-the-multivariate-normal) (G-1283) | The bell-shaped (normal) distribution for several numbers at once, a vector; it is set by a mean vector (its centre) and a covariance matrix (its spread and how the numbers vary together). |
 | [Transpose](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#41-two-rules-about-transposes) (G-2012) | A matrix or vector with rows and columns swapped; it turns a column vector $u$ into a row $u^{\mathsf T}$, so $u^{\mathsf T}x$ is the dot product. |
 | [Inverse matrix](../../../../ML/06-regression/ML-053-multiple-lr-maths/ML-053-multiple-lr-maths.md#6-the-normal-equation) (G-968) | The matrix that undoes another: their product is the identity matrix. |
-| [Dead reckoning](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311) | Working out a robot's position from a known start by adding up its own moves, without looking at its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
+| [Dead reckoning](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#21-why-counting-moves-is-not-enough-dead-reckoning) (G-2311) | Working out a robot's position from a known start by adding up its own moves, without observing its surroundings; simple, but its error grows with every move, so it needs readings to correct it. |
 | [Extended Kalman filter (EKF)](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#41-the-algorithm) (G-2520) | The Kalman filter for nonlinear motion and sensor models: it moves the mean through the nonlinear functions and uses their Jacobians at the latest estimate in place of $F$ and $H$, so it can track unimodal beliefs through nonlinear models. |

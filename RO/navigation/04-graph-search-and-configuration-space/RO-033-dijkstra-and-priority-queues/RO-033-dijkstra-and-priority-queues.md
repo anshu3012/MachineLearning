@@ -16,7 +16,7 @@ tags: [subject/robotics, area/navigation, concept/dijkstra, concept/priority-que
 
 > **Key point:** Once diagonal moves are allowed, routes with the same number of moves differ in length, so the fewest moves is no longer the shortest route. Dijkstra's algorithm always settles the vertex nearest the start next, using a priority queue kept as a heap, and finds the shortest route to the door: 3.414 m, where breadth-first search returns 3.828 m.
 
-So far the robot can turn its room into a graph and search it: on the grid of 0.5 m moves left, down, up and right, [breadth-first search](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) finds the route to the door with the fewest moves, 8 moves, 4.0 m. What still breaks: our robot can [spin on the spot](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#44-four-ways-to-drive) and then drive in any direction, so it can also cut across a cell diagonally, 0.707 m instead of two moves of 0.5 m.
+So far the robot can turn its room into a graph and search it: on the grid of 0.5 m moves left, down, up and right, [breadth-first search](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) finds the route to the door with the fewest moves, 8 moves, 4.0 m. What the grid leaves out: our robot can [spin on the spot](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#44-four-ways-to-drive) and then drive in any direction, so it can also cut across a cell diagonally, 0.707 m instead of two moves of 0.5 m.
 
 Figure 1 shows what breadth-first search does once diagonal moves are allowed. Breadth-first search returns a route of 6 moves, 3.828 m (orange, dashed), but another route of 6 moves is only 3.414 m long (green). Breadth-first search counts moves, so to it the two routes are equal, and it keeps whichever it finds first.
 
@@ -62,11 +62,11 @@ $$\ell = \sqrt{0.5} = 0.707 \text{ m}$$
 
 $$\ell = \sqrt{2}\thinspace a$$
 
-A diagonal move covers the same ground as one move right and one move up, 1.0 m, in 0.707 m. The grid now has two kinds of moves, and that breaks breadth-first search.
+A diagonal move covers the same ground as one move right and one move up, 1.0 m, in 0.707 m. The grid now has two kinds of moves, and breadth-first search no longer returns the shortest route.
 
 ### 2.2 Edge costs: the fewest moves is not the shortest
 
-Breadth-first search treats every move as one step, but the robot cares about metres. In Figure 1 its route and the shortest route both have 6 moves. Adding up the metres, with 0.707 m for each diagonal move and 0.5 m for each straight move, the route breadth-first search returns, 4 diagonal and 2 straight moves:
+Breadth-first search treats every move as one step, but the length of a route is measured in metres. In Figure 1 its route and the shortest route both have 6 moves. Adding up the metres, with 0.707 m for each diagonal move and 0.5 m for each straight move, the route breadth-first search returns, 4 diagonal and 2 straight moves:
 
 $$4 \times 0.707 + 2 \times 0.5$$
 
@@ -80,7 +80,7 @@ $$= 1.414 + 2.0 = 3.414 \text{ m}$$
 
 A graph in which every edge carries a number, its cost, is a **weighted graph** (G-2563), and the cost of a [path](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#21-cells-and-moves-vertices-and-edges) (G-2543), a chain of edges, is the sum of the costs of its edges (LaValle §2.2.2). Here an edge's cost is its length in metres: 0.5 for a straight move, 0.707 for a diagonal. A cost could also be time or energy.
 
-Breadth-first search goes wrong because it counts edges. Breadth-first search finishes all routes of 5 moves before any of 6, but among routes of 6 moves it cannot tell 3.414 m from 3.828 m; it keeps the first it finds, and which one that is depends on the order of the moves. The [waypoint graph](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#22-any-problem-of-states-and-moves-is-a-graph), whose edges have lengths, shows the same thing with two routes of 2 edges each:
+Breadth-first search returns a longer route because it counts edges. Breadth-first search finishes all routes of 5 moves before any of 6, but among routes of 6 moves it cannot tell 3.414 m from 3.828 m; it keeps the first it finds, and which one that is depends on the order of the moves. The [waypoint graph](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#22-any-problem-of-states-and-moves-is-a-graph), whose edges have lengths, shows the same thing with two routes of 2 edges each:
 
 - S–D–G, by the table's top-left corner:
 
@@ -98,7 +98,7 @@ Breadth-first search returned S–D–G only because D comes before P in alphabe
 
 ### 3.1 The fire picture
 
-To count metres, picture the waypoints as oil depots and the edges as pipelines (NPTEL DAA, Dijkstra). We set fire to the depot at S at time 0. The fire runs along every pipeline at the same speed, 1 m per second, and each depot catches fire when the first flame reaches it.
+To count metres, we picture the waypoints as oil depots and the edges as pipelines (NPTEL DAA, Dijkstra). We set fire to the depot at S at time 0. The fire runs along every pipeline at the same speed, 1 m per second, and each depot catches fire when the first flame reaches it.
 
 All flames move at the same speed, so the first flame to reach a depot came by the shortest route. A depot's time of catching fire, in seconds, is therefore its shortest distance from S, in metres (DPV §4.4.1).
 
@@ -159,7 +159,7 @@ Here min means the smaller of the two numbers. The whole run, one row per settle
 | G | 3.505 | C 4.562 |
 | C | 4.562 | (empty) |
 
-Some of step 3's offers lose, such as these two. Settling A offers D the route S–A–D:
+Some of step 3's offers are rejected, such as these two. Settling A offers D the route S–A–D:
 
 $$1.000 + 2.062 = 3.062 \text{ m}$$
 
@@ -171,7 +171,7 @@ The route through B is longer than C's 4.562, so C keeps its entry. Step 3 lower
 
 ### 3.3 Why the nearest unsettled vertex is final
 
-Step 2 settles D at 2.500 and never looks at it again. Could a route found later still reach D more cheaply? No; here is why.
+Step 2 settles D at 2.500 and never looks at it again. Could a route found later still reach D more cheaply? It cannot, by the following argument.
 
 When D is settled, the settled waypoints are S, A and P, and the queue holds D 2.500, B 3.000 and G 5.022. Any other route from S to D has to leave the settled waypoints somewhere, through a waypoint still in the queue, such as B. The symbols:
 
@@ -193,9 +193,9 @@ $$3.000 \ge 2.500$$
 
 $$g(u) \ge g(D)$$
 
-So no later route can beat 2.500: D's entry was the smallest in the queue, and every other route already costs at least the entry of the waypoint where it leaves the settled ones (DPV §4.4.2; Wikipedia, Dijkstra's algorithm). Taking the best-looking step now and never revisiting it goes wrong in many problems; for Dijkstra's algorithm the argument above proves it right.
+So no later route can be shorter than 2.500: D's entry was the smallest in the queue, and every other route already costs at least the entry of the waypoint where it leaves the settled ones (DPV §4.4.2; Wikipedia, Dijkstra's algorithm). Taking the best-looking step now and never revisiting it gives a wrong answer in many problems; for Dijkstra's algorithm the argument above proves it right.
 
-The argument needs every edge cost to be at least 0. Lengths always are, but a cost can be negative in other problems, such as a taxi trip that earns money (DPV §4.6.1). Then a later route can undercut a settled vertex, and Dijkstra's algorithm can return a wrong answer; the Bellman–Ford algorithm handles negative costs (Wikipedia, Dijkstra's algorithm).
+The argument needs every edge cost to be at least 0. Lengths always are, but a cost can be negative in other problems, such as a taxi trip that earns money (DPV §4.6.1). Then a later route can be shorter than a settled vertex's distance, and Dijkstra's algorithm can return a wrong answer; the Bellman–Ford algorithm handles negative costs (Wikipedia, Dijkstra's algorithm).
 
 ### 3.4 Stopping at the goal: uniform-cost search
 
@@ -207,7 +207,7 @@ The test must come when the door is taken off the queue, not when it first enter
 
 > **Key point:** On the grid with diagonal moves, Dijkstra's algorithm settles the door's cell as the 54th cell, at 3.414 m, by a route of 2 diagonal and 4 straight moves: 0.414 m shorter than breadth-first search's route of the same 6 moves.
 
-Back to the opening problem: the grid of Figure 1, with diagonal moves. Figure 4 runs uniform-cost search on it, one frame each time the settled distances pass another 0.5 m. Blue cells are settled and show their shortest distance from S; orange cells wait in the queue with their distance so far (bold).
+We return to the opening problem: the grid of Figure 1, with diagonal moves. Figure 4 runs uniform-cost search on it, one frame each time the settled distances pass another 0.5 m. Blue cells are settled and show their shortest distance from S; orange cells wait in the queue with their distance so far (bold).
 
 Watch the blue region grow in rings of equal distance: in frame "settled up to 1.0 m", the cells straight above and below S are settled at 0.50 and 1.00, and the cells diagonally next to S at 0.71.
 
@@ -219,7 +219,7 @@ $$3.828 - 3.414 = 0.414 \text{ m}$$
 
 The rings are rounder than [breadth-first search's rings](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) of equal moves, because a diagonal now counts 0.707 m, not one full move. Without the stop at the door the search would settle all 76 free cells, the farthest 8.121 m from S (notebook).
 
-The queue never held more than 16 cells here, so picking its smallest entry was quick. On a large map the queue holds thousands of entries, and picking the smallest one each time is where the work goes.
+The queue never held more than 16 cells here, so picking its smallest entry was quick. On a large map the queue holds thousands of entries, and picking the smallest one each time takes most of the work.
 
 ## 5. The priority queue: finding the smallest fast
 
@@ -304,7 +304,7 @@ $$n = 7 = 2^3 - 1$$
 
 $$n = \frac{2^k - 1}{2 - 1} = 2^k - 1$$
 
-Every extra level doubles the room, so $N$ entries need only about $\log_2 N$ levels. A million entries fit in 20 levels, because:
+Every extra level doubles the capacity, so $N$ entries need only about $\log_2 N$ levels. A million entries fit in 20 levels, because:
 
 $$2^{20} = 1{,}048{,}576$$
 
@@ -351,7 +351,7 @@ $$10^8 / 10^8 = 1 \text{ s}$$
 
 With a plain list, $V^2$ is $10^{12}$ steps, the 2.8 hours of [Section 5.1](#51-why-a-plain-list-is-slow).
 
-The heap makes each step of Dijkstra's algorithm cheap, but not the number of steps. The search still spreads in rings in every direction, with no idea where the door is: it settled 54 cells to reach the door's, including cells along the bottom wall that lead away from it.
+The heap makes each step of Dijkstra's algorithm cheap, but not the number of steps. The search still spreads in rings in every direction, using no information about where the door is: it settled 54 cells to reach the door's, including cells along the bottom wall that lead away from it.
 
 ## 6. Summary
 

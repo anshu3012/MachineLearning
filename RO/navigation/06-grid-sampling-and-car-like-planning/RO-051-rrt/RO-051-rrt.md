@@ -18,7 +18,7 @@ tags: [subject/robotics, area/navigation, concept/rrt, concept/rrt-star, concept
 
 So far the robot has met the room's furniture with a [potential field](../RO-050-potential-fields/RO-050-potential-fields.md#1-overview) (G-2740), a height it steps down from wherever it is. Under the table, at (4.0, 0.5), the robot stopped in a [local minimum](../RO-050-potential-fields/RO-050-potential-fields.md#4-why-the-robot-stops-local-minima) (G-1110) at (3.60, 0.59), and every fix had a price:
 
-- random walks got it out, after a median of 46.1 m of driving where the shortest route is 4.55 m;
+- random walks freed it, after a median of 46.1 m of driving where the shortest route is 4.55 m;
 - a harmonic potential has no local minimum, but needs 29.2 million updates on a grid of the whole room first;
 - a navigation function works only in a world made of disks.
 
@@ -42,7 +42,7 @@ Every number below is computed in the notebook `RO-051-rrt.ipynb`.
 
 ### 2.1 One step: sample, nearest node, steer, check
 
-The first part of the opening problem: the robot under the table must get somewhere without a grid and without being stuck. Picture throwing darts at a map of the room. Wherever a dart lands, the nearest place the robot can already reach sends out a short branch towards it. Darts land all over the room, so branches reach out in every direction, round the table as easily as along it.
+The first part of the opening problem: the robot under the table must find a route to the door without a grid and without stopping at a local minimum. Picture throwing darts at a map of the room. Wherever a dart lands, the nearest place the robot can already reach sends out a short branch towards it. Darts land all over the room, so branches reach out in every direction, round the table as easily as along it.
 
 **The standard terms.** A planner that never builds the obstacle region or a grid, but draws random configurations and tests them only with collision checks, is a **sampling-based planner** (G-2760) (LaValle ch.5; MR §10.5). The tree it grows here is a **rapidly-exploring random tree** (G-2761), RRT for short (LaValle §5.5): a [graph](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#21-cells-and-moves-vertices-and-edges) (G-2540) of free configurations, its vertices, which we call nodes, joined by free straight edges, with exactly one path from the start to every node. One round has four moves (MR §10.5.1, Algorithm 10.3; CMU 16-350 slides):
 
@@ -87,15 +87,15 @@ $$q_{\text{new}} = q_{\text{rand}}$$
 
 $$\text{steps} = \lceil 0.5 / 0.05 \rceil = 10$$
 
-so 11 points along the 0.5 m edge, each a test of the robot's centre against the obstacles grown by 0.25 m. All 11 are free: the node (3.501, 0.472) joins the tree. The second sample, (3.215, 3.951), lands near the door; its nearest node is the new one, 3.49 m away, and the step of 0.5 m towards it ends at (3.46, 0.97), inside the table's grown band. Rejected. One round adds at most one short edge, so the tree needs many rounds to reach the door.
+so 11 points along the 0.5 m edge, each a test of the robot's centre against the obstacles grown by 0.25 m. All 11 are free: the node (3.501, 0.472) joins the tree. The second sample, (3.215, 3.951), lands near the door; its nearest node is the new one, 3.49 m away, and the step of 0.5 m towards it ends at (3.46, 0.97), inside the table's grown band, so the step is rejected. One round adds at most one short edge, so the tree needs many rounds to reach the door.
 
 ### 2.2 The tree grows to the door
 
-Figure 2 plays the whole run. Samples 1 to 4 go stage by stage: the sample (orange star), its nearest node (circled), the steered edge with its 11 check points, then added (green) or thrown away (red cross). After that, one sample per frame. Watch the tree crawl along the strip under the table, then branch up the table's left side towards the door.
+Figure 2 plays the whole run. Samples 1 to 4 go stage by stage: the sample (orange star), its nearest node (circled), the steered edge with its 11 check points, then added (green) or thrown away (red cross). After that, one sample per frame. Watch the tree grow along the strip under the table, then branch up the table's left side towards the door.
 
 ![Animation: RRT growing from the start under the table (4.0, 0.5) to the doorway centre (3.6, 4.0), in the disk robot's C-space (light grey: obstacles grown by 0.25 m). Samples 1 to 4 stage by stage: the random sample (orange star), its nearest node (circled), a step of at most 0.5 m towards it checked at 11 points, then the node added (green) or rejected (red cross). Sample 1, (1.395, 0.354), is 2.609 m from the start and gives the node (3.501, 0.472); sample 2 lands near the door and its step ends inside the table's band. Then one sample per frame. Sample 67 is the goal itself; the last frame shows the tree of 41 nodes, the route through it, 6.08 m (green), and the shortest route, 4.55 m (dashed)](images/rrt_grow.gif)
 
-The tree reached the door at sample 67. Of the 67 samples, 28 were rejected, 17 of them in the first half of the run, while much of the tree was still in the 0.5 m strip under the table, where many steps hit the table or the wall. The tree has 41 nodes: the start, 39 added nodes and the door. The 465 collision checks are the whole cost: no grid, no field. The route is read off by following the parents from the door back to the start, as in A\*: 13 edges, 6.08 m. So the robot that was stuck under the table has a route, which answers the first part of the opening problem.
+The tree reached the door at sample 67. Of the 67 samples, 28 were rejected, 17 of them in the first half of the run, while much of the tree was still in the 0.5 m strip under the table, where many steps hit the table or the wall. The tree has 41 nodes: the start, 39 added nodes and the door. The 465 collision checks are the whole cost: no grid, no field. The route is read off by following the parents from the door back to the start, as in A\*: 13 edges, 6.08 m. The robot that stopped under the table therefore has a route, which answers the first part of the opening problem.
 
 ### 2.3 Why random samples explore fast
 
@@ -103,11 +103,11 @@ Random walks freed the robot from the local minimum, but slowly (46.1 m of drivi
 
 ![Animation: two trees grow from under the table (4.0, 0.5) to 100 nodes, a few nodes per frame. Left: RRT without goal bias, which reaches round both sides of the table and up to the door; after 100 nodes 92 percent of the free floor is within 0.5 m of a node in this run. Right: a random-walk tree, each new node 0.5 m from a randomly chosen node in a random direction; it stays in a tangle under the table, 17 percent](images/rrt_walk.gif)
 
-Over 20 runs, after 100 nodes, RRT covers 95 percent of the free floor and the random-walk tree 27 percent (notebook). The reason is which node grows. A random sample most often lands in a large empty region, and the node nearest to it is then one at the edge of the explored part, facing that empty region; so the tree grows outwards, towards the largest unexplored region (CMU 16-350 slides; LaValle §5.5.1). The random walk picks any node of the tree, and most nodes sit inside the explored tangle, so most new nodes land there too. The more empty floor lies around a node, the more often RRT extends it. Exploring fast does not yet mean reaching the door: nothing so far pulls the tree towards it.
+Over 20 runs, after 100 nodes, RRT covers 95 percent of the free floor and the random-walk tree 27 percent (notebook). The reason is which node grows. A random sample most often lands in a large empty region, and the node nearest to it is then one at the edge of the explored part, facing that empty region; so the tree grows outwards, towards the largest unexplored region (CMU 16-350 slides; LaValle §5.5.1). The random walk picks any node of the tree, and most nodes lie inside the explored region, so most new nodes land there too. The more empty floor lies around a node, the more often RRT extends it. Exploring fast does not yet mean reaching the door: nothing so far pulls the tree towards it.
 
 ### 2.4 The algorithm and the goal bias
 
-Pure random samples would reach the door only by luck, so every so often the sample is the goal itself: with probability 0.05 here, 1 in 100 in LaValle §5.5.3, 0.1 in the CMU slides. Sampling the goal now and then is the **goal bias** (G-2764). Too strong a bias makes the tree greedy, running straight at the door like the [randomized potential field](../RO-050-potential-fields/RO-050-potential-fields.md#5-escaping-by-chance-randomized-potential-fields) (G-2744); too weak, and it rarely tries to finish (LaValle §5.5.3). In our run, sample 67 was such a goal sample, and the step from a node within 0.5 m of the door reached it.
+Pure random samples would reach the door only by chance, so every so often the sample is the goal itself: with probability 0.05 here, 1 in 100 in LaValle §5.5.3, 0.1 in the CMU slides. Sampling the goal now and then is the **goal bias** (G-2764). Too strong a bias makes the tree greedy, running straight at the door like the [randomized potential field](../RO-050-potential-fields/RO-050-potential-fields.md#5-escaping-by-chance-randomized-potential-fields) (G-2744); too weak, and it rarely attempts a connection to the goal (LaValle §5.5.3). In our run, sample 67 was such a goal sample, and the step from a node within 0.5 m of the door reached it.
 
 The whole algorithm (LaValle §5.5; MR §10.5.1; CMU 16-350 slides):
 
@@ -126,7 +126,7 @@ Three choices inside the loop shape any RRT (MR §10.5.1): the sampler (even ove
 
 ### 2.5 The route is long, and stays long
 
-The second part of the opening problem: how long is the route? Over 200 runs, RRT reached the door after a median of 65 samples, with a median route of 6.07 m against the shortest 4.55 m: a third longer, zig-zagging from node to node. Can it improve if we keep sampling and keep the best route found? The blue line of Figure 4 says no: from 150 samples to 4,000 the median best route stays at 6.07 m.
+The second part of the opening problem: how long is the route? Over 200 runs, RRT reached the door after a median of 65 samples, with a median route of 6.07 m against the shortest 4.55 m: a third longer, zig-zagging from node to node. Can it improve if we keep sampling and keep the best route found? The blue line of Figure 4 shows that it cannot: from 150 samples to 4,000 the median best route stays at 6.07 m.
 
 ![The best route's length against the number of samples, median of 20 runs from under the table: RRT, keeping the best route as the tree grows (blue), stays at 6.07 m from 150 samples on; RRT\* (green) falls from 6.11 m at 100 samples to 5.01 m at 500, 4.71 m at 2,000 and 4.66 m at 4,000, towards the shortest route, 4.55 m (dashed)](images/cost_chart.png)
 
@@ -138,7 +138,7 @@ The reason is in step 4 of the algorithm: a node's parent is fixed when the node
 
 ### 3.1 Choose the parent, then rewire
 
-The route of Section 2.5 stays 6.07 m long because parents never change. Picture each node as a town that keeps the shortest known road back to the start. When a new town appears, it connects to whichever nearby town gives it the shortest road home, not just the closest one; then each nearby town checks whether going home through the new town would be shorter, and if so switches.
+The route of Section 2.5 stays 6.07 m long because parents never change. Picture each node as a town that keeps the shortest known road back to the start. When a new town appears, it connects to whichever nearby town gives it the shortest road home, not necessarily the closest one; then each nearby town checks whether going home through the new town would be shorter, and if so switches.
 
 **The standard terms.** RRT with these two moves is **RRT\*** (G-2765), and switching a node's parent to the new node is **rewiring** (G-2766) (Karaman and Frazzoli 2011, Algorithm 6; CMU 16-350 slides). Each node stores its cost: the length of its route from the start through the tree. "Nearby" means within a radius $r$, here 0.5 m.
 
@@ -239,9 +239,9 @@ so $\gamma = 4.0$ is enough.
 
 - **PRM\*** (G-2769): a roadmap planner, which connects each sample to its neighbours instead of growing one tree, and tries more connections as the roadmap grows, so its routes converge to the shortest (Karaman and Frazzoli 2011; OMPL planners).
 - **FMT\*** (G-2770), the fast marching tree: it draws all its samples first, then grows a tree outwards in order of cost from the start, as Dijkstra's algorithm does, checking for collisions only when a connection is about to be made (OMPL planners).
-- **SST\*** (G-2771), from Stable Sparse-RRT: for robots with motion limits, whose steer cannot simply draw a straight line to a sample; it keeps only a sparse set of nodes and is asymptotically optimal, where SST is asymptotically near-optimal (Li, Littlefield and Bekris 2016; OMPL planners).
+- **SST\*** (G-2771), from Stable Sparse-RRT: for robots with motion limits, whose steer cannot draw a straight line to a sample; it keeps only a sparse set of nodes and is asymptotically optimal, where SST is asymptotically near-optimal (Li, Littlefield and Bekris 2016; OMPL planners).
 
-RRT\* gets the route as short as we wish, given time. The first route, though, still took 63 samples to appear, from one tree that had to find its own way through the 0.7 m gap of the doorway.
+RRT\* makes the route as short as we wish, given time. The first route, though, still took 63 samples to appear, from one tree that had to find its own way through the 0.7 m gap of the doorway.
 
 ## 4. Two trees that meet: RRT-Connect
 
@@ -261,9 +261,9 @@ Figure 7 plays a run. Blue grows from the start under the table, purple from the
 
 ![Animation: RRT-Connect from under the table (4.0, 0.5, blue tree) and the doorway centre (3.6, 4.0, purple tree), one round per frame. Each round one tree takes one step of at most 0.5 m towards a random sample (orange star); if it added a node, the other tree steps towards that node again and again until it reaches it or is blocked; then the trees swap. In round 27 the blue tree adds a node left of the table and the purple tree reaches it in 5 steps: the trees meet. Last frame: the route, 5.40 m (green), and the shortest route, 4.55 m (dashed)](images/rrt_connect.gif)
 
-In Figure 7 most rounds are blocked: the blue tree is boxed in the strip under the table, and the purple tree grows down the left of the table. In round 27 the blue tree's new node, left of the table, is in reach: the purple tree runs 5 steps to it and the trees meet. The route is 5.40 m. Over 200 runs, the trees met after a median of 27 rounds, with a median route of 5.61 m, against RRT's 65 samples and 6.07 m (notebook). Two trees answer the third part of the opening problem: they find the first route sooner, after 27 rounds instead of 65 samples (medians).
+In Figure 7 most rounds are blocked: the blue tree is confined to the strip under the table, and the purple tree grows down the left of the table. In round 27 the blue tree's new node, left of the table, is in reach: the purple tree runs 5 steps to it and the trees meet. The route is 5.40 m. Over 200 runs, the trees met after a median of 27 rounds, with a median route of 5.61 m, against RRT's 65 samples and 6.07 m (notebook). Two trees answer the third part of the opening problem: they find the first route sooner, after 27 rounds instead of 65 samples (medians).
 
-RRT-Connect keeps RRT's guarantee of finding a route if one exists, with probability approaching 1, but like RRT it is not asymptotically optimal: its first route is all it offers (CMU 16-350 slides). Its routes are usually shortened afterwards, by trying straight cuts between points of the route (CMU 16-350 slides).
+RRT-Connect keeps RRT's guarantee of finding a route if one exists, with probability approaching 1, but like RRT it is not asymptotically optimal: it returns only its first route (CMU 16-350 slides). Its routes are usually shortened afterwards, by trying straight cuts between points of the route (CMU 16-350 slides).
 
 ## 5. Summary
 
@@ -277,13 +277,13 @@ RRT-Connect keeps RRT's guarantee of finding a route if one exists, with probabi
 - A **sampling-based planner** (G-2760) replaces the grid's millions of cells with random configurations and collision checks, so it works where a grid cannot, such as six joints at 2.2 × 10¹⁵ cells.
 - The **nearest node** (G-2762) to a random sample usually sits at the edge of the explored region, so RRT grows towards empty space: 95 percent of the floor within 0.5 m after 100 nodes, against 27 percent for a random-walk tree.
 - **Steer** (G-2763) moves at most 0.5 m towards the sample, so every edge is short enough to check at 11 points.
-- A **goal bias** (G-2764) of 0.05 makes one sample in twenty the goal itself, so the tree tries to finish without turning greedy.
+- A **goal bias** (G-2764) of 0.05 makes one sample in twenty the goal itself, so the tree regularly attempts to reach the goal without becoming greedy.
 - RRT's route stays at 6.07 m however long it runs, because a node's parent never changes; **RRT\*** (G-2765) picks the cheapest nearby parent and **rewires** (G-2766) neighbours through the new node, so the route only ever shortens: 4.79 m after 2,000 samples in one run.
 - RRT\* is **asymptotically optimal** (G-2767), its route converging to the shortest with probability 1, provided its radius shrinks no faster than about the square root of ln n / n in two dimensions; RRT is not.
 - **PRM\*** (G-2769), **FMT\*** (G-2770) and **SST\*** (G-2771) are asymptotically optimal relatives: a roadmap, a tree grown in cost order, and a sparse tree for robots with motion limits; they are named here because planner libraries such as OMPL offer them beside RRT\*.
 - **RRT-Connect** (G-2768) grows a tree from each end and lets each run to the other's new nodes, so the trees met after 27 rounds instead of 65 samples, though its route is not shortened.
 
-The robot can now plan from under the table to the door with only collision checks and nearest neighbours, and RRT\* makes the route as short as time allows. Still missing: each tree serves one start and one goal and is thrown away after, and a narrow passage starves uniform samples; a roadmap of random samples built once and searched for many queries is the next step, [probabilistic roadmaps](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#1-overview).
+The robot can now plan from under the table to the door with only collision checks and nearest neighbours, and RRT\* makes the route as short as time allows. Two limits remain: each tree serves one start and one goal and is discarded afterwards, and a narrow passage receives few uniform samples; a roadmap of random samples built once and searched for many queries is the next step, [probabilistic roadmaps](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#1-overview).
 
 ## 6. Sources
 
@@ -312,7 +312,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Rapidly-exploring random tree (RRT) (G-2761) | A sampling-based planner that grows a tree from the start: each round it draws a random configuration, steps the tree's nearest node at most a fixed distance towards it and keeps the new node if the step is free, until the tree reaches the goal; it explores fast but its routes zig-zag. |
 | Nearest node (G-2762) | The node of a planner's tree closest to a new sample under the planner's distance; RRT extends it, which makes the tree grow towards the largest empty regions. |
 | Steer (steering function) (G-2763) | The step of a sampling-based planner that moves from a tree node towards a sample, at most a fixed distance (0.5 m here), stopping on the sample if it is closer; it keeps every new edge short enough to check. |
-| Goal bias (G-2764) | The small probability (0.05 here) with which a sampling-based planner uses the goal itself as its next sample, so the tree keeps trying to reach the goal; too large a bias makes it greedy, too small leaves it wandering. |
+| Goal bias (G-2764) | The small probability (0.05 here) with which a sampling-based planner uses the goal itself as its next sample, so the tree keeps trying to reach the goal; too large a bias makes it greedy, too small a bias makes it slow to reach the goal. |
 | RRT* (G-2765) | RRT with two extra moves per round: the new node takes as parent the nearby node that gives it the shortest route from the start, and nearby nodes are rewired through it when that is shorter; its route converges to the shortest as samples grow. |
 | Rewiring (G-2766) | Switching a tree node's parent to a newly added node when the route from the start through the new node is shorter; it lowers the costs of the node and everything below it, so the tree's routes only shorten. |
 | Asymptotically optimal (G-2767) | Said of a sampling-based planner whose route length converges to the shortest possible, with probability 1, as the number of samples grows without end, such as RRT*; plain RRT is not. |
@@ -326,7 +326,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Parent (back pointer)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2576) | The vertex from which a search reached a vertex, stored with it during the search; following parents back from the goal gives the route. In A*, a cell's parent changes whenever a shorter way in lowers its cost so far. |
 | [Euclidean distance](../../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [Edge resolution (segment checking)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#61-a-segment-holds-infinitely-many-configurations) (G-2679) | Checking a straight path segment in C-space for collisions by testing points along it, spaced at most a chosen step apart; too long a step can miss a thin collision, too short a step wastes time. |
-| [Randomized potential field](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-050-potential-fields/RO-050-potential-fields.md#5-escaping-by-chance-randomized-potential-fields) (G-2744) | A planner that follows a potential field downhill and, when stuck in a local minimum, takes random walks until it finds a lower point, then descends again, backtracking after many failed walks; it escapes local minima, at the price of long paths and many tuned settings. |
+| [Randomized potential field](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-050-potential-fields/RO-050-potential-fields.md#5-escaping-by-chance-randomized-potential-fields) (G-2744) | A planner that follows a potential field downhill and, when it stops at a local minimum, takes random walks until it finds a lower point, then descends again, backtracking after many failed walks; it escapes local minima, at the price of long paths and many tuned settings. |
 | [Metric (distance function)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#71-the-rules-a-distance-must-follow) (G-2681) | A distance between points that is never negative, is 0 only between equal points, is the same both ways and obeys the triangle inequality; search trees rely on these rules to skip far regions safely. |
 | [Nearest-neighbour search with wrap-around](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#8-nearest-neighbours-when-headings-wrap) (G-2685) | A k-d tree search that measures a cell's distance from the query the short way round the circle of headings, so a cell just across 0° is not skipped and the true nearest configuration is found. |
 | [Bidirectional search](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#82-bidirectional-search) (G-2584) | A forward search from the start and a backward search from the goal run in turn until some state has been expanded by both; the route is the smallest sum of the two costs over all states both reached, since the meeting state can be off the shortest route. |

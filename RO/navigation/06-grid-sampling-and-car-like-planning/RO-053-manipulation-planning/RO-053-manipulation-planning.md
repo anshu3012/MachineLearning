@@ -14,18 +14,18 @@ tags: [subject/robotics, area/navigation, concept/manipulation-planning, concept
 
 > **Key point:** When a robot moves an object, the object is an obstacle while it stands and part of the robot while it is held, so the free space changes with each grasp and release. Manipulation planning splits the task into transit and transfer motions joined where both are possible; slow pushes move objects that cannot be held, and planning backwards from the goal with motions that slide along surfaces makes the result certain despite errors in the hand's position.
 
-So far the robot plans its own motion among obstacles that stay put. The [probabilistic roadmap](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2780) answers many trips in an unchanged room, and [symbolic task planning](../../04-graph-search-and-configuration-space/RO-035-strips-and-pddl/RO-035-strips-and-pddl.md#1-overview) (G-2600) puts the steps of carrying a cup in order: go to the table, pick the cup up, carry it, put it down. "Pick up" is one step to the task planner, but the robot still has to move its arm to do it.
+So far the robot plans its own motion among obstacles that never move. The [probabilistic roadmap](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2780) answers many trips in an unchanged room, and [symbolic task planning](../../04-graph-search-and-configuration-space/RO-035-strips-and-pddl/RO-035-strips-and-pddl.md#1-overview) (G-2600) puts the steps of carrying a cup in order: go to the table, pick the cup up, carry it, put it down. "Pick up" is one step to the task planner, but the robot still has to move its arm to do it.
 
 Manipulation needs an arm, so this Note leaves the room's floor for the table top. We use the arm whose [configuration](../../04-graph-search-and-configuration-space/RO-036-configuration-space/RO-036-configuration-space.md#21-the-configuration-numbers-that-place-every-point) (G-2286), the numbers that place it, is its two joint angles: two links, 0.3 m and 0.2 m long, each turning about its joint, with the robot parked beside the table and the arm seen from the side. The shoulder is 0.1 m above the table top, and a suction gripper at the hand holds a cup by its lid while a wrist keeps the cup upright.
 
-The task: move the cup, 6 cm wide and 8 cm tall, from spot A on the table to spot B, 0.24 m further on, with a bottle 0.14 m tall standing between them. What breaks is the cup itself, which is neither an obstacle that stays put nor a part of the robot:
+The task: move the cup, 6 cm wide and 8 cm tall, from spot A on the table to spot B, 0.24 m further on, with a bottle 0.14 m tall standing between them. The difficulty is the cup itself, which is neither an obstacle that never moves nor a part of the robot:
 
 - planned as a fixed obstacle, the cup can never move;
 - planned as if it were not there, the cup goes wherever the hand goes. Figure 1 follows a route planned for the arm alone, 109.3 degrees of joint motion on which the arm touches nothing (notebook): the cup it carries sinks 1.7 cm into the table and passes through the bottle for 32.2 percent of the way.
 
 ![Animation: the arm (blue link 1, orange link 2) carries the cup from spot A along a route planned for the arm alone, as if there were no cup (a probabilistic roadmap in the arm's configuration space, seed 0, 109.3 degrees of joint motion). The robot's top and the table are grey, the bottle green, spot B dashed. The arm touches nothing; the cup, drawn red while it overlaps something, sinks up to 1.7 cm into the table early on and passes through the bottle for 32.2 percent of the way; the dotted red line traces the cup's bottom. Last frame: the cup at B](images/naive.gif)
 
-Two more problems wait. A cup without a lid cannot be held by suction at all, yet it still has to move. And the hand is never exactly where it is told to go: if its position is known only to within 1 cm, a cup holder at B that leaves 0.5 cm of play on each side will often be missed.
+Two more problems remain. A cup without a lid cannot be held by suction at all, yet it still has to move. And the hand is never exactly where it is told to go: if its position is known only to within 1 cm, a cup holder at B that leaves 0.5 cm of play on each side will often be missed.
 
 The opening question of this Note: **how does the robot plan motions that move objects, by holding them or by pushing them, and still end with the cup where it must be?** We answer it in steps:
 
@@ -45,7 +45,7 @@ The opening problem was that the cup is sometimes an obstacle and sometimes part
 - while the hand is empty, the arm moves and the cup stays where it stands, so the cup is an obstacle like the bottle;
 - while the hand holds the cup, the cup moves with the hand as if it were part of the arm, so it must not hit the table, the bottle or the arm's own links.
 
-A motion of the first kind is a **transit** (G-2801): the robot moves while the object stays put. A motion of the second kind is a **transfer** (G-2802): the object is held and moves as if attached to the robot's hand (LaValle §7.3.2; Hauser ch.12, "Multi-modal motion planning"). Which of the two applies, together with where the object stands or how it is held, is the **mode** (G-2803) of the task (Hauser ch.12).
+A motion of the first kind is a **transit** (G-2801): the robot moves while the object stays where it is. A motion of the second kind is a **transfer** (G-2802): the object is held and moves as if attached to the robot's hand (LaValle §7.3.2; Hauser ch.12, "Multi-modal motion planning"). Which of the two applies, together with where the object stands or how it is held, is the **mode** (G-2803) of the task (Hauser ch.12).
 
 Each mode has its own free space. The arm's configuration is its two joint angles, so its C-space is a square of angles from −180° to 180°, whose opposite edges are the same angles ([cutting the torus into a square](../../04-graph-search-and-configuration-space/RO-036-configuration-space/RO-036-configuration-space.md#51-cutting-the-torus-into-a-square)). Figure 2 draws the square three times, once per stage of the task, and colours every blocked configuration by what it hits: grey the table or the robot's top, green the bottle, orange the cup in the way. Watch the orange part move: round the grasp in the first panel, where the links would hit the standing cup; at the top and bottom edges in the second, where the held cup would hit link 1; round the placing in the third.
 
@@ -98,7 +98,7 @@ The task for this section: push the open cup 6 cm towards the robot, from A (cen
 
 Figure 4 pushes the cup three ways. In part 1, watch the cup slide with the hand at 0.05 m/s and stop with it at C; in part 3, watch it slide on past C after a push at 0.5 m/s.
 
-![Animation: the arm pushes the open cup (no lid) to the left, its hand touching the cup's right side; the target spot C is dashed. Part 1, a slow push at 0.05 m/s, 4 cm above the table: the cup slides with the hand, the push equals the friction, 0.981 N, and speeding the cup up takes only 0.025 N; when the hand stops at C, the cup coasts 0.32 mm and stops at C. Part 2, a push at the rim, 8 cm up: the push's torque about the cup's left bottom corner, 0.981 × 0.08 = 0.0785 N m, beats the weight's, 2.4525 × 0.03 = 0.0736 N m, so the cup tips over that corner and falls. Part 3, a fast push at 0.5 m/s, 4 cm up: the hand stops at C, and the cup slides on, slowed by friction, 3.2 cm past C](images/push.gif)
+![Animation: the arm pushes the open cup (no lid) to the left, its hand touching the cup's right side; the target spot C is dashed. Part 1, a slow push at 0.05 m/s, 4 cm above the table: the cup slides with the hand, the push equals the friction, 0.981 N, and speeding the cup up takes only 0.025 N; when the hand stops at C, the cup coasts 0.32 mm and stops at C. Part 2, a push at the rim, 8 cm up: the push's torque about the cup's left bottom corner, 0.981 × 0.08 = 0.0785 N m, exceeds the weight's, 2.4525 × 0.03 = 0.0736 N m, so the cup tips over that corner and falls. Part 3, a fast push at 0.5 m/s, 4 cm up: the hand stops at C, and the cup slides on, slowed by friction, 3.2 cm past C](images/push.gif)
 
 The cup's numbers (the coefficient of friction is an assumed value for a cup on a table):
 
@@ -168,7 +168,7 @@ So the slow push of part 1 leaves the cup within 0.32 mm of where the hand stopp
 
 ### 3.3 Where to push: slide or tip
 
-Part 2 of Figure 4 pushes at the rim and the cup tips over instead of sliding. The cup can do one of three things under a push: stay put, slide, or tip over its front bottom corner, the left one when pushed to the left. Quasistatic analysis tests each for balance and keeps the one that balances (MR §12.3).
+Part 2 of Figure 4 pushes at the rim and the cup tips over instead of sliding. The cup can do one of three things under a push: remain at rest, slide, or tip over its front bottom corner, the left one when pushed to the left. Quasistatic analysis tests each for balance and keeps the one that balances (MR §12.3).
 
 The turning effect of a force about a point is its **torque** (G-2808): the force times its distance from the point, measured square to the force's line (MR §3.4). A door shows why the distance matters: the same push turns it more easily at the handle, far from the hinges, than close to them. Figure 5 marks the forces on the cup and their distances from the corner O.
 
@@ -180,11 +180,11 @@ $$\text{push: } 0.981 \times 0.04 = 0.0392 \text{ N m}$$
 
 $$\text{weight: } 2.4525 \times 0.03 = 0.0736 \text{ N m}$$
 
-The weight's torque wins, so the cup slides flat. Pushing at the rim, 8 cm up:
+The weight's torque is larger, so the cup slides flat. Pushing at the rim, 8 cm up:
 
 $$\text{push: } 0.981 \times 0.08 = 0.0785 \text{ N m}$$
 
-The push's torque wins before the push is large enough to slide the cup, so the cup tips. The same steps in symbols, with:
+The push's torque exceeds the weight's before the push is large enough to slide the cup, so the cup tips. The same steps in symbols, with:
 
 - $\mu m g$ is the friction force, 0.981 N, and $m g$ the cup's weight, 2.4525 N ([Section 3.2](#32-why-a-slow-push-is-predictable));
 - $p$ is the push's height above the table, in m;
@@ -200,20 +200,20 @@ $$= 0.06 / (2 \times 0.4) = 0.075 \text{ m}$$
 
 A push below 7.5 cm slides the cup; a push above it tips the cup (MR §12.3, Exercise 12.23 asks the same of a pushed box). The robot's plan for the open cup is now complete: touch the cup's side 4 cm up, move the hand 6 cm to the left slowly, stop. A **nonprehensile** (G-2805) plan like this needs no grasp and, under the quasistatic assumption, no sensing while it runs; LaValle §12.5.2 shows even sequences of squeezes that turn a part to a known orientation without any sensor. Every plan so far, though, assumed that the hand goes exactly where it is told.
 
-**Another way to see it.** Rest a metre stick on your two index fingers, one finger near the centre and one far from it, and slowly slide the fingers together. The stick never falls, and the fingers meet under its centre (MR §12.3, Example 12.10, the meter-stick trick). Testing each way the stick could slip for force balance, one at a time, shows why:
+**Another way to see it.** A metre stick rests on two index fingers, one finger near the centre and one far from it, and the fingers slowly slide together. The stick never falls, and the fingers meet under its centre (MR §12.3, Example 12.10, the meter-stick trick). Testing each way the stick could slip for force balance, one at a time, shows why:
 
 - the finger farther from the centre carries less of the stick's weight, so less friction, and the stick slides over it while it rides along on the other finger;
 - once the centre is halfway between the fingers, the stick slips on both, and the centre stays between them until they meet.
 
-The analysis holds only for slow motion: move a finger fast and the stick falls, because the quasistatic assumption no longer holds (MR §12.3).
+The analysis holds only for slow motion: if a finger moves fast, the stick falls, because the quasistatic assumption no longer holds (MR §12.3).
 
 ## 4. Placing despite errors: preimage planning
 
 > **Key point:** A motion command whose direction can be off by up to 10 degrees surely reaches the goal only from a set of starts, its preimage. Sliding along the holder's chamfers turns the preimage from a sliver 1 cm wide into a triangle 3 cm wide and 8.5 cm tall, so a hand known only to within 1 cm still places the cup. Planning backwards, each command must end inside the preimage of the next.
 
-### 4.1 The error that breaks the placing
+### 4.1 The error that makes the placing fail
 
-The opening's third problem: the hand is never exactly where it is told. Say the robot knows the hand's position only to within 1 cm either side, and any straight motion it commands may run up to 10 degrees off its direction (an error model of the kind preimage planning assumes, LaValle §12.5.1). Now B is a cup holder, so that the cup cannot be knocked over (Figure 6, left): two posts 2 cm tall, 7 cm apart at the bottom, each with a 45-degree chamfer 1 cm wide on its inner top corner. The 6 cm cup has 0.5 cm of play on each side.
+The opening's third problem: the hand is never exactly where it is told. Suppose the robot knows the hand's position only to within 1 cm either side, and any straight motion it commands may run up to 10 degrees off its direction (an error model of the kind preimage planning assumes, LaValle §12.5.1). B is now a cup holder, so that the cup cannot be knocked over (Figure 6, left): two posts 2 cm tall, 7 cm apart at the bottom, each with a 45-degree chamfer 1 cm wide on its inner top corner. The 6 cm cup has 0.5 cm of play on each side.
 
 ![The cup holder at B. Left, side view: the bottle, the two posts of the holder (purple) 1.5 cm thick and 2 cm tall, 7 cm apart at the bottom, each with a 45-degree chamfer, and the 6 cm cup above them; the black dot is the middle of the cup's bottom. Right, the cup's C-space: the cup becomes that point, and the posts, the bottle and the table grow by the cup's shape (orange); the holder becomes a slot 1 cm wide at the bottom whose chamfers open to a mouth 3 cm wide, 2 cm above the table](images/holder_fig.png)
 
@@ -231,7 +231,7 @@ The command is "move down until stopped". From a given start, every direction wi
 
 The set of starts from which a motion command is sure to reach its goal, whatever error occurs, is the **preimage** (G-2811) of the goal for that command (LaValle §12.5.1). Without sliding, the preimage is a sliver inside the slot, at most 1 cm wide and reaching only 0.8 cm above the posts (notebook): the robot would already have to be in the slot.
 
-**Sliding is what helps.** On touching a surface, a moving object either sticks or slides along it. A motion that slides along a surface while touching it is a **compliant motion** (G-2810) (LaValle §12.5.1). Friction stops the sliding when the motion points nearly straight into the surface: with the coefficient of friction 0.4, sliding needs the motion to point more than 21.8 degrees away from straight into the surface, the angle whose tangent is 0.4, because the part of the motion along the surface must beat 0.4 times the part pressing into it (LaValle §12.5.1; MR §12.2):
+**Sliding is what helps.** On touching a surface, a moving object either sticks or slides along it. A motion that slides along a surface while touching it is a **compliant motion** (G-2810) (LaValle §12.5.1). Friction stops the sliding when the motion points nearly straight into the surface: with the coefficient of friction 0.4, sliding needs the motion to point more than 21.8 degrees away from straight into the surface, the angle whose tangent is 0.4, because the part of the motion along the surface must exceed 0.4 times the part pressing into it (LaValle §12.5.1; MR §12.2):
 
 - on a chamfer, tilted 45 degrees, a motion within 10 degrees of straight down points 35 to 55 degrees away from straight into it, so the cup slides down the chamfer into the slot;
 - on the flat top of a post, a motion within 10 degrees of straight down points at most 10 degrees away from straight into it, so the cup sticks there and the placing fails.
@@ -283,19 +283,19 @@ The drop works only if the motion before it ends inside the drop's preimage, and
 2. the command before: the transfer, planned with the roadmap, ending inside that band, so the hand's 1 cm error is covered;
 3. before that: the transit to the grasp.
 
-Real pick-and-place software does the same with short fixed motions: it plans to a configuration just above the target and finishes with a straight move down a centimetre or two (Hauser ch.12, "Pre-grasp, post-grasp, pre-placement, and post-placement motions"). Hauser gives a second reason: the last centimetres before a grasp or a placing are a deep [narrow passage](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#61-the-tray-robot-where-uniform-samples-starve) (G-2793), a thin part of free space, for a sampling planner, and a fixed straight motion avoids sampling it. Computing preimages for general problems is hard (LaValle §12.5.1), so such fixed final motions are planned by hand, as here. The robot can now carry, push and place the cup; the last section shows the software that does this on real robots.
+Real pick-and-place software does the same with short fixed motions: it plans to a configuration just above the target and finishes with a straight move down a centimetre or two (Hauser ch.12, "Pre-grasp, post-grasp, pre-placement, and post-placement motions"). Hauser gives a second reason: the last centimetres before a grasp or a placing are a deep [narrow passage](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#61-the-tray-robot-where-uniform-samples-rarely-land) (G-2793), a thin part of free space, for a sampling planner, and a fixed straight motion avoids sampling it. Computing preimages for general problems is hard (LaValle §12.5.1), so such fixed final motions are planned by hand, as here. The robot can now carry, push and place the cup; the last section shows the software that does this on real robots.
 
 ## 5. The software: MoveIt and OMPL
 
-> **Key point:** OMPL is a library of sampling-based planners, such as PRM and RRT, that by design knows nothing about robots or collisions. MoveIt is the robot-arm software around it: it keeps a model of the robot and its surroundings, checks every configuration the planner tries (including an object attached to the hand, which is the transfer mode), and turns the planner's path into a timed trajectory.
+> **Key point:** OMPL is a library of sampling-based planners, such as PRM and RRT, that by design contains no model of robots or collisions. MoveIt is the robot-arm software around it: it keeps a model of the robot and its surroundings, checks every configuration the planner tries (including an object attached to the hand, which is the transfer mode), and turns the planner's path into a timed trajectory.
 
-The cup task of Sections 2 to 4 used a roadmap planner, a collision checker that knows whether the cup is held, and a model of the arm. Real robots get these pieces from two open-source packages.
+The cup task of Sections 2 to 4 used a roadmap planner, a collision checker that accounts for whether the cup is held, and a model of the arm. Real robots get these pieces from two open-source packages.
 
 **OMPL** (G-2814), the Open Motion Planning Library, is an open-source library (BSD licence, OMPL licence page) of sampling-based planners, among them PRM, RRT, EST and KPIECE, which work on abstractly defined spaces of configurations (OMPL). OMPL contains no collision checker and no drawing, on purpose, so that it can be joined to any of them (OMPL). Its PRM is the roadmap of [Section 2 of the probabilistic roadmaps](../RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges).
 
 **MoveIt** (G-2813) is motion-planning software for robot arms, free under the BSD licence (MoveIt home page); it uses OMPL's planners as its default planners, through a plugin interface that also accepts others (MoveIt docs, "Motion Planning"). MoveIt keeps the **planning scene** (G-2815): its model of the world round the robot and of the robot's own state, including any object attached to, that is carried by, the robot (MoveIt docs, "The move_group node"). Figure 8 follows one request, the transfer of the cup, through MoveIt. Watch the planner and the planning scene take turns: the planner proposes configurations, the scene answers free or not.
 
-![Animation: one motion plan request followed through MoveIt, one box highlighted per frame. 1, the request: start at the grasp configuration, goal above the holder at B, the arm's joints, the PRM planner. 2, request adapters before planning fix small problems, such as a start a hair outside a joint limit. 3, a planner from OMPL, here PRM; OMPL has no collision checker, so for every configuration it tries it asks MoveIt. 4, the planning scene answers: it checks the robot's links against each other, against the table, the bottle and the holder, and the cup attached to the hand after the grasp. 5, back to the planner. 6, request adapters after planning add timing, keeping each joint within its speed and acceleration limits. 7, the trajectory goes to the arm's controllers](images/moveit.gif)
+![Animation: one motion plan request followed through MoveIt, one box highlighted per frame. 1, the request: start at the grasp configuration, goal above the holder at B, the arm's joints, the PRM planner. 2, request adapters before planning fix small problems, such as a start slightly outside a joint limit. 3, a planner from OMPL, here PRM; OMPL has no collision checker, so for every configuration it tries it asks MoveIt. 4, the planning scene answers: it checks the robot's links against each other, against the table, the bottle and the holder, and the cup attached to the hand after the grasp. 5, back to the planner. 6, request adapters after planning add timing, keeping each joint within its speed and acceleration limits. 7, the trajectory goes to the arm's controllers](images/moveit.gif)
 
 Each piece of the cup task has its place in that pipeline (MoveIt docs, "Motion Planning"):
 
@@ -328,12 +328,12 @@ In the table, $w$ is the cup's width, 0.06 m, and $\mu$ the coefficient of frict
 - **Manipulation planning** (G-2800) plans each leg with an ordinary planner, here the probabilistic roadmap, in that leg's free space, so planners for fixed obstacles carry over to moving objects.
 - **Nonprehensile manipulation** (G-2805) moves objects that cannot be grasped, such as the open cup, by pushing, so the robot is not limited to what its gripper can hold.
 - Under the **quasistatic assumption** (G-2806) the forces balance at every instant, because speeding a slowly pushed cup up takes 2.5 percent of the 0.981 N of friction, given by the **coefficient of friction** (G-2807) and **Newton's second law** (G-2809); so the cup stops within 0.32 mm of where the hand stops, and the plan only needs the hand's path.
-- Comparing **torques** (G-2808) about the cup's front corner shows where to push, because the weight's torque must beat the push's: below 7.5 cm the cup slides, above it the cup tips.
-- The **preimage** (G-2811) of the holder for "move down" is a 1 cm sliver without sliding and a triangle 3 cm wide and 8.5 cm tall with **compliant motion** (G-2810), because the chamfers turn misses into slides; so a hand known to within 1 cm can place the cup from up to 2.8 cm above the posts.
+- Comparing **torques** (G-2808) about the cup's front corner shows where to push, because the weight's torque must exceed the push's: below 7.5 cm the cup slides, above it the cup tips.
+- The **preimage** (G-2811) of the holder for "move down" is a 1 cm sliver without sliding and a triangle 3 cm wide and 8.5 cm tall with **compliant motion** (G-2810), because the chamfers make the cup slide into the slot instead of stopping; so a hand known to within 1 cm can place the cup from up to 2.8 cm above the posts.
 - **Preimage planning** (G-2812) chains commands backwards from the goal, so the transfer must end inside the drop's preimage, not at an exact placing.
 - **MoveIt** (G-2813) and **OMPL** (G-2814) supply these pieces on real robots: OMPL the planners, MoveIt the **planning scene** (G-2815) with attached objects, the collision checks and the timing.
 
-The robot can now move objects by carrying, pushing and placing them, despite errors in its hand. Still missing: every plan so far is a path, which says where the robot goes but not how fast, and assumes the robot can stop and turn at any point; real motors have speed and turning limits, which is [planning with motion limits](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#1-overview).
+The robot can now move objects by carrying, pushing and placing them, despite errors in its hand. Every plan so far is still a path, which says where the robot goes but not how fast, and assumes the robot can stop and turn at any point; real motors have speed and turning limits, which is [planning with motion limits](../RO-054-planning-with-motion-limits/RO-054-planning-with-motion-limits.md#1-overview).
 
 ## 7. Sources
 
@@ -378,6 +378,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Configuration](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-036-configuration-space/RO-036-configuration-space.md#21-the-configuration-numbers-that-place-every-point) (G-2286) | The list of numbers that fixes the position of every point of a robot, such as $q = (x, y, \theta) = (2, 1, 0.524)$ for a floor robot or the joint angles $(\theta_1, \theta_2)$ of a 2R arm; with it a planner treats the whole robot as one point. |
 | [Milestone](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#22-phase-1-and-phase-2-milestones-and-edges) (G-2781) | A free configuration kept as a vertex of a probabilistic roadmap, drawn at random; milestones are the places the roadmap's routes pass through. |
 | [Minkowski sum](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#32-minkowski-sum-and-difference) (G-2653) | The set of all sums of a point of one shape and a point of the other, $A \oplus B$, like sweeping one shape over the other; the obstacle region of a robot that keeps its heading is the obstacle's Minkowski sum with the robot reflected through its centre. |
-| [Narrow passage](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#61-the-tray-robot-where-uniform-samples-starve) (G-2793) | A thin part of free space that a route must cross, such as a gap only slightly wider than the robot; uniform random samples rarely land in it, so roadmaps tend to split on either side. |
+| [Narrow passage](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#61-the-tray-robot-where-uniform-samples-rarely-land) (G-2793) | A thin part of free space that a route must cross, such as a gap only slightly wider than the robot; uniform random samples rarely land in it, so roadmaps tend to split on either side. |
 | [Multi-query planner](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#3-many-trips-on-one-roadmap-single-query-and-multi-query-planners) (G-2786) | A planner that invests time in a reusable description of the free space, such as a roadmap, so that many later problems in the same unchanged space are solved quickly. |
 | [Lazy collision checking](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-052-probabilistic-roadmaps/RO-052-probabilistic-roadmaps.md#8-lazy-collision-checking) (G-2799) | Delaying an edge's collision check until a candidate route uses it, deleting edges found to collide and searching again; it saves the checks of the many edges no route uses. |

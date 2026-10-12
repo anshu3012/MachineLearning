@@ -17,11 +17,11 @@ tags: [subject/robotics, area/localization, concept/belief, concept/information-
 
 ![A hallway of 10 cells, numbered 0 to 9 and joined into a loop, with doors in front of cells 1, 3 and 7; a robot stands in cell 1 and does not know it](images/hallway.png)
 
-With the [landmark model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model), the robot has a [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) and sensor models, so it can score any guessed pose for one command or one reading. What still breaks: each score covers one moment, and nothing says what the robot should carry from one step to the next. This Note adds that memory, the belief.
+With the [landmark model](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model), the robot has a [**motion model**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density) (G-2319) and sensor models, so it can score any guessed pose for one command or one reading. What is still missing: each score covers one moment, and nothing says what the robot should carry from one step to the next. This Note adds that memory, the belief.
 
 Figure 1 shows the world of this Note: the same [hallway of 10 cells](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#1-overview) as before, with the same layout and numbers, because a belief over 10 cells is 10 numbers we can draw and check by hand. A robot stands in a hallway of 10 cells, each 1 m long. The hallway is a loop: one step to the right of cell 9 is cell 0. There are doors in front of cells 1, 3 and 7, and all three look the same.
 
-The robot has two things to go on:
+The robot has two sources of information:
 
 - a **door sensor** that reads "door" or "wall", and is sometimes wrong;
 - its **commands**, such as "move 2 cells to the right", which its wheels carry out only roughly.
@@ -67,11 +67,11 @@ The framed part of Figure 2 is everything the robot knows at time $t$: what it k
 
 Why give the list a name? Because it is the only thing a robot's decisions can be based on. A rule such as "if you think you are at the second door, open it" has to be a rule on what the robot knows, not on its true cell, which it never sees (LaValle §11.1.3).
 
-The trouble with the list is its length. The list grows by two entries every step and never shrinks. A robot that reads its sensor 10 times a second has, after one hour:
+The drawback of the list is its length. The list grows by two entries every step and never shrinks. A robot that reads its sensor 10 times a second has, after one hour:
 
 $$10 \times 3600 = 36{,}000 \text{ readings}$$
 
-Storing and searching that whole list at every step is not practical. So we look for a short summary of the history that keeps everything the robot needs and throws away the rest (LaValle §11.2). Sections [3](#3-summary-1-the-set-of-cells-the-robot-could-be-in) and [4](#4-summary-2-a-probability-for-every-cell) give two such summaries.
+Storing and searching that whole list at every step is not practical. So we look for a short summary of the history that keeps everything the robot needs and discards the rest (LaValle §11.2). Sections [3](#3-summary-1-the-set-of-cells-the-robot-could-be-in) and [4](#4-summary-2-a-probability-for-every-cell) give two such summaries.
 
 ## 3. Summary 1: the set of cells the robot could be in
 
@@ -103,7 +103,7 @@ The perfect-sensor stages of Figure 3 end on three sets. Only cell 3 can be reac
 
 ### 3.2 Why a set is not enough
 
-Now use the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell. In symbols:
+Consider the real sensor, which reads "door" at a wall 20 percent of the time. A reading of "door" is then possible in every cell. In symbols:
 
 - $S$ is the set of cells the robot could be in before the reading, such as $\lbrace0, 2, 3, 4, 5, 6, 8, 9 \rbrace$ after the move of [Section 3.1](#31-the-set-step-by-step);
 - $\lbrace0, 1, \ldots, 9 \rbrace$ is the set of cells where "door" can be read, which is now all 10 cells.
@@ -112,7 +112,7 @@ So the intersection $\cap$ removes nothing:
 
 $$S \cap \lbrace0, 1, \ldots, 9 \rbrace= S$$
 
-The set never shrinks, however many readings arrive (the last stages of Figure 3). Crossing places out only works for a perfect sensor, for the reason shown in [why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out): a wrong reading would cross out the true cell. The set also cannot say that cell 3 fits the readings much better than cell 9: both are simply "possible". We need a summary that keeps a **number** for every cell, saying how strongly the readings point to it. Probabilities are that number.
+The set never shrinks, however many readings arrive (the last stages of Figure 3). Crossing places out only works for a perfect sensor, for the reason shown in [why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out): a wrong reading would cross out the true cell. The set also cannot say that cell 3 fits the readings much better than cell 9: both are only "possible". We need a summary that keeps a **number** for every cell, saying how strongly the readings point to it. Probabilities are that number.
 
 ## 4. Summary 2: a probability for every cell
 
@@ -126,16 +126,16 @@ The second thing the robot can keep in memory: instead of "possible" or "impossi
 
 What to watch in each stage:
 
-1. **No idea yet.** The robot has no reason to prefer any cell, so each gets the same share:
+1. **No information yet.** The robot has no reason to prefer any cell, so each gets the same share:
 
    $$
    \frac{1}{10} = 0.1
    $$
 
-2. **Reads "door".** The three door cells grow and the seven wall cells shrink. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the **belief** (G-2433), a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
+2. **Reads "door".** The three door cells gain probability and the seven wall cells lose it. The wall cells do not drop to zero, because the sensor reads "door" at a wall 20 percent of the time. Each door cell is now a peak of the **belief** (G-2433), a [**mode**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief has three modes: it is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
 3. **Moves 2 cells.** Every mode moves 2 cells to the right, with the robot.
 4. **The move is uncertain.** The move may have been 1 or 3 cells, so each mode spreads onto its neighbours and gets lower (0.19 becomes 0.16).
-5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it grows to 0.31 while the others shrink. The tallest bar is the true cell.
+5. **Reads "door" again.** Only the mode at cell 3 sits on a door, so it rises to 0.31 while the others fall. The tallest bar is at the true cell.
 
 Why do the door cells get 0.19 in stage 2? The sensor reads "door" 0.6 of the time at a door and 0.2 at a wall, so each door cell keeps 3 shares to a wall cell's 1, and with 3 doors and 7 walls a door cell gets 3 of the 16 shares, 0.1875, shown rounded to 0.19 ([why noisy sensors forbid crossing places out](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#33-why-noisy-sensors-forbid-crossing-places-out)). The exact rule behind this share-counting is Bayes' theorem, applied at every reading by the [**correction step**](../RO-014-bayes-filter/RO-014-bayes-filter.md#43-the-correction-step) (G-2448).
 
@@ -165,7 +165,7 @@ Unlike the set of [Section 3](#3-summary-1-the-set-of-cells-the-robot-could-be-i
 
 ### 4.3 A belief is not a position
 
-The robot is always in exactly one cell. A **belief** (G-2433) of 0.19 on three cells does not mean the robot is spread over three places; it means the robot does not know which of the three it is in (Labbe ch.2). The belief describes the robot's **knowledge**, not the world. For the same reason, the arrow for the true cell and the bars in Figure 4 are drawn separately: the bars can be wrong, and the true cell does not care.
+The robot is always in exactly one cell. A **belief** (G-2433) of 0.19 on three cells does not mean the robot is spread over three places; it means the robot does not know which of the three it is in (Labbe ch.2). The belief describes the robot's **knowledge**, not the world. For the same reason, the arrow for the true cell and the bars in Figure 4 are drawn separately: the bars can be wrong, and the true cell does not depend on them.
 
 ### 4.4 Why the whole history appears in the definition
 
@@ -175,7 +175,7 @@ The definition conditions on every command and reading since the start, which lo
 
 > **Key point:** The predicted belief is the **belief** (G-2433) after the latest command but before the latest reading. Commands lose knowledge, readings gain it, so we track the belief between the two.
 
-The two kinds of event act in opposite directions, as [moving and sensing](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) showed. A move adds doubt, because the robot cannot be sure how far it went. A reading removes doubt, because it rules places in or out. So it pays to look at the belief halfway through a step: after the command $u_t$, before the reading $z_t$. The belief at that halfway point is the **predicted belief** (G-2436), written with a bar. At time $t$:
+The two kinds of event act in opposite directions, as [moving and sensing](../RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#6-moving-makes-the-robot-less-sure-sensing-makes-it-more-sure) showed. A move adds doubt, because the robot cannot be sure how far it went. A reading removes doubt, because it rules places in or out. So it is useful to look at the belief halfway through a step: after the command $u_t$, before the reading $z_t$. The belief at that halfway point is the **predicted belief** (G-2436), written with a bar. At time $t$:
 
 - $\overline{\text{bel}}(x_t)$ is the predicted belief, the probability that the robot is in cell $x_t$ after the command and before the reading, a number from 0 to 1 (0.1625 for cell 3 at $t = 2$);
 - $x_t$ is the cell at time $t$, any cell number from 0 to 9;
@@ -204,7 +204,7 @@ The move lowered it, the reading raised it. The [**Bayes filter**](../RO-014-bay
 
 > **Key point:** Two probability tables are all the robot needs: how a command moves it (the **state transition probability** (G-2434)) and what the sensor reads in each place (the measurement probability).
 
-To update its **belief** (G-2433), its probability for every cell, the robot must put numbers on the two troubles of the opening: a move of "2 cells" may really be 1 or 3, and the door sensor is sometimes wrong. Both are probability tables measured or modelled in advance.
+To update its **belief** (G-2433), its probability for every cell, the robot needs numbers for the two problems of the opening: a move of "2 cells" may really be 1 or 3, and the door sensor is sometimes wrong. Both are probability tables measured or modelled in advance.
 
 ### 5.1 How a command moves the robot: the state transition probability
 

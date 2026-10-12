@@ -14,11 +14,11 @@ tags: [subject/robotics, area/control, concept/stanley-controller, concept/rear-
 
 ## 1. Overview
 
-> **Key point:** Pure pursuit steers for a point ahead and never looks at the path where the car is, so it turns early at the corners and its look-ahead must be retuned for speed. The Stanley controller steers the front wheels from the errors at the front axle, and rear-wheel feedback turns the car from the errors and the path's curvature at the rear axle; both follow the 10 m arc with no look-ahead to tune.
+> **Key point:** Pure pursuit steers for a point ahead and never uses the path where the car is, so it turns early at the corners and its look-ahead must be retuned for speed. The Stanley controller steers the front wheels from the errors at the front axle, and rear-wheel feedback turns the car from the errors and the path's curvature at the rear axle; both follow the 10 m arc with no look-ahead to tune.
 
-[Pure pursuit](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) brings the car from 1.0 m off the course to within 0.1 m after 7.4 m. What still breaks is the corners. Pure pursuit steers for the [look-ahead point](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path) (G-3152), the course point 4 m ahead, so it starts to turn before the arc does and straightens before the arc ends: its rear axle runs 0.12 m inside the arc and 0.17 m wide after it. And the right [look-ahead distance](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#5-choosing-the-look-ahead-distance) (G-3151) changes with speed.
+[Pure pursuit](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) brings the car from 1.0 m off the course to within 0.1 m after 7.4 m. The corners remain a problem. Pure pursuit steers for the [look-ahead point](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path) (G-3152), the course point 4 m ahead, so it starts to turn before the arc does and straightens before the arc ends: its rear axle runs 0.12 m inside the arc and 0.17 m wide after it. The right [look-ahead distance](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#5-choosing-the-look-ahead-distance) (G-3151) also changes with speed.
 
-Figure 1 replays pure pursuit on the course. Watch its lateral error at the arc's two ends. The last frame adds two trackers that measure the errors at the car's own axles; neither shows a bump at the corners.
+Figure 1 replays pure pursuit on the course. Watch its lateral error at the arc's two ends. The last frame adds two trackers that measure the errors at the car's own axles; neither shows an error peak at the corners.
 
 ![Pure pursuit with a 4 m look-ahead at 2 m/s (grey) on the course, one frame per 0.5 s. Top: the paths. Bottom: the lateral error along the course (+ = left), with the arc between the dotted lines; pure pursuit's rear axle runs 0.12 m inside the arc and 0.17 m wide after it. The last frame adds Stanley (orange; error measured at its front axle) and rear-wheel feedback (blue; at its rear axle): 0.004 m and 0.000 m in the middle of the arc](images/opening_anim.gif)
 
@@ -47,7 +47,7 @@ This Note builds the two trackers:
 
 ### 2.1 Why the front axle
 
-Pure pursuit's corner errors come from aiming at a point ahead. The front wheel is the wheel that steers, and it rolls the way it points. Point it at the course and the front axle heads for the course at once; point it along the course and the front axle runs along it. A cyclist riding along a painted line does the same: the front wheel is kept on the line, and the rest of the bicycle follows.
+Pure pursuit's corner errors come from aiming at a point ahead. The front wheel is the wheel that steers, and it rolls the way it points. Pointed at the course, it moves the front axle towards the course immediately; pointed along the course, it moves the front axle along it. A cyclist riding along a painted line does the same: the front wheel is kept on the line, and the rest of the bicycle follows.
 
 So Stanley measures its errors where the steering acts: the lateral error is "the lateral distance of the center of the vehicle's front wheels from the nearest point on the trajectory" (Thrun et al. §9.2; Hoffmann et al. §III.A). At the start the front axle is 2.5 m ahead of the rear axle, at (2.5, 1.0), so its nearest course point is (2.5, 0): its lateral error is 1.0 m, and its heading error is 0, because the car points along the course.
 
@@ -58,7 +58,7 @@ Stanley turns the wheels in two steps (Snider §2.3; Thrun et al. §9.2):
 1. **The heading term** turns the wheels from the car's heading to the course's direction at the front axle's nearest point, so that with no lateral error the wheels point along the course; the term is minus the heading error.
 2. **The cross-track term** turns them further towards the course, more the farther away the front axle is, by the angle whose tangent is the gain times the lateral error over the speed plus a softening speed.
 
-The cross-track angle has a simple picture. A wheel turned by that angle from the course's direction heads for the course point a fixed distance ahead of the nearest point, because the tangent of the angle is the lateral error over that distance. With:
+The cross-track angle has a simple geometric meaning. A wheel turned by that angle from the course's direction heads for the course point a fixed distance ahead of the nearest point, because the tangent of the angle is the lateral error over that distance. With:
 
 - $e$, the front axle's lateral error, positive to the left: 1.0 m at the start;
 - $\theta_e$, its heading error, positive to the left: 0 at the start;
@@ -152,7 +152,7 @@ The runs (notebook):
 | 2 m/s | 1.03 s | 2.0 m | 3.44 s | none |
 | 5 m/s | 0.81 s | 4.0 m | 2.55 s | none |
 
-The halving times are the predictions of Section 3.1 to within 0.02 s. At 5 m/s the arc starts before the error is below 0.1 m; the arc bends towards the car, which is on its inside, and shortens the last part of the return (2.55 s against 2.76 s predicted for a straight course). Stanley's error shrinks in a similar time at both speeds (1.03 s and 0.81 s to halve), so the fast car needs about twice the road; pure pursuit's path did not depend on the speed at all ([pure pursuit's speed check](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#51-short-or-long-on-the-chapters-car)).
+The halving times are the predictions of Section 3.1 to within 0.02 s. At 5 m/s the arc starts before the error is below 0.1 m; the arc bends towards the car, which is on its inside, and shortens the last part of the return (2.55 s against 2.76 s predicted for a straight course). Stanley's error shrinks in a similar time at both speeds (1.03 s and 0.81 s to halve), so the fast car needs about twice the distance; pure pursuit's path did not depend on the speed at all ([pure pursuit's speed check](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#51-short-or-long-on-the-chapters-car)).
 
 ### 3.3 On the arc: the front axle stays on it, the rear axle cuts inside
 
@@ -185,17 +185,17 @@ which the simulation confirms: 0.317 m in the middle of the arc (notebook).
 
 ![Stanley on the 10 m arc once settled. The front axle (orange) stays on the course, 10 m from the arc's centre; the rear axle, 2.5 m behind it, runs on a circle of radius 9.68 m, 0.32 m inside the course; the steering is 14.5°. Only the part of the arc near the car is drawn; the dotted lines run to the centre, 10 m away](images/arc_rear.png)
 
-The gotcha: an error depends on the [point of the car it is measured at](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#52-which-point-of-the-car-rear-axle-or-front-axle). Stanley's front axle is on the arc while its rear axle is 0.32 m inside, so two trackers can be compared only at the same point of the car, which is why the [chapter's comparison](../RO-074-feedforward-metrics-and-choosing-a-tracker/RO-074-feedforward-metrics-and-choosing-a-tracker.md#32-the-same-point-of-every-car) measures them all at the rear axle. Stanley's one setting so far was the gain $k$ = 1 per s. The next section asks how to choose it.
+An error depends on the [point of the car it is measured at](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#52-which-point-of-the-car-rear-axle-or-front-axle). Stanley's front axle is on the arc while its rear axle is 0.32 m inside, so two trackers can be compared only at the same point of the car, which is why the [chapter's comparison](../RO-074-feedforward-metrics-and-choosing-a-tracker/RO-074-feedforward-metrics-and-choosing-a-tracker.md#32-the-same-point-of-every-car) measures them all at the rear axle. Stanley's one setting so far was the gain $k$ = 1 per s. The next section asks how to choose it.
 
 ## 4. Tuning Stanley: the gain and the softening speed
 
-> **Key point:** A larger gain $k$ brings the front axle back sooner, until the steering hits its limit; once we give the car RO-071's steering lag of 0.4 s, the delay of real steering, at 5 m/s gains of 2.5 and 5 per s swing 0.24 and 0.46 m past the line, so the gain has an upper limit. The softening speed $k_s$, 1 m/s, keeps the gain on the lateral error, the front axle's distance from the course, below 1 per m when the car is slow, so noise in the measured error does not shake the wheels.
+> **Key point:** A larger gain $k$ brings the front axle back sooner, until the steering reaches its limit; once we give the car RO-071's steering lag of 0.4 s, the delay of real steering, at 5 m/s gains of 2.5 and 5 per s swing 0.24 and 0.46 m past the line, so the gain has an upper limit. The softening speed $k_s$, 1 m/s, keeps the gain on the lateral error, the front axle's distance from the course, below 1 per m when the car is slow, so noise in the measured error moves the wheels only slightly.
 
 ### 4.1 The gain
 
 The gain sets the rate at which the front axle returns. On the chapter's car, whose wheels turn at once, more gain only means a faster return: at 5 m/s, with $k$ of 0.5, 1, 2.5 and 5 per s, the front axle is within 0.1 m after 32.3, 15.4, 7.8 and 5.1 m along the course, and at 5 per s the wheels sit at full lock at the start (notebook). [Section 3.1](#31-the-front-axle-heads-for-the-course) says why: the error shrinks in proportion to the gain, and nothing in that kinematic model can swing.
 
-A real car's steering does lag, and Snider, testing on a full car simulator with delays added to the steering (Snider §1), found an upper limit on the gain (§2.3.1). So, as RO-071 did, we change the chapter's car for this sweep: it gets RO-071's [steering motor](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#52-a-real-steering-motor-the-short-look-ahead-weaves), which turns the wheels with a time constant of 0.4 s. Without the lag, no gain would show the limit. Figure 5 sweeps the gain again at 5 m/s. Watch the red and orange curves below: they come back fastest, but cross the line and swing back; on the arc all four swing.
+A real car's steering does lag, and Snider, testing on a full car simulator with delays added to the steering (Snider §1), found an upper limit on the gain (§2.3.1). As RO-071 did, we therefore change the chapter's car for this sweep: it gets RO-071's [steering motor](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#52-a-real-steering-motor-the-short-look-ahead-weaves), which turns the wheels with a time constant of 0.4 s. Without the lag, no gain would show the limit. Figure 5 sweeps the gain again at 5 m/s. Watch the red and orange curves below: they come back fastest, but cross the line and swing back; on the arc all four swing.
 
 ![Stanley's gain k swept at 5 m/s with steering that lags 0.4 s (added to the chapter's car for this sweep), from 1.0 m left of the course; one frame per 0.2 s: k = 0.5 (purple), 1 (blue), 2.5 (orange) and 5 per s (red). Top: the paths of the front axles. Bottom: the front axle's lateral error against time. Last frame: on the first straight k = 0.5 and 1 do not cross the line, k = 2.5 swings 0.24 m past it and k = 5 swings 0.46 m past; on the arc every gain swings](images/k_sweep.gif)
 
@@ -206,11 +206,11 @@ A real car's steering does lag, and Snider, testing on a full car simulator with
 | 2.5 per s | 6.2 m | 0.24 m | 0.13 m, outside | 0.28 m |
 | 5 per s | 5.4 m | 0.46 m | 0.32 m, outside | 0.31 m |
 
-Snider (§2.3.1) puts it as "An upper limit exists to guarantee stability." The harder the law corrects, the further the late wheels overshoot. On the arc every gain now leaves 0.13 to 0.48 m, where on the chapter's car gains of 2.5 and 5 per s left 0.04 m or less (notebook). Stanford's car met both problems with extra terms ([Section 4.3](#43-what-stanfords-car-added)).
+Snider (§2.3.1) puts it as "An upper limit exists to guarantee stability." The harder the law corrects, the further the late wheels overshoot. On the arc every gain now leaves 0.13 to 0.48 m, where on the chapter's car gains of 2.5 and 5 per s left 0.04 m or less (notebook). Stanford's car addressed both problems with extra terms ([Section 4.3](#43-what-stanfords-car-added)).
 
 ### 4.2 The softening speed
 
-The cross-track term divides by the speed. Slowly, the gain on the lateral error becomes huge: at 0.5 m/s, with $k$ = 1 per s and no softening, it is 2 per m, and at a standstill it has no limit. Measured positions jitter, so the measured lateral error jitters too, and a large gain passes the jitter to the wheels (Hoffmann et al. §III.A). A jump of 0.05 m in the measured error at 0.5 m/s turns the wheels by (notebook):
+The cross-track term divides by the speed. At low speed the gain on the lateral error becomes very large: at 0.5 m/s, with $k$ = 1 per s and no softening, it is 2 per m, and at a standstill it has no limit. Measured positions jitter, so the measured lateral error jitters too, and a large gain passes the jitter to the wheels (Hoffmann et al. §III.A). A jump of 0.05 m in the measured error at 0.5 m/s turns the wheels by (notebook):
 
 $$\tan^{-1}(1 \times 0.05 / 0.5) = 5.7^\circ$$
 
@@ -234,7 +234,7 @@ The cost shows at higher speeds: at 2 m/s the softened gain is 1/3 per m instead
 >
 > Hoffmann et al. report that the law ran "without fault on Stanley for hundreds of miles of testing" and in the race. MATLAB's Stanley block offers the same choice: a kinematic bicycle model, "suitable for path following in low-speed environments", and a dynamic one for high speeds, which also takes the path's curvature, the yaw rate and the steering angle, with gains on the last two (MathWorks Lateral Controller Stanley documentation).
 
-Stanley handles the corners and its gain has a clear meaning. But it has one blind spot that matters for a car that parks: driving backwards.
+Stanley handles the corners and its gain has a clear meaning. But it has one limitation that matters for a car that parks: driving backwards.
 
 ## 5. Rear-wheel feedback: the rear axle, the path's curvature, and reverse
 
@@ -244,7 +244,7 @@ Stanley handles the corners and its gain has a clear meaning. But it has one bli
 
 The car of the [Hybrid A\* planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) ended its route by backing into a parking bay. Backwards, Stanley's front axle trails behind, and pointing the front wheels at the course turns the car the wrong way: Paden et al. (§V.A.3) warn that Stanley "is not stable in reverse making it unsuitable for parking". Stanford's car reversed with a variant that uses the rear wheels as the guiding wheels (Hoffmann et al. §III.A): measure at the axle that leads, which is the idea of this section.
 
-Figure 7 tries it. The car faces along the first straight, 1.0 m left of it, and drives backwards at 2 m/s for 8 s. Watch the orange car: it swings round until it faces the other way, 9.0 m to the right of the line. The blue car steers by rear-wheel feedback, built in Sections 5.2 and 5.3: it is within 0.1 m after 2.1 s, having driven 4.1 m back.
+Figure 7 tests it. The car faces along the first straight, 1.0 m left of it, and drives backwards at 2 m/s for 8 s. Watch the orange car: it swings round until it faces the other way, 9.0 m to the right of the line. The blue car steers by rear-wheel feedback, built in Sections 5.2 and 5.3: it is within 0.1 m after 2.1 s, having driven 4.1 m back.
 
 ![Reversing from 1.0 m left of the first straight at 2 m/s for 8 s; one frame per 0.25 s. Orange: Stanley, steering from its front axle, which now trails; the car swings round until it faces the other way, 9.0 m to the right of the line. Blue: rear-wheel feedback, steering from its rear axle; it returns within 0.1 m after 2.1 s, 0.04 m past the line at most. Bottom: the lateral error of each against time](images/reverse_anim.gif)
 
@@ -292,7 +292,7 @@ $$\delta = \tan^{-1}(2.5 \times (-1.0) / 2)$$
 
 $$= \tan^{-1}(-1.25) = -51.3^\circ$$
 
-More than the car can steer, so the wheels go to the limit, −26.6°.
+This is more than the car can steer, so the wheels go to the limit, −26.6°.
 
 **On the arc, on the line,** the lateral and heading parts are 0 and the curvature part does all the turning:
 
@@ -308,7 +308,7 @@ Figure 8 drives the course with it at 2 m/s and shows the three parts at each fr
 
 ### 5.3 Why it converges: a spring and a damper over distance
 
-Near a straight course the law is [pure pursuit's](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#42-why-it-does-not-weave-the-look-ahead-point-sees-the-heading) spring and damper again, with its two gains chosen directly. As there, we follow the error along the distance driven. With the lateral error $e$, the heading error $\theta_e$ and the gains $k_\theta$ and $k_e$ of Section 5.2, for small angles and forward driving, and:
+Near a straight course the law is [pure pursuit's](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#42-why-it-does-not-weave-the-look-ahead-point-includes-the-heading-error) spring and damper again, with its two gains chosen directly. As there, we follow the error along the distance driven. With the lateral error $e$, the heading error $\theta_e$ and the gains $k_\theta$ and $k_e$ of Section 5.2, for small angles and forward driving, and:
 
 - $e'$, how fast the lateral error changes per metre driven: the heading error $\theta_e$;
 - $e''$, how fast $e'$ changes per metre: the turn rate over the speed.
@@ -365,14 +365,14 @@ With a damping ratio of 0.707 the [overshoot](../../07-classical-feedback-contro
 
 - The opening problem has its answer: pure pursuit's rear axle ran 0.12 m inside the arc and 0.17 m wide after it, while Stanley's front axle is 0.004 m off in the middle of the arc and rear-wheel feedback's rear axle 0.000 m, because both use the course's direction at the car rather than at a point ahead.
 - Stanley points the front wheels parallel to the course and then towards it, so they aim at the course point a set distance ahead, the speed plus the softening speed over the gain: 3 m at 2 m/s, because that one angle shrinks the front axle's error directly.
-- The front wheel rolls the way it points, so Stanley's front-axle error shrinks in proportion to itself, a first-order system whose rate is the gain times the speed over the speed plus the softening speed (0.667 per s at 2 m/s): on a car whose wheels turn at once it never swings, and it takes a similar time at any speed, so the fast car uses more road (4.0 m against 2.0 m to halve the error).
+- The front wheel rolls the way it points, so Stanley's front-axle error shrinks in proportion to itself, a first-order system whose rate is the gain times the speed over the speed plus the softening speed (0.667 per s at 2 m/s): on a car whose wheels turn at once it never swings, and it takes a similar time at any speed, so the fast car uses more distance (4.0 m against 2.0 m to halve the error).
 - On the arc Stanley's heading term supplies the 14.5° the curve needs, so its front axle stays on the course while its rear axle runs 0.32 m inside; trackers must be compared at the same point of the car.
 - A larger gain returns faster, but with a steering motor that lags 0.4 s, which we added to the chapter's car because real steering lags, gains of 2.5 and 5 per s swing past the line by 0.24 and 0.46 m, because the law acts on errors the lagging wheels answer late, so the gain has an upper limit.
 - The softening speed caps the gain on the lateral error at the gain over the softening speed, 1 per m, so a 0.05 m jump in the measured error turns the wheels 1.9° instead of 5.7° at 0.5 m/s.
 - Rear-wheel feedback adds the turn the path's curvature needs to feedback on the heading and lateral errors, so it holds the arc with no error and, near the line, is a spring and a damper over distance with a damping ratio of 0.707, settling within 4.1 m at any speed.
 - Rear-wheel feedback works backwards and Stanley does not, because the rear axle's errors keep shrinking for either sign of the speed while the trailing front axle turns the car round.
 
-The car can now follow a path through its corners, forwards or backwards, with no look-ahead to retune. Still missing: every tracker so far follows a path with no clock, and a plan that says where the car must be at each moment needs a tracker that also keeps to time, the [tracking of a timed trajectory](../RO-073-tracking-a-timed-trajectory/RO-073-tracking-a-timed-trajectory.md#1-overview).
+The car can now follow a path through its corners, forwards or backwards, with no look-ahead to retune. One gap remains: every tracker so far follows a path with no clock, and a plan that says where the car must be at each moment needs a tracker that also keeps to time, the [tracking of a timed trajectory](../RO-073-tracking-a-timed-trajectory/RO-073-tracking-a-timed-trajectory.md#1-overview).
 
 ## 8. Sources
 
@@ -403,7 +403,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Stanley controller (front-wheel feedback) (G-3160) | A path tracker that measures the lateral and heading errors at the front axle and steers the front wheels parallel to the path and then towards it by $\tan^{-1}(k e/(k_s + v))$, aiming them at a path point ahead; the front-axle error then shrinks by the same fraction each second, but the law is not stable when reversing. |
 | Softening speed (Stanley) (G-3161) | A constant $k_s$, such as 1 m/s, added to the speed in the Stanley controller's cross-track term, so its gain on the lateral error never exceeds $k/k_s$ at low speed; it stops noise in the measured error from shaking the wheels when the car is slow. |
 | Rear-wheel feedback (G-3162) | A path tracker that measures the errors at the rear axle and asks for a turn rate made of the path's own turn (the speed times the path curvature) plus parts against the heading error and the lateral error, turned into steering by the bicycle model; it holds curves with no steady error and still works when the car reverses. |
-| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering answers at once returns to the path with little swing past it. |
+| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering responds without lag returns to the path with little swing past it. |
 | [Look-ahead point (pure pursuit)](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path) (G-3152) | The point of the path one look-ahead distance from the rear axle, found by walking forward from the nearest path point, such as (3.873, 0) for a car 1 m off a straight line with a 4 m look-ahead; pure pursuit steers along the arc that reaches it. Also called the goal point or carrot. |
 | [Look-ahead distance (pure pursuit)](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path) (G-3151) | The distance $l_d$ from the rear axle to the point pure pursuit chases, such as 4 m; a short one brings the car back sooner but weaves when the steering lags, a long one is smooth but cuts corners. |
 | [Wheelbase $L$](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#21-steering-angle-and-wheelbase) (G-3127) | The distance from a car's rear axle to its front axle, such as 2.5 m; with the steering angle it fixes the turning radius, $R = L / \tan\delta$, so a longer car turns more widely for the same steering. |
@@ -414,5 +414,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Time constant](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) | The time a first-order system takes to close 63 % of the gap to its final value, m/(K_v + b) = 1 s for the robot's speed loop; it fixes the rise time (about 2.2 time constants) and the 2 % settling time (about 4). |
 | [Path curvature $\kappa$](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#23-path-curvature) (G-3129) | How fast a path's direction turns per metre along it, $1/R$ on an arc of radius $R$, such as 0.1 per m on a 10 m arc and 0 on a straight; it fixes the steering a bend needs, $\tan\delta = L\kappa$. |
 | [Feedforward](../../../../RO/control/07-classical-feedback-control/RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#22-feedforward-from-the-robots-model) (G-3070) | A control force computed from the plan and the robot's model, such as mass times the planned acceleration plus drag ($m a_r + b v_r$), and sent before any error appears; it lets the robot follow a changing plan without first falling behind, while feedback removes what the model gets wrong. |
-| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the reply is, and raising it squeezes the whole reply in time. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
+| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the response is, and raising it compresses the whole response in time. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |

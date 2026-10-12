@@ -17,10 +17,10 @@ tags: [subject/robotics, area/navigation, concept/configuration-space, concept/d
 
 The robot can now plan a task. The [task planner](../RO-035-strips-and-pddl/RO-035-strips-and-pddl.md#5-forward-search-finding-the-plan) of the cup task returns four actions, and each move is a route on the 0.5 m grid, such as the shortest route from the start cell to the cell just inside the door, 3.414 m long ([routes of the plan](../RO-035-strips-and-pddl/RO-035-strips-and-pddl.md#53-from-the-plan-back-to-routes)).
 
-What still breaks is the robot itself (Figure 1). The route moves a point from cell centre to cell centre. The real robot is a body: seen from above, a disk of radius 0.25 m centred on the middle of its axle, big enough to hold the 0.2 m axle and the wheels. At the start it stands at (2 m, 1 m) and faces 30°. Two problems follow:
+The remaining problem is the robot itself (Figure 1). The route moves a point from cell centre to cell centre. The real robot is a body: seen from above, a disk of radius 0.25 m centred on the middle of its axle, big enough to hold the 0.2 m axle and the wheels. At the start it stands at (2 m, 1 m) and faces 30°. Two problems follow:
 
 - the two numbers (x, y) say where the centre is, but not which way the robot faces, and a robot facing the table drives off differently from one facing the door;
-- the heading wraps round: 350° and 10° are only 20° apart, so a planner that treats the heading as an ordinary number thinks the two are 340° apart.
+- the heading wraps round: 350° and 10° are only 20° apart, so a planner that treats the heading as an ordinary number computes that the two are 340° apart.
 
 ![The room with the table, the cabinet and the two poles. Orange: a route of the graph-search Notes, a point moved from cell centre to cell centre towards the door. Red: the robot, a disk of radius 0.25 m centred at (2, 1), with an arrow for its heading of 30 degrees measured from the x-axis](images/overview.png)
 
@@ -107,7 +107,7 @@ So the C-space of the floor robot is a box with its top and bottom glued togethe
 
 ### 3.1 Counting point by point
 
-Section 2 placed the floor robot with three numbers. A body has endless points, each with two numbers of its own in the plane, so why exactly three? We count point by point (MR §2.1), on three points of the robot's body:
+Section 2 placed the floor robot with three numbers. A body has infinitely many points, each with two numbers of its own in the plane, so why exactly three? We count point by point (MR §2.1), on three points of the robot's body:
 
 - A, the centre, at (2, 1);
 - B, 0.25 m ahead of A, at (2.2165, 1.125), the front point of [Section 2.1](#21-the-configuration-numbers-that-place-every-point);
@@ -153,7 +153,7 @@ A body that moves in space, such as a flying drone, has 6 degrees of freedom: 3 
 
 "Independent" matters. A fourth point D of the body in the plane has 3 distance rules, to A, B and C, but once two of them hold the third holds too, so only 2 are independent, and D's 2 numbers minus its 2 independent rules leave it no freedom (MR §2.1). A rule that follows from the others removes nothing.
 
-The wheels' rule of RO-001, that the robot cannot slide sideways, is not a constraint of this kind. The rule limits [which way the robot can move at each moment](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-get-everywhere), not where it can be, so the floor robot keeps all 3 degrees of freedom (MR §2.4). Counting point by point works for one body; a robot of several links needs a quicker count.
+The wheels' rule of RO-001, that the robot cannot slide sideways, is not a constraint of this kind. The rule limits [which way the robot can move at each moment](../../../control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-reach-every-pose), not where it can be, so the floor robot keeps all 3 degrees of freedom (MR §2.4). Counting point by point works for one body; a robot of several links needs a quicker count.
 
 ### 3.2 Degrees of freedom of a robot made of links
 
@@ -207,7 +207,7 @@ The counts say how many numbers place each robot: 3 for the floor robot, 2 for t
 
 ### 4.1 Same shape: bending allowed, cutting and gluing not
 
-Section 3 counted the numbers, but the count is not the whole story. The heading is one number, like the position of a cart on a rail. Yet on a rail, 3.5 m and 0.1 m are 3.4 m apart, while the headings 350° and 10° are 20° apart. The difference is the shape: a heading's values close up into a circle, while a rail's values run along a line with nothing joining the ends.
+Section 3 counted the numbers, but the count alone does not describe the space. The heading is one number, like the position of a cart on a rail. Yet on a rail, 3.5 m and 0.1 m are 3.4 m apart, while the headings 350° and 10° are 20° apart. The difference is the shape: a heading's values close up into a circle, while a rail's values run along a line with nothing joining the ends.
 
 Figure 6 makes "same shape" precise. Watch the circle of headings in the frames "stretch and bend the circle": it becomes an ellipse and a squashed loop, but it stays one closed loop, so it is still the same shape. In the frames "cut at θ = 0 and open it out", the circle has to be cut before it can be laid straight, and the cut makes two ends that the circle did not have.
 
@@ -260,7 +260,7 @@ A manifold is flat only up close. Its overall shape, the circle closing up or th
 
 ### 5.1 Cutting the torus into a square
 
-The arm's configurations form a torus, but a program stores two numbers, $\theta_1$ and $\theta_2$, each from 0 to 2π. Those pairs fill a square. Figure 9 shows how the square and the torus are related. Watch the frame "roll it until the orange edges meet": the square rolls into a tube, because $\theta_2$ = 0 and $\theta_2$ = 2π are the same angle of joint 2. In the frames "stretch and bend the tube", the tube bends round until its blue ends, $\theta_1$ = 0 and $\theta_1$ = 2π, meet. Run backwards, the film cuts the torus twice to lay it flat as the square (MR §2.3.1).
+The arm's configurations form a torus, but a program stores two numbers, $\theta_1$ and $\theta_2$, each from 0 to 2π. Those pairs fill a square. Figure 9 shows how the square and the torus are related. Watch the frame "roll it until the orange edges meet": the square rolls into a tube, because $\theta_2$ = 0 and $\theta_2$ = 2π are the same angle of joint 2. In the frames "stretch and bend the tube", the tube bends round until its blue ends, $\theta_1$ = 0 and $\theta_1$ = 2π, meet. Played backwards, the animation cuts the torus twice to lay it flat as the square (MR §2.3.1).
 
 ![Frame 'the square of joint angles': a flat square, θ1 along and θ2 across, each from 0 to 2π; its edges θ2 = 0 and θ2 = 2π are orange, its edges θ1 = 0 and θ1 = 2π blue; the red point is the arm at (30°, 60°). Frames 'roll it until the orange edges meet': the square curls into a tube with the orange edges joined. Frames 'stretch and bend the tube until the blue ends meet': the tube bends into a ring. Last frame: a torus, seen from below, with no edge left, and the red point on it](images/glue_torus.gif)
 
@@ -309,7 +309,7 @@ $$(\cos 10^\circ, \sin 10^\circ) = (0.98481, 0.17365)$$
 
 $$0.17365 - (-0.17365) = 0.34730$$
 
-The two points differ only in their second number, $\sin\theta$, by 0.3473, about the 0.349 rad of a 20° turn, so a planner that compares the pairs sees two nearby headings. Figure 11 turns the heading from 330° to 30°. Watch the two plots on the right: in the frame "heading 360° = 0°" the explicit θ drops from 2π to 0, while cos θ and sin θ move on smoothly; the last frame shows one jump in θ and none in the other two.
+The two points differ only in their second number, $\sin\theta$, by 0.3473, about the 0.349 rad of a 20° turn, so a planner that compares the pairs finds two nearby headings. Figure 11 turns the heading from 330° to 30°. Watch the two plots on the right: in the frame "heading 360° = 0°" the explicit θ drops from 2π to 0, while cos θ and sin θ move on smoothly; the last frame shows one jump in θ and none in the other two.
 
 ![Left: the heading as an arrow on a dial and the orange point (cos θ, sin θ) on the circle, with its value written below. Right, top: the explicit coordinate θ against the heading turned so far, from 330° to 30°. Right, bottom: the implicit numbers cos θ (orange) and sin θ (green). Frame 'heading 360° = 0°': θ drops from 2π to 0 (a dotted line marked 'θ jumps by 2π'), while cos θ and sin θ continue smoothly. Last frame, heading 30°: θ has one jump, cos θ and sin θ have none](images/implicit.gif)
 
@@ -330,7 +330,7 @@ Figure 12 draws the two walks. Watch the two thick arcs: each stands for 1 m wal
 
 ![Near the North Pole, seen from above, not to scale. Blue: on the circle 10 m from the pole, 1 m walked east changes the longitude by 5.7 degrees. Orange: on the circle 1 m from the pole, 1 m walked changes it by 57.3 degrees. At the pole itself every longitude names the same point](images/pole.png)
 
-The sphere looks the same everywhere, at the pole as on the equator, so the trouble is in the numbers, not in the space (MR §2.3.2). The implicit representation, three numbers for the point's position in space with one rule, that its distance from the centre is 1, has no such bad point (MR §2.3.2). Robots meet the sphere as the C-space of a pendulum that can swing in every direction (MR §2.3.1), and planners meet the heading's jump whenever they measure how far apart two configurations are, which needs the [distance between two headings](../RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#72-the-distance-between-two-headings) measured the short way round.
+The sphere looks the same everywhere, at the pole as on the equator, so the problem lies in the numbers, not in the space (MR §2.3.2). The implicit representation, three numbers for the point's position in space with one rule, that its distance from the centre is 1, has no such bad point (MR §2.3.2). Robots meet the sphere as the C-space of a pendulum that can swing in every direction (MR §2.3.1), and planners meet the heading's jump whenever they measure how far apart two configurations are, which needs the [distance between two headings](../RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#72-the-distance-between-two-headings) measured the short way round.
 
 Every configuration can now be written down as numbers, with or without jumps. What is left is the question the C-space was built for: how to plan a motion through it.
 

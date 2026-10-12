@@ -13,18 +13,18 @@ tags: [subject/robotics, area/control, concept/open-loop-control, concept/closed
 
 ## 1. Overview
 
-> **Key point:** A plan says how fast to go, but a fixed push cannot hold that speed when the world differs from the test: a gentle ramp slows the robot from 0.5 to 0.108 m/s. Feedback measures the speed, compares it with the plan and corrects the push, so the same ramp costs only 0.036 m/s.
+> **Key point:** A plan says how fast to go, but a fixed push cannot hold that speed when the world differs from the test: a gentle ramp slows the robot from 0.5 to 0.108 m/s. Feedback measures the speed, compares it with the plan and corrects the push, so on the same ramp the speed falls by only 0.036 m/s.
 
 The robot can now plan its drive: [trajectory optimisation](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#1-overview) gives it the speeds and turns that take it past the table to the door, within its limits. A plan is only a list of wanted values over time, such as "drive at 0.5 m/s now". Something must turn each wanted value into a push from the motors, and keep the robot on it when the world does not match the plan.
 
-Take the simplest part of that job: holding 0.5 m/s along a corridor. A test on the flat hard floor shows that a steady push of 1 N from the motors holds 0.5 m/s. Figure 1 plays two copies of the robot. Both cruise at 0.5 m/s and, after 4 s, reach a gentle ramp that rises 1 cm for every metre along it. Watch their speeds in the lower panel:
+The simplest part of that job is holding 0.5 m/s along a corridor. A test on the flat hard floor shows that a steady push of 1 N from the motors holds 0.5 m/s. Figure 1 animates two copies of the robot. Both cruise at 0.5 m/s and, after 4 s, reach a gentle ramp that rises 1 cm for every metre along it. Watch their speeds in the lower panel:
 
 - the top copy keeps pushing the 1 N of the test, and the ramp slows it to 0.108 m/s;
 - the bottom copy measures its speed 100 times a second and pushes harder when it is too slow; it settles at 0.464 m/s.
 
 ![Two copies of the robot, seen from the side, cruise at 0.5 m/s and reach a ramp that rises 1 cm per metre at x = 2 m, t = 4 s; one frame per second for 30 s, no sensor noise. Top: open loop, always the 1 N of the flat-floor test. Middle: closed loop, 1 N plus 20 N for every m/s too slow. Bottom: their speeds over time. The slope is drawn 20 times steeper and the robots 2 times larger than they are. The last frame: open loop 0.108 m/s, closed loop 0.464 m/s](images/ramp_anim.gif)
 
-A carpet does the same kind of damage: with the same 1 N, carpet's stronger drag gives only 0.333 m/s ([Section 2.3](#23-where-the-fixed-push-breaks-the-ramp-and-the-carpet)). The fixed push fails because nothing looks at the speed; the second copy looks and corrects. This Note builds that idea:
+A carpet also lowers the speed: with the same 1 N, carpet's stronger drag gives only 0.333 m/s ([Section 2.3](#23-where-the-fixed-push-fails-the-ramp-and-the-carpet)). The fixed push fails because nothing measures the speed; the second copy measures it and corrects the push. This Note builds that idea:
 
 - acting from the plan alone, and why the ramp and the carpet break it ([Section 2](#2-open-loop-control-acting-from-the-plan-alone));
 - measuring, comparing and correcting ([Section 3](#3-closed-loop-control-measure-compare-correct));
@@ -45,7 +45,7 @@ To see why the top copy of Figure 1 slows on the ramp, we first need what sets t
 - the floor's rolling drag holds it back, more the faster it rolls;
 - on a ramp, part of its weight pulls it back down the slope.
 
-Whatever is left over speeds the robot up or slows it down, by [**Newton's second law**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#32-why-a-slow-push-is-predictable) (G-2809): the net force on a body equals its mass times its acceleration (MR §8.1.1). For our robot:
+The force left over speeds the robot up or slows it down, by [**Newton's second law**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#32-why-a-slow-push-is-predictable) (G-2809): the net force on a body equals its mass times its acceleration (MR §8.1.1). For our robot:
 
 - $m$ is its mass, 8 kg;
 - $v$ is its speed along the corridor, in m/s, 0.5 m/s when cruising;
@@ -68,7 +68,7 @@ $$8\thinspace\dot v = 1 - 2 \times 0.5 - 0$$
 
 $$= 0$$
 
-Nothing is left over, so the speed stays at 0.5 m/s. On the ramp, with the same push:
+The net force is zero, so the speed stays at 0.5 m/s. On the ramp, with the same push:
 
 $$8\thinspace\dot v = 1 - 1 - 0.785$$
 
@@ -78,11 +78,11 @@ The robot slows down. The equation also gives the acceleration limit that [plann
 
 $$\dot v = 4 / 8 = 0.5 \text{ m/s}^2$$
 
-The speed is the [**state**](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) of this problem, what we must keep track of because it decides what happens next. The equation gives how fast the state changes from the state and the input, which is what a state-space model is: here "rate of change of $v$ = a function of $v$ and $u$". The notebook steps it forward every 10 ms with [Euler steps](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299). Next: which push holds 0.5 m/s.
+The speed is the [**state**](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) of this problem, what we must keep track of because it decides what happens next. The equation gives how fast the state changes from the state and the input, which is what a state-space model is: here "rate of change of $v$ = a function of $v$ and $u$". The notebook steps it forward every 10 ms with [Euler steps](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#53-why-we-predict-the-path-step-by-step) (G-2299). The next section finds the push that holds 0.5 m/s.
 
 ### 2.2 Choosing the push from a test
 
-To hold 0.5 m/s without measuring anything, the robot must know in advance which push gives 0.5 m/s. People do the same every day: a toaster's dial is set from experience of how dark the toast came out before, and a shower handle is turned to where the water was warm yesterday. Neither looks at the result while it works.
+To hold 0.5 m/s without measuring anything, the robot must know in advance which push gives 0.5 m/s. People do the same every day: a toaster's dial is set from experience of how dark the toast came out before, and a shower handle is turned to where the water was warm yesterday. Neither measures the result while it works.
 
 For the robot, the experience is a test on the hard floor. A steady push of 0.5 N settles at 0.25 m/s. Once the speed has settled it no longer changes, so its rate of change is 0 and the push exactly balances the drag:
 
@@ -96,21 +96,21 @@ $$0 = u - b\thinspace v$$
 
 $$v = u / b$$
 
-The settled speed grows in step with the push, so doubling the push to 1 N doubles the speed to 0.5 m/s. In symbols, the push for a wanted speed is the drag coefficient times that speed:
+The settled speed grows in proportion to the push, so doubling the push to 1 N doubles the speed to 0.5 m/s. In symbols, the push for a wanted speed is the drag coefficient times that speed:
 
 $$u = b\thinspace v = 2 \times 0.5 = 1 \text{ N}$$
 
 Choosing the commands from the plan and a model alone, with no measurement of what the robot does, is **open-loop control** (G-2940) (FBS §1.1; MR §11.3). Figure 2 (top) draws it as a chain: plan, computer, motors, robot, and nothing comes back.
 
-![Open loop (top): the plan's wanted speed, 0.5 m/s, goes to the computer, which sends the 1 N found in the flat-floor test to the motors; nobody looks at the speed. Closed loop (bottom): the wheel encoders measure the speed and send it back to the computer, which pushes 1 N plus 20 N for each m/s the robot is too slow](images/open_closed.png)
+![Open loop (top): the plan's wanted speed, 0.5 m/s, goes to the computer, which sends the 1 N found in the flat-floor test to the motors; nothing measures the speed. Closed loop (bottom): the wheel encoders measure the speed and send it back to the computer, which pushes 1 N plus 20 N for each m/s the robot is too slow](images/open_closed.png)
 
 Figure 3 shows the test and what the same 1 N does elsewhere. Each line gives the speed a constant push settles at: blue on the hard floor, where the test was made, red dashed on the ramp, purple dotted on carpet. Read up from 1 N on the horizontal axis.
 
-![The speed a constant push settles at, for pushes from 0 to 2 N. Blue: the flat hard floor, drag 2 N per m/s; the test, 0.5 N gives 0.25 m/s, so 1 N is chosen for 0.5 m/s. Red dashed: on the ramp, whose pull of 0.785 N comes off the push; 1 N gives 0.108 m/s. Purple dotted: on carpet, drag 3 N per m/s; 1 N gives 0.333 m/s](images/calibration.png)
+![The speed a constant push settles at, for pushes from 0 to 2 N. Blue: the flat hard floor, drag 2 N per m/s; the test, 0.5 N gives 0.25 m/s, so 1 N is chosen for 0.5 m/s. Red dashed: on the ramp, whose pull of 0.785 N is subtracted from the push; 1 N gives 0.108 m/s. Purple dotted: on carpet, drag 3 N per m/s; 1 N gives 0.333 m/s](images/calibration.png)
 
 The open loop holds 0.5 m/s exactly, but only on the blue line.
 
-### 2.3 Where the fixed push breaks: the ramp and the carpet
+### 2.3 Where the fixed push fails: the ramp and the carpet
 
 The open-loop push of 1 N is right only for the floor it was tested on. On the ramp of Figure 1, the speed settles where the push balances drag and pull together:
 
@@ -130,7 +130,7 @@ Both come from the same balance, with the push $u$, the ramp's pull $d$ and the 
 
 $$v = \frac{u - d}{b}$$
 
-In both cases the motors keep pushing 1 N while the robot crawls, because nothing in the open loop knows the speed (Figure 2, top). A shower behaves the same way when someone starts the dishwasher: the water runs cold, and a handle set from yesterday's experience does not move. To notice, the robot must measure its speed.
+In both cases the motors keep pushing 1 N while the robot slows, because nothing in the open loop measures the speed (Figure 2, top). A shower behaves the same way when someone starts the dishwasher: the water runs cold, and a handle set from yesterday's experience does not move. To detect the drop, the robot must measure its speed.
 
 ## 3. Closed-loop control: measure, compare, correct
 
@@ -138,10 +138,10 @@ In both cases the motors keep pushing 1 N while the robot crawls, because nothin
 
 ### 3.1 Measure, compare, correct
 
-The open loop of Section 2 failed because nothing looked at the speed. In the shower, we feel the water, notice it is too cold and turn the handle further; the colder it is, the further we turn. The robot can do the same:
+The open loop of Section 2 failed because nothing measured the speed. In the shower, we feel the water, notice it is too cold and turn the handle further; the colder it is, the further we turn. The robot can do the same:
 
 1. **Measure.** The wheel encoders count how far each wheel turns, so every 10 ms the computer knows the speed.
-2. **Compare.** The computer subtracts the measured speed from the wanted speed. The gap, wanted minus measured, is the **control error** (G-2943), or simply the error: how far the robot is from where it should be, with its sign (FBS §1.6).
+2. **Compare.** The computer subtracts the measured speed from the wanted speed. The gap, wanted minus measured, is the **control error** (G-2943), or the error for short: how far the robot is from where it should be, with its sign (FBS §1.6).
 3. **Correct.** The computer keeps the open-loop push of 1 N and adds 20 N for every m/s of error.
 
 Using a measurement of what the system does to decide its next command is **feedback** (G-2941). Control that uses feedback is **closed-loop control** (G-2942): the measurement runs back from the robot to the computer, closing a loop (FBS §1.1). Figure 2 (bottom) draws it; the only new part is the arrow coming back. The rule, with:
@@ -163,11 +163,11 @@ $$e = 0.5 - 0.45 = 0.05 \text{ m/s}$$
 
 $$u = 1 + 20 \times 0.05 = 2 \text{ N}$$
 
-The value 20 N per m/s is our choice. A larger value corrects harder; [Section 5](#5-why-feedback-helps-and-what-it-costs) shows what it gains and what it costs.
+The value 20 N per m/s is our choice. A larger value gives a stronger correction; [Section 5](#5-why-feedback-helps-and-what-it-costs) shows what it gains and what it costs.
 
 ### 3.2 The ramp again
 
-Does the correction fix the ramp of Figure 1? On the ramp the speed settles where the push balances drag and pull. The push now depends on the speed, through the error, so the speed appears on both sides; numbers first:
+We now test the correction on the ramp of Figure 1. On the ramp the speed settles where the push balances drag and pull. The push now depends on the speed, through the error, so the speed appears on both sides; numbers first:
 
 $$0 = 1 + 20\thinspace(0.5 - v) - 2\thinspace v - 0.785$$
 
@@ -232,7 +232,7 @@ Two more arrows come from outside the loop, and they enter at different places:
 - A **disturbance** (G-2949) $d$ is an unwanted outside effect that changes what the plant does: the ramp pulls the real robot back by 0.785 N. Gusts, bumps and a heavier load are others; for a driver, a hill or ice.
 - [**Sensor noise**](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#22-five-sources-of-uncertainty) (G-2312) $n$ is the small random error in each reading: the encoders' speed jitters by about 0.02 m/s from reading to reading; for a driver, a blurry speedometer.
 
-A disturbance is not noise. The ramp really slows the robot: its true speed drops. Noise leaves the true speed alone and only makes the reading wrong: the robot rolls at 0.5 m/s while one reading says 0.52 m/s and the next 0.49 m/s. So Figure 4 adds $d$ before the plant and $n$ after it, at the sensor.
+A disturbance is not noise. The ramp changes the robot's motion: its true speed drops. Noise does not change the true speed and only makes the reading wrong: the robot rolls at 0.5 m/s while one reading says 0.52 m/s and the next 0.49 m/s. So Figure 4 adds $d$ before the plant and $n$ after it, at the sensor.
 
 The actuator, the plant and the sensor are often drawn as one box and together called the plant or the process (FBS §1.3, Fig. 1.4). Figure 4 names every part, but it is drawn still; next we follow the signals round it.
 
@@ -256,17 +256,17 @@ $$\text{speed change} = -0.785 \times 0.01 / 8$$
 
 $$= -0.00098 \text{ m/s}$$
 
-The ramp has not yet registered: the controller still pushes the flat-floor 1 N, and the robot loses a little speed. In the next cycle the error is 0.000981 m/s and the push 1.0196 N, a correction too small to see. Each cycle the error grows a little, the push with it, and the speed falls more slowly. Frame "settled, t = 10.00 s" shows where it stops: an error of 0.0357 m/s asks for 1.7135 N, which is the drag at that speed plus the ramp's pull, so the net force is 0 and the speed stays at 0.464 m/s.
+The error does not yet reflect the ramp: the controller still pushes the flat-floor 1 N, and the robot loses 0.00098 m/s of speed. In the next cycle the error is 0.000981 m/s and the push 1.0196 N, a correction too small to see. Each cycle the error grows a little, the push with it, and the speed falls more slowly. Frame "settled, t = 10.00 s" shows where the speed settles: an error of 0.0357 m/s gives a push of 1.7135 N, which is the drag at that speed plus the ramp's pull, so the net force is 0 and the speed stays at 0.464 m/s.
 
-The diagram shows where the ramp enters, at the plant, and where the answer to it comes from, the error. Section 5 uses it to say why the answer works so well.
+The diagram shows where the ramp enters, at the plant, and where the correction comes from, the error. Section 5 uses it to explain why the correction is so effective.
 
 ## 5. Why feedback helps, and what it costs
 
-> **Key point:** Feedback shrinks the speed lost to a disturbance or to a wrong model, 11 times on the ramp and 7.7 times on carpet, because every m/s lost brings 20 N more push. The price: it acts only once an error exists, and it passes the sensor's noise to the motors.
+> **Key point:** Feedback shrinks the speed lost to a disturbance or to a wrong model, 11 times on the ramp and 7.7 times on carpet, because every m/s lost brings 20 N more push. In return, it acts only once an error exists, and it passes the sensor's noise to the motors.
 
-### 5.1 A disturbance shrinks 11 times
+### 5.1 Feedback makes the speed loss 11 times smaller
 
-On the ramp, the open loop lost 0.392 m/s and the closed loop 0.036 m/s. The ratio is not luck. In the open loop, only the drag answers the ramp: each m/s lost removes 2 N of drag. In the closed loop the controller answers too: each m/s lost also adds 20 N of push. So the same pull costs 11 times less speed. Numbers first:
+On the ramp, the open loop lost 0.392 m/s and the closed loop 0.036 m/s. The ratio is not a coincidence. In the open loop, only the drag responds to the ramp: each m/s lost removes 2 N of drag. In the closed loop the controller responds too: each m/s lost also adds 20 N of push. The same pull therefore causes a speed loss 11 times smaller. Numbers first:
 
 $$\text{open loop: } 0.785 / 2 = 0.392 \text{ m/s}$$
 
@@ -274,7 +274,7 @@ $$\text{closed loop: } 0.785 / 22 = 0.0357 \text{ m/s}$$
 
 $$0.392 / 0.0357 = 11$$
 
-The same steps in symbols, with the ramp's pull $d$, the drag $b$ and the push per m/s of error $K_p$; the speed lost is the wanted 0.5 m/s minus the settled speed of [Section 2.3](#23-where-the-fixed-push-breaks-the-ramp-and-the-carpet) and [Section 3.2](#32-the-ramp-again):
+The same steps in symbols, with the ramp's pull $d$, the drag $b$ and the push per m/s of error $K_p$; the speed lost is the wanted 0.5 m/s minus the settled speed of [Section 2.3](#23-where-the-fixed-push-fails-the-ramp-and-the-carpet) and [Section 3.2](#32-the-ramp-again):
 
 $$\text{open loop: } d / b$$
 
@@ -294,31 +294,31 @@ The left panel of Figure 6 sweeps the ramp's pull from a 2 percent slope down to
 
 ### 5.2 A wrong model: the carpet
 
-The disturbance was an outside force. The carpet is a different failure: the controller's model is wrong, since its push of 1 N assumes the hard floor's drag. The open loop settles at 0.333 m/s ([Section 2.3](#23-where-the-fixed-push-breaks-the-ramp-and-the-carpet)). The closed loop, with the settled-speed formula of [Section 3.2](#32-the-ramp-again), no ramp and the true drag of 3 N per m/s:
+The disturbance was an outside force. The carpet is a different failure: the controller's model is wrong, since its push of 1 N assumes the hard floor's drag. The open loop settles at 0.333 m/s ([Section 2.3](#23-where-the-fixed-push-fails-the-ramp-and-the-carpet)). The closed loop, with the settled-speed formula of [Section 3.2](#32-the-ramp-again), no ramp and the true drag of 3 N per m/s:
 
 $$v = \frac{1 + 20 \times 0.5}{3 + 20}$$
 
 $$= 11 / 23 = 0.478 \text{ m/s}$$
 
-The closed loop loses 0.0217 m/s where the open loop loses 0.1667 m/s, 7.7 times less. The rule of [Section 5.1](#51-a-disturbance-shrinks-11-times) holds again, with carpet's drag of 3 N per m/s in place of 2:
+The closed loop loses 0.0217 m/s where the open loop loses 0.1667 m/s, 7.7 times less. The rule of [Section 5.1](#51-feedback-makes-the-speed-loss-11-times-smaller) holds again, with carpet's drag of 3 N per m/s in place of 2:
 
 $$0.1667 / 0.0217 = 7.7$$
 
 $$1 + 20 / 3 = 7.7$$
 
-Figure 6 (right) sweeps the true drag from 1 to 4 N per m/s: the open loop's speed swings from 1.0 to 0.25 m/s, the closed loop's stays between 0.524 and 0.458 m/s. Feedback works whatever the cause of the drop, because it reacts to the measured speed, not to a model of why the speed dropped (FBS §1.5). Coping with a model that is wrong is called robustness, the subject of [sensitivity and robustness](../RO-065-sensitivity-robustness-and-loop-shaping/RO-065-sensitivity-robustness-and-loop-shaping.md#6-robustness-to-model-error).
+Figure 6 (right) sweeps the true drag from 1 to 4 N per m/s: the open loop's speed ranges from 1.0 to 0.25 m/s, the closed loop's stays between 0.524 and 0.458 m/s. Feedback works whatever the cause of the drop, because it reacts to the measured speed, not to a model of why the speed dropped (FBS §1.5). Coping with a model that is wrong is called robustness, the subject of [sensitivity and robustness](../RO-065-sensitivity-robustness-and-loop-shaping/RO-065-sensitivity-robustness-and-loop-shaping.md#6-robustness-to-model-error).
 
 ### 5.3 What feedback costs
 
-Feedback is not free. Three costs follow from how it works:
+Feedback has three costs, each following from how it works:
 
-1. **It waits for an error.** The correction starts only once the speed has dropped, so the closed loop of Figure 1 still dips, and a small error stays: the 0.036 m/s that pays for the extra 0.714 N ([Section 3.2](#32-the-ramp-again)). "Feedback is reactive: there must be an error before corrective actions are taken" (FBS §1.2).
-2. **It feeds sensor noise to the motors.** The controller cannot tell noise from a real drop in speed. Figure 7 runs the closed loop on the ramp with readings that jitter by 0.02 m/s (one standard deviation): the push jitters by 20 N per m/s times 0.02 m/s, 0.40 N, while the robot's true speed jitters by only 0.002 m/s, because its 8 kg cannot follow such fast changes. A larger $K_p$, the push per m/s of error, would cut the ramp's error further but shake the motors harder.
+1. **It waits for an error.** The correction starts only once the speed has dropped, so the closed loop of Figure 1 still dips, and a small error remains: the 0.036 m/s that produces the extra 0.714 N ([Section 3.2](#32-the-ramp-again)). "Feedback is reactive: there must be an error before corrective actions are taken" (FBS §1.2).
+2. **It feeds sensor noise to the motors.** The controller cannot tell noise from a real drop in speed. Figure 7 runs the closed loop on the ramp with readings that jitter by 0.02 m/s (one standard deviation): the push jitters by 20 N per m/s times 0.02 m/s, 0.40 N, while the robot's true speed jitters by only 0.002 m/s, because its 8 kg cannot follow such fast changes. A larger $K_p$, the push per m/s of error, would reduce the ramp's error further but make the push jitter more.
 3. **Too strong or too late a correction makes a system swing.** Feedback carries a "risk for instability" that a fixed push does not (FBS §1.2, Table 1.1). The speed loop does not swing, but [PD and PID control](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#1-overview) shows the same rule making the robot's turning swing back and forth.
 
 ![The closed loop on the ramp with sensor noise: each 10 ms reading is the true speed plus a random error of typical size 0.02 m/s. From t = 10 to 12 s, ten readings per frame. Top: the readings (orange dots) and the true speed (blue). Bottom: the push the controller asks for (blue) against 1.713 N, its value without noise (grey). The last frame gives the jitter over 20 s: readings 0.020 m/s, push 0.40 N, true speed 0.002 m/s](images/noise_anim.gif)
 
-So far the wanted speed never changed. A plan changes it all the time.
+So far the wanted speed never changed. A plan changes it continually.
 
 ## 6. Holding a value and following a plan: regulation and tracking
 
@@ -346,7 +346,7 @@ $$m\thinspace a = K_p\thinspace e + b\thinspace e$$
 
 $$e = \frac{m\thinspace a}{K_p + b}$$
 
-MR §11.3 finds the same for a joint following a reference moving at constant speed: with a correction proportional to the error alone, the joint "lags behind" by an amount that shrinks as the gain grows. Once the reference is held at 0.5 m/s, the problem is regulation again and the error dies out. The robot does not catch up, though: it ends 0.18 m behind the plan, because this loop controls the speed, and nothing in it measures the position. Following a planned path in position is the job of the path-tracking chapter.
+MR §11.3 finds the same for a joint following a reference moving at constant speed: with a correction proportional to the error alone, the joint "lags behind" by an amount that shrinks as the gain grows. Once the reference is held at 0.5 m/s, the problem is regulation again and the error dies out. However, the robot does not catch up: it ends 0.18 m behind the plan, because this loop controls the speed, and nothing in it measures the position. Following a planned path in position is the job of the path-tracking chapter.
 
 ## 7. Where the loop runs: Autoware's speed controller
 
@@ -379,7 +379,7 @@ ROS 2 robots use the same structure through `ros2_control`: its `pid_controller`
 - Feedback costs something: it acts only once an error exists, so a small error of 0.036 m/s stays on the ramp, and it passes sensor noise to the motors, 0.40 N of jitter from 0.02 m/s of noise.
 - **Regulation** (G-2952) holds a **setpoint** (G-2953) against disturbances, while **tracking** (G-2954) follows a changing reference; a correction proportional to the error tracks a speeding-up plan only with a lag, here 0.091 m/s, because the push for speeding up comes from the error.
 
-The robot can now hold a speed against ramps and carpets. Still missing: the correction leaves 0.036 m/s on the ramp and lags a changing plan, and the same rule applied to turning makes the robot swing from 0° to 90° and back when it should turn to 45°; [PD and PID control](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#1-overview) fixes both.
+The robot can now hold a speed against ramps and carpets. Two problems remain: the correction leaves 0.036 m/s on the ramp and lags a changing plan, and the same rule applied to turning makes the robot swing from 0° to 90° and back when it should turn to 45°; [PD and PID control](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#1-overview) fixes both.
 
 ## 9. Sources
 

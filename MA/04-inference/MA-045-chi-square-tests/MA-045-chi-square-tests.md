@@ -10,7 +10,7 @@ tags: [subject/statistics, area/inference, step/foundations, concept/chi-square-
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Joint and marginal probability](../../../MA/02-probability/MA-014-joint-marginal-conditional-probability/MA-014-joint-marginal-conditional-probability.md#2-joint-probability); [Hypothesis testing: null and alternative](../../../MA/04-inference/MA-038-null-and-alternative-hypotheses/MA-038-null-and-alternative-hypotheses.md#2-the-problem-hypothesis-testing-solves).
-> - **Leads to:** [Filter consistency](../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-is-the-filter-telling-the-truth-about-itself).
+> - **Leads to:** [Filter consistency](../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#5-consistency-does-the-filters-variance-match-its-real-error).
 > - **Compare with:** [One-sample proportion test](../../../MA/04-inference/MA-044-choosing-a-hypothesis-test/MA-044-choosing-a-hypothesis-test.md#4-one-categorical-feature-the-one-sample-proportion-test).
 <!-- /where-this-fits -->
 

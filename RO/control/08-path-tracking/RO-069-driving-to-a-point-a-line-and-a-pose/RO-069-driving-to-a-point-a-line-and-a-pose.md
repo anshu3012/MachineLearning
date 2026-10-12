@@ -23,9 +23,9 @@ The robot of RO-001, a [**differential drive**](../../01-robot-models/RO-001-pos
 - it lies 27.4° to the left of where the robot faces;
 - the robot must still turn 60° to face the dock.
 
-Figure 1 tries the obvious rule: aim at the dock point and drive, slowing down near it. Watch the heading in the lower panel: the robot reaches the dock point, within 1 cm, after 8.10 s, but facing 64.0°, 26.0° short of 90°, so its contacts meet the dock at a slant. The last frame adds the controller this Note builds, which arrives facing 90.0°.
+Figure 1 applies the simplest rule: aim at the dock point and drive, slowing down near it. Watch the heading in the lower panel: the robot reaches the dock point, within 1 cm, after 8.10 s, but facing 64.0°, 26.0° less than 90°, so its contacts meet the dock at a slant. The last frame adds the controller this Note builds, which arrives facing 90.0°.
 
-![The robot (red) starts at (2.0, 1.0) facing 30° and aims at the dock point (3.6, 3.5), slowing down near it; one frame per 0.4 s. Top: the floor seen from above, with the wall, the dock and the dock pose (orange dashed, arrow at 90°). Bottom: the robot's heading over time against the dock's 90° (grey dashed). The robot stops within 1 cm of the dock point at 8.10 s facing 64.0°, 26.0° short. The last frame adds the polar-coordinate controller of Section 4 (blue): within 1 cm at 8.45 s, facing 90.0°](images/opening.gif)
+![The robot (red) starts at (2.0, 1.0) facing 30° and aims at the dock point (3.6, 3.5), slowing down near it; one frame per 0.4 s. Top: the floor seen from above, with the wall, the dock and the dock pose (orange dashed, arrow at 90°). Bottom: the robot's heading over time against the dock's 90° (grey dashed). The robot stops within 1 cm of the dock point at 8.10 s facing 64.0°, 26.0° less than 90°. The last frame adds the polar-coordinate controller of Section 4 (blue): within 1 cm at 8.45 s, facing 90.0°](images/opening.gif)
 
 This Note builds the controller in three steps, each fixing what the last one could not do:
 
@@ -67,7 +67,7 @@ The robot turns left, towards the dock point, and the forward command is proport
 
 ### 2.2 The wheel limit: slowing both commands together
 
-The first command asks for more than the wheels can give. By the robot's [**inverse kinematics**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-back-again-the-wheel-speeds-for-a-wanted-motion) (G-2295), each wheel runs at $v$ plus or minus $\omega$ times half the wheel separation, 0.1 m:
+The first command asks for more than the wheels can give. By the robot's [**inverse kinematics**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-the-reverse-direction-the-wheel-speeds-for-a-wanted-motion) (G-2295), each wheel runs at $v$ plus or minus $\omega$ times half the wheel separation, 0.1 m:
 
 $$v_R = 2.968 + 2.389 \times 0.1 = 3.207 \text{ m/s}$$
 
@@ -97,7 +97,7 @@ The turning radius stays at 1.242 m before and after. The check at easy values: 
 
 ### 2.3 Why the robot gets there: two errors that shrink
 
-Does the rule really reach the dock point? Figure 2 plays the drive with $\rho$ and $\alpha$ redrawn every 0.25 s. Watch the red arc: $\alpha$ falls from 27.4° to 11.6° in the first second and is gone by about 4 s, while $\rho$ shrinks steadily. From then on the robot drives straight at the dock point.
+Does the rule reach the dock point? Figure 2 plays the drive with $\rho$ and $\alpha$ redrawn every 0.25 s. Watch the red arc: $\alpha$ falls from 27.4° to 11.6° in the first second and is near 0 by about 4 s, while $\rho$ shrinks steadily. From then on the robot drives straight at the dock point.
 
 ![Driving to the dock point with forward speed v = 1 × ρ and turn rate ω = 5 α, scaled together at the wheel limit; one frame per 0.25 s. The grey dashed line is ρ, the distance to the dock point; the red arc is α, from the robot's heading (blue dotted) to the line of sight. Lower panels: ρ and α over time. α is near 0 by 4 s; ρ falls at about 0.6 m/s until it reaches 0.6 m at 4.11 s (black dot), then shrinks to about a third every second. The last frame: within 1 cm at 8.10 s, facing 64.0°](images/point_anim.gif)
 
@@ -135,15 +135,15 @@ $$\dot\alpha \approx (k_\rho - k_\alpha)\thinspace\alpha$$
 Each error shrinks at a rate in proportion to its own size, which makes each a [**first-order system**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2987), the kind that closes the same fraction of its gap in every [**time constant**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988). Choosing the commands so that each error obeys such an equation, and so decays to zero, is the standard way to build the rule (COS 495 L6, slide 9). Here:
 
 - $\rho$ has time constant 1 divided by $k_\rho$, 1 s. Figure 2 shows it: $\rho$ reaches 0.6 m at 4.11 s and 0.215 m one second later, 36 % of 0.6 m. A smooth loop would keep 37 %; holding each command for 0.05 s, the [**zero-order hold**](../../07-classical-feedback-control/RO-068-digital-control/RO-068-digital-control.md#31-holding-each-command-until-the-next-one) (G-3109) of a 20 Hz loop, costs the difference.
-- $\alpha$ shrinks only if $k_\alpha$ is larger than $k_\rho$: otherwise the line of sight swings away faster than the robot turns after it. With 5 and 1, $\alpha$ has time constant 1/4 s, so it dies out long before $\rho$.
+- $\alpha$ shrinks only if $k_\alpha$ is larger than $k_\rho$: otherwise the line of sight swings away faster than the robot turns after it. With 5 and 1, $\alpha$ has time constant 1/4 s, so it decays long before $\rho$.
 
-So the robot reaches the dock point, as Figure 2 shows: within 1 cm after 8.10 s. Its heading is a different matter.
+So the robot reaches the dock point, as Figure 2 shows: within 1 cm after 8.10 s. Its arrival heading, however, is not controlled.
 
 ### 2.4 What driving to a point cannot do: the arrival heading
 
-Once $\alpha$ is gone, by 4 s, the robot drives straight along the line of sight, and the heading it has then is the heading it arrives with: 64.0°, the last frame of Figure 2. The rule has no number for the dock's heading, so nothing pulls the heading towards 90°. The arrival heading depends only on where the robot started and how fast it turned: with $k_\alpha$ = 3 instead of 5, the same start arrives facing 70.7° (notebook).
+Once $\alpha$ is near 0, by 4 s, the robot drives straight along the line of sight, and the heading it has then is the heading it arrives with: 64.0°, the last frame of Figure 2. The rule has no number for the dock's heading, so nothing pulls the heading towards 90°. The arrival heading depends only on where the robot started and how fast it turned: with $k_\alpha$ = 3 instead of 5, the same start arrives facing 70.7° (notebook).
 
-One fix is to stop at the dock point and spin 26.0° on the spot: position first, heading second. The robot has [two inputs for the three numbers of its pose](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#61-the-rule-no-sideways-motion), so a two-stage plan is a natural one, and Nav2's graceful controller uses it by default at the end of a path (`prefer_final_rotation`; its README: the robot follows the path's direction and makes "a final rotation in place to the goal orientation"). Our robot can [spin on the spot](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#44-four-ways-to-drive), but it must stop to do so, and a [car cannot spin](../../../navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) at all. A better way gets the heading right on the way in. The dock's heading defines a line, and Section 3 makes the robot follow it.
+One fix is to stop at the dock point and spin 26.0° on the spot: position first, heading second. The robot has [two inputs for the three numbers of its pose](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#61-the-rule-no-sideways-motion), so a two-stage plan is a natural one, and Nav2's graceful controller uses it by default at the end of a path (`prefer_final_rotation`; its README: the robot follows the path's direction and makes "a final rotation in place to the goal orientation"). Our robot can [spin on the spot](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#44-four-ways-to-drive), but it must stop to do so, and a [car cannot spin](../../../navigation/06-grid-sampling-and-car-like-planning/RO-055-hybrid-a-star-and-path-smoothing/RO-055-hybrid-a-star-and-path-smoothing.md#1-overview) at all. A better way corrects the heading during the approach. The dock's heading defines a line, and Section 3 makes the robot follow it.
 
 ## 3. Driving along a line
 
@@ -174,7 +174,7 @@ $$= -3.2000 + 2.0944$$
 
 $$= -1.1056 \text{ rad/s}$$
 
-The distance term asks for a right turn of 3.200 rad/s and the heading term, since the robot already points 60° to the right of the line's direction, asks for 2.094 rad/s back to the left. The distance wins, so the robot turns right first, down to a heading of 13.7°, and approaches the line at a steeper angle. The faster wheel would need 0.61056 m/s, so the wheel limit of [Section 2.2](#22-the-wheel-limit-slowing-both-commands-together) scales both commands by 0.9827, to 0.491 m/s and −1.086 rad/s.
+The distance term asks for a right turn of 3.200 rad/s and the heading term, since the robot already points 60° to the right of the line's direction, asks for 2.094 rad/s back to the left. The distance term is larger, so the robot turns right first, down to a heading of 13.7°, and approaches the line at a steeper angle. The faster wheel would need 0.61056 m/s, so the wheel limit of [Section 2.2](#22-the-wheel-limit-slowing-both-commands-together) scales both commands by 0.9827, to 0.491 m/s and −1.086 rad/s.
 
 ![Driving along the dock's line x = 3.6 m (green dashed) at 0.5 m/s with turn rate ω = −2 e − 2 ψ; one frame per 0.25 s. The purple arrow is e, the distance from the line; the red arc is ψ, from the line's direction (green dotted) to the robot's heading (blue dotted). Lower panels: e and ψ over time. The robot first turns right to 13.7°, then curves onto the line without crossing it. The last frame: its front meets the dock at 6.60 s, still at 0.50 m/s, 0.022 m from the line and facing 87.9°](images/line_anim.gif)
 
@@ -182,7 +182,7 @@ The robot joins the line without crossing it; Section 3.2 shows why it does not 
 
 ### 3.2 Why it settles without swinging: a spring and a damper
 
-Figure 3 shows the robot curving onto the line without crossing it. Why no swing? Near the line both errors are small. The distance changes with the part of the velocity square to the line, $v$ times the sine of $\psi$, about $v$ times $\psi$, and the heading error changes at the turn rate, because the line's direction is fixed. Then, with numbers first:
+Figure 3 shows the robot curving onto the line without crossing it. Why does it not swing past the line? Near the line both errors are small. The distance changes with the part of the velocity square to the line, $v$ times the sine of $\psi$, about $v$ times $\psi$, and the heading error changes at the turn rate, because the line's direction is fixed. Then, with numbers first:
 
 $$\dot e \approx 0.5\thinspace\psi$$
 
@@ -218,17 +218,17 @@ $$2\zeta\omega_n = 2$$
 
 $$\zeta = 2 / (2 \times 1) = 1$$
 
-A damping ratio of 1 is [**critically damped**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995): the fastest reply that does not overshoot, and the reason we chose $K_h$ = 2 for $K_d$ = 2 at 0.5 m/s. The spring hides a condition: it is the speed times $K_d$, so the same gains swing at a higher speed. At 2 m/s:
+A damping ratio of 1 is [**critically damped**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995): the fastest response that does not overshoot, and the reason we chose $K_h$ = 2 for $K_d$ = 2 at 0.5 m/s. The spring depends on the speed: it is the speed times $K_d$, so the same gains swing at a higher speed. At 2 m/s:
 
 $$\omega_n^2 = 2 \times 2 = 4$$
 
 $$\zeta = 2 / (2 \times 2) = 0.5$$
 
-The robot settles onto the line facing 90°: at 6 s it is 0.036 m from the line and facing 86.6°. Line following has fixed the heading, but it has broken something else.
+The robot settles onto the line facing 90°: at 6 s it is 0.036 m from the line and facing 86.6°. Line following corrects the heading, but it cannot stop the robot.
 
 ### 3.3 What line following cannot do: stop
 
-The rule drives at 0.5 m/s whatever happens, and the dock point is not in it. In the last frame of Figure 3 the robot's front meets the dock at 6.60 s at full speed, 0.022 m from the line and facing 87.9°. A line has no end, so a line follower has nothing to stop at. Driving along a line is the seed of the next Note's job, following a path that has no end in view; for a dock we need both: Section 2's slowing distance and Section 3's heading, in one rule.
+The rule drives at 0.5 m/s whatever happens, and the dock point is not in it. In the last frame of Figure 3 the robot's front meets the dock at 6.60 s at full speed, 0.022 m from the line and facing 87.9°. A line has no end, so a line follower has nothing to stop at. Driving along a line is the basis of the next Note's task, following a path that has no end in view; for a dock we need both: Section 2's slowing distance and Section 3's heading, in one rule.
 
 ## 4. Driving to a pose: the polar-coordinate controller
 
@@ -252,7 +252,7 @@ Driving all three to 0 brings the robot to the dock point facing 90°. Bringing 
 
 ### 4.2 The rule: aim off to the side
 
-How does $\beta$ help? Picture the dock's line. The robot starts to its left, so to come in along the line it must first move right, across in front of the dock, and only then turn towards it. Moving right swings the line of sight from 57.4° towards 90°, which shrinks $\beta$. So the rule turns the robot to the right in proportion to $\beta$, on top of turning it towards the dock point in proportion to $\alpha$ (Corke RVC3 §4.1.1.4; PythonRobotics, Move to a Pose). The gains:
+How does $\beta$ help? Consider the dock's line. The robot starts to its left, so to come in along the line it must first move right, across in front of the dock, and only then turn towards it. Moving right swings the line of sight from 57.4° towards 90°, which shrinks $\beta$. So the rule turns the robot to the right in proportion to $\beta$, on top of turning it towards the dock point in proportion to $\alpha$ (Corke RVC3 §4.1.1.4; PythonRobotics, Move to a Pose). The gains:
 
 - $k_\rho$ is the speed per metre of distance, 1 per s, as in Section 2;
 - $k_\alpha$ is the turn rate per radian of $\alpha$, 5 per s, as in Section 2;
@@ -272,7 +272,7 @@ $$\omega = 2.389 - 2.277 = 0.112 \text{ rad/s}$$
 
 $$v = 1 \times 2.968 = 2.968 \text{ m/s}$$
 
-The two angle terms almost cancel: aim at the dock point, but not yet, because the dock's heading is far from the line of sight. The wheel limit of [Section 2.2](#22-the-wheel-limit-slowing-both-commands-together) scales both commands by 0.2014, to 0.598 m/s and 0.023 rad/s, so the robot first drives nearly straight on at 30°, to the right of the line of sight.
+The two angle terms almost cancel: the $\beta$ term holds back the turn towards the dock point, because the dock's heading is far from the line of sight. The wheel limit of [Section 2.2](#22-the-wheel-limit-slowing-both-commands-together) scales both commands by 0.2014, to 0.598 m/s and 0.023 rad/s, so the robot first drives nearly straight on at 30°, to the right of the line of sight.
 
 Figure 5 plays the drive with all three numbers redrawn every 0.25 s. Watch the purple arc at the dock: $\beta$ shrinks as the robot moves right of the line of sight, and the red arc $\alpha$ grows at first, to 28.4° at 1 s, before both fall together.
 
@@ -339,7 +339,7 @@ $$\omega_n = 2 \text{ rad/s}$$
 
 $$\zeta = 4 / (2 \times 2) = 1$$
 
-A critically damped pair with a natural frequency of 2 rad/s is the reply of RO-061's chosen turn, which [settles](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#64-choosing-the-gains-for-the-turn) within 2 % in 2.92 s. Since $\alpha$ and $\beta$ both go to 0, so does the heading still to turn, their sum, and the robot faces 90°.
+A critically damped pair with a natural frequency of 2 rad/s is the response of RO-061's chosen turn, which [settles](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#64-choosing-the-gains-for-the-turn) within 2 % in 2.92 s. Since $\alpha$ and $\beta$ both go to 0, so does the heading still to turn, their sum, and the robot faces 90°.
 
 A block stays near its rest position only if the spring pulls it back and the damper resists its motion: both must be positive (COS 495 L6, slide 28). Requiring both gives the three conditions on the gains, with the distance's own rate $k_\rho$ positive so that $\rho$ shrinks:
 
@@ -356,7 +356,7 @@ The second condition says the $\beta$ term must turn the robot away from the doc
 Why 1, 5 and −4? Three reasons, one per gain:
 
 - $k_\rho$ = 1 per s sets how fast the robot closes the last 0.6 m, with a time constant of 1 s (Section 2.3).
-- The angles must settle faster than the distance, or the robot reaches the dock point still turning. A natural frequency of 2 rad/s, twice $k_\rho$, does it, and gives $k_\beta$: minus 4 divided by 1.
+- The angles must settle faster than the distance, or the robot reaches the dock point still turning. A natural frequency of 2 rad/s, twice $k_\rho$, achieves this, and gives $k_\beta$: minus 4 divided by 1.
 - A damping ratio of 1 gives the fastest settling without a swing past the dock's line, and gives $k_\alpha$: the damper, 4, plus $k_\rho$.
 
 The second reason shows when it is broken. With $k_\alpha$ = 3 and $k_\beta$ = −1, which meet all three conditions but give a natural frequency of only 1 rad/s, as fast as the distance, eight starts round the dock arrive facing anywhere from 84.7° to 95.3° (notebook).
@@ -389,7 +389,7 @@ The docking problem of the Overview is a standard task, and Nav2 solves it with 
 
 The defaults in `src/parameter_handler.cpp` are `k_phi` 2.0, `k_delta` 1.0, `beta` 0.4, `lambda` 2.0, `v_linear_max` 0.5 m/s, `v_linear_min` 0.1 m/s, `v_angular_max` 1.0 rad/s and `slowdown_radius` 1.5 m. The package's README still lists a `motion_target_dist` that the code has replaced by `min_lookahead` 0.25 m and `max_lookahead` 1.0 m (`src/graceful_controller.cpp`): as a path follower, the controller takes as its target the pose on the planned path `max_lookahead` ahead, or a nearer one if that one cannot be reached without a collision, and drives to it again at every cycle. The docking server (`controller.cpp` of the package `opennav_docking`, in Nav2's `nav2_docking` folder) builds the same control law with gentler numbers for the last approach: `k_phi` 3.0, `k_delta` 2.0, `v_linear_max` 0.25 m/s and `slowdown_radius` 0.25 m.
 
-Figure 8 runs Nav2's law, with the plugin's defaults, on our dock next to our controller. Watch the speed panel: the graceful controller starts below 0.5 m/s, slows from 3.60 s, 1.38 m from the dock, where its slow-down near the target (which starts 1.5 m out) first asks for less than the 0.47 m/s it was driving, and creeps in at its 0.1 m/s floor.
+Figure 8 runs Nav2's law, with the plugin's defaults, on our dock next to our controller. Watch the speed panel: the graceful controller starts below 0.5 m/s, slows from 3.60 s, 1.38 m from the dock, where its slow-down near the target (which starts 1.5 m out) first asks for less than the 0.47 m/s it was driving, and makes the final approach at its 0.1 m/s floor.
 
 ![Nav2's graceful controller (green, its SmoothControlLaw with the plugin's defaults listed above: at most 0.5 m/s and 1.0 rad/s, slowing within 1.5 m) and this Note's polar-coordinate controller (blue) from the same start to the same dock pose; one frame per 0.25 s. Bottom: the forward speed of each. The paths almost coincide; the graceful controller drives at most 0.495 m/s, slows near the dock (its slow-down starts 1.5 m out and takes over at 1.38 m, at 3.60 s) and finishes at its 0.1 m/s floor. The last frame: both within 1 cm of the dock point, facing 90° to within 0.1°; polar at 8.45 s, graceful at 11.15 s](images/graceful_anim.gif)
 
@@ -412,7 +412,7 @@ Both arrive facing 90°, the graceful controller at 11.15 s against 8.45 s, alon
 - Choosing $k_\beta$ = −4 and $k_\alpha$ = 5 makes the angles critically damped at 2 rad/s, twice the distance's rate, so the heading is right before the robot arrives: eight starts all face 90.0° to within 0.05°.
 - Nav2's **graceful controller** (G-3125) drives to a pose from the same three numbers and slows on tight arcs and near the target, so its docking approach is smooth; on our dock it arrives at 11.15 s.
 
-The robot can now drive to any pose on an open floor. Still missing: a planned route is not one pose but a long curve, and a car cannot spin to fix its heading; following a path means measuring, at every moment, how far the car is from the path and how its heading differs from the path's, which is [path following and its errors](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#4-path-coordinates).
+The robot can now drive to any pose on an open floor. Two problems remain: a planned route is not one pose but a long curve, and a car cannot spin to fix its heading; following a path means measuring, at every moment, how far the car is from the path and how its heading differs from the path's, which is [path following and its errors](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#4-path-coordinates).
 
 ## 7. Sources
 
@@ -436,7 +436,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Line of sight (to a goal) (G-3121) | The straight line from a robot to its goal point; its direction minus the robot's heading is the angle the robot must turn to face the goal, the angle a point or pose controller steers on. |
-| Driving to a point (G-3120) | Steering a robot to a goal point by setting its forward speed in proportion to the distance to the point and its turn rate in proportion to the angle between its heading and the line of sight, $v = k_\rho \rho$, $\omega = k_\alpha \alpha$; the robot slows down as it nears the point and gets there, but arrives with whatever heading it happens to have. |
+| Driving to a point (G-3120) | Steering a robot to a goal point by setting its forward speed in proportion to the distance to the point and its turn rate in proportion to the angle between its heading and the line of sight, $v = k_\rho \rho$, $\omega = k_\alpha \alpha$; the robot slows down as it nears the point and reaches it, but its arrival heading is not controlled. |
 | Driving along a line (G-3122) | Steering a robot onto a straight line at a fixed speed, with a turn rate set by its signed distance from the line and its heading error against the line's direction, $\omega = -K_d e - K_h \psi$; the robot settles onto the line like a spring and damper, but a line has no end, so it never stops. |
 | Driving to a pose (G-3123) | Bringing a robot to a given position and heading together, such as stopping at a charging dock facing it; it needs a controller that steers on the heading still to turn as well as the distance, because aiming at the point alone leaves the arrival heading to chance. |
 | Polar-coordinate controller (G-3124) | A pose controller that steers on the distance $\rho$ to the goal point, the angle $\alpha$ from the heading to the line of sight and the angle $\beta$ from the line of sight to the goal's heading: $v = k_\rho \rho$, $\omega = k_\alpha \alpha + k_\beta \beta$; near the goal the angles behave like a spring and damper, and it settles when $k_\rho > 0$, $k_\beta < 0$ and $k_\alpha > k_\rho$. |
@@ -452,14 +452,14 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Angle wrapping](../../../../RO/localization/02-bayes-filters/RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#33-why-angle-differences-must-be-wrapped) (G-2404) | Adding or subtracting full turns until an angle or angle difference lies between −180° and 180°, so that 175° and −178° count as 7° apart, not 353°; needed whenever bearings or headings are compared. |
 | [Polar coordinates](../../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#22-functions-with-several-outputs) (G-1511) | Describing a point by its distance $r$ from the origin and its angle $\theta$: $(r\cos\theta, r\sin\theta)$. |
 | [Proportional control (P control)](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#31-the-rule-and-why-it-overshoots) (G-2958) | Feedback that sets the command in proportion to the control error, such as a torque of 0.2 N m per rad of heading error; it pulls the output towards the reference like a spring, but alone it swings when nothing damps the motion and leaves an error under a steady load. |
-| [Inverse kinematics (wheeled robot)](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-back-again-the-wheel-speeds-for-a-wanted-motion) (G-2295) | Working out the wheel speeds that give a wanted linear and angular velocity, used by a controller to command the motors. |
+| [Inverse kinematics (wheeled robot)](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-the-reverse-direction-the-wheel-speeds-for-a-wanted-motion) (G-2295) | Working out the wheel speeds that give a wanted linear and angular velocity, used by a controller to command the motors. |
 | [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2293) | The distance from the point a robot is turning about (the instantaneous centre of curvature, ICC) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |
 | [Dot notation $\dot{x}$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2296) | A dot over a quantity means its rate of change per second (its derivative with respect to time), such as $\dot{x} = 0.433$ m/s; models of motion are written with it. |
 | [First-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2987) | A system whose output follows a differential equation with only a first derivative, such as the robot's speed under P control; it closes the same fraction of its remaining gap in every time constant and can never overshoot. |
 | [Time constant](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) | The time a first-order system takes to close 63 % of the gap to its final value, m/(K_v + b) = 1 s for the robot's speed loop; it fixes the rise time (about 2.2 time constants) and the 2 % settling time (about 4). |
 | [Zero-order hold](../../../../RO/control/07-classical-feedback-control/RO-068-digital-control/RO-068-digital-control.md#31-holding-each-command-until-the-next-one) (G-3109) | Keeping each command constant from its tick until the next one, so the actuator gets a staircase; simple and cheap, but the held value is on average half a sample period old, so it acts like a delay of $T/2$. |
 | [Error dynamics](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#31-the-heading-error-is-a-block-on-a-spring-and-a-damper) (G-2986) | The differential equation the error of a controlled system obeys, found by putting the controller's rule into the plant's equation of motion, such as 0.1 e'' + 0.08 e' + 0.4 e = 0 for the heading under PD control; its solution predicts the step response from the gains. |
-| [Second-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2990) | A system whose output follows a differential equation with a second derivative, such as the robot's heading under PD control; written e'' + 2ζω_n e' + ω_n² e = 0, its reply is set by two numbers, the natural frequency and the damping ratio. |
-| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the reply is, and raising it squeezes the whole reply in time. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
-| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |
+| [Second-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2990) | A system whose output follows a differential equation with a second derivative, such as the robot's heading under PD control; written e'' + 2ζω_n e' + ω_n² e = 0, its response is set by two numbers, the natural frequency and the damping ratio. |
+| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the response is, and raising it compresses the whole response in time. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |
+| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |

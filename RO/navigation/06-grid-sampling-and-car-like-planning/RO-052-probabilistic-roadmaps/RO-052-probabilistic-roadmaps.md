@@ -14,11 +14,11 @@ tags: [subject/robotics, area/navigation, concept/probabilistic-roadmap, concept
 
 ## 1. Overview
 
-> **Key point:** A probabilistic roadmap scatters random free configurations over C-space, joins nearby ones by checked straight edges, and searches the resulting graph. Built once, it answers every trip in an unchanged room for a few hundred checks each; the price is that a missed route is only unlikely, not impossible, and tight gaps need smarter sampling.
+> **Key point:** A probabilistic roadmap scatters random free configurations over C-space, joins nearby ones by checked straight edges, and searches the resulting graph. Built once, it answers every trip in an unchanged room for a few hundred checks each; the price is that a missed route is only unlikely, not impossible, and tight gaps need non-uniform sampling.
 
 So far the robot can plan in its room in two ways. [A*](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm) (G-2577) on the 0.5 m grid finds a 3.414 m route to the door. The [rapidly-exploring random tree](../RO-051-rrt/RO-051-rrt.md#21-one-step-sample-nearest-node-steer-check) (G-2761), RRT for short, grows a tree of random configurations from the start until a branch reaches the goal, so it needs no grid and never builds the [obstacle region](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#22-the-obstacle-region-every-placement-that-touches-an-obstacle) (G-2650).
 
-What still breaks is a day of work. The robot, a disk of radius 0.25 m whose [grown obstacles](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius) (G-2652) mark where its centre may not go, makes four trips in a room that does not change (Figure 1), each starting where the last one ended:
+The remaining problem is a day of repeated trips. The robot, a disk of radius 0.25 m whose [grown obstacles](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius) (G-2652) mark where its centre may not go, makes four trips in a room that does not change (Figure 1), each starting where the last one ended:
 
 1. its dock at (2, 1) to the doorway centre (3.6, 4.0);
 2. the door to a spot beside the cabinet, (5.9, 2.0);
@@ -27,7 +27,7 @@ What still breaks is a day of work. The robot, a disk of radius 0.25 m whose [gr
 
 ![The room in C-space: the obstacles grown by the robot's 0.25 m radius (orange), the robot at its dock (2, 1), and four numbered grey arrows from the start to the end of each trip of the day: 1 dock to door (3.6, 4.0), 2 door to cabinet (5.9, 2.0), 3 cabinet to corner (6.6, 0.4), 4 corner to dock. The arrows join start and end; they are not routes](images/trips.png)
 
-A tree grown from the dock serves trip 1 only. Trip 2 starts at the door, so the tree is thrown away and the sampling and collision checks start again from nothing, four times a day, in a room that has not changed. A second problem waits when the robot carries a round tray 0.8 m across: then some gaps leave its centre only 0.1 m to 0.2 m of room, and random samples rarely land in them.
+A tree grown from the dock serves trip 1 only. Trip 2 starts at the door, so the tree is discarded and the sampling and collision checks start again from nothing, four times a day, in a room that has not changed. A second problem arises when the robot carries a round tray 0.8 m across: then some gaps leave its centre only 0.1 m to 0.2 m of room, and random samples rarely land in them.
 
 The opening question of this Note: **can the robot build one graph of its free space from random samples, answer all four trips from it, and still get through tight gaps?** We answer it in steps:
 
@@ -35,8 +35,8 @@ The opening question of this Note: **can the robot build one graph of its free s
 - reusing it for all four trips ([Section 3](#3-many-trips-on-one-roadmap-single-query-and-multi-query-planners));
 - what the graph must do so that no trip fails ([Section 4](#4-what-makes-a-graph-a-roadmap-accessibility-and-connectivity));
 - how sure an answer of "no route" is ([Section 5](#5-can-a-planner-miss-a-route-completeness));
-- tight gaps, and two ways of sampling that find them ([Section 6](#6-narrow-passages-and-smarter-sampling));
-- a smaller graph that covers the room just as well ([Section 7](#7-the-visibility-roadmap-guards-and-connectors));
+- tight gaps, and two ways of sampling that find them ([Section 6](#6-narrow-passages-and-non-uniform-sampling));
+- a smaller graph that covers the room equally well ([Section 7](#7-the-visibility-roadmap-guards-and-connectors));
 - checking only the edges a route uses ([Section 8](#8-lazy-collision-checking)).
 
 ## 2. Building a roadmap from random samples
@@ -132,19 +132,19 @@ The largest trip costs 2.8 percent of the build:
 
 $$226 / 7{,}934 = 0.028$$
 
-So after the build, a trip is almost free. A planner that invests time in a description of the free space so that many later problems in the same space are solved quickly is a **multi-query planner** (G-2786); a planner that solves each problem from nothing, as fast as it can, is a **single-query planner** (G-2787) (MR §10.1; Hauser ch.10, "Multi-query PRMs"). MR §10.5 classes the PRM as a multi-query planner and the RRT as a single-query one.
+After the build, a trip therefore costs very little. A planner that invests time in a description of the free space so that many later problems in the same space are solved quickly is a **multi-query planner** (G-2786); a planner that solves each problem from nothing, as fast as it can, is a **single-query planner** (G-2787) (MR §10.1; Hauser ch.10, "Multi-query PRMs"). MR §10.5 classes the PRM as a multi-query planner and the RRT as a single-query one.
 
-**When the room changes.** The investment pays only while the room stays the same. If the furniture moves, every milestone and every edge must be checked again, because each was checked against the old room (MR §10.1; Kavraki et al. 1996). For a room that changes often, a single-query planner that grows only what one trip needs is the better choice (MR §10.1). The four trips are now answered; but every one of them was found only because the roadmap happened to cover the room well, which the next section examines.
+**When the room changes.** The investment is worthwhile only while the room stays the same. If the furniture moves, every milestone and every edge must be checked again, because each was checked against the old room (MR §10.1; Kavraki et al. 1996). For a room that changes often, a single-query planner that grows only what one trip needs is the better choice (MR §10.1). The four trips are now answered; but every one of them was found only because the roadmap happened to cover the room well, which the next section examines.
 
 ## 4. What makes a graph a roadmap: accessibility and connectivity
 
 > **Key point:** A graph serves every trip only if two things hold. Accessibility: from any free configuration, a simple free path reaches the graph. Connectivity: two configurations joined in free space are joined in the graph, so the graph has one piece for each piece of free space. With 10 milestones our roadmap breaks the second rule and trips 2 and 4 fail; from 20 milestones on it is one piece and every trip is found.
 
-The four trips of Section 3 all succeeded with 100 milestones. Would fewer do? Figure 4 rebuilds the roadmap from the first 5, 10, 20, 50 and 100 milestones, the kept random configurations, of the same run. Watch the colours, one per piece of the roadmap, and the red squares, free floor that cannot reach any of its 10 nearest milestones by a free straight segment.
+The four trips of Section 3 all succeeded with 100 milestones. Would fewer suffice? Figure 4 rebuilds the roadmap from the first 5, 10, 20, 50 and 100 milestones, the kept random configurations, of the same run. Watch the colours, one per piece of the roadmap, and the red squares, free floor that cannot reach any of its 10 nearest milestones by a free straight segment.
 
 ![Animation: the roadmap from the first 5, 10, 20, 50 and 100 milestones of seed 0, each joined to its 10 nearest; each piece of the roadmap has its own colour; red squares mark free floor (tested every 0.1 m) with no free straight segment to one of its 10 nearest milestones. 5 milestones: 2 pieces, 98.2 percent of the free floor reaches a milestone, trips 2 and 4 fail. 10 milestones: 2 pieces (6 and 4 milestones), 99.7 percent, trips 2 and 4 fail. 20 milestones: one piece, 99.9 percent, every trip found. 100 milestones: one piece, 100.0 percent](images/grow.gif)
 
-Two different things went wrong with few milestones:
+Two different failures occur with few milestones:
 
 - **Some free floor cannot reach the graph.** With 5 milestones, 1.8 percent of the free floor, behind the pink pole and behind the green pole, sees none of them along a free straight segment. A trip starting there could not even join the roadmap.
 - **The graph is in two pieces where the free space is one.** The room's free space is one piece ([connected components of free space](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#41-one-piece-or-several)), but with 10 milestones the roadmap has 2 pieces, 6 milestones round the left and top, 4 on the right. Trip 2 (door to cabinet) and trip 4 (corner to dock) join different pieces, and A* finds no route, though the robot could drive both.
@@ -170,13 +170,13 @@ Section 4 ended with the roadmap of 10 milestones answering "no route" for trip 
 2. A planner is **resolution complete** (G-2791) if it does so at the resolution of its grid: it finds every route that exists through the grid, and may miss a route that needs a finer grid (MR §10.1).
 3. A planner is **probabilistically complete** (G-2792) if the chance that it finds an existing route goes to 1 as its planning time, here its number of samples, grows (MR §10.1).
 
-**Complete.** A complete planner needs an exact description of the free space, such as the exact [room in C-space](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#24-the-room-in-c-space-and-the-drive-to-the-door) built for the disk robot, or an exact roadmap of it. For a robot moving among polygons in the plane, joining the obstacle corners that see each other gives such an exact roadmap, and A* on it is complete (MR §10.3). For most robots, building that description is too costly, so resolution or probabilistic completeness is the best a practical planner gets (MR §10.3).
+**Complete.** A complete planner needs an exact description of the free space, such as the exact [room in C-space](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#24-the-room-in-c-space-and-the-drive-to-the-door) built for the disk robot, or an exact roadmap of it. For a robot moving among polygons in the plane, joining the obstacle corners that see each other gives such an exact roadmap, and A* on it is complete (MR §10.3). For most robots, building that description is too costly, so resolution or probabilistic completeness is the best a practical planner achieves (MR §10.3).
 
 **Resolution complete: a grid misses the corner.** Figure 5 plans trip 3 on two grids of configurations: the robot's centre at the middle of each cell, a point kept if the robot is free there, neighbours in 8 directions joined by free segments. With 0.5 m cells, 44 of the 112 points are free, none of them near the corner behind the green pole, and the grid answers "no route" to the corner. With 0.25 m cells, 244 of 448 points are free and the grid finds a route of 1.903 m (notebook).
 
 ![Two grids of configurations in the room's C-space (obstacles grown by 0.25 m, orange), each point the robot's centre at the middle of a cell, kept if the robot is free there, with free segments to its neighbours in 8 directions (light blue). Left, 0.5 m cells: 44 points, none near the corner (6.6, 0.4), no route from the cabinet to the corner. Right, 0.25 m cells: 244 points and the route cabinet to corner, 1.903 m (green)](images/grids.png)
 
-The robot fits beside and under the green pole, with 0.4 m and 0.2 m to spare, but the gaps fall between the 0.5 m grid's points. So the grid's "no route" is true only at its resolution. (The [grid graph of the room](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#21-cells-and-moves-vertices-and-edges) had 76 free cells of 112 because it counted cells with no furniture in them; here a point is free only if the whole 0.25 m disk is.) The PRM has no grid; its only knob is how many samples it draws.
+The robot fits beside and under the green pole, with 0.4 m and 0.2 m to spare, but the gaps fall between the 0.5 m grid's points. So the grid's "no route" is true only at its resolution. (The [grid graph of the room](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#21-cells-and-moves-vertices-and-edges) had 76 free cells of 112 because it counted cells with no furniture in them; here a point is free only if the whole 0.25 m disk is.) The PRM has no grid; its only setting is how many samples it draws.
 
 ### 5.2 Probabilistically complete
 
@@ -186,10 +186,10 @@ Figure 6 runs the PRM 200 times for each number of milestones (the random free c
 
 The PRM is probabilistically complete (Hauser ch.10; MR §10.5):
 
-- **A route it returns is always free,** because every edge of it passed the collision check (Hauser ch.10; KAIST PRM slides), as far as that check can tell: edge resolution tests points 0.05 m apart, so a collision thinner than that could slip through ([step size and order](../../04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#62-step-size-and-order)).
+- **A route it returns is always free,** because every edge of it passed the collision check (Hauser ch.10; KAIST PRM slides), as far as that check can tell: edge resolution tests points 0.05 m apart, so a collision thinner than that could go undetected ([step size and order](../../04-graph-search-and-configuration-space/RO-038-collision-checking-and-nearest-neighbours/RO-038-collision-checking-and-nearest-neighbours.md#62-step-size-and-order)).
 - **Its "no route" can be wrong,** as trip 2 shows: with 10 milestones it is found in only 37.5 percent of runs. The chance of that wrong answer falls towards 0 as the number of milestones grows: trip 2 is found in 99.5 percent of runs with 100 milestones (notebook).
 
-Trip 2 lags because the cabinet spot sits in a pocket between the table, the cabinet and the green pole, which few straight lines reach: it sees 17.0 percent of the free floor, against 27.9 percent for the corner and 57.9 percent for the door (notebook). The next part turns that share into a chance.
+Trip 2 is found less often because the cabinet spot lies in a pocket between the table, the cabinet and the green pole, which few straight lines reach: it sees 17.0 percent of the free floor, against 27.9 percent for the corner and 57.9 percent for the door (notebook). The next part turns that share into a chance.
 
 ### 5.3 Why more milestones help: the chance of missing
 
@@ -231,21 +231,21 @@ $$= (1 - p)^n$$
 
 (Hauser ch.10, "Analysis of visibility and performance"). For any $p$ above 0, multiplying by a number below 1 again and again drives $P_{\text{miss}}$ to 0, which is why more samples make a miss ever less likely.
 
-**The catch: small p.** How fast $P_{\text{miss}}$ falls depends on $p$. For a configuration that sees 1 percent of the free space:
+**The limitation: small p.** How fast $P_{\text{miss}}$ falls depends on $p$. For a configuration that sees 1 percent of the free space:
 
 $$0.99^{100} = 0.366$$
 
 $$0.99^{300} = 0.049$$
 
-Even 300 milestones leave a 4.9 percent chance of missing it: on average about 1 divided by $p$ milestones are needed before one sees it, 100 here (Hauser ch.10). The guarantee also needs a route with some room to spare: a gap exactly as wide as the robot leaves a route of zero width, which no random sample ever lands on (Hauser ch.10, "given some relatively mild assumptions on the shape of the free space"; KAIST PRM slides). Small shares of free space that a route must cross are where uniform sampling struggles, which is the tray problem of the opening.
+Even 300 milestones leave a 4.9 percent chance of missing it: on average about 1 divided by $p$ milestones are needed before one sees it, 100 here (Hauser ch.10). The guarantee also needs a route with some room to spare: a gap exactly as wide as the robot leaves a route of zero width, which no random sample ever lands on (Hauser ch.10, "given some relatively mild assumptions on the shape of the free space"; KAIST PRM slides). Small shares of free space that a route must cross are where uniform sampling performs worst, which is the tray problem of the opening.
 
-## 6. Narrow passages and smarter sampling
+## 6. Narrow passages and non-uniform sampling
 
 > **Key point:** A narrow passage is a thin part of free space that a route must cross; uniform samples rarely land in it, so the roadmap splits on either side. Gaussian sampling keeps samples next to obstacles, and the bridge test keeps the midpoint of two colliding samples, which lands in thin gaps; with 50 milestones they find the tray robot's trip in 86 and 93 percent of runs, against 32 percent for uniform sampling.
 
-### 6.1 The tray robot: where uniform samples starve
+### 6.1 The tray robot: where uniform samples rarely land
 
-The opening's second problem: the robot carries a round tray 0.8 m across. The tray is now the widest part of the robot, so its footprint is a disk of radius 0.4 m, and every obstacle grows by 0.4 m instead of 0.25 m ([growing the obstacles](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius)). The room is the same; only this radius changes in this section. We widen the robot instead of changing the room because the 0.25 m robot meets no gap narrow enough to starve uniform samples: with 50 milestones, its trip from the dock to the cabinet is found in 93 percent of runs (notebook). The gaps the robot must use to reach the cabinet from its dock shrink (notebook):
+The opening's second problem: the robot carries a round tray 0.8 m across. The tray is now the widest part of the robot, so its footprint is a disk of radius 0.4 m, and every obstacle grows by 0.4 m instead of 0.25 m ([growing the obstacles](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius)). The room is the same; only this radius changes in this section. We widen the robot instead of changing the room because the 0.25 m robot meets no gap so narrow that uniform samples rarely land in it: with 50 milestones, its trip from the dock to the cabinet is found in 93 percent of runs (notebook). The gaps the robot must use to reach the cabinet from its dock shrink (notebook):
 
 - under the table, the 1.0 m between the table and the bottom wall leaves the centre a corridor 2 m long and this wide:
 
@@ -273,7 +273,7 @@ Two milestones cannot form a chain along 2 m of corridor 0.2 m wide. In 100 runs
 
 ![The C-space of the robot carrying a tray 0.8 m across (obstacles grown by 0.4 m, orange), with the gaps marked: 0.2 m under the table, 0.1 m between the table and the cabinet, 0.11 m between the table and the green pole. One run (seed 5001) of 50 milestones by each strategy, 10 nearest neighbours, trip dock to cabinet; each colour is one piece of the roadmap. Top, uniform sampling: 2 pieces, 45 milestones (blue) and 5 beside the cabinet (pink), no route. Middle, Gaussian sampling, standard deviation 0.1 m: one piece, the milestones lie along the obstacles, route 4.993 m (green) through the corridor under the table. Bottom, bridge test, standard deviation 0.3 m: the milestones sit in the thin gaps, route 7.773 m](images/strategies.png)
 
-More uniform samples help slowly: with 100 milestones the trip is found in 66 percent of runs, with 200 in 93 percent (notebook). The trouble is where the samples go, not how many there are, so the fix is to draw them where the passages are.
+More uniform samples help slowly: with 100 milestones the trip is found in 66 percent of runs, with 200 in 93 percent (notebook). The problem is where the samples go, not how many there are, so the remedy is to draw them where the passages are.
 
 ### 6.2 Gaussian sampling and the bridge test
 
@@ -298,7 +298,7 @@ The midpoint lies in the corridor under the table, between y = 0.4 and y = 0.6, 
 
 ![Animation in the tray robot's C-space (obstacles grown by 0.4 m, orange); green: free, red: in collision, blue: kept as a milestone. Part 1, Gaussian sampling (standard deviation 0.1 m): q1 (circle) uniform and q2 (diamond) near it, one draw per frame; draw 3, q1 in the grown left wall and q2 free, keeps q2. Last frame of part 1: 20 milestones from 144 draws, all close to obstacles. Part 2, the bridge test (standard deviation 0.3 m): q1, then q2 if q1 collides, then their midpoint m (star) if both collide; draw 4 has both ends in collision, one in the grown table and one in the grown bottom wall, and a free midpoint in the corridor, which is kept. Last frame: 10 milestones from 460 draws, in thin gaps under the table, beside the pink pole and above the table](images/pairs.gif)
 
-The bridge test throws most draws away: 10 milestones took 460 draws in Figure 9. A draw costs only a configuration check or three, far less than an edge, so the trade pays where narrow passages decide the answer (Hauser ch.10). Over 100 runs of the tray robot's trip with 50 milestones (notebook):
+The bridge test discards most draws: 10 milestones took 460 draws in Figure 9. A draw costs only a configuration check or three, far less than an edge, so the trade is worthwhile where narrow passages decide the answer (Hauser ch.10). Over 100 runs of the tray robot's trip with 50 milestones (notebook):
 
 | Sampling | Trip found | Draws | Configurations checked |
 |---|---|---|---|
@@ -307,7 +307,7 @@ The bridge test throws most draws away: 10 milestones took 460 draws in Figure 9
 | bridge test, 0.3 m | 93 percent | 2,470 | 8,881 |
 | uniform, 200 milestones | 93 percent | 566 | 10,660 |
 
-The bridge test reaches 93 percent with 8,881 checks; uniform sampling needs 200 milestones and 10,660 checks for the same 93 percent. Figure 8 shows one run, seed 5001, chosen because it has the commonest outcome of the 100: uniform sampling fails while both others succeed (53 of the 100 runs; notebook). Its bottom panel also shows the bridge test's weakness: its milestones crowd into gaps and leave the open floor empty, so its route of 7.773 m wanders round the room.
+The bridge test reaches 93 percent with 8,881 checks; uniform sampling needs 200 milestones and 10,660 checks for the same 93 percent. Figure 8 shows one run, seed 5001, chosen because it has the commonest outcome of the 100: uniform sampling fails while both others succeed (53 of the 100 runs; notebook). Its bottom panel also shows the bridge test's weakness: its milestones crowd into gaps and leave the open floor empty, so its route of 7.773 m goes a long way round the room.
 
 The tray robot now gets through its gaps. Every milestone so far, though, has stayed in the roadmap, needed or not; the next section keeps only the ones that add something.
 
@@ -315,7 +315,7 @@ The tray robot now gets through its gaps. Every milestone so far, though, has st
 
 > **Key point:** The visibility roadmap keeps a sample only if it sees no kept guard (then it becomes a guard) or it sees guards of two pieces of the roadmap (then it becomes a connector joining them). In our room, 5 guards and 4 connectors, 9 vertices and 8 edges, cover the free floor that took 100 milestones and 525 edges before.
 
-The roadmap of Section 3 has 100 milestones (kept random configurations) and 525 checked edges, and most of them repeat each other: a milestone in the middle of the open floor sees the same floor as its neighbours. A smaller roadmap is quicker to search and to store, which matters when it is built once and queried many times (LaValle §5.6.2).
+The roadmap of Section 3 has 100 milestones (kept random configurations) and 525 checked edges, and most of them are redundant: a milestone in the middle of the open floor sees the same floor as its neighbours. A smaller roadmap is quicker to search and to store, which matters when it is built once and queried many times (LaValle §5.6.2).
 
 The **visibility roadmap** (G-2796) keeps a free sample only if it adds something, by one of two rules, and discards the rest (LaValle §5.6.2; KAIST PRM slides):
 
@@ -342,7 +342,7 @@ Narrow passages stay as hard for it as for the basic roadmap, since a guard or c
 
 The visibility roadmap saved milestones; the edges still cost the most. Building the roadmap of Section 2 took 7,745 configuration checks for its edges, against 189 for its milestones (its random free configurations), yet trip 2's route uses 3 of its 525 edges. Checking an edge is the main cost of a roadmap, especially for detailed robots, where every configuration check tests many bodies and pairs of links (Hauser ch.10, "Lazy collision checking in PRMs").
 
-**Lazy collision checking** (G-2799) delays an edge's check until a route wants to use it (Hauser ch.10):
+**Lazy collision checking** (G-2799) delays an edge's check until a candidate route uses it (Hauser ch.10):
 
 1. join every milestone, the start and the goal to their 10 nearest, assuming every edge is free;
 2. search for a route with A*; if there is none, report failure;
@@ -350,7 +350,7 @@ The visibility roadmap saved milestones; the edges still cost the most. Building
 4. if an edge collides, delete it from the graph and go back to step 2;
 5. if every edge is free, return the route.
 
-The bet is that an edge between two free milestones is usually free too (Hauser ch.10). Figure 11 runs trip 2 on the 100 milestones of Section 2. Watch the orange candidate routes: an edge that passes the check turns green; an edge that cuts the grown table turns red and is deleted, and A* searches again.
+The assumption is that an edge between two free milestones is usually free too (Hauser ch.10). Figure 11 runs trip 2 on the 100 milestones of Section 2. Watch the orange candidate routes: an edge that passes the check turns green; an edge that cuts the grown table turns red and is deleted, and A* searches again.
 
 ![Animation: lazy collision checking on trip 2, door (3.6, 4.0) to cabinet (5.9, 2.0), with the 100 milestones of seed 0. Grey: edges to the 10 nearest, not checked. Search 1: A* finds a candidate route (orange); its edges are checked from the door, three are free (green), the fourth cuts the grown table (red) and is deleted. Searches 2 and 3 each find a colliding edge at once; search 4 checks two free edges and finds the fourth collision; search 5 finds a route whose edges are all free. Last frame: route 3.579 m after 5 searches and 11 edge checks, 129 configurations checked, against 7,954 when every edge is checked first](images/lazy.gif)
 
@@ -382,7 +382,7 @@ In the table, $p$ is the share of the free space that sees a configuration, 0.28
 - The robot builds one graph of its free space from random samples and answers all four trips from it: 7,934 checks for the build and 842 for the trips, against 32,578 for a new graph per trip, because a roadmap holds no start or goal and a trip only joins its two ends; with the tray, Gaussian sampling and the bridge test get it through the 0.1 m to 0.2 m gaps in 86 and 93 percent of runs, against 32 percent with uniform samples, because they put milestones where the gaps are.
 - A **probabilistic roadmap** (G-2780) never builds the obstacle region, so it scales to robots with many joints, where a grid of 10 values per joint needs 10,000,000 cells for 7 joints.
 - The **learning phase** (G-2784) spends most of its checks on edges, 7,745 against 189 for the milestones, because each edge is checked at many configurations; the **query phase** (G-2785) costs at most 2.8 percent of the build.
-- A **multi-query planner** (G-2786) pays off only in an unchanged room, because every edge was checked against the room as it was; a **single-query planner** (G-2787) suits rooms that change often.
+- A **multi-query planner** (G-2786) is worthwhile only in an unchanged room, because every edge was checked against the room as it was; a **single-query planner** (G-2787) suits rooms that change often.
 - A graph answers every trip only if it meets **accessibility** (G-2788) and **connectivity** (G-2789), so a roadmap of 10 milestones in 2 pieces misses trips 2 and 4 in a free space of one piece.
 - The PRM is **probabilistically complete** (G-2792): a returned route is always free, but "no route" can be wrong, with a chance $(1 - p)^n$ that falls to 0, slowly when $p$ is small; a grid is only **resolution complete** (G-2791), and its "no route" holds only at its cell size.
 - A **narrow passage** (G-2793) has a small share of the free space, so uniform samples rarely land in it: the tray robot's 0.2 m corridor takes 4 percent of the free floor, and its trip is found in 32 percent of runs.
@@ -390,7 +390,7 @@ In the table, $p$ is the share of the free space that sees a configuration, 0.28
 - A **visibility roadmap** (G-2796) keeps only **guards** (G-2797) and **connectors** (G-2798), so 9 vertices cover the room, at more checks per sample and with longer routes.
 - **Lazy collision checking** (G-2799) checks only the edges of candidate routes, because most edges are never used: 129 configuration checks for trip 2 instead of 7,954.
 
-The robot can now plan many trips in an unchanged room from one roadmap, cross narrow gaps and check only what it uses. Still missing: every trip so far moves the robot alone, past obstacles that never move; picking up the cup and carrying it changes the free space as the cup moves, which is [manipulation planning](../RO-053-manipulation-planning/RO-053-manipulation-planning.md#2-carrying-the-cup-transit-and-transfer).
+The robot can now plan many trips in an unchanged room from one roadmap, cross narrow gaps and check only what it uses. Every trip so far still moves the robot alone, past obstacles that never move; picking up the cup and carrying it changes the free space as the cup moves, which is [manipulation planning](../RO-053-manipulation-planning/RO-053-manipulation-planning.md#2-carrying-the-cup-transit-and-transfer).
 
 ## 10. Sources
 

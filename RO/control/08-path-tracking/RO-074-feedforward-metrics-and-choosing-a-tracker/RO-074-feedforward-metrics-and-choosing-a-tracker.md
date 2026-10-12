@@ -12,22 +12,22 @@ tags: [subject/robotics, area/control, concept/feedforward-steering, concept/tra
 
 ## 1. Overview
 
-> **Key point:** A curve needs a steering angle of its own, the arctangent of the wheelbase times the path's curvature (14.04° on our 10 m arc), and sent before any error appears it removes the 0.38 m that steering from the errors alone keeps outside the arc. Measured with one ruler, the RMS and peak lateral error and the steering travel at the rear axle, the chapter's four trackers rank differently at 2 m/s and at 5 m/s with a lagging steering motor, so the choice depends on the speed, the path and the steering.
+> **Key point:** A curve needs a steering angle of its own, the arctangent of the wheelbase times the path's curvature (14.04° on our 10 m arc), and sent before any error appears it removes the 0.38 m that steering from the errors alone keeps outside the arc. Measured with the same three metrics, the RMS and peak lateral error and the steering travel at the rear axle, the chapter's four trackers rank differently at 2 m/s and at 5 m/s with a lagging steering motor, so the choice depends on the speed, the path and the steering.
 
-The room robot of RO-073 [keeps to a timetable](../RO-073-tracking-a-timed-trajectory/RO-073-tracking-a-timed-trajectory.md#5-kanayamas-tracker) by sending the plan's own speeds as feedforward and correcting the rest with feedback. The chapter's car can follow its course in four ways. RO-070's [line rule](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#51-why-a-tracker-needs-both-errors) turns the car from its [**lateral error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135), how far it is to the side of the path, and its [**heading error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136), its heading minus the path's. [**Pure pursuit**](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) steers along an arc to a point 4 m ahead. The [**Stanley controller**](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#22-the-heading-term-and-the-cross-track-term) (G-3160) steers the front wheels from the front axle's errors, and [**rear-wheel feedback**](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#52-three-parts-of-a-turn-rate) (G-3162) adds the path's own turn to feedback on both errors. Two things still break on the chapter's course (10 m straight, a 90° left arc of radius 10 m, 10 m straight) with the car starting 1.0 m to the left at 2 m/s:
+The room robot of RO-073 [keeps to a timetable](../RO-073-tracking-a-timed-trajectory/RO-073-tracking-a-timed-trajectory.md#5-kanayamas-tracker) by sending the plan's own speeds as feedforward and correcting the rest with feedback. The chapter's car can follow its course in four ways. RO-070's [line rule](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#51-why-a-tracker-needs-both-errors) turns the car from its [**lateral error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135), how far it is to the side of the path, and its [**heading error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136), its heading minus the path's. [**Pure pursuit**](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) steers along an arc to a point 4 m ahead. The [**Stanley controller**](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#22-the-heading-term-and-the-cross-track-term) (G-3160) steers the front wheels from the front axle's errors, and [**rear-wheel feedback**](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#52-three-parts-of-a-turn-rate) (G-3162) adds the path's own turn to feedback on both errors. Two problems remain on the chapter's course (10 m straight, a 90° left arc of radius 10 m, 10 m straight) with the car starting 1.0 m to the left at 2 m/s:
 
-- **Steering from the errors alone sits outside the arc.** The line rule gets onto the line within 7.7 m, then slides out on the arc and ends it 0.384 m outside (Figure 1, red; notebook). Driving faster makes it worse: 0.994 m outside at 5 m/s.
-- **The four trackers have never been measured with one ruler.** Pure pursuit runs 0.12 m inside at the arc's entry, Stanley's front axle is on the line while its rear axle runs 0.32 m inside, and rear-wheel feedback is 0.000 m off in the arc's middle; each was measured at its own point, from its own start. So we cannot yet say which one the car should use at 2 m/s, at 5 m/s, or on a tighter curve.
+- **Steering from the errors alone sits outside the arc.** The line rule gets onto the line within 7.7 m, then drifts outward on the arc and ends it 0.384 m outside (Figure 1, red; notebook). Driving faster makes it worse: 0.994 m outside at 5 m/s.
+- **The four trackers have never been measured with the same metrics.** Pure pursuit runs 0.12 m inside at the arc's entry, Stanley's front axle is on the line while its rear axle runs 0.32 m inside, and rear-wheel feedback is 0.000 m off in the arc's middle; each was measured at its own point, from its own start. So we cannot yet say which one the car should use at 2 m/s, at 5 m/s, or on a tighter curve.
 
 Every run in this Note is our own Python model of the trackers on this car (the notebook `RO-074-feedforward-metrics-and-choosing-a-tracker.ipynb`, with RO-071's simulator), not the code of a real car; Section 6 reads the real code.
 
 ![The chapter's car on the course from 1.0 m left of the line at 2 m/s, one frame per 0.5 s. Red: RO-070's line rule, turning only from the lateral and heading errors. Purple: the same rule plus the turn the curve itself needs. The two cars drive one path until the arc. Bottom: the lateral error at the rear axle along the course (+ = left), the arc between the dotted lines. In the last frame the red error trace has reached 0.384 m outside at the arc's end, while the purple one stays on the line](images/opening.gif)
 
-This Note adds the missing steering and the ruler:
+This Note adds the missing steering and the common metrics:
 
 - the steering a curve needs, worked out from the car's geometry, and what sending it before any error does ([Section 2](#2-feedforward-steering-the-turn-the-curve-needs));
-- three numbers for a whole run, measured at the same point of every car ([Section 3](#3-tracker-metrics-one-ruler-for-every-tracker));
-- the four trackers raced on the course at 2 m/s, at 5 m/s with a lagging steering motor and on a tighter arc, and what each costs to tune ([Section 4](#4-comparing-the-trackers));
+- three numbers for a whole run, measured at the same point of every car ([Section 3](#3-tracker-metrics-the-same-measures-for-every-tracker));
+- the four trackers compared on the course at 2 m/s, at 5 m/s with a lagging steering motor and on a tighter arc, and what each costs to tune ([Section 4](#4-comparing-the-trackers));
 - how to choose among them ([Section 5](#5-choosing-a-tracker));
 - where the feedforward steering runs in Apollo and Autoware ([Section 6](#6-where-feedforward-steering-runs-apollo-and-autoware)).
 
@@ -35,7 +35,7 @@ This Note adds the missing steering and the ruler:
 
 > **Key point:** A steering rule that acts only on errors must keep an error to steer round a curve: 0.38 m outside our 10 m arc for the line rule. The curve's own steering, the arctangent of the wheelbase times the path's curvature, 14.04° here, can be sent before any error appears; added to the feedback, it leaves the car 0.001 m off at the arc's middle.
 
-### 2.1 Steering from the errors alone sits outside the arc
+### 2.1 Steering from the errors alone stays outside the arc
 
 The first problem of the Overview is the line rule's 0.384 m outside the arc. The line rule sets the car's turn rate from its two errors:
 
@@ -100,13 +100,13 @@ The speed cancels: the steering a curve needs depends only on the car and the cu
 
 ### 2.3 Feedforward plus feedback
 
-Now give the line rule the curve's turn as well. With $\kappa$ the curvature at the path point nearest the rear axle, 0 on the straights and 0.1 per m on the arc, and the other symbols as listed in [Section 2.1](#21-steering-from-the-errors-alone-sits-outside-the-arc) (speed $v$ 2 m/s, gains $K_D$ 0.5 rad/s per m and $K_H$ 2 per s):
+We now add the curve's turn to the line rule. With $\kappa$ the curvature at the path point nearest the rear axle, 0 on the straights and 0.1 per m on the arc, and the other symbols as listed in [Section 2.1](#21-steering-from-the-errors-alone-stays-outside-the-arc) (speed $v$ 2 m/s, gains $K_D$ 0.5 rad/s per m and $K_H$ 2 per s):
 
 $$\omega = v\thinspace\kappa - K_D\thinspace e - K_H\thinspace\theta_e$$
 
 On the arc with no error, the rule asks for 0.2 rad/s, which is the steering of Section 2.2, 14.04°. Figure 1 (purple) runs it from the same start: the error at the arc's middle falls from −0.354 m to +0.001 m, and the run's RMS lateral error from 0.351 m to 0.265 m (notebook). The feedback is unchanged; it now corrects only the start and what the curvature term does not foresee. The two parts share the work as in [Kanayama's tracker](../RO-073-tracking-a-timed-trajectory/RO-073-tracking-a-timed-trajectory.md#53-why-both-parts-are-needed): feedforward drives the plan, feedback removes the error the plan leaves.
 
-Feedforward has limits of its own. Feedforward steering needs the path's curvature at every point, so the path must be smooth enough to have one (Boyali et al. 2018 compute it from the path or from the steering a driver used; Paden Table II). And it reacts only to the curvature where the car is, with no look ahead, so where the curvature jumps, at the arc's ends, the steering jumps only once the car is there and the car overshoots a little (Snider §4.3.1: "the feed forward term can only be reactive"). The other trackers of the chapter carry a curvature term of their own.
+Feedforward has limits of its own. Feedforward steering needs the path's curvature at every point, so the path must be smooth enough to have one (Boyali et al. 2018 compute it from the path or from the steering a driver used; Paden Table II). It also reacts only to the curvature where the car is, with no look ahead, so where the curvature jumps, at the arc's ends, the steering jumps only once the car is there and the car overshoots a little (Snider §4.3.1: "the feed forward term can only be reactive"). The other trackers of the chapter carry a curvature term of their own.
 
 ### 2.4 The curvature term inside the trackers
 
@@ -116,9 +116,9 @@ The chapter's trackers already carry the curve's steering, each in its own way (
 - **Stanley** gets the curve from its heading term: the course turns under the front axle, so the heading error there supplies 13.77° of steering at the arc's middle while the cross-track term supplies 0.04°, and 14.5° once settled (see [Stanley on the arc](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#33-on-the-arc-the-front-axle-stays-on-it-the-rear-axle-cuts-inside)).
 - **Pure pursuit** gets it from its look-ahead point: on the arc the point lies on the arc, and the arc through it has the arc's curvature (see [the look-ahead on the chapter's car](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#51-short-or-long-on-the-chapters-car)); the steering is 14.68°.
 
-The difference is where each holds the car: rear-wheel feedback and the line rule with feedforward hold the rear axle on the arc, Stanley holds the front axle, and pure pursuit cuts a little inside. Comparing them needs one ruler, measured at one point.
+The difference is where each holds the car: rear-wheel feedback and the line rule with feedforward hold the rear axle on the arc, Stanley holds the front axle, and pure pursuit cuts a little inside. Comparing them needs the same metrics, measured at one point.
 
-## 3. Tracker metrics: one ruler for every tracker
+## 3. Tracker metrics: the same measures for every tracker
 
 > **Key point:** One run is summed up by three numbers measured at the rear axle of every car: the RMS lateral error, the typical size of the error over the whole run; the peak lateral error, the worst moment; and the steering travel, how far the steering wheel is turned back and forth in total. Stanley's front axle on the line puts its rear axle 0.318 m inside the arc, so the point of the car must be the same for all.
 
@@ -130,7 +130,7 @@ The Overview's second problem is that the four trackers were each measured their
 
 - **RMS lateral error** (G-3187): the square root of the average squared lateral error over the run, the [root mean squared error](../../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) applied to the lateral error. The RMS says how far off the car typically is, in metres, and squaring makes large errors count more than small ones. For pure pursuit it is 0.086 m.
 - **Peak lateral error** (G-3188): the largest size of the lateral error during the run, the review's "maximum lateral error" (Artuñedo et al. 2024, §6.1). The peak says how close the car came to leaving its lane: 0.167 m for pure pursuit, just after the arc.
-- **Steering effort** (G-3189): how much the steering works. We measure it as the steering travel, every change of the steering command added up, in degrees. Holding 14° round a bend costs only the turn in and out, while weaving adds every swing, so the travel grows with the swinging that the review measures as oscillation of the control action. Pure pursuit's travel is 30°: up to 14.7° and back.
+- **Steering effort** (G-3189): how much the steering moves. We measure it as the steering travel, every change of the steering command added up, in degrees. Holding 14° round a bend costs only the turn in and out, while weaving adds every swing, so the travel grows with the swinging that the review measures as oscillation of the control action. Pure pursuit's travel is 30°: up to 14.7° and back.
 
 The RMS value, with the symbols:
 
@@ -146,7 +146,7 @@ $$\sqrt{(0.1^2 + 0^2) / 2} = \sqrt{0.005}$$
 
 $$= 0.071 \text{ m}$$
 
-The RMS is more than the average size because squaring weights the bad half.
+The RMS is more than the average size because squaring gives more weight to the larger errors.
 
 Each number answers a different question, so we quote all three: a car that holds 0.01 m but swings its steering through 200° is accurate but uncomfortable; one with a small RMS can still touch the kerb once. All three also depend on the point of the car they are measured at.
 
@@ -164,7 +164,7 @@ The rear axle's radius and the wheelbase are the two short sides of a right tria
 
 ### 4.1 The chapter's car at 2 m/s
 
-Now the ruler of Section 3 is applied to all four trackers on the course, with the gains of the earlier Notes: pure pursuit with a 4 m look-ahead, Stanley with gain 1 per s and softening speed 1 m/s, rear-wheel feedback with heading gain 1.0 per m and lateral gain 0.5 per m², and the line rule with the curve's turn. Every car starts on the line, so that every error comes from the curve and the speed, not from the 1.0 m start; how fast each gets onto the line from the start is the subject of RO-071 and RO-072, and the notebook repeats it. Figure 5 races them; watch the lateral errors in the middle panel and the steering below.
+The metrics of Section 3 are now applied to all four trackers on the course, with the gains of the earlier Notes: pure pursuit with a 4 m look-ahead, Stanley with gain 1 per s and softening speed 1 m/s, rear-wheel feedback with heading gain 1.0 per m and lateral gain 0.5 per m², and the line rule with the curve's turn. Every car starts on the line, so that every error comes from the curve and the speed, not from the 1.0 m start; how fast each gets onto the line from the start is the subject of RO-071 and RO-072, and the notebook repeats it. Figure 5 runs them together; watch the lateral errors in the middle panel and the steering below.
 
 ![The four trackers on the chapter's car at 2 m/s, every car starting on the line, one frame per 0.5 s. Top: the course and the cars' paths. Middle: the lateral error at the rear axle (+ = left). Bottom: the steering angle. Blue: pure pursuit; orange: Stanley; green: rear-wheel feedback; purple: the line rule plus the curve's turn. The table fills in when the run ends: RMS 0.086, 0.189, 0.002 and 0.003 m; peak 0.167, 0.316, 0.007 and 0.007 m; steering travel 30, 29, 34 and 33°](images/race.gif)
 
@@ -175,21 +175,21 @@ Now the ruler of Section 3 is applied to all four trackers on the course, with t
 | Rear-wheel feedback | 0.002 m | 0.007 m | 34° |
 | Line rule plus the curve's turn | 0.003 m | 0.007 m | 33° |
 
-What the race shows, and why:
+What the comparison shows, and why:
 
 - **The two trackers with a curvature term hold the line**, 0.007 m at worst, because the curve's steering arrives as the arc begins (the steps in their steering at 10 m and 25.7 m in Figure 5).
 - **Pure pursuit cuts the corners**: its steering starts rising about 4 m before the arc, as the look-ahead point reaches it, so the car turns early and runs up to 0.164 m inside at the entry and 0.167 m wide at the exit (see [the look-ahead on the chapter's car](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#51-short-or-long-on-the-chapters-car)).
 - **Stanley's rear axle runs inside the arc** by nearly the 0.318 m of Section 3.2, while its front axle stays within 0.005 m of the line.
 
-The steering travel is close for all four, 29° to 34°, because each turns the wheels once into the arc and once out. Without the curvature term, the line rule alone has an RMS of 0.234 m and a peak of 0.384 m (notebook). All this is on a car whose wheels steer the moment they are told; speed tests that.
+The steering travel is close for all four, 29° to 34°, because each turns the wheels once into the arc and once out. Without the curvature term, the line rule alone has an RMS of 0.234 m and a peak of 0.384 m (notebook). All this is on a car whose wheels steer the moment they are commanded; the next section tests that assumption at higher speed.
 
 ### 4.2 Speed: 5 m/s and a steering motor that lags
 
 On the chapter's car the speed changes almost nothing: at 5 m/s every tracker's RMS and peak are within 0.006 m of its numbers at 2 m/s (notebook). Without tyre slip or steering delay, pure pursuit, Stanley and rear-wheel feedback turn each metre of the course into the same path at any speed (see [the look-ahead on the chapter's car](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#51-short-or-long-on-the-chapters-car) and [why rear-wheel feedback converges](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#53-why-it-converges-a-spring-and-a-damper-over-distance)). The line rule alone is the exception: its steady error, the speed times the curvature over the gain, grows from 0.4 m to 1.0 m.
 
-A real steering motor takes time. RO-071 gave the car [a steering motor that lags](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#52-a-real-steering-motor-the-short-look-ahead-weaves): its wheels follow the command with a lag of 0.4 s, the model of Stanford's car (Hoffmann et al. 2007). In 0.4 s the car drives 0.8 m at 2 m/s but 2 m at 5 m/s, so at speed the wheels answer the trackers late. Figure 6 races the four trackers again at 5 m/s with that lag.
+A real steering motor takes time. RO-071 gave the car [a steering motor that lags](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#52-a-real-steering-motor-the-short-look-ahead-weaves): its wheels follow the command with a lag of 0.4 s, the model of Stanford's car (Hoffmann et al. 2007). In 0.4 s the car drives 0.8 m at 2 m/s but 2 m at 5 m/s, so at speed the wheels answer the trackers late. Figure 6 runs the four trackers again at 5 m/s with that lag.
 
-![The same race at 5 m/s with steering that lags 0.4 s, one frame per 0.2 s, every car starting on the line. Middle: lateral error at the rear axle; bottom: steering angle. The table fills in when the run ends: RMS 0.080, 0.170, 0.235 and 0.203 m; peak 0.180, 0.312, 0.595 and 0.414 m; steering travel 50, 55, 203 and 75°. Rear-wheel feedback (green) swings its steering from side to side through the arc and after it](images/race_fast.gif)
+![The same comparison at 5 m/s with steering that lags 0.4 s, one frame per 0.2 s, every car starting on the line. Middle: lateral error at the rear axle; bottom: steering angle. The table fills in when the run ends: RMS 0.080, 0.170, 0.235 and 0.203 m; peak 0.180, 0.312, 0.595 and 0.414 m; steering travel 50, 55, 203 and 75°. Rear-wheel feedback (green) swings its steering from side to side through the arc and after it](images/race_fast.gif)
 
 | Tracker, 5 m/s, steering lag 0.4 s | RMS lateral error | Peak lateral error | Steering travel |
 |---|---|---|---|
@@ -198,7 +198,7 @@ A real steering motor takes time. RO-071 gave the car [a steering motor that lag
 | Rear-wheel feedback | 0.235 m | 0.595 m | 203° |
 | Line rule plus the curve's turn | 0.203 m | 0.414 m | 75° |
 
-The order has changed. The two trackers that were best at 2 m/s act hardest on the errors at the rear axle, and with the wheels answering late they overshoot and swing back: rear-wheel feedback turns its steering through 203°, almost seven times the 29° it needs at 5 m/s without the lag. Pure pursuit, which looks 4 m ahead, now has the smallest RMS. The lag hurts less at 2 m/s, where the same trackers have RMS errors of 0.042, 0.177, 0.028 and 0.033 m, but rear-wheel feedback's steering travel already nearly triples, from 34° to 96° (notebook). Snider saw the same on a simulated car with tyres: the simple trackers' errors in curves grow with speed, and a tracker tuned with high gains for one course may meet "instability on other paths" (Snider §6). The curve's tightness is the third test.
+The order has changed. The two trackers that were best at 2 m/s act hardest on the errors at the rear axle, and with the wheels answering late they overshoot and swing back: rear-wheel feedback turns its steering through 203°, almost seven times the 29° it needs at 5 m/s without the lag. Pure pursuit, which looks 4 m ahead, now has the smallest RMS. The lag has less effect at 2 m/s, where the same trackers have RMS errors of 0.042, 0.177, 0.028 and 0.033 m, but rear-wheel feedback's steering travel already nearly triples, from 34° to 96° (notebook). Snider saw the same on a simulated car with tyres: the simple trackers' errors in curves grow with speed, and a tracker tuned with high gains for one course may meet "instability on other paths" (Snider §6). The curve's tightness is the third test.
 
 ### 4.3 Curvature: a tighter arc
 
@@ -221,7 +221,7 @@ $$R_r = \sqrt{6^2 - 2.5^2} = 5.454 \text{ m}$$
 
 $$6 - 5.454 = 0.546 \text{ m}$$
 
-The trackers with a curvature term stay within 0.012 m. A gotcha: the feedforward alone takes 22.6° of the 26.6° the car has, so only 4° are left for the feedback to correct an error on this arc; on a curve tighter than the car's 5 m circle no tracker can hold the line. What remains is how much work each tracker's settings take.
+The trackers with a curvature term stay within 0.012 m. The feedforward alone takes 22.6° of the 26.6° the car has, so only 4° are left for the feedback to correct an error on this arc; on a curve tighter than the car's 5 m circle no tracker can hold the line. What remains is how much work each tracker's settings take.
 
 ### 4.4 Tuning effort
 
@@ -256,9 +256,9 @@ So the tuning effort is not the number of settings but how often they must chang
 
 ## 5. Choosing a tracker
 
-> **Key point:** No tracker wins everywhere (Snider §6). Pick by the speed, the path and the steering, then measure the three numbers on your own car and course before trusting the choice.
+> **Key point:** No tracker is best everywhere (Snider §6). The choice depends on the speed, the path and the steering, and the three numbers should be measured on the actual car and course before the choice is trusted.
 
-The race of Section 4 and Snider's comparison on a simulated car with tyres point the same way:
+The runs of Section 4 and Snider's comparison on a simulated car with tyres agree:
 
 1. **A slow robot on a rough or jagged path, with few settings to tune: pure pursuit.** Pure pursuit needs no curvature, copes with "large errors and discontinuous paths" (Snider §6), and at 5 m/s with a lagging motor had the smallest RMS here. Pure pursuit cuts corners and swings wide after them: up to 0.167 m off on our arc and 0.280 m on the tighter one. Nav2 runs [regulated pure pursuit on indoor robots](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#8-where-pure-pursuit-runs-nav2-and-autoware).
 2. **A car on smooth lanes with known curvature: feedforward from the curvature plus feedback.** Rear-wheel feedback and the line rule with the curve's turn held 0.007 m on the 10 m arc and 0.012 m on the 6 m arc at 2 m/s; Snider calls the LQR tracker with a feedforward term "a great choice for highway driving and many urban driving scenarios" (Snider §6). Their gains need retuning for speed and steering delay.
@@ -295,7 +295,7 @@ Open code shows the same structure: PythonRobotics' `lqr_steer_control.py` compu
 - On the chapter's car the trackers with a curvature term are best (0.007 m at worst); with a 0.4 s steering lag at 5 m/s pure pursuit is best on RMS and rear-wheel feedback weaves, because trackers that act hard on errors at the car overshoot when the wheels answer late.
 - Gains in units of time, like the line rule's, change their damping with speed (1 at 2 m/s, 0.632 at 5 m/s), so they must be retuned; gains scaled by the speed, like rear-wheel feedback's, keep their behaviour until the steering lags.
 
-The car can now choose a tracker for its speed, path and steering, and measure the choice with three numbers. Still missing: every tracker here reacts to the path at the car or at one point ahead, with a simple model and no limits in the law; planning the steering over the next seconds with the car's model and limits is model predictive control, which a later Note builds, after the chapter on the autonomy stack that puts these trackers in their place.
+The car can now choose a tracker for its speed, path and steering, and measure the choice with three numbers. One limitation remains: every tracker here reacts to the path at the car or at one point ahead, with a simple model and no limits in the law; planning the steering over the next seconds with the car's model and limits is model predictive control, which a later Note builds, after the chapter on the autonomy stack that puts these trackers in their place.
 
 ## 8. Sources
 
@@ -323,10 +323,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Feedforward steering (curvature feedforward) (G-3186) | The steering angle a curve needs with the car exactly on it, $\delta_{\text{ff}} = \tan^{-1}(L\kappa)$ for wheelbase $L$ and path curvature $\kappa$ (14.04° for a 2.5 m car on a 10 m arc), sent before any error appears; added to feedback, it removes the steady error that feedback alone keeps on a curve. |
 | RMS lateral error (G-3187) | The square root of the average squared lateral error over a run, such as 0.086 m for pure pursuit on the chapter's course; it says how far off a tracker typically keeps the vehicle, with large errors counting more than small ones. |
 | Peak lateral error (maximum lateral error) (G-3188) | The largest size of the lateral error during a run, such as 0.167 m for pure pursuit just after the chapter's arc; it says how close the vehicle came to leaving its lane, which an average can hide. |
-| Steering effort (steering travel) (G-3189) | How much a tracker works the steering, measured here as the steering travel, every change of the steering command added up, such as 30° for a turn into an arc and out; weaving adds every swing, so it shows a restless tracker that small errors can hide. |
+| Steering effort (steering travel) (G-3189) | How much a tracker moves the steering, measured here as the steering travel, every change of the steering command added up, such as 30° for a turn into an arc and out; weaving adds every swing, so it reveals a tracker that weaves even when its errors are small. |
 | [Lateral error $e$ (cross-track error)](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135) | The signed distance from a path to a point of the vehicle, measured along the path's normal at the nearest path point and positive to the left, such as −0.770 m for a car outside an arc; it is one of the two numbers a path tracker drives to zero. |
 | [Heading error $\theta_e$](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136) | A vehicle's heading minus the path's direction at the nearest path point, wrapped into −180° to 180°, such as 10° − 21.8° = −11.8°; it says whether the vehicle is turning back to the path or away, and the lateral error changes at $v\sin\theta_e$. |
-| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering answers at once returns to the path with little swing past it. |
+| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering responds without lag returns to the path with little swing past it. |
 | [Stanley controller (front-wheel feedback)](../../../../RO/control/08-path-tracking/RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#22-the-heading-term-and-the-cross-track-term) (G-3160) | A path tracker that measures the lateral and heading errors at the front axle and steers the front wheels parallel to the path and then towards it by $\tan^{-1}(k e/(k_s + v))$, aiming them at a path point ahead; the front-axle error then shrinks by the same fraction each second, but the law is not stable when reversing. |
 | [Rear-wheel feedback](../../../../RO/control/08-path-tracking/RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#52-three-parts-of-a-turn-rate) (G-3162) | A path tracker that measures the errors at the rear axle and asks for a turn rate made of the path's own turn (the speed times the path curvature) plus parts against the heading error and the lateral error, turned into steering by the bicycle model; it holds curves with no steady error and still works when the car reverses. |
 | [Kinematic bicycle model](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#22-the-bicycle-models-equations) (G-3128) | A car drawn as one steered front wheel and one rear wheel on its centre line, with no tyre slip: the rear axle moves along the heading and the heading turns at $\dot\theta = v\tan\delta / L$; it predicts a car's motion well while the sideways acceleration stays below about half the road's friction (grip) coefficient times gravity. |
@@ -337,5 +337,5 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Feedforward](../../../../RO/control/07-classical-feedback-control/RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#22-feedforward-from-the-robots-model) (G-3070) | A control force computed from the plan and the robot's model, such as mass times the planned acceleration plus drag ($m a_r + b v_r$), and sent before any error appears; it lets the robot follow a changing plan without first falling behind, while feedback removes what the model gets wrong. |
 | [Root mean squared error (RMSE)](../../../../ML/06-regression/ML-051-regression-metrics/ML-051-regression-metrics.md#4-root-mean-squared-error-rmse) (G-1705) | The square root of the average squared error (MSE), so the error is back in the output's units. |
 | [Look-ahead distance (pure pursuit)](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#2-chasing-a-point-on-the-path) (G-3151) | The distance $l_d$ from the rear axle to the point pure pursuit chases, such as 4 m; a short one brings the car back sooner but weaves when the steering lags, a long one is smooth but cuts corners. |
-| [Second-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2990) | A system whose output follows a differential equation with a second derivative, such as the robot's heading under PD control; written e'' + 2ζω_n e' + ω_n² e = 0, its reply is set by two numbers, the natural frequency and the damping ratio. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
+| [Second-order system](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2990) | A system whose output follows a differential equation with a second derivative, such as the robot's heading under PD control; written e'' + 2ζω_n e' + ω_n² e = 0, its response is set by two numbers, the natural frequency and the damping ratio. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |

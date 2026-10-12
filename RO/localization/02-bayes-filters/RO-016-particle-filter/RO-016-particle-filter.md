@@ -13,15 +13,15 @@ tags: [subject/robotics, area/localization, concept/particle-filter, concept/res
 
 ## 1. Overview
 
-> **Key point:** A particle filter keeps the robot's **belief** (G-2433) as a cloud of guesses. Each reading reweighs the guesses, resampling keeps the good ones, and each move shifts them all; the cloud can take any shape, including several peaks at once.
+> **Key point:** A particle filter keeps the robot's **belief** (G-2433) as a cloud of guesses. Each reading reweighs the guesses, resampling keeps the heavily weighted ones, and each move shifts them all; the cloud can take any shape, including several peaks at once.
 
 ![A corridor that loops round a block, opened out from 0 to 10 m, with three doors set back into the right-hand wall; the robot at 2.1 m reads 1.46 m to the side. Below: the map, the reading expected at each position](images/corridor.png)
 
-So far the robot can run the Bayes filter with a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461): one probability per cell of the 10-cell hallway. The histogram filter breaks when the state grows: a floor robot's pose $(x, y, \theta)$, its position and heading, already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-explodes). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
+So far the robot can run the Bayes filter with a [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461): one probability per cell of the 10-cell hallway. The histogram filter becomes impractical when the state grows: a floor robot's pose $(x, y, \theta)$, its position and heading, already needs [7.2 million cells](../RO-015-grid-filters/RO-015-grid-filters.md#31-why-the-number-of-cells-grows-so-fast). This Note keeps the belief as a cloud of samples instead, placed only where the robot may be.
 
 A robot is somewhere in the corridor of Figure 1. It has a map of the corridor, but it does not know where it is. Its side sensor reads 1.46 m, which means "a door is beside me". Three doors fit that reading, so the reading's answer to "where am I?" is "at door 1, door 2 or door 3, about equally likely": a belief with a peak at each door. These peaks are the belief's three [**modes**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251), so the belief is [**multimodal**](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1275).
 
-The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) gives the rule for updating such a belief. Two other ways of running it struggle here:
+The [**Bayes filter**](../RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm) (G-2446) gives the rule for updating such a belief. Two other ways of running it are poorly suited here:
 
 - the **grid filter**, or [**histogram filter**](../RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter) (G-2461), stores one number per cell, which is fine on a 10 m line but grows very fast with the number of state variables;
 - the [**Kalman filter**](../RO-017-kalman-filter/RO-017-kalman-filter.md#22-a-gaussian-is-two-numbers) (G-2506) stores the belief as a single bell-shaped curve, a [**Gaussian**](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827), and one Gaussian has only one mode ([Section 3.1](#31-why-one-gaussian-is-not-enough)).
@@ -31,7 +31,7 @@ The **particle filter** (G-2492) stores the belief as a set of sample guesses in
 - why a cloud of samples can stand for a belief, and how accurate it is ([Section 3](#3-a-belief-as-a-cloud-of-samples));
 - the three steps, move, weigh and resample, worked by hand and then run on the corridor ([Section 4](#4-the-particle-filter-step-by-step));
 - the **low-variance sampler** (G-2499), the standard way to resample ([Section 4.3](#43-resample-copy-the-heavy-particles-drop-the-light-ones));
-- what goes wrong with too few **particles** (G-2491), and the fixes ([Section 5](#5-particle-deprivation)).
+- what fails with too few **particles** (G-2491), and the fixes ([Section 5](#5-particle-deprivation)).
 
 ## 2. The running example and the Bayes filter in brief
 
@@ -126,7 +126,7 @@ The simplest way to store the curve would be one Gaussian. After the second read
 
 ![The exact belief after the second reading has two modes, at door 2 and door 3; the single Gaussian with the same mean and standard deviation peaks at 5.73 m, in front of plain wall](images/gaussian_fails.png)
 
-Try to describe this **belief** (G-2433) by one Gaussian, as a Kalman filter must. The best we can do is a Gaussian with the same mean and standard deviation:
+Suppose we describe this **belief** (G-2433) by one Gaussian, as a Kalman filter must. The best we can do is a Gaussian with the same mean and standard deviation:
 
 $$\text{mean} = 5.73 \text{ m}$$
 
@@ -179,7 +179,7 @@ The probability of a region is the sum of the weights of the particles in it (wi
 
 The **particle filter** (G-2492) is how the robot of Figure 1 gets from three doors to one: it runs the two Bayes-filter steps on particles, as a loop of three steps, move, weigh and resample. Figure 4 goes once round the loop with 100 particles on the corridor, the first round of the run in [Section 4.5](#45-the-whole-loop-on-the-corridor). Reading 1 comes before any move, so this round starts at weigh. Watch the lit box and the cloud under the loop:
 
-- weigh: the particles at the doors grow, the rest shrink;
+- weigh: the particles at the doors gain weight, the rest lose it;
 - resample: the light particles are dropped, and each door particle is copied 3 or 4 times;
 - move: every particle shifts by the command, 2.5 m, then its own slip spreads the copies apart.
 
@@ -191,7 +191,7 @@ We work each step by hand first, then run all of them on the corridor.
 
 ### 4.1 Start: spread the particles evenly
 
-The robot has no idea where it is, so every position is equally likely. We draw $M = 100$ positions at random, evenly between 0 and 10 m, and give each **particle** (G-2491) $m$ the same weight $w^{[m]}$:
+The robot has no information about where it is, so every position is equally likely. We draw $M = 100$ positions at random, evenly between 0 and 10 m, and give each **particle** (G-2491) $m$ the same weight $w^{[m]}$:
 
 $$w^{[m]} = 1 / M$$
 
@@ -201,7 +201,7 @@ Frame 1 of Figure 8 ([Section 4.5](#45-the-whole-loop-on-the-corridor)) shows th
 
 ### 4.2 Weigh: the update step
 
-> **Key point:** A **particle** (G-2491)'s weight is the height of the sensor curve, centred on the reading the particle expects, at the reading we got.
+> **Key point:** A **particle** (G-2491)'s weight is the height of the sensor curve, centred on the reading the particle expects, at the actual reading.
 
 **The idea.** The reading is 1.46 m. A particle in front of a door expects 1.5 m: close, so it explains the reading well. A particle beside plain wall expects 1.0 m: 0.46 m off, more than three sensor standard deviations, so it explains the reading badly. The weight turns "explains well" into a number.
 
@@ -212,7 +212,7 @@ Frame 1 of Figure 8 ([Section 4.5](#45-the-whole-loop-on-the-corridor)) shows th
 - $p(z \mid x^{[m]})$ is the sensor model of [Section 2.1](#21-the-corridor-the-sensor-and-the-motion), the density of the reading $z$ at that position, in probability per metre (2.567 for particle 2);
 - $w^{[m]}$ is the particle's weight, the same number (2.567 for particle 2) until it is normalised below.
 
-For each particle we ask the sensor model how likely the reading $z$ is if the robot were where the particle says:
+For each particle we evaluate the sensor model at the reading $z$, with the robot at the particle's position:
 
 $$w^{[m]} = p(z \mid x^{[m]})$$
 
@@ -220,7 +220,7 @@ The result is the **importance weight** (G-2494) of the particle: the height of 
 
 ![Left: five particles on the corridor, three at doors (blue) and two beside wall (grey). Right: the sensor's Gaussian centred on 1.5 m for a door particle and on 1.0 m for a wall particle; at the reading 1.46 m the heights are 2.567 and 0.024](images/weight_by_hand.png)
 
-**Worked example.** Take five particles, with the reading $z = 1.46$ m and the sensor's standard deviation $\sigma_z = 0.15$ m. For particle 2, at 1.6 m in front of door 1, the gap between the reading $z$ and the expected reading $h(x)$ is:
+**Worked example.** Consider five particles, with the reading $z = 1.46$ m and the sensor's standard deviation $\sigma_z = 0.15$ m. For particle 2, at 1.6 m in front of door 1, the gap between the reading $z$ and the expected reading $h(x)$ is:
 
 $$z - h(x) = 1.46 - 1.5 = -0.04$$
 
@@ -278,7 +278,7 @@ After the move step ([Section 4.4](#44-move-the-predict-step)), the **particles*
 
 > **Key point:** Resampling draws a fresh set of $M$ particles from the weighted set, each pick in proportion to weight, so the computation goes where the **belief** (G-2433) is. The low-variance sampler does it with one random number and keeps every particle whose weight is at least $1/M$, one over the number of particles $M$.
 
-**Why resample.** After weighing, the two wall **particles** (G-2491) carry a weight of 0.0031 each; after a few more readings, most of 100 particles would carry weights near zero. They still cost a motion step and a sensor check each round but add almost nothing to the belief. Worse, a particle's weight only ever shrinks or grows by multiplication, so a few particles soon carry nearly all the weight and the cloud behaves as if it had two or three particles (Labbe ch.12 calls this degeneracy).
+**Why resample.** After weighing, the two wall **particles** (G-2491) carry a weight of 0.0031 each; after a few more readings, most of 100 particles would carry weights near zero. They still cost a motion step and a sensor check each round but add almost nothing to the belief. In addition, a particle's weight only ever shrinks or grows by multiplication, so a few particles soon carry nearly all the weight and the cloud behaves as if it had two or three particles (Labbe ch.12 calls this degeneracy).
 
 **The idea.** Draw $M$ new particles from the weighted set, [with replacement](../../../../ML/08-trees-and-ensembles/ML-099-bagging-intuition/ML-099-bagging-intuition.md#23-drawing-with-replacement) (G-2125), each draw picking particle $i$ with probability equal to its weight $w^{[i]}$. A heavy particle is picked several times, a light one probably never. The new particles all get the weight $1/M$ again: the copies have taken the place of the weight. This step is **resampling** (G-2498); it is the same "draw rows in proportion to weight" as [upsampling in AdaBoost](../../../../ML/08-trees-and-ensembles/ML-110-adaboost-step-by-step/ML-110-adaboost-step-by-step.md#9-step-7-upsampling-a-new-dataset-drawn-by-weight).
 
@@ -291,7 +291,7 @@ $$0.33,\ 0.99,\ 0.32,\ 0.79,\ 0.87$$
 | Weight | 0.0031 | 0.3313 | 0.3313 | 0.0031 | 0.3313 |
 | Copies (plain) | 0 | 2 | 0 | 0 | 3 |
 
-Particle 3 carried a third of the belief and got no copy, by bad luck alone. The chance of that, with five independent draws each missing it with probability 0.6687:
+Particle 3 carried a third of the belief and got no copy, by chance alone. The chance of that, with five independent draws each missing it with probability 0.6687:
 
 $$0.6687^5 = 0.134$$
 
@@ -307,7 +307,7 @@ Figure 6 runs both on our five weights: first the five random numbers of plain r
 
 $$1/M = 0.2$$
 
-Say the random start is $r = 0.12$. The pointers are:
+Let the random start be $r = 0.12$. The pointers are:
 
 $$0.12,\ 0.32,\ 0.52,\ 0.72,\ 0.92$$
 
@@ -356,7 +356,7 @@ $$2.0 + 2.5 + 0.08 = 4.58 \text{ m}$$
 
 Each particle's new position is one sample from the motion model $p(x_t \mid u_t, x_{t-1})$, so the whole set is a sample from the predicted belief $\overline{\text{bel}}(x_t)$: the integral of [Section 2.2](#22-the-bayes-filter-in-brief) is done by sampling, with no integral computed (Freiburg PF slides; [sampling a motion model](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#5-drawing-sample-poses)).
 
-**Why each particle gets its own slip.** After **resampling** (G-2498), particle 2 exists twice at exactly 1.6 m. With the same slip for both, the copies would stay identical forever, and after a few rounds the cloud would be a handful of points repeated many times. Independent slips spread the copies apart, so the cloud keeps covering the places the robot may be (Labbe ch.12 calls the collapse sample impoverishment).
+**Why each particle gets its own slip.** After **resampling** (G-2498), particle 2 exists twice at exactly 1.6 m. With the same slip for both, the copies would stay identical forever, and after a few rounds the cloud would be a few points repeated many times. Independent slips spread the copies apart, so the cloud keeps covering the places the robot may be (Labbe ch.12 calls the collapse sample impoverishment).
 
 Figure 7 follows the two copies of particle 2 through three moves of 2.5 m, each move drawn as the command and then the slip. Watch the gap between the copies: with one shared slip it stays 0.00 m; with a slip each it grows to 0.41 m.
 
@@ -366,7 +366,7 @@ Figure 7 follows the two copies of particle 2 through three moves of 2.5 m, each
 
 Figure 8 runs the filter with 100 **particles** (G-2491) through the three readings and two moves. Watch three things:
 
-- after reading 1 (frame 2), the particles at the three doors grow and the rest shrink: three **modes** (G-1251);
+- after reading 1 (frame 2), the particles at the three doors gain weight and the rest lose it: three **modes** (G-1251);
 - after move 1 and reading 2 (frames 4 and 5), only the clusters that saw "door, then door 2.5 m later" stay heavy: two modes, at doors 2 and 3;
 - after move 2 and reading 3 (frames 7 and 8), one cluster is left, at door 3, around the robot.
 
@@ -382,9 +382,9 @@ The share of weight at each door after each reading, from the particles of Figur
 | 2 ($z$ = 1.58) | 0.00, 0.01 | 0.49, 0.50 | 0.51, 0.50 |
 | 3 ($z$ = 1.41) | 0.00, 0.00 | 0.00, 0.01 | 0.96, 0.96 |
 
-The cloud remembers the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. The shares answer the opening's "door 1, door 2 or door 3": they start at about 0.33 each and end at 0.96 for door 3, where the robot is.
+The cloud reflects the history without storing it: after reading 3, the only particles left are those whose whole path, door then door then door, fits every reading. The shares answer the opening's "door 1, door 2 or door 3": they start at about 0.33 each and end at 0.96 for door 3, where the robot is.
 
-**One answer from a cloud, and a trap.** A controller usually wants one position. In symbols:
+**One answer from a cloud, and a pitfall.** A controller usually needs one position. In symbols:
 
 - $M$ is the number of particles, 100 here;
 - $x^{[m]}$ is particle $m$'s position, in m;
@@ -412,13 +412,13 @@ Every line uses the models only to draw a sample or to evaluate a density. No mo
 
 ## 5. Particle deprivation
 
-> **Key point:** If no **particle** (G-2491) is near the true state, no step can create one there, and the filter settles on a wrong answer. More particles and fewer, smarter resamplings are the fixes.
+> **Key point:** If no **particle** (G-2491) is near the true state, no step can create one there, and the filter settles on a wrong answer. More particles and fewer, better-timed resamplings are the fixes.
 
 ### 5.1 Too few particles
 
-The cloud can hold the three doors of Figure 1 only if some **particles** (G-2491) sit at each of them. Resampling only copies particles that exist, and the move step only shifts them a little. So once every particle near the true position has been dropped, the filter has no way back. Losing the particles near the true state is **particle deprivation** (G-2501) (Thrun §4.3).
+The cloud can hold the three doors of Figure 1 only if some **particles** (G-2491) sit at each of them. Resampling only copies particles that exist, and the move step only shifts them a little. So once every particle near the true position has been dropped, the filter cannot recover. Losing the particles near the true state is **particle deprivation** (G-2501) (Thrun §4.3).
 
-With few particles it happens often. Figure 9 first runs 5 particles and 100 particles on the same three readings. Watch the 5: none starts at door 1, where the robot starts, so they follow the one particle at door 3 and end tight at door 1, the wrong door, while the 100 end at door 3. The last frame shows that this is not bad luck: we ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door.
+With few particles it happens often. Figure 9 first runs 5 particles and 100 particles on the same three readings. Watch the 5: none starts at door 1, where the robot starts, so they follow the one particle at door 3 and end clustered at door 1, the wrong door, while the 100 end at door 3. The last frame shows that this is not a rare event: we ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door.
 
 ![Frames 1 to 8: 5 particles (top) and 100 particles (bottom, the run of Figure 8) get the same three readings; marker size grows with weight, the red triangle is the robot. The 5 start with none at door 1; the one at door 3 takes the weight of reading 1, and its copies go round the loop and end tight at door 1, the wrong door (0.99 of the weight); the 100 end at door 3 (0.96). Last frame: share of 1000 runs that end at the right door, 43.9 percent with 5 particles, 63.0 with 10, 87.8 with 20, 99.6 with 50, 100 with 100](images/deprivation_anim.gif)
 
@@ -426,14 +426,14 @@ With few particles it happens often. Figure 9 first runs 5 particles and 100 par
 |---|---|---|---|---|---|
 | Runs at the right door (percent) | 43.9 | 63.0 | 87.8 | 99.6 | 100.0 |
 
-With 5 particles, the start often has no particle at door 1, the robot's true door, or resampling drops the few there; the filter then follows whatever survived, with full confidence. Too few particles make the filter overconfident: it reports one tight cluster at the wrong door. The average share it gives door 3 shows the same bias: 0.432 with 5 particles against the exact 0.956 (notebook); a small particle set gives a biased **belief** (G-2433) (Thrun §4.3).
+With 5 particles, the start often has no particle at door 1, the robot's true door, or resampling drops the few there; the filter then follows the surviving particles, with full confidence. Too few particles make the filter overconfident: it reports one tight cluster at the wrong door. The average share it gives door 3 shows the same bias: 0.432 with 5 particles against the exact 0.956 (notebook); a small particle set gives a biased **belief** (G-2433) (Thrun §4.3).
 
 The problem grows with the number of state variables. A cloud of 100 points covers a 10 m line densely, but spread over a room's $(x, y, \theta)$ the same 100 points leave wide gaps, so the number of particles needed grows very fast with the state's dimension (Labbe ch.12).
 
 ### 5.2 Other fixes
 
 - **More particles.** The direct fix, paid for in computation (Labbe ch.12).
-- **Resample less often.** Each resampling throws away variety. One rule resamples only when the weights have become uneven: when the effective number of **particles** (G-2491) falls below half of $M$, the number of particles (Labbe ch.12). In symbols:
+- **Resample less often.** Each resampling discards variety. One rule resamples only when the weights have become uneven: when the effective number of **particles** (G-2491) falls below half of $M$, the number of particles (Labbe ch.12). In symbols:
 
   - $w^{[m]}$ is the weight of particle $m$, a number from 0 to 1, the weights adding up to 1;
   - $\sum_m$ adds over all $M$ particles;
@@ -444,7 +444,7 @@ The problem grows with the number of state variables. A cloud of 100 points cove
   $$
 
   With equal weights it equals $M$; with all weight on one particle it equals 1.
-- **A very accurate sensor is a trap.** If the sensor curve is much narrower than the gaps between particles, almost every particle gets a weight near zero and the cloud collapses onto one or two. Pretending the sensor is noisier than it is, or using more particles, keeps enough particles alive (Labbe ch.12).
+- **A very accurate sensor is a pitfall.** If the sensor curve is much narrower than the gaps between particles, almost every particle gets a weight near zero and the cloud collapses onto one or two. Modelling the sensor as noisier than it is, or using more particles, keeps enough particles alive (Labbe ch.12).
 
 ## 6. Summary
 
@@ -494,7 +494,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Importance weight (G-2494) | The weight a particle gets from a reading: the height of the sensor model $p(z \mid x)$ at that reading, normalised over all particles; it says how well the particle explains what the robot sensed. |
 | Resampling (particle filter) (G-2498) | Drawing a fresh set of $M$ particles, with replacement, from the weighted set, each pick in proportion to weight, then giving all weight $1/M$; heavy particles are copied and light ones dropped, so computation goes where the belief is. |
 | Multinomial resampling (G-2500) | Plain resampling: $M$ independent random numbers each pick a particle in proportion to weight; simple, but a good particle can get no copy by chance. |
-| Particle deprivation (G-2501) | The failure in which no particles are left near the true state, so the filter settles confidently on a wrong answer; caused by too few particles or unlucky resampling, and fought with more particles and fewer resamplings. |
+| Particle deprivation (G-2501) | The failure in which no particles are left near the true state, so the filter settles confidently on a wrong answer; caused by too few particles or by resampling that by chance removes the particles near the true state, and reduced with more particles and less frequent resampling. |
 | [Belief](../../../../RO/localization/02-bayes-filters/RO-013-belief/RO-013-belief.md#42-the-definition) (G-2433) | The robot's probability for each possible state given all its commands and readings, $\text{bel}(x_t) = p(x_t \mid z_{1:t}, u_{1:t})$; a short summary of the history that says how strongly the evidence points to each state. |
 | [Histogram filter (discrete Bayes filter)](../../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#21-why-cells) (G-2461) | The Bayes filter run on a space cut into cells, keeping one probability per cell; sensing multiplies each cell by $p(z \mid x)$ and rescales, moving slides and blurs the list. It makes the Bayes filter computable for a continuous position. |
 | [Mode](../../../../MA/01-descriptive-stats/MA-005-measures-of-central-tendency/MA-005-measures-of-central-tendency.md#5-mode) (G-1251) | The value that appears most often in the data, so it sits under the highest peak of a histogram or a distribution curve; it gives a centre for data that are not numbers, and a belief with several peaks has several modes. |

@@ -13,9 +13,9 @@ tags: [subject/robotics, area/navigation, concept/potential-field, concept/local
 
 ## 1. Overview
 
-> **Key point:** A **potential field** (G-2740) gives every placement of the robot a height that is lowest at the goal and rises near obstacles; the robot reaches the goal by stepping downhill from wherever it is, with no grid and no search. The catch is a dent: a low spot that is not the goal, where every step goes uphill.
+> **Key point:** A **potential field** (G-2740) gives every placement of the robot a height that is lowest at the goal and rises near obstacles; the robot reaches the goal by stepping downhill from wherever it is, with no grid and no search. The drawback is a dent: a low spot that is not the goal, where every step goes uphill.
 
-So far the robot finds its way to the door on a grid. The [wavefront](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#2-numbering-every-cell-from-the-door-the-wavefront) (G-2700) gives every cell its distance to the door, so stepping to the [neighbour with the lowest number](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#42-one-step-at-a-time-from-any-cell) always arrives, and [D\*](../RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d) (G-2713) repairs those numbers when a box appears. What still breaks: every cell is numbered before the robot moves. A grid of points 0.05 m apart, fine enough for the robot's 0.25 m footprint, has 11,421 points in the room; a robot that also turns needs a number for every heading too.
+So far the robot finds its way to the door on a grid. The [wavefront](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#2-numbering-every-cell-from-the-door-the-wavefront) (G-2700) gives every cell its distance to the door, so stepping to the [neighbour with the lowest number](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#42-one-step-at-a-time-from-any-cell) always arrives, and [D\*](../RO-049-replanning-d-star-and-bug-algorithms/RO-049-replanning-d-star-and-bug-algorithms.md#3-repairing-the-numbers-d) (G-2713) repairs those numbers when a box appears. The remaining problem: every cell is numbered before the robot moves. A grid of points 0.05 m apart, fine enough for the robot's 0.25 m footprint, has 11,421 points in the room; a robot that also turns needs a number for every heading too.
 
 This Note builds a **potential field** (G-2740): a height computed from where the robot is, from two things only: how far the door is, and how far the nearest obstacles are. The robot steps downhill, like a ball rolling on a landscape (MR §10.6.1). Figure 1 sends two robots of the [disk footprint](../../04-graph-search-and-configuration-space/RO-037-obstacles-in-c-space/RO-037-obstacles-in-c-space.md#23-growing-the-obstacles-by-the-robots-radius) (radius 0.25 m) downhill on the same field at once. Watch the green robot from the start (2, 1) and the red one from (4.0, 0.5), between the table and the bottom wall, a second start chosen because from there the table stands between the robot and the door.
 
@@ -26,7 +26,7 @@ In the last frame, the green robot is at the door after 3.47 m; the red one has 
 - the pull of the door, a bowl whose bottom is the door ([Section 2](#2-the-pull-of-the-door-the-attractive-potential));
 - the push of the obstacles, a hill round each one ([Section 3](#3-the-push-of-the-obstacles-the-repulsive-potential));
 - why the robot under the table stops: a dent in the sum ([Section 4](#4-why-the-robot-stops-local-minima));
-- shaking the robot out of the dent at random ([Section 5](#5-escaping-by-chance-randomized-potential-fields));
+- leaving the dent by random steps ([Section 5](#5-escaping-by-chance-randomized-potential-fields));
 - a field built so that no dent can exist ([Section 6](#6-a-field-with-no-local-minima-harmonic-potentials));
 - a formula with no dent that needs no grid, and where it works ([Section 7](#7-one-minimum-by-design-navigation-functions)).
 
@@ -38,7 +38,7 @@ Every number below is computed in the notebook `RO-050-potential-fields.ipynb`.
 
 The first part of the opening problem: which way should the robot at (2, 1) step, using only where it stands? Picture the floor bent into a bowl whose lowest point is the door. A ball put anywhere on it rolls towards the door. Figure 2 draws that bowl over the room, rolls the robot down it, then tilts the camera up until the bowl becomes its [contour map](../../../../MA/06-calculus/MA-062-partial-derivatives-and-gradients/MA-062-partial-derivatives-and-gradients.md#11-reading-a-contour-map) (G-468): each ring is one height, as in a map of a hill.
 
-![Animation: the attractive potential drawn as a surface over the room's floor, a bowl whose lowest point, 0, is the doorway centre (3.6, 4.0); the furniture is outlined on the surface only, because the bowl does not know it. The robot (green ball) at (2, 1), height 5.78, rolls straight down to the door. Then the camera tilts from the side to straight above: the surface becomes its contour map, rings of equal height round the door, with the straight path crossing them](images/bowl.gif)
+![Animation: the attractive potential drawn as a surface over the room's floor, a bowl whose lowest point, 0, is the doorway centre (3.6, 4.0); the furniture is outlined on the surface only, because the bowl does not depend on it. The robot (green ball) at (2, 1), height 5.78, rolls straight down to the door. Then the camera tilts from the side to straight above: the surface becomes its contour map, rings of equal height round the door, with the straight path crossing them](images/bowl.gif)
 
 **The standard term.** A height made from the distance to the goal is the **attractive potential** (G-2741) (MR §10.6.1; Choset slides). The symbols, on the robot at the start:
 
@@ -106,7 +106,7 @@ The step is 0.034 m long. We also cap every step at 0.05 m, because near an obst
 
 > **Extra:** Here the gradient sets the robot's velocity. If it set the robot's acceleration instead, like a force on a ball with mass, the robot would roll past the door and back for ever, as a ball in a bowl without friction does; adding damping, a braking force that grows with speed, lets it settle (MR §10.6.1).
 
-The bowl knows nothing about the furniture. From (4.0, 0.5), under the table, the straight line to the door runs into the table's grown band 0.25 m above the robot, and the bowl would drive the robot into it. The obstacles must change the height too.
+The bowl does not depend on the furniture. From (4.0, 0.5), under the table, the straight line to the door runs into the table's grown band 0.25 m above the robot, and the bowl would drive the robot into it. The obstacles must change the height too.
 
 ## 3. The push of the obstacles: the repulsive potential
 
@@ -217,19 +217,19 @@ In the last frame of Figure 5, the red region is the strip under the table betwe
 
 ## 5. Escaping by chance: randomized potential fields
 
-> **Key point:** A **randomized potential field** (G-2744) descends until stuck, then takes a **random walk** (G-2745), a string of small random steps, until it finds a point lower than the local minimum, and descends again. From under the table it always reached the door in 200 runs, but drove 46 m (median) where the shortest route is 4.55 m.
+> **Key point:** A **randomized potential field** (G-2744) descends until it stops at a local minimum, then takes a **random walk** (G-2745), a string of small random steps, until it finds a point lower than the local minimum, and descends again. From under the table it always reached the door in 200 runs, but drove 46 m (median) where the shortest route is 4.55 m.
 
 The third part of the opening problem: how can the robot under the table reach the door anyway? The robot sits in the local minimum at (3.60, 0.59), height 6.003 m², and every small step goes uphill. Picture a marble stuck in a hollow of a tilted tray: shaking the tray bounces it about until it happens to clear the rim, and then it rolls on downhill.
 
-**The standard terms.** A path made of steps each chosen at random, with no memory of the last, is a **random walk** (G-2745). A planner that descends the potential, walks at random when stuck, then descends again is a **randomized potential field** (G-2744) planner (LaValle §5.4.3). The planner switches between three modes (LaValle §5.4.3, Figure 5.15):
+**The standard terms.** A path made of steps each chosen at random, with no memory of the last, is a **random walk** (G-2745). A planner that descends the potential, walks at random when it stops at a local minimum, then descends again is a **randomized potential field** (G-2744) planner (LaValle §5.4.3). The planner switches between three modes (LaValle §5.4.3, Figure 5.15):
 
 1. **Descend:** gradient descent, as in Section 3, until the robot stops.
-2. **Random walk:** each step moves x by 0.05 m up or down and y by 0.05 m up or down, each decided by a coin toss; a step into the obstacle region is thrown away and tried again. The walk ends as soon as the height is below the local minimum's 6.003 m², or after a step limit drawn at random from 100 to 400 steps. Then back to Descend.
+2. **Random walk:** each step moves x by 0.05 m up or down and y by 0.05 m up or down, each decided by a coin toss; a step into the obstacle region is thrown away and tried again. The walk ends as soon as the height is below the local minimum's 6.003 m², or after a step limit drawn at random from 100 to 400 steps. The planner then returns to Descend.
 3. **Backtrack:** after 20 walks that all fall back into the same local minimum, restart from a point picked at random among the points of the earlier walks.
 
 Figure 6 runs it from the local minimum. Watch walk 1 wander right and fall back, then walk 2.
 
-![Animation: the randomized potential field on the contour map of Figure 5. Stuck in the local minimum at (3.60, 0.59), height 6.003 m² (red star). Random walk 1 (grey) takes 384 steps of 0.05 m in x and in y and ends at (4.90, 0.49), height 7.076, still among the starts that roll back into it; gradient descent (orange) rolls it back into the local minimum. Random walk 2 (black) stops after 132 steps at (2.70, 0.69), where the height, 6.002, is below 6.003; gradient descent from there (green) reaches the door. 42.0 m driven in all; the shortest route is 4.55 m](images/randwalk.gif)
+![Animation: the randomized potential field on the contour map of Figure 5. Stopped at the local minimum at (3.60, 0.59), height 6.003 m² (red star). Random walk 1 (grey) takes 384 steps of 0.05 m in x and in y and ends at (4.90, 0.49), height 7.076, still among the starts that roll back into it; gradient descent (orange) rolls it back into the local minimum. Random walk 2 (black) stops after 132 steps at (2.70, 0.69), where the height, 6.002, is below 6.003; gradient descent from there (green) reaches the door. 42.0 m driven in all; the shortest route is 4.55 m](images/randwalk.gif)
 
 In Figure 6, walk 1 ended at (4.90, 0.49), inside the red region of Figure 5, so the descent fell back into the local minimum. Walk 2 ended at (2.70, 0.69), past the left saddle, where the height had dropped to 6.002 m², below the local minimum's 6.003. From there the descent of Section 3 reaches the door. The run drove 42.0 m.
 
@@ -256,13 +256,13 @@ Two hundred random steps typically wander about as far as the left saddle, and m
 - the distance driven had a median of 46.1 m; one run in ten drove less than 16.3 m, one in ten more than 168.0 m;
 - 90 percent escaped to the left, over the lower saddle (6.206 m² against 7.105 m²).
 
-The shortest route from under the table round the table to the door is 4.55 m (notebook, a visibility graph over the grown obstacles). So the random walks free the robot, at a price: long, jittery paths that must be smoothed before a robot drives them, and three settings, the step, the walk limit and the number of walks before backtracking, that must be tuned for each problem (LaValle §5.4.3). The randomized potential field solved problems with up to 31 degrees of freedom when it appeared (LaValle §5.4.3). Escaping by luck is still escaping after the robot got stuck; a better field would have no local minimum to get stuck in.
+The shortest route from under the table round the table to the door is 4.55 m (notebook, a visibility graph over the grown obstacles). So the random walks free the robot, at a price: long, irregular paths that must be smoothed before a robot drives them, and three settings, the step, the walk limit and the number of walks before backtracking, that must be tuned for each problem (LaValle §5.4.3). The randomized potential field solved problems with up to 31 degrees of freedom when it appeared (LaValle §5.4.3). The random escape still begins only after the robot has stopped at the local minimum; a better field would have no local minimum.
 
 ## 6. A field with no local minima: harmonic potentials
 
 > **Key point:** Hold every obstacle at height 1 and the door at 0, and let every free point take the average of its neighbours: the result, a **harmonic potential** (G-2748), has no local minimum, because an average is never below all its neighbours. Downhill from under the table reaches the door, but the heights must be solved on a grid of the whole room first.
 
-The local minimum under the table came from adding a bowl and a hill; the random walks of Section 5 left it only by luck, after 46 m of driving. The third part of the opening problem, without luck: build a field with no local minimum at all. Picture the room as a metal plate whose obstacles are held hot and whose door is held cold. Heat flows from hot to cold until the temperatures stop changing. A cold spot inside the plate would draw heat from all sides and warm up, so in the settled plate the coldest place is the door, and from every point there is a way to somewhere colder.
+The local minimum under the table came from adding a bowl and a hill; the random walks of Section 5 left it only by chance, after 46 m of driving. The third part of the opening problem, without random steps: build a field with no local minimum at all. Picture the room as a metal plate whose obstacles are held hot and whose door is held cold. Heat flows from hot to cold until the temperatures stop changing. A cold spot inside the plate would draw heat from all sides and warm up, so in the settled plate the coldest place is the door, and from every point there is a way to somewhere colder.
 
 **One dimension first.** Figure 7 does this on a corridor of 11 points 0.1 m apart, the left end against an obstacle held at 1, the right end the door held at 0. The 9 points between start at 1. A sweep visits them in turn and sets each to the average of its two neighbours' latest values. Watch the first sweep, point by point: point 9 becomes the average of 1 and 0, 0.5.
 
@@ -312,16 +312,16 @@ Figure 9 sends both robots downhill on the settled field: each step goes to the 
 
 ![Animation: the room's grid of free points 0.05 m apart (light dots; light grey: obstacles with their 0.25 m band). Both robots step to the lowest of their 8 neighbouring points on the settled harmonic potential. The red robot from (4.0, 0.5), height 1 − 1.9 × 10⁻⁹, rounds the table's left side and reaches the door in 91 steps, 5.61 m; the green robot from (2, 1), height 1 − 4.8 × 10⁻⁵, in 60 steps, 3.75 m; the red path joins the green one. The panel shows the harmonic potential's height φ at each robot](images/harmonic.gif)
 
-The red robot that got stuck in Sections 3 and 4 now reaches the door, in 91 steps and 5.61 m, with no random walk: the third part of the opening problem is solved, on a grid. Two costs come with it:
+The red robot that stopped at the local minimum in Sections 3 and 4 now reaches the door, in 91 steps and 5.61 m, with no random walk: the third part of the opening problem is solved, on a grid. Two costs come with it:
 
-- **The grid is back.** Before the robot moves, 5,000 sweeps over 5,839 points, 29.2 million updates, must settle the field; in more dimensions the grid explodes, and the boundary of free space must be known (LaValle §8.4.4.4).
+- **The grid is back.** Before the robot moves, 5,000 sweeps over 5,839 points, 29.2 million updates, must settle the field; in more dimensions the number of grid points grows exponentially, and the boundary of free space must be known (LaValle §8.4.4.4).
 - **The field is very flat.** Under the table the height is 1 − 1.9 × 10⁻⁹, and at the highest free point of the room it is 1 − 2.3 × 10⁻¹⁴: neighbouring heights differ only in the ninth to fourteenth decimal place, so the sweeps must run until the error is far smaller than that, and the computer must keep about 14 digits.
 
 The robot now has a field with no local minimum, but only on a grid. What is left is a field with no local minimum given by a formula, computed from where the robot is, as in Section 3.
 
 ## 7. One minimum by design: navigation functions
 
-> **Key point:** A **navigation function** (G-2750) in Rimon and Koditschek's sense is a smooth field with a single minimum, at the goal, and the same top value, 1, on every obstacle's edge. For a world of disks, a disk-shaped floor with disk-shaped obstacles, a formula with a knob κ gives one: with κ = 1 the robot under the table still stops in a local minimum; from κ = 2 it reaches the door.
+> **Key point:** A **navigation function** (G-2750) in Rimon and Koditschek's sense is a smooth field with a single minimum, at the goal, and the same top value, 1, on every obstacle's edge. For a world of disks, a disk-shaped floor with disk-shaped obstacles, a formula with a parameter κ gives one: with κ = 1 the robot under the table still stops in a local minimum; from κ = 2 it reaches the door.
 
 The third part of the opening problem, without a grid: the harmonic field of Section 6 has no local minimum but needs the whole grid, while the bowl and hills of Section 3 need no grid but have a local minimum. A [navigation function](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#42-one-step-at-a-time-from-any-cell) (G-2702) on the grid, the wavefront's numbers, already has the property we want: 0 at the goal and a lower neighbour everywhere else. Rimon and Koditschek asked for the same in a smooth field over free space, written as one formula.
 
@@ -346,7 +346,7 @@ Rule 2 does not forbid saddle points. In free space with holes, such as a room w
 - $\beta_0$ is the room disk's term, its radius squared minus the robot's squared distance from its centre, in m²: 8.39 at (4.0, 0.5); it is 0 on the disk's edge and positive inside;
 - $\beta_i$ is obstacle $i$'s term, the robot's squared distance from its centre minus its radius squared, in m²: 0.31 for the table, 15.128 for the pink pole and 3.968 for the green pole at (4.0, 0.5); it is 0 on the obstacle's edge and positive outside;
 - $\beta$ is the product of all four, 156.1 m⁸ at (4.0, 0.5): 0 on every boundary of free space, positive inside it;
-- $\kappa$ (kappa) is a knob, a number of 1 or more, 2 here;
+- $\kappa$ (kappa) is a tuning parameter, a number of 1 or more, 2 here;
 - $\phi$ is now the navigation function's height, with no unit; like the harmonic potential of Section 6 it is 0 at the goal and 1 on every boundary.
 
 $$\phi = \frac{\gamma}{\big(\gamma^{\kappa} + \beta\big)^{1/\kappa}}$$
@@ -365,15 +365,15 @@ $$= 12.41 / 17.61 = 0.705$$
 
 Figure 10 draws this field as a surface, rolls the robot from under the table down it, then tilts to the contour map.
 
-![Animation: the Rimon–Koditschek navigation function, with its knob κ = 2, on the world of disks, drawn as a surface: the free disk of radius 3.3 m about (3.5, 2.0), the table as a disk of radius 1.3 m about (4.2, 1.9) and the two poles as disks of radius 0.35 m; heights run from 0 at the doorway centre (3.6, 4.0) to 1 on every boundary, and the area outside the free disk is drawn at 1. The red robot from (4.0, 0.5), height 0.705, rolls round the bottom of the table to the door. Then the camera tilts to the contour map](images/rk_surface.gif)
+![Animation: the Rimon–Koditschek navigation function, with its parameter κ = 2, on the world of disks, drawn as a surface: the free disk of radius 3.3 m about (3.5, 2.0), the table as a disk of radius 1.3 m about (4.2, 1.9) and the two poles as disks of radius 0.35 m; heights run from 0 at the doorway centre (3.6, 4.0) to 1 on every boundary, and the area outside the free disk is drawn at 1. The red robot from (4.0, 0.5), height 0.705, rolls round the bottom of the table to the door. Then the camera tilts to the contour map](images/rk_surface.gif)
 
-**Why κ must be large enough.** For small $\kappa$ the obstacle term $\beta$ dominates the bottom of the fraction and the formula has local minima of its own; for $\kappa$ large enough the distance term wins and the only minimum left is the door (Choset slides, "for large enough κ, this is a navigation function"). Figure 11 raises $\kappa$ step by step, with the robot from under the table each time.
+**Why κ must be large enough.** For small $\kappa$ the obstacle term $\beta$ dominates the bottom of the fraction and the formula has local minima of its own; for $\kappa$ large enough the distance term dominates and the only minimum left is the door (Choset slides, "for large enough κ, this is a navigation function"). Figure 11 raises $\kappa$ step by step, with the robot from under the table each time.
 
-![Animation: the contour map of the navigation function on the world of disks (as in the last frame of Figure 10) for the formula's knob κ = 1, 1.25, 1.5, 1.75, 1.9, 2, 3 and 4, with the path of the robot from (4.0, 0.5). For κ = 1 to 1.9 the robot stops in a local minimum left of the table (red star), at (1.76, 0.19) for κ = 1 and (1.73, 0.92) for κ = 1.9; from κ = 2 the local minimum is gone and it reaches the door. The height at the start grows with κ: 0.074 at κ = 1, 0.705 at κ = 2, 0.998 at κ = 4](images/rk_kappa.gif)
+![Animation: the contour map of the navigation function on the world of disks (as in the last frame of Figure 10) for the formula's parameter κ = 1, 1.25, 1.5, 1.75, 1.9, 2, 3 and 4, with the path of the robot from (4.0, 0.5). For κ = 1 to 1.9 the robot stops in a local minimum left of the table (red star), at (1.76, 0.19) for κ = 1 and (1.73, 0.92) for κ = 1.9; from κ = 2 the local minimum is gone and it reaches the door. The height at the start grows with κ: 0.074 at κ = 1, 0.705 at κ = 2, 0.998 at κ = 4](images/rk_kappa.gif)
 
 In Figure 11 the local minimum moves up as $\kappa$ grows and vanishes between 1.98 and 2 (notebook: the smallest $\kappa$ that reaches the door from (4.0, 0.5) is 1.983). At $\kappa = 2$ the field has one minimum, the door, and three saddle points, one behind each obstacle, as rule 2 allows (notebook). The robot under the table reaches the door, which answers the third part of the opening problem without a grid, for the world of disks. Two limits remain:
 
-- **Larger κ flattens the field.** The height at the start is 0.074 for $\kappa = 1$, 0.705 for $\kappa = 2$, 0.974 for $\kappa = 3$, 0.998 for $\kappa = 4$ and 0.999993 for $\kappa = 6$: almost everything sits just below 1, and the slopes the robot follows become tiny.
+- **Larger κ flattens the field.** The height at the start is 0.074 for $\kappa = 1$, 0.705 for $\kappa = 2$, 0.974 for $\kappa = 3$, 0.998 for $\kappa = 4$ and 0.999993 for $\kappa = 6$: almost every height lies just below 1, and the slopes the robot follows become very small.
 - **Only disks.** The formula holds for worlds of disks; other shapes must first be bent smoothly into a world of disks, which Rimon and Koditschek did for star-shaped obstacles. In a high-dimensional C-space the obstacles are known only through collision checks, so building such a bending is hard (LaValle §8.4.4.3; Choset slides).
 
 ## 8. Summary
@@ -384,17 +384,17 @@ In Figure 11 the local minimum moves up as $\kappa$ grows and vanishes between 1
 | Potential field (bowl + hills) | bowl plus a hill within 0.5 m of each obstacle | stops in a local minimum at (3.60, 0.59) | 9 clearances per step |
 | Randomized potential field | descend, random-walk when stuck, backtrack | door, 46.1 m driven (median of 200) | many tuned settings |
 | Harmonic potential | obstacles 1, door 0, every point the average of its neighbours | door, 5.61 m, no local minimum | 29.2 million updates on a grid |
-| Navigation function (Rimon–Koditschek) | one formula on a world of disks, knob κ | door for κ = 2; a local minimum for κ = 1 | disks only; flat for large κ |
+| Navigation function (Rimon–Koditschek) | one formula on a world of disks, parameter κ | door for κ = 2; a local minimum for κ = 1 | disks only; flat for large κ |
 
 - The robot picks each step from where it stands by stepping down the **potential field** (G-2740), so it needs no grid: from (2, 1) it reaches the door after 3.47 m; the robot under the table stops at (3.60, 0.59), 3.41 m from the door, because there the door's pull up, 3.407, plus the wall's push, 0.155, balances the table's push down, 3.562.
 - The **attractive potential** (G-2741), half the squared distance to the door, has minus its gradient pointing straight at the door, so alone it drives a straight line, the 3.4 m drive from (2, 1).
 - The **repulsive potential** (G-2742) is zero beyond 0.5 m of clearance and grows without bound at contact, so the robot never touches an obstacle: the green robot passes 0.278 m from the table instead of 0.132 m.
-- A **local minimum** (G-1110) appears where the pull meets an obstacle's push head on; the starts that roll into it fill the strip under the table, 7.7 percent of the starts, so gradient descent alone fails there every time.
+- A **local minimum** (G-1110) appears where the pull and an obstacle's push are opposite and balance; the starts that roll into it fill the strip under the table, 7.7 percent of the starts, so gradient descent alone fails there every time.
 - A **randomized potential field** (G-2744) escapes by a **random walk** (G-2745) until the height drops below the local minimum's, so it always reached the door in 200 runs, but drove a median 46.1 m against the shortest 4.55 m, because random steps wander back and forth.
 - A **harmonic potential** (G-2748) obeys **Laplace's equation** (G-2746), so every free point is the average of its neighbours and none can be a local minimum; the robot under the table reaches the door in 5.61 m, after 5,000 sweeps of averaging over the whole grid.
 - A **navigation function** (G-2750) has one minimum and the same top value on every boundary, so descent from almost every start reaches the goal; on a world of disks Rimon and Koditschek's formula gives one once κ is large enough, here from κ = 2.
 
-The robot can now reach the door from under the table, by luck, on a grid, or in a world of disks. Still missing: a planner that needs no grid, no tuned luck and no special shapes, and that works with only the collision checks and nearest neighbours of chapter RO-04; [rapidly-exploring random trees](../RO-051-rrt/RO-051-rrt.md#2-growing-a-tree-from-random-samples-rrt) grow a tree of random samples from the start instead.
+The robot can now reach the door from under the table by random steps, on a grid, or in a world of disks. What remains is a planner that needs no grid, no tuned random steps and no special shapes, and that works with only the collision checks and nearest neighbours of chapter RO-04; [rapidly-exploring random trees](../RO-051-rrt/RO-051-rrt.md#2-growing-a-tree-from-random-samples-rrt) grow a tree of random samples from the start instead.
 
 ## 9. Sources
 
@@ -419,7 +419,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Potential field (artificial potential field) (G-2740) | A height over the robot's C-space that is lowest at the goal and rises near obstacles, built as an attractive bowl plus a repulsive hill round each obstacle; the robot reaches the goal by stepping downhill from wherever it is, with no grid and no search, but can stop in a local minimum. |
 | Attractive potential (G-2741) | The part of a potential field that pulls the robot to the goal: half the squared distance to the goal times a gain, $\frac{1}{2}\zeta\Vert q - q_{\text{goal}}\Vert^2$; minus its gradient points straight at the goal, like a spring. |
 | Repulsive potential (G-2742) | The part of a potential field that pushes the robot away from one obstacle: zero beyond an influence distance, then growing without bound as the clearance shrinks, $\frac{1}{2}\eta(1/d - 1/Q^\ast)^2$; it keeps the robot from ever reaching the obstacle. |
-| Randomized potential field (G-2744) | A planner that follows a potential field downhill and, when stuck in a local minimum, takes random walks until it finds a lower point, then descends again, backtracking after many failed walks; it escapes local minima, at the price of long paths and many tuned settings. |
+| Randomized potential field (G-2744) | A planner that follows a potential field downhill and, when it stops at a local minimum, takes random walks until it finds a lower point, then descends again, backtracking after many failed walks; it escapes local minima, at the price of long paths and many tuned settings. |
 | Random walk (G-2745) | A path made of steps each chosen at random, with no memory of the steps before, such as moving x and y by 0.05 m up or down by coin tosses; it wanders about the square root of the number of steps times the step size. |
 | Harmonic potential (G-2748) | A potential field that is a harmonic function, held at 1 on every obstacle and 0 at the goal; it has no local minimum, so stepping downhill always reaches the goal, but it must be solved on a grid of the whole free space first. |
 | Laplace's equation (G-2746) | The equation that a function's bend along x plus its bend along y is zero everywhere inside a region, $\partial^2\phi/\partial x^2 + \partial^2\phi/\partial y^2 = 0$; on a grid it says each point is the average of its four neighbours, so its solutions have no local minima inside. |

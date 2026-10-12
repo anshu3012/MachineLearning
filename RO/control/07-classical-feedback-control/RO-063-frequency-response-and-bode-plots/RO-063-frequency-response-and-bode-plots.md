@@ -14,13 +14,13 @@ tags: [subject/robotics, area/control, concept/frequency-response, concept/bode-
 
 ## 1. Overview
 
-> **Key point:** A planner seldom asks for one turn; to weave between obstacles it swings the heading command back and forth. A linear loop answers a sine with a sine at the same rate, only taller or shorter and later, so two numbers per weave rate, the gain and the phase, say how well the robot follows; the Bode plot draws them for every rate at once.
+> **Key point:** A planner seldom asks for one turn; to weave between obstacles it swings the heading command back and forth. A linear loop responds to a sine with a sine at the same rate, only taller or shorter and later, so two numbers per weave rate, the gain and the phase, say how well the robot follows; the Bode plot draws them for every rate at once.
 
-The robot's heading loop already turns the robot on command. Its [PD controller](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2962) pushes with a turning torque in proportion to the heading error and brakes in proportion to the turn rate. RO-060 tuned it to Kp = 0.2 N·m/rad and Kd = 0.283 N·m·s/rad, so that a turn just does not pass its target, and [adds integral action](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-add-the-error-up) (G-2963), Ki = 0.05, only against a dragging gearbox. The loop's [transfer function](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#2-the-transfer-function-a-system-as-one-fraction) (G-2999) holds its behaviour in one formula.
+The robot's heading loop already turns the robot on command. Its [PD controller](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2962) pushes with a turning torque in proportion to the heading error and brakes in proportion to the turn rate. RO-060 tuned it to Kp = 0.2 N·m/rad and Kd = 0.283 N·m·s/rad, so that a turn just does not pass its target, and [adds integral action](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error) (G-2963), Ki = 0.05, only against a dragging gearbox. The loop's [transfer function](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#2-the-transfer-function-a-system-as-one-fraction) (G-2999) holds its behaviour in one formula.
 
 In this Note we study RO-061's lighter-damped [first try](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#1-overview) instead: Kp = 0.4 N·m/rad and Kd = 0.08 N·m·s/rad, with no integral action. Its [step response](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#2-the-step-response-and-its-four-numbers) (G-2981) swings 53 percent past a 0.5 rad turn, to 0.763 rad. We take it because its light damping shows every effect of this Note, resonance included; [Section 7](#7-bandwidth-how-fast-a-weave-the-loop-follows) compares it with RO-060's tuned loop.
 
-The [planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#1-overview) does not ask for one turn, though. To weave between obstacles, it swings the heading command left and right like a wave, a reference that keeps changing, which the loop must [track](../RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954). Figure 1 sends the robot a weave of 0.1 rad (5.7°) to each side at three weave rates and watches its heading once the start-up swing has died away:
+The [planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#1-overview) does not, however, ask for one turn. To weave between obstacles, it swings the heading command left and right like a wave, a reference that keeps changing, which the loop must [track](../RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954). Figure 1 sends the robot a weave of 0.1 rad (5.7°) to each side at three weave rates and shows its heading once the start-up swing has died away:
 
 - a slow weave, 0.5 rad/s (one weave every 12.57 s): the heading **follows**, swinging 1.06 times as far as the command and 6° late;
 - a weave at 1.92 rad/s (one every 3.27 s): the robot **over-turns**, swinging 2.55 times as far as the command and 78° late;
@@ -28,7 +28,7 @@ The [planner](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-
 
 ![The robot from above (left) and its heading over two weave periods (right) while the heading command θ_r (dashed) swings 0.1 rad to each side. Each stage is one weave rate, shown after the start-up swing has died away: at 0.5 rad/s the heading swings ±0.106 rad, 1.06 times the command and 6° late; at 1.92 rad/s ±0.255 rad, 2.55 times and 78° late; at 5 rad/s ±0.019 rad, 0.19 times and 169° late. The last frame compares the three: heading swing divided by command swing, and how late the heading is in degrees](images/weave_anim.gif)
 
-The same loop, the same 0.1 rad command, and three different answers. The opening question of this Note: **for a heading command that swings as a wave, how far does the robot turn and how late, at each weave rate, and which rates should the planner avoid?** We answer it in steps:
+The same loop, the same 0.1 rad command, and three different responses. The opening question of this Note: **for a heading command that swings as a wave, how far does the robot turn and how late, at each weave rate, and which rates should the planner avoid?** We answer it in steps:
 
 - why the heading is again a sine at the same rate, and the two numbers that describe it, the gain and the phase ([Section 2](#2-a-sine-in-gives-a-sine-out));
 - how the transfer function gives both numbers for any rate without a simulation ([Section 3](#3-gain-and-phase-from-the-transfer-function));
@@ -108,19 +108,19 @@ The two sides agree. A shift of 45° is one eighth of a period, and one period o
 
 $$12.57 \text{ s} / 8 = 1.57 \text{ s}$$
 
-The same four operations make up the heading loop, so a weave command must give a weave heading at the command's rate. One condition: the loop must stay linear. The torque must stay inside its limit of 0.2 N·m, because a clipped torque is no longer a fixed multiple of the error. In Figure 1 the largest torque is 0.094 N·m, at 1.92 rad/s (notebook). The sine in, sine out rule tells us the shape of the answer, but not its size or its delay, which the next section measures.
+The same four operations make up the heading loop, so a weave command must give a weave heading at the command's rate. One condition: the loop must stay linear. The torque must stay inside its limit of 0.2 N·m, because a clipped torque is no longer a fixed multiple of the error. In Figure 1 the largest torque is 0.094 N·m, at 1.92 rad/s (notebook). The sine in, sine out rule tells us the shape of the response, but not its size or its delay, which the next section measures.
 
 ### 2.2 Gain and phase: the frequency response
 
-Figure 1 showed three weave rates; to know how far and how late the robot follows at any rate, we need two numbers per rate. Figure 3 measures them at one rate, 1 rad/s. The robot starts at rest and the command swings 0.1 rad to each side. Watch the shaded start-up part: the heading first wobbles at its own rhythm, then settles onto a steady wave. The zoom of the last frame reads off the two numbers.
+Figure 1 showed three weave rates; to know how far and how late the robot follows at any rate, we need two numbers per rate. Figure 3 measures them at one rate, 1 rad/s. The robot starts at rest and the command swings 0.1 rad to each side. Watch the shaded start-up part: the heading first swings at the loop's own rate, then settles onto a steady wave. The zoom of the last frame reads off the two numbers.
 
 ![The heading command 0.1 sin(t), a weave at 1 rad/s (grey, dashed), and the heading of the PD loop (blue), started from rest, over 30 s. The start-up swing (shaded) dies away by about 10 s; after that the heading is a sine of the same rate. The last frame zooms on one period from 18.85 s: the heading's crest is 0.1288 rad against the command's 0.1 rad, and it comes 0.2606 s later, which is −14.9° of the 6.283 s period](images/one_sine_anim.gif)
 
-**Why the start-up part dies away.** At the start the robot points straight ahead while the wave wants it to be somewhere else; the gap sets off the loop's own swing. That swing shrinks because the loop is stable: its [poles](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#31-poles-where-the-fraction-blows-up) (G-3000) sit at −0.4 ± 1.96j, and the real part −0.4 sets how fast the swing's size shrinks. After 10 s it is this fraction of its start (notebook):
+**Why the start-up part dies away.** At the start the robot points straight ahead while the command points elsewhere; the gap sets off the loop's own swing. That swing shrinks because the loop is stable: its [poles](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#31-poles-where-the-fraction-becomes-infinite) (G-3000) sit at −0.4 ± 1.96j, and the real part −0.4 sets how fast the swing's size shrinks. After 10 s it is this fraction of its start (notebook):
 
 $$e^{-0.4 \times 10} = 0.018$$
 
-What is left, the settled part or steady state, depends only on the command. So the two numbers below describe the loop, not the way it started (FBS §6.3).
+What is left, the settled part or steady state, depends only on the command. The two numbers below therefore describe the loop, not the way it started (FBS §6.3).
 
 **The two numbers.** With:
 
@@ -164,7 +164,7 @@ $$\sqrt{3^2 + 4^2} = 5$$
 
 $$e^{j\omega t} = \cos\omega t + j\sin\omega t$$
 
-Its rate of change is $j\omega$ times itself. So for this arrow, taking a rate of change becomes multiplying by $j\omega$. Multiplying by $j\omega$ is the [transfer function's](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#21-an-exponential-goes-in-the-same-exponential-comes-out) own idea, an exponential $e^{st}$ in and the same exponential out, with $s = j\omega$.
+Its rate of change is $j\omega$ times itself. For this arrow, taking a rate of change therefore becomes multiplying by $j\omega$. Multiplying by $j\omega$ is the [transfer function's](../RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#21-an-exponential-goes-in-the-same-exponential-comes-out) own idea, an exponential $e^{st}$ in and the same exponential out, with $s = j\omega$.
 
 **The loop's equation.** The yaw inertia I = 0.1 kg·m² turns under the PD torque, Kp times the heading error minus Kd times the turn rate (the derivative acts on the measured turn rate, as in RO-061). With:
 
@@ -220,7 +220,7 @@ The last line is the loop's transfer function with $s$ replaced by $j\omega$:
 
 $$G(s) = \frac{K_p}{Is^2 + K_d s + K_p}$$
 
-The real command, a sine of 0.1 rad, is the upward part of the spinning arrow times 0.1. So the heading is the upward part of that arrow times 0.1 and times $Y$: a sine whose size is 0.1 times the length of $Y$ and whose shift is the angle of $Y$. For ω = 1 rad/s:
+The real command, a sine of 0.1 rad, is the upward part of the spinning arrow times 0.1. The heading is therefore the upward part of that arrow times 0.1 and times $Y$: a sine whose size is 0.1 times the length of $Y$ and whose shift is the angle of $Y$. For ω = 1 rad/s:
 
 $$|Y| = 0.4 / \sqrt{0.3^2 + 0.08^2}$$
 
@@ -228,15 +228,15 @@ $$= 0.4 / 0.3105 = 1.288$$
 
 $$\angle Y = -\arctan(0.08 / 0.3) = -14.9^\circ$$
 
-These are the gain and the phase that Figure 3 measured. So the frequency response, the gain and phase at each weave rate, is the transfer function at s = jω: the gain is the length of G(jω) and the phase is its angle (FBS §9.6). One complex number per rate replaces 30 s of simulation, but one number at a time does not yet show how the answer changes with the rate.
+These are the gain and the phase that Figure 3 measured. The frequency response, the gain and phase at each weave rate, is therefore the transfer function at s = jω: the gain is the length of G(jω) and the phase is its angle (FBS §9.6). One complex number per rate replaces 30 s of simulation, but one number at a time does not yet show how the response changes with the rate.
 
 ### 3.2 The frequency response as an arrow
 
-Section 3.1 gave one arrow for the weave at 1 rad/s: length 1.288 at an angle of −14.9°. As the weave rate rises, the arrow changes, and its changes are the three answers of Figure 1. Figure 4 sweeps the rate from 0.1 to 10 rad/s. Watch the orange arrow's length (the gain) and its angle from the positive real axis (the phase, red arc).
+Section 3.1 gave one arrow for the weave at 1 rad/s: length 1.288 at an angle of −14.9°. As the weave rate rises, the arrow changes, and its changes are the three responses of Figure 1. Figure 4 sweeps the rate from 0.1 to 10 rad/s. Watch the orange arrow's length (the gain) and its angle from the positive real axis (the phase, red arc).
 
 ![The complex number G(jω) of the heading loop drawn as an orange arrow from 0, its angle marked by a red arc, while the weave rate ω rises from 0.1 to 10 rad/s; the tip leaves a blue trail. At 1 rad/s the arrow has length 1.288 and angle −14.9°; at 1.92 rad/s it is long, 2.55, and points almost straight down, −78.5°; at 5 rad/s it is short, 0.187, and points almost left, −169.2°. The last frame shows the whole trail with these rates marked; as ω goes to 0 the tip sits at 1](images/arrow_anim.gif)
 
-The arrow tells the story of Figure 1:
+The arrow summarises Figure 1:
 
 - at slow rates it has length about 1 and points right: the heading **follows** the command;
 - near 2 rad/s it grows long and turns to point down, −90°: the robot **over-turns** and is a quarter period late;
@@ -250,7 +250,7 @@ One picture holds the whole frequency response, but the rates are hidden along t
 
 ### 4.1 Decibels and a log rate axis
 
-To read the robot's answer at any weave rate, we want the gain and the phase as two curves against the rate. Two problems appear on plain axes. The heading loop's gain runs from 2.55 at 1.92 rad/s down to 0.01 at 20 rad/s, so on a plain scale every gain below 0.1 is squeezed onto the bottom line. And the rates of interest run from 0.1 to 20 rad/s, so on a plain scale everything below 1 rad/s is squeezed into the left edge.
+To read the robot's response at any weave rate, we want the gain and the phase as two curves against the rate. Two problems appear on plain axes. The heading loop's gain runs from 2.55 at 1.92 rad/s down to 0.01 at 20 rad/s, so on a plain scale every gain below 0.1 is squeezed onto the bottom line. And the rates of interest run from 0.1 to 20 rad/s, so on a plain scale everything below 1 rad/s is squeezed into the left edge.
 
 **Decibels.** We write a gain in decibels (dB), 20 times its base-10 logarithm, the unit used for sensor signals. With $M$, the gain (the output's swing divided by the input's), a number without a unit:
 
@@ -265,15 +265,15 @@ Some values:
 
 The factor is 20, not 10, because a decibel compares powers, and a wave's power grows with the square of its size (Control System Lectures, Bode plots). Decibels also turn products into sums: the logarithm of a product is the sum of the logarithms. A loop made of pieces multiplied together, such as a controller times a plant, has a gain in dB that is the sum of the pieces' gains in dB, and a phase that is the sum of their phases (FBS §9.6). Section 5 builds on that.
 
-**A log rate axis.** On the rate axis we give each factor of 10 the same width: 0.1 to 1 rad/s takes as much room as 1 to 10 rad/s. A factor of 10 in rate is a **decade** (G-3024). With gains in decibels and rates on a log axis, the robot's answers at all rates fit on one page.
+**A log rate axis.** On the rate axis we give each factor of 10 the same width: 0.1 to 1 rad/s takes as much room as 1 to 10 rad/s. A factor of 10 in rate is a **decade** (G-3024). With gains in decibels and rates on a log axis, the robot's responses at all rates fit on one page.
 
 ### 4.2 Building the plot one weave rate at a time
 
-With these two axes we can now plot the robot's answer at many weave rates. Figure 5 repeats the measurement of Figure 3 at twelve rates from 0.2 to 10 rad/s. Each frame shows the settled command and heading for one rate (top), then adds one dot to the gain plot (middle) and one to the phase plot (bottom). Watch the dots climb to a peak near 2 rad/s and then fall away while the phase slides from 0° to −180°.
+With these two axes we can now plot the robot's response at many weave rates. Figure 5 repeats the measurement of Figure 3 at twelve rates from 0.2 to 10 rad/s. Each frame shows the settled command and heading for one rate (top), then adds one dot to the gain plot (middle) and one to the phase plot (bottom). Watch the dots climb to a peak near 2 rad/s and then fall away while the phase slides from 0° to −180°.
 
 ![One weave rate per frame: two periods of the settled command (grey, dashed) and heading (blue), then the gain in decibels (middle) and the phase in degrees (bottom), one red dot per rate, from 0.2 to 10 rad/s on a log scale. The dots come from simulating the loop from rest at each rate and fitting a sine to the settled heading. The last frame draws the exact curves of G(jω) through the dots and the straight-line asymptotes (orange, dashed): 0 dB up to 2 rad/s, then −40 dB per decade; phase 0°, then −180°](images/sweep_anim.gif)
 
-The pair of plots, gain in dB and phase in degrees against the rate on a log scale, is the **Bode plot** (G-3023) (FBS §9.6). The heading loop's Bode plot has three regions, the three answers of Figure 1:
+The pair of plots, gain in dB and phase in degrees against the rate on a log scale, is the **Bode plot** (G-3023) (FBS §9.6). The heading loop's Bode plot has three regions, the three responses of Figure 1:
 
 - **below about 1 rad/s** the gain is near 0 dB and the phase near 0°: the robot follows;
 - **near 2 rad/s** the gain peaks at 8.14 dB, a gain of 2.55, and the phase passes −90°: the robot over-turns;
@@ -296,7 +296,7 @@ $$P(s) = \frac{1}{8s + 2}$$
 
 $$= 0.5 \times \frac{1}{4s + 1}$$
 
-Here 0.5 m/s per newton is the speed one newton holds against the drag (the fixed piece, which we call $K$), and 4 s is the plant's [time constant](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988), the time it takes to close 63 percent of a gap: here the mass divided by the drag. Figure 6 builds its Bode plot (gain in decibels and phase against the rate) piece by piece. Watch stage 3: in decibels the two pieces simply add.
+Here 0.5 m/s per newton is the speed one newton holds against the drag (the fixed piece, which we call $K$), and 4 s is the plant's [time constant](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988), the time it takes to close 63 percent of a gap: here the mass divided by the drag. Figure 6 builds its Bode plot (gain in decibels and phase against the rate) piece by piece. Watch stage 3: in decibels the two pieces add.
 
 ![The Bode plot of the speed plant 1/(8s + 2) built from pieces, rate on a log scale from 0.0025 to 25 rad/s. Stage 1: the constant 0.5 is −6.02 dB at every rate, phase 0°. Stage 2: the lag 1/(4s + 1) is flat at 0 dB up to its corner 0.25 rad/s, then falls 20 dB per decade; its phase falls in a straight line from 0° at 0.025 rad/s to −90° at 2.5 rad/s. Stage 3: the pieces (grey, dotted) add to the asymptotes (orange, dashed): −6.02 dB up to 0.25 rad/s, then −20 dB per decade. Stage 4: the exact curve (blue) is −9.03 dB at the corner, 3.01 dB below the asymptotes, with phase −45° there](images/asym_anim.gif)
 
@@ -311,8 +311,8 @@ $$\frac{1}{1 + j\omega T} = \frac{1}{1 + 4j\omega}$$
 
 Two easy cases:
 
-- **Slow waves**, ω much smaller than 0.25 rad/s: the term 4jω is tiny next to 1, so the piece is close to 1, which is 0 dB with phase 0°. The robot's speed keeps up with a slow push.
-- **Fast waves**, ω much larger than 0.25 rad/s: the 1 is tiny next to 4jω, so the piece is close to the line below. Ten times the rate gives a tenth of the gain, which is −20 dB per decade, and dividing by j is a phase of −90°. The 8 kg mass cannot change speed fast enough to follow a fast push.
+- **Slow waves**, ω much smaller than 0.25 rad/s: the term 4jω is small compared with 1, so the piece is close to 1, which is 0 dB with phase 0°. The robot's speed keeps up with a slow push.
+- **Fast waves**, ω much larger than 0.25 rad/s: the 1 is small compared with 4jω, so the piece is close to the line below. Ten times the rate gives a tenth of the gain, which is −20 dB per decade, and dividing by j is a phase of −90°. The 8 kg mass cannot change speed fast enough to follow a fast push.
 
 $$\frac{1}{1 + 4j\omega} \approx \frac{1}{4j\omega}$$
 
@@ -369,8 +369,8 @@ $$s^2 = (j\omega)^2 = -\omega^2$$
 
 Two easy cases:
 
-- **Slow weaves**, ω much smaller than 2 rad/s: the 4 in the denominator wins, so G is close to 4 divided by 4, which is 1: 0 dB with phase 0°.
-- **Fast weaves**, ω much larger than 2 rad/s: the −ω² term wins, so G is close to the line below. Ten times the rate gives a hundredth of the gain, which is −40 dB per decade, and the minus sign is a phase of −180°: the heading swings opposite to the command.
+- **Slow weaves**, ω much smaller than 2 rad/s: the 4 in the denominator dominates, so G is close to 4 divided by 4, which is 1: 0 dB with phase 0°.
+- **Fast weaves**, ω much larger than 2 rad/s: the −ω² term dominates, so G is close to the line below. Ten times the rate gives a hundredth of the gain, which is −40 dB per decade, and the minus sign is a phase of −180°: the heading swings opposite to the command.
 
 $$G(j\omega) \approx -4/\omega^2$$
 
@@ -443,7 +443,7 @@ $$= 4\zeta^2\omega_n^4(1 - \zeta^2)$$
 
 $$M_r = \frac{\omega_n^2}{\sqrt{D}} = \frac{1}{2\zeta\sqrt{1 - \zeta^2}}$$
 
-So the true peak, 2.552 (8.14 dB) at 1.918 rad/s, is a little taller than 2.5 and a little below $\omega_n$. The formula for $x$ also says when there is a peak: only while $x$ is positive, which needs:
+The true peak, 2.552 (8.14 dB) at 1.918 rad/s, is therefore slightly taller than 2.5 and slightly below $\omega_n$. The formula for $x$ also says when there is a peak: only while $x$ is positive, which needs:
 
 $$1 - 2\zeta^2 > 0$$
 
@@ -455,13 +455,13 @@ Figure 7 redraws the gain curve as ζ falls from 1 to 0.1, by lowering Kd from 0
 
 ![The heading loop's gain (top) and phase (bottom) with Kp = 0.4 while the damping ratio ζ falls from 1 (Kd = 0.4) to 0.1 (Kd = 0.04); earlier curves stay in light grey, the asymptotes are orange and dashed. For ζ = 1, 0.85 and 0.707 the gain never rises above 0 dB. Below 0.707 a red peak grows just left of the natural frequency ωn = 2 rad/s, close to the orange dot 1/(2ζ) at ωn; the phase drops from 0° to −180° more and more steeply. The last frame returns to our loop, ζ = 0.2: peak 2.55 (8.14 dB) at 1.918 rad/s, against 2.5 at 2 rad/s, with RO-060's tuned loop (Kp 0.2, Kd 0.283, ζ = 1) in grey](images/zeta_anim.gif)
 
-Three things to read from Figure 7:
+Figure 7 shows three things:
 
 - **The peak and the overshoot have one cause.** The small damping ratio that lets the 0.5 rad turn overshoot by 53 percent in RO-061 is the one that lets a weave at 1.92 rad/s over-turn by a factor of 2.55.
 - **RO-060's tuned loop has no peak.** Its gains, Kp = 0.2 and Kd = 0.283, give a damping ratio of 1 (at a natural frequency of 1.41 rad/s), and its gain never rises above 0 dB: the [derivative chosen so a turn just does not pass its target](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#42-how-much-derivative) leaves no weave rate amplified either.
-- **ζ = 0.707 is not critical damping.** It is the smallest damping ratio with no resonant peak, the one whose gain at $\omega_n$, 1/(2ζ), is 0.707, that is −3 dB. Critical damping, the smallest damping with no overshoot in a step response, is ζ = 1, the [critically damped](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995) case. Between the two, a step still overshoots a little but no weave rate is amplified.
+- **ζ = 0.707 is not critical damping.** It is the smallest damping ratio with no resonant peak, the one whose gain at $\omega_n$, 1/(2ζ), is 0.707, that is −3 dB. Critical damping, the smallest damping with no overshoot in a step response, is ζ = 1, the [critically damped](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995) case. Between the two, a step still overshoots slightly but no weave rate is amplified.
 
-So the planner should keep the heading command's weave rates away from 1.9 rad/s, a weave period near 3.3 s, while the loop runs with ζ = 0.2. Resonance explains the over-turn; the third answer of Figure 1, barely turning at 5 rad/s, needs a limit on the other side.
+The planner should therefore keep the heading command's weave rates away from 1.9 rad/s, a weave period near 3.3 s, while the loop runs with ζ = 0.2. Resonance explains the over-turn; the third answer of Figure 1, barely turning at 5 rad/s, needs a limit on the other side.
 
 ## 7. Bandwidth: how fast a weave the loop follows
 
@@ -469,7 +469,7 @@ So the planner should keep the heading command's weave rates away from 1.9 rad/s
 
 At 5 rad/s the robot barely turns. How fast a weave can the planner ask for before the robot stops following, that is before the gain, the heading's swing divided by the command's, drops away?
 
-**The idea.** Above some rate, the robot's inertia wins and the swing it manages shrinks fast (Section 5.2: 40 dB less for every decade). A single number marks where following gives way: the rate at which the gain has fallen to 0.707 (one over the square root of 2) of its value for very slow commands, the zero-frequency gain. That rate is the **bandwidth** (G-3029) of the loop (FBS §6.3). The value 0.707 is a convention with a reason: a wave's power grows with the square of its size ([Section 4.1](#41-decibels-and-a-log-rate-axis)), and 0.707 squared is 0.5, so at the bandwidth the heading's swing carries half the power it carries for a slow weave. In decibels, 0.707 is 3.01 dB below the zero-frequency gain, so the bandwidth is often called the −3 dB point.
+**The idea.** Above some rate, the robot's inertia dominates and its swing shrinks fast (Section 5.2: 40 dB less for every decade). A single number marks where following gives way: the rate at which the gain has fallen to 0.707 (one over the square root of 2) of its value for very slow commands, the zero-frequency gain. That rate is the **bandwidth** (G-3029) of the loop (FBS §6.3). The value 0.707 is a convention with a reason: a wave's power grows with the square of its size ([Section 4.1](#41-decibels-and-a-log-rate-axis)), and 0.707 squared is 0.5, so at the bandwidth the heading's swing carries half the power it carries for a slow weave. In decibels, 0.707 is 3.01 dB below the zero-frequency gain, so the bandwidth is often called the −3 dB point.
 
 Figure 8 marks the bandwidth on two gain curves. Look where each curve crosses the red dashed line.
 
@@ -482,7 +482,7 @@ What the numbers mean for the robot:
 - **RO-060's tuned loop has a bandwidth of 0.91 rad/s.** Removing the overshoot, and halving Kp, costs speed: the tuned loop follows only slower weaves, but faithfully, with no rate over-turned.
 - **The speed plant's bandwidth is its corner frequency, 0.25 rad/s,** because Section 5.1 showed the gain there is 0.707 of its zero-frequency value: force waves much faster than one every 25 s barely change the robot's speed.
 
-A rule of thumb for design is a bandwidth 5 to 10 times the fastest rate the loop must follow (MATLAB, Using Bode plots 1). With 3.02 rad/s, our heading loop follows weaves up to about 0.3 to 0.6 rad/s well, which is what Figure 1 showed at 0.5 rad/s: 1.06 times the command and 6° late. Bandwidth closes the opening question; the next section shows where real autopilots measure frequency responses and guard against resonance.
+A rule of thumb for design is a bandwidth 5 to 10 times the fastest rate the loop must follow (MATLAB, Using Bode plots 1). With 3.02 rad/s, our heading loop follows weaves up to about 0.3 to 0.6 rad/s well, which is what Figure 1 showed at 0.5 rad/s: 1.06 times the command and 6° late. Bandwidth completes the answer to the opening question; the next section shows where real autopilots measure frequency responses and guard against resonance.
 
 ## 8. Where frequency responses are measured and used
 
@@ -494,7 +494,7 @@ The weave of Figure 5, a sine at rising rates, is how real vehicles are measured
 - **Bandwidth of a filter.** The gyroscope signal that feeds PX4's turn-rate controller first passes a second-order low-pass filter whose cutoff, the −3 dB rate, is 40 Hz by default (`IMU_GYRO_CUTOFF` in `src/modules/sensors/vehicle_angular_velocity/imu_gyro_parameters.yaml`). Slow turns pass almost unchanged; vibration from the motors, faster than 40 Hz, is cut.
 - **Resonance.** The same file offers notch filters (`IMU_GYRO_NF0_FRQ`, `IMU_GYRO_NF0_BW`), which cut a narrow band of rates "to avoid feedback amplification of structural resonances": a frame that bends at its own rate has a peak like the one in Section 6, and the loop must not push it.
 
-The frequency response has told us how a stable loop answers each weave. The closed loop's frequency response G(jω) cannot tell whether a loop is stable at all, for instance when the heading reaches the controller late; the [Nyquist criterion](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#43-counting-turns-round-the-critical-point) answers that from the frequency response of the loop cut open, the controller times the robot.
+The frequency response has told us how a stable loop responds to each weave. The closed loop's frequency response G(jω) cannot tell whether a loop is stable at all, for instance when the heading reaches the controller late; the [Nyquist criterion](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#43-counting-turns-round-the-critical-point) answers that from the frequency response of the loop cut open, the controller times the robot.
 
 ## 9. Summary
 
@@ -510,7 +510,7 @@ $$G(j\omega) = \frac{4}{4 - \omega^2 + 0.8j\omega}$$
 
 | Idea | What it says | Why it matters |
 |---|---|---|
-| Sine in, sine out | a linear loop answers a sine with a sine of the same rate | two numbers per rate describe the whole answer |
+| Sine in, sine out | a linear loop responds to a sine with a sine of the same rate | two numbers per rate describe the whole response |
 | Frequency response | gain $M$ and phase $\varphi$ at every rate, equal to the length and angle of $G(j\omega)$ | computed from the transfer function, no simulation needed |
 | Bode plot | gain in dB and phase in degrees against the rate on a log scale | shows slow and fast rates together; pieces add |
 | Asymptotes | flat, then −20 dB per decade per pole, meeting at the corner | sketches the plot by hand and shows where it bends |
@@ -526,7 +526,7 @@ $$G(j\omega) = \frac{4}{4 - \omega^2 + 0.8j\omega}$$
 - RO-060's tuned gains (Kp 0.2, Kd 0.283, ζ = 1) have no peak but a bandwidth of 0.91 rad/s against 3.02, so damping is traded for speed.
 - PX4 measures frequency responses with a 1 to 10 Hz sine sweep and guards its loops with a 40 Hz low-pass filter and notch filters, so the ideas here run on real autopilots.
 
-We can now predict how the heading loop answers any weave from G(jω) alone. Still missing: whether a loop stays stable when its readings arrive late or its gains change, and by how much; the [Nyquist criterion and the stability margins](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#6-stability-margins-how-far-from-the-critical-point) answer that from the frequency response of the loop cut open.
+We can now predict how the heading loop responds to any weave from G(jω) alone. One question remains: whether a loop stays stable when its readings arrive late or its gains change, and by how much; the [Nyquist criterion and the stability margins](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#6-stability-margins-how-far-from-the-critical-point) answer that from the frequency response of the loop cut open.
 
 ## 10. Sources
 
@@ -551,8 +551,8 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Gain (amplitude ratio) (G-3021) | How far the output sine swings divided by how far the input sine swings at one rate, such as 1.288 for the heading loop at 1 rad/s; it says how much of a wave of that rate the system passes, often written in decibels. |
-| Phase (phase shift) (G-3022) | How far the output sine is shifted against the input sine at one rate, as a fraction of a period in degrees, negative when the output is late, such as −14.9° for a 0.261 s lag in a 6.28 s period; it says how late a system answers a wave. |
-| Frequency response (G-3020) | How a stable linear system answers a sine at each rate ω once its start-up swing has died away: the gain and the phase, equal to the length and angle of its transfer function at s = jω; it tells how much of a wave of each rate gets through and how late. |
+| Phase (phase shift) (G-3022) | How far the output sine is shifted against the input sine at one rate, as a fraction of a period in degrees, negative when the output is late, such as −14.9° for a 0.261 s lag in a 6.28 s period; it says how late a system responds to a wave. |
+| Frequency response (G-3020) | How a stable linear system responds to a sine at each rate ω once its start-up swing has died away: the gain and the phase, equal to the length and angle of its transfer function at s = jω; it tells how much of a wave of each rate gets through and how late. |
 | Decade (G-3024) | A factor of 10 in frequency, such as 0.25 to 2.5 rad/s; on a log axis every decade has the same width, and Bode-plot slopes are given per decade (−20 dB per decade for one pole). |
 | Bode plot (G-3023) | A pair of plots of a frequency response against the rate on a log scale: the gain in decibels and the phase in degrees; on it the pieces of a system add and the response is sketched with straight lines. |
 | Asymptote (Bode plot) (G-3025) | A straight line a Bode plot's gain or phase curve approaches far from a corner, such as flat at low rates and falling 20 dB per decade per pole at high rates; joining them sketches the plot by hand. |
@@ -560,13 +560,13 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Resonance (G-3027) | A large output when a lightly damped system is driven near the rate of its own swing, because each push lands in step with the swing; it makes the heading loop over-turn a weave near 1.92 rad/s. |
 | Resonant peak and resonant frequency (G-3028) | The largest gain of a frequency response, M_r, and the rate where it occurs, ω_r; for a second-order system M_r is about 1/(2ζ) near the natural frequency (2.552 at 1.918 rad/s for ζ = 0.2), and there is no peak when ζ ≥ 0.707. |
 | Bandwidth (of a system) (G-3029) | The rate at which a system's gain has fallen to 0.707 of its zero-frequency gain (−3 dB), such as 3.02 rad/s for the first-try heading loop (Kp 0.4, Kd 0.08); it marks the fastest input the system still follows. |
-| [PD control](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2962) | Feedback with a proportional part and a derivative part, such as K_p e + K_d de/dt; it acts like a spring and a damper, so it can bring a frictionless joint or heading to its target without swinging. |
-| [Integral action](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-add-the-error-up) (G-2963) | A part of the command in proportion to the error's running sum (its integral over time); the sum grows while any error remains, so it removes the error a steady load leaves, at the cost of overshoot and, if too large, instability. |
+| [PD control](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2962) | Feedback with a proportional part and a derivative part, such as K_p e + K_d de/dt; it acts like a spring and a damper, so it can bring a frictionless joint or heading to its target without swinging. |
+| [Integral action](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error) (G-2963) | A part of the command in proportion to the error's running sum (its integral over time); the sum grows while any error remains, so it removes the error a steady load leaves, at the cost of overshoot and, if too large, instability. |
 | [Transfer function (control)](../../../../RO/control/07-classical-feedback-control/RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#21-an-exponential-goes-in-the-same-exponential-comes-out) (G-2999) | The number a linear system multiplies an exponential input e^(st) by, written as a function of s, such as G(s) = 1/(8s + 2) for the robot's speed and 10/s² for its heading; it turns a differential equation into a fraction, so systems can be combined and read by algebra. |
 | [Step response](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#21-reading-the-four-numbers) (G-2981) | The output of a system after a step input, such as the robot's heading after its command jumps to 0.5 rad; its rise time, overshoot, settling time and steady-state error describe how well a loop follows a command. |
 | [Tracking](../../../../RO/control/07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954) | Making an output follow a reference that changes over time, such as a planned speed rising at 0.25 m/s²; also called the servo problem, it needs the controller to keep up with the change, and a correction from the error alone lags behind. |
-| [Pole](../../../../RO/control/07-classical-feedback-control/RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#31-poles-where-the-fraction-blows-up) (G-3000) | A value of s where a transfer function's denominator is zero, so the fraction blows up there, such as −2 (twice) for the PD heading loop; each pole adds a term e^(pt) to every reply, so its real part says fade or grow and its imaginary part how fast it swings. |
+| [Pole](../../../../RO/control/07-classical-feedback-control/RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#31-poles-where-the-fraction-becomes-infinite) (G-3000) | A value of s where a transfer function's denominator is zero, so the fraction becomes infinite there, such as −2 (twice) for the PD heading loop; each pole adds a term e^(pt) to every response, so its real part says whether the term decays or grows and its imaginary part how fast it oscillates. |
 | [Time constant](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) | The time a first-order system takes to close 63 % of the gap to its final value, m/(K_v + b) = 1 s for the robot's speed loop; it fixes the rise time (about 2.2 time constants) and the 2 % settling time (about 4). |
-| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the reply is, and raising it squeezes the whole reply in time. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
-| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |
+| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the response is, and raising it compresses the whole response in time. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |
+| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |

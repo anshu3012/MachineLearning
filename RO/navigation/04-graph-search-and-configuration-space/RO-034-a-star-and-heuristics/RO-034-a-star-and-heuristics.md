@@ -20,7 +20,7 @@ The robot at (2 m, 1 m) can already find a route to the door on its map of the r
 
 On this grid, [Dijkstra's algorithm](../RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#32-the-algorithm-settle-the-nearest-update-its-neighbours) finds the shortest route from S to G: 3.414 m. Dijkstra keeps an open list of the cells it has reached, the [**frontier**](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2547), and always takes off the cell nearest to S.
 
-What still breaks is the work this costs. Figure 1 (top) plays Dijkstra's search one cell per frame: watch the red cells, the ones taken off the open list, grow as a ring around S, down to the bottom wall and left to the pole, where no route to the door goes.
+The remaining problem is the work this costs. Figure 1 (top) plays Dijkstra's search one cell per frame: watch the red cells, the ones taken off the open list, grow as a ring around S, down to the bottom wall and left to the pole, where no route to the door goes.
 
 ![The same search loop with three guesses h of the distance left, on the room grid from the start cell S to the goal cell G under the door, one cell taken off the open list per frame in all three panels (two per frame after frame "expansion 11", when only Dijkstra still changes). Top: h = 0, which is Dijkstra's algorithm. Middle: A\* with the straight-line distance to G. Bottom: A\* with the octile distance to G. Light red: cells taken off the open list; light green: cells on it; orange outline: the cell just taken off; grey: blocked cells. A\* with the octile distance is done after 9 cells, with the straight line after 11, and each holds its last frame; Dijkstra spreads in every direction and is done after 54. All three routes (blue) are 3.414 m long; Dijkstra's differs in shape because several routes tie at that length](images/dijkstra_vs_astar.gif){height=65%}
 
@@ -38,7 +38,7 @@ The other two panels of Figure 1 run the search this Note builds, A\*: the same 
 
 > **Key point:** Dijkstra cannot tell a cell near the door from a cell far from it. A cheap guess of the distance left from each cell, worked out as if there were no obstacles, gives it that sense of direction: from S the guess is 3.121 m, the true distance 3.414 m.
 
-**The idea.** Dijkstra ranks the cells on its open list by the distance driven from S, so a cell 1 m behind the robot ranks with a cell 1 m towards the door. To prefer the second, the search needs, for each cell, some idea of how far the door still is. The idea has to be cheap: the exact distance left is what we are searching for.
+**The idea.** Dijkstra ranks the cells on its open list by the distance driven from S, so a cell 1 m behind the robot ranks with a cell 1 m towards the door. To prefer the second, the search needs, for each cell, an estimate of how far the door still is. The estimate has to be cheap: the exact distance left is what we are searching for.
 
 A traveller does this with a map: before knowing the roads, the distance as the crow flies already tells which town is nearer. The robot can do the same on its grid: count the moves to G as if the table, the cabinet and the poles were not there.
 
@@ -89,23 +89,23 @@ Both heuristics cost a few multiplications per cell, and both fall short of the 
 
 **The standard term.** Expanding, at every step, the open cell with the smallest heuristic value is **greedy best-first search** (G-2573) (CS188 §1.4). "Best-first" names any search that takes off the open list the cell that scores best; "greedy" says the score is the heuristic alone.
 
-**Where it goes wrong.** The door trip is too short to show the flaw, so we give the robot a longer trip in the same room: from the bottom-left corner cell (x 0 to 0.5 m, y 0 to 0.5 m) to a cell at the right wall (x 6.5 to 7.0 m, y 1.5 to 2.0 m), behind the table. Figure 3 runs greedy best-first search on it: watch the red cells head up and to the right, straight at the goal, until the table's left side stops them, and then slide down the table to the bottom of the room.
+**Where it fails.** The door trip is too short to show the flaw, so we give the robot a longer trip in the same room: from the bottom-left corner cell (x 0 to 0.5 m, y 0 to 0.5 m) to a cell at the right wall (x 6.5 to 7.0 m, y 1.5 to 2.0 m), behind the table. Figure 3 runs greedy best-first search on it: watch the red cells head up and to the right, straight at the goal, until the table's left side stops them, and then slide down the table to the bottom of the room.
 
 ![Greedy best-first search on the long trip, from S in the bottom-left corner cell to G at the right wall, one cell per frame: it always takes off the open list the cell with the smallest heuristic h, the octile distance to G (7.121 m at S), and never looks at the distance already driven. The search heads up and right, meets the table, and slides down its left side. Last frame: its route, 9.536 m after 21 cells (blue), and the shortest route, 8.000 m along the bottom wall (green, dashed)](images/greedy_anim.gif){height=50%}
 
-Greedy best-first search returns 9.536 m after 21 cells; the shortest route, along the bottom wall, is 8.000 m (notebook). The climb towards the goal's height looked good to the heuristic, and nothing in the score counted what the climb and the way back down cost:
+Greedy best-first search returns 9.536 m after 21 cells; the shortest route, along the bottom wall, is 8.000 m (notebook). The climb towards the goal's height lowered the heuristic, and nothing in the score counted what the climb and the way back down cost:
 
 $$\text{extra} = 9.536 - 8.000$$
 
 $$= 1.536 \text{ m}$$
 
-Greedy search can go straight to the goal or wander like a badly guided depth-first search, depending on the obstacles (CS188 §1.4). The fix is to score each cell by both what it has cost and what it still promises.
+Greedy search can go straight to the goal or wander like a badly guided depth-first search, depending on the obstacles (CS188 §1.4). The fix is to score each cell by both the distance already driven and the guess of the distance left.
 
 ## 4. A*: cost so far plus the guess
 
 > **Key point:** A\* scores every cell on the open list by $f = g + h$: the length of the best route found so far from S to the cell, plus the heuristic, the guess of the length left. A\* takes off the cell with the smallest $f$, so it heads for the door like greedy search but drops a route as soon as its distance driven makes it look worse than another.
 
-Greedy search of [Section 3](#3-following-the-guess-alone-greedy-best-first-search) forgot the distance driven; Dijkstra forgot the distance left. A\* adds the two. We walk it through on the door trip, where every step can be checked by hand (CMU 16-350, A\*; Hart et al. 1968).
+Greedy search of [Section 3](#3-following-the-guess-alone-greedy-best-first-search) ignores the distance driven; Dijkstra ignores the distance left. A\* adds the two. We trace it step by step on the door trip, where every step can be checked by hand (CMU 16-350, A\*; Hart et al. 1968).
 
 ### 4.1 g, h and f on the first step
 
@@ -147,7 +147,7 @@ Figure 4, frame "1. take S off", shows all 8 neighbours with their numbers in th
 
 ### 4.2 The smallest f first, ties to the smaller h
 
-A\* now takes off the open list the cell with the smallest $f$, as Dijkstra takes the smallest $g$. Two cells tie at 3.121 m, the cell up and to the right of S and the cell above S. A tie is broken by the smaller heuristic, which means the cell nearer to G by the heuristic (Patel, Heuristics): 2.414 m beats 2.621 m, so the cell up-right of S goes first (frame "2").
+A\* now takes off the open list the cell with the smallest $f$, as Dijkstra takes the smallest $g$. Two cells tie at 3.121 m, the cell up and to the right of S and the cell above S. A tie is broken by the smaller heuristic, which means the cell nearer to G by the heuristic (Patel, Heuristics): 2.414 m is smaller than 2.621 m, so the cell up-right of S goes first (frame "2").
 
 Frames "2" to "4" show why the smallest $f$ is a good choice. While the search heads straight for G, each move adds to $g$ exactly what it takes off $h$, so $f$ stays at 3.121 m. Moving up from the cell up-right of S:
 
@@ -157,13 +157,13 @@ $$h = 2.414 - 0.5 = 1.914$$
 
 $$f = 1.207 + 1.914 = 3.121 \text{ m}$$
 
-At the cell below the table's corner (frame "4") the diagonal towards G would cut the corner of a blocked table cell, which is not allowed. The cell above it gets $f = 3.414$ m: the detour round the corner costs what the heuristic did not see,
+At the cell below the table's corner (frame "4") the diagonal towards G would cut the corner of a blocked table cell, which is not allowed. The cell above it gets $f = 3.414$ m: the detour round the corner costs what the heuristic did not count,
 
 $$3.414 - 3.121 = 0.293 \text{ m}$$
 
 ### 4.3 A shorter way in lowers g
 
-The cells straight up from the cell up-right of S are used up: the next one has $f = 3.414$ m. So A\* goes back to the other cell with $f = 3.121$ m, the one straight above S (frame "5"). From there it reaches the cell two above S again. That cell already had $g = 1.414$ m from the first time it was reached, by two diagonal moves; the new way in is two straight moves:
+Straight up from the cell up-right of S, the next cell now has $f = 3.414$ m. So A\* goes back to the other cell with $f = 3.121$ m, the one straight above S (frame "5"). From there it reaches the cell two above S again. That cell already had $g = 1.414$ m from the first time it was reached, by two diagonal moves; the new way in is two straight moves:
 
 $$g_{\text{old}} = 0.707 + 0.707 = 1.414 \text{ m}$$
 
@@ -173,7 +173,7 @@ The new way is shorter, so A\* lowers the cell's $g$ to 1.0 m and its $f$ from 3
 
 ### 4.4 Parent arrows give the route
 
-Now every $f$ left is 3.414 m or more. Three cells tie at 3.414 m, and the smallest heuristic, 1.207 m, wins (frame "7"); then the cell left of G (frame "8"), then G itself (frame "9"). G comes off the open list with $h = 0$, so its $f$ is its $g$: 3.414 m, the route length.
+Now every $f$ left is 3.414 m or more. Three cells tie at 3.414 m, and the cell with the smallest heuristic, 1.207 m, comes off first (frame "7"); then the cell left of G (frame "8"), then G itself (frame "9"). G comes off the open list with $h = 0$, so its $f$ is its $g$: 3.414 m, the route length.
 
 To find the route itself, each cell also stores the cell its best $g$ came from: its [parent](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2576), the back pointer breadth-first search keeps too, here changed whenever $g$ drops (CMU 16-350, A\*). The last frame of Figure 4 draws the parents as arrows. Following them back from G to S gives the route: up-right from S, three cells up, past the table's corner, and right into G.
 
@@ -267,7 +267,7 @@ An admissible heuristic that is never smaller than another, cell by cell, **domi
 
 > **Key point:** A\* never expands a cell twice, so a cell closed by a long way in keeps that wrong cost so far $g$. A heuristic can be admissible and still let that happen. The fix is a consistent heuristic: along any move it never falls by more than the move's length, and then every cell leaves the open list with its shortest $g$.
 
-[Section 5.2](#52-why-the-first-route-out-is-the-shortest) needed the cost so far $g$ of each open cell to be the shortest way in. On the grid that held, because the octile heuristic changes by no more than the move between two neighbouring cells; [Section 6.2](#62-the-fix-a-guess-that-never-drops-faster-than-the-distance) shows why that matters. Here is a heuristic that is admissible and still breaks it.
+[Section 5.2](#52-why-the-first-route-out-is-the-shortest) needed the cost so far $g$ of each open cell to be the shortest way in. On the grid that held, because the octile heuristic changes by no more than the move between two neighbouring cells; [Section 6.2](#62-the-fix-a-guess-that-never-drops-faster-than-the-distance) shows why that matters. The following heuristic is admissible and still violates that condition.
 
 ### 6.1 The closed list throws away a shorter way in
 
@@ -297,15 +297,15 @@ Step by step, with the estimated total cost $f = g + h$, the cost so far plus th
 | 4 | A | G: 4.358 | A's way into C, 1.581 + 0.906 = 2.487, is shorter, but C is closed: thrown away |
 | 5 | G | (empty) | A\* returns 4.358 m |
 
-The shortest route is 3.653 m, so A\* is wrong by
+The shortest route is 3.653 m, so A\*'s route is longer by
 
 $$4.358 - 3.653 = 0.705 \text{ m}$$
 
-The heuristic at A was right, yet it made A look so far from the door that B's route reached C first, and the closed list locked C's long $g$ in.
+The heuristic at A was exact, yet it made A look so far from the door that B's route reached C first, and the closed list kept C's longer $g$.
 
 ### 6.2 The fix: a guess that never drops faster than the distance
 
-The trouble is the jump in the heuristic between A and C: over an edge of 0.906 m, $h$ falls from 2.072 m to 0. A real distance left cannot fall by more than the distance moved, so a heuristic that does breaks the picture A\* relies on. With:
+The cause is the jump in the heuristic between A and C: over an edge of 0.906 m, $h$ falls from 2.072 m to 0. A real distance left cannot fall by more than the distance moved, so a heuristic that does breaks the assumption A\* relies on. With:
 
 - $n$, a cell or point;
 - $n'$, a neighbour of it, one move away;
@@ -386,7 +386,7 @@ The second line is the consistent rule with $g(n)$ added to both sides. So the $
 
 On the roadmap, run 1's $f$ falls from 3.653 at A to 2.487 at C by way of A: that fall is what let C close early.
 
-A second fix keeps any admissible heuristic: reopen a closed cell when a shorter way into it turns up, at the price of expanding some cells more than once (CS188 §1.4). The octile heuristic is consistent, so on the grid A\* expands each cell once and returns the shortest route. What it still costs is memory: it keeps every cell it has reached.
+A second fix keeps any admissible heuristic: reopen a closed cell when a shorter way into it is found, at the price of expanding some cells more than once (CS188 §1.4). The octile heuristic is consistent, so on the grid A\* expands each cell once and returns the shortest route. What it still costs is memory: it keeps every cell it has reached.
 
 ## 7. Saving memory: iterative deepening and IDA*
 
@@ -412,7 +412,7 @@ Depth-first search with a limit on $f$ is **IDA\*** (G-2582), iterative-deepenin
 
 Round 1 visits 9 cells, some of them twice by different routes, and finds no route with $f$ of 3.121 m or less; the smallest $f$ beyond the limit was 3.414 m. Round 2, limit 3.414 m, reaches G at its 8th visit with a 3.414 m route.
 
-IDA\* makes 17 visits against A\*'s 9 expansions, with never more than 7 cells in memory against A\*'s 23 (notebook): IDA\* buys memory with repeated work (Korf 1985). Both searches start at S and run towards G; the next section turns the search round.
+IDA\* makes 17 visits against A\*'s 9 expansions, with never more than 7 cells in memory against A\*'s 23 (notebook): IDA\* saves memory at the price of repeated work (Korf 1985). Both searches start at S and run towards G; the next section turns the search round.
 
 ## 8. Searching from the door: backward and bidirectional search
 
@@ -428,7 +428,7 @@ Run to the end, one backward search gives every cell's distance to the door at o
 
 **The standard term.** Searching from the goal towards the start, with every move reversed, is **backward search** (G-2583) (LaValle §2.2.3). Figure 9 (top) runs Dijkstra backwards from G: it reaches S after 31 cells, against 54 forwards (notebook).
 
-Only 30 free cells lie within 3.414 m of G, against 53 within 3.414 m of S, because the door stands against the wall and much of the circle round it lies outside the room. A backward search pays when the goal's side branches less than the start's (LaValle §2.2.3).
+Only 30 free cells lie within 3.414 m of G, against 53 within 3.414 m of S, because the door stands against the wall and much of the circle round it lies outside the room. A backward search is cheaper when the goal's side branches less than the start's (LaValle §2.2.3).
 
 ![Backward and bidirectional search on the room grid, one expansion per frame in both panels. Top: Dijkstra run backwards from the goal cell G towards S (blue: taken off its open list; pale blue: on it); it reaches S after 31 cells, route 3.414 m. Bottom: bidirectional Dijkstra, one expansion from S (red and green) and one from G (blue) in turn; it stops after 38 cells, when a cell has come off both open lists (purple outline), and its route is 3.414 m. The forward search alone needs 54 cells](images/bidir_anim.gif){height=85%}
 
@@ -442,7 +442,7 @@ The 38 are fewer than the 54 of the forward search, but more than the backward s
 
 ### 8.3 When to stop, and where the route is
 
-The two searches stop when some cell, call it $w$, has come off both open lists (MIT 6.006 L18 notes). The route through $w$ seems the obvious answer, but $w$ need not lie on the shortest route. On the door trip the meeting cell happens to lie on a shortest route, so Figure 10 shows the trap on a shorter trip: from R, the cell two above S, to G.
+The two searches stop when some cell, call it $w$, has come off both open lists (MIT 6.006 L18 notes). The route through $w$ seems the obvious answer, but $w$ need not lie on the shortest route. On the door trip the meeting cell happens to lie on a shortest route, so Figure 10 shows the problem on a shorter trip: from R, the cell two above S, to G.
 
 ![Bidirectional Dijkstra from R (x 2.0 to 2.5 m, y 2.0 to 2.5 m, two cells above the start cell) to G, at the moment it stops, on the part of the room x 0.5 to 5.5 m, y 1.0 to 4.0 m. Red: taken off the forward open list; blue: taken off the backward one. The first cell off both lists, w (purple outline), gives a route of 1.000 + 1.707 = 2.707 m; the cell u just above R (orange outline), reached by both searches but taken off only the forward list, gives 0.500 + 1.914 = 2.414 m, the shortest route (blue line)](images/bidir_trap.png){height=45%}
 
@@ -467,15 +467,15 @@ So the stopping test is right, but the answer is the smallest sum $g_f + g_b$ ov
 
 ## 9. Several goals: multi-goal A*
 
-> **Key point:** When any of several goals will do, join each goal to one added vertex, the virtual goal, and run A\* to it once, with the smallest of the guesses to the goals: for three charging docks this takes 12 cells instead of 30 for three separate runs, and ends at the dock nearest by route, 3.207 m away, which is not the dock nearest in a straight line. A goal that moves becomes many goals, one per cell and time: searching over (cell, time), the robot meets a walking person at 5.414 s.
+> **Key point:** When any of several goals is acceptable, each goal is joined to one added vertex, the virtual goal, and A\* runs to it once, with the smallest of the guesses to the goals: for three charging docks this takes 12 cells instead of 30 for three separate runs, and ends at the dock nearest by route, 3.207 m away, which is not the dock nearest in a straight line. A goal that moves becomes many goals, one per cell and time: searching over (cell, time), the robot meets a walking person at 5.414 s.
 
-Every search so far ran to the one goal cell G. Now the robot's battery is low, and any of three charging docks will do (Figure 11, first frame):
+Every search so far ran to the one goal cell G. Now the robot's battery is low, and any of three charging docks is acceptable (Figure 11, first frame):
 
 - G, the cell under the door (x 3.5 to 4.0 m, y 3.5 to 4.0 m);
 - D1, the top-left corner cell (x 0 to 0.5 m, y 3.5 to 4.0 m);
 - D2, the cell below the table's right end (x 5.0 to 5.5 m, y 0.5 to 1.0 m), beside the green pole.
 
-The robot wants the dock with the shortest route, and the straight line does not tell which one that is. Running A\* once per dock does (notebook):
+The task is to reach the dock with the shortest route, and the straight line does not tell which one that is. Running A\* once per dock does (notebook):
 
 | Dock | Straight line from S (m) | A\* route from S (m) | Cells taken off the open list |
 |---|---|---|---|
@@ -541,7 +541,7 @@ $$\text{saved} = 30 - 12$$
 
 $$= 18 \text{ cells}$$
 
-**A busy dock.** Some goals cost more to use than others, such as a parking space far from the shop (CMU 16-350, A\*). Say D2 is busy: the robot would have to wait there, and we count the wait as 2 m of extra driving. The edge from D2 to V then costs 2 m instead of 0 (CMU 16-350, A\*), and D2's guess adds the same 2 m, since every route to V through D2 pays it. With:
+**A busy dock.** Some goals cost more to use than others, such as a parking space far from the shop (CMU 16-350, A\*). Suppose D2 is busy: the robot would have to wait there, and we count the wait as 2 m of extra driving. The edge from D2 to V then costs 2 m instead of 0 (CMU 16-350, A\*), and D2's guess adds the same 2 m, since every route to V through D2 includes it. With:
 
 - $c_{\text{D2}}$, the cost of D2's edge to V, 2 m;
 - $h_{\text{G}}$, $h_{\text{D1}}$, $h_{\text{D2}}$ and $h$, the octile distances to the docks and the heuristic, as in the guess above.
@@ -630,7 +630,7 @@ Multi-goal search changes what counts as arriving. On a large map, even one A\* 
 
 ## 10. Trading length for time: weighted A* and anytime A*
 
-> **Key point:** Multiplying the heuristic by a weight $\varepsilon$ above 1 makes A\* rush towards the goal: fewer cells, and a route at most $\varepsilon$ times the shortest. Anytime A\* runs weighted A\* with falling weights and always has a route ready: on the long trip, 9.243 m at once, then 8.414 m, then the shortest, 8.000 m.
+> **Key point:** Multiplying the heuristic by a weight $\varepsilon$ above 1 makes A\* head more directly for the goal: fewer cells, and a route at most $\varepsilon$ times the shortest. Anytime A\* runs weighted A\* with falling weights and always has a route ready: on the long trip, 9.243 m at once, then 8.414 m, then the shortest, 8.000 m.
 
 A robot must often start moving before an exact search finishes, and a slightly longer route found at once is better than the best route found too late (CMU 16-350, anytime). The door trip is too easy to show the trade: every weight there returns the same 3.414 m. So we use the long trip of [Section 3](#3-following-the-guess-alone-greedy-best-first-search), where A\* takes 43 cells to find 8.000 m.
 
@@ -750,7 +750,7 @@ The Theta\* route is shorter than the grid route by
 
 $$3.414 - 3.193 = 0.221 \text{ m}$$
 
-S cannot see G itself, because that line crosses a table cell (frame "cell 9 off the open list"). Theta\* does not promise the shortest route at any angle (Daniel et al. 2010): a taut string from S round the corner of the blocked cell at (3.0 m, 3.0 m) to G would be 2.965 m (notebook).
+S cannot see G itself, because that line crosses a table cell (frame "cell 9 off the open list"). Theta\* does not guarantee the shortest route at any angle (Daniel et al. 2010): a taut string from S round the corner of the blocked cell at (3.0 m, 3.0 m) to G would be 2.965 m (notebook).
 
 ## 13. Summary
 
@@ -819,7 +819,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Heuristic $h$ (G-2570) | A cheap guess of the cost still to go from a state to the goal, such as 3.121 m from the start cell to the door; a search uses it to prefer states that look nearer the goal. |
 | Octile distance (G-2571) | The length of the shortest route between two cells of an 8-connected grid with no obstacles: diagonal moves while both the column and the row count shrink, then straight moves; with straight moves of length $a$ and diagonals of length $\ell$ it is $\ell \min + a(\max - \min)$ of the column and row counts; a heuristic for 8-connected grids that never overestimates. |
 | Greedy best-first search (G-2573) | A search that always expands the open state with the smallest heuristic value, ignoring the cost already paid; it heads straight for the goal and looks at few states, but can return a long route. |
-| Cost so far $g$ (g-value) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever a shorter way into the state turns up. |
+| Cost so far $g$ (g-value) (G-2574) | The length of the best route found so far from the start to a state; A* lowers it whenever it finds a shorter way into the state. |
 | Estimated total cost $f$ (f-value) (G-2575) | The cost so far plus the heuristic, $f = g + h$: the length of the best route through a state if the guess were exact; A* expands the open state with the smallest $f$. |
 | A* search (G-2577) | Dijkstra's algorithm with the open list sorted by $f = g + h$, the cost so far plus a heuristic guess of the cost left; with a consistent heuristic it returns the shortest route while expanding far fewer states (9 cells against 54 on the room grid). |
 | Admissible heuristic (G-2578) | A heuristic that is never more than the true cost left from any state, $h \le h^\ast$; it makes $f$ a lower bound on every route through a state, so the first route A* takes off the open list is the shortest. |
@@ -839,7 +839,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Jump point search (JPS) (G-2594) | A* for grids with equal move costs that scans along straight lines and diagonals and puts only jump points on the open list; it skips equal routes that differ only in the order of their moves, and returns the same shortest route with far fewer open-list operations. |
 | Any-angle search (G-2596) | Search on a grid whose routes may run at any angle between cell centres instead of only along grid moves at 0° and 45°, so they are shorter and need fewer turns. |
 | Theta* (G-2597) | An any-angle search: A* in which a neighbour takes the expanded cell's own parent as its parent whenever the straight segment between their centres crosses no blocked cell; it gives routes of straight segments at any angle (3.193 m against 3.414 m on the room grid), but not always the shortest. |
-| [Occupancy grid](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensors are never sure. |
+| [Occupancy grid](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensor readings are uncertain. |
 | [Frontier (open list)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2547) | The vertices a search has reached but not yet expanded, waiting to be taken off one at a time; which one comes off next is what makes one search differ from another. |
 | [Euclidean distance](../../../../ML/04-missing-data-and-outliers/ML-038-knn-imputer/ML-038-knn-imputer.md#41-the-euclidean-distance) (G-715) | The straight-line distance between two points. |
 | [Breadth-first search (BFS)](../../../../RO/navigation/04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) (G-2550) | A search whose frontier is a queue, so it expands vertices in rings of equal moves from the start; the first route it finds has the fewest moves, which is the shortest only when every move costs the same. |

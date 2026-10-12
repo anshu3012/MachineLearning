@@ -12,11 +12,11 @@ tags: [subject/robotics, area/control, concept/trajectory-tracking, concept/kana
 
 ## 1. Overview
 
-> **Key point:** A timed trajectory says where the robot should be at every moment; Kanayama's tracker sends the timetable's own speeds plus feedback on the gap, measured along the robot's own axes, and a Lyapunov function proves that the error cannot run away. Our robot starts 0.224 m off its timetable and is within 1 cm of it after 3.35 s.
+> **Key point:** A timed trajectory says where the robot should be at every moment; Kanayama's tracker sends the timetable's own speeds plus feedback on the gap, measured along the robot's own axes, and a Lyapunov function proves that the error cannot grow without bound. Our robot starts 0.224 m off its timetable and is within 1 cm of it after 3.35 s.
 
 The [room robot](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#3-the-differential-drive-robot) of this course, a differential drive, already gets a plan with a clock. Its [**local planner**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#21-levels-of-planning) (G-2911), the planner that turns the next few metres of the route into a plan within the robot's limits, hands over a [**trajectory**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#31-what-a-trajectory-is) (G-2886): poses, each with the time the robot should be there. The chapter's car can follow a path with no clock: [**pure pursuit**](../RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150), which chases a point on the path ahead, and the [**Stanley controller**](../RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#22-the-heading-term-and-the-cross-track-term) (G-3160), which steers the front wheels from the front axle's errors, bring it back onto a line. The difference between the two jobs is whether the clock counts: [**path following**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3130) keeps near a path at the robot's own speed, while [**trajectory tracking**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3131) also keeps to a timetable. Nothing yet makes the room robot keep to a clock.
 
-Here is the room robot's next timetable, with numbers. Starting from (0, 0) and facing along x, it should drive at 0.3 m/s:
+The room robot's next timetable is as follows. Starting from (0, 0) and facing along x, it should drive at 0.3 m/s:
 
 1. 1 m straight along x;
 2. a 90° left arc of radius 1 m;
@@ -36,19 +36,19 @@ Every run in this Note is our own Python model of the robot and its trackers (th
 The last frame of Figure 1 adds the tracker this Note builds (blue): within 1 cm of the timetable from 3.35 s, 0.0001 m at the end. We build it in steps, first steering one point of the robot and then its whole pose:
 
 - a second, imagined robot that drives the timetable exactly, and why replaying its speeds is not enough ([Section 2](#2-the-reference-robot-and-its-timetable));
-- a tracker that makes a point ahead of the axle close its gap by the same fraction every cycle, and the heading it leaves loose ([Section 3](#3-feedback-linearisation-steering-a-point-ahead-of-the-axle));
+- a tracker that makes a point ahead of the axle close its gap by the same fraction every cycle, and the heading it leaves uncontrolled ([Section 3](#3-feedback-linearisation-steering-a-point-ahead-of-the-axle));
 - the whole gap, heading included, measured along our robot's own axes, and how it changes as both robots drive ([Section 4](#4-the-error-in-the-robots-own-frame));
 - Kanayama's tracker, the timetable's speeds plus feedback on that gap ([Section 5](#5-kanayamas-tracker));
-- the proof that the error cannot run away, and how fast the gap closes ([Section 6](#6-why-the-gap-must-close-a-lyapunov-function));
+- the proof that the error cannot grow without bound, and how fast the gap closes ([Section 6](#6-why-the-gap-must-close-a-lyapunov-function));
 - where timed tracking runs in Autoware and Nav2 ([Section 7](#7-where-timed-tracking-runs)).
 
 ## 2. The reference robot and its timetable
 
-> **Key point:** Picture a second robot that drives the timetable exactly, the reference robot; tracking means staying on top of it. Copying its speeds only works from where it starts: two robots facing the same way with the same commands keep the same gap for ever.
+> **Key point:** The reference robot is an imagined second robot that drives the timetable exactly; tracking means keeping our robot at its pose. Copying its speeds only works from where it starts: two robots facing the same way with the same commands keep the same gap for ever.
 
 ### 2.1 A robot that drives the timetable exactly
 
-The opening's target moves: where the timetable says to be changes every moment. So we picture a second robot that drives the timetable exactly, always where our robot should be, facing the way it should face, at the speeds it should drive. This imagined robot is the **reference robot** (G-3180), the orange robot of Figure 1 (Kanayama 1991 §2.2 calls its pose the reference configuration). Our robot's job is to drive on top of it, which is [**tracking**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954), following a [**reference**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#41-the-parts-of-the-loop-named-on-the-robot) (G-2944) that changes over time.
+The opening's target moves: where the timetable says to be changes every moment. So we picture a second robot that drives the timetable exactly, always where our robot should be, facing the way it should face, at the speeds it should drive. This imagined robot is the **reference robot** (G-3180), the orange robot of Figure 1 (Kanayama 1991 §2.2 calls its pose the reference configuration). Our robot's task is to stay at its pose, which is [**tracking**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#6-holding-a-value-and-following-a-plan-regulation-and-tracking) (G-2954), following a [**reference**](../../07-classical-feedback-control/RO-059-feedback-basics/RO-059-feedback-basics.md#41-the-parts-of-the-loop-named-on-the-robot) (G-2944) that changes over time.
 
 The reference robot at time $t$:
 
@@ -99,7 +99,7 @@ The same holds along y with sines, and the headings turn at the same rate. So th
 
 ### 3.1 The axle midpoint cannot be steered sideways
 
-Replaying the speeds left the gap of 0.2 m and 0.1 m in place. To close it, the tracker must measure the gap and steer against it. The most direct way steers our robot's position straight at the reference robot's: at the start, move 0.2 m/s along x and −0.1 m/s along y on top of the timetable's speed. But the position of our robot is the axle midpoint, which can only move along its heading, the [**nonholonomic constraint**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-get-everywhere) (G-2302) of RO-001: facing along x, it has no way to move along y.
+Replaying the speeds left the gap of 0.2 m and 0.1 m in place. To close it, the tracker must measure the gap and steer against it. The most direct way steers our robot's position straight at the reference robot's: at the start, move 0.2 m/s along x and −0.1 m/s along y on top of the timetable's speed. But the position of our robot is the axle midpoint, which can only move along its heading, the [**nonholonomic constraint**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-reach-every-pose) (G-2302) of RO-001: facing along x, it has no way to move along y.
 
 ### 3.2 A point ahead of the axle can move any way
 
@@ -146,7 +146,7 @@ The first terms are the robot driving ahead, the second the swing of $P$ round t
 
 ### 3.3 The gap shrinks 5 percent every cycle
 
-Now choose $P$'s wanted velocity as a feedforward part, the reference point's own velocity as in Section 2.2, plus a feedback part on the gap. The reference robot has its own point $P_r$, 0.2 m ahead of its axle. At the start:
+We choose $P$'s wanted velocity as a feedforward part, the reference point's own velocity as in Section 2.2, plus a feedback part on the gap. The reference robot has its own point $P_r$, 0.2 m ahead of its axle. At the start:
 
 - $P_r$ is at (0.2, 0) m and moves at 0.3 m/s along x, its velocity $\dot P_r$;
 - $P$ is at (0, 0.1) m, 0.2 m ahead of our robot at (−0.2, 0.1);
@@ -179,17 +179,17 @@ $$0.95^{20} = 0.3585$$
 
 $$0.2236 \times 0.3585 = 0.0802 \text{ m}$$
 
-The run gives 0.0800 m (notebook); a gap shrinking smoothly at the same rate, with no 0.05 s steps, would be at 0.0823 m. Figure 3 (left) plays it: the gap of $P$ (bottom, solid green) lies on the grey curve of 5 percent per cycle, 0.010 m at 3 s, and the robot ends on the timetable, its axle 0.0001 m from where it should be. The law steers only $P$, though; the body comes along by itself.
+The run gives 0.0800 m (notebook); a gap shrinking smoothly at the same rate, with no 0.05 s steps, would be at 0.0823 m. Figure 3 (left) plays it: the gap of $P$ (bottom, solid green) lies on the grey curve of 5 percent per cycle, 0.010 m at 3 s, and the robot ends on the timetable, its axle 0.0001 m from where it should be. The law steers only $P$; the body follows $P$ without a law of its own.
 
-### 3.4 What the offset point leaves loose: the heading
+### 3.4 What the offset point leaves uncontrolled: the heading
 
 The law of Section 3.3 holds $P$ on time but says nothing about which way the body faces. MR §13.3.4 allows $P$ anywhere on the robot off the axle line, so Figure 3 (right) runs the same law with $P$ 0.2 m behind the axle ($d = -0.2$ m). Watch the right-hand robot: within about 3 s it swings round and then drives the whole timetable backwards.
 
 ![Feedback linearisation on the timetable, one frame per 0.25 s up to 4 s, then one per second; the body drawn as a small circle, not to size. Both panels use the same law with gain 1 per s. Left: P (green dot) 0.2 m ahead of the axle; the body (blue) follows it. Right: P 0.2 m behind the axle; the body swings round, leaving a cusp in its track, and drives backwards. Orange rings: the reference robot's P. Bottom: the gap from P to its reference, ahead (solid) and behind (dashed), against a gap that shrinks 5 percent every 0.05 s (grey). The last frame shows both gaps near 0 and, on the right, the body facing backwards with its axle 0.40 m from the timetable](images/offset_run.gif)
 
-$P$'s gap shrinks just as fast in both runs: 0.0800 m and 0.0820 m at 1 s. But on the right the robot ends facing 180° the wrong way at −0.30 m/s, and its axle is 0.40 m from where the timetable puts it, twice $d$ (notebook). MR §13.3.4 shows the same failure for its point tracker: the point converges, but "the robot's orientation is opposite to the intended orientation" (MR Figure 13.19).
+$P$'s gap shrinks equally fast in both runs: 0.0800 m and 0.0820 m at 1 s. But on the right the robot ends facing 180° the wrong way at −0.30 m/s, and its axle is 0.40 m from where the timetable puts it, twice $d$ (notebook). MR §13.3.4 shows the same failure for its point tracker: the point converges, but "the robot's orientation is opposite to the intended orientation" (MR Figure 13.19).
 
-**Why the heading goes where it goes.** Once $P$ is on time, $P$ moves with $P_r$, at 0.3 m/s along the timetable on a straight. If the timetable heads at an angle to the left of our robot, the part of that velocity to our robot's left is 0.3 m/s times the sine of the angle, and Section 3.2 turns the robot at that sideways speed divided by $d$. The symbols:
+**What sets the final heading.** Once $P$ is on time, $P$ moves with $P_r$, at 0.3 m/s along the timetable on a straight. If the timetable heads at an angle to the left of our robot, the part of that velocity to our robot's left is 0.3 m/s times the sine of the angle, and Section 3.2 turns the robot at that sideways speed divided by $d$. The symbols:
 
 - $\varphi$ is the angle the timetable heads to the left of our robot, 10° in the example, where its sine is 0.1736;
 - $v_r$ is the timetable's speed, 0.3 m/s;
@@ -204,7 +204,7 @@ $$\omega = v_r\sin\varphi / d$$
 
 With $P$ ahead, the robot turns left, towards the timetable's heading, so $\varphi$ shrinks. With $d = -0.2$ m, the same line gives −0.26 rad/s: the robot turns away and $\varphi$ grows until the sine is zero again at 180°, facing backwards. A trailer behaves the same way: towed with its wheels behind the hitch it follows, and pushed with its wheels in front it swings round. Here $P$ is the hitch and the robot's wheels are the trailer's.
 
-Feedback linearisation buys an exactly linear gap and a single gain, at the price of a loose heading, turn rates that grow as $d$ shrinks, and forward driving with $P$ ahead (Paden Table II: "forward driving only"). To keep the heading, a tracker must measure it, together with the rest of the gap.
+Feedback linearisation gives an exactly linear gap and a single gain, at the cost of an uncontrolled heading, turn rates that grow as $d$ shrinks, and forward driving with $P$ ahead (Paden Table II: "forward driving only"). To keep the heading, a tracker must measure it, together with the rest of the gap.
 
 ## 4. The error in the robot's own frame
 
@@ -212,20 +212,20 @@ Feedback linearisation buys an exactly linear gap and a single gain, at the pric
 
 ### 4.1 Why the room's axes are the wrong ones
 
-The offset point measured only $P$'s gap, along the room's axes, and left the heading loose. Kanayama measures the whole gap, heading included, from the robot itself. Take the opening's gap again: in the room, the reference robot is 0.2 m further along x and 0.1 m lower in y. What our robot should do about that depends on which way it faces (Figure 4):
+The offset point measured only $P$'s gap, along the room's axes, and left the heading uncontrolled. Kanayama measures the whole gap, heading included, from the robot itself. Take the opening's gap again: in the room, the reference robot is 0.2 m further along x and 0.1 m lower in y. What our robot should do about that depends on which way it faces (Figure 4):
 
 - **Facing 0°, at the start:** the reference robot is 0.2 m straight ahead and 0.1 m to the right, so the robot should speed up and turn a little right.
 - **Facing 45°, halfway round the arc while replaying:** the same gap in the room is only 0.071 m ahead but 0.212 m to the right, so the robot should hardly speed up and should turn right.
 
 ![The error in the robot's own frame, drawn 20 cm per metre. Blue: our robot with its own ahead and left axes; orange: the reference robot. (a) Facing 0°, the reference robot 0.2 m along x and 0.1 m down y is x_e = 0.2 m ahead and y_e = −0.1 m (0.1 m to the right). (b) Facing 45°, the same gap in the room is x_e = 0.071 m ahead and y_e = −0.212 m. (c) The third number, θ_e: the reference robot's heading minus ours, here 30°](images/error_frame.png)
 
-The robot's two commands act along its own axes: $v$ moves it ahead, $\omega$ turns it, and the [nonholonomic constraint](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-get-everywhere) (G-2302), the rule that its wheels cannot slide, stops it moving sideways. So we measure the gap along those axes (Kanayama 1991 eq. 3):
+The robot's two commands act along its own axes: $v$ moves it ahead, $\omega$ turns it, and the [nonholonomic constraint](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-reach-every-pose) (G-2302), the rule that its wheels cannot slide, stops it moving sideways. So we measure the gap along those axes (Kanayama 1991 eq. 3):
 
 - $x_e$ is how far the reference robot is ahead of ours, along our heading, in m;
 - $y_e$ is how far it is to our left, in m, negative to the right;
 - $\theta_e$ is its heading minus ours, in rad, positive when it heads further left.
 
-The three numbers together are the **error in the robot's frame** (G-3181). They are close cousins of three errors of RO-070, measured from the path: the [**along-track error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3137), how far behind the timetable; the [**lateral error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135), how far to the side of the path; and the [**heading error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136), the heading minus the path's. Kanayama measures from the robot towards the reference robot instead, so the signs are flipped: 0.1 m to the left of the timetable is a lateral error of +0.1 m and a $y_e$ of −0.1 m. The gap in the room, for the formula:
+The three numbers together are the **error in the robot's frame** (G-3181). They are closely related to three errors of RO-070, measured from the path: the [**along-track error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3137), how far behind the timetable; the [**lateral error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135), how far to the side of the path; and the [**heading error**](../RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#43-heading-error) (G-3136), the heading minus the path's. Kanayama measures from the robot towards the reference robot instead, so the signs are reversed: 0.1 m to the left of the timetable is a lateral error of +0.1 m and a $y_e$ of −0.1 m. The gap in the room, for the formula:
 
 - $\Delta x$ is the reference robot's x minus ours, 0.2 m in Figure 4;
 - $\Delta y$ is its y minus ours, −0.1 m;
@@ -255,7 +255,7 @@ A tracker needs to know what its commands do to the three errors, $x_e$ ahead, $
 
 1. **The reference robot drives** at $v_r$ along its heading, which is $\theta_e$ from ours. So it moves ahead of us at $v_r\cos\theta_e$ and to our left at $v_r\sin\theta_e$, the same cosine and sine split.
 2. **Our robot drives** at $v$ along its own heading, so everything ahead comes closer: $x_e$ falls at $v$.
-3. **Our robot turns** at $\omega$. Its axes turn left, so a point standing still in the room swings right as our robot sees it, at $\omega$ times its distance, the [arc rule](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#23-why-angles-are-measured-in-radians) of RO-001. A point ahead slides to the right: $y_e$ falls at $\omega x_e$. A point to the left slides ahead: $x_e$ grows at $\omega y_e$. The heading error falls at $\omega$ while the reference robot turns it up at $\omega_r$.
+3. **Our robot turns** at $\omega$. Its axes turn left, so a point standing still in the room swings right in our robot's frame, at $\omega$ times its distance, the [arc rule](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#23-why-angles-are-measured-in-radians) of RO-001. A point ahead slides to the right: $y_e$ falls at $\omega x_e$. A point to the left slides ahead: $x_e$ grows at $\omega y_e$. The heading error falls at $\omega$ while the reference robot's turning raises it at $\omega_r$.
 
 Adding the three (Kanayama 1991 Lemma 1; Paden §V.B.1):
 
@@ -273,7 +273,7 @@ $$\dot y_e = 0 + 0.3 \times 0 = 0$$
 
 $$\dot\theta_e = 0 - 0 = 0$$
 
-All three rates are zero, the frozen gap of Section 2.2. The rates also say what can close it: a speed above $v_r\cos\theta_e$ shrinks $x_e$, and a turn changes all three. Which commands make all three shrink together is the next question.
+All three rates are zero, the constant gap of Section 2.2. The rates also say what can close it: a speed above $v_r\cos\theta_e$ shrinks $x_e$, and a turn changes all three. Which commands make all three shrink together is the next question.
 
 ## 5. Kanayama's tracker
 
@@ -311,7 +311,7 @@ $$\omega = 0 + 0.3 \times (16 \times (-0.1) + 0)$$
 
 $$= -0.48 \text{ rad/s}$$
 
-The robot speeds up and turns right, towards the reference robot. The [wheel speeds](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-back-again-the-wheel-speeds-for-a-wanted-motion) for it, with half the wheel separation 0.1 m:
+The robot speeds up and turns right, towards the reference robot. The [wheel speeds](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#45-the-reverse-direction-the-wheel-speeds-for-a-wanted-motion) for it, with half the wheel separation 0.1 m:
 
 $$v_R = 0.5 + (-0.48) \times 0.1 = 0.452 \text{ m/s}$$
 
@@ -321,7 +321,7 @@ Both are under the 0.6 m/s limit. A check at zero error: the cosine of 0 is 1 an
 
 ### 5.2 The run
 
-Figure 5 plays the rule from the opening's start, 0.224 m off. The right panel shows each moment as our robot sees it, the robot at the centre facing up: watch the green ($x_e$) and red ($y_e$) bars shrink as the orange reference robot comes to sit on top of ours.
+Figure 5 plays the rule from the opening's start, 0.224 m off. The right panel shows each moment in our robot's frame, the robot at the centre facing up: watch the green ($x_e$) and red ($y_e$) bars shrink as the orange reference robot comes to coincide with ours.
 
 ![Kanayama's tracker on the timetable, one frame per 0.25 s up to 4 s, then one per second; robots drawn as small circles, not to size. Left: the room, the reference robot (orange) and our robot (blue). Right: the same moment seen from our robot, which sits at the centre facing up; the reference robot is x_e ahead (green bar) and y_e to the left (red bar, to the right when negative), and its heading line leans by θ_e. Bottom: x_e and y_e in cm, θ_e in degrees on the right axis. The first frame shows x_e = 20 cm, y_e = −10 cm and the command v = 0.500 m/s, ω = −0.480 rad/s; the last frame shows the robot on the timetable at 11.90 s](images/kanayama_run.gif)
 
@@ -329,7 +329,7 @@ The distance from the timetable falls from 22.4 cm at the start to 9.1 cm at 1 s
 
 ### 5.3 Why both parts are needed
 
-Drop the two feedforward parts, so the rule is:
+Without the two feedforward parts, the rule is:
 
 $$v = K_x x_e$$
 
@@ -345,18 +345,18 @@ The 0.3 m is the same kind of lag as [RO-066's speed loop](../../07-classical-fe
 
 ## 6. Why the gap must close: a Lyapunov function
 
-> **Key point:** Kanayama's $V$, half the squared distance to the reference robot plus a heading part, is zero only on the timetable and positive everywhere else, and under his tracker its rate is never above zero. So $V$ can never grow, from any start, as long as the reference robot drives forward, and the error cannot run away; the gap closes fastest without swinging past the line when the damping ratio is 1.
+> **Key point:** Kanayama's $V$, half the squared distance to the reference robot plus a heading part, is zero only on the timetable and positive everywhere else, and under his tracker its rate is never above zero. So $V$ can never grow, from any start, as long as the reference robot drives forward, and the error cannot grow without bound; the gap closes fastest without swinging past the line when the damping ratio is 1.
 
 ### 6.1 An energy of the error that can only fall
 
-Figure 5 showed one start closing its gap. To know that every start does, without trying them all, we use a picture from everyday life. A marble rolling inside a bowl with some friction loses height all the time, so it must end at the bottom, wherever it started.
+Figure 5 showed one start closing its gap. To know that every start does, without trying them all, we use an everyday analogy. A marble rolling inside a bowl with some friction loses height all the time, so it must end at the bottom, wherever it started.
 
 So we look for one number built from the error that behaves like the marble's height:
 
 1. it is zero when the error is zero, and positive for every other error;
 2. under the tracker it never rises.
 
-Such a number is a **Lyapunov function** (G-3183) (Kanayama 1991 §3; Paden §V.B.1). If one exists, the number can never rise above its start value, so the error cannot run away; if it also keeps falling until the error is zero, the robot ends on its timetable. Kanayama turned to one because the robot's equations have sines and products and only two commands for three errors, and "the use of a Liapunov function resolves these difficulties" (Kanayama 1991 §1): the proof below needs only the error rates of Section 4.2, never their solution.
+Such a number is a **Lyapunov function** (G-3183) (Kanayama 1991 §3; Paden §V.B.1). If one exists, the number can never rise above its start value, so the error cannot grow without bound; if it also keeps falling until the error is zero, the robot ends on its timetable. Kanayama turned to one because the robot's equations have sines and products and only two commands for three errors, and "the use of a Liapunov function resolves these difficulties" (Kanayama 1991 §1): the proof below needs only the error rates of Section 4.2, never their solution.
 
 ### 6.2 Kanayama's V and why it falls
 
@@ -423,14 +423,14 @@ $$\dot V = -K_x x_e^2 - \frac{v_r K_\theta\sin^2\theta_e}{K_y}$$
 
 The first rate uses the speed command: $v - v_r\cos\theta_e$ is $K_x x_e$. In the sum, two pairs cancel: 0.0144 against −0.0144, and 0.015 against −0.015. Each cancels for a reason we can name:
 
-- **The turning pair**, $\omega x_e y_e$: turning only swings the reference robot round our robot's view (rule 3 of Section 4.2); it does not change the distance between them.
-- **The sideways pair**, $v_r y_e\sin\theta_e$: the sideways gap grows as the heading gap carries us sideways, and the $K_y y_e$ part of the turn command, weighted by the $1/K_y$ in $V$, takes exactly that back. Kanayama chose the two to match.
+- **The turning pair**, $\omega x_e y_e$: turning only swings the reference robot round in our robot's frame (rule 3 of Section 4.2); it does not change the distance between them.
+- **The sideways pair**, $v_r y_e\sin\theta_e$: the sideways gap grows as the heading gap carries us sideways, and the $K_y y_e$ part of the turn command, weighted by the $1/K_y$ in $V$, cancels exactly that term. Kanayama chose the two to match.
 
 What is left is a square times a minus sign, twice. With positive gains and a reference robot driving forward (a reference speed above zero), the rate of $V$ is never above zero, at any error (Kanayama 1991 Prop. 1). At the start of our run it is:
 
 $$\dot V = -1 \times 0.2^2 - 0 = -0.04 \text{ m}^2\text{/s}$$
 
-The rate is zero only when $x_e = 0$ and $\sin\theta_e = 0$. Could the robot stop there with a sideways gap left? No: with $y_e$ not zero, the heading rate $-v_r K_y y_e$ is not zero, so $\theta_e$ moves off zero at once and $V$ falls again. So $V$ keeps falling until the whole error is zero. The full proof that the error then reaches zero needs a reference whose forward speed stays above a positive value and whose speeds change slowly (Kanayama 1991 Prop. 2); Paden §V.B.1 states it for constant $v_r$ and $\omega_r$, which our timetable has on each of its three parts. A timetable that spins on the spot, with zero reference speed, breaks the condition: both feedback parts of the turn command are multiplied by $v_r$, so the tracker cannot correct a sideways gap there. MR §13.3.4 warns the same for its own tracker.
+The rate is zero only when $x_e = 0$ and $\sin\theta_e = 0$. The robot cannot stop there with a sideways gap left: with $y_e$ not zero, the heading rate $-v_r K_y y_e$ is not zero, so $\theta_e$ moves off zero at once and $V$ falls again. So $V$ keeps falling until the whole error is zero. The full proof that the error then reaches zero needs a reference whose forward speed stays above a positive value and whose speeds change slowly (Kanayama 1991 Prop. 2); Paden §V.B.1 states it for constant $v_r$ and $\omega_r$, which our timetable has on each of its three parts. A timetable that spins on the spot, with zero reference speed, breaks the condition: both feedback parts of the turn command are multiplied by $v_r$, so the tracker cannot correct a sideways gap there. MR §13.3.4 warns the same for its own tracker.
 
 Figure 6 shows $V$ on the run of Figure 5. Watch the top curve fall and the bottom curve, its rate from the formula, stay below the zero line.
 
@@ -476,17 +476,17 @@ $$\zeta = 2.4 / 2.4 = 1$$
 
 $$\zeta = \frac{K_\theta}{2\sqrt{K_y}}$$
 
-A damping ratio of 1 is [**critically damped**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995): the fastest reply that does not swing past. Kanayama adopted it "since the convergence is fastest under non-oscillatory condition" (Kanayama 1991 §4), and so do we. Setting the damping ratio to 1 fixes the heading gain:
+A damping ratio of 1 is [**critically damped**](../../07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995): the fastest reply that does not swing past. Kanayama adopted it "since the convergence is fastest under non-oscillatory condition" (Kanayama 1991 §4), and so do we. Setting the damping ratio to 1 fixes the heading gain:
 
 $$K_\theta = 2\sqrt{K_y}$$
 
 $$= 2 \times 4 = 8 \text{ per m}$$
 
-Figure 7 runs our start with three heading gains. Watch the orange curve cross the line and come back, the purple one creep, and the blue one arrive first, crossing by too little to see.
+Figure 7 runs our start with three heading gains. Watch the orange curve cross the line and come back, the purple one approach slowly, and the blue one arrive first, crossing by too little to see.
 
-![The sideways error y_e of Kanayama's tracker on our start for three heading gains K_θ, one frame per 0.25 s for the first 8 s; same sideways gain K_y = 16 per m² and speed gain K_x = 1 per s. Orange: damping ratio 0.5 (K_θ = 4 per m); blue: 1 (8 per m), this Note's choice; purple: 2 (16 per m). The grey band is ±1 cm. The last frame shows damping 0.5 within 1 cm for good from 3.31 s after crossing the line by 1.07 cm, damping 1 from 3.07 s, damping 2 from 6.17 s](images/damping.gif)
+![The sideways error y_e of Kanayama's tracker on our start for three heading gains K_θ, one frame per 0.25 s for the first 8 s; same sideways gain K_y = 16 per m² and speed gain K_x = 1 per s. Orange: damping ratio 0.5 (K_θ = 4 per m); blue: 1 (8 per m), this Note's choice; purple: 2 (16 per m). The grey band is ±1 cm. The last frame shows damping 0.5 staying within 1 cm from 3.31 s after crossing the line by 1.07 cm, damping 1 from 3.07 s, damping 2 from 6.17 s](images/damping.gif)
 
-Damping ratio 0.5 swings 1.07 cm past the line and settles within 1 cm from 3.31 s; damping ratio 2 creeps in and needs until 6.17 s; damping ratio 1 is within 1 cm for good from 3.07 s, crossing the line by at most 0.06 cm (notebook).
+Damping ratio 0.5 swings 1.07 cm past the line and settles within 1 cm from 3.31 s; damping ratio 2 approaches slowly and needs until 6.17 s; damping ratio 1 stays within 1 cm from 3.07 s, crossing the line by at most 0.06 cm (notebook).
 
 **Why $K_y = 16$ per m².** With damping ratio 1, the sideways gap at time $t$ is its start value times a factor (Kanayama 1991 eq. 22):
 
@@ -504,11 +504,11 @@ In metres driven that distance is 4 divided by the square root of $K_y$, whateve
 
 $$4 / \sqrt{K_y} = 4 / 4 = 1 \text{ m}$$
 
-So $K_y = 16$ per m² brings the sideways gap down to 9.2 percent within the 1 m of the first straight, before the arc starts. $K_x = 1$ per s closes the gap ahead with a 1 s time constant while keeping the first command at 0.548 m/s, under the 0.6 m/s wheel limit. The gains are tuned for small errors on a straight: far from the timetable the rule has sines and products, so its reply is not exactly this second-order one, unlike the offset point's exact 5 percent per cycle (Section 3.3). In exchange, Kanayama's tracker keeps the heading and comes with a proof.
+So $K_y = 16$ per m² brings the sideways gap down to 9.2 percent within the 1 m of the first straight, before the arc starts. $K_x = 1$ per s closes the gap ahead with a 1 s time constant while keeping the first command at 0.548 m/s, under the 0.6 m/s wheel limit. The gains are tuned for small errors on a straight: far from the timetable the rule has sines and products, so its reply is not exactly this second-order one, unlike the offset point's exact 5 percent per cycle (Section 3.3). In exchange, Kanayama's tracker controls the heading and has a convergence proof.
 
 ## 7. Where timed tracking runs
 
-Both trackers need a timetable from a planner and send speed and turn commands many times a second. In the stacks people use:
+Both trackers need a timetable from a planner and send speed and turn commands many times a second. In widely used stacks:
 
 - **Autoware** (Figure 8). The planner hands the controller a trajectory whose points each carry a pose, a speed and a time from the start (`time_from_start` in `autoware_planning_msgs/msg/TrajectoryPoint.msg`). The trajectory follower runs every 0.03 s (`ctrl_period`) and splits the job: a lateral controller, model predictive control or pure pursuit, sets the steering, and a PID controller on the speed sets the acceleration (`autoware_trajectory_follower_node/src/controller_node.cpp`). Its `trajectory_reference_mode` is `spatial` by default, which finds the car's place on the trajectory by distance, or `temporal`, which uses each point's time as given: timed tracking (`autoware_mpc_lateral_controller/README.md`). The model predictive controller plans 50 steps of 0.1 s ahead (`lateral_controller_defaults.param.yaml`); a later Note on model predictive control for path following builds it.
 - **Nav2.** Its controller plugins receive the plan as a list of poses with no times (`nav_msgs/Path` in `nav2_core/controller.hpp`) and choose the speed themselves, which is path following. The [timed elastic band](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#102-teb-in-ros-and-nav2) plans its own timed poses and turns them into commands in the same loop.
@@ -527,14 +527,14 @@ Both trackers need a timetable from a planner and send speed and turn commands m
 | Kanayama's tracker | feedforward plus feedback on the error in the robot's frame | within 1 cm from 3.35 s | its $V$ can only fall |
 
 - The opening's robot, 0.224 m off its timetable, is within 1 cm of it from 3.35 s and 0.0001 m off at 11.90 s under Kanayama's tracker, where replaying the speeds stayed 0.219 m off and a path follower arrived 0.69 s late, because the tracker measures the gap and closes it while feedforward keeps pace with the timetable.
-- The **reference robot** (G-3180) drives the timetable exactly, so tracking a timed trajectory becomes staying on top of one moving robot; replaying its speeds alone keeps any start gap for ever, because two robots facing the same way with the same commands move alike.
+- The **reference robot** (G-3180) drives the timetable exactly, so tracking a timed trajectory becomes staying at the pose of one moving robot; replaying its speeds alone keeps any start gap for ever, because two robots facing the same way with the same commands move alike.
 - **Feedback linearisation** (G-3184) of an **offset point** (G-3185) $d = 0.2$ m ahead makes $P$'s gap shrink 5 percent every 0.05 s at any size, because $P$ moves ahead at the robot's speed and sideways at $d$ times the turn rate, so it can move any way; with $P$ behind the axle the same law keeps $P$ on time but drives the robot backwards, because the heading is not in the law.
 - The **error in the robot's frame** (G-3181), $x_e$ ahead, $y_e$ to the left and $\theta_e$ in heading, says what to do, because the robot's speed acts along $x_e$ and its turn on all three; the same 0.2 m and 0.1 m gap in the room is 0.071 m ahead and 0.212 m to the right for a robot facing 45°.
 - **Kanayama's tracker** (G-3182) sends the reference robot's speed and turn rate plus feedback on the three errors, so it needs no gap to keep pace; without the feedforward parts the robot sits 0.3 m behind, because then the speed must come from the gap.
-- Its **Lyapunov function** (G-3183) $V$, 0.025 m² at our start, is zero only on the timetable and has a rate never above zero, so the error cannot run away from any start while the reference robot drives forward, and $V$ keeps falling until the error is zero.
-- A damping ratio of 1 (heading gain 8 per m with sideways gain 16 per m²) closes the sideways gap fastest without crossing the line (within 1 cm from 3.07 s, against 3.31 s for 0.5 and 6.17 s for 2), and that sideways gain leaves 9.2 percent of the gap after 1 m, so the gap is gone before the arc.
+- Its **Lyapunov function** (G-3183) $V$, 0.025 m² at our start, is zero only on the timetable and has a rate never above zero, so the error cannot grow without bound from any start while the reference robot drives forward, and $V$ keeps falling until the error is zero.
+- A damping ratio of 1 (heading gain 8 per m with sideways gain 16 per m²) closes the sideways gap fastest without crossing the line (within 1 cm from 3.07 s, against 3.31 s for 0.5 and 6.17 s for 2), and that sideways gain leaves 9.2 percent of the gap after 1 m, so most of the gap is closed before the arc.
 
-The room robot can now keep to a clock, not just to a line, with a guarantee that the gap shrinks. Still missing for the chapter's car: its three path trackers have not been compared on one course with one set of numbers, and on the arc a tracker that steers only from its errors sits off the line until it is told the path's curvature, which is the next Note, [feedforward on curves and choosing a tracker](../RO-074-feedforward-metrics-and-choosing-a-tracker/RO-074-feedforward-metrics-and-choosing-a-tracker.md#2-feedforward-steering-the-turn-the-curve-needs).
+The room robot can now keep to a clock, not only to a line, with a guarantee that the gap shrinks. Two tasks remain for the chapter's car: its three path trackers have not been compared on one course with one set of numbers, and on the arc a tracker that steers only from its errors stays off the line until it is given the path's curvature, which is the next Note, [feedforward on curves and choosing a tracker](../RO-074-feedforward-metrics-and-choosing-a-tracker/RO-074-feedforward-metrics-and-choosing-a-tracker.md#2-feedforward-steering-the-turn-the-curve-needs).
 
 ## 9. Sources
 
@@ -562,11 +562,11 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Offset point (G-3185) | A point fixed to a wheeled robot a distance $d$ off its axle line, such as 0.2 m ahead of the axle midpoint; it moves ahead at the robot's speed and sideways at $d$ times the turn rate, so unlike the axle midpoint it can be steered in any direction. |
 | Feedback linearisation (G-3184) | Choosing the commands through the inverse of a robot's model so that a chosen output obeys a linear rule exactly, such as a point's gap to its reference shrinking at $k$ times itself; it makes the error's reply the same at every size, so one gain sets it. |
 | Error in the robot's frame (error configuration) (G-3181) | The gap from a robot to its reference measured along the robot's own axes: $x_e$ ahead, $y_e$ to the left and $\theta_e$ the reference heading minus the robot's; it tells the robot directly whether to speed up or turn, because its speed acts along $x_e$ and its turn on all three. |
-| Kanayama's tracker (G-3182) | A trajectory tracker for a wheeled robot that sends the reference's speed and turn rate plus feedback on the error in the robot's frame, $v = v_r\cos\theta_e + K_x x_e$ and $\omega = \omega_r + v_r(K_y y_e + K_\theta\sin\theta_e)$; a Lyapunov function proves its error cannot run away while the reference drives forward. |
-| Lyapunov function (G-3183) | A number built from a system's error that is zero only at zero error, positive otherwise, and never rises while the system runs, like the height of a marble in a bowl with friction; finding one proves the error cannot run away, without trying every start. |
+| Kanayama's tracker (G-3182) | A trajectory tracker for a wheeled robot that sends the reference's speed and turn rate plus feedback on the error in the robot's frame, $v = v_r\cos\theta_e + K_x x_e$ and $\omega = \omega_r + v_r(K_y y_e + K_\theta\sin\theta_e)$; a Lyapunov function proves its error cannot grow without bound while the reference drives forward. |
+| Lyapunov function (G-3183) | A number built from a system's error that is zero only at zero error, positive otherwise, and never rises while the system runs, like the height of a marble in a bowl with friction; finding one proves the error cannot grow without bound, without testing every start. |
 | [Local planner](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#21-levels-of-planning) (G-2911) | The planner that turns the next few metres or seconds of the global plan into a timed trajectory within the robot's limits and around obstacles its sensors see, solving again many times a second, such as TEB at 10 Hz over 1.5 m; it handles what the global plan cannot. |
 | [Trajectory](../../../../RO/navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#31-what-a-trajectory-is) (G-2886) | The state of a robot at every moment of a time interval, together with the controls that produce it, such as a local planner's band of poses with times; unlike a path, it says when the robot is where and how fast it moves. |
-| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering answers at once returns to the path with little swing past it. |
+| [Pure pursuit](../../../../RO/control/08-path-tracking/RO-071-pure-pursuit/RO-071-pure-pursuit.md#41-find-the-point-steer-drive-repeat) (G-3150) | A path tracker that, at every tick, finds the point on the path one look-ahead distance from the rear axle and steers along the circle that leaves the car along its heading and passes through that point, of curvature $2y/l_d^2$; looking ahead brings the heading error into the steering, so a car whose steering responds without lag returns to the path with little swing past it. |
 | [Stanley controller (front-wheel feedback)](../../../../RO/control/08-path-tracking/RO-072-stanley-and-rear-wheel-feedback/RO-072-stanley-and-rear-wheel-feedback.md#22-the-heading-term-and-the-cross-track-term) (G-3160) | A path tracker that measures the lateral and heading errors at the front axle and steers the front wheels parallel to the path and then towards it by $\tan^{-1}(k e/(k_s + v))$, aiming them at a path point ahead; the front-axle error then shrinks by the same fraction each second, but the law is not stable when reversing. |
 | [Path following](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3130) | Keeping a vehicle close to a path, a curve with no clock, at a speed of its own choosing, like a car on a road; a delay only makes it arrive later, so it needs only the lateral and heading errors. |
 | [Trajectory tracking](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3131) | Making a vehicle be at each point of a timed trajectory at its time, like a train meeting its signals; a delay leaves an along-track error, which the vehicle must make up by changing speed. |
@@ -575,7 +575,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Turning radius $R$](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#42-why-the-robot-turns-about-a-point-on-its-axle-line) (G-2293) | The distance from the point a robot is turning about (the instantaneous centre of curvature, ICC) to the robot's reference point; $R = v / \omega$, so it says how tight a turn is. |
 | [Kinematic model](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#52-the-kinematic-model) (G-2297) | Equations that give how a robot's configuration changes from its speed inputs alone, ignoring masses and forces, such as $\dot{x} = v\cos\theta$, $\dot{y} = v\sin\theta$, $\dot{\theta} = \omega$; used to predict motion at low speed. |
 | [Feedforward](../../../../RO/control/07-classical-feedback-control/RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#22-feedforward-from-the-robots-model) (G-3070) | A control force computed from the plan and the robot's model, such as mass times the planned acceleration plus drag ($m a_r + b v_r$), and sent before any error appears; it lets the robot follow a changing plan without first falling behind, while feedback removes what the model gets wrong. |
-| [Nonholonomic constraint](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-get-everywhere) (G-2302) | A rule on velocities that does not follow from any equation on the pose, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which poses it can reach. |
+| [Nonholonomic constraint](../../../../RO/control/01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#62-can-the-robot-still-reach-every-pose) (G-2302) | A rule on velocities that does not follow from any equation on the pose, such as a wheel that cannot slide sideways; it limits which way a robot can move at each moment but not which poses it can reach. |
 | [Linear function](../../../../RO/localization/02-bayes-filters/RO-017-kalman-filter/RO-017-kalman-filter.md#23-a-linear-function-keeps-a-gaussian-a-gaussian) (G-2527) | A function $y = ax + b$: a fixed multiple of the input plus a constant, whose graph is a straight line; passing a normal variable through it gives another normal variable, which is why the Kalman filter is exact for linear models. |
 | [Along-track error](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#3-path-following-and-trajectory-tracking) (G-3137) | How far behind (or ahead of) its timed reference a vehicle is, measured along the path, such as 3.0 m after a 1.5 s hold against a 2 m/s timetable; trajectory tracking drives it to zero by changing speed, path following ignores it. |
 | [Lateral error $e$ (cross-track error)](../../../../RO/control/08-path-tracking/RO-070-path-following-and-tracking-errors/RO-070-path-following-and-tracking-errors.md#42-lateral-error) (G-3135) | The signed distance from a path to a point of the vehicle, measured along the path's normal at the nearest path point and positive to the left, such as −0.770 m for a car outside an arc; it is one of the two numbers a path tracker drives to zero. |
@@ -584,6 +584,6 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | [Proportional control (P control)](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#31-the-rule-and-why-it-overshoots) (G-2958) | Feedback that sets the command in proportion to the control error, such as a torque of 0.2 N m per rad of heading error; it pulls the output towards the reference like a spring, but alone it swings when nothing damps the motion and leaves an error under a steady load. |
 | [Chain rule](../../../../ML/07-classification/ML-073-sigmoid-derivative/ML-073-sigmoid-derivative.md#2-two-rules-we-need) (G-371) | To differentiate a function of a function, multiply the outer derivative by the inner derivative. |
 | [Time constant](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#41-the-time-constant) (G-2988) | The time a first-order system takes to close 63 % of the gap to its final value, m/(K_v + b) = 1 s for the robot's speed loop; it fixes the rise time (about 2.2 time constants) and the 2 % settling time (about 4). |
-| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the reply is, and raising it squeezes the whole reply in time. |
-| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the reply and its overshoot. |
-| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-reply) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |
+| [Natural frequency](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2991) | The rate, in rad/s, at which a second-order system would swing with no damping, $\omega_n = \sqrt{K_p / I}$, 2 rad/s for the heading loop; it sets how fast the response is, and raising it compresses the whole response in time. |
+| [Damping ratio](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) (G-2992) | A second-order system's damping compared with the damping that just stops it from swinging, $\zeta = K_d / (2\sqrt{K_p I})$, 0.2 for D gain 0.08 and 1 for 0.4; it alone sets the shape of the response and its overshoot. |
+| [Critically damped](../../../../RO/control/07-classical-feedback-control/RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#52-two-roots-decide-the-kind-of-response) (G-2995) | A second-order system with damping ratio exactly 1: its characteristic equation has one double real root, so it gives the fastest step response that does not overshoot, such as the turn with K_p = K_d = 0.4 settling in 2.92 s. |

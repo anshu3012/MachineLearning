@@ -16,7 +16,7 @@ tags: [subject/robotics, area/navigation, concept/graph, concept/breadth-first-s
 
 > **Key point:** A map says where the furniture is, not which way to go. Treating the free cells as places joined by moves turns the map into a graph, and searching the graph finds a route: breadth-first search finds the fewest moves to the door, 8 moves of 0.5 m.
 
-The robot can now hold its room as a [**map**](../../../localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331), its list of what is where. In particular it has an [**occupancy grid**](../../../localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340), the room cut into 0.5 m cells with a number in each cell for how much of it furniture covers. What still breaks: the robot at (2 m, 1 m), facing 30°, has to get out of the door, and nothing tells it which way to drive.
+The robot can now hold its room as a [**map**](../../../localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331), its list of what is where. In particular it has an [**occupancy grid**](../../../localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340), the room cut into 0.5 m cells with a number in each cell for how much of it furniture covers. The remaining problem: the robot at (2 m, 1 m), facing 30°, has to leave through the door, and nothing tells it which way to drive.
 
 Figure 1 plays the first idea: drive straight ahead. Watch the robot leave its spot along its heading: after 1.35 m its centre meets the table's edge.
 
@@ -100,7 +100,7 @@ With either graph in hand, the question is how to search it, and the simplest id
 
 > **Key point:** Listing every path from the start that never revisits a vertex finds every route to the goal, but the list grows fast and contains the same vertex many times: 40 paths for the 7-waypoint graph.
 
-Which of the routes from S reaches the door G? A program has no eyes to spot a good route on a picture, so the plainest method is to try them all: from S, write down each way to go on; from each of those, each way to go on again; and never let a path visit a waypoint it has already visited (CS188 §1.2.2). A path that reaches G is not extended.
+Which of the routes from S reaches the door G? A program cannot pick out a good route from a picture, so the plainest method is to try them all: from S, write down each way to go on; from each of those, each way to go on again; and never let a path visit a waypoint it has already visited (CS188 §1.2.2). A path that reaches G is not extended.
 
 Figure 4 grows that list on the waypoint graph, one new path per frame. The top shows the newest path in the room (orange); the bottom shows where it hangs in the list. Watch the bottom grow like a family tree: every path sits under the path it extends by one edge.
 
@@ -117,7 +117,7 @@ Second, the tree grows fast: on the grid of 76 cells, its level 8 alone holds 1,
 
 ## 4. Searching with a frontier and a visited list
 
-> **Key point:** To reach the door without exploring any place twice, keep two lists: the vertices waiting to be explored (the frontier) and those already explored (the visited list). Taking one vertex off the frontier and adding its new neighbours, over and over, reaches the door in 7 expansions on the waypoint graph, against 40 paths in the tree.
+> **Key point:** To reach the door without exploring any place twice, a search keeps two lists: the vertices waiting to be explored (the frontier) and those already explored (the visited list). Taking one vertex off the frontier and adding its new neighbours, repeatedly, reaches the door in 7 expansions on the waypoint graph, against 40 paths in the tree.
 
 The tree of Section 3 grew the paths below D three times. The fix is the one we use for errands: a to-do list and a done list. The to-do list holds the places reached but not yet explored; the done list holds the places already explored, so they are never explored again.
 
@@ -180,11 +180,11 @@ The rings hold 1, 4, 7, 9, 10, 9, 7, 6 and 5 cells for 0 to 8 moves. Without the
 
 The order in which a cell's neighbours are tried can change which 8-move route is found, but not its length: with each of the 24 possible orders, the route has 8 moves (notebook). Fewest moves means shortest only because every move is 0.5 m long. Breadth-first search finds the cheapest route only when every edge costs the same (CS188 §1.3.2); the next Note lets the robot also move diagonally, and that condition fails.
 
-Breadth-first search pays for its guarantee by finishing each whole ring before going one move further: 57 expansions to reach the door. The opposite order goes straight for depth.
+Breadth-first search pays for its guarantee by finishing each whole ring before going one move further: 57 expansions to reach the door. The opposite order extends the deepest path first.
 
 ## 6. Depth-first search: dive, then back up
 
-> **Key point:** Taking the vertex that arrived last dives along one path until it is stuck, then backs up to the newest choice not yet tried. Depth-first search finds a route, but which one depends on the order the moves are tried: 22 moves, 11.0 m, on our grid, where breadth-first search found 8.
+> **Key point:** Taking the vertex that arrived last dives along one path until it reaches a dead end, then backs up to the newest choice not yet tried. Depth-first search finds a route, but which one depends on the order the moves are tried: 22 moves, 11.0 m, on our grid, where breadth-first search found 8.
 
 The second answer to the choice in Section 4 is the opposite of a queue: take the waiting vertex that arrived last. A pile of plates works this way: the plate put on top last is taken first. A frontier served from the end where vertices arrive is a **stack** (G-2553), "last in, first out".
 
@@ -209,7 +209,7 @@ Depth-first search keeps the first route it finds, whatever its length (CS188 §
 | depth-first | 8 to 26 moves | 9 to 65 |
 | breadth-first | 8 moves, every time | 54 to 58 |
 
-With a lucky order, depth-first search reaches the door after only 9 expansions, far fewer than breadth-first search ever needs. With an unlucky one it wanders for 65 expansions and returns a route of 26 moves, over three times as long as needed. Breadth-first search never gets lucky, but always returns the fewest moves (LaValle §2.2.2).
+With a favourable order, depth-first search reaches the door after only 9 expansions, far fewer than breadth-first search ever needs. With an unfavourable one it takes 65 expansions and returns a route of 26 moves, over three times as long as needed. Breadth-first search never finishes that early, but always returns the fewest moves (LaValle §2.2.2).
 
 > **Python:** one loop gives both searches; only the end of the frontier the next cell comes from differs. A `deque` (double-ended queue) can give its first item, `popleft()`, or its last, `pop()`. The stack takes new cells in reverse so that the first move tried ends on top.
 > ```python
@@ -240,7 +240,7 @@ Both searches expand each cell at most once, thanks to the visited list (the cel
 
 ### 7.1 Counting the work
 
-The tree of every path to the door had 40 paths on the waypoint graph; the loop of Section 4 needed 7 expansions. To see why the gap matters, count how each grows with the depth of the goal.
+The tree of every path to the door had 40 paths on the waypoint graph; the loop of Section 4 needed 7 expansions. To see why the gap matters, we count how each grows with the depth of the goal.
 
 On the grid, a robot that may make any of the 4 moves at each step has 4 choices for its first move, 4 for its second, and so on. After 8 moves:
 
@@ -257,7 +257,7 @@ $$b^d \text{ sequences}$$
 
 Figure 8 grows those levels one per frame. The grey bars count every sequence of $d$ moves; the orange bars count the paths of $d$ moves in our room that stay in free cells and never revisit a cell, the levels of the room's search tree.
 
-Both are drawn on an ordinary, linear axis, so the early levels look empty. Watch each grey bar dwarf all the bars before it.
+Both are drawn on an ordinary, linear axis, so the early levels look empty. Watch each grey bar grow to 4 times the one before it.
 
 ![Bar chart with one level d of the tree, its number of moves from the start, per frame, d from 0 to 8, on a linear axis. Grey bars: every sequence of d moves with 4 choices each, 4 to the power d: 1, 4, 16, 64, 256, 1,024, 4,096, 16,384 and 65,536. Orange bars: paths of d moves in the room that stay in free cells and never revisit a cell: 1, 4, 11, 30, 69, 158, 342, 728 and 1,447. The last frame: levels 0 to 8 hold 87,381 move sequences and 2,790 room paths; 16 of the 1,447 room paths on level 8 end at the door, while breadth-first search needed 57 expansions](images/growth.gif)
 
@@ -289,7 +289,7 @@ $$N = \frac{b^{d+1} - 1}{b - 1}$$
 
 Down to level 8 the tree holds 87,381 move sequences, and level 8 alone holds 65,536 of them, three quarters (notebook). So the work of listing every path is set by the last level, $b^d$.
 
-Work that is multiplied by a constant factor, here $b$, each time the problem grows by one step is [**exponential time**](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#32-why-it-is-slow) (G-734), the same blow-up as computing the Fibonacci numbers by plain recursion.
+Work that is multiplied by a constant factor, here $b$, each time the problem grows by one step is [**exponential time**](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#32-why-it-is-slow) (G-734), the same growth as computing the Fibonacci numbers by plain recursion.
 
 A computer does about $10^8$ simple steps per second (USACO Guide, time complexity). At one step per sequence:
 
@@ -305,7 +305,7 @@ Breadth-first search with its visited list, the cells already expanded, grows di
 
 $$76 + 2 \times 114 = 304 \text{ steps}$$
 
-Double the room and the steps roughly double; they do not multiply by 4 with every extra move.
+Doubling the room roughly doubles the steps; they do not multiply by 4 with every extra move.
 
 ### 7.2 Big-O notation
 
@@ -333,16 +333,16 @@ $$2 \times 4^8 = 131{,}072$$
 
 $$87{,}381 \le 131{,}072$$
 
-So, in Big-O terms:
+In Big-O terms:
 
 - listing every path takes $O(b^d)$: exponential in the depth $d$;
 - breadth-first and depth-first search with a visited list take $O(V + E)$: in proportion to the size of the graph (LaValle §2.2.2).
 
-A search with a visited list is cheap in the size of its graph. The trouble is that for many robots the graph itself is enormous.
+A search with a visited list is cheap in the size of its graph. However, for many robots the graph itself is enormous.
 
 ## 8. Why exact planning is hard: NP-hard and PSPACE-hard
 
-> **Key point:** Each number a robot's state needs multiplies the number of grid cells, so grids blow up exponentially with the number of numbers. Complexity theory says the general planning problem has no shortcut around this: it is PSPACE-hard, and even shortest paths among obstacles in 3D are NP-hard.
+> **Key point:** Each number a robot's state needs multiplies the number of grid cells, so the number of grid cells grows exponentially with the number of numbers. Complexity theory says the general planning problem has no known way around this growth: it is PSPACE-hard, and even shortest paths among obstacles in 3D are NP-hard.
 
 Our grid needs two numbers per state, $x$ and $y$, and has 112 cells. Each further number multiplies the cells by its number of values:
 
@@ -356,7 +356,7 @@ $$10^{12} / 10^8 = 10^4 \text{ s}$$
 
 $$10^4 \text{ s} = 2.8 \text{ hours}$$
 
-The search of Sections 4 to 6 is $O(V + E)$, but $V$, the number of vertices, is itself exponential in the number of numbers per state. Is there a cleverer exact method that avoids this blow-up? Complexity theory sorts problems by how fast the best possible method's work must grow, and its answer for planning is: almost certainly not.
+The search of Sections 4 to 6 is $O(V + E)$, but $V$, the number of vertices, is itself exponential in the number of numbers per state. Is there a cleverer exact method that avoids this growth? Complexity theory sorts problems by how fast the best possible method's work must grow, and its answer for planning is: almost certainly not.
 
 **The classes, in plain words.** Two groups of problems matter first, and together they are **P and NP** (G-2557) (MIT 6.006 L23 notes):
 
@@ -378,9 +378,9 @@ Figure 9 places these problems on one line of growing difficulty. Each class is 
 
 ![A horizontal line of growing difficulty with notches for P, NP, PSPACE and EXP (problems solvable in exponential time). Breadth-first search on our grid and shortest paths in 2D sit left of the P notch; Tetris with known pieces sits on the NP notch; Sokoban and the piano mover's problem on the PSPACE notch; n × n chess on the EXP notch. A red arrow from the NP notch rightwards is labelled NP-hard, with the shortest path among obstacles in 3D as an example; a purple arrow from the PSPACE notch is labelled PSPACE-hard. A note says the picture is a guide, not an exact scale, since no one has proved that P and NP, or NP and PSPACE, really differ](images/hardness.png)
 
-Our floor robot is lucky: shortest paths among polygons in 2D can be found in polynomial time (Wikipedia, Euclidean shortest path). The hard results are about the general problem, with many linked parts or a third dimension.
+Our floor robot's problem is easier: shortest paths among polygons in 2D can be found in polynomial time (Wikipedia, Euclidean shortest path). The hard results are about the general problem, with many linked parts or a third dimension.
 
-Because exact planning is hopeless there, practical planners give up some exactness: a grid search is only as fine as its cells, so a gap narrower than a cell can be missed, and later chapters sample the space at random instead (LaValle §6.5.1). Even when the graph is not hopeless, it may be too big to build in full before searching.
+Because exact planning is impractical there, practical planners give up some exactness: a grid search is only as fine as its cells, so a gap narrower than a cell can be missed, and later chapters sample the space at random instead (LaValle §6.5.1). Even when the search is feasible, the graph may be too big to build in full before searching.
 
 ## 9. Explicit and implicit graphs
 
@@ -410,7 +410,7 @@ An implicit graph is defined entirely by what a state holds and by the neighbour
 
 ## 10. Choosing the search state: the Markov rule
 
-> **Key point:** The search state must hold everything that decides which moves are allowed and what they cost. Leave out the robot's battery charge, and a depth-first search finds no route to a door 8 moves away; put it in, and it finds one.
+> **Key point:** The search state must hold everything that decides which moves are allowed and what they cost. Without the robot's battery charge in the state, a depth-first search finds no route to a door 8 moves away; with it, the search finds one.
 
 The implicit graph of Section 9 is only as good as its states. Suppose the robot's battery holds enough for 12 moves, and each 0.5 m move uses one unit.
 
@@ -418,7 +418,7 @@ Breadth-first search found an 8-move route in [Section 5](#5-breadth-first-searc
 
 Figure 11 shows why. Each visited cell, a cell already expanded, shows the charge left when the search first reached it.
 
-The search dives round the left of the room first and reaches the cell from 2.0 to 2.5 m along x and 2.0 to 2.5 m along y, two moves above S, after a detour, with only 2 units left. From there the door is 6 moves away, so every path through it runs flat. Later the search comes back to the cell below it with 11 units, but the purple cell is already visited, so it is never tried again.
+The search dives round the left of the room first and reaches the cell from 2.0 to 2.5 m along x and 2.0 to 2.5 m along y, two moves above S, after a detour, with only 2 units left. From there the door is 6 moves away, so the charge runs out on every path through it. Later the search comes back to the cell below it with 11 units, but the purple cell is already visited, so it is never tried again.
 
 ![The battery holds 12 moves. Depth-first search with the cell alone as its state, one expansion per frame; each blue visited cell shows the charge left when the search reached it (12 at S). In frame "expansion 31: reach this cell with 2 units left" the search reaches the cell two moves above S, outlined in purple, after a detour. The frame "stack empty after 42 expansions: no route" shows every cell the search reached; from the purple cell the door was 6 moves away. The last frame: with (cell, charge left) as the state, the same search finds a 12-move route, outlined in green, with the charge left written in each cell, after 182 expansions](images/battery.gif)
 
@@ -430,7 +430,7 @@ What a search keeps per vertex is its **search state** (G-2562): the quantities 
 
 $$76 \times 13 = 988 \text{ states}$$
 
-Breadth-first search happens to survive the cell-only state in this example, because it reaches every cell first by the fewest moves, with the most charge left: it reaches the door with 4 units to spare (notebook). The rule does not depend on luck: a search state must hold what decides the next moves and costs, and every extra quantity multiplies the states, as in [Section 8](#8-why-exact-planning-is-hard-np-hard-and-pspace-hard).
+Breadth-first search still finds a route with the cell-only state in this example, because it reaches every cell first by the fewest moves, with the most charge left: it reaches the door with 4 units to spare (notebook). The rule is general: a search state must hold what decides the next moves and costs, and every extra quantity multiplies the states, as in [Section 8](#8-why-exact-planning-is-hard-np-hard-and-pspace-hard).
 
 A Pac-Man that only has to reach a square needs its square as the state; one that must eat every dot needs its square plus a yes or no for each dot (CS188 §1.2). With the state chosen, the graph, the search loop and its cost are all in place for a room whose moves are all the same length.
 
@@ -509,7 +509,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Implicit graph (G-2561) | A graph never built in full: the search starts from the start vertex and calls a function that returns a vertex's neighbours when it is expanded, so only the vertices the search reaches are made; this is what makes state spaces of millions of states searchable. |
 | Search state (G-2562) | What a search keeps for each vertex: the quantities that decide which moves are allowed and what they cost, and nothing more, such as (cell, charge left) for a robot with a battery; leaving one out breaks the Markov property and can hide routes. |
 | [Map](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#21-what-a-map-is-for) (G-2331) | A robot's list of the objects in its surroundings that matter, with their positions and properties, such as the pink pole at (1, 3); readings only give positions relative to the robot, and the map turns them into a pose. |
-| [Occupancy grid](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensors are never sure. |
+| [Occupancy grid](../../../../RO/localization/02-bayes-filters/RO-009-maps-and-landmarks/RO-009-maps-and-landmarks.md#52-bitmaps-and-occupancy-grids) (G-2340) | A grid map that stores in each cell a number between 0 and 1, such as the probability that the cell is occupied, instead of a hard 0 or 1; the standard grid map of robotics, since sensor readings are uncertain. |
 | [State $x_t$](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#41-state-from-one-number-to-many) (G-2314) | The quantities a robot keeps track of at time $t$ because they decide what happens next, such as its pose, its speeds and moving things around it; it is what localization and filtering estimate. |
 | [Exponential time](../../../../DL/01-basics/DL-019-mlp-memoization/DL-019-mlp-memoization.md#32-why-it-is-slow) (G-734) | Work that is multiplied by a constant factor with every step of the input size. |
 | [Markov property](../../../../RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#43-complete-state-and-the-markov-property) (G-2316) | The property of a sequence of states that the future depends on the past only through the present state; it lets a filter forget the history and work from the latest state alone. |

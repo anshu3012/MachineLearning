@@ -17,11 +17,11 @@ tags: [subject/robotics, area/control, concept/pid-control, concept/pd-control, 
 
 The robot can hold a speed: the [closed loop](../RO-059-feedback-basics/RO-059-feedback-basics.md#31-measure-compare-correct) measures its speed and pushes 20 N harder for every m/s it is too slow, and on a ramp it holds 0.464 m/s where a fixed push gives 0.108 m/s. Its route also has corners. At one corner the next leg of the route runs at 45°, so the robot must turn its [**heading**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#22-why-position-is-not-enough-the-heading) (G-2284), the direction it faces, from 0° to 45° while it drives on at 0.5 m/s.
 
-Turning takes a twist from the wheels, a [**torque**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#33-where-to-push-slide-or-tip) (G-2808). The obvious rule is the one that worked for the speed: twist in proportion to the heading error, here 0.2 N m for every radian the heading is short of 45°. Figure 1 tries it. Watch the heading in the lower panel: it reaches 45° after 1.11 s, carries on to 90.5° at 2.22 s, comes back to −1.0° at 4.44 s and climbs again, so the robot snakes about the new leg.
+Turning takes a twist from the wheels, a [**torque**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#33-where-to-push-slide-or-tip) (G-2808). The obvious rule is the one that worked for the speed: twist in proportion to the heading error, here 0.2 N m for every radian between the heading and 45°. Figure 1 applies it. Watch the heading in the lower panel: it reaches 45° after 1.11 s, carries on to 90.5° at 2.22 s, comes back to −1.0° at 4.44 s and climbs again, so the robot swings to either side of the new leg.
 
 ![The robot reaches a corner of its route at 0.5 m/s and must turn from 0° to 45°; its torque is 0.2 N m per radian of heading error. Top: the floor seen from above, with the route's next leg dashed. Bottom: the heading over time. One frame per 0.2 s for 6.6 s: the heading swings to 90.5° at 2.22 s, back to −1.0° at 4.44 s, and up again. The last frame adds the PD controller of Section 4 (blue), which turns to 45° and stays](images/opening.gif)
 
-A second fault appears once the swing is cured: when one gearbox drags, a turn that should end at 45° stops at 39.27°, 5.73° short ([Section 5](#5-integral-action-removing-the-error-a-steady-load-leaves)). This Note fixes both, one part of the controller at a time:
+A second fault appears once the swing is removed: when one gearbox drags, a turn that should end at 45° stops at 39.27°, 5.73° short ([Section 5](#5-integral-action-removing-the-error-a-steady-load-leaves)). This Note fixes both, one part of the controller at a time:
 
 - why turning swings when driving does not: force, torque and the moment of inertia ([Section 2](#2-why-turning-swings-force-torque-and-the-moment-of-inertia));
 - proportional control, and why it overshoots ([Section 3](#3-proportional-control-twisting-in-proportion-to-the-error));
@@ -50,7 +50,7 @@ $$\tau = 1 \times 0.1 + 1 \times 0.1 = 0.2 \text{ N m}$$
 
 Then 0.2 N m is the largest torque the robot uses for turning. The torque sets how fast the turn rate, the [**angular velocity**](../../01-robot-models/RO-001-pose-and-differential-drive/RO-001-pose-and-differential-drive.md#41-why-we-describe-motion-by-linear-and-angular-velocity) (G-2292) $\omega$, changes. That rate of change is the **angular acceleration** (G-2956), in rad/s² (OpenStax §10.7).
 
-**From force to torque.** Take one small weight on a light rod, pushed square to the rod and turning about the rod's other end (OpenStax §10.7). With our numbers first:
+**From force to torque.** Consider one small weight on a light rod, pushed square to the rod and turning about the rod's other end (OpenStax §10.7). With our numbers first:
 
 - $m$ is the weight's mass, 1 kg;
 - $r$ is its distance from the turning point, 0.2 m;
@@ -111,9 +111,9 @@ Torque sets the angular acceleration just as force sets the acceleration. The di
 
 ### 2.3 Why the heading swings: one adding-up more
 
-Now the comparison. For the speed, force sets the acceleration, which adds up into the speed. For the heading, torque sets the angular acceleration, which adds up into the turn rate, which adds up again into the heading (Figure 3). With the heading error at 0, a proportional rule gives no torque, but the turn rate has been building up for the whole turn, so the robot turns on.
+We now compare the two. For the speed, force sets the acceleration, which adds up into the speed. For the heading, torque sets the angular acceleration, which adds up into the turn rate, which adds up again into the heading (Figure 3). With the heading error at 0, a proportional rule gives no torque, but the turn rate has been building up for the whole turn, so the robot keeps turning.
 
-![Driving (top): the force, up to 4 N, divided by the mass of 8 kg gives the acceleration, up to 0.5 m/s², which adds up over time into the speed, the quantity we control. Turning (bottom): the torque, up to 0.2 N m, divided by the moment of inertia of 0.1 kg m² gives the angular acceleration, up to 2 rad/s², which adds up into the turn rate, which adds up again into the heading, the quantity we control. At a heading of 45° the torque can be 0 while the turn rate is still large, so the robot turns on](images/chain.png)
+![Driving (top): the force, up to 4 N, divided by the mass of 8 kg gives the acceleration, up to 0.5 m/s², which adds up over time into the speed, the quantity we control. Turning (bottom): the torque, up to 0.2 N m, divided by the moment of inertia of 0.1 kg m² gives the angular acceleration, up to 2 rad/s², which adds up into the turn rate, which adds up again into the heading, the quantity we control. At a heading of 45° the torque can be 0 while the turn rate is still large, so the robot keeps turning](images/chain.png)
 
 The speed loop had a second advantage: the rolling drag grows with speed, so it absorbs any excess. Our heading model has no such drag: it leaves out the tyres' resistance to turning, so nothing absorbs an excess turn rate. The heading model, with:
 
@@ -147,7 +147,7 @@ $$e = \theta_r - \theta$$
 
 $$\tau = K_p\thinspace e$$
 
-At the corner the whole 45° is missing:
+At the corner the error is the full 45°:
 
 $$e = 0.785 - 0 = 0.785 \text{ rad}$$
 
@@ -161,19 +161,19 @@ At 1.11 s the torque is 0 and the robot turns at 1.12 rad/s. Past 45° the error
 
 ### 3.2 A spring with nothing to stop it
 
-The proportional rule acts like a spring between the robot's heading and the 45° line: the further the heading is pulled away, the harder it pulls back, 0.2 N m per rad. MR §11.2 puts it the same way: "designing a controller is much like choosing the spring constant" and the damping of a mass on a spring. A weight on a spring with nothing to slow it bounces for ever, and so does the heading here: with no friction on turning, nothing takes the motion out, and the swing does not die out.
+The proportional rule acts like a spring between the robot's heading and the 45° line: the further the heading is pulled away, the harder it pulls back, 0.2 N m per rad. MR §11.2 puts it the same way: "designing a controller is much like choosing the spring constant" and the damping of a mass on a spring. A weight on a spring with nothing to slow it bounces for ever, and so does the heading here: with no friction on turning, nothing slows the motion, and the swing does not die out.
 
 A different gain does not help. With 0.1 N m per rad (faint in Figure 4) the pull is weaker, so the robot turns more slowly and swings more slowly, its first peak at 3.14 s instead of 2.22 s, but just as far. A stronger spring swings faster, not less.
 
-The swing comes from the turn rate the robot builds up, which the proportional rule never looks at. The speed loop of [feedback basics](../RO-059-feedback-basics/RO-059-feedback-basics.md#32-the-ramp-again) settled under the same kind of rule because rolling drag damped it; a proportional controller swings for ever only when nothing damps the motion, as here, with no friction on turning. The fix is to look at how fast the error is changing.
+The swing comes from the turn rate the robot builds up, which the proportional rule does not use. The speed loop of [feedback basics](../RO-059-feedback-basics/RO-059-feedback-basics.md#32-the-ramp-again) settled under the same kind of rule because rolling drag damped it; a proportional controller swings for ever only when nothing damps the motion, as here, with no friction on turning. The fix is to look at how fast the error is changing.
 
 ## 4. Derivative action: braking before the target
 
 > **Key point:** Adding a torque that pushes against how fast the error is changing brakes the turn while the robot is still short of 45°. With a derivative gain of 0.283 N m per rad/s the heading reaches 45° without passing it.
 
-### 4.1 Look at how fast the error shrinks
+### 4.1 Reacting to how fast the error changes
 
-Figure 1's swing happens because the robot reaches 45° still turning at 1.12 rad/s. A driver steering back into a lane does not wait for the lane line to start straightening the wheel: seeing the car close in fast, they counter-steer early. The controller can do the same if it looks at how fast the error is shrinking, the error's rate of change, its [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) with respect to time. A shrinking error means the robot is already moving towards 45°, so the controller should push less, or even push back.
+Figure 1's swing happens because the robot reaches 45° still turning at 1.12 rad/s. A driver steering back into a lane does not wait for the lane line to start straightening the wheel: seeing the car close in fast, they counter-steer early. The controller can do the same if it measures how fast the error is shrinking, the error's rate of change, its [**derivative**](../../../../MA/06-calculus/MA-061-derivatives-of-one-variable/MA-061-derivatives-of-one-variable.md#41-from-secant-to-tangent) (G-595) with respect to time. A shrinking error means the robot is already moving towards 45°, so the controller should push less, or even push back.
 
 The computer measures the heading every 10 ms, so it estimates the derivative from two readings in a row: the change in the error divided by the 0.01 s between them. With the wanted heading fixed at 45°, the error shrinks exactly as fast as the heading grows, so this rate of change is minus the turn rate.
 
@@ -200,7 +200,7 @@ Still 26° short of 45°, the PD robot already brakes, and turns at 0.38 rad/s. 
 
 Figure 5 keeps $K_p$ at 0.2 N m per rad and raises $K_d$ one value per frame, redrawing the turn each time. The lower panel shows the two parts of the torque for the bold curve: the P part (red) pulls towards 45°, the D part (purple) pushes against the turning.
 
-![The derivative gain swept with Kp = 0.2 N m per rad: one Kd per frame, from 0 to 0.6 N m per rad/s, the heading over 12 s for the current Kd (bold) and the earlier ones (faint). Below: the P part (red) and D part (purple) of the torque for the current Kd. Kd = 0 swings to 92.6° within 12 s; 0.1 overshoots to 58.8°; 0.283 reaches 45.0° without passing it and stays within 1° after 4.07 s; 0.6 creeps up and needs 10.94 s. The last frame holds these four](images/pd_sweep.gif)
+![The derivative gain swept with Kp = 0.2 N m per rad: one Kd per frame, from 0 to 0.6 N m per rad/s, the heading over 12 s for the current Kd (bold) and the earlier ones (faint). Below: the P part (red) and D part (purple) of the torque for the current Kd. Kd = 0 swings to 92.6° within 12 s; 0.1 overshoots to 58.8°; 0.283 reaches 45.0° without passing it and stays within 1° after 4.07 s; 0.6 rises slowly and needs 10.94 s. The last frame holds these four](images/pd_sweep.gif)
 
 What the sweep shows (notebook):
 
@@ -213,7 +213,7 @@ What the sweep shows (notebook):
 
 Too little derivative leaves a swing; too much makes the turn sluggish, because the brake works against the turn from the start. Near 0.28 the swing past 45° just disappears, and we use 0.283 N m per rad/s; [reading a controller's response](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#51-natural-frequency-and-damping-ratio) shows where that value comes from.
 
-**A gotcha: the derivative of a noisy reading.** Dividing a change by 0.01 s magnifies every small error in the readings. If each heading reading jitters by 0.005 rad (0.29°), the differenced error jitters by about 0.71 rad/s, and the D part by about 0.2 N m, the robot's whole torque (notebook):
+**A pitfall: the derivative of a noisy reading.** Dividing a change by 0.01 s magnifies every small error in the readings. If each heading reading jitters by 0.005 rad (0.29°), the differenced error jitters by about 0.71 rad/s, and the D part by about 0.2 N m, the robot's whole torque (notebook):
 
 $$\sqrt{2} \times 0.005 / 0.01 = 0.71 \text{ rad/s}$$
 
@@ -225,7 +225,7 @@ The PD controller turns the robot to 45° without a swing, where the proportiona
 
 ## 5. Integral action: removing the error a steady load leaves
 
-> **Key point:** A gearbox that drags leaves the PD robot 5.73° short, because only an error can produce the torque that fights the drag. Adding the error up over time and twisting in proportion to the sum removes the error: the sum keeps growing until it alone supplies that torque.
+> **Key point:** A gearbox that drags leaves the PD robot 5.73° short, because only an error can produce the torque that opposes the drag. Adding the error up over time and twisting in proportion to the sum removes the error: the sum keeps growing until it alone supplies that torque.
 
 ### 5.1 The dragging gearbox
 
@@ -235,7 +235,7 @@ The running example changes here: the robot's right gearbox has worn and drags, 
 
 $$I\thinspace\dot\omega = \tau + \tau_d$$
 
-The PD robot of Section 4 now stops at 39.27°, 5.73° short (Figure 6, blue). Once it has settled it no longer turns, so the turn rate and the error's rate of change are both 0, and the torques must balance: the P part alone holds off the drag. Numbers first:
+The PD robot of Section 4 now stops at 39.27°, 5.73° short (Figure 6, blue). Once it has settled it no longer turns, so the turn rate and the error's rate of change are both 0, and the torques must balance: the P part alone balances the drag. Numbers first:
 
 $$0 = 0.2\thinspace e - 0.02$$
 
@@ -251,7 +251,7 @@ $$e = -\tau_d / K_p$$
 
 The error left once everything has settled, the steady-state error, is not 0, for the same reason the speed loop kept 0.036 m/s on the [ramp](../RO-059-feedback-basics/RO-059-feedback-basics.md#32-the-ramp-again): the controller gives the extra torque only through an error (FBS §1.6). A larger $K_p$ shrinks the error but never removes it, and the derivative part cannot help, since it is 0 once the robot has stopped turning.
 
-### 5.2 Add the error up
+### 5.2 Adding up the error
 
 A driver whose car pulls to one side notices, after a while, that holding the wheel straight keeps leaving them off course, and holds it a little to the other side. The controller can do the same by keeping a running sum of the error: every 10 ms it adds the error times 0.01 s. While an error persists, the sum keeps growing, and so does the torque it gives. For example, three readings in a row with an error of 0.1 rad add:
 
@@ -259,14 +259,14 @@ $$0.1 \times 0.01 + 0.1 \times 0.01 + 0.1 \times 0.01$$
 
 $$= 0.003 \text{ rad s}$$
 
-As the readings come closer together, this running sum becomes the area under the curve of the error against time, its integral, written $\int_0^t e\thinspace dt$: the sign $\int$ means "add up, step by step, from time 0 to now". A torque in proportion to the error's running sum is **integral action** (G-2963), with the **integral gain** (G-2964) $K_i$ (FBS §1.6). Together with the P and D parts it makes a **PID controller** (G-2965) (FBS §11.1, eq. 11.1). With the symbols of [Section 4.1](#41-look-at-how-fast-the-error-shrinks), the error $e$, its rate of change $de/dt$ and the gains $K_p$, 0.2 N m per rad, and $K_d$, 0.283 N m per rad/s, and:
+As the readings come closer together, this running sum becomes the area under the curve of the error against time, its integral, written $\int_0^t e\thinspace dt$: the sign $\int$ means "add up, step by step, from time 0 to now". A torque in proportion to the error's running sum is **integral action** (G-2963), with the **integral gain** (G-2964) $K_i$ (FBS §1.6). Together with the P and D parts it makes a **PID controller** (G-2965) (FBS §11.1, eq. 11.1). With the symbols of [Section 4.1](#41-reacting-to-how-fast-the-error-changes), the error $e$, its rate of change $de/dt$ and the gains $K_p$, 0.2 N m per rad, and $K_d$, 0.283 N m per rad/s, and:
 
 - $K_i$ is the integral gain, 0.05 N m per rad s;
 - $\int_0^t e\thinspace dt$ is the error's running sum from the corner to now, in rad s.
 
 $$\tau = K_p\thinspace e + K_i \int_0^t e\thinspace dt + K_d\thinspace\frac{de}{dt}$$
 
-**Why it ends with no error.** Suppose the robot settles, its heading no longer changing. Then the running sum must stop changing too, and a sum stops changing only if each new addition, the error times 0.01 s, is 0. So whenever a PID controller settles, it settles with no error, whatever the drag (FBS §11.1, "the magic of integral action"). The sum ends wherever its torque cancels the drag:
+**Why it ends with no error.** Suppose the robot settles, its heading no longer changing. Then the running sum must stop changing too, and a sum stops changing only if each new addition, the error times 0.01 s, is 0. So whenever a PID controller settles, it settles with no error, whatever the drag (FBS §11.1, "the magic of integral action"). The sum settles where its torque cancels the drag:
 
 $$0.05 \times \text{sum} = 0.02$$
 
@@ -276,7 +276,7 @@ Figure 6 runs the PD and PID robots through the corner with the dragging gearbox
 
 ![The dragging gearbox, 0.02 N m to the right, on two robots at the corner: PD (Kp 0.2, Kd 0.283; blue) and PID (the same plus Ki 0.05; green); one frame per 0.25 s for 15 s. Top: the floor seen from above, the route's next leg dashed. Middle: the heading. Bottom: the PID's integral part, Ki times the running sum of the error, against the 0.02 N m needed to cancel the drag. PD stops at 39.27°; the PID's sum grows to 0.98 rad s by 3 s (0.049 N m), the heading passes 45° to 51.78° at 4.74 s, and the sum shrinks back until the integral part is 0.02 N m and the heading 45°](images/pid_anim.gif)
 
-The sum grows fastest at the start, while the error is large: by 3 s it has reached 0.98 rad s, far more than the 0.4 rad s it will need. To shrink it back, the error has to turn negative, so the heading passes 45°, up to 51.78° at 4.74 s. Then the sum unwinds, and the heading settles at 45°, where the PD robot stopped at 39.27°, with the integral part at 0.02 N m: the integral part alone now holds off the drag, with no error left.
+The sum grows fastest at the start, while the error is large: by 3 s it has reached 0.98 rad s, far more than the 0.4 rad s it will need. To shrink it back, the error has to turn negative, so the heading passes 45°, up to 51.78° at 4.74 s. Then the sum unwinds, and the heading settles at 45°, where the PD robot stopped at 39.27°, with the integral part at 0.02 N m: the integral part alone now balances the drag, with no error left.
 
 ### 5.3 Too much integral
 
@@ -294,9 +294,9 @@ What the sweep shows (notebook):
 | 0.4 | 81.28° | 38.51 s |
 | 0.6 | 89.8°, 91.7°, 93.6°, 95.8°, … | never |
 
-A larger integral gain makes the sum act sooner, but it also overshoots harder and settles more slowly. At 0.6 the swings grow without end: the controller has become unstable, meaning that after a disturbance the heading moves ever further from its target instead of coming back to rest. MR §11.4 makes the same point: the integral gain has an upper limit for stability, and "the integral term can improve steady-state response, but it can worsen the transient response". So robot controllers often keep $K_i$ small, or 0, and hold the integral part inside fixed bounds (MR §11.4). Holding it inside bounds is called [limiting the integral term](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#51-clamping-stop-integrating-while-saturated), one of the fixes for what goes wrong when the torque is at its limit.
+A larger integral gain makes the sum act sooner, but it also overshoots more and settles more slowly. At 0.6 the swings grow without end: the controller has become unstable, meaning that after a disturbance the heading moves ever further from its target instead of coming back to rest. MR §11.4 makes the same point: the integral gain has an upper limit for stability, and "the integral term can improve steady-state response, but it can worsen the transient response". So robot controllers often keep $K_i$ small, or 0, and hold the integral part inside fixed bounds (MR §11.4). Holding it inside bounds is called [limiting the integral term](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#51-clamping-stop-integrating-while-saturated), one of the fixes for the problems that arise when the torque is at its limit.
 
-The same integral also cures the speed loop's ramp error: adding an integral gain of 10 N per metre of summed error (the speed error's running sum, in m/s times s) to the speed loop of feedback basics, the speed dips to 0.472 m/s on the ramp and returns to 0.500 m/s (notebook), instead of staying at 0.464 m/s.
+The same integral also removes the speed loop's ramp error: adding an integral gain of 10 N per metre of summed error (the speed error's running sum, in m/s times s) to the speed loop of feedback basics, the speed dips to 0.472 m/s on the ramp and returns to 0.500 m/s (notebook), instead of staying at 0.464 m/s.
 
 ## 6. The three parts together: past, present and future
 
@@ -328,7 +328,7 @@ Not every loop needs all three. A controller with no integral part is a PD contr
 
 The PID controller of Section 5 runs, nearly line for line, in the stacks robots use. The code below was read for this Note.
 
-**ros2_control.** The PID used by `ros2_control`'s `pid_controller` is `Pid::compute_command` in `control_toolbox/src/pid.cpp` (repository `ros-controls/control_toolbox`). Its steps are those of [Section 4.1](#41-look-at-how-fast-the-error-shrinks) and [Section 5.2](#52-add-the-error-up):
+**ros2_control.** The PID used by `ros2_control`'s `pid_controller` is `Pid::compute_command` in `control_toolbox/src/pid.cpp` (repository `ros-controls/control_toolbox`). Its steps are those of [Section 4.1](#41-reacting-to-how-fast-the-error-changes) and [Section 5.2](#52-adding-up-the-error):
 
 - the derivative from two readings: `d_error_ = (error - p_error_last_) / dt_s;`
 - the P part: `p_term = gains_.p_gain_ * p_error_;`
@@ -338,7 +338,7 @@ The PID controller of Section 5 runs, nearly line for line, in the stacks robots
 
 **PX4.** The flight software of many drones turns each axis with a PID on the turn rate, in `src/lib/rate_control/rate_control.cpp` (repository `PX4/PX4-Autopilot`): `torque = _gain_p.emult(rate_error) + _rate_int - _gain_d.emult(angular_accel) + _gain_ff.emult(rate_sp);`. Two details match this Note:
 
-- its D part uses the measured angular acceleration, not a differenced error, the gotcha of [Section 4.2](#42-how-much-derivative);
+- its D part uses the measured angular acceleration, not a differenced error, the pitfall of [Section 4.2](#42-how-much-derivative);
 - the yaw-rate gains in `src/modules/mc_rate_control/mc_rate_control_params.yaml` default to `MC_YAWRATE_P` 0.2, `MC_YAWRATE_I` 0.1 and `MC_YAWRATE_D` 0.0, and the integral gain's description reads "Can be set to compensate static thrust difference or gravity center offset": a steady load like our dragging gearbox.
 
 **Legged robots trained by reinforcement learning.** In `legged_gym` (repository `leggedrobotics/legged_gym`), the learned policy outputs a target angle for each joint, and a PD controller turns it into a torque, in `_compute_torques` of `legged_gym/envs/base/legged_robot.py`: `torques = self.p_gains*(actions_scaled + self.default_dof_pos - self.dof_pos) - self.d_gains*self.dof_vel`. Its D part is minus a gain times the measured joint speed, as our gyro would give. The A1 robot's settings in `legged_gym/envs/a1/a1_config.py` are a stiffness of 20 N m per rad and a damping of 0.5 N m per rad/s: $K_p$ and $K_d$ under other names.
@@ -360,10 +360,10 @@ With $K_p$ = 0.2 N m per rad, $K_d$ = 0.283 N m per rad/s and $K_i$ = 0.05 N m p
 - The heading is two adding-ups away from the torque, the speed only one, so a heading can arrive at its target still turning while a speed cannot.
 - **Proportional control** (G-2958) with **proportional gain** (G-2959) $K_p$ acts like a spring, so without damping it swings for ever; a larger gain swings faster, not less.
 - **PD control** (G-2962) adds a torque proportional to the error's rate of change with **derivative gain** (G-2961) $K_d$, which acts like a damper, so near 0.28 N m per rad/s the swing past 45° disappears; it magnifies sensor noise, so real controllers use a measured turn rate.
-- A steady load leaves an error under P or PD, 0.1 rad for 0.02 N m of drag, because only an error can produce the torque that holds the load off.
+- A steady load leaves an error under P or PD, 0.1 rad for 0.02 N m of drag, because only an error can produce the torque that balances the load.
 - The running sum with **integral gain** (G-2964) $K_i$ grows while any error remains, so a settled PID loop has no error; it overshoots, and too large a gain, 0.6 here, makes the loop unstable.
 
-The robot can now turn to a heading and hold it against a steady drag. Still missing: words and numbers to judge a turn, how far it overshoots, how fast it settles and why the swing disappears near 0.28; [reading a controller's response](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#1-overview) supplies them.
+The robot can now turn to a heading and hold it against a steady drag. Words and numbers to judge a turn are still missing: how far it overshoots, how fast it settles and why the swing disappears near 0.28; [reading a controller's response](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#1-overview) supplies them.
 
 ## 9. Sources
 
@@ -391,10 +391,10 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Term | Meaning |
 |---|---|
 | Angular acceleration (G-2956) | How fast the turn rate changes, in rad/s², such as 2 rad/s² when 0.2 N m turns a body of 0.1 kg m²; a torque sets it, and it adds up over time into the turn rate. |
-| Moment of inertia (G-2955) | How hard a body is to spin up or slow down about an axis: the sum of each bit of mass times its distance from the axis squared, such as 0.1 kg m² for the robot about its vertical axis; it plays for turning the part mass plays for driving. |
+| Moment of inertia (G-2955) | How hard a body is to spin up or slow down about an axis: the sum of each small piece of mass times its distance from the axis squared, such as 0.1 kg m² for the robot about its vertical axis; it plays for turning the part mass plays for driving. |
 | Newton's second law for rotation (G-2957) | The net torque on a body equals its moment of inertia times its angular acceleration, tau = I alpha; it gives how fast a torque spins a body up, the turning form of F = ma. |
 | Proportional control (P control) (G-2958) | Feedback that sets the command in proportion to the control error, such as a torque of 0.2 N m per rad of heading error; it pulls the output towards the reference like a spring, but alone it swings when nothing damps the motion and leaves an error under a steady load. |
-| Proportional gain (G-2959) | The factor K_p by which a proportional controller multiplies the error, such as 0.2 N m per rad or 20 N per m/s; a larger gain corrects harder, and for an undamped plant swings faster. |
+| Proportional gain (G-2959) | The factor K_p by which a proportional controller multiplies the error, such as 0.2 N m per rad or 20 N per m/s; a larger gain gives a stronger correction, and for an undamped plant swings faster. |
 | Derivative action (G-2960) | A part of the command in proportion to the error's rate of change, estimated from two readings in a row; it pushes against fast changes, so it brakes a turn before the target and damps swings, but it magnifies sensor noise. |
 | Derivative gain (G-2961) | The factor K_d by which derivative action multiplies the error's rate of change, such as 0.283 N m per rad/s; too little leaves a swing, too much makes the response sluggish. |
 | PD control (G-2962) | Feedback with a proportional part and a derivative part, such as K_p e + K_d de/dt; it acts like a spring and a damper, so it can bring a frictionless joint or heading to its target without swinging. |

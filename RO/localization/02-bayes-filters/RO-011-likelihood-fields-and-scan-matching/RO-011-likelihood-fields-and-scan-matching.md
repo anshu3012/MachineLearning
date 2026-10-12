@@ -17,11 +17,11 @@ tags: [subject/robotics, area/localization, concept/likelihood-field, concept/sc
 
 ![The 5 m by 4 m room with a box in the lower right. The robot at pose A (2, 2, 0) sends 12 laser beams, one every 30 degrees; each beam ends at a red dot on a wall or on the box, except the forward one, which stops at a person 1 m ahead](images/overview.png)
 
-So far the robot can score a guessed pose from a laser scan with the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#52-back-to-the-opening-scan) (G-2377): it casts every beam through the map and compares each reading with the distance it should have read, and in this room it rated the true pose A 215 times above a pose 1 m off, even with a person in front. What still breaks is that it is slow and jumpy. A localization filter may try hundreds of guessed poses for every scan, and each guess needs a ray cast per beam: 15 million small steps per scan for 1000 poses ([Section 2.1](#21-it-is-slow)). And a 1 cm move can make one beam slip past an edge and change its score 270-fold ([Section 2.2](#22-it-jumps-at-edges)). This Note adds a score that looks only at where each beam ends.
+So far the robot can score a guessed pose from a laser scan with the [beam model](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#52-back-to-the-opening-scan) (G-2377): it casts every beam through the map and compares each reading with the distance it should have read, and in this room it rated the true pose A 215 times above a pose 1 m off, even with a person in front. The remaining problems are that it is slow and that its score jumps. A localization filter may try hundreds of guessed poses for every scan, and each guess needs a ray cast per beam: 15 million small steps per scan for 1000 poses ([Section 2.1](#21-it-is-slow)). A 1 cm move can also make one beam slip past an edge and change its score 270-fold ([Section 2.2](#22-it-jumps-at-edges)). This Note adds a score that looks only at where each beam ends.
 
 We keep the 5 m by 4 m room, pose A and person of the beam model, and add one box (Figure 1) so that a beam has an edge to slip past. The Note covers:
 
-- why the beam model is too slow and too jumpy for some uses ([Section 2](#2-why-the-beam-model-is-not-enough));
+- why the beam model is too slow for some uses and why its score jumps at edges ([Section 2](#2-why-the-beam-model-is-not-enough));
 - the likelihood field model: look only at where each beam ends ([Section 3](#3-the-likelihood-field-model));
 - how the whole map is turned into a look-up picture once, in advance, and what that picture gives up ([Section 4](#4-precomputing-the-field));
 - scan matching: using a **likelihood field** (G-2393) built from one scan to find how far the robot moved before the next ([Section 5](#5-scan-matching-how-far-did-the-robot-move));
@@ -29,7 +29,7 @@ We keep the 5 m by 4 m room, pose A and person of the beam model, and add one bo
 
 ## 2. Why the beam model is not enough
 
-> **Key point:** The **beam model** (G-2377) needs a ray cast for every beam of every guessed pose, and a tiny change of pose can make a beam slip past an edge and change its score 270-fold.
+> **Key point:** The **beam model** (G-2377) needs a ray cast for every beam of every guessed pose, and a 1 cm change of pose can make a beam slip past an edge and change its score 270-fold.
 
 ### 2.1 It is slow
 
@@ -58,7 +58,7 @@ Figure 2 plays the slide, with the robot's y going from 1.70 m down to 1.40 m. W
 
 ![Animation: the robot slides down the room 1 cm at a time, its y coordinate falling from 1.70 m to 1.40 m, and one beam at 330 degrees reads 1.86 m. Left: the ray cast from the robot, blue while it meets the box after an expected range z* of 1.85 m, orange from y = 1.52 m, when it slips under the box's corner and meets the bottom wall after 3.04 m; the green dot is where the reading 1.86 m ends. Right: the density of that reading as y falls: the beam model (red) jumps from 5.88 to 0.0218 per m between y = 1.53 and 1.52 m, while the likelihood field (green) changes smoothly. The last frame shows both beams and both full curves](images/edge_anim.gif)
 
-A score that jumps like this is hard to search: a method that improves a guess by small steps, such as [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862), finds no slope to follow on the flat parts and a cliff at the edge. The green curve in Figure 2 is the **likelihood field** (G-2393) of the next section. The field changes smoothly with the pose, which is the second thing we gain (Freiburg slides, "Properties of endpoint model").
+A score that jumps like this is hard to search: a method that improves a guess by small steps, such as [gradient descent](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#21-which-way-to-move) (G-862), finds no slope to follow on the flat parts and a sudden drop at the edge. The green curve in Figure 2 is the **likelihood field** (G-2393) of the next section. The field changes smoothly with the pose, which is the second thing we gain (Freiburg slides, "Properties of endpoint model").
 
 ## 3. The likelihood field model
 
@@ -102,7 +102,7 @@ $$d(3, 2) = 1.0 \text{ m (box corner)}$$
 
 ### 3.2 From distance to density
 
-An end point 3 cm from a wall is what a good reading looks like; one 1 m away from everything is not. We turn the distance into a density with two parts (Thrun §6.4; Freiburg slides, "Endpoint model"; UChicago class 05):
+An end point 3 cm from a wall is typical of a good reading; one 1 m from every obstacle is not. We turn the distance into a density with two parts (Thrun §6.4; Freiburg slides, "Endpoint model"; UChicago class 05):
 
 - **a Gaussian of the distance:** sensor noise scatters end points a little around the surface, so we use a [Gaussian](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is) (G-827) of $d$ with mean 0 and [**standard deviation**](../../../../MA/01-descriptive-stats/MA-006-measures-of-dispersion/MA-006-measures-of-dispersion.md#5-standard-deviation) (G-1871) $\sigma$, the typical distance of an end point from the surface;
 - **a uniform part:** readings with no modelled cause, such as the person, must not get density 0, so every reading from 0 to $z_{\max}$ gets the same small density, the [**random measurement** part $p_{\text{rand}}$](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#44-random-readings-the-uniform-part) (G-2381) of the **beam model** (G-2377).
@@ -141,7 +141,7 @@ $$p = 0 + 0.02 = 0.02 \text{ per m}$$
 
 Two kinds of reading need a rule of their own:
 
-- **Max-range readings** are skipped. Their end point is not on any surface; it only says nothing came back (UChicago class 05; Thrun §6.4).
+- **Max-range readings** are skipped. Their end point is not on any surface; it only indicates that no echo returned (UChicago class 05; Thrun §6.4).
 - **The whole scan** is the product of its beams, as for the beam model, because the beams are close to [conditionally independent](../RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#23-why-a-whole-scan-is-a-product-of-beams) given the pose and the map. In practice we add logs instead of multiplying, which gives the same ranking without very small numbers.
 
 This mixture, evaluated at beam end points, is the **likelihood field model** (G-2391), also called the endpoint model (Thrun §6.4; Freiburg slides).
@@ -172,7 +172,7 @@ Adding the logs of all 12 densities gives the scan's log-likelihood at each gues
 | (2, 2.3, 0): 30 cm off | −19.29 |
 | B, (3, 2, 0): 1 m off | −15.75 |
 
-The true pose scores highest, and poses a few centimetres or degrees away score only a little lower: the smooth fall-off of [Section 2.2](#22-it-jumps-at-edges). The person's beam costs every pose the same, because its end point is far from every obstacle at all of them.
+The true pose scores highest, and poses a few centimetres or degrees away score only a little lower: the smooth fall-off of [Section 2.2](#22-it-jumps-at-edges). The person's beam gives every pose the same low density, because its end point is far from every obstacle at all of them.
 
 > **Python:** the **likelihood field model** (G-2391) for one scan.
 > ```python
@@ -221,13 +221,13 @@ The field is computed once per map, so its cost does not grow with the number of
 
 The model "ignores physical properties of beams" (Freiburg slides, "Properties of endpoint model"): it looks at the end point and ignores what lies between the robot and it. Two consequences follow.
 
-**The field sees through walls.** Figure 9 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies next to the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) knows this and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
+**The field sees through walls.** Figure 9 shows a guessed pose C, (3.9, 2, −90°), above the box, facing down. Suppose a reading of 1.98 m. Its end point, (3.9, 0.02), lies next to the bottom wall, so the field scores it 3.45 per m, a near-perfect reading. But from C the beam would meet the box after 0.8 m; it could never reach the wall. The **beam model** (G-2377) accounts for the box and gives the reading 0.016 per m (Thrun §6.4 lists the same drawback).
 
 ![A guessed pose C above the box, facing down. A reading of 1.98 m would end next to the bottom wall, which the likelihood field scores 3.45 per m; the beam model knows the box blocks the beam after 0.8 m and gives 0.016 per m](images/sees_through.png)
 
-**The field does not model people.** The field has no short-reading part. A person's reading is scored only by the uniform part of [Section 3.2](#32-from-distance-to-density), 0.02 per m, wherever it lands. The cost is mild in practice, because the uniform part still keeps the scan's product from reaching 0, and the person costs every guessed pose the same.
+**The field does not model people.** The field has no short-reading part. A person's reading is scored only by the uniform part of [Section 3.2](#32-from-distance-to-density), 0.02 per m, wherever it lands. The cost is mild in practice, because the uniform part still keeps the scan's product from reaching 0, and the person's reading lowers the score of every guessed pose by the same factor.
 
-So the trade is: physics for speed and smoothness. The trade pays when many poses must be scored, as in a particle filter, and when the score is searched by small steps, as in **scan matching** (G-2395), lining up two scans to measure the robot's motion ([Section 5](#5-scan-matching-how-far-did-the-robot-move)) (Freiburg slides, "Properties of endpoint model").
+So the model trades physical accuracy for speed and smoothness. The trade is worthwhile when many poses must be scored, as in a particle filter, and when the score is searched by small steps, as in **scan matching** (G-2395), lining up two scans to measure the robot's motion ([Section 5](#5-scan-matching-how-far-did-the-robot-move)) (Freiburg slides, "Properties of endpoint model").
 
 ## 5. Scan matching: how far did the robot move?
 
@@ -237,7 +237,7 @@ So the trade is: physics for speed and smoothness. The trade pays when many pose
 
 The smooth score of [Section 3](#3-the-likelihood-field-model), with no 270-fold jump, lets a search slide one scan over another to measure how far the robot moved. Wheel odometry estimates motion by counting wheel turns, and wheels slip, so its estimate drifts ([**wheel odometry**](../RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#32-why-odometry-drifts-and-why-it-needs-calibration) (G-2321): motion measured from wheel turns, with errors that grow as the robot drives). A laser sees the same walls before and after a move, and they shift in its view by exactly the robot's motion. Finding that shift is **scan matching** (G-2395): aligning two scans to find the motion between the poses they were taken from (Olson 2009).
 
-Our test: the robot takes scan 1 at (2, 2, 0), then drives to (2.3, 2.1, 5°). Odometry claims it reached (2.3, 2.0, 0): it missed the 0.1 m sideways slip and the 5° turn. Each scan has 360 beams, one per degree.
+Our test: the robot takes scan 1 at (2, 2, 0), then drives to (2.3, 2.1, 5°). Odometry reports that it reached (2.3, 2.0, 0): it missed the 0.1 m sideways slip and the 5° turn. Each scan has 360 beams, one per degree.
 
 ### 5.2 A likelihood field from the first scan
 
@@ -349,7 +349,7 @@ $$r = \frac{-0.5}{\sqrt{1.5 \times 1.5}}$$
 
 $$= -0.5 / 1.5 = -0.333$$
 
-Placed right, the two lists are identical, so $r = 1$. A local map with half its cells marked at random gets $r = 0.001$ against the room, although its raw sum is 113: the correlation sees that it agrees with the walls no better than chance.
+Placed right, the two lists are identical, so $r = 1$. A local map with half its cells marked at random gets $r = 0.001$ against the room, although its raw sum is 113: the correlation shows that it agrees with the walls no better than chance.
 
 The score is used as the likelihood of the reading at that pose, a weight for the pose, and a likelihood cannot be negative. The correlation can be, as the placement off by one shows. Only a positive correlation counts as evidence for a pose; a negative one is treated the same as no correlation at all. So the score of a placement is the correlation cut at zero (Thrun §6.5; Omr et al. 2024):
 
@@ -379,11 +379,11 @@ So map matching found the motion to within one cell (0.1 m) and one degree. The 
 - The **likelihood field model** (G-2391) scores a reading by the distance from its end point to the nearest obstacle, because a correct reading ends on a surface; the density is a Gaussian of that distance plus a uniform part $p_{\text{rand}}$, so no reading scores 0.
 - The distances depend only on where the end point lands, not on the pose, so the whole field is computed once with a **distance transform** (G-2394) and every later score is a look-up: about 250 times faster than the beam model in our test.
 - The field changes smoothly with the pose, because moving the robot moves each end point only a little, so a search by small steps can climb it; the beam model jumps when a beam slips past an edge.
-- The price is physics: the field ignores what lies along the beam, so it can score a reading that would have to pass through a wall, and it has no part for people.
-- **Scan matching** (G-2395) builds a field from one scan and slides the next scan over it; the best shift, here (0.3 m, 0.1 m, 5°), is the motion the odometry got wrong.
+- The cost is physical accuracy: the field ignores what lies along the beam, so it can score a reading that would have to pass through a wall, and it has no part for people.
+- **Scan matching** (G-2395) builds a field from one scan and slides the next scan over it; the best shift, here (0.3 m, 0.1 m, 5°), is the motion that odometry measured wrongly.
 - **Map matching** (G-2397) compares a local map of the scan with the global map by their correlation, cut at zero, because the raw sum of products would reward a local map that marks everything.
 
-Now the robot can score hundreds of guessed poses per scan quickly, and measure its own motion by matching one scan against the last. Still missing: one laser end point looks like any other, so a score says how well the scan fits the walls but not which object each beam hit; a [landmark reading](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#1-overview), such as the range and bearing to a known pole, says which object it saw.
+The robot can now score hundreds of guessed poses per scan quickly, and measure its own motion by matching one scan against the last. Still missing: one laser end point looks like any other, so a score says how well the scan fits the walls but not which object each beam hit; a [landmark reading](../RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#1-overview), such as the range and bearing to a known pole, says which object it saw.
 
 ## 8. Sources
 

@@ -14,13 +14,13 @@ tags: [subject/robotics, area/control, concept/sensitivity-function, concept/com
 
 > **Key point:** How close the heading loop comes to the critical point −1 is one number, the peak of the sensitivity function, and the same function says how much of each disturbance the loop removes. Reshaping the controller with a lead and a lag compensator moves the loop away from −1, removes more of a steady drag and stops the derivative from feeding sensor noise to the motor.
 
-The robot's heading loop is a [PD controller](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2962), a torque from the heading error and its rate of change. RO-060 tuned it to Kp = 0.2 N·m/rad and Kd = 0.283 N·m·s/rad, plus an integral gain Ki = 0.05 against a [dragging gearbox](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-add-the-error-up). Here we study RO-061's lightly damped [first try of the turn](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#1-overview), Kp = 0.4 N·m/rad and Kd = 0.08 N·m·s/rad with no integral action, because its sensitivity peak and its noise show what loop shaping fixes; [Section 7.5](#75-lead-lag-the-result-on-the-robot) compares it with RO-060's tuned loop. The robot's yaw inertia is 0.1 kg·m². Three Notes have measured the first-try loop:
+The robot's heading loop is a [PD controller](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2962), a torque from the heading error and its rate of change. RO-060 tuned it to Kp = 0.2 N·m/rad and Kd = 0.283 N·m·s/rad, plus an integral gain Ki = 0.05 against a [dragging gearbox](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error). Here we study RO-061's lightly damped [first try of the turn](../RO-061-step-response-and-second-order-systems/RO-061-step-response-and-second-order-systems.md#1-overview), Kp = 0.4 N·m/rad and Kd = 0.08 N·m·s/rad with no integral action, because its sensitivity peak and its noise show what loop shaping fixes; [Section 7.5](#75-lead-lag-the-result-on-the-robot) compares it with RO-060's tuned loop. The robot's yaw inertia is 0.1 kg·m². Three Notes have measured the first-try loop:
 
 - its [**Bode plot**](../RO-063-frequency-response-and-bode-plots/RO-063-frequency-response-and-bode-plots.md#42-building-the-plot-one-weave-rate-at-a-time) (G-3023) shows a resonant peak of 8.1 dB at 1.92 rad/s;
 - its [**Nyquist plot**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#42-the-nyquist-plot-of-the-heading-loop) (G-3040), the frequency response of the loop cut open (controller times robot) drawn as a curve, stays clear of the critical point −1, so the loop is stable;
 - its [**phase margin**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#62-phase-margin) (G-3045) is 22.6°, its [**gain margin**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#61-gain-margin) (G-3044) is infinite and its [**delay margin**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#63-delay-margin) (G-3046) is 0.19 s.
 
-An infinite gain margin sounds safe. Figure 1 tests the loop on the job. At t = 1 s the worn right gearbox of RO-060 starts to [drag](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#51-the-dragging-gearbox): a steady [**torque**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#33-where-to-push-slide-or-tip) (G-2808), a turning effect, of 0.02 N·m. Watch the top panel: the loop as modelled rings and settles 0.05 rad (2.9°) off course. Then the bottom panel: the real robot carries a payload that raises its inertia to 0.15 kg·m², and its motor driver adds a delay of 0.25 s; the same drag starts a swing that keeps growing, 0.26 rad by 20 s.
+An infinite gain margin suggests a safe loop. Figure 1 tests the loop in use. At t = 1 s the worn right gearbox of RO-060 starts to [drag](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#51-the-dragging-gearbox): a steady [**torque**](../../../navigation/06-grid-sampling-and-car-like-planning/RO-053-manipulation-planning/RO-053-manipulation-planning.md#33-where-to-push-slide-or-tip) (G-2808), a turning effect, of 0.02 N·m. Watch the top panel: the loop as modelled rings and settles 0.05 rad (2.9°) off course. Then the bottom panel: the real robot carries a payload that raises its inertia to 0.15 kg·m², and its motor driver adds a delay of 0.25 s; the same drag starts a swing that keeps growing, 0.26 rad by 20 s.
 
 ![The heading loop under PD control (Kp = 0.4, Kd = 0.08) when a 0.02 N·m drag starts at t = 1 s, drawn one second per frame. Top: as modelled (inertia 0.1 kg·m², no delay), the heading error rings, peaks at 0.076 rad and settles at 0.05 rad. Bottom: the real robot (inertia 0.15 kg·m², 0.25 s delay); the swing grows to 0.26 rad by 20 s. The last frame holds both](images/problem_anim.gif)
 
@@ -31,29 +31,29 @@ The loop has four problems, each with a number:
 3. **The noise:** the derivative multiplies noise on the heading reading by Kd times its frequency, so noise at 100 rad/s reaches the motor 8.0 N·m per rad of noise, and faster noise more.
 4. **The real robot:** the payload and the 0.25 s delay make the loop unstable, as the delay margin of 0.19 s warned.
 
-The opening question of this Note: **how do we read off how close the loop is to trouble, how it treats drags and sensor noise at each frequency, and how do we reshape the controller so that the drag leaves less than 0.01 rad, the noise reaching the motor stops growing, and the real robot settles?** The Note answers it in steps:
+The opening question of this Note: **how do we read off how close the loop is to instability, how it treats drags and sensor noise at each frequency, and how do we reshape the controller so that the drag leaves less than 0.01 rad, the noise reaching the motor stops growing, and the real robot settles?** The Note answers it in steps:
 
 - the closest distance to −1 and the **sensitivity function** (G-3050) built from it ([Section 2](#2-how-near-the-loop-passes-to-the-critical-point-the-sensitivity-function));
 - the same function as the path of a disturbance through the loop ([Section 3](#3-disturbances-the-sensitivity-function-from-the-block-diagram));
 - the path of sensor noise, the **complementary sensitivity function** (G-3051) ([Section 4](#4-sensor-noise-the-complementary-sensitivity-function));
 - all four paths together, the **Gang of Four** (G-3054), with the drag and the noise at the motor ([Section 5](#5-the-gang-of-four-the-drag-and-the-noise-at-the-motor));
-- whether the loop survives the real robot, **robust stability** (G-3058) ([Section 6](#6-robustness-to-model-error));
+- whether the loop stays stable on the real robot, **robust stability** (G-3058) ([Section 6](#6-robustness-to-model-error));
 - the fix, **loop shaping** (G-3060) with lead and lag compensators ([Section 7](#7-loop-shaping-lead-lag-and-lead-lag));
-- the limit no controller escapes, the **waterbed effect** (G-3059) ([Section 8](#8-the-limit-the-waterbed-effect)).
+- the limit that holds for every controller, the **waterbed effect** (G-3059) ([Section 8](#8-the-limit-the-waterbed-effect)).
 
 ## 2. How near the loop passes to the critical point: the sensitivity function
 
 > **Key point:** The distance from −1 to the Nyquist curve at each frequency is the size of 1 + L. Its reciprocal is the gain of the sensitivity function S, and the peak of that gain, Ms, is one over the closest distance: 2.55 for the heading loop.
 
-### 2.1 Margins look in two directions only
+### 2.1 Margins measure two directions only
 
-The second problem of the opening, how close the loop is to −1, needs a number that the margins do not give. The Nyquist curve is the frequency response of the loop cut open, the controller times the robot, drawn as points in the plane of complex numbers, and −1 is the [**critical point**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#22-where-the-closed-loop-has-its-poles) (G-3036), where a sine sent round the loop comes back the same size and inverted, so it can keep itself going. A gain margin asks how far the curve can be stretched before it hits −1; a phase margin asks how far it can be turned (FBS §10.3). A real change, such as the payload of Figure 1, stretches and turns the curve at once, so the curve can reach −1 by a route that neither margin measures (FBS §10.3, Example 10.8).
+The second problem of the opening, how close the loop is to −1, needs a number that the margins do not give. The Nyquist curve is the frequency response of the loop cut open, the controller times the robot, drawn as points in the plane of complex numbers, and −1 is the [**critical point**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#22-where-the-closed-loop-has-its-poles) (G-3036), where a sine sent round the loop comes back the same size and inverted, so it can keep itself going. A gain margin measures how far the curve can be stretched before it reaches −1; a phase margin measures how far it can be turned (FBS §10.3). A real change, such as the payload of Figure 1, stretches and turns the curve at once, so the curve can reach −1 by a route that neither margin measures (FBS §10.3, Example 10.8).
 
 The heading loop shows the gap. Its gain margin is infinite: no gain increase alone can make the loop unstable. Yet the curve passes 0.392 from −1 (Figure 2), and a model error that moves the curve by more than that, near the closest frequency, can reach −1. A single number that covers every direction is the shortest distance from −1 to the curve.
 
 ### 2.2 The distance from the critical point and its reciprocal
 
-In plain words: at each frequency the loop's response is a point on the Nyquist curve, and we measure how far that point is from −1. Figure 2 runs the frequency up and draws the red line from −1 to the point. Watch the line shorten until about 2 rad/s and lengthen again; its shortest length, 0.392 at 2.085 rad/s, is the closest approach.
+At each frequency the loop's response is a point on the Nyquist curve, and we measure how far that point is from −1. Figure 2 runs the frequency up and draws the red line from −1 to the point. Watch the line shorten until about 2 rad/s and lengthen again; its shortest length, 0.392 at 2.085 rad/s, is the closest approach.
 
 ![The sensitivity function read off the Nyquist plot of the PD heading loop, L(s) = (0.8 s + 4)/s², one frequency per frame from 1.2 to 12 rad/s. Top: the red line from −1 to the point L(jω) on the Nyquist curve (ω > 0 only). Bottom left: the line's length |1 + L| against ω. Bottom right: its reciprocal, the gain |S| of the sensitivity function. The last frame marks the closest approach, 0.392 at 2.085 rad/s, and the peak Ms = 1/0.392 = 2.55, and draws the circle of radius 0.392 round −1](images/distance_anim.gif)
 
@@ -105,11 +105,11 @@ Because the gain of S is one over the distance, the peak of the gain sits where 
 
 $$M_s = \frac{1}{s_m} = \frac{1}{0.392} = 2.55$$
 
-So Ms is the reciprocal of the closest distance, not the distance itself: a large Ms means a curve that passes close to −1. For the heading loop the phase margin of 22.6° tells nearly the same story, because the closest point lies almost at the [**gain crossover frequency**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#23-a-sine-that-comes-back-unchanged) (G-3042), the frequency where the loop's gain is 1, where the chord from −1 to the curve has the length (FBS eq. 10.7; notebook):
+So Ms is the reciprocal of the closest distance, not the distance itself: a large Ms means a curve that passes close to −1. For the heading loop the phase margin of 22.6° gives nearly the same information, because the closest point lies almost at the [**gain crossover frequency**](../RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#23-a-sine-that-comes-back-unchanged) (G-3042), the frequency where the loop's gain is 1, where the chord from −1 to the curve has the length (FBS eq. 10.7; notebook):
 
 $$2 \sin(22.6^\circ/2) = 0.392$$
 
-Reasonable designs keep the shortest distance $s_m$ between 0.5 and 0.8, that is Ms between about 1.25 and 2 (FBS §10.3). With 2.55 the heading loop is outside that range. Ms measures the danger, and the same S also says what the loop does to a push from outside, which the next section shows.
+Reasonable designs keep the shortest distance $s_m$ between 0.5 and 0.8, that is Ms between about 1.25 and 2 (FBS §10.3). With 2.55 the heading loop is outside that range. Ms measures the closeness to instability, and the same S also says what the loop does to a push from outside, which the next section shows.
 
 ## 3. Disturbances: the sensitivity function from the block diagram
 
@@ -123,7 +123,7 @@ Section 2 found S as a distance on the Nyquist plot; the first problem of the op
 - an output disturbance $d$, anything that moves the heading itself, such as a bump that knocks the robot round;
 - [**sensor noise**](../../../localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure/RO-007-why-a-robot-is-never-sure.md#22-five-sources-of-uncertainty) (G-2312) $n$, an error in the heading reading that does not move the robot at all.
 
-A disturbance acts on the robot; noise only spoils the reading, which is why the two enter the block diagram at different places. Each outside signal takes its own path through the loop, and this section follows $d$.
+A disturbance acts on the robot; noise changes only the reading, which is why the two enter the block diagram at different places. Each outside signal takes its own path through the loop, and this section follows $d$.
 
 ![The heading loop with its outside inputs. The command r minus the measured heading gives the error e; the controller C(s) turns it into the motor torque u; the drag torque v adds to it; the heading plant P(s) = 1/(0.1 s²) turns torque into heading; the output disturbance d adds to the heading y; the sensor noise n adds to the reading that goes back to the comparison. The loop transfer function is L = C P; for the PD controller C(s) = 0.4 + 0.08 s](images/block_diagram.png)
 
@@ -164,13 +164,13 @@ The block diagram gives the same function as the Nyquist plot: the transfer func
 
 ### 3.2 Disturbance attenuation: which frequencies shrink
 
-Section 3.1 showed that a disturbance reaches the heading times S. The bottom right panel of Figure 2 therefore says, frequency by frequency, what the loop does to the bumps:
+Section 3.1 showed that a disturbance reaches the heading times S. The bottom right panel of Figure 2 therefore says, frequency by frequency, what the loop does to output disturbances:
 
-- below 1.47 rad/s, $\vert S\vert$ is below 1: a slow wobble is shrunk, to 0.066 of its size at 0.5 rad/s;
-- above 1.47 rad/s, $\vert S\vert$ is above 1: a wobble near 2.085 rad/s comes out 2.55 times larger than it went in;
-- far above, $\vert S\vert$ falls back towards 1: the loop cannot react, and a fast wobble passes almost unchanged.
+- below 1.47 rad/s, $\vert S\vert$ is below 1: a slow disturbance is shrunk, to 0.066 of its size at 0.5 rad/s;
+- above 1.47 rad/s, $\vert S\vert$ is above 1: a disturbance near 2.085 rad/s comes out 2.55 times larger than it went in;
+- far above, $\vert S\vert$ falls back towards 1: the loop cannot react, and a fast disturbance passes almost unchanged.
 
-Shrinking disturbances is **disturbance attenuation** (G-3057), and it happens where $\vert S\vert < 1$ (FBS §12.2). Feedback is not free: the same loop that shrinks slow pushes amplifies those near its crossover, and the higher Ms, the larger the amplification. Disturbances are half of what reaches the loop; the other half is the noise in the reading, which takes a different path.
+Shrinking disturbances is **disturbance attenuation** (G-3057), and it happens where $\vert S\vert < 1$ (FBS §12.2). Feedback has a cost: the same loop that shrinks slow pushes amplifies those near its crossover, and the higher Ms, the larger the amplification. Disturbances are half of what reaches the loop; the other half is the noise in the reading, which takes a different path.
 
 ## 4. Sensor noise: the complementary sensitivity function
 
@@ -196,7 +196,7 @@ $$(1 + L)\thinspace y = -L\thinspace n$$
 
 $$y = -\frac{L}{1 + L}\thinspace n = -T\thinspace n$$
 
-The transfer function $T$ just found, the loop divided by one plus the loop, is the **complementary sensitivity function** (G-3051) (FBS §12.1). At 0.5 rad/s the loop follows slow noise almost fully, 1.066 times its size: the robot really turns to chase an error that is not there. At high frequency $L$ is small, so $T$ is small and fast noise barely moves the heading. For a controller that acts only on the error $e$, as the lead-lag of Section 7 does, the same algebra shows that T also carries the command $r$ to the heading (FBS §12.2).
+The transfer function $T$ just found, the loop divided by one plus the loop, is the **complementary sensitivity function** (G-3051) (FBS §12.1). At 0.5 rad/s the loop follows slow noise almost fully, 1.066 times its size: the robot physically turns to correct an error that does not exist. At high frequency $L$ is small, so $T$ is small and fast noise barely moves the heading. For a controller that acts only on the error $e$, as the lead-lag of Section 7 does, the same algebra shows that T also carries the command $r$ to the heading (FBS §12.2).
 
 ### 4.2 S plus T equals one
 
@@ -271,7 +271,7 @@ A check in plain mechanics: once the robot has stopped turning, the derivative t
 
 $$0.4 \times 0.05 = 0.02 \text{ N·m}$$
 
-The 0.05 rad of Figure 1 is this number. With RO-060's tuned gain Kp = 0.2 the same balance gives 0.1 rad, the 5.73° by which RO-060's robot stops short of its turn; RO-060 removes that offset with integral action, [Ki = 0.05](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-add-the-error-up). To shrink the offset the controller needs more gain at low frequency; raising Kp would also move the crossover and the phase margin, so Section 7 adds gain at low frequencies only.
+The 0.05 rad of Figure 1 is this number. With RO-060's tuned gain Kp = 0.2 the same balance gives 0.1 rad, the 5.73° by which RO-060's robot stops short of its turn; RO-060 removes that offset with integral action, [Ki = 0.05](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error). To shrink the offset the controller needs more gain at low frequency; raising Kp would also move the crossover and the phase margin, so Section 7 adds gain at low frequencies only.
 
 **The noise at the motor.** At high frequency $L$ is small, so $S$ is close to 1 and CS is close to the controller itself. For the PD controller the gain of $C$ grows with frequency, because the derivative multiplies by Kd times the frequency:
 
@@ -281,7 +281,7 @@ Every 0.001 rad of ripple in the heading reading at 100 rad/s makes the motor to
 
 ## 6. Robustness to model error
 
-> **Key point:** If the real plant differs from the model by a relative error δ, the loop stays stable as long as |δ| is smaller than 1/|T| at every frequency. The real robot's payload and delay break that test for the PD loop between 1.6 and 2.4 rad/s, where its Nyquist curve passes close to −1.
+> **Key point:** If the real plant differs from the model by a relative error δ, the loop stays stable as long as |δ| is smaller than 1/|T| at every frequency. With the real robot's payload and delay, the PD loop fails that test between 1.6 and 2.4 rad/s, where its Nyquist curve passes close to −1.
 
 ### 6.1 The real robot as a disk round each point
 
@@ -333,9 +333,9 @@ $$\vert L\thinspace\delta\vert < \vert 1 + L\vert$$
 
 $$\vert\delta\vert < \frac{\vert 1 + L\vert}{\vert L\vert} = \frac{1}{\vert T\vert}$$
 
-A loop that passes this test at every frequency, for every model error of the expected size, has **robust stability** (G-3058) (FBS §13.2). The bottom panel of Figure 6 compares the two sides for the PD loop: at 2.0 rad/s, $\vert\delta\vert$ = 0.524 against 1/|T| = 0.371, and the test fails between 1.6 and 2.4 rad/s, the band where the Nyquist curve passes close to −1. The test is cautious: it assumes the error points straight at −1, so passing it guarantees stability, while failing it only warns (FBS §13.2). Here the warning is right, since the real PD loop has a phase margin, the extra lag it could take at its crossover, of −5.5°, and its swing grows (Figure 1, notebook). RO-060's tuned PD passes the same test, its ratio of the two sides peaking at 0.544: on the real robot it keeps a phase margin of 41.9° at 2.00 rad/s, a gain margin of 3.05 and Ms = 1.73 (notebook), because its large derivative gain bought a phase margin of 76.4° to spend.
+A loop that passes this test at every frequency, for every model error of the expected size, has **robust stability** (G-3058) (FBS §13.2). The bottom panel of Figure 6 compares the two sides for the PD loop: at 2.0 rad/s, $\vert\delta\vert$ = 0.524 against 1/|T| = 0.371, and the test fails between 1.6 and 2.4 rad/s, the band where the Nyquist curve passes close to −1. The test is cautious: it assumes the error points straight at −1, so passing it guarantees stability, while failing it only warns (FBS §13.2). Here the warning is right, since the real PD loop has a phase margin, the extra lag it could take at its crossover, of −5.5°, and its swing grows (Figure 1, notebook). RO-060's tuned PD passes the same test, its ratio of the two sides peaking at 0.544: on the real robot it keeps a phase margin of 41.9° at 2.00 rad/s, a gain margin of 3.05 and Ms = 1.73 (notebook), because its large derivative gain gave it a phase margin of 76.4° for the model error to use up.
 
-The test says where robustness is needed: where T is large, near the crossover. All four problems now point at the same place, the shape of the loop, and the next section reshapes it.
+The test says where robustness is needed: where T is large, near the crossover. All four problems now depend on the same thing, the shape of the loop, and the next section reshapes it.
 
 ## 7. Loop shaping: lead, lag and lead-lag
 
@@ -430,7 +430,7 @@ Figure 9 grows the ratio of the pole to the zero from 1 to 9, keeping the bump c
 
 ![A lead compensator reshaping the heading loop. Its pole-to-zero ratio b/a grows 1, 1.5, 2, 3, 4.5, 6, 9, one per frame, centred on 2.5 rad/s with the gain set so the loop crosses 1 there; grey, the PD loop. Top: |L| in dB. Middle: the phase of L; the red bar from −180° at 2.5 rad/s is the phase margin. Bottom: the Nyquist curve and the circle round −1 of radius s_m. First frame, ratio 1: a plain gain 0.625, phase margin 0°, the curve runs through −1. Last frame, ratio 9 (zero 0.833, pole 7.5 rad/s, k = 1.875): phase lead 53.1°, phase margin 53.1°, Ms = 1.30](images/lead_anim.gif)
 
-With the ratio 9, the lead loop has a phase margin of 53.1° and Ms = 1.30, against 22.6° and 2.55 for the PD loop, and its noise gain at 100 rad/s is 1.87 instead of 8.0 (notebook). One problem got worse: the lead's gain at zero frequency is
+With the ratio 9, the lead loop has a phase margin of 53.1° and Ms = 1.30, against 22.6° and 2.55 for the PD loop, and its noise gain at 100 rad/s is 1.87 instead of 8.0 (notebook). One problem became worse: the lead's gain at zero frequency is
 
 $$C(0) = 1.875 \times 0.8333 / 7.5 = 0.208$$
 
@@ -454,17 +454,17 @@ With the zero above the pole, $a_2 > b_2$, the compensator is a **lag compensato
 
 $$C_{\text{lag}}(0) = 0.25/0.025 = 10$$
 
-At the crossover it costs a little phase:
+At the crossover it adds a small phase lag:
 
 $$\arctan(2.5/0.25) - \arctan(2.5/0.025)$$
 
 $$= 84.29^\circ - 89.43^\circ = -5.14^\circ$$
 
-A PI controller is the special case $b_2$ = 0: its gain at zero frequency is infinite and the offset vanishes (FBS §12.3). RO-060 removed the gearbox's offset in exactly that way, with [Ki = 0.05](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-add-the-error-up); the lag is the same idea seen in frequency terms, with a finite gain at zero frequency. Figure 10 adds the lag to the lead with the ratio $a_2/b_2$ growing from 1 to 10. Watch three things: $\vert L\vert$ lifting below 0.25 rad/s, $\vert S\vert$ sinking there, and the drag's offset falling in the bottom panel.
+A PI controller is the special case $b_2$ = 0: its gain at zero frequency is infinite and the offset vanishes (FBS §12.3). RO-060 removed the gearbox's offset in exactly that way, with [Ki = 0.05](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error); the lag is the same idea seen in frequency terms, with a finite gain at zero frequency. Figure 10 adds the lag to the lead with the ratio $a_2/b_2$ growing from 1 to 10. Watch three things: $\vert L\vert$ lifting below 0.25 rad/s, $\vert S\vert$ sinking there, and the drag's offset falling in the bottom panel.
 
 ![A lag compensator (s + 0.25)/(s + b₂) added to the lead, its ratio 0.25/b₂ growing 1, 2, 4, 6, 10, one per frame; grey, the lead alone (from the second frame on). Top: |L| in dB, lifted below 0.25 rad/s. Middle: |S| in dB, lower at low frequencies, its peak Ms rising from 1.299 to 1.352. Bottom: the heading error after the 0.02 N·m drag starts at t = 1 s; the offset it settles to falls from 0.096 rad (lead alone) to 0.0096 rad. Last frame, ratio 10: phase margin 48.0°, Ms = 1.352](images/lag_anim.gif)
 
-The offset falls tenfold, from 0.096 to 0.0096 rad, and the phase margin drops by the lag's 5.1°, from 53.1° to 48.0°. The error takes about 20 s to creep down: the lag adds a slow closed-loop pole at −0.24 (a time constant of about 4 s, notebook), the price of acting only at low frequencies. The peak of S rose a little, from 1.299 to 1.352, which [Section 8](#8-the-limit-the-waterbed-effect) explains.
+The offset falls tenfold, from 0.096 to 0.0096 rad, and the phase margin drops by the lag's 5.1°, from 53.1° to 48.0°. The error takes about 20 s to decrease: the lag adds a slow closed-loop pole at −0.24 (a time constant of about 4 s, notebook), the price of acting only at low frequencies. The peak of S rose slightly, from 1.299 to 1.352, which [Section 8](#8-the-limit-the-waterbed-effect) explains.
 
 ### 7.5 Lead-lag: the result on the robot
 
@@ -495,7 +495,7 @@ The four problems of the opening, before and after (notebook):
 | noise gain at 100 rad/s | 8.0 N·m/rad, rising | 1.87 N·m/rad, flat | 28.3 N·m/rad, rising |
 | real robot (payload, 0.25 s delay) | grows, phase margin −5.5° | settles, phase margin 18.8° | settles, phase margin 41.9° |
 
-The lead-lag keeps the crossover near the first-try loop's (2.51 against 2.08 rad/s), so it does not trade speed for safety; its delay margin is 0.334 s against 0.19 s, and its robustness test passes at every frequency, the largest $\vert\delta\vert\thinspace\vert T\vert$ being 0.743, below 1 (bottom panel of Figure 12). RO-060's tuned PD reaches its safety by a large derivative gain: crossover 2.91 rad/s, phase margin 76.4°, delay margin 0.458 s and |S| never above 1, and it keeps more margin on the real robot than the lead-lag: 41.9°, inside the usual 30° to 60° (FBS §10.3), against 18.8°, below it. The tuned PD pays at the motor, 28.3 N·m per rad of noise at 100 rad/s, 15 times the lead-lag's 1.87, and without its integral term the drag leaves 0.1 rad. One cost remains, and it is not a matter of design skill.
+The lead-lag keeps the crossover near the first-try loop's (2.51 against 2.08 rad/s), so it does not trade speed for safety; its delay margin is 0.334 s against 0.19 s, and its robustness test passes at every frequency, the largest $\vert\delta\vert\thinspace\vert T\vert$ being 0.743, below 1 (bottom panel of Figure 12). RO-060's tuned PD reaches its safety by a large derivative gain: crossover 2.91 rad/s, phase margin 76.4°, delay margin 0.458 s and |S| never above 1, and it keeps more margin on the real robot than the lead-lag: 41.9°, inside the usual 30° to 60° (FBS §10.3), against 18.8°, below it. The tuned PD's main cost is at the motor, 28.3 N·m per rad of noise at 100 rad/s, 15 times the lead-lag's 1.87, and without its integral term the drag leaves 0.1 rad. One cost remains, and it is not a matter of design skill.
 
 ## 8. The limit: the waterbed effect
 
@@ -519,7 +519,7 @@ The numbers (notebook):
 | lead alone | −3.22 | +3.22 |
 | lead-lag | −3.45 | +3.45 |
 
-The lag deepened the green area by 0.23 and the red area grew by the same 0.23, as the peak of Figure 10 showed. On a linear axis the low-frequency band is narrow, so the lag's tenfold drop in the drag's offset costs only a small rise in the peak. A loop with unstable poles pays more: the total area is then π times the sum of those poles, a positive number (FBS §14.2). The PD loop on paper escapes the theorem only because its controller's gain rises forever, which is the noise problem of Section 5; a practical derivative is filtered (FBS §12.2), as PX4's is ([Section 9](#9-where-loop-shaping-runs-in-real-stacks)), and then the loop's gain falls fast enough for the theorem to hold. The waterbed bounds what loop shaping can do; the next section shows where real robots meet these trades.
+The lag deepened the green area by 0.23 and the red area grew by the same 0.23, as the peak of Figure 10 showed. On a linear axis the low-frequency band is narrow, so the lag's tenfold drop in the drag's offset costs only a small rise in the peak. For a loop with unstable poles the cost is larger: the total area is then π times the sum of those poles, a positive number (FBS §14.2). The modelled PD loop falls outside the theorem only because its controller's gain rises without bound, which is the noise problem of Section 5; a practical derivative is filtered (FBS §12.2), as PX4's is ([Section 9](#9-where-loop-shaping-runs-in-real-stacks)), and then the loop's gain falls fast enough for the theorem to hold. The waterbed bounds what loop shaping can do; the next section shows where these trade-offs appear in real robots.
 
 ## 9. Where loop shaping runs in real stacks
 
@@ -549,13 +549,13 @@ The controllers compared, on the heading loop (inertia 0.1 kg·m²), with $C$ th
 - The **Gang of Four** (G-3054) adds PS, the path from the drag torque to the heading, whose value at zero frequency, one over the controller's gain there, sets the drag's offset, and CS, the path from sensor noise to the motor torque, which tends to C at high frequency, so a pure derivative feeds ever faster noise to the motor.
 - **Robust stability** (G-3058) holds when the size of the relative model error δ stays below one over the gain of T at every frequency, because then no disk of possible real loops covers −1; the PD loop fails between 1.6 and 2.4 rad/s for the payload and the 0.25 s delay.
 - **Loop shaping** (G-3060) asks for high loop gain at low frequencies, a gentle crossing near −20 dB per decade and **high-frequency roll-off** (G-3064), so each band does its job.
-- RO-060's tuned PD buys its safety with a large derivative gain, so it is robust (phase margin 76.4°, 41.9° on the real robot against the lead-lag's 18.8°) but sends 15 times the lead-lag's noise to the motor; a lead caps the derivative's gain instead.
-- A **lead compensator** (G-3061) is a derivative with a ceiling: its phase bump, 53.1° at the square root of zero times pole, buys phase margin while its gain stops rising above the pole.
+- RO-060's tuned PD gets its safety from a large derivative gain, so it is robust (phase margin 76.4°, 41.9° on the real robot against the lead-lag's 18.8°) but sends 15 times the lead-lag's noise to the motor; a lead caps the derivative's gain instead.
+- A **lead compensator** (G-3061) is a derivative with a ceiling: its phase bump, 53.1° at the square root of zero times pole, adds phase margin while its gain stops rising above the pole.
 - A **lag compensator** (G-3062) multiplies the low-frequency gain by the zero-to-pole ratio, 10 here, so the drag's offset falls tenfold for 5.1° of phase margin; PI is the case with the pole at zero.
 - A **lead-lag compensator** (G-3063) combines both, so the crossover, the low frequencies and the high frequencies are each shaped by their own part.
 - The **waterbed effect** (G-3059), Bode's integral, keeps the area under ln|S| at zero for a stable loop, so pushing disturbances down in one band lifts them in another; control design moves sensitivity, it cannot remove it.
 
-The robot's heading loop now rejects a steady drag, keeps sensor noise off the motor and survives a payload and a 0.25 s delay. Still missing: the lag removes the drag's offset only slowly, over about 20 s, and a large command still drives the torque into its 0.2 N·m limit; the next tools are [feedforward](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#2-feedforward-the-force-the-plan-needs-before-any-error), which adds the torque a known command needs before any error appears, [anti-windup](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#5-anti-windup-clamping-and-back-calculation), which keeps an integrating part sane at the torque limit, and [cascaded loops](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#8-cascaded-loops-a-fast-inner-loop-under-a-slower-outer-loop), a fast inner loop under a slower outer one.
+The robot's heading loop now rejects a steady drag, keeps sensor noise off the motor and stays stable with a payload and a 0.25 s delay. Still missing: the lag removes the drag's offset only slowly, over about 20 s, and a large command still drives the torque into its 0.2 N·m limit; the next tools are [feedforward](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#2-feedforward-the-force-the-plan-needs-before-any-error), which adds the torque a known command needs before any error appears, [anti-windup](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#5-anti-windup-clamping-and-back-calculation), which keeps an integrating part bounded at the torque limit, and [cascaded loops](../RO-066-feedforward-cascades-and-windup/RO-066-feedforward-cascades-and-windup.md#8-cascaded-loops-a-fast-inner-loop-under-a-slower-outer-loop), a fast inner loop under a slower outer one.
 
 ## 11. Sources
 
@@ -606,7 +606,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Lead compensator (G-3061) | A controller $k(s + a)/(s + b)$ with its zero below its pole ($a < b$): it adds a bump of phase, largest at $\sqrt{ab}$, to raise the phase margin at the crossover, while its gain stops rising above the pole; a PD controller with a filtered derivative. |
 | Lag compensator (G-3062) | A controller $(s + a)/(s + b)$ with its pole below its zero ($b < a$): it multiplies the low-frequency gain by $a/b$ to shrink steady offsets, at a small cost in phase at the crossover; PI control is the case $b = 0$. |
 | Lead-lag compensator (G-3063) | A lead and a lag compensator in series, so the lead shapes the crossover and the high frequencies while the lag raises the low-frequency gain. |
-| [PD control](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-look-at-how-fast-the-error-shrinks) (G-2962) | Feedback with a proportional part and a derivative part, such as K_p e + K_d de/dt; it acts like a spring and a damper, so it can bring a frictionless joint or heading to its target without swinging. |
+| [PD control](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#41-reacting-to-how-fast-the-error-changes) (G-2962) | Feedback with a proportional part and a derivative part, such as K_p e + K_d de/dt; it acts like a spring and a damper, so it can bring a frictionless joint or heading to its target without swinging. |
 | [Bode plot](../../../../RO/control/07-classical-feedback-control/RO-063-frequency-response-and-bode-plots/RO-063-frequency-response-and-bode-plots.md#42-building-the-plot-one-weave-rate-at-a-time) (G-3023) | A pair of plots of a frequency response against the rate on a log scale: the gain in decibels and the phase in degrees; on it the pieces of a system add and the response is sketched with straight lines. |
 | [Nyquist plot](../../../../RO/control/07-classical-feedback-control/RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#42-the-nyquist-plot-of-the-heading-loop) (G-3040) | The loop transfer function drawn as the Nyquist contour is walked: mostly the frequency response, one point per frequency with the gain as length and the phase as angle, plus its mirror image; its turns round −1 decide closed-loop stability. |
 | [Phase margin](../../../../RO/control/07-classical-feedback-control/RO-064-nyquist-and-stability-margins/RO-064-nyquist-and-stability-margins.md#62-phase-margin) (G-3045) | How much extra phase lag the loop can take at its gain crossover frequency before the closed loop becomes unstable, $180° + \angle L(j\omega_{gc})$; typical designs keep 30° to 60°. |

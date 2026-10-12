@@ -20,7 +20,7 @@ tags: [subject/robotics, area/navigation, concept/obstacle-region, concept/free-
 
 So far the robot can plan a route on the room's grid: [breadth-first search](../RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#5-breadth-first-search-ring-by-ring) reaches the cell under the door in 8 moves, and [A*](../RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#4-a-cost-so-far-plus-the-guess) finds a 3.414 m route with diagonal moves. The grid routes move a point. The [**configuration space**](../RO-036-configuration-space/RO-036-configuration-space.md#22-the-configuration-space-of-the-floor-robot) (G-2287), C-space for short, makes the whole robot a point too: each placement $(x, y, \theta)$, position and heading, is one point, and the [basic motion planning problem](../RO-036-configuration-space/RO-036-configuration-space.md#6-the-basic-motion-planning-problem) is to find a path of free points from the start, (2 m, 1 m) facing 30°, to the doorway centre, (3.6 m, 4.0 m).
 
-What still breaks is the word "free". The map of the room marks where the obstacles are, but the robot is not a point. Its footprint, the floor it covers, is a disk of radius 0.25 m centred on the middle of its axle (Figure 1):
+The remaining problem is the meaning of the word "free". The map of the room marks where the obstacles are, but the robot is not a point. Its footprint, the floor it covers, is a disk of radius 0.25 m centred on the middle of its axle (Figure 1):
 
 - with its centre at (3.5, 3.2), the robot stands 0.2 m above the table's corner (3.5, 3.0); the centre is outside the table, yet the disk reaches 0.25 m and overlaps the table by 0.05 m;
 - the doorway is 1.2 m wide, but a robot 0.5 m wide cannot put its centre close to either side of it;
@@ -56,7 +56,7 @@ So whether a placement is free depends on every floor point the robot covers, no
 
 ### 2.2 The obstacle region: every placement that touches an obstacle
 
-To move the test to the centre, picture the robot sliding round the table while it keeps touching it, like a coin pushed round the edge of a book. Its centre traces a closed curve round the table (Figure 2). Every centre inside that curve puts the disk on the table; every centre outside leaves a gap. So the curve splits the placements in two, and we can draw the split once, in C-space, instead of testing the disk again and again.
+To move the test to the centre, we picture the robot sliding round the table while it keeps touching it, like a coin pushed round the edge of a book. Its centre traces a closed curve round the table (Figure 2). Every centre inside that curve puts the disk on the table; every centre outside leaves a gap. So the curve splits the placements in two, and we can draw the split once, in C-space, instead of testing the disk again and again.
 
 Figure 2 plays the slide, counter-clockwise from under the table's bottom edge. Watch the stages named in its titles. "Along an edge": the centre runs parallel to the edge, 0.25 m out. "At a corner": the centre swings round the corner on an arc of radius 0.25 m. The last stage, "the centre (3.5, 3.2) lies inside the grown table", fills the curve and marks the placement of Figure 1, which falls inside.
 
@@ -144,7 +144,7 @@ Every one of those extra square metres is floor that looks free on the map but w
 
 ### 2.4 The room in C-space, and the drive to the door
 
-> **Key point:** Grow every obstacle of the room by 0.25 m, walls included, and what stays white is the free space of the disk robot. The doorway leaves 0.7 m for the centre, and the straight 3.4 m drive from the start to the doorway centre clears the grown table by 0.132 m.
+> **Key point:** When every obstacle of the room, walls included, is grown by 0.25 m, what stays white is the free space of the disk robot. The doorway leaves 0.7 m for the centre, and the straight 3.4 m drive from the start to the doorway centre clears the grown table by 0.132 m.
 
 The second part of the opening problem is the doorway. Growing every obstacle answers it and the first part at once. Figure 3 grows the whole room (Hauser ch.9):
 
@@ -183,7 +183,7 @@ $$0.382 - 0.25 = 0.132 \text{ m}$$
 
 ![Animation in two panels. Left, the room: the robot (disk footprint, radius 0.25 m) at the start (2, 1) facing 30 degrees turns on the spot to 61.9 degrees, then drives straight 3.4 m to the doorway centre (3.6, 4.0); its path so far is green. Right, C-space seen from above: the obstacles grown by 0.25 m (orange) and the robot as a point moving along the same line; during the turn the point stays put. Frame "closest to the table": after 2.471 m the centre is 0.382 m from the table's corner, and the point is 0.132 m from the grown table. The last frame shows the whole drive inside free space](images/path_both.gif)
 
-The disk is round, so turning on the spot changes nothing it covers: in Figure 4 the point stands still while the robot turns. Every heading gives the same picture, so the C-space slice drawn on the right is the whole story for the disk. The straight drive stays in free space all the way, so the disk robot can drive straight to the door with 0.132 m to spare. The rule that gave this answer, "grow by the radius", used one fact about the disk: it looks the same from every side. The board of the opening problem does not.
+The disk is round, so turning on the spot changes nothing it covers: in Figure 4 the point stands still while the robot turns. Every heading gives the same picture, so the C-space slice drawn on the right describes the whole C-space for the disk. The straight drive stays in free space all the way, so the disk robot can drive straight to the door with 0.132 m to spare. The rule that gave this answer, "grow by the radius", used one fact about the disk: it looks the same from every side. The board of the opening problem does not.
 
 ## 3. The Minkowski sum: obstacles for any robot shape
 
@@ -253,9 +253,9 @@ At heading 0° the table's bottom edge and the board's long edges are all horizo
 
 > **Key point:** Each heading gives its own obstacle region in the plane, a slice of C-space; stacked by heading they make the obstacle region in $(x, y, \theta)$. For the board the slices change shape: the doorway is closed to the centre at 0° and open over 0.90 m at 90°.
 
-The board's obstacle region of Figure 5 was for heading 0° only. Turn the robot to 30° and the board points a different way, so the reflected board in the Minkowski sum turns too, and the obstacle region changes shape. The obstacle region for all configurations $(x, y, \theta)$ is three-dimensional; holding the heading fixed cuts it into a flat slice: the set of positions $(x, y)$ that are free, or not, at that one heading (KAIST C-space slides; Hauser ch.9, "C-obstacles for rotational motion").
+The board's obstacle region of Figure 5 was for heading 0° only. When the robot turns to 30°, the board points a different way, so the reflected board in the Minkowski sum turns too, and the obstacle region changes shape. The obstacle region for all configurations $(x, y, \theta)$ is three-dimensional; holding the heading fixed cuts it into a flat slice: the set of positions $(x, y)$ that are free, or not, at that one heading (KAIST C-space slides; Hauser ch.9, "C-obstacles for rotational motion").
 
-Figure 6 plays the slices of the whole room for the robot with the board, one heading per frame, from 0° to 180° in steps of 10°. The small panel shows which way the board points. Watch the orange obstacle region swell along the board's direction as it turns, and watch the green bar in the doorway: the doorway's free stretch for the centre.
+Figure 6 plays the slices of the whole room for the robot with the board, one heading per frame, from 0° to 180° in steps of 10°. The small panel shows which way the board points. Watch the orange obstacle region stretch along the board's direction as it turns, and watch the green bar in the doorway: the doorway's free stretch for the centre.
 
 ![Animation: the obstacle region of the room (orange) for the robot carrying the 1.4 m by 0.3 m board, one heading per frame from 0 to 180 degrees in steps of 10 degrees; white is free; a small panel shows the board's heading. The orange region stretches along the board's direction. The doorway's free stretch for the centre (green bar): closed at 0 degrees, 0.22 m at 30, 0.55 m at 60, 0.90 m at 90, then closing again; the slice at 180 degrees is the same as at 0](images/slices.gif)
 

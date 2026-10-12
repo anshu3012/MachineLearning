@@ -17,7 +17,7 @@ tags: [subject/robotics, area/navigation, concept/route-planning, concept/lane-g
 
 The robot can already plan its way to the door of its room. [A\*](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#45-the-algorithm) (G-2577) on the room's 0.5 m grid takes 9 cells off its [open list](../../04-graph-search-and-configuration-space/RO-032-graphs-and-uninformed-search/RO-032-graphs-and-uninformed-search.md#4-searching-with-a-frontier-and-a-visited-list) (G-2547), the cells reached but not yet expanded, where Dijkstra's algorithm takes 54, because a [**heuristic**](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#2-a-guess-of-the-distance-left-the-heuristic) (G-2570), a cheap guess of the distance left, points it at the door.
 
-Past the door, the trips get longer. A delivery robot, or a car, must cross a city: from a street corner in the south-west of the map of Figure 1 to one near the lake shore in the north-east, 4.6 km apart as the crow flies. Three things break:
+Past the door, the trips get longer. A delivery robot, or a car, must cross a city: from a street corner in the south-west of the map of Figure 1 to one near the lake shore in the north-east, 4.6 km apart in a straight line. Three problems arise:
 
 - **Size.** The map covers 4.9 km by 5.0 km; cut into 0.5 m cells like the room, it would be 96 million cells, against the room's 112.
 - **Roads.** A car may not drive across a block. The car keeps to the streets, in the allowed direction, and in the right lane.
@@ -40,7 +40,7 @@ All four searches return the same route. In the first three the search loop is t
 
 > **Key point:** A car's drive cannot be planned as one problem from the destination down to the steering angle. Planning is split into levels; the top one, route planning, picks the roads and lanes on a map of the road network and leaves every detail of the motion to the levels below.
 
-The first thing that breaks is size. The room's planners worked on every free cell and every heading; across the city, the same detail means 96 million cells, other cars, traffic lights and lane markings, for a drive of 8 minutes.
+The first problem is size. The room's planners worked on every free cell and every heading; across the city, the same detail means 96 million cells, other cars, traffic lights and lane markings, for a drive of 8 minutes.
 
 **The idea.** A taxi driver does not plan every turn of the steering wheel before leaving. First the driver decides the roads: west on this street, onto the expressway, off at the river. Only while driving does the driver decide when to change lane, whether to stop at a light, and how hard to brake. Each decision uses the one above it and adds detail.
 
@@ -98,7 +98,7 @@ A road graph has one vertex per intersection, so it cannot say which lane the ca
 **The standard terms.** One piece of one lane, with its left and right borders, is a **lanelet** (G-2875) (Lanelet2 routing). A graph whose vertices are lanelets is a **lane graph** (G-2874). Its edges are of two kinds (Lanelet2 routing):
 
 - **succeeding:** from a lanelet to the next one in the same lane, such as a1 to a2;
-- **left and right:** to a neighbouring lanelet the car may change into, such as a1 to b1; a lane change adds a penalty to the cost, so a route changes lane only when that pays.
+- **left and right:** to a neighbouring lanelet the car may change into, such as a1 to b1; a lane change adds a penalty to the cost, so a route changes lane only when the change lowers its cost.
 
 Lanes beside each other that may not be changed between, such as two lanes with a solid line between them, get no lane-change edge. The graph is also built for one kind of road user: a bicycle's lane graph includes cycle lanes that a car's does not (Lanelet2 routing).
 
@@ -112,7 +112,7 @@ The graph is ready, at the level of roads or of lanes. Its edges still need a co
 
 Section 3 left the edges of the road graph without a cost. In the room, a move cost its length, and the [**weighted graph**](../../04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#22-edge-costs-the-fewest-moves-is-not-the-shortest) (G-2563) of the room's grid gave each edge its length in metres. On roads, the same choice picks the wrong route.
 
-**The problem on numbers.** From S to T, the straight way through the old town is 2500 m; the way round by the bypass is 3300 m. By length, the old town wins. But the old town's streets allow 30 km/h and the bypass 80 km/h.
+**The problem on numbers.** From S to T, the straight way through the old town is 2500 m; the way round by the bypass is 3300 m. By length, the old town route is shorter. But the old town's streets allow 30 km/h and the bypass 80 km/h.
 
 **The idea.** A driver judges a route by the time it takes. Driving a street at its speed limit takes its length divided by that speed, so each edge gets that time as its cost (Rhodes COMP 372; Tübingen L12 slides). A speed in km/h becomes m/s by dividing by 3.6, because 1 km is 1000 m and 1 h is 3600 s. For the bypass from N to M, 1500 m at 80 km/h:
 
@@ -160,7 +160,7 @@ Section 4 left A\* without a heuristic for travel time. The room's straight-line
 
 ### 5.1 The bound and why it holds
 
-**The idea.** The time left from an intersection is at least the time it would take to drive the straight line to the goal at the fastest speed anywhere on the map. For the town, the fastest speed is the bypass's 80 km/h, 22.22 m/s. From S, 2500 m from T as the crow flies:
+**The idea.** The time left from an intersection is at least the time it would take to drive the straight line to the goal at the fastest speed anywhere on the map. For the town, the fastest speed is the bypass's 80 km/h, 22.22 m/s. From S, 2500 m from T in a straight line:
 
 $$h(S) = 2500 / 22.22$$
 
@@ -223,7 +223,7 @@ $$f(B) = 96.0 + 67.5$$
 
 $$= 163.5 \text{ s}$$
 
-The 163.5 s is below 197.1 s, so B looks as promising as the bypass. The heuristic at B, 67.5 s, prices the 1500 m to T at 80 km/h, while the true fastest time from B is 156.0 s, through the 30 km/h old town.
+The 163.5 s is below 197.1 s, so B looks as promising as the bypass. The heuristic at B, 67.5 s, assumes the 1500 m to T are driven at 80 km/h, while the true fastest time from B is 156.0 s, through the 30 km/h old town.
 
 On Chicago the gap is wider. The top speed limit, 88.5 km/h, belongs to the expressways of Figure 4; the median street is 35.3 km/h (notebook). Figure 8 compares the guess with the truth at every intersection of the map, for the trip's goal: the dots lie far below the line where guess and truth are equal.
 
@@ -236,17 +236,17 @@ The average over 200 random trips on the Chicago map shows what the looseness co
 | length (m), heuristic = straight line | 854.5 | 240.4 |
 | travel time (s), heuristic = straight line ÷ 88.5 km/h | 861.1 | 528.1 |
 
-With length as the cost, the straight line is close to the truth on Chicago's street grid, and A\* takes off 28 percent of what Dijkstra does. With travel time, the same line divided by the top speed is loose, and A\* takes off 61 percent. A\*'s speed depends on having a heuristic that estimates distances well (Strasser and Zeitz 2021), and road networks make the straight line a poor one: Euclidean bounds are "not very good for driving directions" (UW CSE 421 L7). The guess needs to know about the roads.
+With length as the cost, the straight line is close to the truth on Chicago's street grid, and A\* takes off 28 percent of what Dijkstra does. With travel time, the same line divided by the top speed is loose, and A\* takes off 61 percent. A\*'s speed depends on having a heuristic that estimates distances well (Strasser and Zeitz 2021), and road networks make the straight line a poor one: Euclidean bounds are "not very good for driving directions" (UW CSE 421 L7). The guess must take the roads into account.
 
 ## 6. Landmarks: lower bounds from stored travel times
 
-> **Key point:** Store, once, the exact travel times between a few landmark vertices and every other vertex; since a detour through the goal is never faster than the fastest way to a landmark, the stored times give a lower bound on the time left that knows about the roads. With 16 landmarks, A\* takes off 108 of the Chicago trip's intersections instead of 1229.
+> **Key point:** Store, once, the exact travel times between a few landmark vertices and every other vertex; since a detour through the goal is never faster than the fastest way to a landmark, the stored times give a lower bound on the time left that takes the roads into account. With 16 landmarks, A\* takes off 108 of the Chicago trip's intersections instead of 1229.
 
-The straight line of Section 5 knows nothing about the roads: at B it guessed 67.5 s where the true time is 156.0 s. A better guess needs the roads, but the exact time left differs for every goal: computing it before each search is too slow, and storing it for every pair of vertices takes too much memory (Red Blob, differential heuristics).
+The straight line of Section 5 ignores the roads: at B it guessed 67.5 s where the true time is 156.0 s. A better guess needs the roads, but the exact time left differs for every goal: computing it before each search is too slow, and storing it for every pair of vertices takes too much memory (Red Blob, differential heuristics).
 
 ### 6.1 The triangle inequality on travel times
 
-**The idea.** Pick one vertex, L at the east edge of the town, and compute the fastest time from every vertex to it, once, with one Dijkstra run backwards from L. Then use it for any goal. From B, one way to reach L is to drive to T first and then on to L. That way can never beat the fastest way from B to L (Figure 9). With the stored times, 193.8 s from B to L and 46.8 s from T to L (notebook):
+**The idea.** Pick one vertex, L at the east edge of the town, and compute the fastest time from every vertex to it, once, with one Dijkstra run backwards from L. Then use it for any goal. From B, one way to reach L is to drive to T first and then on to L. That way can never be faster than the fastest way from B to L (Figure 9). With the stored times, 193.8 s from B to L and 46.8 s from T to L (notebook):
 
 $$\text{time}(B, T) + 46.8 \ge 193.8$$
 
@@ -310,7 +310,7 @@ $$= 243.0 \text{ s}$$
 
 which is above the route's 197.1 s, so A\* finishes before B comes off: 6 vertices against 7 with the straight line and 10 with Dijkstra, all with the 197.1 s route (notebook).
 
-One landmark does not help everywhere. At M the bound is only 1.8 s, while the straight line gives 28.8 s and the truth is 64.8 s (notebook): from M the fastest way to L does not pass T, so the detour through T says little. A landmark gives a tight bound when it lies behind the goal, as seen from the vertex, or before the vertex, as seen from the goal (Freiburg L3; Goldberg and Harrelson 2005). No single landmark is behind every goal, so ALT keeps several landmarks and takes the largest bound (Red Blob, differential heuristics).
+One landmark does not help everywhere. At M the bound is only 1.8 s, while the straight line gives 28.8 s and the truth is 64.8 s (notebook): from M the fastest way to L does not pass T, so the detour through T gives a weak bound. A landmark gives a tight bound when it lies behind the goal, as seen from the vertex, or before the vertex, as seen from the goal (Freiburg L3; Goldberg and Harrelson 2005). No single landmark is behind every goal, so ALT keeps several landmarks and takes the largest bound (Red Blob, differential heuristics).
 
 ### 6.3 Many landmarks on a real map
 
@@ -333,9 +333,9 @@ The closer guess means less work, by the same dominance rule as on the room's gr
 | 8 landmarks | 91.7 |
 | 16 landmarks | 51.6 |
 
-Even one landmark beats the straight line, and more landmarks help further, as Goldberg and Harrelson found on road networks (Goldberg and Harrelson 2005). On a road graph of 1.6 million vertices with travel-time costs, A\* with landmarks, searching from both ends, took 12 ms where [bidirectional](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#82-bidirectional-search) (G-2584) Dijkstra took 340 ms (UW CSE 421 L7).
+Even one landmark does better than the straight line, and more landmarks help further, as Goldberg and Harrelson found on road networks (Goldberg and Harrelson 2005). On a road graph of 1.6 million vertices with travel-time costs, A\* with landmarks, searching from both ends, took 12 ms where [bidirectional](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#82-bidirectional-search) (G-2584) Dijkstra took 340 ms (UW CSE 421 L7).
 
-Landmarks keep the search near the route, but the search still walks the route itself, intersection by intersection. A long route passes thousands of vertices, such as the 3,617 of a route from Glasgow to London (mjt CH), and A\* takes every one of them off its open list.
+Landmarks keep the search near the route, but the search still follows the route itself, intersection by intersection. A long route passes thousands of vertices, such as the 3,617 of a route from Glasgow to London (mjt CH), and A\* takes every one of them off its open list.
 
 ## 7. Contraction hierarchies: shortcuts over unimportant roads
 
@@ -392,7 +392,7 @@ On the town trip, the search from S climbs S, A, N, M, and the search back from 
 
 $$132.3 + 64.8 = 197.1 \text{ s}$$
 
-the fastest time, after 8 take-offs, against Dijkstra's 10. Each search stops once the smallest cost on its open list is at least the best route found so far, as no later vertex can give a faster one (Geisberger et al. 2008). The answer is the smallest sum over all vertices taken off by both (Freiburg L6), as in bidirectional search: for S to C three vertices qualify, A with 156 s, N with 213.6 s and M with 221.1 s, and A wins (Figure 13, last frame).
+the fastest time, after 8 take-offs, against Dijkstra's 10. Each search stops once the smallest cost on its open list is at least the best route found so far, as no later vertex can give a faster one (Geisberger et al. 2008). The answer is the smallest sum over all vertices taken off by both (Freiburg L6), as in bidirectional search: for S to C three vertices qualify, A with 156 s, N with 213.6 s and M with 221.1 s, and A gives the smallest (Figure 13, last frame).
 
 **Why climbing is enough.** Follow the ranks along the fastest town route S-A-N-M-D-T:
 
@@ -402,7 +402,7 @@ the fastest time, after 8 take-offs, against Dijkstra's 10. Each search stops on
 
 The ranks rise to M, the most important vertex on the route, and then fall. So the route is a climb from S to M, found by the search from S, and a climb from T to M, found by the search from T. A route whose ranks dip in the middle is also covered: the dip's vertex was contracted before its two neighbours, and a shortcut, or another way of the same time, bridges it. On S to C, B (rank 2) lies between A (rank 7) and C (rank 3), and the shortcut A → C bridges it; unpacking the shortcut gives back A, B, C (Freiburg L7; Geisberger et al. 2008).
 
-**On real maps.** On the Chicago trip the two searches take off 67 and 92 intersections, 159 in all, and over 200 random trips 90.0 on average, against 861.1 for Dijkstra and 51.6 for 16 landmarks (notebook). On a city map, the hierarchy and the landmarks are close. The hierarchy pays on large maps: on Western Europe's 18 million vertices, a query took 403 vertices off and ran in 183 µs (Geisberger et al. 2008), and on the United Kingdom's 3,478,051 vertices a query visited 3968 + 3113 of them (mjt CH).
+**On real maps.** On the Chicago trip the two searches take off 67 and 92 intersections, 159 in all, and over 200 random trips 90.0 on average, against 861.1 for Dijkstra and 51.6 for 16 landmarks (notebook). On a city map, the hierarchy and the landmarks are close. The hierarchy is most useful on large maps: on Western Europe's 18 million vertices, a query took 403 vertices off and ran in 183 µs (Geisberger et al. 2008), and on the United Kingdom's 3,478,051 vertices a query visited 3968 + 3113 of them (mjt CH).
 
 ### 7.4 CH-Potentials: the hierarchy as a heuristic
 
@@ -415,7 +415,7 @@ From no heuristic to the straight line to landmarks, the A\* loop never changed;
 | Method | Precomputed | Chicago trip, taken off | 200 trips, average | Why use it |
 |---|---|---|---|---|
 | Dijkstra (heuristic 0) | nothing | 1526 | 861.1 | no heuristic needed |
-| A\*, straight line ÷ top speed | nothing | 1229 | 528.1 | free, but loose when most roads are slower than the top speed |
+| A\*, straight line ÷ top speed | nothing | 1229 | 528.1 | no precomputation, but loose when most roads are slower than the top speed |
 | A\*, 16 landmarks (ALT) | 2 Dijkstra runs per landmark, 52096 times | 108 | 51.6 | tight bounds from real travel times |
 | contraction hierarchy | an order and 5509 shortcuts | 67 + 92 = 159 | 90.0 | searches stay small on very large maps |
 
@@ -428,7 +428,7 @@ All four return the fastest route, 492.8 s on the Chicago trip, because the thre
 - A **travel-time edge cost** (G-2876) is length divided by speed limit, so the fastest route can be longer: 3300 m and 197.1 s by the town's bypass against 2500 m and 252.0 s through the old town.
 - The straight line divided by the top speed never overestimates, because no route is shorter than the straight line or faster than the top speed; it is loose, 0.41 of the truth on average in Chicago, because most streets are much slower.
 - A **landmark** (G-2877) stores fastest times to and from every vertex, so the triangle inequality gives a lower bound that follows the roads; **ALT** (G-2878) takes the largest over several landmarks, 0.93 of the truth on average with 16.
-- **Node contraction** (G-2879) removes the least important vertex and adds a **shortcut** (G-2880) only when a search that avoids that vertex finds no other way that is as fast, so every fastest time survives.
+- **Node contraction** (G-2879) removes the least important vertex and adds a **shortcut** (G-2880) only when a search that avoids that vertex finds no other way that is as fast, so every fastest time is kept.
 - A **contraction hierarchy** (G-2882) answers a query with two searches that only climb, because every fastest route rises to its most important vertex and falls again; on large maps the searches stay at a few hundred vertices.
 - **CH-Potentials** (G-2883) turn a contraction hierarchy into a heuristic for A\*, so A\* stays flexible for traffic and turn rules and still searches little.
 

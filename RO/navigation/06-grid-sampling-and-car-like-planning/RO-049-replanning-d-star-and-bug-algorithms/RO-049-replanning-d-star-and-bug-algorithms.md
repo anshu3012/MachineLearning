@@ -13,11 +13,11 @@ tags: [subject/robotics, area/navigation, concept/replanning, concept/d-star, co
 
 ## 1. Overview
 
-> **Key point:** A plan is only as good as the map, and a box the map does not show makes the robot's numbers wrong. Instead of searching again from scratch at every surprise, D\* repairs just the numbers the box changes; with no time for a full search, real-time search moves after a few cells of thinking; with no map at all, bug algorithms follow the obstacle's edge.
+> **Key point:** A plan is only as good as the map, and a box the map does not show makes the robot's numbers wrong. Instead of searching again from scratch at every surprise, D\* repairs only the numbers the box changes; with no time for a full search, real-time search moves after searching a few cells; with no map at all, bug algorithms follow the obstacle's edge.
 
 So far the robot can reach the door from any cell of its map: every free cell holds its [cost-to-go](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#3-which-moves-count-four-or-eight-neighbours-moves-or-metres) (G-2701), its shortest distance to the door's cell G, and the robot walks [downhill on those numbers](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#42-one-step-at-a-time-from-any-cell), 3.414 m from the start cell S.
 
-What still breaks: the numbers are only as right as the map. Someone has left a box, 1.0 m by 0.5 m, on the floor at x 2.0 to 3.0 m and y 2.0 to 2.5 m, across the robot's route, and the map shows free floor there.
+The remaining problem: the numbers are only as correct as the map. Someone has left a box, 1.0 m by 0.5 m, on the floor at x 2.0 to 3.0 m and y 2.0 to 2.5 m, across the robot's route, and the map shows free floor there.
 
 The robot's sensor sees only the 8 cells around it, 0.5 m. Figure 1 plays what happens: after one move the robot sees the box, and its cell's number, 2.707 m, is wrong, because the way round the box is 4.414 m.
 
@@ -27,7 +27,7 @@ The simplest fix is to run [A\* search](../../04-graph-search-and-configuration-
 
 - planning on a map that may be wrong: trust it, move, look, plan again, and why to plan from the door ([Section 2](#2-planning-on-a-map-that-may-be-wrong));
 - D\*, which repairs only the numbers a change makes wrong, and D\* Lite ([Section 3](#3-repairing-the-numbers-d));
-- when repairing pays off, measured on finer maps ([Section 4](#4-when-repairing-pays));
+- when repairing costs less than searching again, measured on finer maps ([Section 4](#4-when-repairing-costs-less-than-a-new-search));
 - real-time search, LRTA\* and RTAA\*, for when there is no time to plan all the way to the door ([Section 5](#5-no-time-to-plan-to-the-door-real-time-search));
 - bug algorithms, for a robot with no map at all ([Section 6](#6-no-map-at-all-bug-algorithms)).
 
@@ -35,7 +35,7 @@ The simplest fix is to run [A\* search](../../04-graph-search-and-configuration-
 
 > **Key point:** The robot treats every cell it has not seen blocked as free, plans, moves one cell, looks, and plans again when what it sees differs from its map. Planning from the door keeps the numbers right while the robot moves; only a change in the map makes some of them wrong.
 
-### 2.1 Trust the map until it is wrong
+### 2.1 Planning on the map until a sensor contradicts it
 
 The box in the opening is a cell the map gets wrong. The robot cannot wait for a perfect map, so it plans with the one it has: it treats every cell its map shows free, or has never seen, as free until a sensor shows otherwise (CMU incremental, slide 13; Koenig and Likhachev 2002).
 
@@ -52,9 +52,9 @@ Computing a new plan while moving, because the map, the robot's position or the 
 
 ### 2.2 Why plan from the door
 
-A search from the robot measures every number from the robot's cell, so the numbers go stale the moment it moves. A search from the door measures every number to the door, and the door does not move: as the robot drives, those numbers stay right (CMU incremental, slide 8). The [cost-to-go](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#3-which-moves-count-four-or-eight-neighbours-moves-or-metres) map the robot walks down is such a [backward search](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#81-backward-search) (G-2583), run from the door.
+A search from the robot measures every number from the robot's cell, so the numbers are out of date as soon as it moves. A search from the door measures every number to the door, and the door does not move: as the robot drives, those numbers stay right (CMU incremental, slide 8). The [cost-to-go](../RO-048-grid-planning-wavefronts-and-value-iteration/RO-048-grid-planning-wavefronts-and-value-iteration.md#3-which-moves-count-four-or-eight-neighbours-moves-or-metres) map the robot walks down is such a [backward search](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#81-backward-search) (G-2583), run from the door.
 
-So the robot's numbers go wrong only when the map changes, and then only the numbers whose shortest route ran through the change. Which numbers are those, and how can the robot fix only them?
+The robot's numbers therefore become wrong only when the map changes, and then only the numbers whose shortest route ran through the change. Which numbers are those, and how can the robot fix only them?
 
 ## 3. Repairing the numbers: D*
 
@@ -90,7 +90,7 @@ But even 3.414 is wrong: the offer from the cell on the robot's left, 2.914, als
 **The mechanism.** The cells that disagree with their lookahead wait in a [priority queue](../../04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#51-why-a-plain-list-is-slow) (G-2568). The cell with the smallest key comes off first, and is fixed in one of two ways (Koenig and Likhachev 2002):
 
 - **if its lookahead is smaller than its number**, a shorter way has opened: the number falls to the lookahead and is final, like a vertex settled by [Dijkstra's algorithm](../../04-graph-search-and-configuration-space/RO-033-dijkstra-and-priority-queues/RO-033-dijkstra-and-priority-queues.md#33-why-the-nearest-unsettled-vertex-is-final) (G-2565);
-- **if its lookahead is larger**, its way has got longer: it cannot trust any old offer, which may itself have run through the change, so its number rises to infinity, and it goes back into the queue to fall to its new lookahead later.
+- **if its lookahead is larger**, its way has become longer: any old offer may itself have run through the change, so its number rises to infinity, and it goes back into the queue to fall to its new lookahead later.
 
 After either change, every neighbour's lookahead is recomputed, and any neighbour that disagrees joins the queue. The key orders the queue like [A\*'s open list](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#41-g-h-and-f-on-the-first-step), so the cells on the robot's side are fixed first. With:
 
@@ -147,15 +147,15 @@ Keeping the cost-to-go from a backward search and, when the sensed costs differ 
 
 The repair we ran is **D\* Lite** (G-2714), by Koenig and Likhachev (2002): it "implements the same navigation strategy as D\* but is algorithmically different", built on A\*-like keys and the lookahead rhs, and it is shorter and simpler to analyse (Koenig and Likhachev 2002). Current systems are typically based on D\* Lite rather than the original D\* (Wikipedia, D\*).
 
-On this small grid, the repair took 12 cells and A\* from scratch 11. The repair has to win somewhere to be worth it.
+On this small grid, the repair took 12 cells and A\* from scratch 11. The repair is worth using only where it costs less than a new search.
 
-## 4. When repairing pays
+## 4. When repairing costs less than a new search
 
 > **Key point:** On the 0.5 m grid repairing costs as much as searching again. On finer maps of the same room, where the box is seen piece by piece, D\* Lite's repairs cost 387 cells against 596 for A\* from scratch, and a piece of the box behind the robot costs it nothing at all.
 
 The opening problem asked for replanning that does not start over at every surprise. One box on a 76-cell grid is too small a test.
 
-A real robot's map has finer cells, and its sensor sees an obstacle bit by bit, so it replans many times. We cut the same room into cells of 0.25 m and 0.1 m, let the robot see 0.5 m round itself, and count, at every replan, the cells D\* Lite, the repairing planner of Section 3, takes off its queue and the cells A\* from scratch takes off its open list from the robot's cell.
+A real robot's map has finer cells, and its sensor sees an obstacle piece by piece, so it replans many times. We cut the same room into cells of 0.25 m and 0.1 m, let the robot see 0.5 m round itself, and count, at every replan, the cells D\* Lite, the repairing planner of Section 3, takes off its queue and the cells A\* from scratch takes off its open list from the robot's cell.
 
 Here D\* Lite starts, like A\*, with no numbers: its first plan computes only the numbers it needs to reach S (notebook).
 
@@ -171,21 +171,21 @@ Figure 3 plays the 0.1 m drive. Watch the light red cells at each replan: in fra
 
 ![The same drive on the room cut into 0.1 m cells, one frame per move; the robot (black dot) sees 0.5 m round itself. Top: D\* Lite, which keeps its numbers and repairs them; bottom: A\* from scratch, run from the robot's cell at the same moments. Light red: the cells each method takes off its queue at this replan; brown: box cells seen so far; dashed: the box. The first plan costs D\* Lite 134 cells and A\* 117. At the 7 replans D\* Lite takes 238, 44, 39, 35, 31, 0 and 0 cells, A\* 125, 125, 105, 117, 90, 17 and 17: 387 against 596. The last two pieces of the box lie behind the robot, so no number it needs changes and D\* Lite does no work](images/dstar_vs_astar.gif){height=85%}
 
-The last two replans cost D\* Lite nothing: the newly seen box cells lie behind the robot, so no number on its way to the door depended on them. A\* from scratch cannot know that and searches 17 cells each time. A repair touches only what a change affects; a fresh search pays for the whole route every time.
+The last two replans cost D\* Lite nothing: the newly seen box cells lie behind the robot, so no number on its way to the door depended on them. A\* from scratch cannot know that and searches 17 cells each time. A repair touches only what a change affects; a fresh search computes the whole route every time.
 
-**A gotcha.** Searching from the door helps because only the robot moves. If the goal moves as well, numbers measured to the old goal are all wrong, and the CMU slides advise replanning from scratch in that case (CMU incremental, slide 9).
+**A limitation.** Searching from the door helps because only the robot moves. If the goal moves as well, numbers measured to the old goal are all wrong, and the CMU slides advise replanning from scratch in that case (CMU incremental, slide 9).
 
 D\* Lite still finishes a search before every move, up to the robot's own cell. On a large map that can take longer than the robot can wait.
 
 ## 5. No time to plan to the door: real-time search
 
-> **Key point:** Real-time search thinks about a fixed, small number of cells, moves, and thinks again, raising its guess of the distance wherever the guess proved too low. LRTA\* looks one cell ahead and gets out of the pocket by the box after 4 raises, 9 moves, 5.121 m; RTAA\* looks 4 cells ahead, 13 cells in 4 searches, 8 moves, 4.414 m.
+> **Key point:** Real-time search limits each search to a fixed, small number of cells, moves, and searches again, raising its guess of the distance wherever the guess proved too low. LRTA\* looks one cell ahead and escapes the pocket by the box after 4 raises, 9 moves, 5.121 m; RTAA\* looks 4 cells ahead, 13 cells in 4 searches, 8 moves, 4.414 m.
 
 ### 5.1 Learning the guesses: LRTA*
 
-**The problem.** Every method so far plans all the way to the door before the robot moves. On large terrains a search can take minutes, which "adds up to substantial idle times" (Koenig and Likhachev 2002). A robot that must keep moving needs a strict limit on how much it thinks per move (CMU real-time, slide 3).
+**The problem.** Every method so far plans all the way to the door before the robot moves. On large terrains a search can take minutes, which "adds up to substantial idle times" (Koenig and Likhachev 2002). A robot that must keep moving needs a strict limit on how much it searches per move (CMU real-time, slide 3).
 
-**The idea.** Look only at the cells around the robot, step to the one that looks best, and remember what was learned. The robot's guess of each cell's distance to the door starts as the [heuristic](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#2-a-guess-of-the-distance-left-the-heuristic) (G-2570) of A\*, the octile distance. Real-time search runs from the robot towards the door, so here the guess is of the distance to the door; the $h$ in D\* Lite's key of Section 3.2 guessed the distance to the robot, because D\* Lite searches from the door. When every neighbour turns out worse than the guess at the robot's cell promised, the guess was too low, and the robot raises it, so it does not come back here believing the same thing.
+**The idea.** Look only at the cells around the robot, step to the one that looks best, and remember what was learned. The robot's guess of each cell's distance to the door starts as the [heuristic](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#2-a-guess-of-the-distance-left-the-heuristic) (G-2570) of A\*, the octile distance. Real-time search runs from the robot towards the door, so here the guess is of the distance to the door; the $h$ in D\* Lite's key of Section 3.2 guessed the distance to the robot, because D\* Lite searches from the door. When every neighbour's offer is larger than the guess at the robot's cell, the guess was too low, and the robot raises it, so it does not return to this cell with the same too-low guess.
 
 **The standard term.** Searching only a bounded number of cells around the robot before each move is **real-time heuristic search** (G-2715) (CMU real-time, slide 4). With a lookahead of one cell it is **LRTA\***, learning real-time A\* (G-2716) (Korf 1990; CMU real-time, slide 17). At each move (CMU real-time, slide 12):
 
@@ -212,13 +212,13 @@ Step 1 is the [value iteration](../RO-048-grid-planning-wavefronts-and-value-ite
 | down | 0.5 | 2.914 | 3.414 |
 | diagonally back to S | 0.707 | 3.121 | 3.828 |
 
-Every offer is worse than the 2.414 the cell's guess promised: the cell is a dent in the guesses, a [local minimum](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110), where a robot that only ever stepped to the lowest guess would stay forever (CMU real-time, slide 11). LRTA\* raises the guess to 3.121 and moves left.
+Every offer is larger than the cell's guess of 2.414: the cell is a dent in the guesses, a [local minimum](../../../../ML/06-regression/ML-056-gradient-descent/ML-056-gradient-descent.md#8-the-shape-of-the-loss-function-matters) (G-1110), where a robot that only ever stepped to the lowest guess would stay forever (CMU real-time, slide 11). LRTA\* raises the guess to 3.121 and moves left.
 
 Figure 4 (left) plays the whole walk. Watch the orange outlines collect: 4 guesses rise (2.414 to 3.121, 2.621 to 3.328, 2.828 to 3.121, 2.621 to 2.914) until the guesses lead out round the box.
 
 ![Real-time search with the box unknown until seen, on the part of the room the robot crosses (x 1.0 to 4.5 m, y 0.5 to 4.0 m), one move per frame. Each cell shows the robot's guess h of its distance to the door, starting as the octile distance; brown: box cells seen; orange outline: a guess that has been raised. Left: LRTA\*, looking one cell ahead: it walks into the pocket between the box and the table, raises 4 guesses, and reaches the door after 9 moves, 5.121 m. Right: RTAA\*, taking up to 4 cells off an A\* open list per search (light red), setting each such cell's guess to f(s) − g, where s is the best cell left on the open list, f(s) its estimated total and g the cell's cost so far from the robot; it reaches the door after 4 searches of 13 cells in all, 8 moves, 4.414 m](images/realtime.gif)
 
-LRTA\* thinks about 9 cells in all, one per move, and drives 5.121 m (notebook).
+LRTA\* searches 9 cells in all, one per move, and drives 5.121 m (notebook).
 
 **Why raising a guess is safe.** The guesses start as an [admissible heuristic](../../04-graph-search-and-configuration-space/RO-034-a-star-and-heuristics/RO-034-a-star-and-heuristics.md#51-a-guess-that-never-overestimates) (G-2578), never above the true distance. The true distance from the pocket cell is its best move plus the true distance from there, and each true distance is at least its guess. With:
 
@@ -283,7 +283,7 @@ $$4.414 \ge 3.621 - 0.5 = 3.121$$
 
 $$h^\ast(u) \ge f(s) - g(u)$$
 
-So the new guess never exceeds the true distance. The whole drive takes 4 searches of at most 4 cells, 13 cells in all, and 8 moves, 4.414 m (notebook; Figure 4, right). Its first move, straight up from S, is not foresight: the box is still unseen, and every cell of the first search ties with the cell straight up at an estimated total of 3.121 m, so that cell happens to be the best one left on the open list. On a map this small such ties decide a lot: with $N = 2$ the drive is 5.828 m, and with $N = 8$ it is 5.121 m (notebook). Over many maps, a smaller lookahead gives longer drives but less thinking per search (Koenig and Likhachev 2006).
+So the new guess never exceeds the true distance. The whole drive takes 4 searches of at most 4 cells, 13 cells in all, and 8 moves, 4.414 m (notebook; Figure 4, right). Its first move, straight up from S, is not foresight: the box is still unseen, and every cell of the first search ties with the cell straight up at an estimated total of 3.121 m, so that cell happens to be the best one left on the open list. On a map this small such ties have a large effect: with $N = 2$ the drive is 5.828 m, and with $N = 8$ it is 5.121 m (notebook). Over many maps, a smaller lookahead gives longer drives but fewer cells per search (Koenig and Likhachev 2006).
 
 Both methods still need the robot's grid map, with a guess stored for every cell they have visited.
 
@@ -291,7 +291,7 @@ Both methods still need the robot's grid map, with a guess stored for every cell
 
 > **Key point:** A robot that knows only where the door is and what it touches can still get there: head straight for the door, and follow the edge of whatever blocks the way. Bug 1 goes round the whole obstacle before leaving at the point nearest the door, 16.912 m; Bug 2 leaves as soon as it is back on the straight line to the door and nearer than where it hit, 4.885 m.
 
-**The problem.** Every method so far needs a grid map: numbers, or at least guesses, for every cell. Put the robot in a room it has never seen, with the box where it was.
+**The problem.** Every method so far needs a grid map: numbers, or at least guesses, for every cell. We place the robot in a room it has never seen, with the box where it was.
 
 The robot knows two things: the direction and distance of the door, from a goal sensor, and the shape of an obstacle it touches, from a short-range sensor (LaValle §12.3.3). Everything else, the table too, is unknown.
 
@@ -329,7 +329,7 @@ $$0.8500 + 2.6187 + 1.4167$$
 
 $$= 4.885 \text{ m}$$
 
-**How bad can each get?** With:
+**The worst case.** With:
 
 - $d$ is the straight-line distance from start to goal, 3.4 m;
 - $p_i$ is the length round obstacle $i$, here one obstacle with $p = 11.702$ m;
@@ -350,7 +350,7 @@ $$= 3.4 + 11.702 = 15.102 \text{ m}$$
 
 Our runs, 16.912 m and 4.885 m, stay inside both limits. Bug 2 is far shorter here, but not always: an obstacle whose edge crosses the start–goal line many times makes Bug 2 follow it piece after piece, each crossing adding to its bound (LaValle §12.3.3, Figure 12.23).
 
-Bug 1 pays its long loop to see every point of the edge before choosing where to leave. Both assume the robot always knows its position exactly and moves exactly as commanded (Platt bugs).
+Bug 1 drives its long loop to see every point of the edge before choosing where to leave. Both assume the robot always knows its position exactly and moves exactly as commanded (Platt bugs).
 
 ## 7. Summary
 
@@ -358,7 +358,7 @@ Bug 1 pays its long loop to see every point of the edge before choosing where to
 |---|---|---|---|
 | A\* from scratch at each surprise | a map; a full search per replan | 11 cells (0.5 m); 596 over 7 replans (0.1 m) | simple, but every search starts from nothing |
 | D\* / D\* Lite | a map; numbers kept from a backward search | 12 repair steps; 387 over 7 replans (0.1 m) | repairs only the numbers a change affects |
-| LRTA\* | a map of guesses; 1 cell of thinking per move | 9 moves, 5.121 m | a fixed, small amount of thinking per move |
+| LRTA\* | a map of guesses; 1 cell searched per move | 9 moves, 5.121 m | a fixed, small amount of search per move |
 | RTAA\* | a map of guesses; $N$ cells per move | 4 searches, 13 cells, 4.414 m | looks further; one subtraction per cell to learn |
 | Bug 1 | goal direction and contact only | 16.912 m | sees the whole edge first; at most $d + \tfrac{3}{2}\sum p_i$ |
 | Bug 2 | goal direction, contact, the start–goal line | 4.885 m | leaves early; at most $d + \tfrac{1}{2}\sum n_i p_i$ |
@@ -368,12 +368,12 @@ Here $d$ is the start's straight-line distance to the goal, $p_i$ the length rou
 - The unknown box made the robot's cell's number wrong, 2.707 m where the way round is 4.414 m, so the robot must replan; it treats every cell it has not seen blocked as free, so its plans are never too pessimistic, and **replanning** (G-2711) fixes them when they are too optimistic.
 - Planning from the door keeps the numbers right while the robot moves, because they measure the distance to the door, which does not move; only the cells whose route ran through the box go wrong.
 - **D\*** (G-2713) fixes only the cells whose number differs from their lookahead, the smallest move plus neighbour's number, in key order, raising the ones that relied on the change and lowering them to the new way round, so 12 steps reach the robot's true 4.414 m and 68 of 76 numbers are never touched.
-- **D\* Lite** (G-2714) gives D\*'s behaviour with A\*-like keys and the lookahead rhs; it pays when the map is large and the changes are seen bit by bit: 387 against 596 replanning cells on 0.1 m cells, and nothing at all for box cells behind the robot.
-- **Real-time heuristic search** (G-2715) bounds the thinking per move; **LRTA\*** (G-2716) raises the guess at a cell whose every offer is worse, so it escapes the pocket by the box after 4 raises, and the guesses stay admissible because a true distance is at least any guessed offer.
+- **D\* Lite** (G-2714) gives D\*'s behaviour with A\*-like keys and the lookahead rhs; it saves work when the map is large and the changes are seen piece by piece: 387 against 596 replanning cells on 0.1 m cells, and nothing at all for box cells behind the robot.
+- **Real-time heuristic search** (G-2715) bounds the search per move; **LRTA\*** (G-2716) raises the guess at a cell whose every offer is worse, so it escapes the pocket by the box after 4 raises, and the guesses stay admissible because a true distance is at least any guessed offer.
 - **RTAA\*** (G-2717) looks a fixed number of cells ahead and sets each looked-at cell's guess to the best estimated total left on the open list minus the cell's own cost so far, which stays admissible because that total never exceeds the shortest route; looking 4 cells ahead, it reaches the door in 4.414 m after 13 cells.
 - A **bug algorithm** (G-2718) needs no map: Bug 1 circles the whole obstacle before leaving, 16.912 m, so it never misses the best exit; Bug 2 leaves where the start–goal line crosses the edge nearer the door, 4.885 m, but can be longer on an obstacle that crosses the start–goal line many times.
 
-The robot can now reach the door when its map is wrong, when it has little time to think, and when it has no map at all. Still missing: every method here moves on a grid or crawls along walls; a [potential field](../RO-050-potential-fields/RO-050-potential-fields.md#3-the-push-of-the-obstacles-the-repulsive-potential) builds a downhill surface straight from the obstacles' shapes, with no grid at all.
+The robot can now reach the door when its map is wrong, when it has little time to plan, and when it has no map at all. The methods here still move on a grid or follow obstacle edges; a [potential field](../RO-050-potential-fields/RO-050-potential-fields.md#3-the-push-of-the-obstacles-the-repulsive-potential) builds a downhill surface straight from the obstacles' shapes, with no grid at all.
 
 ## 8. Sources
 
@@ -403,7 +403,7 @@ Terms taught in this Note come first; linked terms are recaps, taught in the Not
 | Replanning (G-2711) | Computing a new plan while the robot is moving, because its map, its position or the world has changed, such as a box seen on the route; it keeps the robot on a route that is still possible. |
 | D* (dynamic A*) (G-2713) | A replanner that keeps the cost-to-go from a backward search and, when sensed costs differ from the map, puts the affected cells back in a priority queue and fixes them until the robot's own cost-to-go is right again; it repairs only the numbers a change affects instead of searching from scratch. |
 | D* Lite (G-2714) | A simpler algorithm with the same behaviour as D*, built on A*-like keys and a one-step lookahead (rhs) for every cell; current D* systems are typically based on it. |
-| Real-time heuristic search (G-2715) | Searching only a fixed, small number of states around the robot before each move, then moving and searching again; it bounds the thinking time per move at the cost of a possibly longer drive. |
+| Real-time heuristic search (G-2715) | Searching only a fixed, small number of states around the robot before each move, then moving and searching again; it bounds the search time per move at the cost of a possibly longer drive. |
 | LRTA* (learning real-time A*) (G-2716) | Real-time search that looks one move ahead: it raises the heuristic at the robot's state to its best offer, the smallest move plus neighbour's heuristic, and moves there; the raised guesses stay admissible and lead the robot out of dead ends. |
 | RTAA* (real-time adaptive A*) (G-2717) | Real-time search that takes up to N states off an A* open list, sets each one's heuristic to f(s) minus its cost so far, s being the best state left on the open list, and moves towards s; one subtraction per state keeps the guesses admissible. |
 | Bug algorithm (G-2718) | A strategy for a robot with no map that knows only the goal's direction and what it touches: head for the goal, and follow the edge of any obstacle met until a rule says to leave (Bug 1: at the nearest point after a full loop; Bug 2: back on the straight start–goal line, nearer the goal). |
