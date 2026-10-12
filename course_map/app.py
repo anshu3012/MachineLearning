@@ -14,6 +14,8 @@ from dash import Dash, Input, Output, ctx, dcc, html
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from build_map import AREAS, CONCEPTS, LINK_COLOUR, LINKS, STEP_COLOUR, STEPS, note_title  # noqa: E402
+CONCEPTS = {cid: c for cid, c in CONCEPTS.items() if any(m(c) for _, _, m in AREAS)}  # main-site areas only; Robotics Concepts sit in none
+LINKS = [l for l in LINKS if l["a"] in CONCEPTS and l["b"] in CONCEPTS]
 
 AREA_OF = {cid: next(a for a, _, member in AREAS if member(c)) for cid, c in CONCEPTS.items()}
 AREA_NAME = {a: title for a, title, _ in AREAS if a in AREA_OF.values()}

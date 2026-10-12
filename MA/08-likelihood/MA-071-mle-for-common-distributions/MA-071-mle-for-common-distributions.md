@@ -10,6 +10,7 @@ tags: [subject/maths, area/likelihood, step/foundations, concept/exponential-dis
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Probability density function (PDF)](../../../MA/03-distributions/MA-022-pdf-and-continuous-cdf/MA-022-pdf-and-continuous-cdf.md#4-bars-whose-area-is-probability-the-pdf); [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle).
+> - **Leads to:** [Beam model](../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture).
 <!-- /where-this-fits -->
 
 ## 1. Overview

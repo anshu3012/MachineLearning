@@ -11,6 +11,7 @@ tags: [subject/deep-learning, area/dl-basics, step/foundations, concept/memoizat
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Jacobian and matrix gradients](../../../MA/06-calculus/MA-063-jacobian-and-matrix-gradients/MA-063-jacobian-and-matrix-gradients.md#4-the-jacobian); [Backpropagation](../../../DL/01-basics/DL-015-backpropagation-what/DL-015-backpropagation-what.md#4-the-steps-of-backpropagation).
+> - **Leads to:** [Smoothing and the Viterbi algorithm](../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#5-looking-back-smoothing-and-the-most-likely-path).
 <!-- /where-this-fits -->
 
 ## 1. Overview

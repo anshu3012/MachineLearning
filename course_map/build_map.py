@@ -71,6 +71,11 @@ def ml(c):  # ML playlist Concepts; maths, statistics and deep learning get thei
     return subject(first_note(c)) == "ML"
 
 
+def robotics(c):
+    """A Robotics Concept: on its own site, with no Pipeline map step and no Concept map area."""
+    return subject(first_note(c)) == "RO"
+
+
 # Maths Chapters by Concept map topic (a topic can span several Chapters).
 MATHS_TOPICS = {"linear_algebra": ("00-why-maths", "05-linear-algebra"),
                 "descriptive": ("01-descriptive-stats", "03-distributions"),
@@ -126,10 +131,10 @@ def validate():
         extra = set(c) - {"id", "name", "step", "home", "videos", "status"}
         if extra:
             errors.append(f"unexpected keys {extra} in {c['id']} (a name with a comma must be quoted)")
-        if c["step"] not in STEPS:
-            errors.append(f"bad step for {c['id']}")
         if "home" not in c or c["home"].split("#")[0] not in LABELS:
             errors.append(f"missing or unknown home for {c['id']}")
+        elif ("step" in c or not robotics(c)) and c.get("step") not in STEPS:   # a Robotics Concept has no step
+            errors.append(f"bad step for {c['id']}")
     if errors:
         raise SystemExit("concepts.yaml has errors:\n" + "\n".join(errors))
 
@@ -148,10 +153,10 @@ def note_ref(video, md_dir):
 # ---------------------------------------------------------------- Where this fits
 
 def order(video):
-    """Reading position: MA, then ML, then DL, each in Note-number order (old video ids are not in this order)."""
+    """Reading position: MA, then ML, then DL, then RO, each in Note-number order (old video ids are not in this order)."""
     if video not in NOTES:
         return (9, video)
-    return ("MA", "ML", "DL").index(subject(video)), int(label(video)[3:])
+    return ("MA", "ML", "DL", "RO").index(subject(video)), int(label(video)[3:])
 
 
 # needs: a builds on b.  fixes: a (the fix) builds on b (the problem).  These are real requirements: if b is taught
@@ -196,11 +201,12 @@ _ORDER = []
 
 def course_order():
     """The Course order: the agreed Stages in course_map/course_stages.json (ML and DL in Note order, maths slotted
-    in just before its first user; chosen by two independent reviews). check_structure fails on any Builds on that
-    comes later."""
+    in just before its first user; chosen by two independent reviews), then the Robotics Notes in Note order (they
+    are on their own site, so not in the Stages). check_structure fails on any Builds on that comes later."""
     if not _ORDER:
         inv = {label(v): v for v in NOTES}
         _ORDER.extend(inv[n] for s in json.load(open(ROOT / "course_map" / "course_stages.json")) for n in s["notes"])
+        _ORDER.extend(sorted((v for v in NOTES if subject(v) == "RO"), key=order))
     return _ORDER
 
 
@@ -298,15 +304,19 @@ def concept_list(items, md_dir):
 
 def where_block(video):
     own, before, after, compare, later = neighbours(video)
-    steps_here = sorted({CONCEPTS[c]["step"] for c in own})
-    lines = [BEGIN,
-             "> **Where this fits:** Pipeline map " + ("step " if len(steps_here) == 1 else "steps ")
-             + ", ".join(f"{s} ({STEPS[s]})" for s in steps_here) + ". See the [Course map](../../../00-course-map/00-course-map.md).",
-             ">", "> ![](images/where_this_fits.png)", ">"]
+    steps_here = sorted({CONCEPTS[c]["step"] for c in own if "step" in CONCEPTS[c]})
+    up = "../" * len(NOTES[video].split("/"))          # Note folder -> repo root (Robotics Notes sit one level deeper)
+    if subject(video) == "RO":          # no Pipeline map step, strip or Course map link: those live on the main site
+        lines = [BEGIN, "> **Where this fits:**", ">"]
+    else:
+        lines = [BEGIN,
+                 "> **Where this fits:** Pipeline map " + ("step " if len(steps_here) == 1 else "steps ")
+                 + ", ".join(f"{s} ({STEPS[s]})" for s in steps_here) + f". See the [Course map]({up}00-course-map/00-course-map.md).",
+                 ">", "> ![](images/where_this_fits.png)", ">"]
     for label, items in (("Builds on", before), ("Used here, taught in full later", later), ("Leads to", after),
                          ("Compare with", compare)):
         if items:
-            lines.append(f"> - **{label}:** {concept_list(items, '../../../')}.")
+            lines.append(f"> - **{label}:** {concept_list(items, up)}.")
     lines.append(END)
     return "\n".join(lines), steps_here
 
@@ -341,10 +351,12 @@ def set_tags(text, video):
 def update_note(video):
     folder = ROOT / NOTES[video]
     note = note_file(video)
-    text = set_tags(note.read_text(), video)
+    text = note.read_text()
     block, steps_here = where_block(video)
-    (folder / "images").mkdir(exist_ok=True)
-    (folder / "images" / "where_this_fits.tex").write_text(pipeline_strip(steps_here))
+    if subject(video) != "RO":          # Robotics Notes keep their own tags and have no Pipeline map strip
+        text = set_tags(text, video)
+        (folder / "images").mkdir(exist_ok=True)
+        (folder / "images" / "where_this_fits.tex").write_text(pipeline_strip(steps_here))
     text = re.sub(r"\n\*\*Prerequisites:\*\*[^\n]*\n", "\n", text)                    # replaced by the box
     # front matter prerequisites = the box's "Builds on" Notes (earlier Notes only), one source for both
     pre = sorted({v for v in neighbours(video)[1].values() if v in NOTES}, key=position)
@@ -370,7 +382,7 @@ def pipeline_overview():
         row, col = divmod(s, 5)
         x = (col if row % 2 == 0 else 4 - col) * 3.6
         y = -row * 2.3
-        here = [c for c in CONCEPTS.values() if c["step"] == s]
+        here = [c for c in CONCEPTS.values() if c.get("step") == s]
         done = sum(c["status"] == "confirmed" for c in here)
         colour = STEP_COLOUR[s].lstrip("#")
         nodes.append(f"  \\definecolor{{c{s}}}{{HTML}}{{{colour}}}\n"
@@ -484,11 +496,11 @@ def course_map_note():
     for m, _ in maps:
         for ext in ("pdf", "png"):
             shutil.copy(ROOT / "course_map" / "mindmaps" / f"{m}.{ext}", out / f"concept_map_{m}.{ext}")
-    total = len(CONCEPTS)
+    total = sum(not robotics(c) for c in CONCEPTS.values())     # the main site's Concepts; Robotics has its own site
 
     step_sections = []
     for s, name in STEPS.items():
-        here = sorted((c for c in CONCEPTS.values() if c["step"] == s), key=lambda c: min(c["videos"]))
+        here = sorted((c for c in CONCEPTS.values() if c.get("step") == s), key=lambda c: min(c["videos"]))
         # a short list per step: each Concept links to the Note that teaches it (no table: 14 tables were hard to scan)
         items = "\n".join(f"- {concept_link(c['id'], home_note(c), '../')}" for c in here)
         step_sections.append(f"### 2.{s + 1} Step {s}: {name}\n\n{items}\n")

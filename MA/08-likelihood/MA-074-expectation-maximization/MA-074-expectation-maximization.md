@@ -10,6 +10,7 @@ tags: [subject/maths, area/likelihood, step/model, concept/em]
 > ![](images/where_this_fits.png)
 >
 > - **Builds on:** [Maximum likelihood estimation (MLE)](../../../MA/08-likelihood/MA-070-maximum-likelihood-estimation/MA-070-maximum-likelihood-estimation.md#7-the-likelihood-function-and-the-mle); [Gaussian mixture model (GMM)](../../../MA/08-likelihood/MA-073-gaussian-mixture-models/MA-073-gaussian-mixture-models.md#6-the-mixture-density).
+> - **Leads to:** [Beam model](../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture).
 <!-- /where-this-fits -->
 
 ## 1. Overview

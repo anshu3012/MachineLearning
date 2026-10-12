@@ -314,6 +314,20 @@ notes:
   1088: DL/06-transformers/DL-088-unembedding-and-sampling
   1089: DL/06-transformers/DL-089-mlp-stores-facts
   1090: DL/06-transformers/DL-090-superposition
+  # Robotics (RO): its own site; keys 2000 + Note number
+  2001: RO/control/01-robot-models/RO-001-pose-and-differential-drive
+  2007: RO/localization/02-bayes-filters/RO-007-why-a-robot-is-never-sure
+  2008: RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models
+  2009: RO/localization/02-bayes-filters/RO-009-maps-and-landmarks
+  2010: RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model
+  2011: RO/localization/02-bayes-filters/RO-011-likelihood-fields-and-scan-matching
+  2012: RO/localization/02-bayes-filters/RO-012-landmark-measurement-model
+  2013: RO/localization/02-bayes-filters/RO-013-belief
+  2014: RO/localization/02-bayes-filters/RO-014-bayes-filter
+  2015: RO/localization/02-bayes-filters/RO-015-grid-filters
+  2016: RO/localization/02-bayes-filters/RO-016-particle-filter
+  2017: RO/localization/02-bayes-filters/RO-017-kalman-filter
+  2018: RO/localization/02-bayes-filters/RO-018-extended-kalman-filter
 
 concepts:
   # 0 Foundations
@@ -678,6 +692,29 @@ concepts:
   - {id: model_drift, name: Model drift, step: 13, home: ML-009#112-model-drift-and-retraining, videos: [4, 9]}
   - {id: retraining, name: Retraining, step: 13, home: ML-004#42-retraining-on-a-schedule, videos: [4, 5, 9]}
   - {id: mlops, name: MLOps and cost, step: 13, home: ML-007#10-cost, videos: [7, 9]}
+
+  # Robotics (RO): no Pipeline map step (step is left out)
+  - {id: pose, name: Pose, home: RO-001#22-why-position-is-not-enough-the-heading, videos: [2001]}
+  - {id: diff_drive_kinematics, name: Differential-drive kinematics, home: RO-001#52-the-kinematic-model, videos: [2001]}
+  - {id: nonholonomic, name: Nonholonomic constraints, home: RO-001#6-the-robot-cannot-slide-sideways, videos: [2001]}
+  - {id: robot_uncertainty, name: Uncertainty in robotics, home: RO-007#2-why-a-robot-is-never-sure, videos: [2007]}
+  - {id: state_controls_measurements, name: "State, controls and measurements", home: RO-007#4-the-state-what-the-robot-keeps-track-of, videos: [2007]}
+  - {id: motion_model, name: Probabilistic motion models, home: RO-008#22-the-motion-model-and-its-density, videos: [2008]}
+  - {id: robot_map, name: Maps and landmarks, home: RO-009#21-what-a-map-is-for, videos: [2009]}
+  - {id: beam_model, name: Beam model, home: RO-010#51-the-mixture, videos: [2010]}
+  - {id: likelihood_field, name: Likelihood field model, home: RO-011#3-the-likelihood-field-model, videos: [2011]}
+  - {id: scan_matching, name: Scan matching, home: RO-011#5-scan-matching-how-far-did-the-robot-move, videos: [2011]}
+  - {id: landmark_model, name: Landmark measurement model, home: RO-012#4-the-landmark-measurement-model, videos: [2012]}
+  - {id: belief, name: Belief, home: RO-013#42-the-definition, videos: [2013]}
+  - {id: hmm, name: Hidden Markov model, home: RO-013#63-hidden-markov-model, videos: [2013]}
+  - {id: bayes_filter, name: Bayes filter, home: RO-014#44-the-algorithm, videos: [2014]}
+  - {id: histogram_filter, name: Histogram filter, home: RO-015#2-the-histogram-filter, videos: [2015]}
+  - {id: binary_bayes_filter, name: Binary Bayes filter, home: RO-015#4-the-binary-bayes-filter, videos: [2015]}
+  - {id: hmm_smoothing, name: Smoothing and the Viterbi algorithm, home: RO-015#5-looking-back-smoothing-and-the-most-likely-path, videos: [2015]}
+  - {id: particle_filter, name: Particle filter, home: RO-016#4-the-particle-filter-step-by-step, videos: [2016]}
+  - {id: kalman_filter, name: Kalman filter, home: RO-017#25-the-linear-gaussian-system, videos: [2017]}
+  - {id: ekf, name: Extended Kalman filter, home: RO-018#4-the-extended-kalman-filter, videos: [2018]}
+  - {id: filter_consistency, name: Filter consistency, home: RO-018#5-consistency-is-the-filter-telling-the-truth-about-itself, videos: [2018]}
 
 links:
   # Foundations
@@ -1440,3 +1477,72 @@ links:
   - [retraining, fixes, model_drift, confirmed]
   - [retraining, used in, batch_learning, confirmed]
   - [mlops, needs, deployment, confirmed]
+  # Robotics: within RO
+  - [diff_drive_kinematics, needs, pose, confirmed]
+  - [nonholonomic, needs, diff_drive_kinematics, confirmed]
+  - [robot_uncertainty, needs, diff_drive_kinematics, confirmed]
+  - [state_controls_measurements, needs, pose, confirmed]
+  - [motion_model, needs, diff_drive_kinematics, confirmed]
+  - [motion_model, needs, robot_uncertainty, confirmed]
+  - [motion_model, needs, pose, confirmed]
+  - [robot_map, needs, pose, confirmed]
+  - [beam_model, needs, robot_map, confirmed]
+  - [likelihood_field, fixes, beam_model, confirmed]
+  - [likelihood_field, compared with, beam_model, confirmed]
+  - [scan_matching, needs, likelihood_field, confirmed]
+  - [scan_matching, needs, motion_model, confirmed]
+  - [landmark_model, needs, robot_map, confirmed]
+  - [landmark_model, compared with, likelihood_field, confirmed]
+  - [belief, needs, state_controls_measurements, confirmed]
+  - [belief, needs, motion_model, confirmed]
+  - [belief, needs, beam_model, confirmed]
+  - [hmm, needs, belief, confirmed]
+  - [bayes_filter, needs, belief, confirmed]
+  - [bayes_filter, needs, motion_model, confirmed]
+  - [histogram_filter, is a kind of, bayes_filter, confirmed]
+  - [binary_bayes_filter, is a kind of, bayes_filter, confirmed]
+  - [hmm_smoothing, needs, hmm, confirmed]
+  - [hmm_smoothing, needs, histogram_filter, confirmed]
+  - [particle_filter, is a kind of, bayes_filter, confirmed]
+  - [particle_filter, fixes, histogram_filter, confirmed]
+  - [particle_filter, compared with, histogram_filter, confirmed]
+  - [particle_filter, needs, motion_model, confirmed]
+  - [kalman_filter, is a kind of, bayes_filter, confirmed]
+  - [kalman_filter, compared with, particle_filter, confirmed]
+  - [ekf, fixes, kalman_filter, confirmed]
+  - [ekf, compared with, particle_filter, confirmed]
+  - [filter_consistency, needs, kalman_filter, confirmed]
+  # Robotics: on maths, ML and DL
+  - [diff_drive_kinematics, needs, derivative, confirmed]
+  - [robot_uncertainty, needs, probability_distribution, confirmed]
+  - [robot_uncertainty, needs, conditional_probability, confirmed]
+  - [motion_model, needs, normal_distribution, confirmed]
+  - [motion_model, needs, pdf, confirmed]
+  - [robot_map, needs, hyperplane_equation, confirmed]
+  - [robot_map, needs, convex_optimisation, confirmed]
+  - [beam_model, needs, normal_distribution, confirmed]
+  - [beam_model, needs, exponential_dist, confirmed]
+  - [beam_model, needs, uniform_dist, confirmed]
+  - [beam_model, needs, gmm, confirmed]
+  - [beam_model, needs, mle, confirmed]
+  - [beam_model, needs, em, confirmed]
+  - [likelihood_field, needs, normal_distribution, confirmed]
+  - [landmark_model, needs, normal_distribution, confirmed]
+  - [landmark_model, needs, independent_events, confirmed]
+  - [belief, needs, probability_distribution, confirmed]
+  - [belief, needs, conditional_probability, confirmed]
+  - [bayes_filter, needs, bayes_theorem, confirmed]
+  - [bayes_filter, needs, pdf, confirmed]
+  - [histogram_filter, needs, binning, confirmed]
+  - [histogram_filter, needs, convolution, confirmed]
+  - [binary_bayes_filter, needs, sigmoid, confirmed]
+  - [hmm_smoothing, needs, memoization, confirmed]
+  - [particle_filter, needs, likelihood, confirmed]
+  - [particle_filter, needs, sampling_distribution, confirmed]
+  - [kalman_filter, needs, normal_distribution, confirmed]
+  - [kalman_filter, needs, expected_value, confirmed]
+  - [kalman_filter, needs, derivative, confirmed]
+  - [kalman_filter, needs, multivariate_normal, confirmed]
+  - [ekf, needs, derivative, confirmed]
+  - [ekf, needs, jacobian, confirmed]
+  - [filter_consistency, needs, chi_square_test, confirmed]

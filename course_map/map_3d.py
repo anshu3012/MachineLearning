@@ -11,6 +11,8 @@ import networkx as nx
 import plotly.graph_objects as go
 
 from build_map import AREAS, CONCEPTS, LINK_COLOUR, LINKS, note_title
+CONCEPTS = {cid: c for cid, c in CONCEPTS.items() if any(m(c) for _, _, m in AREAS)}  # main-site areas only; Robotics Concepts sit in none
+LINKS = [l for l in LINKS if l["a"] in CONCEPTS and l["b"] in CONCEPTS]
 
 OUT = Path(__file__).resolve().parent / "concept_map_3d.html"
 PALETTE = ["#4C78A8", "#F58518", "#54A24B", "#E45756", "#72B7B2", "#B279A2", "#FF9DA6", "#9D755D", "#BAB0AC",
