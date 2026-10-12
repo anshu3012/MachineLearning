@@ -218,11 +218,14 @@ else
       rel=${f#"$repo"/}; rel=${rel%/*}; name=$(basename "$rel")
       mkdir -p "$content/projects"
       copy_images "$repo/$rel/images" "$content/$rel/images" "$twins" "$f"
-      # map pictures live beside the map files (maps/, worlds/, data/), not in images/
+      # map pictures live beside the map files (maps/, worlds/, data/), not in images/; Quartz ignores **/data,
+      # so data/ pictures are published under map/
       for m in $(grep -oE '\]\((maps|worlds|data)/[^)]+\.(png|gif|jpg|svg)\)' "$f" | sed -E 's/^\]\(|\)$//g' | sort -u); do
-        [ -f "$repo/$rel/$m" ] && mkdir -p "$content/$rel/$(dirname "$m")" && cp "$repo/$rel/$m" "$content/$rel/$m"
+        d=${m/#data\//map/}
+        [ -f "$repo/$rel/$m" ] && mkdir -p "$content/$rel/$(dirname "$d")" && cp "$repo/$rel/$m" "$content/$rel/$d"
       done
-      h1_to_frontmatter < "$f" | sed -E "s#\]\((maps|worlds|data)/#](/$rel/\1/#g" | fix_md "$rel/" | cross_links | add_captions |
+      h1_to_frontmatter < "$f" | sed -E -e "s#\]\(data/#](/$rel/map/#g" -e "s#\]\((maps|worlds)/#](/$rel/\1/#g" |
+        fix_md "$rel/" | cross_links | add_captions |
         embed_interactive "$rel/" "$twins" > "$content/projects/$name.md"
       [ -n "${listed:-}" ] || { printf '\n## Projects\n\n' >> "$content/index.md"; listed=1; }
       echo "- [$(sed -n '0,/^# /s/^# //p' "$f")](projects/$name)" >> "$content/index.md"
