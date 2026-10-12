@@ -187,9 +187,19 @@ $$v = \frac{u_0 + K_p\thinspace r - d}{b + K_p}$$
 
 The closed loop loses 0.036 m/s on the ramp (0.5 m/s wanted, 0.464 m/s held), against 0.392 m/s for the open loop. Figure 1 shows the same run in time: the closed loop's speed dips within about a second and then holds.
 
-A small error remains because the extra push has to come from somewhere. Holding 0.464 m/s on the ramp needs 0.714 N more than the test's 1 N, and the rule gives extra push only when there is an error:
+Why does a small error remain? Try holding exactly 0.5 m/s on the ramp. The ramp needs a push that beats the drag and the pull, but with no error the rule gives only its fixed 1 N:
 
-$$20 \times 0.0357 = 0.714 \text{ N}$$
+$$\text{needed} = 2 \times 0.5 + 0.785 = 1.785 \text{ N}$$
+
+$$\text{rule} = 1 + 20 \times 0 = 1 \text{ N}$$
+
+The robot is 0.785 N short, so it slows down. As it slows, the error grows and the rule pushes harder, while the drag falls and less push is needed. At 0.464 m/s the two meet:
+
+$$\text{needed} = 2 \times 0.4643 + 0.785 = 1.714 \text{ N}$$
+
+$$\text{rule} = 1 + 20 \times 0.0357 = 1.714 \text{ N}$$
+
+The error of 0.036 m/s is what makes the extra 0.714 N: with no error, the rule adds nothing. A rule that pushes only in proportion to the error always leaves some error against a steady load; [integral action](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#5-integral-action-removing-the-error-a-steady-load-leaves) removes it.
 
 Feedback has cut the ramp's damage more than tenfold. Its parts now have standard names and a standard picture, in which this controller, and every other one, can be drawn the same way.
 
