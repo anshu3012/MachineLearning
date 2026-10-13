@@ -8,6 +8,7 @@ tags: [subject/robotics, area/localization, concept/likelihood-field, concept/sc
 > **Where this fits:**
 >
 > - **Builds on:** [Normal distribution](../../../../MA/03-distributions/MA-024-normal-distribution/MA-024-normal-distribution.md#2-what-the-normal-distribution-is); [Probabilistic motion models](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density); [Beam model](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture).
+> - **Leads to:** [AMCL](../../../../RO/navigation/09-classical-navigation-stack/RO-080-nav2-start-to-finish/RO-080-nav2-start-to-finish.md#42-amcl).
 > - **Compare with:** [Beam model](../../../../RO/localization/02-bayes-filters/RO-010-range-sensors-beam-model/RO-010-range-sensors-beam-model.md#51-the-mixture); [Landmark measurement model](../../../../RO/localization/02-bayes-filters/RO-012-landmark-measurement-model/RO-012-landmark-measurement-model.md#4-the-landmark-measurement-model).
 <!-- /where-this-fits -->
 

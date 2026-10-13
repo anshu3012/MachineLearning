@@ -363,6 +363,14 @@ notes:
   2072: RO/control/08-path-tracking/RO-072-stanley-and-rear-wheel-feedback
   2073: RO/control/08-path-tracking/RO-073-tracking-a-timed-trajectory
   2074: RO/control/08-path-tracking/RO-074-feedforward-metrics-and-choosing-a-tracker
+  2075: RO/navigation/09-classical-navigation-stack/RO-075-the-autonomy-stack
+  2076: RO/navigation/09-classical-navigation-stack/RO-076-ros-2-nodes-topics-services-and-actions
+  2077: RO/navigation/09-classical-navigation-stack/RO-077-physics-simulators
+  2078: RO/navigation/09-classical-navigation-stack/RO-078-dwa-and-nav2-dwb
+  2232: RO/navigation/09-classical-navigation-stack/RO-232-teb-start-to-finish
+  2079: RO/navigation/09-classical-navigation-stack/RO-079-behaviour-trees-and-recovery
+  2080: RO/navigation/09-classical-navigation-stack/RO-080-nav2-start-to-finish
+  2081: RO/navigation/09-classical-navigation-stack/RO-081-task-and-motion-planning
 
 concepts:
   # 0 Foundations
@@ -814,7 +822,7 @@ concepts:
   - {id: prm, name: Probabilistic roadmap (PRM), home: RO-052#22-phase-1-and-phase-2-milestones-and-edges, videos: [2052]}
   - {id: single_multi_query, name: Single-query and multi-query planners, home: RO-052#3-many-trips-on-one-roadmap-single-query-and-multi-query-planners, videos: [2052]}
   - {id: completeness, name: "Complete, resolution-complete and probabilistically complete", home: RO-052#5-can-a-planner-miss-a-route-completeness, videos: [2052]}
-  - {id: narrow_passages, name: Narrow passages and smarter sampling, home: RO-052#62-gaussian-sampling-and-the-bridge-test, videos: [2052]}
+  - {id: narrow_passages, name: "Narrow passages and non-uniform sampling", home: RO-052#62-gaussian-sampling-and-the-bridge-test, videos: [2052]}
   - {id: lazy_collision, name: Lazy collision checking, home: RO-052#8-lazy-collision-checking, videos: [2052]}
   - {id: manipulation_planning, name: Manipulation planning (transit and transfer), home: RO-053#23-the-plan-transit-transfer-transit, videos: [2053]}
   - {id: quasistatic, name: Pushing and the quasistatic assumption, home: RO-053#32-why-a-slow-push-is-predictable, videos: [2053]}
@@ -905,6 +913,51 @@ concepts:
   - {id: curvature_feedforward, name: "Feedforward steering from curvature", home: RO-074#22-the-steering-the-curve-needs, videos: [2074]}
   - {id: tracker_metrics, name: "Tracker metrics", home: RO-074#31-three-numbers-for-a-run, videos: [2074]}
   - {id: choosing_tracker, name: "Comparing and choosing trackers", home: RO-074#5-choosing-a-tracker, videos: [2074]}
+  - {id: sense_plan_act, name: "Sense–plan–act loop", home: RO-075#21-the-loop, videos: [2075]}
+  - {id: reactive_control, name: "Reactive control and Braitenberg vehicles", home: RO-075#32-two-sensors-two-wheels-steering-to-a-light, videos: [2075]}
+  - {id: subsumption, name: "Subsumption architecture", home: RO-075#41-two-levels-for-the-room, videos: [2075]}
+  - {id: layered_stack, name: "Layered autonomy stack and its rates", home: RO-075#51-deliberative-layers-above-reactive-layers, videos: [2075]}
+  - {id: sensor_selection, name: "Choosing and placing sensors", home: RO-075#6-choosing-and-placing-sensors, videos: [2075]}
+  - {id: ros_topics, name: "ROS 2 nodes, topics and messages", home: RO-076#22-topics-publish-once-every-subscriber-gets-a-copy, videos: [2076]}
+  - {id: ros_services, name: "ROS 2 services", home: RO-076#3-services-one-request-one-response, videos: [2076]}
+  - {id: ros_actions, name: "ROS 2 actions", home: RO-076#4-actions-long-jobs-with-feedback, videos: [2076]}
+  - {id: qos, name: "Quality of service (QoS)", home: RO-076#7-quality-of-service-when-the-network-loses-a-message, videos: [2076]}
+  - {id: ros_launch, name: "Parameters and launch files", home: RO-076#8-launch-files-the-whole-stack-in-one-command, videos: [2076]}
+  - {id: lifecycle_nodes, name: "Lifecycle nodes", home: RO-076#9-lifecycle-nodes-starting-in-the-right-order, videos: [2076]}
+  - {id: physics_sim, name: "Physics simulator: time step and integrator", home: RO-077#21-one-step-at-a-time, videos: [2077]}
+  - {id: contact_models, name: "Hard and soft contact", home: RO-077#31-finding-the-contact, videos: [2077]}
+  - {id: timestep_stability, name: "Time-step stability", home: RO-077#4-the-time-step-stable-jittery-or-unstable, videos: [2077]}
+  - {id: coulomb_friction, name: "Coulomb friction and the friction cone", home: RO-077#5-friction-holding-then-slipping, videos: [2077]}
+  - {id: sim_engines, name: "Simulation engines", home: RO-077#6-the-main-engines-and-how-to-choose, videos: [2077]}
+  - {id: dynamic_window, name: "Dynamic window approach (DWA)", home: RO-078#32-reachable-in-one-cycle-foxs-dynamic-window, videos: [2078]}
+  - {id: admissible_velocity, name: "Admissible velocities", home: RO-078#33-safe-to-stop-admissible-velocities, videos: [2078]}
+  - {id: rollout, name: "Trajectory rollout", home: RO-078#41-one-rollout-step-by-step, videos: [2078]}
+  - {id: dwb_critics, name: "DWB critics and scoring", home: RO-078#5-which-command-is-best-the-critics, videos: [2078]}
+  - {id: dwb, name: "DWB controller, start to finish", home: RO-078#6-one-cycle-start-to-finish-in-the-order-the-code-runs, videos: [2078]}
+  - {id: teb_pipeline, name: "teb_local_planner, start to finish", home: RO-232#2-where-teb-sits-inputs-outputs-parameters, videos: [2232]}
+  - {id: h_signature, name: "H-signature and homotopy-class planning", home: RO-232#61-telling-the-sides-apart-the-h-signature, videos: [2232]}
+  - {id: g2o_graph, name: "TEB's g2o graph optimisation", home: RO-232#7-step-5-optimise-every-band-the-g2o-graph, videos: [2232]}
+  - {id: car_like_teb, name: "TEB for car-like robots", home: RO-232#11-car-like-robots, videos: [2232]}
+  - {id: local_planners_compared, name: "DWA, TEB and MPC compared", home: RO-232#12-dwa-teb-and-mpc-compared, videos: [2232]}
+  - {id: fsm, name: "Finite state machine", home: RO-079#2-choosing-what-to-do-next-the-finite-state-machine, videos: [2079]}
+  - {id: behaviour_tree, name: "Behaviour trees and the tick", home: RO-079#3-behaviour-trees-a-tick-and-three-answers, videos: [2079]}
+  - {id: sequence_fallback, name: "Sequence, fallback and decorator nodes", home: RO-079#4-sequence-and-fallback, videos: [2079]}
+  - {id: recovery_behaviours, name: "Recovery behaviours", home: RO-079#7-recovery-behaviours-when-no-path-exists, videos: [2079]}
+  - {id: goal_progress_checkers, name: "Goal checker and progress checker", home: RO-079#8-the-goal-checker-and-the-progress-checker, videos: [2079]}
+  - {id: waypoint_following, name: "Waypoint following", home: RO-079#9-waypoint-following, videos: [2079]}
+  - {id: scenario_switching, name: "Behaviour switching in Apollo and Autoware", home: RO-079#10-how-cars-switch-behaviours-apollo-and-autoware, videos: [2079]}
+  - {id: nav2_bringup, name: "Nav2 bring-up and the lifecycle manager", home: RO-080#23-the-lifecycle-manager, videos: [2080]}
+  - {id: amcl, name: "AMCL", home: RO-080#42-amcl, videos: [2080]}
+  - {id: costmap_layers, name: "Costmaps and their layers", home: RO-080#51-why-two-costmaps-built-from-layers, videos: [2080]}
+  - {id: planner_server, name: "Planner server and NavFn", home: RO-080#62-the-planner-server-and-navfn, videos: [2080]}
+  - {id: controller_server, name: "Controller server", home: RO-080#71-one-controller-cycle, videos: [2080]}
+  - {id: collision_monitor, name: "Collision monitor", home: RO-080#82-the-collision-monitor, videos: [2080]}
+  - {id: nav2_stack, name: "Nav2, start to finish", home: RO-080#9-the-goal-from-start-to-finish, videos: [2080]}
+  - {id: move_base, name: "ROS 1 move_base", home: RO-080#10-ros-1-move_base-compared, videos: [2080]}
+  - {id: tamp, name: "Task and motion planning (TAMP)", home: RO-081#3-searching-for-the-actions-and-their-numbers-together, videos: [2081]}
+  - {id: plan_skeleton, name: "Plan skeletons and backtracking", home: RO-081#31-plan-skeletons-and-a-failed-test-that-becomes-a-fact, videos: [2081]}
+  - {id: pddlstream, name: "PDDLStream and streams", home: RO-081#4-the-code-real-robots-use-pddlstream, videos: [2081]}
+  - {id: saycan, name: "SayCan: language models choosing skills", home: RO-081#53-say-times-can-one-skill-at-a-time, videos: [2081]}
 links:
   # Foundations
   - [ml, is a kind of, ai, confirmed]
@@ -1985,6 +2038,78 @@ links:
   - [choosing_tracker, needs, tracker_metrics, confirmed]
   - [choosing_tracker, needs, pure_pursuit, confirmed]
   - [choosing_tracker, needs, stanley, confirmed]
+  - [layered_stack, needs, sense_plan_act, confirmed]
+  - [subsumption, needs, reactive_control, confirmed]
+  - [layered_stack, compared with, subsumption, confirmed]
+  - [reactive_control, needs, diff_drive_kinematics, confirmed]
+  - [layered_stack, needs, local_planner, confirmed]
+  - [sensor_selection, used in, layered_stack, confirmed]
+  - [ros_topics, used in, layered_stack, confirmed]
+  - [ros_services, compared with, ros_topics, confirmed]
+  - [ros_actions, needs, ros_services, confirmed]
+  - [ros_actions, needs, ros_topics, confirmed]
+  - [qos, needs, ros_topics, confirmed]
+  - [ros_launch, needs, ros_topics, confirmed]
+  - [lifecycle_nodes, needs, ros_launch, confirmed]
+  - [physics_sim, needs, discretisation, confirmed]
+  - [timestep_stability, needs, physics_sim, confirmed]
+  - [contact_models, needs, collision_detection, confirmed]
+  - [contact_models, needs, second_order, confirmed]
+  - [coulomb_friction, needs, contact_models, confirmed]
+  - [coulomb_friction, needs, quasistatic, confirmed]
+  - [sim_engines, needs, physics_sim, confirmed]
+  - [dynamic_window, needs, diff_drive_kinematics, confirmed]
+  - [admissible_velocity, needs, inevitable_collision, confirmed]
+  - [admissible_velocity, used in, dynamic_window, confirmed]
+  - [rollout, needs, motion_primitives, confirmed]
+  - [dwb_critics, needs, rollout, confirmed]
+  - [dwb, needs, dynamic_window, confirmed]
+  - [dwb, needs, dwb_critics, confirmed]
+  - [dwb, is a kind of, local_planner, confirmed]
+  - [teb_pipeline, needs, teb, confirmed]
+  - [teb_pipeline, is a kind of, local_planner, confirmed]
+  - [h_signature, needs, homotopy, confirmed]
+  - [h_signature, used in, teb_pipeline, confirmed]
+  - [g2o_graph, needs, trajectory_optimisation, confirmed]
+  - [g2o_graph, used in, teb_pipeline, confirmed]
+  - [car_like_teb, needs, teb_pipeline, confirmed]
+  - [car_like_teb, needs, hybrid_astar, confirmed]
+  - [local_planners_compared, needs, dwb, confirmed]
+  - [local_planners_compared, needs, teb_pipeline, confirmed]
+  - [behaviour_tree, fixes, fsm, confirmed]
+  - [behaviour_tree, needs, ros_actions, confirmed]
+  - [sequence_fallback, needs, behaviour_tree, confirmed]
+  - [recovery_behaviours, needs, sequence_fallback, confirmed]
+  - [waypoint_following, needs, behaviour_tree, confirmed]
+  - [scenario_switching, is a kind of, fsm, confirmed]
+  - [scenario_switching, compared with, behaviour_tree, confirmed]
+  - [goal_progress_checkers, used in, controller_server, confirmed]
+  - [nav2_bringup, needs, lifecycle_nodes, confirmed]
+  - [nav2_bringup, needs, ros_launch, confirmed]
+  - [amcl, is a kind of, particle_filter, confirmed]
+  - [amcl, needs, likelihood_field, confirmed]
+  - [costmap_layers, needs, robot_map, confirmed]
+  - [planner_server, needs, dijkstra, confirmed]
+  - [planner_server, needs, costmap_layers, confirmed]
+  - [controller_server, needs, dwb, confirmed]
+  - [controller_server, needs, costmap_layers, confirmed]
+  - [collision_monitor, needs, controller_server, confirmed]
+  - [rate_limits, used in, nav2_stack, confirmed]
+  - [nav2_stack, needs, nav2_bringup, confirmed]
+  - [nav2_stack, needs, behaviour_tree, confirmed]
+  - [nav2_stack, needs, amcl, confirmed]
+  - [nav2_stack, needs, planner_server, confirmed]
+  - [nav2_stack, needs, controller_server, confirmed]
+  - [nav2_stack, is a kind of, layered_stack, confirmed]
+  - [move_base, compared with, nav2_stack, confirmed]
+  - [tamp, needs, strips, confirmed]
+  - [tamp, needs, manipulation_planning, confirmed]
+  - [plan_skeleton, used in, tamp, confirmed]
+  - [pddlstream, is a kind of, tamp, confirmed]
+  - [pddlstream, needs, pddl, confirmed]
+  - [saycan, needs, llm, confirmed]
+  - [saycan, needs, reinforcement, confirmed]
+  - [saycan, compared with, tamp, confirmed]
   - [ilqr, fixes, gradient_descent, confirmed]
   - [ilqr, needs, shooting, confirmed]
   - [direct_indirect, needs, trajectory_optimisation, confirmed]

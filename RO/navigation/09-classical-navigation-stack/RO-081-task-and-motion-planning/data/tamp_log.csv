@@ -1,0 +1,14 @@
+step,test,ok,o,x,length,sampled,other,why
+0,motion,True,cup,0.18,154.6,,,
+1,cfree,False,cup,0.42,,False,bottle,
+0,motion,True,bottle,0.42,88.7,,,
+1,motion,True,bottle,0.3949,11.1,True,,
+2,motion,True,cup,0.18,87.0,,,
+3,cfree,False,cup,0.42,,False,bottle,
+1,backtrack,False,bottle,0.3949,,True,,"('cfree', 'cup', 'B', 'bottle', 'new')"
+1,cfree,False,bottle,0.2076,,True,cup,
+1,ik,False,bottle,0.0909,,True,,
+1,ik,False,bottle,0.0784,,True,,
+1,motion,True,bottle,0.4848,42.1,True,,
+2,motion,True,cup,0.18,139.1,,,
+3,motion,True,cup,0.42,104.6,False,,

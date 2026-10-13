@@ -1,0 +1,5 @@
+skill,x,q1,q2,motion_deg,waypoints
+pick bottle,0.42,31.2,-66.4,88.7,2
+place bottle,0.4848,15.6,-27.3,42.1,2
+pick cup,0.18,34.0,-144.1,139.1,5
+place cup,0.42,23.2,-67.0,104.6,4

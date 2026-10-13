@@ -11,6 +11,7 @@ tags: [subject/deep-learning, area/dl-transformers, step/model, concept/llm]
 > ![](images/where_this_fits.png)
 >
 > - **Used here, taught in full later:** [Transformer](../../../DL/06-transformers/DL-071-introduction-to-transformers/DL-071-introduction-to-transformers.md#3-what-a-transformer-is); [Decoder-only GPT](../../../DL/06-transformers/DL-087-decoder-only-gpt/DL-087-decoder-only-gpt.md#3-from-the-transformer-decoder-to-gpt).
+> - **Leads to:** [SayCan: language models choosing skills](../../../RO/navigation/09-classical-navigation-stack/RO-081-task-and-motion-planning/RO-081-task-and-motion-planning.md#53-say-times-can-one-skill-at-a-time).
 <!-- /where-this-fits -->
 
 ## 1. Overview

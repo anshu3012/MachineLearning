@@ -8,6 +8,7 @@ tags: [subject/robotics, area/localization, concept/particle-filter, concept/res
 > **Where this fits:**
 >
 > - **Builds on:** [Sampling distribution and standard error](../../../../MA/04-inference/MA-033-sampling-distribution-and-clt/MA-033-sampling-distribution-and-clt.md#3-sampling-distributions); [Likelihood](../../../../MA/08-likelihood/MA-069-probability-vs-likelihood/MA-069-probability-vs-likelihood.md#22-likelihood-from-the-event-back-to-the-parameter); [Probabilistic motion models](../../../../RO/localization/02-bayes-filters/RO-008-probabilistic-motion-models/RO-008-probabilistic-motion-models.md#22-the-motion-model-and-its-density); [Bayes filter](../../../../RO/localization/02-bayes-filters/RO-014-bayes-filter/RO-014-bayes-filter.md#44-the-algorithm); [Histogram filter](../../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter).
+> - **Leads to:** [AMCL](../../../../RO/navigation/09-classical-navigation-stack/RO-080-nav2-start-to-finish/RO-080-nav2-start-to-finish.md#42-amcl).
 > - **Compare with:** [Histogram filter](../../../../RO/localization/02-bayes-filters/RO-015-grid-filters/RO-015-grid-filters.md#2-the-histogram-filter); [Kalman filter](../../../../RO/localization/02-bayes-filters/RO-017-kalman-filter/RO-017-kalman-filter.md#25-the-linear-gaussian-system); [Extended Kalman filter](../../../../RO/localization/02-bayes-filters/RO-018-extended-kalman-filter/RO-018-extended-kalman-filter.md#4-the-extended-kalman-filter).
 <!-- /where-this-fits -->
 

@@ -1,0 +1,32 @@
+\documentclass[tikz,border=8pt]{standalone}
+\input{../../../../../tools/tikz-style.tex}
+% Braitenberg's vehicles 2 and 3 (Braitenberg 1984, as built in Douglas, "The Braitenberg Vehicles"; Wikipedia,
+% "Braitenberg vehicle"): two light sensors at the front, two wheels at the back. Same-side or crossed wires;
+% + : more light, faster wheel; - : more light, slower wheel. The lamp is ahead and to the left of each vehicle.
+\newcommand{\vehicle}[5]{% #1 x, #2 crossed (1/0), #3 sign, #4 name, #5 behaviour
+  \begin{scope}[shift={(#1,0)}]
+    \draw[cgrey, fill=cgrey!8, rounded corners=3pt] (-1.1,-1.6) rectangle (1.1,1.3);
+    \fill[cgrey] (-1.35,-1.45) rectangle (-1.1,-0.45); \fill[cgrey] (1.1,-1.45) rectangle (1.35,-0.45);
+    \node[font=\sffamily\small, text=cgrey] at (-1.25,-1.75) {left}; \node[font=\sffamily\small, text=cgrey] at (1.25,-1.75) {right};
+    \draw[cgrey] (-0.65,1.3) -- (-0.65,1.55); \draw[cgrey] (0.65,1.3) -- (0.65,1.55);
+    \draw[cgrey, fill=white] (-0.95,1.55) arc (180:0:0.3); \draw[cgrey, fill=white] (0.35,1.55) arc (180:0:0.3);
+    \ifnum#2=0
+      \draw[corange, line width=1.8pt] (-0.65,1.3) -- (-1.1,-0.95); \draw[corange, line width=1.8pt] (0.65,1.3) -- (1.1,-0.95);
+      \node[font=\sffamily\Large\bfseries, text=corange] at (-0.55,0.0) {#3};
+      \node[font=\sffamily\Large\bfseries, text=corange] at (0.55,0.0) {#3};
+    \else
+      \draw[corange, line width=1.8pt] (-0.65,1.3) -- (1.1,-0.95); \draw[corange, line width=1.8pt] (0.65,1.3) -- (-1.1,-0.95);
+      \node[font=\sffamily\Large\bfseries, text=corange] at (0,-0.6) {#3};
+    \fi
+    \node[title] at (0,2.45) {#4};
+    \node[note, font=\sffamily\large, text width=3.4cm] at (0,-2.5) {#5};
+  \end{scope}}
+\begin{document}
+\begin{tikzpicture}
+  \vehicle{0}{0}{$+$}{2a: fear}{turns away from the light}
+  \vehicle{4.2}{1}{$+$}{2b: aggression}{turns to the light and charges at it}
+  \vehicle{8.4}{0}{$-$}{3a: love}{turns to the light and stops near it}
+  \vehicle{12.6}{1}{$-$}{3b: explorer}{comes near, then turns away}
+  \node[note, font=\sffamily\large, text=black] at (6.3,-3.5) {same-side wires: 2a, 3a \quad crossed wires: 2b, 3b \quad $+$: more light, faster wheel \quad $-$: more light, slower wheel};
+\end{tikzpicture}
+\end{document}

@@ -8,6 +8,7 @@ tags: [subject/robotics, area/control, concept/digital-control, concept/zero-ord
 > **Where this fits:**
 >
 > - **Builds on:** [PID control](../../../../RO/control/07-classical-feedback-control/RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#52-adding-up-the-error); [Frequency response (gain and phase)](../../../../RO/control/07-classical-feedback-control/RO-063-frequency-response-and-bode-plots/RO-063-frequency-response-and-bode-plots.md#22-gain-and-phase-the-frequency-response).
+> - **Leads to:** [Physics simulator: time step and integrator](../../../../RO/navigation/09-classical-navigation-stack/RO-077-physics-simulators/RO-077-physics-simulators.md#21-one-step-at-a-time).
 > - **Compare with:** [Transfer functions](../../../../RO/control/07-classical-feedback-control/RO-062-transfer-functions-poles-and-zeros/RO-062-transfer-functions-poles-and-zeros.md#21-an-exponential-goes-in-the-same-exponential-comes-out).
 <!-- /where-this-fits -->
 
