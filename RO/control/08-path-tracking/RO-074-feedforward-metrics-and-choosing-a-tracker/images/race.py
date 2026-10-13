@@ -16,4 +16,4 @@ runs, sc = race(2.0)
 want = [(0.086, 0.167, 30.1), (0.189, 0.316, 28.8), (0.002, 0.007, 33.8), (0.003, 0.007, 33.5)]
 for m, (r, p, t) in zip(sc, want):
     assert abs(m["rms"] - r) < 5e-4 and abs(m["peak"] - p) < 5e-4 and abs(m["travel"] - t) < 0.05, m
-make(runs, sc, here / "race", "four trackers on the chapter's car at 2 m/s, from on the line", [-0.4, 0.45], [-2, 20])
+make(runs, sc, here / "race", "four trackers on the chapter's car at 2 m/s, starting on the line", [-0.4, 0.45], [-2, 20])

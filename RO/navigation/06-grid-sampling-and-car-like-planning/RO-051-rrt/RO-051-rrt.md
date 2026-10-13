@@ -91,7 +91,7 @@ so 11 points along the 0.5 m edge, each a test of the robot's centre against the
 
 ### 2.2 The tree grows to the door
 
-Figure 2 plays the whole run. Samples 1 to 4 go stage by stage: the sample (orange star), its nearest node (circled), the steered edge with its 11 check points, then added (green) or thrown away (red cross). After that, one sample per frame. Watch the tree grow along the strip under the table, then branch up the table's left side towards the door.
+Figure 2 plays the whole run. Samples 1 to 4 go stage by stage: the sample (orange star), its nearest node (circled), the steered edge with its 11 check points, then added (green) or rejected (red cross). After that, one sample per frame. Watch the tree grow along the strip under the table, then branch up the table's left side towards the door.
 
 ![Animation: RRT growing from the start under the table (4.0, 0.5) to the doorway centre (3.6, 4.0), in the disk robot's C-space (light grey: obstacles grown by 0.25 m). Samples 1 to 4 stage by stage: the random sample (orange star), its nearest node (circled), a step of at most 0.5 m towards it checked at 11 points, then the node added (green) or rejected (red cross). Sample 1, (1.395, 0.354), is 2.609 m from the start and gives the node (3.501, 0.472); sample 2 lands near the door and its step ends inside the table's band. Then one sample per frame. Sample 67 is the goal itself; the last frame shows the tree of 41 nodes, the route through it, 6.08 m (green), and the shortest route, 4.55 m (dashed)](images/rrt_grow.gif)
 

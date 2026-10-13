@@ -55,7 +55,7 @@ for k, s in enumerate(A["snaps"]):
         keys.append(len(figs) - 1)
 figs.append(frame(A["visited"], [], None, "stack empty after 42 expansions: no route",
                   [("purple: this cell was first reached on a detour with 2 units left", PURPLE),
-                   ("from it the door is 6 moves away, so the search gave it up, and never came back with more", RED)],
+                   ("from it the door is 6 moves away, so the charge runs out; the cell is never tried again with more", RED)],
                   mark=True))
 holds.append(16)
 keys.append(len(figs) - 1)

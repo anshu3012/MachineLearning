@@ -395,7 +395,7 @@ $$-k_d\thinspace\frac{dy}{dt}$$
 
 equals the old one at every moment except the jump, where it ignores the command. Taking the derivative of the measurement instead of the error is the **derivative on measurement** (G-3099) (Beauregard; FBS §11.5). Figure 7 turns the robot with both. Watch the torque request at t = 0.5 s, then the two headings below.
 
-![Derivative kick on RO-060's heading PID (k_p = 0.2, k_i = 0.05, k_d = 0.283). At t = 0.5 s the heading command steps from 0 to 0.1 rad (dashed line, bottom). Top: the torque request, with the 0.2 N m limit dotted. Red, derivative on the error: in the step's sample the request spikes to 2.85 N m, far off the chart. Blue, derivative on the measurement: the request starts at 0.02 N m. Bottom: the two headings lie almost on top of each other (overshoot 21.1 and 22.5 percent). The last frame holds the whole 10 s](images/kick_anim.gif)
+![Derivative kick on RO-060's heading PID (k_p = 0.2, k_i = 0.05, k_d = 0.283). At t = 0.5 s the heading command steps from 0 to 0.1 rad (dashed line, bottom). Top: the torque request, with the 0.2 N m limit dotted. Red, derivative on the error: in the step's sample the request spikes to 2.85 N m, far above the axis range. Blue, derivative on the measurement: the request starts at 0.02 N m. Bottom: the two headings lie almost on top of each other (overshoot 21.1 and 22.5 percent). The last frame holds the whole 10 s](images/kick_anim.gif)
 
 The heading barely changes (21.1 against 22.5 percent overshoot), because the motors clip the spike to 0.2 N·m for one sample. The derivative on measurement turns the robot the same way without sending the motors a 2.85 N·m command at every heading step (Beauregard). The overshoot, though, is still 22.5 percent.
 

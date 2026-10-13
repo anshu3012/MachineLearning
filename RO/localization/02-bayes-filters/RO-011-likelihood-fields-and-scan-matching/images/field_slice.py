@@ -26,7 +26,7 @@ for r in (1, 2):
         if r == 1:
             fig.add_annotation(x=(x0 + x1) / 2, y=1.65, text=lab, showarrow=False, font_size=17, row=1, col=1)
 fig.add_hline(y=0.02, line=dict(color=GREY, dash="dot"), row=2, col=1)
-fig.add_annotation(x=1.75, y=0.4, text="far from everything: uniform part w<sub>rand</sub> / z<sub>max</sub> = 0.1 / 5 = 0.02", showarrow=False, font_size=17, row=2, col=1)
+fig.add_annotation(x=1.75, y=0.4, text="far from every obstacle: uniform part w<sub>rand</sub> / z<sub>max</sub> = 0.1 / 5 = 0.02", showarrow=False, font_size=17, row=2, col=1)
 fig.update_yaxes(range=[0, 1.8], row=1, col=1)
 fig.update_yaxes(range=[0, 4], row=2, col=1)
 fig.update_xaxes(range=[-0.2, 5.2], dtick=0.5, row=1, col=1)

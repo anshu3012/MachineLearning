@@ -95,7 +95,7 @@ figs.append(frame("the hand is known to 1 cm either side: where does a 2 cm band
                   bands=[(H.MOUTH + 0.014, True), (H.MOUTH + 0.05, False)],
                   lines=[("bands: every start the hand", "black"), ("could be at, 1 cm either side", "black"), ("", "black"),
                          ("1.4 cm above the posts:", "black"), ("inside: guaranteed", GREEN), ("", "black"),
-                         ("5 cm above the posts:", "black"), ("sticks out: not guaranteed", RED), ("", "black"),
+                         ("5 cm above the posts:", "black"), ("outside: not guaranteed", RED), ("", "black"),
                          ("fits up to 2.8 cm above", "black")]))
 holds.append(16)
 make_gif(figs, here / "preimage", fps=2, holds=holds, keys=[1, 2, 3, 5], cols=2, width=1000)

@@ -50,7 +50,7 @@ def frame(t):
     if k == len(P["t"]) - 1:
         title = (f"front at the dock at {P['t'][-1]:.2f} s, still at {P['v'][-2]:.2f} m/s<br>"
                  f"<span style='font-size:19px'>on the line (e = {E[-1]:.3f} m), facing {deg(th):.1f}°,"
-                 " but nothing told it to stop</span>")
+                 " but nothing commanded it to stop</span>")
     else:
         title = (f"t = {P['t'][k]:.2f} s: e = {E[k]:.2f} m, ψ = {PSI[k]:.1f}°<br><span style='font-size:19px'>"
                  f"v = {P['v'][k]:.3f} m/s, ω = {P['w'][k]:.3f} rad/s</span>")

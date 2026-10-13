@@ -19,7 +19,7 @@ CAPTIONS = [
     r"1. \textbf{Shake:} small steps on roll, then pitch, then yaw.",
     r"2. \textbf{Model:} fit a second-order model of each turn rate to what the steps did.",
     r"3. \textbf{Requirement:} rise time 0.14~s (0.2~s for yaw), critical damping.",
-    r"4. \textbf{Gains:} the PID gains for that reply; apply them, then a test flight.",
+    r"4. \textbf{Gains:} the PID gains for that response; apply them, then a test flight.",
     "All four steps: the requirement is written in step-response numbers.",
 ]
 

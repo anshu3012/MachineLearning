@@ -58,7 +58,7 @@ def make(runs, sc, out, title, ylim_e, ylim_d, every=0.5):
         fig.add_hline(y=0, line=dict(color="black", width=1), row=2, col=1, exclude_empty_subplots=False)
         t_now = runs[0]["t"][min(i, len(runs[0]["t"]) - 1)]
         small = "<span style='font-size:19px'>"
-        sub = "the run is over: metrics at the rear axle in the table" if last else f"t = {t_now:.1f} s; metrics when the run ends"
+        sub = "the run has ended: metrics at the rear axle in the table" if last else f"t = {t_now:.1f} s; metrics when the run ends"
         fig.update_layout(template="simple_white", font=FONT, width=1000, height=1600,
                           margin=dict(l=100, r=30, t=135, b=70),
                           title=dict(x=0.5, y=0.982, yanchor="top", text=f"{title}<br>{small}{sub}</span>"),

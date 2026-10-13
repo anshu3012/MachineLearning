@@ -44,7 +44,7 @@ def frame(t):
         label(fig, T06 + 0.25, 1.15, "ρ = 0.6 m:<br>v = 1 × ρ", "black", (2, 1), size=15, anchor="left")
     if k == len(P["t"]) - 1:
         title = (f"arrives at {P['t'][-1]:.2f} s, within 1 cm<br><span style='font-size:19px'>"
-                 f"facing {deg(P['th'][-1]):.1f}°: α went to 0 long before ρ</span>")
+                 f"facing {deg(P['th'][-1]):.1f}°: α reached 0 long before ρ</span>")
     else:
         title = (f"t = {P['t'][k]:.2f} s: ρ = {RHO[k]:.2f} m, α = {ALPHA[k]:.1f}°<br><span style='font-size:19px'>"
                  f"v = {P['v'][k]:.3f} m/s, ω = {P['w'][k]:.3f} rad/s</span>")

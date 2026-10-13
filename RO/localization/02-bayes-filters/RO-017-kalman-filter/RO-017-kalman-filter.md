@@ -722,11 +722,11 @@ The datasheet value is 0.16 m². Sensor datasheets are the other source of $R$ (
 
 The slip's variance $Q$ is harder: it covers everything the motion model leaves out (slips, pushes, a wheel radius slightly wrong), so there is no datasheet for it, and it is set by tuning against data (Labbe ch.8). Each wrong choice fails in its own way. We simulated 2000 runs of 50 steps in which the true slip **variance** (G-2076) is 0.01, and ran three filters on them, each scored by its RMSE, the typical size of its error (Figure 11):
 
-| Filter's $Q$ | Gain it settles to | Error (RMSE, steps 11–50) | What goes wrong |
+| Filter's $Q$ | Gain it settles to | Error (RMSE, steps 11–50) | Problem |
 |---|---|---|---|
-| 0.0001 (too small) | 0.10 at step 10, falling | 0.305 m | trusts the commands, ignores readings, drifts with the slips |
+| 0.0001 (too small) | 0.10 at step 10, falling | 0.305 m | relies on the commands, gives the readings little weight, drifts with the slips |
 | 0.01 (right) | 0.22 | 0.187 m | none |
-| 1 (too big) | 0.88 | 0.353 m | trusts each reading, copies its noise |
+| 1 (too large) | 0.88 | 0.353 m | relies on each reading, copies its noise |
 
 The readings alone give 0.399 m. A filter with too small a $Q$ relies on the commands and drifts like them; one with too large a $Q$ follows every jump of the beacon (Labbe ch.4, "Incorrect process variance"; kalmanfilter.net, where a too-small $Q$ causes a lag error). Figure 11 steps the three filters through one of these runs; watch each line against zero and each filter's gain in the legend.
 

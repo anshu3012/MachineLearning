@@ -52,7 +52,7 @@ def frame(title, n=0, s=None, lost=False, t=None):
 
 figs = [frame("a failure: the pulse travels out", s=1.5, t=1.5 / C_NS),
         frame("the pulse is lost at the wall", s=3.0, lost=True, t=3.0 / C_NS),
-        frame("an echo from the wall would be back by now: nothing", s=3.0, lost=True, t=6.0 / C_NS),
+        frame("no echo has returned, though one from the wall would be back by now", s=3.0, lost=True, t=6.0 / C_NS),
         frame("no echo by 33.4 ns, the time a 5 m echo needs: the sensor reports 5 m", n=1, s=3.0, lost=True,
               t=2 * ZMAX / C_NS)]
 holds = [3, 4, 4, 8]

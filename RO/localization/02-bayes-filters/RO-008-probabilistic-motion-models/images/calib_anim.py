@@ -43,7 +43,7 @@ def frame(s):
     for tr in robot((xt, yt, th), scale=SC, color=RED, fill="rgba(228,87,86,0.18)"):
         fig.add_trace(tr)
     last = s == 10
-    fig.add_annotation(x=s + 0.35 if not last else 10, y=-0.6, text=f"odometry says: ({s:.0f}, 0)", showarrow=False,
+    fig.add_annotation(x=s + 0.35 if not last else 10, y=-0.6, text=f"odometry reports: ({s:.0f}, 0)", showarrow=False,
                        xanchor="right" if last else "center", font=dict(size=19, color=GREY))
     if s > 0:
         fig.add_annotation(x=xt - 0.2, y=yt + 0.65, text=("true end" if last else "true") + f" ({xt:.2f}, {yt:.2f})",
@@ -56,7 +56,7 @@ def frame(s):
     fig.update_layout(template="simple_white", width=1000, height=560, font=FONT, showlegend=False,
                       margin=dict(l=80, r=30, t=120, b=70),
                       title=dict(x=0.5, y=0.95, font=dict(size=22),
-                                 text="right wheel 1 percent larger than the model thinks: 10 m 'straight'<br>"
+                                 text="right wheel 1 percent larger than the model assumes: 10 m 'straight'<br>"
                                       f"<span style='font-size:20px'>after {s:.0f} m of ticks: true heading "
                                       f"{th:.2f} rad, gap {GAP(s):.2f} m</span>"))
     return fig

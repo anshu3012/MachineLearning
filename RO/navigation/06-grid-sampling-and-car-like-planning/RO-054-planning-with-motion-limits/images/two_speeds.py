@@ -47,7 +47,7 @@ def frame(t, final=False):
         tx, ty = zip(*[m.on_line(u) for u in np.linspace(S0, s, 20)])
         k.line(fig, tx, ty, color=RED if hit else col, width=4, row=r, col=1)
         k.disk(fig, px, py, m.LINE_HEADING, row=r, col=1, color=RED if hit else k.FOOT)
-        msg = (f"hits the door<br>at {v:.2f} m/s" if hit else f"stopped at<br>s = {s:.2f} m" if v <= 1e-9 else
+        msg = (f"reaches the door<br>at {v:.2f} m/s" if hit else f"stopped at<br>s = {s:.2f} m" if v <= 1e-9 else
                f"s = {s:.2f} m<br>v = {v:.2f} m/s")
         k.text(fig, 2.45, 3.62, msg, color=RED if hit else col, size=17, row=r, col=1, xanchor="left")
         k.room_axes(fig, r, 1, xr=(2.4, 4.3), yr=(2.85, 4.25), anchor="x" if r == 1 else "x3")

@@ -27,7 +27,7 @@ TK = np.round(np.arange(0, 20.01, 0.5), 1)
 def frame(tk):
     k = int(round(tk * 1000))
     fig = make_subplots(rows=1, cols=3, horizontal_spacing=0.09,
-                        subplot_titles=["speed plant, 1 N", "heading plant, 0.02 N·m", "heading loops, wobble"])
+                        subplot_titles=["speed plant, 1 N", "heading plant, 0.02 N·m", "heading loops, 0.02 sin(2t) N·m"])
     fig.add_trace(go.Scatter(x=t[:k + 1], y=v[:k + 1], mode="lines", line=dict(color=BLUE, width=4), showlegend=False), 1, 1)
     fig.add_trace(go.Scatter(x=t[:k + 1], y=th[:k + 1], mode="lines", line=dict(color=ORANGE, width=4), showlegend=False), 1, 2)
     fig.add_trace(go.Scatter(x=t[:k + 1], y=thP[:k + 1], mode="lines", line=dict(color=RED, width=3),

@@ -162,7 +162,7 @@ for f in (1 / 3, 2 / 3, 1.0):
     if f == 1.0:
         keys.append(len(figs))
     figs.append(frame("3. resample: each door particle is copied 3 or 4 times, all weights equal again", "resample",
-                      "each copy sits at its parent's position: one column of dots per door particle",
+                      "each copy is at its parent's position: one column of dots per door particle",
                       [(xr, y, s)], X_TRUE[0]))
     holds.append(1 if f < 1 else 12)
 # move: first the command for all, then each particle's own slip

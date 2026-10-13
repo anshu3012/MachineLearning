@@ -39,7 +39,7 @@ def frame(t):
         fig.add_trace(dict(type="scatter", x=r["t"][:i + 1], y=rho[:i + 1], mode="lines",
                            line=dict(color=col, width=3), showlegend=False), row=2, col=1)
     if t >= R[1]["t"][-1]:
-        label(fig, R[1]["x"][-1] - 0.3, 3.32, "hits the wall", RED, (1, 1), size=17, anchor="right")
+        label(fig, R[1]["x"][-1] - 0.3, 3.32, "collides with the wall", RED, (1, 1), size=17, anchor="right")
     if t >= R[0]["t"][-1]:
         label(fig, GOAL[0] + 0.32, 3.3, "facing 90.0°", BLUE, (1, 1), size=17, anchor="left")
     sub = lambda c, txt: f"<span style='color:{c}'>{txt}</span>"

@@ -73,7 +73,7 @@ def frame(k, final=False):
         sub = f"{N} expansions; the last piece is the Reeds-Shepp shot"
     else:
         t = f"Hybrid A*: expansion {k} of {N}"
-        sub = "blue forward, purple reverse; grey: slot taken; red: hits"
+        sub = "blue forward, purple reverse; grey: slot taken; red: collides"
         if k == N:
             sub = "the Reeds-Shepp shot to the goal is free (green)"
     return layout(fig, t, width=820, height=860, subtitle=sub)

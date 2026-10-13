@@ -363,7 +363,7 @@ The second reason shows when it is broken. With $k_\alpha$ = 3 and $k_\beta$ = �
 
 Figure 6 breaks one condition at a time from the same start. Watch the red robot: with $k_\beta$ = +4, the spring pushes instead of pulling, the robot turns towards the dock's heading too early and its front hits the wall at 4.70 s, 0.79 m left of the dock. The purple robot has $k_\alpha$ = 0.5, less than $k_\rho$, so the damper pushes too: it circles and, after 30 s, is still 1.87 m from the dock.
 
-![Three sets of gains from the same start, the gains kρ, kα and kβ on the distance ρ and the angles α and β; one frame per 0.5 s for 30 s. Blue: kρ = 1, kα = 5, kβ = −4, all three conditions met: within 1 cm of the dock at 8.45 s, facing 90.0°. Red: kβ = +4, the wrong sign: its front hits the wall at 4.70 s, 0.79 m left of the dock. Purple: kα = 0.5, below kρ: it circles and is still 1.87 m from the dock after 30 s. Lower panel: the distance ρ of each over time](images/gains_anim.gif)
+![Three sets of gains from the same start, the gains kρ, kα and kβ on the distance ρ and the angles α and β; one frame per 0.5 s for 30 s. Blue: kρ = 1, kα = 5, kβ = −4, all three conditions met: within 1 cm of the dock at 8.45 s, facing 90.0°. Red: kβ = +4, the wrong sign: its front collides with the wall at 4.70 s, 0.79 m left of the dock. Purple: kα = 0.5, below kρ: it circles and is still 1.87 m from the dock after 30 s. Lower panel: the distance ρ of each over time](images/gains_anim.gif)
 
 The chosen gains work from our one start; Section 4.5 tries eight others.
 

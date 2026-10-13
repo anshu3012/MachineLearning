@@ -194,7 +194,7 @@ an overshoot of 0.1353, 13.5 % (notebook). The general rule: a zero at $-a$ adds
 
 The gearbox's drag is small and steady, 0.02 N·m. Will it always give a small heading error, or can a small push grow without limit? Figure 5 pushes three systems with small, bounded inputs. Watch which curves stay inside their plots.
 
-![Small bounded inputs, drawn over 20 s. Left: the speed plant 1/(8s + 2), one pole at −0.25, under a steady 1 N: the speed levels off at 0.5 m/s. Middle: the heading plant 10/s², two poles at 0, under a steady 0.02 N·m: the heading grows as 0.1 t², to 40 rad. Right: a torque wobble of 0.02 sin(2t) N·m on two heading loops: P alone, poles ±2j (red), swings wider by about 0.05 rad every second, 0.94 rad by 20 s; PD, poles −2 twice (green), stays within 0.03 rad](images/bibo_anim.gif)
+![Small bounded inputs, drawn over 20 s. Left: the speed plant 1/(8s + 2), one pole at −0.25, under a steady 1 N: the speed levels off at 0.5 m/s. Middle: the heading plant 10/s², two poles at 0, under a steady 0.02 N·m: the heading grows as 0.1 t², to 40 rad. Right: a sine torque of 0.02 sin(2t) N·m on two heading loops: P alone, poles ±2j (red), swings wider by about 0.05 rad every second, 0.94 rad by 20 s; PD, poles −2 twice (green), stays within 0.03 rad](images/bibo_anim.gif)
 
 - **The speed plant**, pole at −0.25: a steady 1 N gives a steady 0.5 m/s, and any force up to the 4 N limit keeps the speed under 2 m/s, so its output stays bounded.
 - **The heading plant alone**, two poles at 0: a steady 0.02 N·m gives an angular acceleration of 0.2 rad/s², so the heading grows as 0.1 $t^2$, 40 rad after 20 s, without limit. The robot spins faster and faster: a bounded input, an unbounded output.
@@ -434,7 +434,7 @@ $$e^{s(t - T_d)} = e^{-sT_d}\thinspace e^{st}$$
 
 so its transfer function is $e^{-sT_d}$ (FBS §9.2, Example 9.5). The delay's transfer function is not a fraction of two polynomials: it has no poles and no zeros, and Section 4's rule, "the poles alone decide stability", was for loops without delay (Chen L6). Figure 10 runs the 0.5 rad turn with the controller seeing the heading and turn rate 0, 0.17, 0.3 and 0.33 s late. Watch the responses separate as the delay grows.
 
-![A time delay in the heading loop: the same 0.5 rad turn with PD gains 0.4 and 0.4, the controller seeing the heading and turn rate late. Blue, no delay, and green, 0.17 s: no overshoot, settled by 2.93 s. Orange, 0.3 s: 14.6 % past, rocking until 13.4 s. Red, 0.33 s: the swing grows](images/delay_anim.gif)
+![A time delay in the heading loop: the same 0.5 rad turn with PD gains 0.4 and 0.4, the controller seeing the heading and turn rate late. Blue, no delay, and green, 0.17 s: no overshoot, settled by 2.93 s. Orange, 0.3 s: 14.6 % past, oscillating until 13.4 s. Red, 0.33 s: the swing grows](images/delay_anim.gif)
 
 The numbers (notebook):
 

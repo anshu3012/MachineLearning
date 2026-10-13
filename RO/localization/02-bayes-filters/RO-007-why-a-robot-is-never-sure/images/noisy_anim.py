@@ -53,7 +53,7 @@ def tween(a, b, k, n=3):
 s0 = (start, start)
 s1 = (prod["perfect"], prod["noisy"])
 s3 = (post["perfect"], post["noisy"])
-figs, holds = [frame(s0, "before the reading: no idea yet, 0.1 for each cell",
+figs, holds = [frame(s0, "before the reading: no information yet, 0.1 for each cell",
                      ["perfect sensor: 0.1 for each cell", "noisy sensor: 0.1 for each cell"])], [6]
 mult = ["perfect sensor: × 1 at a door, × 0 at a wall", "noisy sensor: × 0.6 at a door, × 0.2 at a wall"]
 for k in (1, 2, 3):

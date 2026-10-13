@@ -51,7 +51,7 @@ def frame(rs, ms, t, lag, v, last=False):
         fig.add_vline(x=s0, line=dict(color=GREY, dash="dot", width=1.5), row=2, col=1)
     fig.add_hline(y=0, line=dict(color="black", width=1), row=2, col=1)
     small = "<span style='font-size:19px'>"
-    head = (f"look-ahead 2, 4 and 8 m at {v:.0f} m/s, " + ("steering lags 0.4 s" if lag else "steering obeys at once"))
+    head = (f"look-ahead 2, 4 and 8 m at {v:.0f} m/s, " + ("steering lags 0.4 s" if lag else "no steering lag"))
     sub = "the whole course" if last else f"t = {t:.1f} s"
     fig.update_layout(template="simple_white", font=FONT, width=900, height=1150, margin=dict(l=90, r=30, t=110, b=70),
                       title=dict(x=0.5, y=0.975, yanchor="top", text=f"{head}<br>{small}{sub}</span>"),

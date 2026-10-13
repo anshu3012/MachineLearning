@@ -61,7 +61,7 @@ keptG = [k for k, _, _ in G if k is not None]
 figs.append(frame(f"Gaussian sampling: 20 milestones from {nG} draws", keptG, [],
                   [("Gaussian sampling", "black"), (f"20 milestones from {nG} draws", BLUE), ("", "black"),
                    ("each kept milestone has", "black"), ("an obstacle within about", "black"),
-                   ("0.1 m: the milestones", "black"), ("hug the obstacles", "black")]))
+                   ("0.1 m: the milestones", "black"), ("lie close to the obstacles", "black")]))
 holds.append(12)
 keptB = []
 for i, (m, q1, q2, mid) in enumerate(B[:6]):

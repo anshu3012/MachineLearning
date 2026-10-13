@@ -64,7 +64,7 @@ def frame(kp, upto, final=False):
                                  line=dict(width=3, color="black"))), row=1, col=1)
         fig.add_annotation(x=(t[p0] + t[p1]) / 2, y=ytop + 0.0015, text=f"Tc = {TC:.2f} s", showarrow=False,
                            yanchor="bottom", font=dict(size=21), row=1, col=1)
-        title = f"kp = {KC:.0f}: the swings neither grow nor die, so kc = {KC:.0f}"
+        title = f"kp = {KC:.0f}: the swings neither grow nor decay, so kc = {KC:.0f}"
     else:
         msg = {50: "settles", 100: "rings, then settles", 150: "rings longer", 200: "keeps ringing"}
         title = f"run {GAINS.index(kp) + 1}: kp = {kp} N per m/s, the speed {msg[kp]}"

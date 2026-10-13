@@ -47,7 +47,7 @@ def frame(n, final=False):
             continue
         k.line(fig, pts[:, 0], pts[:, 1], color=(BLUE if final else GREEN if ok else RED), width=6 if cur or final else 3)
         if cur:
-            k.text(fig, 4.4, 0.5, f"{cp.word(p)}, {cp.length(p):.3f} m: " + ("free, kept" if ok else "hits an obstacle"),
+            k.text(fig, 4.4, 0.5, f"{cp.word(p)}, {cp.length(p):.3f} m: " + ("free, kept" if ok else "collides with an obstacle"),
                    color=GREEN if ok else RED, size=19, bg="rgba(255,255,255,0.9)")
     k.disk(fig, *m.START, color="#222222", width=2, body=False)
     k.disk(fig, *m.DOOR_POSE, color="#222222", width=2, body=False)

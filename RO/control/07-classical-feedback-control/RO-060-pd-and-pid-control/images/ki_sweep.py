@@ -42,7 +42,7 @@ def frame(i, final=False):
                            bgcolor="rgba(255,255,255,0.85)")
     fig.update_xaxes(range=[0, T], dtick=5, title="time after the corner (s)")
     fig.update_yaxes(range=[-20, 140], dtick=15, title="heading (°)")
-    title = ("a little integral removes the 5.73° error; too much makes it swing, and at 0.6 the swings grow" if final
+    title = ("a small Ki removes the 5.73° error; larger values swing more; at 0.6 each swing is bigger" if final
              else f"with the dragging gearbox: Kp 0.2, Kd 0.283, Ki = {KIS[i]:g} N m per rad s")
     fig.update_layout(template="simple_white", font=FONT, width=1000, height=740, margin=dict(l=90, r=30, t=100, b=120),
                       title=dict(text=title, x=0.5, y=0.96, font=dict(size=20)),

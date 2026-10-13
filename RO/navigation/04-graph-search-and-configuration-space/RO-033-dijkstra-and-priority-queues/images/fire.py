@@ -95,9 +95,9 @@ def event_lines(k):
         if old is None:
             out.append(f"{v}: new entry {c:.3f} + {w:.3f} = {new:.3f}")
         elif new < old - 1e-12:
-            out.append(f"{v}: {c:.3f} + {w:.3f} = {new:.3f} beats {old:.3f}: entry lowered")
+            out.append(f"{v}: {c:.3f} + {w:.3f} = {new:.3f} is less than {old:.3f}: entry lowered")
         else:
-            out.append(f"{v}: {c:.3f} + {w:.3f} = {new:.3f}, not below {old:.3f}: kept")
+            out.append(f"{v}: {c:.3f} + {w:.3f} = {new:.3f}, not less than {old:.3f}: kept")
     return out or ["no neighbour left that is not on fire"]
 
 
@@ -119,7 +119,7 @@ for t in times:
         holds.append(1)
 figs.append(frame(4.75, "every waypoint on fire: each time is its shortest distance from S",
                   [("green: the route to G, read back along the edges the first flames came by: S–D–G = 3.505 m",
-                    GREEN), ("G's first entry, 5.022 by the pink pole P, was beaten when D caught fire", GREY)],
+                    GREEN), ("G's first entry, 5.022 by the pink pole P, was lowered to 3.505 when D caught fire", GREY)],
                   path=("S", "D", "G")))
 holds.append(30)
 keys.append(len(figs) - 1)

@@ -31,7 +31,7 @@ figs.append(pf3d.frame(xs, ys, U, balls=[(*PA[0], GREEN), (*PB[0], RED)],
 holds.append(14); keys.append(0)
 for k in range(1, N):
     a, b = ia[k], ib[k]
-    lab = [] if k < N - 1 else [("green: at the door", GREEN), ("red: stuck at (3.60, 0.59), U = 6.00", RED)]
+    lab = [] if k < N - 1 else [("green: at the door", GREEN), ("red: stopped at (3.60, 0.59), U = 6.00", RED)]
     figs.append(pf3d.frame(xs, ys, U, balls=[(*PA[a], GREEN), (*PB[b], RED)], paths=[(PA[:a + 1], GREEN), (PB[:b + 1], RED)],
                            notes=lab, title="both robots roll downhill", **kw))
     holds.append(1)

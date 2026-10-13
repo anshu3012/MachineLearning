@@ -144,7 +144,7 @@ $$\Delta\theta = \frac{10.1 - 10}{0.2} = 0.5 \text{ rad}$$
 
 In Figure 4, watch the grey robot, where odometry puts the robot, drive straight while the real robot (red) curves left: the gap between them grows with every metre.
 
-![Animation: a robot whose right wheel is 1 percent larger than the model thinks. Both encoders count the same ticks, so odometry's robot (grey) drives straight along x, while the real robot (red) curves left; each frame adds 1 m of ticks, and the gap between the two grows. The last frame: odometry says (10, 0); really the robot has turned 0.50 rad and is at (9.64, 2.46), 2.49 m away](images/calib_anim.gif)
+![Animation: a robot whose right wheel is 1 percent larger than the model assumes. Both encoders count the same ticks, so odometry's robot (grey) drives straight along x, while the real robot (red) curves left; each frame adds 1 m of ticks, and the gap between the two grows. The last frame: odometry reports (10, 0); the real robot has turned 0.50 rad and is at (9.64, 2.46), 2.49 m away](images/calib_anim.gif)
 
 The true robot ends at (9.64 m, 2.46 m), 2.49 m from where odometry puts it. Finding the real wheel radii and separation of one particular robot by driving known paths is **odometry calibration** (G-2322); it removes most of the systematic error, while the random error stays and needs a probabilistic model.
 

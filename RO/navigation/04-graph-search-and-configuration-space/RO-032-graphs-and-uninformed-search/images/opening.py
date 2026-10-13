@@ -68,7 +68,7 @@ for d in np.linspace(0.2, HIT, 7):
     holds.append(2)
 figs.append(frame(HIT, f"after {HIT:.2f} m its centre meets the table's edge",
                   [("driving where it faces does not reach the door", RED),
-                   ("the map knows where the table is, but gives no route", "black")], hit=True))
+                   ("the map shows where the table is, but gives no route", "black")], hit=True))
 holds.append(14)
 figs.append(frame(0, "the map as a grid: 112 cells of 0.5 m",
                   [("grey: 36 blocked cells (some furniture or a pole inside); white: 76 free cells", GREY),

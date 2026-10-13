@@ -29,13 +29,13 @@ assert np.all((x5["move 1"] > 7.5) & (x5["move 1"] < 10)) and np.ptp(RUNS[5][4][
 assert round(S[5][7][0], 2) == 0.99 and round(S[100][7][2], 2) == 0.96          # weigh 3: door 1 vs door 3
 
 TITLES = {"start": "1. same three readings, two filters: 5 particles and 100 particles",
-          "weigh 1": "reading 1 says door: of the 5, only one sits at a door (door 3)",
+          "weigh 1": "reading 1 says door: of the 5, only one is at a door (door 3)",
           "resample 1": "resample: the 5 particles become 5 copies of that one",
           "move 1": "move 2.5 m: the 5 copies land beside plain wall",
           "weigh 2": "reading 2 says door: none of the 5 fits, so all keep equal weight",
           "resample 2": "resample: nothing to choose between, the 5 stay together",
           "move 2": "move 2.5 m: the 5 go round the loop to door 1",
-          "weigh 3": "reading 3 says door: the 5 end tight at door 1, the wrong door"}
+          "weigh 3": "reading 3 says door: the 5 end in one cluster at door 1, the wrong door"}
 jitter = np.random.default_rng(7).uniform(0.12, 0.72, 100)
 
 
@@ -87,13 +87,13 @@ def tally():
                            textposition="outside", textfont=dict(size=19)))
     fig.update_layout(template="simple_white", font=FONT, width=1100, height=760, margin=dict(l=90, r=40, t=110, b=90),
                       title=dict(x=0.5, y=0.97, font=dict(size=23),
-                                 text="9. not bad luck: share of 1000 runs that end at the right door, for each M"),
+                                 text="9. not by chance: share of 1000 runs that end at the right door, for each M"),
                       xaxis=dict(title="number of particles M"), yaxis=dict(title="percent of runs", range=[0, 115]))
     return fig
 
 
 figs = [frame(i, n) for i, n in enumerate(NAMES)]
-figs[-1].update_layout(title_text="8. reading 3: 5 particles end tight at door 1, the wrong door; 100 end at door 3")
+figs[-1].update_layout(title_text="8. reading 3: 5 particles end in one cluster at door 1, the wrong door; 100 end at door 3")
 figs.append(tally())
 holds = [5] + [4] * (len(NAMES) - 2) + [10, 16]
 make_gif(figs, here / "deprivation_anim", fps=2, holds=holds,

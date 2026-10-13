@@ -109,7 +109,7 @@ add(one_draw(7, r1=R1, d=TR, r2=R2, end=True), 14)
 key = [len(figs) - 1]
 for n in (5, 20, 50, 100, 200, 350, 500):
     sub = (f"{n} of 500 draws in each panel" if n < 500 else
-           "turning noise swings the cloud along a circle around the start: the banana")
+           "turning noise swings the cloud along a circle around the start: a banana-shaped distribution")
     add(cloud(n, sub), 3 if n < 500 else 24)
 key.append(len(figs) - 1)
 make_gif(figs, here / "banana_anim", fps=4, holds=holds, keys=key, cols=2, width=950)

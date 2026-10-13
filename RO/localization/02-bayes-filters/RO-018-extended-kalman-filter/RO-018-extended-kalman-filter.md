@@ -366,12 +366,12 @@ One value says little; the test averages many. We simulated 500 runs of 16 steps
 | Filter | Average NEES | Average NIS | Verdict |
 |---|---|---|---|
 | right noises, $Q = 0.01$, $R = 0.01$ | 1.00 | 1.01 | consistent |
-| sensor trusted too much, $R = 0.0025$ | 3.25 | 2.41 | overconfident |
-| motion trusted too much, $Q = 0.0001$ | 15.95, rising to 32.9 | 2.12 | overconfident, getting worse |
+| $R$ too small, 0.0025 | 3.25 | 2.41 | overconfident |
+| $Q$ too small, 0.0001 | 15.95, rising to 32.9 | 2.12 | overconfident, getting worse |
 
 In Figure 7 the grey band marks 0.88 to 1.13: only the filter with the right noises stays inside it, the NEES of the filter with too small an $R$ stays near 3, and the NEES of the filter with too small a $Q$ rises past 30.
 
-![Average NEES (left) and NIS (right) over 500 runs, per step, log scale. The filter with the right noises stays in the grey band around 1; trusting the sensor too much sits near 3; trusting the motion too much makes NEES climb past 30](images/consistency.png)
+![Average NEES (left) and NIS (right) over 500 runs, per step, log scale. The filter with the right noises stays in the grey band around 1; the filter with too small an R stays near 3; the one with too small a Q has an NEES that rises past 30](images/consistency.png)
 
 ### 5.5 Reading the results
 

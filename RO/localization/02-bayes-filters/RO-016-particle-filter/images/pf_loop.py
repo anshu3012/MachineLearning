@@ -18,7 +18,7 @@ xs, preds, bels = grid_belief()
 final = stages[-2]                                     # weigh 3
 assert abs(np.sum(final[1] * final[2]) - 7.0) < 0.15
 
-TITLES = {"start": "start: 100 particles spread evenly (the robot has no idea)",
+TITLES = {"start": "start: 100 particles spread evenly (no information about the position)",
           "weigh 1": "weigh by reading 1, z = 1.46 m: particles at the doors grow",
           "resample 1": "resample: heavy particles copied, light ones dropped",
           "move 1": "move 2.5 m: every particle shifts, each with its own slip",
@@ -26,7 +26,7 @@ TITLES = {"start": "start: 100 particles spread evenly (the robot has no idea)",
           "resample 2": "resample: the cloud now has two clusters",
           "move 2": "move 2.5 m again",
           "weigh 3": "weigh by reading 3, z = 1.41 m: one cluster stays heavy",
-          "resample 3": "resample: the cloud sits at door 3, around the robot"}
+          "resample 3": "resample: the cloud is at door 3, around the robot"}
 jitter = np.random.default_rng(7).uniform(0.15, 0.85, M)
 
 

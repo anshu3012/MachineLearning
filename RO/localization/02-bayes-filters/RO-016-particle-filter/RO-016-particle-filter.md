@@ -420,7 +420,7 @@ The cloud can hold the three doors of Figure 1 only if some **particles** (G-249
 
 With few particles it happens often. Figure 9 first runs 5 particles and 100 particles on the same three readings. Watch the 5: none starts at door 1, where the robot starts, so they follow the one particle at door 3 and end clustered at door 1, the wrong door, while the 100 end at door 3. The last frame shows that this is not a rare event: we ran the corridor example 1000 times for each particle count and counted how often the filter ended at the right door.
 
-![Frames 1 to 8: 5 particles (top) and 100 particles (bottom, the run of Figure 8) get the same three readings; marker size grows with weight, the red triangle is the robot. The 5 start with none at door 1; the one at door 3 takes the weight of reading 1, and its copies go round the loop and end tight at door 1, the wrong door (0.99 of the weight); the 100 end at door 3 (0.96). Last frame: share of 1000 runs that end at the right door, 43.9 percent with 5 particles, 63.0 with 10, 87.8 with 20, 99.6 with 50, 100 with 100](images/deprivation_anim.gif)
+![Frames 1 to 8: 5 particles (top) and 100 particles (bottom, the run of Figure 8) get the same three readings; marker size grows with weight, the red triangle is the robot. The 5 start with none at door 1; the one at door 3 takes the weight of reading 1, and its copies go round the loop and end in one cluster at door 1, the wrong door (0.99 of the weight); the 100 end at door 3 (0.96). Last frame: share of 1000 runs that end at the right door, 43.9 percent with 5 particles, 63.0 with 10, 87.8 with 20, 99.6 with 50, 100 with 100](images/deprivation_anim.gif)
 
 | Particles $M$ | 5 | 10 | 20 | 50 | 100 |
 |---|---|---|---|---|---|

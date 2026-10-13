@@ -20,7 +20,7 @@ BOXES = [("req", "motion plan request", 0.04, 0.80, 0.42, 0.93, BLUE),
 TEXT = {
     "req": ["the request for the transfer:", "start: the grasp configuration", "goal: above the holder at B",
             "which joints: the arm", "which planner: PRM"],
-    "pre": ["adapters fix small problems", "before planning, such as a start", "a hair outside a joint limit"],
+    "pre": ["adapters fix small problems", "before planning, such as a start", "slightly outside a joint limit"],
     "ompl": ["OMPL holds the planners:", "PRM, RRT and others", "", "it has no collision checker;", "for every configuration it",
              "tries, it asks MoveIt"],
     "scene": ["the planning scene answers:", "robot's links (self-collision),", "the table, the bottle, the holder,",

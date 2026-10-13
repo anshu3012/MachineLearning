@@ -79,7 +79,7 @@ def frame(t, final=False):
                xanchor="right")
     px, py = m.on_line(s)
     k.disk(fig, px, py, m.LINE_HEADING, row=1, col=1, color=RED if hit else k.FOOT)
-    msg = (f"hits the door at {s:.3f} m<br>still at {v:.2f} m/s" if hit else
+    msg = (f"reaches the door at {s:.3f} m<br>still at {v:.2f} m/s" if hit else
            f"s = {s:.2f} m<br>speed {v:.2f} m/s" + (", braking" if s > S_BRAKE + 1e-9 else ""))
     k.text(fig, 1.7, 2.95, msg, color=RED if hit else "black", size=17, row=1, col=1, xanchor="left")
     # right

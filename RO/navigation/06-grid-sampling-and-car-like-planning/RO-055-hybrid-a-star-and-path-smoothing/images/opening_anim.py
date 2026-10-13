@@ -32,7 +32,7 @@ def frame(k, crash=False):
     pose = tuple(TR[k])
     if crash:
         car(fig, pose, (1, 1), colour=RED, fill="rgba(228,87,86,0.45)")
-        label(fig, 7.0, 13.8, "<b>body hits a parked car</b>", (1, 1), size=19, colour=RED)
+        label(fig, 7.0, 13.8, "<b>body overlaps a parked car</b>", (1, 1), size=19, colour=RED)
     else:
         car(fig, pose, (1, 1))
     car(fig, GOAL, (1, 1), colour="#F58518", fill="rgba(0,0,0,0)", width=2, arrow=True)
@@ -42,7 +42,7 @@ def frame(k, crash=False):
         t = f"A* on the 1 m grid: route {G['cost']:.2f} m, {CORNERS} corners"
         sub = "the route (blue) joins cell centres and ends facing up, nose first"
     elif crash:
-        t = f"after {DRIVEN:.2f} m the car's body hits the middle row"
+        t = f"after {DRIVEN:.2f} m the car's body overlaps the middle row"
         sub = "the route was planned for a point that turns on the spot"
     else:
         t = f"the car follows the route: {k * 0.05:.2f} m driven"

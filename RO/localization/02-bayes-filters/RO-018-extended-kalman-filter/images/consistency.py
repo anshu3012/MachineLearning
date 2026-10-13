@@ -18,8 +18,8 @@ t = np.arange(1, 17)
 fig = make_subplots(rows=1, cols=2, subplot_titles=["average NEES (truth known)", "average NIS (readings only)"],
                     horizontal_spacing=0.1)
 for q, r, c, name in ((0.01, 0.01, BLUE, "right noises (Q 0.01, R 0.01)"),
-                      (0.01, 0.0025, RED, "sensor trusted too much (R 0.0025)"),
-                      (0.0001, 0.01, GREEN, "motion trusted too much (Q 0.0001)")):
+                      (0.01, 0.0025, RED, "R too small (0.0025)"),
+                      (0.0001, 0.01, GREEN, "Q too small (0.0001)")):
     nees, nis = consistency(q, r, N)
     print(name, "NEES", nees.round(2), "NIS", nis.round(2))
     fig.add_trace(go.Scatter(x=t, y=nees, mode="lines+markers", line=dict(color=c, width=3), name=name), row=1, col=1)

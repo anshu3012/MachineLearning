@@ -62,7 +62,7 @@ def frame(ki):
     fig.update_yaxes(range=[-3, 3], title="imaginary part", row=1, col=1)
     fig.update_xaxes(range=[0, 20], title="time t (s)", row=1, col=2)
     fig.update_yaxes(range=[-0.13, 0.13], title="heading θ (rad)", row=1, col=2)
-    state = "stable" if ki < 1.6 - 1e-9 else "on the edge" if abs(ki - 1.6) < 1e-9 else "unstable"
+    state = "stable" if ki < 1.6 - 1e-9 else "marginally stable" if abs(ki - 1.6) < 1e-9 else "unstable"
     fig.update_layout(template="simple_white", font=FONT, width=1250, height=620, showlegend=False,
                       margin=dict(l=70, r=30, t=140, b=70),
                       title=dict(x=0.5, y=0.96, text=f"root locus: integral gain Ki = {ki:g} N·m/(rad·s), {state}"))

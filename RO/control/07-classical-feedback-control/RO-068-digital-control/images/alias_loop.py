@@ -14,7 +14,7 @@ from gifkit import BLUE, FONT, GREY, PURPLE, RED, make_gif
 
 here = Path(__file__).parent
 T_END = 16.0
-ROWS = [(100, None, BLUE, "100 Hz: the true speed wobbles by"),
+ROWS = [(100, None, BLUE, "100 Hz: the true speed varies by"),
         (2, None, RED, "2 Hz: the true speed surges by"),
         (2, 0.5, PURPLE, "2 Hz, 0.5 s filter before the A/D: surges by")]
 runs = [sampled_loop(fs, T=40.0, ripple=A_RIP, tau_f=tf, r0=0.5, r1=0.5) for fs, tf, _, _ in ROWS]

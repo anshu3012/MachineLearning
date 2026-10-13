@@ -74,7 +74,7 @@ def frame(k, final=False):
         t, sub = f"path found: {R['length']:.2f} m, one switch to reverse", f"{N} expansions; it ends exactly on the goal"
     else:
         t = f"lattice search: expansion {k} of {N}"
-        sub = "the control set copied at the state; red: hits something; grey: reached already"
+        sub = "the control set copied at the state; red: collides; grey: reached already"
     return layout(fig, t, width=820, height=860, subtitle=sub)
 
 

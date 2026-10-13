@@ -78,7 +78,7 @@ for k, phi in enumerate([0, 10, 20, 35]):
     figs.append(frame(f"2. push at the rim, 8 cm up: the cup tips by {phi} degrees", cup, hand,
                       [("push at the rim, 8 cm up", "black"), ("", "black"),
                        ("torque about the left corner:", "black"), ("push 0.981 x 0.08 = 0.0785 N m", RED),
-                       ("weight 2.4525 x 0.03 = 0.0736 N m", "black"), ("the push wins: the cup tips", RED),
+                       ("weight 2.4525 x 0.03 = 0.0736 N m", "black"), ("the push's torque is larger: the cup tips", RED),
                        ("before it can slide", RED)], target=False))
     holds.append(3)
 fallen = affinity.rotate(m.cup_at(A), 90, origin=pivot)

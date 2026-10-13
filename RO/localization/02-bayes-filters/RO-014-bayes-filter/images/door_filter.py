@@ -16,11 +16,11 @@ bb2 = predict(b1, "push")
 b2 = update(bb2, "open")
 assert abs(bb2["open"] - 0.95) < 1e-12 and abs(b2["open"] - 0.57 / 0.58) < 1e-12
 
-STAGES = [("start: no idea", "belief at t = 0", b0, BLUE),
+STAGES = [("start: no information", "belief at t = 0", b0, BLUE),
           ("t = 1, predict: u<sub>1</sub> = do nothing", "predicted belief: nothing changed", bb1, ORANGE),
           ("t = 1, correct: z<sub>1</sub> = sense open", "belief: open is more likely", b1, BLUE),
           ("t = 2, predict: u<sub>2</sub> = push", "predicted belief: a push opens a closed door", bb2, ORANGE),
-          ("t = 2, correct: z<sub>2</sub> = sense open", "belief: almost sure it is open", b2, BLUE)]
+          ("t = 2, correct: z<sub>2</sub> = sense open", "belief: almost certainly open", b2, BLUE)]
 
 
 def frame(title, sub, bel, color):

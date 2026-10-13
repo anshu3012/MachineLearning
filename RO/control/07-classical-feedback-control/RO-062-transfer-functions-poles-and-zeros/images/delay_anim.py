@@ -36,7 +36,7 @@ def frame(tk):
     if tk >= 15:
         fig.add_annotation(x=1.2, y=0.08, text="0 and 0.17 s: no overshoot, settled by 2.93 s", showarrow=False,
                            xanchor="left", font=dict(color=GREEN, size=19))
-        fig.add_annotation(x=1.2, y=0.15, text="0.3 s: 14.6 % past, rocks until 13.4 s", showarrow=False,
+        fig.add_annotation(x=1.2, y=0.15, text="0.3 s: 14.6 % past, oscillates until 13.4 s", showarrow=False,
                            xanchor="left", font=dict(color=ORANGE, size=19))
         fig.add_annotation(x=1.2, y=0.22, text="0.33 s: the swing grows", showarrow=False, xanchor="left",
                            font=dict(color=RED, size=19))

@@ -72,9 +72,9 @@ def frame(it, detail=True, final=False):
         e = LOG[it - 1]
         what = "goal sample" if e["kind"] == "goal" else "random sample"
         title = (f"iteration {it}: {what}; nearest node (black); {e['best']} comes closest, "
-                 + ("free: added" if e["ok"] else "hits an obstacle: thrown away"))
+                 + ("free: added" if e["ok"] else "collides with an obstacle: rejected"))
     else:
-        title = f"after {it} iterations: {n_nodes} nodes, {n_rej} motions thrown away"
+        title = f"after {it} iterations: {n_nodes} nodes, {n_rej} motions rejected"
     return k.layout(fig, 1150, 720, title, margin=dict(l=70, r=30, t=70, b=60), size=20)
 
 

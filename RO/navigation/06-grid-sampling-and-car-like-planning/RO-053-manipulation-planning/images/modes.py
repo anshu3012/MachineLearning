@@ -28,11 +28,12 @@ for col, mode in enumerate(FREE, start=1):
     fig.update_yaxes(scaleanchor=f"x{col if col > 1 else ''}", row=1, col=col)
 for a in fig.layout.annotations:
     a.font = dict(size=20)
-for k, (lab, col) in enumerate((("free", "#FFFFFF"), ("hits the table or the robot's top", ad.CS_COLORS[1]),
-                                ("hits the bottle", ad.CS_COLORS[2]), ("the cup in the way", ad.CS_COLORS[3]))):
-    fig.add_shape(type="rect", xref="paper", yref="paper", x0=0.0 + 0.25 * k, x1=0.025 + 0.25 * k, y0=-0.335,
+LX = [0.0, 0.10, 0.41, 0.65]                                    # legend swatch positions, spaced to the label lengths
+for k, (lab, col) in enumerate((("free", "#FFFFFF"), ("collides with the table or the robot's top", ad.CS_COLORS[1]),
+                                ("collides with the bottle", ad.CS_COLORS[2]), ("the cup in the way", ad.CS_COLORS[3]))):
+    fig.add_shape(type="rect", xref="paper", yref="paper", x0=LX[k], x1=LX[k] + 0.025, y0=-0.335,
                   y1=-0.285, fillcolor=col, line=dict(color="black", width=1.5), opacity=1)
-    fig.add_annotation(xref="paper", yref="paper", x=0.03 + 0.25 * k, y=-0.31, xanchor="left", yanchor="middle", text=lab,
+    fig.add_annotation(xref="paper", yref="paper", x=LX[k] + 0.03, y=-0.31, xanchor="left", yanchor="middle", text=lab,
                        showarrow=False, font=dict(size=17))
 ad.layout(fig, 1500, 680, margin=dict(l=80, r=30, t=90, b=190))
 fig.write_image(here / "modes.png")

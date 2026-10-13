@@ -53,7 +53,7 @@ def frame(title, trails, robot, lines):
 
 
 figs, holds = [], []
-figs.append(frame("stuck in a local minimum: every small step goes uphill", [], pf.TRAP,
+figs.append(frame("stopped at a local minimum: every small step goes uphill", [], pf.TRAP,
                   [("star: the local minimum (3.60, 0.59)", RED), ("U = 6.003 here", RED), ("", "black"),
                    ("next: a random walk", "black")]))
 holds.append(10)

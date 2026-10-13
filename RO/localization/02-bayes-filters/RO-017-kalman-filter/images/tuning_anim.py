@@ -25,7 +25,7 @@ def sim(n):
     return np.array(xs), np.array(zs)
 
 
-QS = [(1e-4, RED, "Q = 0.0001 (too small)"), (1e-2, BLUE, "Q = 0.01 (matches the slip)"), (1.0, GREEN, "Q = 1 (too big)")]
+QS = [(1e-4, RED, "Q = 0.0001 (too small)"), (1e-2, BLUE, "Q = 0.01 (matches the slip)"), (1.0, GREEN, "Q = 1 (too large)")]
 err = {q: [] for q, _, _ in QS}
 zerr = []
 for n in range(2000):

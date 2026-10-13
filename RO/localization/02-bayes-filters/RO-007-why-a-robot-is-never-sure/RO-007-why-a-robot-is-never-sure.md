@@ -51,7 +51,7 @@ We count positions in whole cells, so a move that falls well short counts as 1 c
 
 Figure 2 plays what happens to a robot that starts with certainty at 0 m on a long straight track (so that eight moves of 2 m do not wrap round the 10 m loop) and is told "move 2" eight times without taking a reading. The bars show the probability of each true position; the red dashed line is where the robot thinks it is.
 
-![Dead reckoning without readings: after 1, 2, 4 and 8 moves of 2 m the probability of each true position spreads wider; after 8 moves the robot is exactly where it thinks (16 m) with probability 0.33 only](images/drift.gif)
+![Dead reckoning without readings: after 1, 2, 4 and 8 moves of 2 m the probability of each true position spreads wider; after 8 moves the robot is exactly at its estimate (16 m) with probability 0.33 only](images/drift.gif)
 
 The chance that the robot is exactly where it thinks shrinks with every move:
 

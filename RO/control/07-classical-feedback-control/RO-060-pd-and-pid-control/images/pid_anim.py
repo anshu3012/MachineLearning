@@ -58,7 +58,7 @@ def frame(t, final=False):
     fig.update_yaxes(range=[0, 60], dtick=15, title="heading (°)", row=2, col=1)
     fig.update_xaxes(range=[0, T], dtick=1, title="time after the corner (s)", row=3, col=1)
     fig.update_yaxes(range=[0, 0.06], dtick=0.02, title="torque (N m)", row=3, col=1)
-    title = ("PD stops 5.73° short; the integral grows until it cancels the drag, and PID settles at 45°" if final else
+    title = ("PD stops at 39.27°, 5.73° below 45°; the integral grows until it cancels the drag, and PID settles at 45°" if final else
              f"a dragging gearbox (0.02 N m to the right): t = {t:.2f} s")
     fig.update_layout(template="simple_white", font=FONT, width=1000, height=1300, margin=dict(l=90, r=30, t=110, b=70),
                       title=dict(text=title, x=0.5, y=0.98, font=dict(size=21)),

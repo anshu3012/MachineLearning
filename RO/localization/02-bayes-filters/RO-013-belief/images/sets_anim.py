@@ -109,7 +109,7 @@ R2 = (S2, set(), ["move 2 (1, 2 or 3 cells):", " ".join(U), f"= {fmt(S2)}"], Non
 add(frame("the union: every cell that one of the doors can reach", [R1, R2, NONE], fans=DOORS, wrap=True), 7)
 add(frame('read "door" again: keep only the cells that are also doors',
           [R1, R2, (S3, S2 - S3, [f"∩ {fmt(S1)}:", "the walls are crossed out"], None)], fans=DOORS, wrap=True), 6)
-add(frame("the robot knows its cell: 3",
+add(frame("one cell is left: cell 3",
           [R1, R2, (S3, set(), ['read "door" again: only cell 3', "is both reachable and a door"], None)],
           fans=DOORS, wrap=True), 16, key=True)
 add(frame('the real sensor reads "door" at a wall 20 percent of the time',

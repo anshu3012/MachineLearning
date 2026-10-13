@@ -30,7 +30,7 @@ def frame(k):
                            text=[f"{v:.2f}" if v >= 0.005 else "" for v in b], textposition="outside", constraintext="none", cliponaxis=False,
                            textfont=dict(size=12)))
     fig.add_vline(x=2 * k, line=dict(color=RED, dash="dash", width=2))
-    fig.add_annotation(x=2 * k, y=1.08, text=f"the robot thinks: {2 * k} m", showarrow=False, font=dict(color=RED, size=18))
+    fig.add_annotation(x=2 * k + 0.2, y=1.08, text=f"the robot's estimate: {2 * k} m", showarrow=False, xanchor="left", font=dict(color=RED, size=18))
     fig.update_xaxes(tickvals=list(x), range=[-0.6, n - 0.4], title="true position (m)")
     fig.update_yaxes(range=[0, 1.15], title="probability")
     fig.update_layout(template="simple_white", width=900, height=560, font=FONT, showlegend=False,

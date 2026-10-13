@@ -68,7 +68,7 @@ def frame(i, stage, title):
     words = {0: [("orange star: a random sample", ORANGE)],
              1: [("circled: the nearest node", ORANGE), (f"{np.hypot(*(e['q_rand'] - q_near)):.3f} m away", ORANGE)],
              2: [("steer: at most 0.5 m towards it;", "black"), ("check the edge at 11 points", "black")],
-             3: [("free: add the node and edge", GREEN) if e["ok"] else ("blocked: throw it away", RED)]}
+             3: [("free: add the node and edge", GREEN) if e["ok"] else ("blocked: reject it", RED)]}
     rd.panel(fig, lines + words[stage])
     return rd.finish(fig, title)
 

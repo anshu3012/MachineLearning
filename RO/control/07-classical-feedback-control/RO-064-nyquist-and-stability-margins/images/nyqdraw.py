@@ -8,8 +8,8 @@ import plotly.graph_objects as go
 from gifkit import BLUE, FONT, GREY, ORANGE, RED
 from loopkit import squeeze
 
-PARTS = [("pos", "s = jω, ω from 0 up to ∞", 12), ("arc", "s on the huge half circle", 1),
-         ("neg", "s = jω, ω from −∞ up to 0", 10), ("small", "s on the tiny half circle round s = 0", 8)]
+PARTS = [("pos", "s = jω, ω from 0 up to ∞", 12), ("arc", "s on the large half circle", 1),
+         ("neg", "s = jω, ω from −∞ up to 0", 10), ("small", "s on the small half circle round s = 0", 8)]
 
 
 def contour(eps=1e-3, R=1e4, n=6000, small=True):

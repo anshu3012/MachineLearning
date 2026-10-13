@@ -39,7 +39,7 @@ for t in range(1, 7):
     figs.append(frame(f"t = {t + 1}: after 'move 2' (predicted)", bb, ORANGE, cells[t]))
     holds.append(5)
     bel = update(bb, readings[t])
-    wrong = "  (wrong reading!)" if t == 4 else ""
+    wrong = "  (a wrong reading)" if t == 4 else ""
     figs.append(frame(f"t = {t + 1}: reads '{NAME[readings[t]]}'{wrong}", bel, BLUE, cells[t]))
     holds.append(8)
     log.append((t + 1, bel.argmax(), bel.max()))

@@ -89,7 +89,7 @@ def frame(n):
         t2 = f"Bug 2: leaves at L, on the start–goal line nearer the door: {B['len2']:.3f} m"
     title_at(fig, t1, 1.0, size=19)
     title_at(fig, t2, 0.47, size=19)
-    layout(fig, "no map: head for the door, follow what you hit", width=900, height=1080,
+    layout(fig, "no map: head for the door, follow the edge of any obstacle it meets", width=900, height=1080,
            margin=dict(l=30, r=30, t=110, b=30))
     return fig.update_layout(plot_bgcolor="white")
 

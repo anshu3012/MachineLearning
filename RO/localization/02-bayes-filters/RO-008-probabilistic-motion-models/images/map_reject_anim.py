@@ -107,7 +107,7 @@ for j in range(1, 21):
     n = len(REJ[j - 1][0])
     head = f"twenty small steps of 2.4 cm: step {j}, {n} draws landed in the wall and were drawn again"
     add(frame(head, ("checked", False), (j, True), T_DONE), 3 if n else 1)
-add(frame("a small step cannot jump the wall: no sample gets beyond it", ("checked", False), (20, False),
+add(frame("a small step cannot cross the wall: no sample gets beyond it", ("checked", False), (20, False),
           (T_DONE[0], f"twenty small steps: {beyond(SX, SY).sum()} beyond the wall")), 24)
 key.append(len(figs) - 1)
 make_gif(figs, here / "map_reject_anim", fps=4, holds=holds, keys=key, cols=2, width=950)

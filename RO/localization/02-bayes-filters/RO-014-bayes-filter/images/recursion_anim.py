@@ -132,7 +132,7 @@ def add(f, hold, key=False):
     holds.append(hold)
 
 
-add(frame("t = 0: the robot has no idea", "both ways start from the belief 0.5 for open", 0, (0, 0.5), (0, 0.5)),
+add(frame("t = 0: the robot has no information", "both ways start from the belief 0.5 for open", 0, (0, 0.5), (0, 0.5)),
     9, key=True)
 for t, (u, z) in enumerate(RUN, start=1):
     old, v = BEL[t - 1], BEL[t]

@@ -51,7 +51,7 @@ def frame(head, line2, vals, color, labels=None, label_color="black", stack=0, h
 
 two = lambda v: [f"{x:.2f}" for x in v]
 figs, holds = [], []
-figs.append(frame("1. prior: 0.1 in every cell", "the robot has no idea where it is; it reads 'door'",
+figs.append(frame("1. prior: 0.1 in every cell", "the robot has no information about where it is; it reads 'door'",
                   prior, BLUE, two(prior)))
 holds.append(8)
 times = [f"× {x:.1f}" for x in lik]

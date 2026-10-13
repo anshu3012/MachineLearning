@@ -44,7 +44,7 @@ def frame(t, last=False):
         title = "both stop within 1 cm of the dock point<br><span style='font-size:19px'>only the pose controller faces the dock</span>"
     elif k == len(P["t"]) - 1:
         title = (f"to the point: arrives at {P['t'][-1]:.2f} s facing {deg(P['th'][-1]):.1f}°"
-                 f"<br><span style='font-size:19px'>26.0° short of the dock's 90°</span>")
+                 f"<br><span style='font-size:19px'>26.0° less than the dock's 90°</span>")
     else:
         title = (f"to the point: t = {P['t'][k]:.1f} s<br><span style='font-size:19px'>"
                  f"heading {deg(P['th'][k]):.1f}°, speed {P['v'][k]:.2f} m/s</span>")

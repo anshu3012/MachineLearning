@@ -47,7 +47,7 @@ def frame(y, title, sub):
 figs = []
 for k in K1:
     t = "the grid route as found" if k == 0 else f"data weight 0.5, smoothing weight 0.1: sweep {k}"
-    sub = "grey: the route; blue: after smoothing; red: the body hits something" if k < 20 else \
+    sub = "grey: the route; blue: after smoothing; red: the body overlaps an obstacle" if k < 20 else \
         f"settled after {IT1} sweeps; tightest turn: a {1 / k1.max():.2f} m circle"
     figs.append(frame(REC1[k], t, sub))
 for k in K2 + [IT2]:

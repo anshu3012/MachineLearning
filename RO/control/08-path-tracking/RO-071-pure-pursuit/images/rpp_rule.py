@@ -26,6 +26,6 @@ fig.add_annotation(x=R_MIN - 0.5, y=5.3, text="25 m: any tighter arc slows the c
                    xanchor="right", font=dict(size=18, color=GREY))
 fig.update_layout(template="simple_white", font=FONT, width=900, height=600, margin=dict(l=90, r=30, t=60, b=80),
                   title=dict(x=0.5, text="speed limit against the radius of the commanded arc"),
-                  xaxis=dict(title="radius of the arc the car is told to drive (m)", range=[0, 40], dtick=5),
+                  xaxis=dict(title="radius of the commanded arc (m)", range=[0, 40], dtick=5),
                   yaxis=dict(title="speed limit (m/s)", range=[0, 5.6], dtick=1))
 fig.write_image(here / "rpp_rule.png")

@@ -36,7 +36,7 @@ def frame(upto, final=False):
                        yanchor="bottom", font=dict(size=17, color=GREY), row=1, col=1)
     fig.add_hline(y=0.1, line=dict(color="black", width=1, dash="dash"), row=2, col=1)
     if upto >= 0.5:
-        fig.add_annotation(x=0.5, y=0.33, text="request 2.85 N m, off the chart", ax=150, ay=10,
+        fig.add_annotation(x=0.5, y=0.33, text="request 2.85 N m, above the axis range", ax=150, ay=10,
                            font=dict(size=19, color=RED), arrowcolor=RED, arrowwidth=2, xanchor="left",
                            row=1, col=1)
     title = (f"t = {upto:.1f} s: the heading command steps to 0.1 rad at t = 0.5 s" if not final else

@@ -64,7 +64,7 @@ def frame(p, th, title, close=False, done=0.0):
 
 figs, holds = [frame(a, c.START[2], "start: (2, 1) facing 30°")], [5]
 for th in np.linspace(c.START[2], head, 4)[1:]:
-    figs.append(frame(a, th, f"turn on the spot to {np.degrees(th):.1f}°: the point stays put"))
+    figs.append(frame(a, th, f"turn on the spot to {np.degrees(th):.1f}°: the point does not move"))
     holds.append(2)
 for s in [0.4, 0.8, 1.2, 1.6, 2.0, 2.471, 2.8, 3.1, 3.4]:
     t = s / 3.4
