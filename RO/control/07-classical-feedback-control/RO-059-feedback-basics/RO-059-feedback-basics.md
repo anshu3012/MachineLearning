@@ -238,9 +238,9 @@ The actuator, the plant and the sensor are often drawn as one box and together c
 
 ### 4.2 One trip round the loop
 
-The block diagram is not a still picture: the computer runs once round it every 10 ms, 100 times a second. Figure 5 follows the loop's first cycle on the ramp, at t = 4.00 s, stage by stage; the box or arrow in use is drawn thick, with its number beside it. In this run the sensor noise is 0.
+The computer runs once round the loop of Figure 4 every 10 ms, 100 times a second. Figure 5 numbers the seven stages of one cycle in the order the computer runs them and writes on each arrow its value in the first cycle on the ramp, at t = 4.00 s. In this run the sensor noise is 0.
 
-![The speed loop's block diagram, one stage per frame, with the closed-loop ramp run's numbers and no sensor noise. Cycle at t = 4.00 s: 1 the reference is 0.5 m/s; 2 the sensor reads 0.500 m/s; 3 the error is 0; 4 the controller asks for 1 N; 5 the motors push 1 N; 6 net force 1.000 − 1.000 − 0.785 = −0.785 N, so in 10 ms the speed falls by 0.00098 m/s; 7 the new speed goes back to the sensor. Then the next cycle (error 0.000981 m/s, push 1.0196 N), the loop at t = 4.50 s (error 0.026825 m/s, push 1.5365 N) and settled at t = 10.00 s (error 0.035673 m/s, push 1.7135 N, net force 0)](images/loop_anim.gif)
+![The speed loop's block diagram with the seven stages of one 10 ms cycle numbered in the order the computer runs them, and each signal's value in the first cycle on the ramp, t = 4.00 s, with no sensor noise: 1 the plan gives the reference r, 0.5 m/s; 2 the encoders measure the speed, y_m 0.500 m/s; 3 the summing junction forms the error e, 0 m/s; 4 the computer computes the push u, 1 N; 5 the motors push 1 N; 6 the push, the ramp's pull of 0.785 N and the drag of 1 N give a net force of −0.785 N, which changes the speed for 10 ms; 7 the new speed, 0.49902 m/s, goes to the sensor for the next cycle](images/loop_cycle.png)
 
 The cycle at t = 4.00 s, with the plant's equation of [Section 2.1](#21-what-sets-the-robots-speed-push-drag-and-the-ramps-pull) for stage 6:
 
@@ -256,7 +256,13 @@ $$\text{speed change} = -0.785 \times 0.01 / 8$$
 
 $$= -0.00098 \text{ m/s}$$
 
-The error does not yet reflect the ramp: the controller still pushes the flat-floor 1 N, and the robot loses 0.00098 m/s of speed. In the next cycle the error is 0.000981 m/s and the push 1.0196 N, a correction too small to see. Each cycle the error grows a little, the push with it, and the speed falls more slowly. Frame "settled, t = 10.00 s" shows where the speed settles: an error of 0.0357 m/s gives a push of 1.7135 N, which is the drag at that speed plus the ramp's pull, so the net force is 0 and the speed stays at 0.464 m/s.
+The error does not yet reflect the ramp: the controller still pushes the flat-floor 1 N, and the robot loses 0.00098 m/s of speed. The next cycle starts from the lower reading, with an error of 0.00098 m/s and a push of 1.0196 N. One cycle changes the push by only 0.02 N, so the correction builds up over many cycles.
+
+Figure 6 runs the same loop from t = 4.00 s, one frame every 5 cycles (0.05 s). Watch the error and the push grow while the speed falls. In the lower panel the push (blue) rises towards the force needed to hold the current speed, the drag plus the ramp's pull (red); the shaded gap between them is the shortfall that slows the robot, as in [Section 3.2](#32-the-ramp-again). Within one second the shortfall falls from 0.785 N to 0.048 N.
+
+![The speed loop's cycles on the ramp, from the closed-loop run with no sensor noise: one frame every 5 cycles (0.05 s) from t = 4.00 to 6.00 s, then the settled loop at t = 10.00 s. Top: the block diagram of Figure 5 with each signal's value in that frame's cycle. Middle: the speed against time from t = 3.5 s, on an axis from 0.45 to 0.51 m/s, with the wanted 0.5 m/s dashed and 0.464 m/s dotted. Bottom: the push u (blue) against the force needed to hold the current speed, drag plus the ramp's pull (red); the shaded gap is the shortfall. At t = 4.00 s the shortfall is 0.7848 N, at t = 5.00 s 0.0482 N. The last frame, settled at t = 10.00 s: error 0.0357 m/s, push 1.7135 N = drag 0.9287 N + ramp 0.7848 N, net force 0, speed 0.4643 m/s](images/loop_cycles.gif)
+
+Frame "settled, t = 10.00 s" shows where the speed settles: an error of 0.0357 m/s gives a push of 1.7135 N, which equals the drag at that speed, 0.9287 N, plus the ramp's pull, 0.7848 N, so the net force is 0 and the speed stays at 0.464 m/s. The loop reaches the balance of Section 3.2 through many small corrections, and it settles below 0.5 m/s because the extra push exists only while an error exists.
 
 The diagram shows where the ramp enters, at the plant, and where the correction comes from, the error. Section 5 uses it to explain why the correction is so effective.
 
@@ -288,7 +294,7 @@ FBS §2.1 states the same rule for any loop: feedback divides the effect of a di
 
 $$1 + 20 / 2 = 11$$
 
-The left panel of Figure 6 sweeps the ramp's pull from a 2 percent slope down to a 2 percent slope up: the open-loop speed (red) follows every change, the closed-loop speed (blue) barely moves.
+The left panel of Figure 7 sweeps the ramp's pull from a 2 percent slope down to a 2 percent slope up: the open-loop speed (red) follows every change, the closed-loop speed (blue) barely moves.
 
 ![The speed each loop settles at. Left: against the ramp's pull d, from −1.570 N (a 2 percent slope down) to +1.570 N (2 percent up); our ramp, 0.785 N, gives 0.108 m/s open loop (red) and 0.464 m/s closed loop (blue). Right: against the true drag b, while the controller still assumes 2 N per m/s; carpet, 3 N per m/s, gives 0.333 m/s open loop and 0.478 m/s closed loop](images/helps.png)
 
@@ -306,14 +312,14 @@ $$0.1667 / 0.0217 = 7.7$$
 
 $$1 + 20 / 3 = 7.7$$
 
-Figure 6 (right) sweeps the true drag from 1 to 4 N per m/s: the open loop's speed ranges from 1.0 to 0.25 m/s, the closed loop's stays between 0.524 and 0.458 m/s. Feedback works whatever the cause of the drop, because it reacts to the measured speed, not to a model of why the speed dropped (FBS §1.5). Coping with a model that is wrong is called robustness, the subject of [sensitivity and robustness](../RO-065-sensitivity-robustness-and-loop-shaping/RO-065-sensitivity-robustness-and-loop-shaping.md#6-robustness-to-model-error).
+Figure 7 (right) sweeps the true drag from 1 to 4 N per m/s: the open loop's speed ranges from 1.0 to 0.25 m/s, the closed loop's stays between 0.524 and 0.458 m/s. Feedback works whatever the cause of the drop, because it reacts to the measured speed, not to a model of why the speed dropped (FBS §1.5). Coping with a model that is wrong is called robustness, the subject of [sensitivity and robustness](../RO-065-sensitivity-robustness-and-loop-shaping/RO-065-sensitivity-robustness-and-loop-shaping.md#6-robustness-to-model-error).
 
 ### 5.3 What feedback costs
 
 Feedback has three costs, each following from how it works:
 
 1. **It waits for an error.** The correction starts only once the speed has dropped, so the closed loop of Figure 1 still dips, and a small error remains: the 0.036 m/s that produces the extra 0.714 N ([Section 3.2](#32-the-ramp-again)). "Feedback is reactive: there must be an error before corrective actions are taken" (FBS §1.2).
-2. **It feeds sensor noise to the motors.** The controller cannot tell noise from a real drop in speed. Figure 7 runs the closed loop on the ramp with readings that jitter by 0.02 m/s (one standard deviation): the push jitters by 20 N per m/s times 0.02 m/s, 0.40 N, while the robot's true speed jitters by only 0.002 m/s, because its 8 kg cannot follow such fast changes. A larger $K_p$, the push per m/s of error, would reduce the ramp's error further but make the push jitter more.
+2. **It feeds sensor noise to the motors.** The controller cannot tell noise from a real drop in speed. Figure 8 runs the closed loop on the ramp with readings that jitter by 0.02 m/s (one standard deviation): the push jitters by 20 N per m/s times 0.02 m/s, 0.40 N, while the robot's true speed jitters by only 0.002 m/s, because its 8 kg cannot follow such fast changes. A larger $K_p$, the push per m/s of error, would reduce the ramp's error further but make the push jitter more.
 3. **Too strong or too late a correction makes a system swing.** Feedback carries a "risk for instability" that a fixed push does not (FBS §1.2, Table 1.1). The speed loop does not swing, but [PD and PID control](../RO-060-pd-and-pid-control/RO-060-pd-and-pid-control.md#1-overview) shows the same rule making the robot's turning swing back and forth.
 
 ![The closed loop on the ramp with sensor noise: each 10 ms reading is the true speed plus a random error of typical size 0.02 m/s. From t = 10 to 12 s, ten readings per frame. Top: the readings (orange dots) and the true speed (blue). Bottom: the push the controller asks for (blue) against 1.713 N, its value without noise (grey). The last frame gives the jitter over 20 s: readings 0.020 m/s, push 0.40 N, true speed 0.002 m/s](images/noise_anim.gif)
@@ -326,7 +332,7 @@ So far the wanted speed never changed. A plan changes it continually.
 
 So far the reference stayed at 0.5 m/s, and the loop held it against the ramp. Keeping an output close to a fixed reference in spite of disturbances is **regulation** (G-2952) (FBS §2.3), and the fixed reference is a **setpoint** (G-2953) (FBS §11.1; MR §11.3). A plan instead changes the reference over time: from rest, it speeds the robot up at 0.25 m/s² for 2 s, to 0.5 m/s. Making an output follow a reference that changes is **tracking** (G-2954), also called the servo problem (FBS §2.4); MR §11.3 calls it trajectory tracking. A docked robot holding its place is regulating; a robot driving the plan of [trajectory optimisation](../../../navigation/06-grid-sampling-and-car-like-planning/RO-058-trajectory-optimisation/RO-058-trajectory-optimisation.md#1-overview) is tracking.
 
-The loop is the same as in Figure 4, with the open-loop push now following the reference: $b$ times $r$, which grows from 0 to 1 N as the plan speeds up. Figure 8 runs it on this plan. Watch the orange bar, the error, in the lower panel: while the reference rises it grows to 0.091 m/s; once the reference is held, it shrinks to 0.
+The loop is the same as in Figure 4, with the open-loop push now following the reference: $b$ times $r$, which grows from 0 to 1 N as the plan speeds up. Figure 9 runs it on this plan. Watch the orange bar, the error, in the lower panel: while the reference rises it grows to 0.091 m/s; once the reference is held, it shrinks to 0.
 
 ![Regulation and tracking on one run. The plan speeds the robot up from rest at 0.25 m/s² for 2 s to 0.5 m/s, then holds it; one frame per 0.2 s for 5 s. Top: the plan's position (grey dashed outline) and the robot (blue) along the corridor. Bottom: the reference speed (grey dashed), the robot's speed (blue) and the error between them (orange). While the reference rises (tracking) the error grows to 0.091 m/s; once it is held (regulation) the error dies out, but the robot stays 0.18 m behind the plan](images/tracking_anim.gif)
 
